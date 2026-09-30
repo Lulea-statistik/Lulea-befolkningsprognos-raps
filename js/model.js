@@ -57,6 +57,105 @@
     const profile=rows.find(r=>r.geo===geo && r.year==="BASE" && r.sex===sex && +r.age===+age);
     return profile?n(profile.value):0;
   }
+
+  function baseMunicipalityWeights(data){
+    const members=(data.geographies.find(g=>g.code==="FA_LULEA")||{}).members||[];
+    const totals={};
+    for(const code of members){
+      totals[code]=(data.populationBase||[])
+        .filter(r=>r.geo===code && +r.year===+data.meta.baseYear)
+        .reduce((s,r)=>s+n(r.value),0);
+    }
+    const sum=Object.values(totals).reduce((s,v)=>s+v,0);
+    const weights={};
+    for(const code of members) weights[code]=sum>0?totals[code]/sum:1/Math.max(1,members.length);
+    return {members,weights};
+  }
+
+  function phasedAmount(total,startYear,phaseYears,year){
+    const years=Math.max(1,Math.round(n(phaseYears)||1));
+    if(year<startYear || year>=startYear+years) return 0;
+    return total/years;
+  }
+
+  function destinationShares(host,members,weights,hostSharePct){
+    const hostShare=clamp(n(hostSharePct)/100,0,1);
+    const shares={};
+    const otherWeight=members.filter(c=>c!==host).reduce((s,c)=>s+n(weights[c]),0);
+    for(const c of members){
+      if(c===host) shares[c]=hostShare;
+      else shares[c]=(1-hostShare)*(otherWeight>0?n(weights[c])/otherWeight:1/Math.max(1,members.length-1));
+    }
+    return shares;
+  }
+
+  function scenarioEffect(data,options,year,geo){
+    const scenarios=options.scenarios||{};
+    const {members,weights}=baseMunicipalityWeights(data);
+    let housingExternal=0,housingInternalNet=0,jobExternal=0,jobInternalNet=0;
+
+    for(const s of scenarios.housing||[]){
+      if(!s.active) continue;
+      const residents=n(s.dwellings)*n(s.completionPct)/100*n(s.occupancyPct)/100*n(s.personsPerDwelling);
+      const externalTotal=residents*n(s.externalSharePct)/100;
+      const internalTotal=residents*n(s.internalSharePct)/100;
+      const ext=phasedAmount(externalTotal,+s.year,n(s.phaseYears),year);
+      const intl=phasedAmount(internalTotal,+s.year,n(s.phaseYears),year);
+      if(geo==="FA_LULEA"){
+        housingExternal+=ext;
+      }else if(members.includes(geo)){
+        if(geo===s.municipality){
+          housingExternal+=ext;
+          housingInternalNet+=intl;
+        }else{
+          const denom=members.filter(c=>c!==s.municipality).reduce((sum,c)=>sum+n(weights[c]),0);
+          housingInternalNet-=denom>0?intl*n(weights[geo])/denom:0;
+        }
+      }
+    }
+
+    for(const s of scenarios.workplaces||[]){
+      if(!s.active) continue;
+      const realizedJobs=n(s.jobs)*n(s.realizationPct)/100;
+      const externalTotal=realizedJobs*n(s.moveSharePct)/100*n(s.personsPerJob);
+      const internalTotal=realizedJobs*n(s.internalSharePct)/100*n(s.personsPerJob);
+      const ext=phasedAmount(externalTotal,+s.year,n(s.phaseYears),year);
+      const intl=phasedAmount(internalTotal,+s.year,n(s.phaseYears),year);
+      if(geo==="FA_LULEA"){
+        jobExternal+=ext;
+      }else if(members.includes(geo)){
+        const dest=destinationShares(s.municipality,members,weights,s.hostResidencePct);
+        jobExternal+=ext*n(dest[geo]);
+        jobInternalNet+=intl*(n(dest[geo])-n(weights[geo]));
+      }
+    }
+
+    const overlap=clamp(n(scenarios.overlapPct)/100,0,1);
+    const overlapBase=Math.min(Math.max(0,housingExternal),Math.max(0,jobExternal))*overlap;
+    const externalNet=housingExternal+jobExternal-overlapBase;
+    return {
+      total:externalNet+housingInternalNet+jobInternalNet,
+      housingExternal,
+      housingInternalNet,
+      jobExternal,
+      jobInternalNet,
+      overlapDeduction:overlapBase
+    };
+  }
+
+  function addScenarioToPopulation(pop,amount){
+    if(!amount) return;
+    const total=[...pop.values()].reduce((s,v)=>s+v,0);
+    if(total<=0){
+      pop.set(key("K",30),n(pop.get(key("K",30)))+amount*0.5);
+      pop.set(key("M",30),n(pop.get(key("M",30)))+amount*0.5);
+      return;
+    }
+    for(const [k,v] of pop.entries()){
+      pop.set(k,Math.max(0,v+amount*(v/total)));
+    }
+  }
+
   function simulate(data, options){
     const geo=options.geo;
     const baseYear=+data.meta.baseYear;
@@ -65,7 +164,7 @@
     const rows=data.populationBase.filter(r=>r.geo===geo && +r.year===baseYear);
     if(!rows.length) throw new Error(`Saknar startbefolkning för ${geo}, ${baseYear}.`);
     let pop=indexed(rows,geo);
-    const results=[{year:baseYear,population:[...pop.values()].reduce((s,v)=>s+v,0),births:0,deaths:0,netMigration:0,change:0}];
+    const results=[{year:baseYear,population:[...pop.values()].reduce((s,v)=>s+v,0),births:0,deaths:0,netMigration:0,scenarioEffect:0,change:0}];
 
     for(let year=baseYear+1;year<=endYear;year++){
       let births=0, deaths=0, netMigration=0;
@@ -96,12 +195,17 @@
           survivors.set(key(sex,age),Math.max(0,n(survivors.get(key(sex,age)))+mig));
         }
       }
+
+      const sfx=scenarioEffect(data,options,year,geo);
+      addScenarioToPopulation(survivors,sfx.total);
+
       const total=[...survivors.values()].reduce((s,v)=>s+v,0);
       const prev=results[results.length-1].population;
-      results.push({year,population:total,births,deaths,netMigration,change:total-prev});
+      results.push({year,population:total,births,deaths,netMigration,scenarioEffect:sfx.total,scenarioDetail:sfx,change:total-prev});
       pop=survivors;
     }
     return results;
   }
-  global.RAPSModel={riskFromEvents,ckmMaxRelativePct,ckmRiskBounds,identityTransition,selectWindow,mean,simulate};
+
+  global.RAPSModel={riskFromEvents,ckmMaxRelativePct,ckmRiskBounds,identityTransition,selectWindow,mean,scenarioEffect,simulate};
 })(window);
