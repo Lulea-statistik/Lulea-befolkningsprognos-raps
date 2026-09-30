@@ -26,10 +26,38 @@ MUNICIPALITIES = ["2580", "2582", "2581", "2560", "2514"]
 MODEL_AGES = [str(i) for i in range(100)] + ["100+"]
 SEXES = ["1", "2"]
 
+def decode_response(raw: bytes, declared_charset: str | None = None) -> tuple[str, str]:
+    """Decode SCB responses robustly.
+
+    SCB metadata is normally UTF-8, while CSV downloads may be returned in a
+    legacy Windows/Latin encoding. Respect an explicit HTTP charset first and
+    then fall back through known encodings without replacing characters.
+    """
+    candidates = []
+    if declared_charset:
+        candidates.append(declared_charset)
+    candidates.extend(["utf-8-sig", "utf-8", "cp1252", "iso-8859-1"])
+
+    seen = set()
+    for enc in candidates:
+        if not enc or enc.lower() in seen:
+            continue
+        seen.add(enc.lower())
+        try:
+            return raw.decode(enc), enc
+        except (UnicodeDecodeError, LookupError):
+            pass
+    raise UnicodeDecodeError("unknown", raw, 0, min(1, len(raw)), "No supported encoding")
+
 def request_text(url: str) -> str:
-    req = Request(url, headers={"User-Agent": "lulea-raps-model/0.3"})
+    req = Request(url, headers={"User-Agent": "lulea-raps-model/0.4"})
     with urlopen(req, timeout=120) as r:
-        return r.read().decode("utf-8-sig")
+        raw = r.read()
+        declared = r.headers.get_content_charset()
+        text, used = decode_response(raw, declared)
+        if used.lower() not in ("utf-8", "utf-8-sig"):
+            print(f"    decoded response as {used}", file=sys.stderr)
+        return text
 
 def request_json(url: str):
     return json.loads(request_text(url))
