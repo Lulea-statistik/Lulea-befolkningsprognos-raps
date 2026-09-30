@@ -7,17 +7,25 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <header>
+  <header class="topbar">
     <div>
       <h1>Luleå befolkningsprognos</h1>
-      <p>rAps-liknande demografimodell · Luleå FA + kommuner · 2025–2050</p>
+      <p>rAps-liknande demografimodell · Luleå FA + kommuner · SCB/Raps-benchmark</p>
     </div>
-    <span class="badge">V1.2 – exogen migration + scenarier</span>
+    <span class="badge">V1.6 · dashboard + backtest</span>
   </header>
+
+  <nav class="tabs" aria-label="Rapportsidor">
+    <button class="tab active" data-page="results">Resultat</button>
+    <button class="tab" data-page="analysis">Befolkningsanalys</button>
+    <button class="tab" data-page="scenario">Scenario & justering</button>
+    <button class="tab" data-page="validation">Validering</button>
+    <button class="tab" data-page="method">Metod & data</button>
+  </nav>
 
   <main>
     <aside class="panel controls">
-      <h2>Scenario</h2>
+      <h2>Globala filter</h2>
       <label>Geografi
         <select id="geo"></select>
       </label>
@@ -31,95 +39,198 @@
       <label>Slutår
         <input id="endYear" type="number" min="2026" max="2070" value="2050" />
       </label>
-      <label>Fruktsamhet, multiplikator
-        <input id="fertMult" type="number" min="0" max="3" step="0.01" value="1" />
-      </label>
-      <label>Dödlighet, multiplikator
-        <input id="mortMult" type="number" min="0" max="3" step="0.01" value="1" />
-      </label>
-      <label>Nettoflyttning, multiplikator
-        <input id="migMult" type="number" min="-3" max="3" step="0.01" value="1" />
-      </label>
-      <button id="runBtn">Beräkna</button>
+      <button id="runBtn">Beräkna prognos</button>
+      <button id="exportBtn" class="secondary" disabled>Exportera resultat CSV</button>
+      <hr />
       <label class="fileLabel">Läs in modell-data JSON
         <input id="dataFile" type="file" accept="application/json,.json" />
       </label>
-      <button id="exportBtn" class="secondary" disabled>Exportera resultat CSV</button>
+      <div id="filterNote" class="miniNote">Delområden kan läggas till senare när geografier och basdata finns i modellen.</div>
     </aside>
 
     <section class="content">
       <div id="status" class="status"></div>
-      <div class="cards">
-        <article class="card"><span>Startbefolkning</span><strong id="startPop">–</strong></article>
-        <article class="card"><span>Slutbefolkning</span><strong id="endPop">–</strong></article>
-        <article class="card"><span>Förändring</span><strong id="changePop">–</strong></article>
-        <article class="card"><span>CKM max-känslighet</span><strong id="ckmPct">–</strong></article>
-      </div>
 
-      <article class="panel">
-        <div class="panelHead">
-          <h2>Bostadsscenarier</h2>
-          <button id="addHousing" class="secondary">+ Lägg till</button>
+      <section class="page active" id="page-results">
+        <div class="pageTitle">
+          <div><h2>Prognosresultat</h2><p>Basprognos och valda scenarioeffekter för aktuell geografi.</p></div>
         </div>
-        <p class="hint">Exempel: 1 000 bostäder 2030. Realiseringsgrad, beläggning och andel som faktiskt ger nya invånare till FA kan justeras.</p>
-        <div class="tableWrap"><table id="housingTable"><thead><tr>
-          <th>Aktiv</th><th>År</th><th>Kommun</th><th>Bostäder</th><th>Färdig %</th><th>Beläggning %</th><th>Personer/bostad</th><th>Nya till FA %</th><th>Intern flytt %</th><th>Infasning år</th><th></th>
-        </tr></thead><tbody></tbody></table></div>
-      </article>
 
-      <article class="panel">
-        <div class="panelHead">
-          <h2>Arbetsplatsetableringar</h2>
-          <button id="addWorkplace" class="secondary">+ Lägg till</button>
+        <div class="cards">
+          <article class="card"><span>Startbefolkning</span><strong id="startPop">–</strong><small id="startYearLabel">–</small></article>
+          <article class="card"><span>Slutbefolkning</span><strong id="endPop">–</strong><small id="endYearLabel">–</small></article>
+          <article class="card"><span>Förändring</span><strong id="changePop">–</strong><small id="changePct">–</small></article>
+          <article class="card"><span>Scenarioeffekt</span><strong id="scenarioKpi">–</strong><small>ackumulerad</small></article>
         </div>
-        <p class="hint">Exempel: planerad arbetsplats 2034 där antalet jobb kan justeras till exempelvis 60 % av ursprungligt antagande.</p>
-        <div class="tableWrap"><table id="workplaceTable"><thead><tr>
-          <th>Aktiv</th><th>År</th><th>Kommun</th><th>Planerade jobb</th><th>Realiseras %</th><th>Jobb som ger inflyttning %</th><th>Personer/inflyttat jobb</th><th>Bosätter sig i värdkommun %</th><th>Intern flytt %</th><th>Infasning år</th><th></th>
-        </tr></thead><tbody></tbody></table></div>
-      </article>
 
-      <article class="panel">
-        <h2>Scenariokontroll</h2>
-        <label>Överlapp bostad + jobb, avdrag %
-          <input id="overlapPct" type="number" min="0" max="100" step="1" value="25" />
-        </label>
-        <p class="hint">Avdraget minskar risken att samma hushåll räknas både som jobbdriven och bostadsdriven inflyttning. Detta är ett scenarioantagande, inte observerad statistik.</p>
-      </article>
-
-      <article class="panel chartPanel">
-        <div class="panelHead">
-          <h2>Befolkning</h2>
-          <span id="chartCaption">Ingen körning ännu</span>
+        <div class="grid2">
+          <article class="panel chartPanel">
+            <div class="panelHead"><h2>Befolkning</h2><span id="chartCaption">–</span></div>
+            <svg id="chart" viewBox="0 0 900 380" role="img" aria-label="Befolkningsprognos"></svg>
+          </article>
+          <article class="panel">
+            <h2>Benchmark 2050</h2>
+            <div id="benchmarkCards" class="stackedMetrics"></div>
+          </article>
         </div>
-        <svg id="chart" viewBox="0 0 900 380" role="img" aria-label="Befolkningsprognos"></svg>
-      </article>
 
-      <div class="grid2">
-        <article class="panel">
-          <h2>Metod</h2>
-          <ul>
-            <li><code>frukty</code>: rikets åldersprofil × lokal kalibreringsfaktor.</li>
-            <li><code>drisk</code>: rikets ålder/kön-profil × lokal kalibreringsfaktor.</li>
-            <li><code>urisk</code>: skattas och diagnostiseras lokalt; V1 använder exogen nettoflyttning.</li>
-            <li><code>qutb</code>: identitetsmatris, alltså ingen utbildningsförändring.</li>
-            <li>2025+ flaggas som CKM och följs med känslighetsmått.</li>
-            <li>Intern scenarioflyttning är nettonoll för FA och omfördelas mellan kommuner.</li>
-          </ul>
+        <article class="panel chartPanel">
+          <div class="panelHead"><h2>Demografiska komponenter</h2><span>Födda, döda och nettoflyttning per år</span></div>
+          <svg id="componentsChart" viewBox="0 0 900 300" role="img" aria-label="Demografiska komponenter"></svg>
         </article>
-        <article class="panel">
-          <h2>Datastatus</h2>
-          <div id="dataStatus"></div>
-        </article>
-      </div>
 
-      <article class="panel">
-        <h2>Årsresultat</h2>
-        <div class="tableWrap"><table id="resultsTable"><thead><tr><th>År</th><th>Befolkning</th><th>Födda</th><th>Döda</th><th>Nettoflyttning</th><th>Scenarioeffekt</th><th>Förändring</th></tr></thead><tbody></tbody></table></div>
-      </article>
+        <article class="panel">
+          <h2>Årsresultat</h2>
+          <div class="tableWrap"><table id="resultsTable"><thead><tr>
+            <th>År</th><th>Befolkning</th><th>Födda</th><th>Döda</th><th>Nettoflyttning</th><th>Scenarioeffekt</th><th>Förändring</th>
+          </tr></thead><tbody></tbody></table></div>
+        </article>
+      </section>
+
+      <section class="page" id="page-analysis">
+        <div class="pageTitle">
+          <div><h2>Befolkningsanalys</h2><p>Struktur, kalibreringskänslighet och lokala demografiska nivåer.</p></div>
+        </div>
+
+        <div class="grid2">
+          <article class="panel">
+            <h2>Kalibreringsfönster</h2>
+            <p class="hint">Samma modell med 6, 10 respektive 19 års historik.</p>
+            <div id="windowComparison"></div>
+          </article>
+          <article class="panel">
+            <h2>Kommun relativt Riket</h2>
+            <p class="hint">Generell åldersstandardiserad nivå. Åldersceller får därefter fading beroende på lokalt underlag.</p>
+            <div id="relativeFactors"></div>
+          </article>
+        </div>
+
+        <div class="grid2">
+          <article class="panel">
+            <h2>Åldersstruktur 2025</h2>
+            <div id="ageStructure"></div>
+          </article>
+          <article class="panel">
+            <h2>Demografisk balans</h2>
+            <div id="balanceSummary"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="page" id="page-scenario">
+        <div class="pageTitle">
+          <div><h2>Scenario & justering</h2><p>Ändra demografiska antaganden, bostadsbyggande och arbetsplatsetableringar.</p></div>
+        </div>
+
+        <article class="panel">
+          <h2>Generella demografiska justeringar</h2>
+          <div class="formGrid3">
+            <label>Fruktsamhet, multiplikator
+              <input id="fertMult" type="number" min="0" max="3" step="0.01" value="1" />
+            </label>
+            <label>Dödlighet, multiplikator
+              <input id="mortMult" type="number" min="0" max="3" step="0.01" value="1" />
+            </label>
+            <label>Nettoflyttning, multiplikator
+              <input id="migMult" type="number" min="-3" max="3" step="0.01" value="1" />
+            </label>
+          </div>
+          <p class="hint">Dessa är scenariojusteringar ovanpå modellens kalibrerade bas och ska inte användas för att trimma modellen mot backtestutfall.</p>
+        </article>
+
+        <article class="panel">
+          <div class="panelHead">
+            <div><h2>Bostadsscenarier</h2><p class="hint">Typ, upplåtelseform och storlek sparas redan nu för senare empiriska hushållsantaganden.</p></div>
+            <button id="addHousing" class="secondary compact">+ Bostadsrad</button>
+          </div>
+          <div class="tableWrap"><table id="housingTable"><thead><tr>
+            <th>Aktiv</th><th>År</th><th>Kommun</th><th>Typ</th><th>Upplåtelse</th><th>Storlek</th><th>Antal</th><th>Färdig %</th><th>Beläggning %</th><th>Personer/bostad</th><th>Nya till FA %</th><th>Intern flytt %</th><th>Infasning</th><th></th>
+          </tr></thead><tbody></tbody></table></div>
+        </article>
+
+        <article class="panel">
+          <div class="panelHead">
+            <div><h2>Arbetsplatsetableringar</h2><p class="hint">Osäkerheten kan uttryckas med realiseringsgrad och inflyttningsandel.</p></div>
+            <button id="addWorkplace" class="secondary compact">+ Arbetsplatsrad</button>
+          </div>
+          <div class="tableWrap"><table id="workplaceTable"><thead><tr>
+            <th>Aktiv</th><th>År</th><th>Kommun</th><th>Planerade jobb</th><th>Realiseras %</th><th>Jobb → inflyttning %</th><th>Personer/inflyttat jobb</th><th>Bosätter sig i värdkommun %</th><th>Intern flytt %</th><th>Infasning</th><th></th>
+          </tr></thead><tbody></tbody></table></div>
+        </article>
+
+        <article class="panel">
+          <h2>Scenariokontroll</h2>
+          <label class="inlineLabel">Överlapp bostad + jobb, avdrag %
+            <input id="overlapPct" type="number" min="0" max="100" step="1" value="25" />
+          </label>
+          <p class="hint">Avdraget minskar risken att samma hushåll räknas både som jobbdriven och bostadsdriven inflyttning.</p>
+        </article>
+      </section>
+
+      <section class="page" id="page-validation">
+        <div class="pageTitle">
+          <div><h2>Validering</h2><p>Historisk backtest och extern jämförelse mot SCB:s regionala framskrivning.</p></div>
+        </div>
+
+        <div class="cards validationCards">
+          <article class="card"><span>Backtest MAPE</span><strong id="backtestMape">–</strong><small>2022–2024</small></article>
+          <article class="card"><span>Fel 2024</span><strong id="backtest2024">–</strong><small>befolkning</small></article>
+          <article class="card"><span>SCB-avvikelse 2050</span><strong id="scbDiff2050">–</strong><small>omankrad bana</small></article>
+          <article class="card"><span>FA-konsistens</span><strong id="faConsistency">–</strong><small>basår</small></article>
+        </div>
+
+        <div class="grid2">
+          <article class="panel">
+            <h2>Backtest 2022–2024</h2>
+            <div id="backtestTable"></div>
+          </article>
+          <article class="panel">
+            <h2>SCB-benchmark</h2>
+            <div id="scbBenchmarkTable"></div>
+          </article>
+        </div>
+
+        <article class="panel">
+          <h2>Valideringsprincip</h2>
+          <p>Backtest och benchmark används för att bedöma modellen, inte för att i efterhand ändra antaganden så att historiska utfall passas bättre. Parametrar för fading och metodval ska vara dokumenterade och fastställda före utvärderingen.</p>
+        </article>
+      </section>
+
+      <section class="page" id="page-method">
+        <div class="pageTitle">
+          <div><h2>Metod & data</h2><p>Datakällor, Raps-anpassning och modellstatus.</p></div>
+        </div>
+
+        <div class="grid2">
+          <article class="panel">
+            <h2>Metod</h2>
+            <ul>
+              <li><code>frukty</code>: SCB/Raps nationell framtidsprofil × lokal relativ nivå och fading.</li>
+              <li><code>drisk</code>: SCB/Raps nationell ålder/kön-profil × lokal åldersstandardiserad nivå och fading.</li>
+              <li><code>urisk</code>: V1 använder lokalt kalibrerad exogen nettoflyttning; endogen IMIG/UMIG kommer senare.</li>
+              <li><code>qutb</code>: identitetsmatris tills officiella/egna övergångstal läggs in.</li>
+              <li>Intern scenarioflyttning är nettonoll på FA-nivå.</li>
+              <li>Fading är fallback där offentlig Raps-parameter saknas.</li>
+            </ul>
+          </article>
+          <article class="panel">
+            <h2>Datastatus</h2>
+            <div id="dataStatus"></div>
+          </article>
+        </div>
+
+        <article class="panel">
+          <h2>Fading-policy</h2>
+          <div id="fadingPolicy"></div>
+        </article>
+      </section>
     </section>
   </main>
 
   <script src="data/model_data.js"></script>
+  <script src="data/model_validation.js"></script>
+  <script src="data/backtests/backtest_2022_2024.js"></script>
+  <script src="data/benchmarks/scb_model_comparison.js"></script>
   <script src="js/model.js"></script>
   <script src="js/app.js"></script>
 </body>
