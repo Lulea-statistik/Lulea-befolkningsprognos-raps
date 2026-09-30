@@ -243,31 +243,56 @@ def mortality_profiles(deaths, exposure):
     for window in WINDOWS:
         yrs = set(window_years(window))
         for geo in geos:
-            raw_factor, applied_factor, observed, expected, local_weight = mortality_factor(
+            raw_factor, _, observed, expected, _ = mortality_factor(
                 geo, window, deaths, exposure
             )
+            # The broad municipality factor is the age-standardized local level
+            # relative to Sweden. Age/sex-specific deviations are then faded
+            # smoothly around this factor according to the cell information.
+            general_factor = clip_ratio(raw_factor)
             factors.append({
                 "geo": geo,
                 "window": window,
                 "raw": raw_factor,
-                "applied": applied_factor,
+                "applied": general_factor,
                 "observedDeaths": observed,
                 "expectedDeathsAtNationalRates": expected,
-                "fallbackLocalWeight": local_weight,
-                "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired",
+                "fallbackMethod": "general municipality ratio plus age/sex-specific fading toward the national profile",
             })
             for sex in ("K", "M"):
                 for age in range(101):
                     d_riket = sum(deaths.get((RIKET_CODE, y, sex, age), 0) for y in yrs)
                     p_riket = sum(exposure.get((RIKET_CODE, y, sex, age), 0) for y in yrs)
                     national_hazard = 0.0 if p_riket <= 0 else d_riket / p_riket
-                    local_hazard = national_hazard * applied_factor
-                    risk = max(0.0, min(1.0, 1 - math.exp(-local_hazard)))
+
+                    local_deaths = sum(deaths.get((geo, y, sex, age), 0) for y in yrs)
+                    local_exposure = sum(exposure.get((geo, y, sex, age), 0) for y in yrs)
+                    expected_cell = local_exposure * national_hazard
+                    local_hazard = 0.0 if local_exposure <= 0 else local_deaths / local_exposure
+
+                    base_hazard = national_hazard * general_factor
+                    if national_hazard <= 0 or base_hazard <= 0:
+                        cell_weight = 0.0
+                        blended_hazard = base_hazard
+                        raw_cell_factor = general_factor
+                    else:
+                        raw_cell_factor = local_hazard / national_hazard if local_exposure > 0 else general_factor
+                        cell_weight = fallback_fading_weight(expected_cell)
+                        # Blend the local age/sex deviation around the general
+                        # municipality factor. Sparse cells stay on the
+                        # national age profile scaled by the general factor.
+                        local_target = national_hazard * clip_ratio(raw_cell_factor)
+                        blended_hazard = (1 - cell_weight) * base_hazard + cell_weight * local_target
+
+                    risk = max(0.0, min(1.0, 1 - math.exp(-max(0.0, blended_hazard))))
                     result.append({
                         "geo": geo, "window": window, "sex": sex,
                         "age": age, "value": risk,
                         "nationalHazard": national_hazard,
-                        "municipalityFactor": applied_factor,
+                        "municipalityFactor": general_factor,
+                        "rawCellFactor": raw_cell_factor,
+                        "cellExpectedEvents": expected_cell,
+                        "cellLocalWeight": cell_weight,
                     })
     return result, factors
 
@@ -278,28 +303,48 @@ def fertility_profiles(births, exposure):
     for window in WINDOWS:
         yrs = set(window_years(window))
         for geo in geos:
-            raw_factor, applied_factor, observed, expected, local_weight = fertility_factor(
+            raw_factor, _, observed, expected, _ = fertility_factor(
                 geo, window, births, exposure
             )
+            general_factor = clip_ratio(raw_factor)
             factors.append({
                 "geo": geo,
                 "window": window,
                 "raw": raw_factor,
-                "applied": applied_factor,
+                "applied": general_factor,
                 "observedBirths": observed,
                 "expectedBirthsAtNationalRates": expected,
-                "fallbackLocalWeight": local_weight,
-                "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired",
+                "fallbackMethod": "general municipality ratio plus maternal-age fading toward the national profile",
             })
             for age in range(15, 50):
                 b_riket = sum(births.get((RIKET_CODE, y, age), 0) for y in yrs)
                 w_riket = sum(exposure.get((RIKET_CODE, y, "K", age), 0) for y in yrs)
                 national_rate = 0.0 if w_riket <= 0 else b_riket / w_riket
+
+                local_births = sum(births.get((geo, y, age), 0) for y in yrs)
+                local_women = sum(exposure.get((geo, y, "K", age), 0) for y in yrs)
+                expected_cell = local_women * national_rate
+                local_rate = 0.0 if local_women <= 0 else local_births / local_women
+
+                base_rate = national_rate * general_factor
+                if national_rate <= 0 or base_rate <= 0:
+                    cell_weight = 0.0
+                    blended_rate = base_rate
+                    raw_cell_factor = general_factor
+                else:
+                    raw_cell_factor = local_rate / national_rate if local_women > 0 else general_factor
+                    cell_weight = fallback_fading_weight(expected_cell)
+                    local_target = national_rate * clip_ratio(raw_cell_factor)
+                    blended_rate = (1 - cell_weight) * base_rate + cell_weight * local_target
+
                 result.append({
                     "geo": geo, "window": window, "age": age,
-                    "value": max(0.0, national_rate * applied_factor),
+                    "value": max(0.0, blended_rate),
                     "nationalRate": national_rate,
-                    "municipalityFactor": applied_factor,
+                    "municipalityFactor": general_factor,
+                    "rawCellFactor": raw_cell_factor,
+                    "cellExpectedEvents": expected_cell,
+                    "cellLocalWeight": cell_weight,
                 })
     return result, factors
 
@@ -431,7 +476,7 @@ def main():
                     "enabledOnlyWhenOfficialRapsParameterUnavailable": True,
                     "maxLocalWeight": FADING_MAX_LOCAL_WEIGHT,
                     "halfSaturationExpectedEvents": FADING_HALF_SATURATION_EVENTS,
-                    "formula": "w=maxLocalWeight*E/(E+halfSaturation); applied=1+w*(rawRatio-1)"
+                    "formula": "generalFactor=observed/expected; w=maxLocalWeight*Ecell/(Ecell+halfSaturation); cellRate=(1-w)*(nationalRate*generalFactor)+w*localCellRate"
                 }
             },
             "faNetMigrationPrinciple": (
