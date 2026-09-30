@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  update-and-test:
+  update-build-and-test:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -31,18 +31,21 @@ jobs:
       - name: Download selected SCB raw data
         run: python scripts/scb_extract.py
 
+      - name: Build calibrated model data
+        run: python scripts/build_model_data.py
+
       - name: Run model tests
         run: node tests/test_model.js
 
-      - name: Commit changed SCB data
+      - name: Commit changed SCB and model data
         shell: bash
         run: |
-          git add data/scb_discovery.json data/raw
+          git add data/scb_discovery.json data/raw data/model_data.json data/model_data.js
           if git diff --cached --quiet; then
-            echo "No SCB data changes."
+            echo "No SCB/model data changes."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Update SCB source metadata and raw data"
+          git commit -m "Update SCB data and calibrated model inputs"
           git push
