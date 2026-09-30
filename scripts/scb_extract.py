@@ -288,6 +288,8 @@ SPECS = {
     "deaths_2025": {"start":2025,"end":2025},
     "migration_birth_region_pre2025": {"start":2006,"end":2024},
     "migration_birth_region_2025": {"start":2025,"end":2025},
+    "fertility_forecast": {"start":2026,"end":2050},
+    "mortality_forecast": {"start":2026,"end":2050},
 }
 
 def main():
