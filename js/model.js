@@ -39,22 +39,29 @@
     rows.filter(r=>!geo || r.geo===geo).forEach(r=>m.set(key(r.sex,+r.age),n(r.value)));
     return m;
   }
-  function getRate(rows,geo,year,sex,age,field="value"){
-    const exact=rows.find(r=>r.geo===geo && +r.year===+year && r.sex===sex && +r.age===+age);
+  function byWindow(row,window){
+    return row.window==null || +row.window===+window;
+  }
+  function getRate(rows,geo,year,sex,age,window,field="value"){
+    const exact=rows.find(r=>r.geo===geo && +r.year===+year && r.sex===sex && +r.age===+age && byWindow(r,window));
     if(exact) return n(exact[field]);
-    const nat=rows.find(r=>r.geo==="SE" && +r.year===+year && r.sex===sex && +r.age===+age);
+    const profile=rows.find(r=>r.geo===geo && r.year==null && r.sex===sex && +r.age===+age && byWindow(r,window));
+    if(profile) return n(profile[field]);
+    const nat=rows.find(r=>r.geo==="SE" && +r.year===+year && r.sex===sex && +r.age===+age && byWindow(r,window));
     return nat?n(nat[field]):0;
   }
-  function getFert(rows,geo,year,age){
-    const exact=rows.find(r=>r.geo===geo && +r.year===+year && +r.age===+age);
+  function getFert(rows,geo,year,age,window){
+    const exact=rows.find(r=>r.geo===geo && +r.year===+year && +r.age===+age && byWindow(r,window));
     if(exact) return n(exact.value);
-    const nat=rows.find(r=>r.geo==="SE" && +r.year===+year && +r.age===+age);
+    const profile=rows.find(r=>r.geo===geo && r.year==null && +r.age===+age && byWindow(r,window));
+    if(profile) return n(profile.value);
+    const nat=rows.find(r=>r.geo==="SE" && +r.year===+year && +r.age===+age && byWindow(r,window));
     return nat?n(nat.value):0;
   }
-  function getNetMig(rows,geo,year,sex,age){
-    const exact=rows.find(r=>r.geo===geo && +r.year===+year && r.sex===sex && +r.age===+age);
+  function getNetMig(rows,geo,year,sex,age,window){
+    const exact=rows.find(r=>r.geo===geo && +r.year===+year && r.sex===sex && +r.age===+age && byWindow(r,window));
     if(exact) return n(exact.value);
-    const profile=rows.find(r=>r.geo===geo && r.year==="BASE" && r.sex===sex && +r.age===+age);
+    const profile=rows.find(r=>r.geo===geo && r.year==="BASE" && r.sex===sex && +r.age===+age && byWindow(r,window));
     return profile?n(profile.value):0;
   }
 
@@ -161,6 +168,7 @@
     const baseYear=+data.meta.baseYear;
     const endYear=+options.endYear;
     const fertMult=n(options.fertMult||1), mortMult=n(options.mortMult||1), migMult=n(options.migMult||1);
+    const window=+(options.window || data.calibration?.defaultYears || 10);
     const rows=data.populationBase.filter(r=>r.geo===geo && +r.year===baseYear);
     if(!rows.length) throw new Error(`Saknar startbefolkning för ${geo}, ${baseYear}.`);
     let pop=indexed(rows,geo);
@@ -172,7 +180,7 @@
       for(const sex of ["K","M"]){
         for(let age=0;age<=MAX_AGE;age++){
           const p=n(pop.get(key(sex,age)));
-          const q=clamp(getRate(data.mortalityRisks,geo,year,sex,age)*mortMult,0,1);
+          const q=clamp(getRate(data.mortalityRisks,geo,year,sex,age,window)*mortMult,0,1);
           const d=p*q; deaths+=d;
           const target=Math.min(MAX_AGE,age+1);
           survivors.set(key(sex,target),n(survivors.get(key(sex,target)))+(p-d));
@@ -180,7 +188,7 @@
       }
       for(let age=15;age<=49;age++){
         const women=n(pop.get(key("K",age)));
-        const f=Math.max(0,getFert(data.fertilityRates,geo,year,age)*fertMult);
+        const f=Math.max(0,getFert(data.fertilityRates,geo,year,age,window)*fertMult);
         births += women*f;
       }
       const male=births*n(data.parameters.sexRatioMaleAtBirth||0.515);
@@ -190,7 +198,7 @@
 
       for(const sex of ["K","M"]){
         for(let age=0;age<=MAX_AGE;age++){
-          const mig=getNetMig(data.netMigration,geo,year,sex,age)*migMult;
+          const mig=getNetMig(data.netMigration,geo,year,sex,age,window)*migMult;
           netMigration+=mig;
           survivors.set(key(sex,age),Math.max(0,n(survivors.get(key(sex,age)))+mig));
         }
