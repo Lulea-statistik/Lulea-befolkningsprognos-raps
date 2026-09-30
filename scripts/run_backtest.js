@@ -88,8 +88,13 @@ for (const geo of geos) {
 
 const out = path.join(ROOT, 'data', 'backtests', 'backtest_2022_2024.json');
 fs.writeFileSync(out, JSON.stringify(report, null, 2) + '\n', 'utf8');
+fs.writeFileSync(
+  path.join(ROOT, 'data', 'backtests', 'backtest_2022_2024.js'),
+  'window.MODEL_BACKTEST = ' + JSON.stringify(report) + ';\n',
+  'utf8'
+);
 
-console.log('Wrote data/backtests/backtest_2022_2024.json');
+console.log('Wrote data/backtests/backtest_2022_2024.json/js');
 for (const geo of ['2580','2582','2581','2560','2514','FA_LULEA']) {
   for (const window of WINDOWS) {
     const s = report.summary[geo][window];
