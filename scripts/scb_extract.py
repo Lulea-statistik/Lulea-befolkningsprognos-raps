@@ -119,17 +119,23 @@ def build_selection(md: dict, spec: dict) -> dict[str, list[str]]:
             sel[dim_id] = [x for x in wanted if x in vals]
         elif dim_id in ("Alder", "AlderModer"):
             if dim_id == "AlderModer":
-                # Only mutually exclusive one-year maternal ages. 2025 CKM
-                # tables also expose overlapping 5-/10-year groups and totals.
-                sel[dim_id] = [x for x in FERTILITY_AGES if x in vals]
+                if spec.get("all_maternal_ages"):
+                    sel[dim_id] = vals
+                else:
+                    # Only mutually exclusive one-year maternal ages. 2025 CKM
+                    # tables also expose overlapping 5-/10-year groups and totals.
+                    sel[dim_id] = [x for x in FERTILITY_AGES if x in vals]
             else:
-                sel[dim_id] = [x for x in MODEL_AGES if x in vals]
-                # Historical tables use 100+, while CKM tables use 100+1 for
-                # the one-year age classification.
-                for top in TOP_AGE_CODES:
-                    if top in vals:
-                        sel[dim_id].append(top)
-                        break
+                if spec.get("all_ages"):
+                    sel[dim_id] = vals
+                else:
+                    sel[dim_id] = [x for x in MODEL_AGES if x in vals]
+                    # Historical tables use 100+, while CKM tables use 100+1 for
+                    # the one-year age classification.
+                    for top in TOP_AGE_CODES:
+                        if top in vals:
+                            sel[dim_id].append(top)
+                            break
         elif dim_id == "Kon":
             sel[dim_id] = [x for x in SEXES if x in vals]
         elif dim_id == "Civilstand":
@@ -300,10 +306,10 @@ SPECS = {
     "migration_birth_region_2025": {"start":2025,"end":2025,"all_birth_regions":True},
     "raps_fertility_forecast": {"start":2024,"end":2050,"all_birth_regions":True},
     "raps_mortality_forecast": {"start":2024,"end":2050,"all_birth_regions":True},
-    "raps_national_detail_2024": {"start":2024,"end":2050,"all_birth_regions":True},
-    "raps_births_2024": {"start":2024,"end":2050,"all_birth_regions":True},
-    "backtest_national_detail_2021": {"start":2021,"end":2024,"all_birth_regions":True},
-    "backtest_births_2021": {"start":2021,"end":2024,"all_birth_regions":True},
+    "raps_national_detail_2024": {"start":2024,"end":2050,"all_birth_regions":True,"all_ages":True},
+    "raps_births_2024": {"start":2024,"end":2050,"all_birth_regions":True,"all_maternal_ages":True},
+    "backtest_national_detail_2021": {"start":2021,"end":2024,"all_birth_regions":True,"all_ages":True},
+    "backtest_births_2021": {"start":2021,"end":2024,"all_birth_regions":True,"all_maternal_ages":True},
     "regional_forecast_benchmark": {"start":2024,"end":2050},
     "regional_flows_benchmark": {"start":2024,"end":2050},
 }
