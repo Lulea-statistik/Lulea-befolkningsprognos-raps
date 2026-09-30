@@ -1,0 +1,150 @@
+{
+  "generatedBy": "scripts/validate_model.js",
+  "modelSchemaVersion": "0.3.0",
+  "baseYear": 2025,
+  "endYear": 2050,
+  "basePopulation": {
+    "2514": 15272,
+    "2560": 7846,
+    "2580": 80321,
+    "2581": 42203,
+    "2582": 28652,
+    "FA_LULEA": 174294
+  },
+  "faConsistency": {
+    "faPopulation": 174294,
+    "municipalSum": 174294,
+    "difference": 0,
+    "ok": true
+  },
+  "parameterSummary": {
+    "2580": {
+      "6": {
+        "fertilityProfileRows": 35,
+        "fertilityRateSum": 1.5,
+        "mortalityProfileRows": 202,
+        "migrationProfileRows": 202,
+        "annualNetMigrationProfileSum": 321.5
+      },
+      "10": {
+        "fertilityProfileRows": 35,
+        "fertilityRateSum": 1.5,
+        "mortalityProfileRows": 202,
+        "migrationProfileRows": 202,
+        "annualNetMigrationProfileSum": 346.5
+      },
+      "19": {
+        "fertilityProfileRows": 35,
+        "fertilityRateSum": 1.6,
+        "mortalityProfileRows": 202,
+        "migrationProfileRows": 202,
+        "annualNetMigrationProfileSum": 280.6
+      }
+    },
+    "FA_LULEA": {
+      "6": {
+        "fertilityProfileRows": 35,
+        "fertilityRateSum": 1.6,
+        "mortalityProfileRows": 202,
+        "migrationProfileRows": 202,
+        "annualNetMigrationProfileSum": 447
+      },
+      "10": {
+        "fertilityProfileRows": 35,
+        "fertilityRateSum": 1.6,
+        "mortalityProfileRows": 202,
+        "migrationProfileRows": 202,
+        "annualNetMigrationProfileSum": 545.4
+      },
+      "19": {
+        "fertilityProfileRows": 35,
+        "fertilityRateSum": 1.7,
+        "mortalityProfileRows": 202,
+        "migrationProfileRows": 202,
+        "annualNetMigrationProfileSum": 397.1
+      }
+    }
+  },
+  "forecasts": {
+    "2580": {
+      "6": {
+        "startPopulation": 80321,
+        "endPopulation": 83497.7,
+        "change": 3176.7,
+        "changePct": 4,
+        "cumulativeBirths": 18223.8,
+        "cumulativeDeaths": 23084.6,
+        "cumulativeNetMigration": 8037.5,
+        "cumulativeScenarioEffect": 0,
+        "differenceVs10YearEnd": -1085,
+        "differenceVs10YearEndPct": -1.3
+      },
+      "10": {
+        "startPopulation": 80321,
+        "endPopulation": 84582.7,
+        "change": 4261.7,
+        "changePct": 5.3,
+        "cumulativeBirths": 18757.5,
+        "cumulativeDeaths": 23158.2,
+        "cumulativeNetMigration": 8662.5,
+        "cumulativeScenarioEffect": 0,
+        "differenceVs10YearEnd": 0,
+        "differenceVs10YearEndPct": 0
+      },
+      "19": {
+        "startPopulation": 80321,
+        "endPopulation": 83570.4,
+        "change": 3249.4,
+        "changePct": 4,
+        "cumulativeBirths": 19780.3,
+        "cumulativeDeaths": 23545.3,
+        "cumulativeNetMigration": 7014.5,
+        "cumulativeScenarioEffect": 0,
+        "differenceVs10YearEnd": -1012.3,
+        "differenceVs10YearEndPct": -1.2
+      }
+    },
+    "FA_LULEA": {
+      "6": {
+        "startPopulation": 174294,
+        "endPopulation": 167643.2,
+        "change": -6650.8,
+        "changePct": -3.8,
+        "cumulativeBirths": 36822.6,
+        "cumulativeDeaths": 54648.4,
+        "cumulativeNetMigration": 11175,
+        "cumulativeScenarioEffect": 0,
+        "differenceVs10YearEnd": -3061.2,
+        "differenceVs10YearEndPct": -1.8
+      },
+      "10": {
+        "startPopulation": 174294,
+        "endPopulation": 170704.4,
+        "change": -3589.6,
+        "changePct": -2.1,
+        "cumulativeBirths": 38002.3,
+        "cumulativeDeaths": 55226.9,
+        "cumulativeNetMigration": 13635,
+        "cumulativeScenarioEffect": 0,
+        "differenceVs10YearEnd": 0,
+        "differenceVs10YearEndPct": 0
+      },
+      "19": {
+        "startPopulation": 174294,
+        "endPopulation": 166928.2,
+        "change": -7365.8,
+        "changePct": -4.2,
+        "cumulativeBirths": 38884.9,
+        "cumulativeDeaths": 56177,
+        "cumulativeNetMigration": 9926.3,
+        "cumulativeScenarioEffect": 0,
+        "differenceVs10YearEnd": -3776.2,
+        "differenceVs10YearEndPct": -2.2
+      }
+    }
+  },
+  "warnings": [
+    "sexRatioMaleAtBirth is still the provisional 0.515 assumption and should be replaced by an SCB-derived value.",
+    "V1.3 keeps 6/10/19-year local fertility, mortality and net-migration profiles constant through the projection horizon; national future SCB assumptions are not yet integrated."
+  ]
+}
