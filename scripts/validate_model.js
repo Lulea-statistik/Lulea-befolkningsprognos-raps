@@ -10,7 +10,7 @@ vm.runInThisContext(fs.readFileSync(path.join(ROOT, 'js', 'model.js'), 'utf8'));
 const M = window.RAPSModel;
 
 const WINDOWS = [6, 10, 19];
-const TARGET_GEOS = ['2580', 'FA_LULEA'];
+const TARGET_GEOS = ['2580', '2582', '2581', '2560', '2514', 'FA_LULEA'];
 const END_YEAR = 2050;
 
 function sum(arr, fn) {
@@ -92,8 +92,12 @@ const warnings = [];
 if (Math.abs(faDifference) > 0.5) {
   warnings.push(`FA base population differs from municipal sum by ${faDifference} persons.`);
 }
-if (data.parameters && data.parameters.sexRatioMaleAtBirth === 0.515) {
-  warnings.push('sexRatioMaleAtBirth is still the provisional 0.515 assumption and should be replaced by an SCB-derived value.');
+if (data.parameters && data.parameters.sexRatioMaleAtBirthSource) {
+  warnings.push(
+    'Birth sex ratio is derived from observed FA births; source: ' +
+    data.parameters.sexRatioMaleAtBirthSource +
+    '.'
+  );
 }
 warnings.push('V1.3 keeps 6/10/19-year local fertility, mortality and net-migration profiles constant through the projection horizon; national future SCB assumptions are not yet integrated.');
 
