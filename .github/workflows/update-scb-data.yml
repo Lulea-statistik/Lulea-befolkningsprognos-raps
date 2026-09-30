@@ -1,4 +1,4 @@
-name: Update SCB data discovery
+name: Update SCB data
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  discover-and-test:
+  update-and-test:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -28,18 +28,21 @@ jobs:
       - name: Discover current SCB PxWeb tables
         run: python scripts/scb_v2_client.py --out data/scb_discovery.json
 
+      - name: Download selected SCB raw data
+        run: python scripts/scb_extract.py
+
       - name: Run model tests
         run: node tests/test_model.js
 
-      - name: Commit changed SCB discovery metadata
+      - name: Commit changed SCB data
         shell: bash
         run: |
-          git add data/scb_discovery.json
-          if git diff --cached --quiet -- data/scb_discovery.json; then
-            echo "No SCB discovery changes."
+          git add data/scb_discovery.json data/raw
+          if git diff --cached --quiet; then
+            echo "No SCB data changes."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Update SCB table discovery metadata"
+          git commit -m "Update SCB source metadata and raw data"
           git push
