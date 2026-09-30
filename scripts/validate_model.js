@@ -127,8 +127,13 @@ const report = {
 
 const out = path.join(ROOT, 'data', 'model_validation.json');
 fs.writeFileSync(out, JSON.stringify(report, null, 2) + '\n', 'utf8');
+fs.writeFileSync(
+  path.join(ROOT, 'data', 'model_validation.js'),
+  'window.MODEL_VALIDATION = ' + JSON.stringify(report) + ';\n',
+  'utf8'
+);
 
-console.log(`Wrote data/model_validation.json`);
+console.log(`Wrote data/model_validation.json and data/model_validation.js`);
 console.log(`FA consistency difference: ${faDifference}`);
 for (const geo of TARGET_GEOS) {
   for (const window of WINDOWS) {
