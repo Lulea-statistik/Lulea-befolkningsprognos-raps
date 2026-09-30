@@ -143,6 +143,10 @@ def build_selection(md: dict, spec: dict) -> dict[str, list[str]]:
                 sel[dim_id] = ["samt"]
             else:
                 sel[dim_id] = vals
+        elif dim_id == "InrikesUtrikes":
+            # TAB6008: 13=inrikes född, 23=utrikes född, 83=totalt.
+            # Use only total to avoid double-counting.
+            sel[dim_id] = ["83"] if "83" in vals else vals
         elif dim_id == "ContentsCode":
             sel[dim_id] = choose_content_codes(md, spec.get("content_terms"))
         elif dim_id == "Tid":
