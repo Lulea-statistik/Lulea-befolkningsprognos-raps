@@ -1,6 +1,6 @@
 {
-  "schema_version": "0.2.0",
-  "note": "Explicit SCB PxWebApi v2 table IDs verified for the Luleå rAps-like model. Production extraction uses these IDs. TAB5958 and TAB5959 are used to derive aggregate national future age profiles, which are then scaled by municipality/FA historical ratios.",
+  "schema_version": "0.3.0",
+  "note": "Production sources for the Raps-reference baseline use Tillvaxtverket's published SCB 2024 demographic scenario where available. Latest SCB forecasts are retained only as alternative-scenario sources.",
   "tables": {
     "population_pre2025": {
       "id": "TAB638",
@@ -65,12 +65,12 @@
     "fertility_forecast": {
       "id": "TAB5963",
       "period": "2026-2120",
-      "purpose": "national age-specific fertility assumptions"
+      "purpose": "Latest SCB forecast alternative scenario; not the default Raps SCB-2024 reference"
     },
     "mortality_forecast": {
       "id": "TAB5962",
       "period": "2026-2120",
-      "purpose": "national mortality assumptions by birth region, sex and age"
+      "purpose": "Latest SCB forecast alternative scenario; not the default Raps SCB-2024 reference"
     },
     "national_population_forecast": {
       "id": "TAB5974",
@@ -96,6 +96,16 @@
       "id": "TAB5959",
       "period": "2026-2120",
       "purpose": "national forecast births by mother's birth region and age"
+    },
+    "raps_fertility_forecast": {
+      "id": "TAB5303",
+      "period": "2024-2120",
+      "purpose": "Raps reference scenario SCB 2024: national age-specific fertility by mother's birth region"
+    },
+    "raps_mortality_forecast": {
+      "id": "TAB5248",
+      "period": "2024-2120",
+      "purpose": "Raps reference scenario SCB 2024: national mortality by birth region, sex and age"
     }
   }
 }
