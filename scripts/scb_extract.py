@@ -165,8 +165,81 @@ def split_selection(selection: dict[str, list[str]], max_cells: int = 100000):
         batches.append(part)
     return batches
 
+def _csv_dialect(text: str):
+    sample = text[:10000]
+    try:
+        return csv.Sniffer().sniff(sample, delimiters=";,\t,")
+    except csv.Error:
+        return csv.excel
+
+def merge_wide_csv_chunks(chunks: list[tuple[str, dict[str, list[str]]]]) -> str:
+    """Merge PxWeb CSV batches that differ only by selected year columns.
+
+    PxWeb's CSV output is wide: years are emitted as columns. When a large
+    request is split by Tid, each response therefore has a different header.
+    We outer-join the batches on all non-year columns and append the year
+    columns instead of requiring identical headers.
+    """
+    if not chunks:
+        return ""
+    if len(chunks) == 1:
+        return chunks[0][0]
+
+    parsed = []
+    all_selected_years = {
+        y for _, part in chunks for y in (part.get("Tid") or [])
+    }
+
+    for text, part in chunks:
+        dialect = _csv_dialect(text)
+        reader = csv.DictReader(io.StringIO(text), dialect=dialect)
+        fields = reader.fieldnames or []
+        if not fields:
+            raise RuntimeError("SCB CSV response has no header.")
+        rows = list(reader)
+        year_fields = [
+            h for h in fields
+            if h in all_selected_years or (len(h) == 4 and h.isdigit())
+        ]
+        dim_fields = [h for h in fields if h not in year_fields]
+        parsed.append((fields, dim_fields, year_fields, rows, dialect.delimiter))
+
+    base_dims = parsed[0][1]
+    for _, dims, _, _, _ in parsed[1:]:
+        if dims != base_dims:
+            raise RuntimeError(
+                "SCB CSV dimension columns differ between request batches: "
+                f"{base_dims!r} vs {dims!r}"
+            )
+
+    year_order = []
+    for _, _, years, _, _ in parsed:
+        for y in years:
+            if y not in year_order:
+                year_order.append(y)
+
+    merged_rows: dict[tuple[str, ...], dict[str, str]] = {}
+    row_order: list[tuple[str, ...]] = []
+    for _, dims, years, rows, _ in parsed:
+        for row in rows:
+            k = tuple(row.get(d, "") for d in dims)
+            if k not in merged_rows:
+                merged_rows[k] = {d: row.get(d, "") for d in dims}
+                row_order.append(k)
+            for y in years:
+                merged_rows[k][y] = row.get(y, "")
+
+    out = io.StringIO()
+    delimiter = parsed[0][4]
+    fields = base_dims + year_order
+    writer = csv.DictWriter(out, fieldnames=fields, delimiter=delimiter, lineterminator="\n")
+    writer.writeheader()
+    for k in row_order:
+        writer.writerow(merged_rows[k])
+    return out.getvalue()
+
 def download_csv(table_id: str, selection: dict[str, list[str]]) -> str:
-    chunks = []
+    chunks: list[tuple[str, dict[str, list[str]]]] = []
     for batch_no, part in enumerate(split_selection(selection), 1):
         url = f"{BASE}/tables/{table_id}/data?" + encode_params(part)
         print(
@@ -174,28 +247,11 @@ def download_csv(table_id: str, selection: dict[str, list[str]]) -> str:
             file=sys.stderr,
         )
         try:
-            chunks.append(request_text(url))
-        except Exception as e:
+            chunks.append((request_text(url), part))
+        except Exception:
             print(f"    failed URL: {url}", file=sys.stderr)
             raise
-
-    if len(chunks) == 1:
-        return chunks[0]
-
-    # Merge CSV chunks while keeping the header only once.
-    merged = []
-    header = None
-    for text in chunks:
-        lines = text.splitlines()
-        if not lines:
-            continue
-        if header is None:
-            header = lines[0]
-            merged.append(header)
-        elif lines[0] != header:
-            raise RuntimeError("CSV headers differ between SCB request batches.")
-        merged.extend(lines[1:])
-    return "\n".join(merged) + "\n"
+    return merge_wide_csv_chunks(chunks)
 
 SPECS = {
     "population_2025": {"start":2025,"end":2025,"content_terms":["Folkmängd"]},
