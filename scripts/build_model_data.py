@@ -125,6 +125,29 @@ def load_births(filename: str):
             out[(geo, year, age)] += num(r[col])
     return out
 
+def load_births_by_child_sex(filename: str):
+    """Births by municipality, year and child's sex, without double-counting ages."""
+    path = RAW / filename
+    out = defaultdict(float)
+    for r in rows(path):
+        age = age_value(r.get("AlderModer", ""))
+        geo = r.get("Region")
+        sex = SEX_MAP.get(r.get("Kon", ""))
+        if age is None or geo not in MUNICIPALITIES or not sex or not (15 <= age <= 49):
+            continue
+        for col, _, year in value_columns(r.keys()):
+            out[(geo, year, sex)] += num(r[col])
+    return out
+
+def observed_male_birth_share(births_by_sex, years=range(2015, 2025)):
+    male = female = 0.0
+    for geo in MUNICIPALITIES:
+        for year in years:
+            male += births_by_sex.get((geo, year, "M"), 0)
+            female += births_by_sex.get((geo, year, "K"), 0)
+    total = male + female
+    return 0.5 if total <= 0 else male / total
+
 def aggregate_fa_age_sex(source):
     out = defaultdict(float)
     for (geo, year, sex, age), value in source.items():
@@ -229,6 +252,8 @@ def main():
     exposure = aggregate_fa_age_sex(load_wide_age_sex("mean_population_pre2025.csv"))
     deaths = aggregate_fa_age_sex(load_wide_age_sex("deaths_pre2025.csv"))
     births = aggregate_fa_births(load_births("births_pre2025.csv"))
+    births_by_sex = load_births_by_child_sex("births_pre2025.csv")
+    male_birth_share = observed_male_birth_share(births_by_sex)
     netmig = aggregate_fa_age_sex(
         load_wide_age_sex("migration_pre2025.csv", NET_MIG_CODES)
     )
@@ -276,7 +301,8 @@ def main():
             "endogenousInMigration": False,
             "endogenousOutMigration": False,
             "iflMode": "deferred",
-            "sexRatioMaleAtBirth": 0.515,
+            "sexRatioMaleAtBirth": male_birth_share,
+            "sexRatioMaleAtBirthSource": "Observed births in the five FA municipalities, 2015-2024",
         },
         "populationBase": [
             {"geo": geo, "year": 2025, "sex": sex, "age": age, "value": value}
@@ -308,6 +334,7 @@ def main():
 
     print(f"Wrote {OUT_JSON.relative_to(ROOT)}")
     print(f"Wrote {OUT_JS.relative_to(ROOT)}")
+    print(f"Observed male birth share 2015-2024: {male_birth_share:.6f}")
     for window in WINDOWS:
         print(
             f"window={window}: fertility={sum(1 for r in model['fertilityRates'] if r['window']==window)}, "
