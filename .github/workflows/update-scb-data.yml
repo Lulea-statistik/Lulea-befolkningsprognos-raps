@@ -1,0 +1,45 @@
+name: Update SCB data discovery
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 5 1 * *"
+
+permissions:
+  contents: write
+
+jobs:
+  discover-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Discover current SCB PxWeb tables
+        run: python scripts/scb_v2_client.py --out data/scb_discovery.json
+
+      - name: Run model tests
+        run: node tests/test_model.js
+
+      - name: Commit changed SCB discovery metadata
+        shell: bash
+        run: |
+          if git diff --quiet -- data/scb_discovery.json; then
+            echo "No SCB discovery changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/scb_discovery.json
+          git commit -m "Update SCB table discovery metadata"
+          git push
