@@ -1,6 +1,6 @@
 {
   "generatedBy": "scripts/validate_model.js",
-  "modelSchemaVersion": "0.3.0",
+  "modelSchemaVersion": "0.4.0",
   "baseYear": 2025,
   "endYear": 2050,
   "basePopulation": {
@@ -18,6 +18,52 @@
     "ok": true
   },
   "parameterSummary": {
+    "2514": {
+      "6": {
+        "fertilityProfileRows": 35,
+        "fertilityRateSum": 1.6,
+        "mortalityProfileRows": 202,
+        "migrationProfileRows": 202,
+        "annualNetMigrationProfileSum": -18.8
+      },
+      "10": {
+        "fertilityProfileRows": 35,
+        "fertilityRateSum": 1.7,
+        "mortalityProfileRows": 202,
+        "migrationProfileRows": 202,
+        "annualNetMigrationProfileSum": 1
+      },
+      "19": {
+        "fertilityProfileRows": 35,
+        "fertilityRateSum": 1.8,
+        "mortalityProfileRows": 202,
+        "migrationProfileRows": 202,
+        "annualNetMigrationProfileSum": -27.4
+      }
+    },
+    "2560": {
+      "6": {
+        "fertilityProfileRows": 35,
+        "fertilityRateSum": 1.6,
+        "mortalityProfileRows": 202,
+        "migrationProfileRows": 202,
+        "annualNetMigrationProfileSum": -30.3
+      },
+      "10": {
+        "fertilityProfileRows": 35,
+        "fertilityRateSum": 1.7,
+        "mortalityProfileRows": 202,
+        "migrationProfileRows": 202,
+        "annualNetMigrationProfileSum": -8.6
+      },
+      "19": {
+        "fertilityProfileRows": 35,
+        "fertilityRateSum": 1.8,
+        "mortalityProfileRows": 202,
+        "migrationProfileRows": 202,
+        "annualNetMigrationProfileSum": -13.8
+      }
+    },
     "2580": {
       "6": {
         "fertilityProfileRows": 35,
@@ -28,17 +74,63 @@
       },
       "10": {
         "fertilityProfileRows": 35,
-        "fertilityRateSum": 1.5,
+        "fertilityRateSum": 1.6,
         "mortalityProfileRows": 202,
         "migrationProfileRows": 202,
         "annualNetMigrationProfileSum": 346.5
       },
       "19": {
         "fertilityProfileRows": 35,
-        "fertilityRateSum": 1.6,
+        "fertilityRateSum": 1.7,
         "mortalityProfileRows": 202,
         "migrationProfileRows": 202,
         "annualNetMigrationProfileSum": 280.6
+      }
+    },
+    "2581": {
+      "6": {
+        "fertilityProfileRows": 35,
+        "fertilityRateSum": 1.6,
+        "mortalityProfileRows": 202,
+        "migrationProfileRows": 202,
+        "annualNetMigrationProfileSum": 113
+      },
+      "10": {
+        "fertilityProfileRows": 35,
+        "fertilityRateSum": 1.7,
+        "mortalityProfileRows": 202,
+        "migrationProfileRows": 202,
+        "annualNetMigrationProfileSum": 147.1
+      },
+      "19": {
+        "fertilityProfileRows": 35,
+        "fertilityRateSum": 1.8,
+        "mortalityProfileRows": 202,
+        "migrationProfileRows": 202,
+        "annualNetMigrationProfileSum": 117.5
+      }
+    },
+    "2582": {
+      "6": {
+        "fertilityProfileRows": 35,
+        "fertilityRateSum": 1.6,
+        "mortalityProfileRows": 202,
+        "migrationProfileRows": 202,
+        "annualNetMigrationProfileSum": 61.7
+      },
+      "10": {
+        "fertilityProfileRows": 35,
+        "fertilityRateSum": 1.7,
+        "mortalityProfileRows": 202,
+        "migrationProfileRows": 202,
+        "annualNetMigrationProfileSum": 59.4
+      },
+      "19": {
+        "fertilityProfileRows": 35,
+        "fertilityRateSum": 1.8,
+        "mortalityProfileRows": 202,
+        "migrationProfileRows": 202,
+        "annualNetMigrationProfileSum": 40.2
       }
     },
     "FA_LULEA": {
@@ -51,41 +143,494 @@
       },
       "10": {
         "fertilityProfileRows": 35,
-        "fertilityRateSum": 1.6,
+        "fertilityRateSum": 1.7,
         "mortalityProfileRows": 202,
         "migrationProfileRows": 202,
         "annualNetMigrationProfileSum": 545.4
       },
       "19": {
         "fertilityProfileRows": 35,
-        "fertilityRateSum": 1.7,
+        "fertilityRateSum": 1.8,
         "mortalityProfileRows": 202,
         "migrationProfileRows": 202,
         "annualNetMigrationProfileSum": 397.1
       }
     }
   },
+  "relativeFactors": {
+    "fertility": [
+      {
+        "geo": "2580",
+        "window": 6,
+        "raw": 0.9207357815517265,
+        "applied": 0.9802697974835561,
+        "observedBirths": 4232,
+        "expectedBirthsAtNationalRates": 4596.3240321428175,
+        "fallbackLocalWeight": 0.24891688712378385,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2582",
+        "window": 6,
+        "raw": 1.0378037553032766,
+        "applied": 1.0093228737903481,
+        "observedBirths": 1511,
+        "expectedBirthsAtNationalRates": 1455.9592719516047,
+        "fallbackLocalWeight": 0.2466123726480686,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2581",
+        "window": 6,
+        "raw": 1.0313117335442765,
+        "applied": 1.0077599105488377,
+        "observedBirths": 2353,
+        "expectedBirthsAtNationalRates": 2281.56038903341,
+        "fallbackLocalWeight": 0.2478275608044767,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2560",
+        "window": 6,
+        "raw": 1.0806204446847367,
+        "applied": 1.0191948188701163,
+        "observedBirths": 432,
+        "expectedBirthsAtNationalRates": 399.7703376101059,
+        "fallbackLocalWeight": 0.23808872482875593,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2514",
+        "window": 6,
+        "raw": 1.1397013068505828,
+        "applied": 1.0339349127707087,
+        "observedBirths": 781,
+        "expectedBirthsAtNationalRates": 685.2672672265267,
+        "fallbackLocalWeight": 0.24291048906939552,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "FA_LULEA",
+        "window": 6,
+        "raw": 0.9883339332465928,
+        "applied": 0.9970896631047746,
+        "observedBirths": 9309,
+        "expectedBirthsAtNationalRates": 9418.881297964472,
+        "fallbackLocalWeight": 0.2494702762073003,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2580",
+        "window": 10,
+        "raw": 0.9137286079496361,
+        "applied": 0.9784861052222843,
+        "observedBirths": 7287,
+        "expectedBirthsAtNationalRates": 7975.01570663491,
+        "fallbackLocalWeight": 0.24937461035932043,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2582",
+        "window": 10,
+        "raw": 1.0409879452147217,
+        "applied": 1.0101664448536172,
+        "observedBirths": 2628,
+        "expectedBirthsAtNationalRates": 2524.524911244702,
+        "fallbackLocalWeight": 0.24803499664007841,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2581",
+        "window": 10,
+        "raw": 1.0080976484345114,
+        "applied": 1.0020142110464856,
+        "observedBirths": 3981,
+        "expectedBirthsAtNationalRates": 3949.0222065115904,
+        "fallbackLocalWeight": 0.24874024388379662,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2560",
+        "window": 10,
+        "raw": 1.0580876390188467,
+        "applied": 1.0141155032378544,
+        "observedBirths": 735,
+        "expectedBirthsAtNationalRates": 694.6494533114077,
+        "fallbackLocalWeight": 0.24300356282813632,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2514",
+        "window": 10,
+        "raw": 1.1075045144426172,
+        "applied": 1.0264322493762186,
+        "observedBirths": 1319,
+        "expectedBirthsAtNationalRates": 1190.9657999577762,
+        "fallbackLocalWeight": 0.24587106423635222,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "FA_LULEA",
+        "window": 10,
+        "raw": 0.9764801096306273,
+        "applied": 0.9941272181971473,
+        "observedBirths": 15950,
+        "expectedBirthsAtNationalRates": 16334.178077660385,
+        "fallbackLocalWeight": 0.2496942677292459,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2580",
+        "window": 19,
+        "raw": 0.9240692802420388,
+        "applied": 0.9810417398344514,
+        "observedBirths": 14348,
+        "expectedBirthsAtNationalRates": 15526.974337077701,
+        "fallbackLocalWeight": 0.24967839401470707,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2582",
+        "window": 19,
+        "raw": 1.0038575266564518,
+        "applied": 1.000960460697459,
+        "observedBirths": 4918,
+        "expectedBirthsAtNationalRates": 4899.101585043031,
+        "fallbackLocalWeight": 0.24898355422965793,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2581",
+        "window": 19,
+        "raw": 0.979964494439616,
+        "applied": 0.9950039052193438,
+        "observedBirths": 7661,
+        "expectedBirthsAtNationalRates": 7817.630172796082,
+        "fallbackLocalWeight": 0.24936205206296225,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2560",
+        "window": 19,
+        "raw": 1.0086199806253813,
+        "applied": 1.0021239257731378,
+        "observedBirths": 1379,
+        "expectedBirthsAtNationalRates": 1367.2146363241482,
+        "fallbackLocalWeight": 0.2463956550997407,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2514",
+        "window": 19,
+        "raw": 1.0717045317089813,
+        "applied": 1.0177805599200442,
+        "observedBirths": 2618,
+        "expectedBirthsAtNationalRates": 2442.837482291165,
+        "fallbackLocalWeight": 0.24796982138043938,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "FA_LULEA",
+        "window": 19,
+        "raw": 0.9647542666914116,
+        "applied": 0.9911940611542096,
+        "observedBirths": 30924,
+        "expectedBirthsAtNationalRates": 32053.758213532128,
+        "fallbackLocalWeight": 0.24984410931931605,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      }
+    ],
+    "mortality": [
+      {
+        "geo": "2580",
+        "window": 6,
+        "raw": 1.0581474377635784,
+        "applied": 1.0144690991391427,
+        "observedDeaths": 4519,
+        "expectedDeathsAtNationalRates": 4270.671400529043,
+        "fallbackLocalWeight": 0.24883468121110755,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2582",
+        "window": 6,
+        "raw": 1.0930332265950087,
+        "applied": 1.0230033028522116,
+        "observedDeaths": 1972,
+        "expectedDeathsAtNationalRates": 1804.1537549074587,
+        "fallbackLocalWeight": 0.24725900298341152,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2581",
+        "window": 6,
+        "raw": 1.1277645085223482,
+        "applied": 1.031682863244103,
+        "observedDeaths": 2767,
+        "expectedDeathsAtNationalRates": 2453.5264047504543,
+        "fallbackLocalWeight": 0.24797859445106493,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2560",
+        "window": 6,
+        "raw": 1.1205634583826594,
+        "applied": 1.0291117917245427,
+        "observedDeaths": 634,
+        "expectedDeathsAtNationalRates": 565.7867881173548,
+        "fallbackLocalWeight": 0.24146447120108433,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2514",
+        "window": 6,
+        "raw": 1.1640346444167489,
+        "applied": 1.0403234366194143,
+        "observedDeaths": 1370,
+        "expectedDeathsAtNationalRates": 1176.9409154368013,
+        "fallbackLocalWeight": 0.24582268436518828,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "FA_LULEA",
+        "window": 6,
+        "raw": 1.09647678796103,
+        "applied": 1.024072323000908,
+        "observedDeaths": 11262,
+        "expectedDeathsAtNationalRates": 10271.079263741116,
+        "fallbackLocalWeight": 0.24951414230987254,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2580",
+        "window": 10,
+        "raw": 1.0403842851951046,
+        "applied": 1.0100672218856226,
+        "observedDeaths": 7261,
+        "expectedDeathsAtNationalRates": 6979.151937726871,
+        "fallbackLocalWeight": 0.24928562773826227,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2582",
+        "window": 10,
+        "raw": 1.066989889441626,
+        "applied": 1.0166359747669558,
+        "observedDeaths": 3184,
+        "expectedDeathsAtNationalRates": 2984.0957552711593,
+        "fallbackLocalWeight": 0.24833560565064322,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2581",
+        "window": 10,
+        "raw": 1.1425722888854215,
+        "applied": 1.0354670355057265,
+        "observedDeaths": 4604,
+        "expectedDeathsAtNationalRates": 4029.5043427765945,
+        "fallbackLocalWeight": 0.24876528098829703,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2560",
+        "window": 10,
+        "raw": 1.1260854063310746,
+        "applied": 1.0308751061104653,
+        "observedDeaths": 1076,
+        "expectedDeathsAtNationalRates": 955.5225509100069,
+        "fallbackLocalWeight": 0.24487454185929808,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2514",
+        "window": 10,
+        "raw": 1.178447033479644,
+        "applied": 1.0441572865503324,
+        "observedDeaths": 2290,
+        "expectedDeathsAtNationalRates": 1943.2354063790483,
+        "fallbackLocalWeight": 0.2474531836662309,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "FA_LULEA",
+        "window": 10,
+        "raw": 1.0901926475230406,
+        "applied": 1.022521495826824,
+        "observedDeaths": 18415,
+        "expectedDeathsAtNationalRates": 16891.50999306369,
+        "fallbackLocalWeight": 0.2497043433731198,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2580",
+        "window": 19,
+        "raw": 1.027523306133498,
+        "applied": 1.0068699388611426,
+        "observedDeaths": 12967,
+        "expectedDeathsAtNationalRates": 12619.665094307164,
+        "fallbackLocalWeight": 0.24960441989857374,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2582",
+        "window": 19,
+        "raw": 1.0644855753264977,
+        "applied": 1.0160639154910414,
+        "observedDeaths": 5950,
+        "expectedDeathsAtNationalRates": 5589.554370593536,
+        "fallbackLocalWeight": 0.249108663599695,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2581",
+        "window": 19,
+        "raw": 1.1339114276671547,
+        "applied": 1.033387802656615,
+        "observedDeaths": 8408,
+        "expectedDeathsAtNationalRates": 7415.04124118243,
+        "fallbackLocalWeight": 0.24932750877395202,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2560",
+        "window": 19,
+        "raw": 1.092487355308765,
+        "applied": 1.0228751379490053,
+        "observedDeaths": 2026,
+        "expectedDeathsAtNationalRates": 1854.4837065207041,
+        "fallbackLocalWeight": 0.2473325988470283,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "2514",
+        "window": 19,
+        "raw": 1.1501140867834723,
+        "applied": 1.037326593937172,
+        "observedDeaths": 4252,
+        "expectedDeathsAtNationalRates": 3697.024537706152,
+        "fallbackLocalWeight": 0.2486548380433653,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      },
+      {
+        "geo": "FA_LULEA",
+        "window": 19,
+        "raw": 1.0778563330244972,
+        "applied": 1.0194516045874387,
+        "observedDeaths": 33603,
+        "expectedDeathsAtNationalRates": 31175.76895030989,
+        "fallbackLocalWeight": 0.24983972185433337,
+        "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired"
+      }
+    ],
+    "bounds": {
+      "min": 0.5,
+      "max": 1.5
+    },
+    "method": "Observed / expected at national age-specific rates",
+    "fallbackFading": {
+      "enabledOnlyWhenOfficialRapsParameterUnavailable": true,
+      "maxLocalWeight": 0.25,
+      "halfSaturationExpectedEvents": 20,
+      "formula": "w=maxLocalWeight*E/(E+halfSaturation); applied=1+w*(rawRatio-1)"
+    }
+  },
   "forecasts": {
+    "2514": {
+      "6": {
+        "startPopulation": 15272,
+        "endPopulation": 11464.3,
+        "change": -3807.7,
+        "changePct": -24.9,
+        "cumulativeBirths": 2258.7,
+        "cumulativeDeaths": 5595.5,
+        "cumulativeNetMigration": -470.8,
+        "cumulativeScenarioEffect": 0,
+        "differenceVs10YearEnd": -726.6,
+        "differenceVs10YearEndPct": -6
+      },
+      "10": {
+        "startPopulation": 15272,
+        "endPopulation": 12190.9,
+        "change": -3081.1,
+        "changePct": -20.2,
+        "cumulativeBirths": 2578.2,
+        "cumulativeDeaths": 5684.4,
+        "cumulativeNetMigration": 25,
+        "cumulativeScenarioEffect": 0,
+        "differenceVs10YearEnd": 0,
+        "differenceVs10YearEndPct": 0
+      },
+      "19": {
+        "startPopulation": 15272,
+        "endPopulation": 11219.1,
+        "change": -4052.9,
+        "changePct": -26.5,
+        "cumulativeBirths": 2440.4,
+        "cumulativeDeaths": 5807.9,
+        "cumulativeNetMigration": -685.5,
+        "cumulativeScenarioEffect": 0,
+        "differenceVs10YearEnd": -971.8,
+        "differenceVs10YearEndPct": -8
+      }
+    },
+    "2560": {
+      "6": {
+        "startPopulation": 7846,
+        "endPopulation": 5804.4,
+        "change": -2041.6,
+        "changePct": -26,
+        "cumulativeBirths": 1331.9,
+        "cumulativeDeaths": 2615.2,
+        "cumulativeNetMigration": -758.3,
+        "cumulativeScenarioEffect": 0,
+        "differenceVs10YearEnd": -637.4,
+        "differenceVs10YearEndPct": -9.9
+      },
+      "10": {
+        "startPopulation": 7846,
+        "endPopulation": 6441.8,
+        "change": -1404.2,
+        "changePct": -17.9,
+        "cumulativeBirths": 1435.5,
+        "cumulativeDeaths": 2624.7,
+        "cumulativeNetMigration": -215,
+        "cumulativeScenarioEffect": 0,
+        "differenceVs10YearEnd": 0,
+        "differenceVs10YearEndPct": 0
+      },
+      "19": {
+        "startPopulation": 7846,
+        "endPopulation": 6267,
+        "change": -1579,
+        "changePct": -20.1,
+        "cumulativeBirths": 1421.3,
+        "cumulativeDeaths": 2655.6,
+        "cumulativeNetMigration": -344.7,
+        "cumulativeScenarioEffect": 0,
+        "differenceVs10YearEnd": -174.8,
+        "differenceVs10YearEndPct": -2.7
+      }
+    },
     "2580": {
       "6": {
         "startPopulation": 80321,
-        "endPopulation": 83497.7,
-        "change": 3176.7,
-        "changePct": 4,
-        "cumulativeBirths": 18223.8,
-        "cumulativeDeaths": 23084.6,
+        "endPopulation": 85016.9,
+        "change": 4695.9,
+        "changePct": 5.8,
+        "cumulativeBirths": 19467.1,
+        "cumulativeDeaths": 22808.6,
         "cumulativeNetMigration": 8037.5,
         "cumulativeScenarioEffect": 0,
-        "differenceVs10YearEnd": -1085,
+        "differenceVs10YearEnd": -1121,
         "differenceVs10YearEndPct": -1.3
       },
       "10": {
         "startPopulation": 80321,
-        "endPopulation": 84582.7,
-        "change": 4261.7,
-        "changePct": 5.3,
-        "cumulativeBirths": 18757.5,
-        "cumulativeDeaths": 23158.2,
+        "endPopulation": 86137.9,
+        "change": 5816.9,
+        "changePct": 7.2,
+        "cumulativeBirths": 20137.1,
+        "cumulativeDeaths": 22982.8,
         "cumulativeNetMigration": 8662.5,
         "cumulativeScenarioEffect": 0,
         "differenceVs10YearEnd": 0,
@@ -93,37 +638,113 @@
       },
       "19": {
         "startPopulation": 80321,
-        "endPopulation": 83570.4,
-        "change": 3249.4,
-        "changePct": 4,
-        "cumulativeBirths": 19780.3,
-        "cumulativeDeaths": 23545.3,
+        "endPopulation": 84831.1,
+        "change": 4510.1,
+        "changePct": 5.6,
+        "cumulativeBirths": 21002.7,
+        "cumulativeDeaths": 23507,
         "cumulativeNetMigration": 7014.5,
         "cumulativeScenarioEffect": 0,
-        "differenceVs10YearEnd": -1012.3,
-        "differenceVs10YearEndPct": -1.2
+        "differenceVs10YearEnd": -1306.8,
+        "differenceVs10YearEndPct": -1.5
+      }
+    },
+    "2581": {
+      "6": {
+        "startPopulation": 42203,
+        "endPopulation": 40487.4,
+        "change": -1715.6,
+        "changePct": -4.1,
+        "cumulativeBirths": 8813.3,
+        "cumulativeDeaths": 13353.8,
+        "cumulativeNetMigration": 2825,
+        "cumulativeScenarioEffect": 0,
+        "differenceVs10YearEnd": -940.1,
+        "differenceVs10YearEndPct": -2.3
+      },
+      "10": {
+        "startPopulation": 42203,
+        "endPopulation": 41427.5,
+        "change": -775.5,
+        "changePct": -1.8,
+        "cumulativeBirths": 9160.4,
+        "cumulativeDeaths": 13613.4,
+        "cumulativeNetMigration": 3677.5,
+        "cumulativeScenarioEffect": 0,
+        "differenceVs10YearEnd": 0,
+        "differenceVs10YearEndPct": 0
+      },
+      "19": {
+        "startPopulation": 42203,
+        "endPopulation": 40568.6,
+        "change": -1634.4,
+        "changePct": -3.9,
+        "cumulativeBirths": 9436.9,
+        "cumulativeDeaths": 14009.4,
+        "cumulativeNetMigration": 2938.2,
+        "cumulativeScenarioEffect": 0,
+        "differenceVs10YearEnd": -858.9,
+        "differenceVs10YearEndPct": -2.1
+      }
+    },
+    "2582": {
+      "6": {
+        "startPopulation": 28652,
+        "endPopulation": 26591.7,
+        "change": -2060.3,
+        "changePct": -7.2,
+        "cumulativeBirths": 5515.1,
+        "cumulativeDeaths": 9117.1,
+        "cumulativeNetMigration": 1541.7,
+        "cumulativeScenarioEffect": 0,
+        "differenceVs10YearEnd": -138,
+        "differenceVs10YearEndPct": -0.5
+      },
+      "10": {
+        "startPopulation": 28652,
+        "endPopulation": 26729.7,
+        "change": -1922.3,
+        "changePct": -6.7,
+        "cumulativeBirths": 5799,
+        "cumulativeDeaths": 9206.3,
+        "cumulativeNetMigration": 1485,
+        "cumulativeScenarioEffect": 0,
+        "differenceVs10YearEnd": 0,
+        "differenceVs10YearEndPct": 0
+      },
+      "19": {
+        "startPopulation": 28652,
+        "endPopulation": 26129.1,
+        "change": -2522.9,
+        "changePct": -8.8,
+        "cumulativeBirths": 5875.8,
+        "cumulativeDeaths": 9402.7,
+        "cumulativeNetMigration": 1003.9,
+        "cumulativeScenarioEffect": 0,
+        "differenceVs10YearEnd": -600.6,
+        "differenceVs10YearEndPct": -2.2
       }
     },
     "FA_LULEA": {
       "6": {
         "startPopulation": 174294,
-        "endPopulation": 167643.2,
-        "change": -6650.8,
-        "changePct": -3.8,
-        "cumulativeBirths": 36822.6,
-        "cumulativeDeaths": 54648.4,
+        "endPopulation": 169414.5,
+        "change": -4879.5,
+        "changePct": -2.8,
+        "cumulativeBirths": 37450.4,
+        "cumulativeDeaths": 53505,
         "cumulativeNetMigration": 11175,
         "cumulativeScenarioEffect": 0,
-        "differenceVs10YearEnd": -3061.2,
-        "differenceVs10YearEndPct": -1.8
+        "differenceVs10YearEnd": -3545.1,
+        "differenceVs10YearEndPct": -2
       },
       "10": {
         "startPopulation": 174294,
-        "endPopulation": 170704.4,
-        "change": -3589.6,
-        "changePct": -2.1,
-        "cumulativeBirths": 38002.3,
-        "cumulativeDeaths": 55226.9,
+        "endPopulation": 172959.6,
+        "change": -1334.4,
+        "changePct": -0.8,
+        "cumulativeBirths": 39158.3,
+        "cumulativeDeaths": 54127.7,
         "cumulativeNetMigration": 13635,
         "cumulativeScenarioEffect": 0,
         "differenceVs10YearEnd": 0,
@@ -131,20 +752,20 @@
       },
       "19": {
         "startPopulation": 174294,
-        "endPopulation": 166928.2,
-        "change": -7365.8,
-        "changePct": -4.2,
-        "cumulativeBirths": 38884.9,
-        "cumulativeDeaths": 56177,
+        "endPopulation": 169043.7,
+        "change": -5250.3,
+        "changePct": -3,
+        "cumulativeBirths": 40221.6,
+        "cumulativeDeaths": 55398.2,
         "cumulativeNetMigration": 9926.3,
         "cumulativeScenarioEffect": 0,
-        "differenceVs10YearEnd": -3776.2,
-        "differenceVs10YearEndPct": -2.2
+        "differenceVs10YearEnd": -3915.9,
+        "differenceVs10YearEndPct": -2.3
       }
     }
   },
   "warnings": [
-    "sexRatioMaleAtBirth is still the provisional 0.515 assumption and should be replaced by an SCB-derived value.",
+    "Birth sex ratio source: Raps technical specification: 0.515 boys / 0.485 girls. Observed FA share is retained only as a diagnostic.",
     "V1.3 keeps 6/10/19-year local fertility, mortality and net-migration profiles constant through the projection horizon; national future SCB assumptions are not yet integrated."
   ]
 }
