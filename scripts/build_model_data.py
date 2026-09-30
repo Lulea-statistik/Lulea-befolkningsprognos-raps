@@ -109,7 +109,7 @@ def load_wide_age_sex(filename: str, allowed_codes=None):
         age = age_value(r.get("Alder", ""))
         sex = SEX_MAP.get(r.get("Kon", ""))
         geo = r.get("Region")
-        if age is None or not sex or geo not in MUNICIPALITIES:
+        if age is None or not sex or geo not in set(MUNICIPALITIES) | {RIKET_CODE}:
             continue
         for col, code, year in value_columns(r.keys(), allowed_codes):
             out[(geo, year, sex, age)] += num(r[col])
