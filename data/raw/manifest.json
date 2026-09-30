@@ -150,6 +150,10 @@
           "2023",
           "2024"
         ]
+      },
+      "content_labels": {
+        "BE0101N1": "Folkmängd",
+        "BE0101N2": "Folkökning"
       }
     },
     "population_2025": {
@@ -280,6 +284,10 @@
         "Tid": [
           "2025"
         ]
+      },
+      "content_labels": {
+        "000007ME": "Folkmängd",
+        "000007MG": "Folkökning"
       }
     },
     "mean_population_pre2025": {
@@ -426,6 +434,9 @@
           "2023",
           "2024"
         ]
+      },
+      "content_labels": {
+        "BE0101A5": "Antal"
       }
     },
     "mean_population_2025": {
@@ -553,6 +564,9 @@
         "Tid": [
           "2025"
         ]
+      },
+      "content_labels": {
+        "000008FP": "Antal"
       }
     },
     "migration_pre2025": {
@@ -706,6 +720,17 @@
           "2023",
           "2024"
         ]
+      },
+      "content_labels": {
+        "BE0101AU": "Inflyttningar",
+        "BE0101AV": "Utflyttningar",
+        "BE0101AX": "Invandringar",
+        "BE0101AY": "Utvandringar",
+        "BE0101AZ": "Flyttningsöverskott",
+        "BE0101A1": "Invandringsöverskott",
+        "BE0101A2": "Inrikes inflyttningar",
+        "BE0101A3": "Inrikes utflyttningar",
+        "BE0101A4": "Inrikes flyttningsöverskott"
       }
     },
     "migration_2025": {
@@ -841,6 +866,17 @@
         "Tid": [
           "2025"
         ]
+      },
+      "content_labels": {
+        "0000086B": "Inflyttningar",
+        "0000086F": "Utflyttningar",
+        "00000869": "Invandringar",
+        "00000867": "Utvandringar",
+        "00000868": "Flyttningsöverskott",
+        "0000086A": "Invandringsöverskott",
+        "0000086D": "Inrikes inflyttningar",
+        "0000086E": "Inrikes utflyttningar",
+        "0000086C": "Inrikes flyttningsöverskott"
       }
     },
     "births_pre2025": {
@@ -921,6 +957,9 @@
           "2023",
           "2024"
         ]
+      },
+      "content_labels": {
+        "BE0101E2": "Antal"
       }
     },
     "births_2025": {
@@ -982,6 +1021,9 @@
         "Tid": [
           "2025"
         ]
+      },
+      "content_labels": {
+        "00000863": "Antal"
       }
     },
     "deaths_pre2025": {
@@ -1128,6 +1170,9 @@
           "2023",
           "2024"
         ]
+      },
+      "content_labels": {
+        "BE0101D8": "Antal"
       }
     },
     "deaths_2025": {
@@ -1255,6 +1300,9 @@
         "Tid": [
           "2025"
         ]
+      },
+      "content_labels": {
+        "000008FN": "Antal"
       }
     },
     "migration_birth_region_pre2025": {
@@ -1415,6 +1463,20 @@
           "2023",
           "2024"
         ]
+      },
+      "content_labels": {
+        "000001IB": "Samtliga inflyttningar",
+        "000001E4": "Samtliga utflyttningar",
+        "000001E7": "Inflyttningar från kommuner inom länet",
+        "000001E8": "Inflyttningar från övriga län",
+        "000001EA": "Utflyttningar till kommuner inom länet",
+        "000001E9": "Utflyttningar till övriga län",
+        "000001EB": "Utrikes inflyttningar",
+        "000001EC": "Utrikes utflyttningar",
+        "000001ED": "Flyttningsnetto, totalt",
+        "000001EE": "Flyttningsnetto, eget län",
+        "000001J5": "Flyttningsnetto, övriga län",
+        "000001J6": "Flyttningsnetto, utlandet"
       }
     },
     "migration_birth_region_2025": {
@@ -1558,6 +1620,20 @@
         "Tid": [
           "2025"
         ]
+      },
+      "content_labels": {
+        "0000087L": "Samtliga inflyttningar",
+        "0000087M": "Samtliga utflyttningar",
+        "0000087I": "Inflyttningar från kommuner inom länet",
+        "0000087J": "Inflyttningar från övriga län",
+        "0000087N": "Utflyttningar till kommuner inom länet",
+        "0000087O": "Utflyttningar till övriga län",
+        "0000087K": "Utrikes inflyttningar",
+        "0000087P": "Utrikes utflyttningar",
+        "0000087G": "Flyttningsnetto, totalt",
+        "0000087E": "Flyttningsnetto, eget län",
+        "0000087F": "Flyttningsnetto, övriga län",
+        "0000087H": "Flyttningsnetto, utlandet"
       }
     },
     "raps_fertility_forecast": {
@@ -1640,6 +1716,9 @@
           "2049",
           "2050"
         ]
+      },
+      "content_labels": {
+        "00000782": "Fruktsamhetstal"
       }
     },
     "raps_mortality_forecast": {
@@ -1793,12 +1872,475 @@
           "2049",
           "2050"
         ]
+      },
+      "content_labels": {
+        "00000780": "Dödstal"
+      }
+    },
+    "raps_national_detail_2024": {
+      "table_id": "TAB5337",
+      "path": "data/raw/raps_national_detail_2024.csv",
+      "rows_including_header": 1061,
+      "selection": {
+        "Fodelseregion": [
+          "300",
+          "310",
+          "320",
+          "330",
+          "340"
+        ],
+        "Kon": [
+          "1",
+          "2"
+        ],
+        "Alder": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29",
+          "30",
+          "31",
+          "32",
+          "33",
+          "34",
+          "35",
+          "36",
+          "37",
+          "38",
+          "39",
+          "40",
+          "41",
+          "42",
+          "43",
+          "44",
+          "45",
+          "46",
+          "47",
+          "48",
+          "49",
+          "50",
+          "51",
+          "52",
+          "53",
+          "54",
+          "55",
+          "56",
+          "57",
+          "58",
+          "59",
+          "60",
+          "61",
+          "62",
+          "63",
+          "64",
+          "65",
+          "66",
+          "67",
+          "68",
+          "69",
+          "70",
+          "71",
+          "72",
+          "73",
+          "74",
+          "75",
+          "76",
+          "77",
+          "78",
+          "79",
+          "80",
+          "81",
+          "82",
+          "83",
+          "84",
+          "85",
+          "86",
+          "87",
+          "88",
+          "89",
+          "90",
+          "91",
+          "92",
+          "93",
+          "94",
+          "95",
+          "96",
+          "97",
+          "98",
+          "99",
+          "100",
+          "101",
+          "102",
+          "103",
+          "104",
+          "105+"
+        ],
+        "ContentsCode": [
+          "0000078D",
+          "0000078C",
+          "0000078E",
+          "0000078G",
+          "0000078F"
+        ],
+        "Tid": [
+          "2024",
+          "2025",
+          "2026",
+          "2027",
+          "2028",
+          "2029",
+          "2030",
+          "2031",
+          "2032",
+          "2033",
+          "2034",
+          "2035",
+          "2036",
+          "2037",
+          "2038",
+          "2039",
+          "2040",
+          "2041",
+          "2042",
+          "2043",
+          "2044",
+          "2045",
+          "2046",
+          "2047",
+          "2048",
+          "2049",
+          "2050"
+        ]
+      },
+      "content_labels": {
+        "0000078D": "Folkmängd",
+        "0000078C": "Döda",
+        "0000078E": "Inflyttade",
+        "0000078G": "Utflyttade",
+        "0000078F": "Medelfolkmängd"
+      }
+    },
+    "raps_births_2024": {
+      "table_id": "TAB5270",
+      "path": "data/raw/raps_births_2024.csv",
+      "rows_including_header": 166,
+      "selection": {
+        "ModerFodregion": [
+          "300",
+          "310",
+          "320",
+          "330",
+          "340"
+        ],
+        "Alder": [
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29",
+          "30",
+          "31",
+          "32",
+          "33",
+          "34",
+          "35",
+          "36",
+          "37",
+          "38",
+          "39",
+          "40",
+          "41",
+          "42",
+          "43",
+          "44",
+          "45",
+          "46",
+          "47",
+          "48"
+        ],
+        "ContentsCode": [
+          "00000781"
+        ],
+        "Tid": [
+          "2024",
+          "2025",
+          "2026",
+          "2027",
+          "2028",
+          "2029",
+          "2030",
+          "2031",
+          "2032",
+          "2033",
+          "2034",
+          "2035",
+          "2036",
+          "2037",
+          "2038",
+          "2039",
+          "2040",
+          "2041",
+          "2042",
+          "2043",
+          "2044",
+          "2045",
+          "2046",
+          "2047",
+          "2048",
+          "2049",
+          "2050"
+        ]
+      },
+      "content_labels": {
+        "00000781": "Födda"
+      }
+    },
+    "backtest_national_detail_2021": {
+      "table_id": "TAB5946",
+      "path": "data/raw/backtest_national_detail_2021.csv",
+      "rows_including_header": 1061,
+      "selection": {
+        "Fodelseregion": [
+          "300",
+          "310",
+          "320",
+          "330",
+          "340"
+        ],
+        "Kon": [
+          "1",
+          "2"
+        ],
+        "Alder": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29",
+          "30",
+          "31",
+          "32",
+          "33",
+          "34",
+          "35",
+          "36",
+          "37",
+          "38",
+          "39",
+          "40",
+          "41",
+          "42",
+          "43",
+          "44",
+          "45",
+          "46",
+          "47",
+          "48",
+          "49",
+          "50",
+          "51",
+          "52",
+          "53",
+          "54",
+          "55",
+          "56",
+          "57",
+          "58",
+          "59",
+          "60",
+          "61",
+          "62",
+          "63",
+          "64",
+          "65",
+          "66",
+          "67",
+          "68",
+          "69",
+          "70",
+          "71",
+          "72",
+          "73",
+          "74",
+          "75",
+          "76",
+          "77",
+          "78",
+          "79",
+          "80",
+          "81",
+          "82",
+          "83",
+          "84",
+          "85",
+          "86",
+          "87",
+          "88",
+          "89",
+          "90",
+          "91",
+          "92",
+          "93",
+          "94",
+          "95",
+          "96",
+          "97",
+          "98",
+          "99",
+          "100",
+          "101",
+          "102",
+          "103",
+          "104",
+          "105+"
+        ],
+        "ContentsCode": [
+          "000005LV",
+          "000005LU",
+          "000005LW",
+          "000005LY",
+          "000005LX"
+        ],
+        "Tid": [
+          "2021",
+          "2022",
+          "2023",
+          "2024"
+        ]
+      },
+      "content_labels": {
+        "000005LV": "Folkmängd",
+        "000005LU": "Döda",
+        "000005LW": "Inflyttade",
+        "000005LY": "Utflyttade",
+        "000005LX": "Medelfolkmängd"
+      }
+    },
+    "backtest_births_2021": {
+      "table_id": "TAB5948",
+      "path": "data/raw/backtest_births_2021.csv",
+      "rows_including_header": 166,
+      "selection": {
+        "ModerFodregion": [
+          "300",
+          "310",
+          "320",
+          "330",
+          "340"
+        ],
+        "Alder": [
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29",
+          "30",
+          "31",
+          "32",
+          "33",
+          "34",
+          "35",
+          "36",
+          "37",
+          "38",
+          "39",
+          "40",
+          "41",
+          "42",
+          "43",
+          "44",
+          "45",
+          "46",
+          "47",
+          "48"
+        ],
+        "ContentsCode": [
+          "000005M7"
+        ],
+        "Tid": [
+          "2021",
+          "2022",
+          "2023",
+          "2024"
+        ]
+      },
+      "content_labels": {
+        "000005M7": "Antal"
       }
     },
     "regional_forecast_benchmark": {
       "table_id": "TAB6008",
       "path": "data/raw/regional_forecast_benchmark.csv",
-      "rows_including_header": 3031,
+      "rows_including_header": 1011,
       "selection": {
         "Region": [
           "2580",
@@ -1808,8 +2350,6 @@
           "2514"
         ],
         "InrikesUtrikes": [
-          "13",
-          "23",
           "83"
         ],
         "Kon": [
@@ -1951,6 +2491,9 @@
           "2049",
           "2050"
         ]
+      },
+      "content_labels": {
+        "000005RC": "Antal"
       }
     },
     "regional_flows_benchmark": {
@@ -2110,6 +2653,15 @@
           "2049",
           "2050"
         ]
+      },
+      "content_labels": {
+        "000004LG": "Folkmängd",
+        "000004LF": "Födda",
+        "000004LE": "Döda",
+        "000004LH": "Inrikes inflyttning",
+        "000004LI": "Inrikes utflyttning",
+        "000004LJ": "Invandring",
+        "000004LK": "Utvandring"
       }
     }
   }
