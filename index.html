@@ -12,7 +12,7 @@
       <h1>Luleå befolkningsprognos</h1>
       <p>rAps-liknande demografimodell · Luleå FA + kommuner · 2025–2050</p>
     </div>
-    <span class="badge">V1 – exogen migration</span>
+    <span class="badge">V1.2 – exogen migration + scenarier</span>
   </header>
 
   <main>
@@ -56,6 +56,36 @@
         <article class="card"><span>CKM max-känslighet</span><strong id="ckmPct">–</strong></article>
       </div>
 
+      <article class="panel">
+        <div class="panelHead">
+          <h2>Bostadsscenarier</h2>
+          <button id="addHousing" class="secondary">+ Lägg till</button>
+        </div>
+        <p class="hint">Exempel: 1 000 bostäder 2030. Realiseringsgrad, beläggning och andel som faktiskt ger nya invånare till FA kan justeras.</p>
+        <div class="tableWrap"><table id="housingTable"><thead><tr>
+          <th>Aktiv</th><th>År</th><th>Kommun</th><th>Bostäder</th><th>Färdig %</th><th>Beläggning %</th><th>Personer/bostad</th><th>Nya till FA %</th><th>Intern flytt %</th><th>Infasning år</th><th></th>
+        </tr></thead><tbody></tbody></table></div>
+      </article>
+
+      <article class="panel">
+        <div class="panelHead">
+          <h2>Arbetsplatsetableringar</h2>
+          <button id="addWorkplace" class="secondary">+ Lägg till</button>
+        </div>
+        <p class="hint">Exempel: planerad arbetsplats 2034 där antalet jobb kan justeras till exempelvis 60 % av ursprungligt antagande.</p>
+        <div class="tableWrap"><table id="workplaceTable"><thead><tr>
+          <th>Aktiv</th><th>År</th><th>Kommun</th><th>Planerade jobb</th><th>Realiseras %</th><th>Jobb som ger inflyttning %</th><th>Personer/inflyttat jobb</th><th>Bosätter sig i värdkommun %</th><th>Intern flytt %</th><th>Infasning år</th><th></th>
+        </tr></thead><tbody></tbody></table></div>
+      </article>
+
+      <article class="panel">
+        <h2>Scenariokontroll</h2>
+        <label>Överlapp bostad + jobb, avdrag %
+          <input id="overlapPct" type="number" min="0" max="100" step="1" value="25" />
+        </label>
+        <p class="hint">Avdraget minskar risken att samma hushåll räknas både som jobbdriven och bostadsdriven inflyttning. Detta är ett scenarioantagande, inte observerad statistik.</p>
+      </article>
+
       <article class="panel chartPanel">
         <div class="panelHead">
           <h2>Befolkning</h2>
@@ -73,6 +103,7 @@
             <li><code>urisk</code>: skattas och diagnostiseras lokalt; V1 använder exogen nettoflyttning.</li>
             <li><code>qutb</code>: identitetsmatris, alltså ingen utbildningsförändring.</li>
             <li>2025+ flaggas som CKM och följs med känslighetsmått.</li>
+            <li>Intern scenarioflyttning är nettonoll för FA och omfördelas mellan kommuner.</li>
           </ul>
         </article>
         <article class="panel">
@@ -83,7 +114,7 @@
 
       <article class="panel">
         <h2>Årsresultat</h2>
-        <div class="tableWrap"><table id="resultsTable"><thead><tr><th>År</th><th>Befolkning</th><th>Födda</th><th>Döda</th><th>Nettoflyttning</th><th>Förändring</th></tr></thead><tbody></tbody></table></div>
+        <div class="tableWrap"><table id="resultsTable"><thead><tr><th>År</th><th>Befolkning</th><th>Födda</th><th>Döda</th><th>Nettoflyttning</th><th>Scenarioeffekt</th><th>Förändring</th></tr></thead><tbody></tbody></table></div>
       </article>
     </section>
   </main>
