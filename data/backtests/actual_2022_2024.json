@@ -1,0 +1,199 @@
+{
+  "baseYear": 2021,
+  "endYear": 2024,
+  "source": "SCB historical population, births, deaths and migration tables",
+  "rows": [
+    {
+      "geo": "2580",
+      "year": 2021,
+      "population": 78867.0,
+      "births": 0.0,
+      "deaths": 0.0,
+      "netMigration": 0.0
+    },
+    {
+      "geo": "2580",
+      "year": 2022,
+      "population": 79244.0,
+      "births": 660.0,
+      "deaths": 758.0,
+      "netMigration": 424.0
+    },
+    {
+      "geo": "2580",
+      "year": 2023,
+      "population": 79352.0,
+      "births": 655.0,
+      "deaths": 794.0,
+      "netMigration": 234.0
+    },
+    {
+      "geo": "2580",
+      "year": 2024,
+      "population": 79645.0,
+      "births": 613.0,
+      "deaths": 774.0,
+      "netMigration": 455.0
+    },
+    {
+      "geo": "2582",
+      "year": 2021,
+      "population": 28160.0,
+      "births": 0.0,
+      "deaths": 0.0,
+      "netMigration": 0.0
+    },
+    {
+      "geo": "2582",
+      "year": 2022,
+      "population": 28048.0,
+      "births": 245.0,
+      "deaths": 322.0,
+      "netMigration": -47.0
+    },
+    {
+      "geo": "2582",
+      "year": 2023,
+      "population": 27943.0,
+      "births": 224.0,
+      "deaths": 349.0,
+      "netMigration": 9.0
+    },
+    {
+      "geo": "2582",
+      "year": 2024,
+      "population": 28049.0,
+      "births": 230.0,
+      "deaths": 323.0,
+      "netMigration": 204.0
+    },
+    {
+      "geo": "2581",
+      "year": 2021,
+      "population": 42323.0,
+      "births": 0.0,
+      "deaths": 0.0,
+      "netMigration": 0.0
+    },
+    {
+      "geo": "2581",
+      "year": 2022,
+      "population": 42362.0,
+      "births": 374.0,
+      "deaths": 432.0,
+      "netMigration": 91.0
+    },
+    {
+      "geo": "2581",
+      "year": 2023,
+      "population": 42344.0,
+      "births": 367.0,
+      "deaths": 463.0,
+      "netMigration": 52.0
+    },
+    {
+      "geo": "2581",
+      "year": 2024,
+      "population": 42447.0,
+      "births": 340.0,
+      "deaths": 446.0,
+      "netMigration": 211.0
+    },
+    {
+      "geo": "2560",
+      "year": 2021,
+      "population": 8009.0,
+      "births": 0.0,
+      "deaths": 0.0,
+      "netMigration": 0.0
+    },
+    {
+      "geo": "2560",
+      "year": 2022,
+      "population": 7911.0,
+      "births": 75.0,
+      "deaths": 120.0,
+      "netMigration": -61.0
+    },
+    {
+      "geo": "2560",
+      "year": 2023,
+      "population": 7783.0,
+      "births": 61.0,
+      "deaths": 97.0,
+      "netMigration": -98.0
+    },
+    {
+      "geo": "2560",
+      "year": 2024,
+      "population": 7774.0,
+      "births": 69.0,
+      "deaths": 106.0,
+      "netMigration": 26.0
+    },
+    {
+      "geo": "2514",
+      "year": 2021,
+      "population": 15768.0,
+      "births": 0.0,
+      "deaths": 0.0,
+      "netMigration": 0.0
+    },
+    {
+      "geo": "2514",
+      "year": 2022,
+      "population": 15729.0,
+      "births": 127.0,
+      "deaths": 246.0,
+      "netMigration": 73.0
+    },
+    {
+      "geo": "2514",
+      "year": 2023,
+      "population": 15547.0,
+      "births": 110.0,
+      "deaths": 247.0,
+      "netMigration": -53.0
+    },
+    {
+      "geo": "2514",
+      "year": 2024,
+      "population": 15391.0,
+      "births": 121.0,
+      "deaths": 216.0,
+      "netMigration": -58.0
+    },
+    {
+      "geo": "FA_LULEA",
+      "year": 2021,
+      "population": 173127.0,
+      "births": 0.0,
+      "deaths": 0.0,
+      "netMigration": 0.0
+    },
+    {
+      "geo": "FA_LULEA",
+      "year": 2022,
+      "population": 173294.0,
+      "births": 1481.0,
+      "deaths": 1878.0,
+      "netMigration": 480.0
+    },
+    {
+      "geo": "FA_LULEA",
+      "year": 2023,
+      "population": 172969.0,
+      "births": 1417.0,
+      "deaths": 1950.0,
+      "netMigration": 144.0
+    },
+    {
+      "geo": "FA_LULEA",
+      "year": 2024,
+      "population": 173306.0,
+      "births": 1373.0,
+      "deaths": 1865.0,
+      "netMigration": 838.0
+    }
+  ]
+}

@@ -1,0 +1,746 @@
+{
+  "schemaVersion": "0.1.0",
+  "method": "Out-of-sample forecast from 2021 using only data through 2021; compared with actual 2022-2024.",
+  "baseYear": 2021,
+  "endYear": 2024,
+  "windows": [
+    6,
+    10
+  ],
+  "results": {
+    "2514": {
+      "6": [
+        {
+          "year": 2022,
+          "predictedPopulation": 15706,
+          "actualPopulation": 15729,
+          "populationError": -23,
+          "populationAbsPctError": 0.1,
+          "predictedBirths": 129,
+          "actualBirths": 127,
+          "birthsError": 2,
+          "predictedDeaths": 194.6,
+          "actualDeaths": 246,
+          "deathsError": -51.4,
+          "predictedNetMigration": 3.7,
+          "actualNetMigration": 73,
+          "netMigrationError": -69.3
+        },
+        {
+          "year": 2023,
+          "predictedPopulation": 15637.8,
+          "actualPopulation": 15547,
+          "populationError": 90.8,
+          "populationAbsPctError": 0.6,
+          "predictedBirths": 128.8,
+          "actualBirths": 110,
+          "birthsError": 18.8,
+          "predictedDeaths": 200.7,
+          "actualDeaths": 247,
+          "deathsError": -46.3,
+          "predictedNetMigration": 3.7,
+          "actualNetMigration": -53,
+          "netMigrationError": 56.7
+        },
+        {
+          "year": 2024,
+          "predictedPopulation": 15563.6,
+          "actualPopulation": 15391,
+          "populationError": 172.6,
+          "populationAbsPctError": 1.1,
+          "predictedBirths": 128.2,
+          "actualBirths": 121,
+          "birthsError": 7.2,
+          "predictedDeaths": 206.1,
+          "actualDeaths": 216,
+          "deathsError": -9.9,
+          "predictedNetMigration": 3.7,
+          "actualNetMigration": -58,
+          "netMigrationError": 61.7
+        }
+      ],
+      "10": [
+        {
+          "year": 2022,
+          "predictedPopulation": 15702.1,
+          "actualPopulation": 15729,
+          "populationError": -26.9,
+          "populationAbsPctError": 0.2,
+          "predictedBirths": 132.4,
+          "actualBirths": 127,
+          "birthsError": 5.4,
+          "predictedDeaths": 199.6,
+          "actualDeaths": 246,
+          "deathsError": -46.4,
+          "predictedNetMigration": 1.3,
+          "actualNetMigration": 73,
+          "netMigrationError": -71.7
+        },
+        {
+          "year": 2023,
+          "predictedPopulation": 15630.1,
+          "actualPopulation": 15547,
+          "populationError": 83.1,
+          "populationAbsPctError": 0.5,
+          "predictedBirths": 132.3,
+          "actualBirths": 110,
+          "birthsError": 22.3,
+          "predictedDeaths": 205.6,
+          "actualDeaths": 247,
+          "deathsError": -41.4,
+          "predictedNetMigration": 1.3,
+          "actualNetMigration": -53,
+          "netMigrationError": 54.3
+        },
+        {
+          "year": 2024,
+          "predictedPopulation": 15552.3,
+          "actualPopulation": 15391,
+          "populationError": 161.3,
+          "populationAbsPctError": 1,
+          "predictedBirths": 131.9,
+          "actualBirths": 121,
+          "birthsError": 10.9,
+          "predictedDeaths": 211,
+          "actualDeaths": 216,
+          "deathsError": -5,
+          "predictedNetMigration": 1.3,
+          "actualNetMigration": -58,
+          "netMigrationError": 59.3
+        }
+      ]
+    },
+    "2560": {
+      "6": [
+        {
+          "year": 2022,
+          "predictedPopulation": 7991.2,
+          "actualPopulation": 7911,
+          "populationError": 80.2,
+          "populationAbsPctError": 1,
+          "predictedBirths": 75.3,
+          "actualBirths": 75,
+          "birthsError": 0.3,
+          "predictedDeaths": 92.9,
+          "actualDeaths": 120,
+          "deathsError": -27.1,
+          "predictedNetMigration": -0.2,
+          "actualNetMigration": -61,
+          "netMigrationError": 60.8
+        },
+        {
+          "year": 2023,
+          "predictedPopulation": 7971.1,
+          "actualPopulation": 7783,
+          "populationError": 188.1,
+          "populationAbsPctError": 2.4,
+          "predictedBirths": 75.4,
+          "actualBirths": 61,
+          "birthsError": 14.4,
+          "predictedDeaths": 95.4,
+          "actualDeaths": 97,
+          "deathsError": -1.6,
+          "predictedNetMigration": -0.2,
+          "actualNetMigration": -98,
+          "netMigrationError": 97.8
+        },
+        {
+          "year": 2024,
+          "predictedPopulation": 7948.6,
+          "actualPopulation": 7774,
+          "populationError": 174.6,
+          "populationAbsPctError": 2.2,
+          "predictedBirths": 75.2,
+          "actualBirths": 69,
+          "birthsError": 6.2,
+          "predictedDeaths": 97.5,
+          "actualDeaths": 106,
+          "deathsError": -8.5,
+          "predictedNetMigration": -0.2,
+          "actualNetMigration": 26,
+          "netMigrationError": -26.2
+        }
+      ],
+      "10": [
+        {
+          "year": 2022,
+          "predictedPopulation": 7997.5,
+          "actualPopulation": 7911,
+          "populationError": 86.5,
+          "populationAbsPctError": 1.1,
+          "predictedBirths": 77,
+          "actualBirths": 75,
+          "birthsError": 2,
+          "predictedDeaths": 94.9,
+          "actualDeaths": 120,
+          "deathsError": -25.1,
+          "predictedNetMigration": 6.5,
+          "actualNetMigration": -61,
+          "netMigrationError": 67.5
+        },
+        {
+          "year": 2023,
+          "predictedPopulation": 7983.9,
+          "actualPopulation": 7783,
+          "populationError": 200.9,
+          "populationAbsPctError": 2.6,
+          "predictedBirths": 77,
+          "actualBirths": 61,
+          "birthsError": 16,
+          "predictedDeaths": 97.2,
+          "actualDeaths": 97,
+          "deathsError": 0.2,
+          "predictedNetMigration": 6.5,
+          "actualNetMigration": -98,
+          "netMigrationError": 104.5
+        },
+        {
+          "year": 2024,
+          "predictedPopulation": 7968,
+          "actualPopulation": 7774,
+          "populationError": 194,
+          "populationAbsPctError": 2.5,
+          "predictedBirths": 76.8,
+          "actualBirths": 69,
+          "birthsError": 7.8,
+          "predictedDeaths": 99.1,
+          "actualDeaths": 106,
+          "deathsError": -6.9,
+          "predictedNetMigration": 6.5,
+          "actualNetMigration": 26,
+          "netMigrationError": -19.5
+        }
+      ]
+    },
+    "2580": {
+      "6": [
+        {
+          "year": 2022,
+          "predictedPopulation": 79399,
+          "actualPopulation": 79244,
+          "populationError": 155,
+          "populationAbsPctError": 0.2,
+          "predictedBirths": 827.7,
+          "actualBirths": 660,
+          "birthsError": 167.7,
+          "predictedDeaths": 679.7,
+          "actualDeaths": 758,
+          "deathsError": -78.3,
+          "predictedNetMigration": 384,
+          "actualNetMigration": 424,
+          "netMigrationError": -40
+        },
+        {
+          "year": 2023,
+          "predictedPopulation": 79908,
+          "actualPopulation": 79352,
+          "populationError": 556,
+          "populationAbsPctError": 0.7,
+          "predictedBirths": 828.3,
+          "actualBirths": 655,
+          "birthsError": 173.3,
+          "predictedDeaths": 703.3,
+          "actualDeaths": 794,
+          "deathsError": -90.7,
+          "predictedNetMigration": 384,
+          "actualNetMigration": 234,
+          "netMigrationError": 150
+        },
+        {
+          "year": 2024,
+          "predictedPopulation": 80392.1,
+          "actualPopulation": 79645,
+          "populationError": 747.1,
+          "populationAbsPctError": 0.9,
+          "predictedBirths": 826.4,
+          "actualBirths": 613,
+          "birthsError": 213.4,
+          "predictedDeaths": 726.3,
+          "actualDeaths": 774,
+          "deathsError": -47.7,
+          "predictedNetMigration": 384,
+          "actualNetMigration": 455,
+          "netMigrationError": -71
+        }
+      ],
+      "10": [
+        {
+          "year": 2022,
+          "predictedPopulation": 79383.7,
+          "actualPopulation": 79244,
+          "populationError": 139.7,
+          "populationAbsPctError": 0.2,
+          "predictedBirths": 851,
+          "actualBirths": 660,
+          "birthsError": 191,
+          "predictedDeaths": 697.4,
+          "actualDeaths": 758,
+          "deathsError": -60.6,
+          "predictedNetMigration": 363.2,
+          "actualNetMigration": 424,
+          "netMigrationError": -60.8
+        },
+        {
+          "year": 2023,
+          "predictedPopulation": 79879.3,
+          "actualPopulation": 79352,
+          "populationError": 527.3,
+          "populationAbsPctError": 0.7,
+          "predictedBirths": 853.1,
+          "actualBirths": 655,
+          "birthsError": 198.1,
+          "predictedDeaths": 720.7,
+          "actualDeaths": 794,
+          "deathsError": -73.3,
+          "predictedNetMigration": 363.2,
+          "actualNetMigration": 234,
+          "netMigrationError": 129.2
+        },
+        {
+          "year": 2024,
+          "predictedPopulation": 80352.1,
+          "actualPopulation": 79645,
+          "populationError": 707.1,
+          "populationAbsPctError": 0.9,
+          "predictedBirths": 852.7,
+          "actualBirths": 613,
+          "birthsError": 239.7,
+          "predictedDeaths": 743.1,
+          "actualDeaths": 774,
+          "deathsError": -30.9,
+          "predictedNetMigration": 363.2,
+          "actualNetMigration": 455,
+          "netMigrationError": -91.8
+        }
+      ]
+    },
+    "2581": {
+      "6": [
+        {
+          "year": 2022,
+          "predictedPopulation": 42514.9,
+          "actualPopulation": 42362,
+          "populationError": 152.9,
+          "populationAbsPctError": 0.4,
+          "predictedBirths": 422.3,
+          "actualBirths": 374,
+          "birthsError": 48.3,
+          "predictedDeaths": 403.4,
+          "actualDeaths": 432,
+          "deathsError": -28.6,
+          "predictedNetMigration": 173,
+          "actualNetMigration": 91,
+          "netMigrationError": 82
+        },
+        {
+          "year": 2023,
+          "predictedPopulation": 42691.2,
+          "actualPopulation": 42344,
+          "populationError": 347.2,
+          "populationAbsPctError": 0.8,
+          "predictedBirths": 422.3,
+          "actualBirths": 367,
+          "birthsError": 55.3,
+          "predictedDeaths": 418.9,
+          "actualDeaths": 463,
+          "deathsError": -44.1,
+          "predictedNetMigration": 173,
+          "actualNetMigration": 52,
+          "netMigrationError": 121
+        },
+        {
+          "year": 2024,
+          "predictedPopulation": 42850.3,
+          "actualPopulation": 42447,
+          "populationError": 403.3,
+          "populationAbsPctError": 1,
+          "predictedBirths": 420.4,
+          "actualBirths": 340,
+          "birthsError": 80.4,
+          "predictedDeaths": 434.3,
+          "actualDeaths": 446,
+          "deathsError": -11.7,
+          "predictedNetMigration": 173,
+          "actualNetMigration": 211,
+          "netMigrationError": -38
+        }
+      ],
+      "10": [
+        {
+          "year": 2022,
+          "predictedPopulation": 42514.8,
+          "actualPopulation": 42362,
+          "populationError": 152.8,
+          "populationAbsPctError": 0.4,
+          "predictedBirths": 433.5,
+          "actualBirths": 374,
+          "birthsError": 59.5,
+          "predictedDeaths": 412,
+          "actualDeaths": 432,
+          "deathsError": -20,
+          "predictedNetMigration": 170.2,
+          "actualNetMigration": 91,
+          "netMigrationError": 79.2
+        },
+        {
+          "year": 2023,
+          "predictedPopulation": 42690.1,
+          "actualPopulation": 42344,
+          "populationError": 346.1,
+          "populationAbsPctError": 0.8,
+          "predictedBirths": 432.4,
+          "actualBirths": 367,
+          "birthsError": 65.4,
+          "predictedDeaths": 427.3,
+          "actualDeaths": 463,
+          "deathsError": -35.7,
+          "predictedNetMigration": 170.2,
+          "actualNetMigration": 52,
+          "netMigrationError": 118.2
+        },
+        {
+          "year": 2024,
+          "predictedPopulation": 42847.3,
+          "actualPopulation": 42447,
+          "populationError": 400.3,
+          "populationAbsPctError": 0.9,
+          "predictedBirths": 429.5,
+          "actualBirths": 340,
+          "birthsError": 89.5,
+          "predictedDeaths": 442.5,
+          "actualDeaths": 446,
+          "deathsError": -3.5,
+          "predictedNetMigration": 170.2,
+          "actualNetMigration": 211,
+          "netMigrationError": -40.8
+        }
+      ]
+    },
+    "2582": {
+      "6": [
+        {
+          "year": 2022,
+          "predictedPopulation": 28208,
+          "actualPopulation": 28048,
+          "populationError": 160,
+          "populationAbsPctError": 0.6,
+          "predictedBirths": 273.2,
+          "actualBirths": 245,
+          "birthsError": 28.2,
+          "predictedDeaths": 287.6,
+          "actualDeaths": 322,
+          "deathsError": -34.4,
+          "predictedNetMigration": 62.5,
+          "actualNetMigration": -47,
+          "netMigrationError": 109.5
+        },
+        {
+          "year": 2023,
+          "predictedPopulation": 28247.9,
+          "actualPopulation": 27943,
+          "populationError": 304.9,
+          "populationAbsPctError": 1.1,
+          "predictedBirths": 273.6,
+          "actualBirths": 224,
+          "birthsError": 49.6,
+          "predictedDeaths": 296.3,
+          "actualDeaths": 349,
+          "deathsError": -52.7,
+          "predictedNetMigration": 62.5,
+          "actualNetMigration": 9,
+          "netMigrationError": 53.5
+        },
+        {
+          "year": 2024,
+          "predictedPopulation": 28278.7,
+          "actualPopulation": 28049,
+          "populationError": 229.7,
+          "populationAbsPctError": 0.8,
+          "predictedBirths": 273,
+          "actualBirths": 230,
+          "birthsError": 43,
+          "predictedDeaths": 304.7,
+          "actualDeaths": 323,
+          "deathsError": -18.3,
+          "predictedNetMigration": 62.5,
+          "actualNetMigration": 204,
+          "netMigrationError": -141.5
+        }
+      ],
+      "10": [
+        {
+          "year": 2022,
+          "predictedPopulation": 28225.2,
+          "actualPopulation": 28048,
+          "populationError": 177.2,
+          "populationAbsPctError": 0.6,
+          "predictedBirths": 280.5,
+          "actualBirths": 245,
+          "birthsError": 35.5,
+          "predictedDeaths": 294.2,
+          "actualDeaths": 322,
+          "deathsError": -27.8,
+          "predictedNetMigration": 79,
+          "actualNetMigration": -47,
+          "netMigrationError": 126
+        },
+        {
+          "year": 2023,
+          "predictedPopulation": 28283.3,
+          "actualPopulation": 27943,
+          "populationError": 340.3,
+          "populationAbsPctError": 1.2,
+          "predictedBirths": 281.6,
+          "actualBirths": 224,
+          "birthsError": 57.6,
+          "predictedDeaths": 302.5,
+          "actualDeaths": 349,
+          "deathsError": -46.5,
+          "predictedNetMigration": 79,
+          "actualNetMigration": 9,
+          "netMigrationError": 70
+        },
+        {
+          "year": 2024,
+          "predictedPopulation": 28333.7,
+          "actualPopulation": 28049,
+          "populationError": 284.7,
+          "populationAbsPctError": 1,
+          "predictedBirths": 281.7,
+          "actualBirths": 230,
+          "birthsError": 51.7,
+          "predictedDeaths": 310.4,
+          "actualDeaths": 323,
+          "deathsError": -12.6,
+          "predictedNetMigration": 79,
+          "actualNetMigration": 204,
+          "netMigrationError": -125
+        }
+      ]
+    },
+    "FA_LULEA": {
+      "6": [
+        {
+          "year": 2022,
+          "predictedPopulation": 173818.9,
+          "actualPopulation": 173294,
+          "populationError": 524.9,
+          "populationAbsPctError": 0.3,
+          "predictedBirths": 1727.5,
+          "actualBirths": 1481,
+          "birthsError": 246.5,
+          "predictedDeaths": 1658.6,
+          "actualDeaths": 1878,
+          "deathsError": -219.4,
+          "predictedNetMigration": 623,
+          "actualNetMigration": 480,
+          "netMigrationError": 143
+        },
+        {
+          "year": 2023,
+          "predictedPopulation": 174455.6,
+          "actualPopulation": 172969,
+          "populationError": 1486.6,
+          "populationAbsPctError": 0.9,
+          "predictedBirths": 1728.5,
+          "actualBirths": 1417,
+          "birthsError": 311.5,
+          "predictedDeaths": 1714.8,
+          "actualDeaths": 1950,
+          "deathsError": -235.2,
+          "predictedNetMigration": 623,
+          "actualNetMigration": 144,
+          "netMigrationError": 479
+        },
+        {
+          "year": 2024,
+          "predictedPopulation": 175032.7,
+          "actualPopulation": 173306,
+          "populationError": 1726.7,
+          "populationAbsPctError": 1,
+          "predictedBirths": 1723.3,
+          "actualBirths": 1373,
+          "birthsError": 350.3,
+          "predictedDeaths": 1769.2,
+          "actualDeaths": 1865,
+          "deathsError": -95.8,
+          "predictedNetMigration": 623,
+          "actualNetMigration": 838,
+          "netMigrationError": -215
+        }
+      ],
+      "10": [
+        {
+          "year": 2022,
+          "predictedPopulation": 173823.1,
+          "actualPopulation": 173294,
+          "populationError": 529.1,
+          "populationAbsPctError": 0.3,
+          "predictedBirths": 1774.3,
+          "actualBirths": 1481,
+          "birthsError": 293.3,
+          "predictedDeaths": 1698.5,
+          "actualDeaths": 1878,
+          "deathsError": -179.5,
+          "predictedNetMigration": 620.2,
+          "actualNetMigration": 480,
+          "netMigrationError": 140.2
+        },
+        {
+          "year": 2023,
+          "predictedPopulation": 174466.3,
+          "actualPopulation": 172969,
+          "populationError": 1497.3,
+          "populationAbsPctError": 0.9,
+          "predictedBirths": 1776.4,
+          "actualBirths": 1417,
+          "birthsError": 359.4,
+          "predictedDeaths": 1753.4,
+          "actualDeaths": 1950,
+          "deathsError": -196.6,
+          "predictedNetMigration": 620.2,
+          "actualNetMigration": 144,
+          "netMigrationError": 476.2
+        },
+        {
+          "year": 2024,
+          "predictedPopulation": 175052.8,
+          "actualPopulation": 173306,
+          "populationError": 1746.8,
+          "populationAbsPctError": 1,
+          "predictedBirths": 1772.6,
+          "actualBirths": 1373,
+          "birthsError": 399.6,
+          "predictedDeaths": 1806.3,
+          "actualDeaths": 1865,
+          "deathsError": -58.7,
+          "predictedNetMigration": 620.2,
+          "actualNetMigration": 838,
+          "netMigrationError": -217.8
+        }
+      ]
+    }
+  },
+  "summary": {
+    "2514": {
+      "6": {
+        "populationMAPE": 0.6,
+        "populationMAE": 95.5,
+        "birthsMAE": 9.3,
+        "deathsMAE": 35.9,
+        "netMigrationMAE": 62.6,
+        "populationError2024": 172.6,
+        "populationAbsPctError2024": 1.1
+      },
+      "10": {
+        "populationMAPE": 0.6,
+        "populationMAE": 90.4,
+        "birthsMAE": 12.9,
+        "deathsMAE": 30.9,
+        "netMigrationMAE": 61.8,
+        "populationError2024": 161.3,
+        "populationAbsPctError2024": 1
+      }
+    },
+    "2560": {
+      "6": {
+        "populationMAPE": 1.9,
+        "populationMAE": 147.6,
+        "birthsMAE": 7,
+        "deathsMAE": 12.4,
+        "netMigrationMAE": 61.6,
+        "populationError2024": 174.6,
+        "populationAbsPctError2024": 2.2
+      },
+      "10": {
+        "populationMAPE": 2.1,
+        "populationMAE": 160.5,
+        "birthsMAE": 8.6,
+        "deathsMAE": 10.7,
+        "netMigrationMAE": 63.8,
+        "populationError2024": 194,
+        "populationAbsPctError2024": 2.5
+      }
+    },
+    "2580": {
+      "6": {
+        "populationMAPE": 0.6,
+        "populationMAE": 486,
+        "birthsMAE": 184.8,
+        "deathsMAE": 72.2,
+        "netMigrationMAE": 87,
+        "populationError2024": 747.1,
+        "populationAbsPctError2024": 0.9
+      },
+      "10": {
+        "populationMAPE": 0.6,
+        "populationMAE": 458,
+        "birthsMAE": 209.6,
+        "deathsMAE": 54.9,
+        "netMigrationMAE": 93.9,
+        "populationError2024": 707.1,
+        "populationAbsPctError2024": 0.9
+      }
+    },
+    "2581": {
+      "6": {
+        "populationMAPE": 0.7,
+        "populationMAE": 301.1,
+        "birthsMAE": 61.3,
+        "deathsMAE": 28.1,
+        "netMigrationMAE": 80.3,
+        "populationError2024": 403.3,
+        "populationAbsPctError2024": 1
+      },
+      "10": {
+        "populationMAPE": 0.7,
+        "populationMAE": 299.7,
+        "birthsMAE": 71.5,
+        "deathsMAE": 19.7,
+        "netMigrationMAE": 79.4,
+        "populationError2024": 400.3,
+        "populationAbsPctError2024": 0.9
+      }
+    },
+    "2582": {
+      "6": {
+        "populationMAPE": 0.8,
+        "populationMAE": 231.5,
+        "birthsMAE": 40.3,
+        "deathsMAE": 35.1,
+        "netMigrationMAE": 101.5,
+        "populationError2024": 229.7,
+        "populationAbsPctError2024": 0.8
+      },
+      "10": {
+        "populationMAPE": 0.9,
+        "populationMAE": 267.4,
+        "birthsMAE": 48.3,
+        "deathsMAE": 29,
+        "netMigrationMAE": 107,
+        "populationError2024": 284.7,
+        "populationAbsPctError2024": 1
+      }
+    },
+    "FA_LULEA": {
+      "6": {
+        "populationMAPE": 0.7,
+        "populationMAE": 1246.1,
+        "birthsMAE": 302.8,
+        "deathsMAE": 183.5,
+        "netMigrationMAE": 279,
+        "populationError2024": 1726.7,
+        "populationAbsPctError2024": 1
+      },
+      "10": {
+        "populationMAPE": 0.7,
+        "populationMAE": 1257.7,
+        "birthsMAE": 350.8,
+        "deathsMAE": 144.9,
+        "netMigrationMAE": 278.1,
+        "populationError2024": 1746.8,
+        "populationAbsPctError2024": 1
+      }
+    }
+  }
+}
