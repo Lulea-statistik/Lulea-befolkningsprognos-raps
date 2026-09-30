@@ -33,6 +33,12 @@ RIKET_CODE = "00"
 WINDOWS = (6, 10, 19)
 RATIO_MIN = 0.50
 RATIO_MAX = 1.50
+
+# Fallback only when an official Raps cluster/parameter is unavailable.
+# The local signal fades in smoothly with statistical information instead of
+# switching abruptly from national to municipal data.
+FADING_MAX_LOCAL_WEIGHT = 0.25
+FADING_HALF_SATURATION_EVENTS = 20.0
 CALIBRATION_END = 2024
 SEX_MAP = {"1": "M", "2": "K", "M": "M", "K": "K"}
 
@@ -172,6 +178,28 @@ def clip_ratio(value):
         return 1.0
     return max(RATIO_MIN, min(RATIO_MAX, value))
 
+def fallback_fading_weight(expected_events):
+    """Continuous national/local blend used only where Raps is underspecified.
+
+    Weight is based on expected events rather than a hard population cutoff.
+    This is especially useful for rare events such as births to very young
+    mothers: a large exposure with almost no expected events should still stay
+    close to the national profile.
+
+    At FADING_HALF_SATURATION_EVENTS the local weight is half of its maximum.
+    The weight asymptotically approaches FADING_MAX_LOCAL_WEIGHT.
+    """
+    e = max(0.0, float(expected_events or 0.0))
+    if e <= 0:
+        return 0.0
+    return FADING_MAX_LOCAL_WEIGHT * e / (e + FADING_HALF_SATURATION_EVENTS)
+
+def faded_ratio(raw_ratio, expected_events):
+    w = fallback_fading_weight(expected_events)
+    raw = 1.0 if not math.isfinite(raw_ratio) else raw_ratio
+    applied = 1.0 + w * (raw - 1.0)
+    return clip_ratio(applied), w
+
 def fertility_factor(geo, window, births, exposure):
     yrs = set(window_years(window))
     observed = 0.0
@@ -185,7 +213,8 @@ def fertility_factor(geo, window, births, exposure):
             observed += births.get((geo, year, age), 0.0)
             expected += local_women * national_rate
     raw = 1.0 if expected <= 0 else observed / expected
-    return raw, clip_ratio(raw), observed, expected
+    applied, local_weight = faded_ratio(raw, expected)
+    return raw, applied, observed, expected, local_weight
 
 def mortality_factor(geo, window, deaths, exposure):
     yrs = set(window_years(window))
@@ -201,7 +230,8 @@ def mortality_factor(geo, window, deaths, exposure):
                 observed += deaths.get((geo, year, sex, age), 0.0)
                 expected += local_pop * national_hazard
     raw = 1.0 if expected <= 0 else observed / expected
-    return raw, clip_ratio(raw), observed, expected
+    applied, local_weight = faded_ratio(raw, expected)
+    return raw, applied, observed, expected, local_weight
 
 def window_years(window):
     return range(CALIBRATION_END - window + 1, CALIBRATION_END + 1)
@@ -213,7 +243,7 @@ def mortality_profiles(deaths, exposure):
     for window in WINDOWS:
         yrs = set(window_years(window))
         for geo in geos:
-            raw_factor, applied_factor, observed, expected = mortality_factor(
+            raw_factor, applied_factor, observed, expected, local_weight = mortality_factor(
                 geo, window, deaths, exposure
             )
             factors.append({
@@ -223,6 +253,8 @@ def mortality_profiles(deaths, exposure):
                 "applied": applied_factor,
                 "observedDeaths": observed,
                 "expectedDeathsAtNationalRates": expected,
+                "fallbackLocalWeight": local_weight,
+                "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired",
             })
             for sex in ("K", "M"):
                 for age in range(101):
@@ -246,7 +278,7 @@ def fertility_profiles(births, exposure):
     for window in WINDOWS:
         yrs = set(window_years(window))
         for geo in geos:
-            raw_factor, applied_factor, observed, expected = fertility_factor(
+            raw_factor, applied_factor, observed, expected, local_weight = fertility_factor(
                 geo, window, births, exposure
             )
             factors.append({
@@ -256,6 +288,8 @@ def fertility_profiles(births, exposure):
                 "applied": applied_factor,
                 "observedBirths": observed,
                 "expectedBirthsAtNationalRates": expected,
+                "fallbackLocalWeight": local_weight,
+                "fallbackMethod": "fading toward national; used until official Raps cluster parameters are wired",
             })
             for age in range(15, 50):
                 b_riket = sum(births.get((RIKET_CODE, y, age), 0) for y in yrs)
@@ -391,7 +425,13 @@ def main():
                 "fertility": fertility_factors,
                 "mortality": mortality_factors,
                 "bounds": {"min": RATIO_MIN, "max": RATIO_MAX},
-                "method": "Observed / expected at national age-specific rates"
+                "method": "Observed / expected at national age-specific rates",
+                "fallbackFading": {
+                    "enabledOnlyWhenOfficialRapsParameterUnavailable": True,
+                    "maxLocalWeight": FADING_MAX_LOCAL_WEIGHT,
+                    "halfSaturationExpectedEvents": FADING_HALF_SATURATION_EVENTS,
+                    "formula": "w=maxLocalWeight*E/(E+halfSaturation); applied=1+w*(rawRatio-1)"
+                }
             },
             "faNetMigrationPrinciple": (
                 "Municipal net migration is summed to FA because internal "
