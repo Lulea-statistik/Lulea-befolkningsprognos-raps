@@ -42,3 +42,12 @@ Generated files:
 - data/backtests/backtest_2022_2024.json
 - data/benchmarks/scb_regional_projection_normalized.json
 - data/benchmarks/scb_model_comparison.json
+
+
+## Development-backtest status after model v1.6
+
+The 2022-2024 results were inspected before the v1.6 exposure-based fading rule was adopted. Therefore this period is no longer treated as a statistically clean holdout for evaluating that new rule.
+
+The 2022-2024 test remains useful for diagnostics and component-level error analysis, but the v1.6 fading thresholds (20 and 100 local exposure units) must not be changed in response to the rerun of the same period.
+
+A later independent validation should use a different historical forecast origin, a rolling-origin design, or genuinely future observations that were not available when the v1.6 rule was fixed.
