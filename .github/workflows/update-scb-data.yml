@@ -55,7 +55,7 @@ jobs:
       - name: Commit changed SCB and model data
         shell: bash
         run: |
-          git add data/scb_discovery.json data/raw data/model_data.json data/model_data.js data/model_validation.json data/backtests data/benchmarks
+          git add data/scb_discovery.json data/raw data/model_data.json data/model_data.js data/model_validation.json data/model_validation.js data/backtests data/benchmarks
           if git diff --cached --quiet; then
             echo "No SCB/model data changes."
             exit 0
