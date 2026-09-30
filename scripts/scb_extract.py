@@ -278,13 +278,13 @@ def download_csv(table_id: str, selection: dict[str, list[str]]) -> str:
 
 SPECS = {
     "population_2025": {"start":2025,"end":2025,"content_terms":["Folkmängd"]},
-    "mean_population_pre2025": {"start":2006,"end":2024,"include_riket":true},
+    "mean_population_pre2025": {"start":2006,"end":2024,"include_riket":True},
     "mean_population_2025": {"start":2025,"end":2025},
     "migration_pre2025": {"start":2006,"end":2024},
     "migration_2025": {"start":2025,"end":2025},
-    "births_pre2025": {"start":2006,"end":2024,"include_riket":true},
+    "births_pre2025": {"start":2006,"end":2024,"include_riket":True},
     "births_2025": {"start":2025,"end":2025},
-    "deaths_pre2025": {"start":2006,"end":2024,"include_riket":true},
+    "deaths_pre2025": {"start":2006,"end":2024,"include_riket":True},
     "deaths_2025": {"start":2025,"end":2025},
     "migration_birth_region_pre2025": {"start":2006,"end":2024},
     "migration_birth_region_2025": {"start":2025,"end":2025},
