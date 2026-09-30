@@ -37,10 +37,13 @@ jobs:
       - name: Run model tests
         run: node tests/test_model.js
 
+      - name: Build model validation report
+        run: node scripts/validate_model.js
+
       - name: Commit changed SCB and model data
         shell: bash
         run: |
-          git add data/scb_discovery.json data/raw data/model_data.json data/model_data.js
+          git add data/scb_discovery.json data/raw data/model_data.json data/model_data.js data/model_validation.json
           if git diff --cached --quiet; then
             echo "No SCB/model data changes."
             exit 0
