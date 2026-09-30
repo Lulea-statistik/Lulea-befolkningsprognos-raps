@@ -74,7 +74,7 @@ def age_value(code: str) -> int | None:
         return 100
     if c.isdigit():
         n = int(c)
-        return n if 0 <= n <= 100 else None
+        return min(n, 100) if n >= 0 else None
     if c == "49+":
         return 49
     if c == "-15":
