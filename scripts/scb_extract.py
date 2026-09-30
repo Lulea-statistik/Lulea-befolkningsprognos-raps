@@ -137,7 +137,12 @@ def build_selection(md: dict, spec: dict) -> dict[str, list[str]]:
             # components would duplicate the population.
             sel[dim_id] = ["SC"] if "SC" in vals else vals
         elif dim_id == "Fodelseregion":
-            sel[dim_id] = vals
+            if spec.get("all_birth_regions"):
+                sel[dim_id] = vals
+            elif "samt" in vals:
+                sel[dim_id] = ["samt"]
+            else:
+                sel[dim_id] = vals
         elif dim_id == "ContentsCode":
             sel[dim_id] = choose_content_codes(md, spec.get("content_terms"))
         elif dim_id == "Tid":
@@ -287,10 +292,10 @@ SPECS = {
     "births_2025": {"start":2025,"end":2025},
     "deaths_pre2025": {"start":2006,"end":2024,"include_riket":True},
     "deaths_2025": {"start":2025,"end":2025},
-    "migration_birth_region_pre2025": {"start":2006,"end":2024},
-    "migration_birth_region_2025": {"start":2025,"end":2025},
-    "raps_fertility_forecast": {"start":2024,"end":2050},
-    "raps_mortality_forecast": {"start":2024,"end":2050},
+    "migration_birth_region_pre2025": {"start":2006,"end":2024,"all_birth_regions":True},
+    "migration_birth_region_2025": {"start":2025,"end":2025,"all_birth_regions":True},
+    "raps_fertility_forecast": {"start":2024,"end":2050,"all_birth_regions":True},
+    "raps_mortality_forecast": {"start":2024,"end":2050,"all_birth_regions":True},
     "regional_forecast_benchmark": {"start":2024,"end":2050},
     "regional_flows_benchmark": {"start":2024,"end":2050},
 }
