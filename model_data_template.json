@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "schemaVersion": "0.1.0",
+    "generated": null,
+    "dataReady": false,
+    "baseYear": 2025,
+    "methodBreakYear": 2025,
+    "methodBreak": "SCB Cell Key Method (CKM)"
+  },
+  "geographies": [
+    {"code":"FA_LULEA","name":"Luleå FA","members":["2580","2582","2581","2560","2514"]},
+    {"code":"2580","name":"Luleå kommun"},
+    {"code":"2582","name":"Bodens kommun"},
+    {"code":"2581","name":"Piteå kommun"},
+    {"code":"2560","name":"Älvsbyns kommun"},
+    {"code":"2514","name":"Kalix kommun"}
+  ],
+  "calibration":{"defaultYears":10,"options":[6,10,19],"preCkmEnd":2024,"ckmStart":2025,"ckmCellDelta":3},
+  "parameters":{"qutbMode":"identity","endogenousInMigration":false,"endogenousOutMigration":false,"iflMode":"deferred","sexRatioMaleAtBirth":0.515},
+  "populationBase":[
+    {"geo":"2580","year":2025,"sex":"K","age":0,"value":0,"method":"CKM"}
+  ],
+  "fertilityRates":[
+    {"geo":"SE","year":2026,"age":25,"value":0}
+  ],
+  "mortalityRisks":[
+    {"geo":"SE","year":2026,"sex":"K","age":25,"value":0}
+  ],
+  "netMigration":[
+    {"geo":"2580","year":"BASE","sex":"K","age":25,"value":0}
+  ],
+  "diagnostics":{"ckm":[]}
+}
