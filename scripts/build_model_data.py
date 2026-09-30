@@ -407,8 +407,9 @@ def main():
             "endogenousInMigration": False,
             "endogenousOutMigration": False,
             "iflMode": "deferred",
-            "sexRatioMaleAtBirth": male_birth_share,
-            "sexRatioMaleAtBirthSource": "Observed births in the five FA municipalities, 2015-2024",
+            "sexRatioMaleAtBirth": 0.515,
+            "sexRatioMaleAtBirthSource": "Raps technical specification: 0.515 boys / 0.485 girls",
+            "observedMaleBirthShareFA2015_2024": male_birth_share,
             "relativeToNationalMethod": "General age-standardized municipality/FA ratio to Sweden",
         },
         "populationBase": [
