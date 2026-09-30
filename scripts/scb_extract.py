@@ -300,6 +300,10 @@ SPECS = {
     "migration_birth_region_2025": {"start":2025,"end":2025,"all_birth_regions":True},
     "raps_fertility_forecast": {"start":2024,"end":2050,"all_birth_regions":True},
     "raps_mortality_forecast": {"start":2024,"end":2050,"all_birth_regions":True},
+    "raps_national_detail_2024": {"start":2024,"end":2050,"all_birth_regions":True},
+    "raps_births_2024": {"start":2024,"end":2050,"all_birth_regions":True},
+    "backtest_national_detail_2021": {"start":2021,"end":2024,"all_birth_regions":True},
+    "backtest_births_2021": {"start":2021,"end":2024,"all_birth_regions":True},
     "regional_forecast_benchmark": {"start":2024,"end":2050},
     "regional_flows_benchmark": {"start":2024,"end":2050},
 }
@@ -331,6 +335,7 @@ def main():
             "path": str(path.relative_to(ROOT)),
             "rows_including_header": len(rows),
             "selection": selection,
+            "content_labels": labels((md.get("dimension") or {}).get("ContentsCode") or {}),
         }
         print(f"  {len(rows)-1} rows -> {path.relative_to(ROOT)}", file=sys.stderr)
         time.sleep(0.4)
