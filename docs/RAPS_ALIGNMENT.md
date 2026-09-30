@@ -53,3 +53,24 @@ This fading is a fallback, not a claim about official Raps. It should be bypasse
 Reference data are stored in:
 
     data/benchmarks/tillvaxtverket_raps_reference.json
+
+
+## Age-specific fading around the general municipality ratio
+
+The general municipality/FA factor remains the age-standardized observed-to-expected ratio against Sweden. Age-specific local deviations are then allowed to influence the final profile only gradually.
+
+For fertility by maternal age, and mortality by age/sex:
+
+    general_factor = observed_total / expected_total_at_national_rates
+    expected_cell = local_exposure_cell * national_rate_cell
+    w_cell = max_local_weight * expected_cell / (expected_cell + half_saturation)
+
+The base cell rate is:
+
+    national_rate_cell * general_factor
+
+and the final cell rate is:
+
+    (1 - w_cell) * base_cell_rate + w_cell * local_cell_rate
+
+Thus a rare cell such as births to 15-year-olds stays almost entirely on the national age pattern, while cells with stronger information can receive up to 25 percent direct local age-specific influence. This avoids a hard cutoff between national and municipal data while preserving the broad municipality-to-Sweden level difference.
