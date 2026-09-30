@@ -2,56 +2,101 @@
 
 HTML-baserad demografisk prognosmodell för Luleå FA och kommunerna Luleå, Boden, Piteå, Älvsbyn och Kalix.
 
+## Dashboard
+
+Gränssnittet är uppdelat i fem rapportsidor:
+
+1. **Resultat** – KPI:er, befolkningskurva, demografiska komponenter, årsresultat och SCB-benchmark.
+2. **Befolkningsanalys** – kalibreringskänslighet 6/10/19 år, kommun/Riket-faktorer, åldersstruktur och demografisk balans.
+3. **Scenario & justering** – generella demografiska multiplikatorer, bostadsbyggande och arbetsplatsetableringar.
+4. **Validering** – historisk 2022–2024-backtest och jämförelse mot SCB:s regionala framskrivning.
+5. **Metod & data** – källor, CKM-status, Raps-anpassning och fading-policy.
+
+Geografi, kalibreringsfönster och slutår är globala filter och gäller på alla sidor.
+
 ## Struktur
 
-- `index.html` – webbgränssnitt.
-- `css/style.css` – layout och tabellformat.
+- `index.html` – dashboardgränssnitt.
+- `css/style.css` – layout och rapportsidor.
 - `js/model.js` – kohortmodell, CKM-diagnostik och scenarioeffekter.
-- `js/app.js` – UI, scenariotabeller, diagram och CSV-export.
-- `data/model_data.js` – modellkonfiguration och plats för genererade data.
-- `data/model_data_template.json` – schemaexempel.
-- `data/SOURCES.md` – källförteckning.
-- `docs/METHODOLOGY.md` – metodspecifikation.
-- `scripts/scb_v2_client.py` – upptäcker aktuella SCB-tabeller via PxWebApi v2.
+- `js/app.js` – navigering, filter, diagram, scenariotabeller och valideringsvyer.
+- `data/model_data.json/js` – genererade modellindata för browser och analys.
+- `data/model_validation.json/js` – 6/10/19-årig valideringssammanställning.
+- `data/backtests/` – 2022–2024 out-of-sample-backtest.
+- `data/benchmarks/` – SCB- och Tillväxtverket/Raps-benchmarks.
+- `data/raw/` – reproducerbara SCB-uttag.
+- `docs/RAPS_ALIGNMENT.md` – Raps-prioritet, fallback-fading och anti-overfitting-regel.
+- `docs/VALIDATION.md` – benchmark- och backteststrategi.
+- `scripts/scb_extract.py` – rådatahämtning från SCB PxWebApi v2.
+- `scripts/build_model_data.py` – bygger kalibrerad modell.
+- `scripts/build_backtest_2022.py` – bygger historiskt holdout-test.
 - `tests/test_model.js` – tester av kärnformler och scenariobalans.
-- `.github/workflows/update-scb-data.yml` – månadsvis/manuell SCB-tabellupptäckt och tester.
 
 ## Modellprinciper
 
 - Basår 2025, prognos normalt till 2050.
-- `frukty`: nationell åldersprofil multiplicerad med lokal/FA-kalibreringsfaktor.
-- `drisk`: nationell ålder/kön-profil multiplicerad med lokal/FA-kalibreringsfaktor.
-- `urisk`: beräknas enligt `1-exp(-U/P)` för diagnostik/kalibrering; V1 använder exogen nettoflyttning.
-- `qutb`: identitetsmatris, alltså ingen påverkan tills riktiga övergångar läggs in.
-- `ifl` och endogena IMIG/UMIG utvecklas senare.
+- Fruktsamhet och dödlighet följer SCB 2024:s nationella framtidstrender och lokaliseras mot kommun/FA.
+- Lokal nivå skattas som observerat/förväntat mot rikets åldersprofil.
+- Där officiella Raps-parametrar saknas används en outcome-oberoende fading per ålderscell.
+- Fading: 0 % direkt lokal cellpåverkan vid lokalt underlag <=20, mjuk övergång därefter och 100 % lokal cellpåverkan vid underlag >=100.
+- Fadinggränserna är fastställda före benchmarkutvärderingen och får inte trimmas mot känt utfall.
+- `urisk`: V1 använder exogen historisk nettoflyttning; endogena IMIG/UMIG-koefficienter kommer senare.
+- `qutb`: identitetsmatris tills övergångstal läggs in.
 - Kalibreringsfönster 6, 10 (standard) och 19 år.
-- SCB-serier till och med 2024 och CKM-serier från 2025 sys ihop, men metodbrottet flaggas och CKM-känslighet beräknas.
+- CKM-metodbrottet 2025 flaggas separat.
 
 ## Bostads- och arbetsplatsscenarier
 
-Gränssnittet innehåller separata scenariotabeller för:
+Bostadsrader kan ange:
 
-- bostadsbyggande: år, kommun, antal bostäder, färdigställandegrad, beläggning, personer per bostad, andel nya till FA, intern flyttning och infasning,
-- arbetsplatsetableringar: år, kommun, planerade jobb, realiseringsgrad, andel som ger inflyttning, personer per inflyttat jobb, bosättningsandel i värdkommunen, intern flyttning och infasning.
+- kommun och år,
+- småhus eller flerbostadshus,
+- äganderätt, hyresrätt eller bostadsrätt,
+- storleksklass,
+- antal bostäder,
+- färdigställandegrad,
+- beläggning,
+- personer per bostad,
+- andel som ger nya invånare till FA,
+- intern flyttning och infasningstid.
 
-Intern flyttning är konstruerad så att den summerar till noll för hela FA-regionen. Bostads- och jobbscenarier har dessutom ett justerbart överlappsavdrag för att minska risken att samma hushåll dubbelräknas.
+Bostadstyp/upplåtelseform/storlek är ännu metadata. Personer per bostad anges explicit tills empiriska hushållsstorlekar per bostadstyp kopplas in.
 
-Exempelraderna i UI är avstängda som standard och ska betraktas som scenarioantaganden, inte prognosvärden.
+Arbetsplatsscenarier innehåller bland annat antal jobb, realiseringsgrad, andel som leder till inflyttning, personer per inflyttat jobb och bosättningsfördelning.
+
+Intern flyttning summerar till noll för hela FA-regionen. Ett justerbart överlappsavdrag minskar risken att samma hushåll dubbelräknas via både bostäder och jobb.
+
+## Validering utan resultatstyrning
+
+Modellen ska inte konstrueras om för att passa ett känt historiskt utfall. Backtest och SCB-benchmark används för att identifiera svagheter, inte för efterhandskalibrering.
+
+2022–2024-backtesten:
+
+- använder lokal information endast till och med 2021,
+- använder SCB:s 2021-prognosvintage för nationella framtidsprofiler,
+- jämför befolkning, födda, döda och nettoflyttning,
+- redovisar bland annat MAE och MAPE.
+
+SCB TAB6008 används som en separat alternativ metodbenchmark och visas även omankrad till faktisk befolkning 2025.
 
 ## GitHub Actions
 
-Workflow `Update SCB data discovery` kan köras manuellt under **Actions** och körs även den första dagen varje månad. Den:
+Workflow **Update SCB data** kan köras manuellt och månadsvis. Det:
 
-1. söker fram aktuella tabeller i SCB PxWebApi v2,
-2. sparar tabellmetadata i `data/scb_discovery.json`,
-3. kör modelltesterna,
-4. committar endast om SCB-metadata har förändrats.
+1. upptäcker SCB-tabeller,
+2. hämtar rådata,
+3. bygger modellindata,
+4. kör tester,
+5. skapar valideringsrapport,
+6. kör historisk backtest,
+7. normaliserar SCB-benchmark,
+8. jämför modellen mot SCB,
+9. committar genererade data om något har förändrats.
 
-## Nästa steg
+## Nästa modellsteg
 
-1. Kör workflowet första gången och kontrollera valda SCB-tabeller/dimensioner.
-2. Lås värdekoder för de fem kommunerna, ålder, kön, år och innehåll.
-3. Lägg till hämtning av själva statistikvärdena.
-4. Bygg `model_data.json` automatiskt med 6/10/19-åriga kalibreringar.
-5. Validera basscenariot mot SCB:s regionala befolkningsframskrivning.
-6. Byt successivt ut förenklade scenariofördelningar mot observerade flytt- och pendlingsmatriser.
+- koppla officiella Raps-kluster/parametrar där de går att få fram,
+- förbättra IMIG/UMIG och `urisk`,
+- koppla observerade pendlings-/flyttmatriser till arbetsplatsscenarier,
+- koppla empiriska personer-per-bostad-antaganden per bostadstyp/upplåtelseform/storlek,
+- lägga till delområden när stabila delområdesdata och geometrier finns.
