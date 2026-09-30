@@ -69,7 +69,12 @@ for (const geo of GEOS) {
 
 const target = path.join(ROOT,'data','benchmarks','scb_model_comparison.json');
 fs.writeFileSync(target, JSON.stringify(out,null,2)+'\n','utf8');
-console.log('Wrote data/benchmarks/scb_model_comparison.json');
+fs.writeFileSync(
+  path.join(ROOT,'data','benchmarks','scb_model_comparison.js'),
+  'window.SCB_BENCHMARK_COMPARISON = ' + JSON.stringify(out) + ';\n',
+  'utf8'
+);
+console.log('Wrote data/benchmarks/scb_model_comparison.json/js');
 for (const geo of GEOS) {
   const r = out.results[geo][10].find(x=>x.year===2050);
   console.log(`${geo} 10-year 2050: model=${r.modelPopulation}, SCB=${r.scbPopulation}, rebased SCB=${r.scbRebasedToActual2025}`);
