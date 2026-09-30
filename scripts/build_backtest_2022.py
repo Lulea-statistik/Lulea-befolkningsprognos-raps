@@ -101,6 +101,21 @@ def main():
         fertility_rates, fertility_factors = b.fertility_profiles(births, exposure)
         mortality_risks, mortality_factors = b.mortality_profiles(deaths, exposure)
 
+        future_fert, future_mort = b.national_future_profiles(
+            "backtest_national_detail_2021.csv",
+            "backtest_national_detail_2021",
+            "backtest_births_2021.csv",
+        )
+        if future_fert and future_mort:
+            fertility_rates, mortality_risks = b.extend_profiles_with_future(
+                fertility_rates, mortality_risks,
+                future_fert, future_mort,
+                start_year=2022,
+            )
+            vintage_mode = "SCB 2021 national forecast profiles"
+        else:
+            vintage_mode = "historical profiles held constant (fallback)"
+
         input_model = {
             "meta": {
                 "schemaVersion": "0.1.0-backtest",
@@ -108,7 +123,8 @@ def main():
                 "baseYear": BACKTEST_BASE_YEAR,
                 "backtestEndYear": BACKTEST_END_YEAR,
                 "calibrationEndYear": BACKTEST_BASE_YEAR,
-                "note": "Out-of-sample backtest: no information after 2021 is used in calibration."
+                "note": "Out-of-sample backtest: local calibration uses no information after 2021; national future profiles use the SCB 2021 forecast vintage.",
+                "nationalForecastVintage": vintage_mode
             },
             "geographies": [
                 {"code": b.FA_CODE, "name": "Luleå FA",
