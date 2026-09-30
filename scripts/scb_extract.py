@@ -197,12 +197,19 @@ def merge_wide_csv_chunks(chunks: list[tuple[str, dict[str, list[str]]]]) -> str
         if not fields:
             raise RuntimeError("SCB CSV response has no header.")
         rows = list(reader)
-        year_fields = [
+        selected_years = set(part.get("Tid") or [])
+        # PxWeb CSV may name value columns either as "2024" or as
+        # "<ContentsCode> 2024", e.g. "BE0101AU 2024".
+        value_fields = [
             h for h in fields
-            if h in all_selected_years or (len(h) == 4 and h.isdigit())
+            if any(h == y or h.endswith(" " + y) for y in selected_years)
         ]
-        dim_fields = [h for h in fields if h not in year_fields]
-        parsed.append((fields, dim_fields, year_fields, rows, dialect.delimiter))
+        if not value_fields:
+            raise RuntimeError(
+                f"Could not identify value/year columns in SCB CSV header: {fields!r}"
+            )
+        dim_fields = [h for h in fields if h not in value_fields]
+        parsed.append((fields, dim_fields, value_fields, rows, dialect.delimiter))
 
     base_dims = parsed[0][1]
     for _, dims, _, _, _ in parsed[1:]:
