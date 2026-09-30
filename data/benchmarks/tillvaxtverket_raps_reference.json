@@ -1,0 +1,49 @@
+{
+  "schema_version": "0.1.0",
+  "purpose": "Reference values for validating the Lulea Raps-like model. Keep exogenous Raps/SCB assumptions separate from historical Raps model-run examples.",
+  "current_raps_context": {
+    "database": "DB25",
+    "published": "2026-03-04",
+    "source": "https://tillvaxtverket.se/tillvaxtverket/statistikochanalys/statistikverktyg/regionaltanalysochprognossystemraps/aktuelltinomraps/aktuelltraps/nygrunddatabasdb25ochforbattradhandelsmodell.11758.html",
+    "note": "DB25 is the current published Raps ground-database update. The public page documents the update but does not publish a current Lulea/FA baseline forecast."
+  },
+  "primary_benchmark": {
+    "type": "Raps scenario assumption / SCB regional projection",
+    "source": "https://tillvaxtverket.se/download/18.227d35f1196ed98ed881262c/1747807082718/Scenariof%C3%B6ruts%C3%A4ttningar%202024%20%E2%80%93%202050.pdf",
+    "scenario_label": "SCB 2024 / KI24",
+    "national": {
+      "population_2024": 10577720,
+      "population_2050": 11353867,
+      "average_annual_population_change": 29852
+    },
+    "norrbotten": {
+      "population_2021": 249752,
+      "population_2050": 230171,
+      "change_2021_2050": -19581,
+      "change_pct_2021_2050": -7.8,
+      "average_annual_change_pct": -0.3
+    },
+    "use": "External benchmark. This is the SCB regional projection used as a Raps scenario reference, not an endogenous Lulea/FA Raps result."
+  },
+  "secondary_benchmark": {
+    "type": "Published Raps handbook model-run example",
+    "source": "https://tillvaxtverket.se/download/18.23bf524e18df279dd8424f9c/1710928079605/Handbok%202%20f%C3%B6r%20Raps%20-%20Flerregional%20modell.pdf",
+    "note": "Older database/scenario. Use only as a regression test of model mechanics, not as a current forecast target.",
+    "model_run_1": {
+      "sweden_population_2020": 10379267,
+      "sweden_population_2030": 10917086,
+      "norrbotten_population_2020": 249614,
+      "norrbotten_population_2030": 241971,
+      "norrbotten_average_annual_change_pct": -0.3
+    },
+    "model_run_2": {
+      "sweden_population_2030": 10917101,
+      "note": "The handbook states that total population is balanced to the SCB national forecast in this run."
+    }
+  },
+  "benchmark_policy": [
+    "Current municipality/FA forecasts should first be compared to the current SCB regional benchmark for the same geography and year.",
+    "Tillvaxtverket handbook model runs are regression references only because their database and assumptions are older.",
+    "A future licensed/exported Raps DB25 baseline for Lulea or the selected FA region should supersede all indirect benchmarks."
+  ]
+}
