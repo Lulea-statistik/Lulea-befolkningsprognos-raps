@@ -71,6 +71,8 @@ for (const geo of TARGET_GEOS) {
   }
 }
 
+const relativeFactors = data.diagnostics?.relativeFactors || {};
+
 const parameterSummary = {};
 for (const geo of TARGET_GEOS) {
   parameterSummary[geo] = {};
@@ -114,6 +116,7 @@ const report = {
     ok: Math.abs(faDifference) <= 0.5
   },
   parameterSummary,
+  relativeFactors,
   forecasts,
   warnings
 };
