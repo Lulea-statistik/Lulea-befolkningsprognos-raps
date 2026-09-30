@@ -27,4 +27,24 @@ const sum=['2580','2582','2581','2560','2514'].reduce((s,g)=>s+M.scenarioEffect(
 assert(Math.abs(fa-1000)<1e-9,'FA housing external effect');
 assert(Math.abs(sum-fa)<1e-9,'internal housing moves net to zero across municipalities');
 
-console.log('OK: model core and scenario balance tests passed');
+const windowData={
+  meta:{baseYear:2025},
+  calibration:{defaultYears:10},
+  geographies:[{code:'2580'}],
+  parameters:{sexRatioMaleAtBirth:0.5},
+  populationBase:[
+    {geo:'2580',year:2025,sex:'K',age:30,value:1000},
+    {geo:'2580',year:2025,sex:'M',age:30,value:1000}
+  ],
+  fertilityRates:[
+    {geo:'2580',window:6,age:30,value:0.10},
+    {geo:'2580',window:10,age:30,value:0.05}
+  ],
+  mortalityRisks:[],
+  netMigration:[]
+};
+const w6=M.simulate(windowData,{geo:'2580',endYear:2026,fertMult:1,mortMult:1,migMult:1,window:6,scenarios:{}})[1];
+const w10=M.simulate(windowData,{geo:'2580',endYear:2026,fertMult:1,mortMult:1,migMult:1,window:10,scenarios:{}})[1];
+assert(w6.births>w10.births,'calibration window changes projected births');
+
+console.log('OK: model core, scenario balance and calibration-window tests passed');
