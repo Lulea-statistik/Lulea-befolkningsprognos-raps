@@ -1,0 +1,596 @@
+window.SCB_BENCHMARK_COMPARISON = {
+  "schemaVersion": "0.1.0",
+  "sourceTable": "TAB6008",
+  "modelBaseYear": 2025,
+  "note": "SCB is an alternative benchmark, not a target the Raps-like model is forced to match.",
+  "results": {
+    "2514": {
+      "6": [
+        {
+          "year": 2030,
+          "modelPopulation": 14679.6,
+          "scbPopulation": 14667,
+          "scbRebasedToActual2025": 14677.4,
+          "differenceVsScb": 12.6,
+          "differenceVsScbPct": 0.1,
+          "differenceVsRebasedScb": 2.3,
+          "differenceVsRebasedScbPct": 0
+        },
+        {
+          "year": 2040,
+          "modelPopulation": 13409.7,
+          "scbPopulation": 13911,
+          "scbRebasedToActual2025": 13920.9,
+          "differenceVsScb": -501.3,
+          "differenceVsScbPct": -3.6,
+          "differenceVsRebasedScb": -511.2,
+          "differenceVsRebasedScbPct": -3.7
+        },
+        {
+          "year": 2050,
+          "modelPopulation": 12054.9,
+          "scbPopulation": 13573.3,
+          "scbRebasedToActual2025": 13582.9,
+          "differenceVsScb": -1518.4,
+          "differenceVsScbPct": -11.2,
+          "differenceVsRebasedScb": -1528,
+          "differenceVsRebasedScbPct": -11.2
+        }
+      ],
+      "10": [
+        {
+          "year": 2030,
+          "modelPopulation": 14757.7,
+          "scbPopulation": 14667,
+          "scbRebasedToActual2025": 14677.4,
+          "differenceVsScb": 90.7,
+          "differenceVsScbPct": 0.6,
+          "differenceVsRebasedScb": 80.4,
+          "differenceVsRebasedScbPct": 0.5
+        },
+        {
+          "year": 2040,
+          "modelPopulation": 13709,
+          "scbPopulation": 13911,
+          "scbRebasedToActual2025": 13920.9,
+          "differenceVsScb": -202,
+          "differenceVsScbPct": -1.5,
+          "differenceVsRebasedScb": -211.9,
+          "differenceVsRebasedScbPct": -1.5
+        },
+        {
+          "year": 2050,
+          "modelPopulation": 12653.3,
+          "scbPopulation": 13573.3,
+          "scbRebasedToActual2025": 13582.9,
+          "differenceVsScb": -920,
+          "differenceVsScbPct": -6.8,
+          "differenceVsRebasedScb": -929.6,
+          "differenceVsRebasedScbPct": -6.8
+        }
+      ],
+      "19": [
+        {
+          "year": 2030,
+          "modelPopulation": 14613.9,
+          "scbPopulation": 14667,
+          "scbRebasedToActual2025": 14677.4,
+          "differenceVsScb": -53.1,
+          "differenceVsScbPct": -0.4,
+          "differenceVsRebasedScb": -63.5,
+          "differenceVsRebasedScbPct": -0.4
+        },
+        {
+          "year": 2040,
+          "modelPopulation": 13192.1,
+          "scbPopulation": 13911,
+          "scbRebasedToActual2025": 13920.9,
+          "differenceVsScb": -719,
+          "differenceVsScbPct": -5.2,
+          "differenceVsRebasedScb": -728.8,
+          "differenceVsRebasedScbPct": -5.2
+        },
+        {
+          "year": 2050,
+          "modelPopulation": 11647.1,
+          "scbPopulation": 13573.3,
+          "scbRebasedToActual2025": 13582.9,
+          "differenceVsScb": -1926.2,
+          "differenceVsScbPct": -14.2,
+          "differenceVsRebasedScb": -1935.8,
+          "differenceVsRebasedScbPct": -14.3
+        }
+      ]
+    },
+    "2560": {
+      "6": [
+        {
+          "year": 2030,
+          "modelPopulation": 7539.4,
+          "scbPopulation": 7268.3,
+          "scbRebasedToActual2025": 7500.5,
+          "differenceVsScb": 271.2,
+          "differenceVsScbPct": 3.7,
+          "differenceVsRebasedScb": 39,
+          "differenceVsRebasedScbPct": 0.5
+        },
+        {
+          "year": 2040,
+          "modelPopulation": 6843.4,
+          "scbPopulation": 6819.7,
+          "scbRebasedToActual2025": 7037.5,
+          "differenceVsScb": 23.7,
+          "differenceVsScbPct": 0.3,
+          "differenceVsRebasedScb": -194.1,
+          "differenceVsRebasedScbPct": -2.8
+        },
+        {
+          "year": 2050,
+          "modelPopulation": 6093.4,
+          "scbPopulation": 6594.9,
+          "scbRebasedToActual2025": 6805.6,
+          "differenceVsScb": -501.5,
+          "differenceVsScbPct": -7.6,
+          "differenceVsRebasedScb": -712.2,
+          "differenceVsRebasedScbPct": -10.5
+        }
+      ],
+      "10": [
+        {
+          "year": 2030,
+          "modelPopulation": 7640.9,
+          "scbPopulation": 7268.3,
+          "scbRebasedToActual2025": 7500.5,
+          "differenceVsScb": 372.6,
+          "differenceVsScbPct": 5.1,
+          "differenceVsRebasedScb": 140.5,
+          "differenceVsRebasedScbPct": 1.9
+        },
+        {
+          "year": 2040,
+          "modelPopulation": 7158.7,
+          "scbPopulation": 6819.7,
+          "scbRebasedToActual2025": 7037.5,
+          "differenceVsScb": 339.1,
+          "differenceVsScbPct": 5,
+          "differenceVsRebasedScb": 121.2,
+          "differenceVsRebasedScbPct": 1.7
+        },
+        {
+          "year": 2050,
+          "modelPopulation": 6652.2,
+          "scbPopulation": 6594.9,
+          "scbRebasedToActual2025": 6805.6,
+          "differenceVsScb": 57.3,
+          "differenceVsScbPct": 0.9,
+          "differenceVsRebasedScb": -153.4,
+          "differenceVsRebasedScbPct": -2.3
+        }
+      ],
+      "19": [
+        {
+          "year": 2030,
+          "modelPopulation": 7608.6,
+          "scbPopulation": 7268.3,
+          "scbRebasedToActual2025": 7500.5,
+          "differenceVsScb": 340.3,
+          "differenceVsScbPct": 4.7,
+          "differenceVsRebasedScb": 108.1,
+          "differenceVsRebasedScbPct": 1.4
+        },
+        {
+          "year": 2040,
+          "modelPopulation": 7032.8,
+          "scbPopulation": 6819.7,
+          "scbRebasedToActual2025": 7037.5,
+          "differenceVsScb": 213.1,
+          "differenceVsScbPct": 3.1,
+          "differenceVsRebasedScb": -4.7,
+          "differenceVsRebasedScbPct": -0.1
+        },
+        {
+          "year": 2050,
+          "modelPopulation": 6415.9,
+          "scbPopulation": 6594.9,
+          "scbRebasedToActual2025": 6805.6,
+          "differenceVsScb": -179,
+          "differenceVsScbPct": -2.7,
+          "differenceVsRebasedScb": -389.7,
+          "differenceVsRebasedScbPct": -5.7
+        }
+      ]
+    },
+    "2580": {
+      "6": [
+        {
+          "year": 2030,
+          "modelPopulation": 81623.5,
+          "scbPopulation": 79356.7,
+          "scbRebasedToActual2025": 80292.8,
+          "differenceVsScb": 2266.8,
+          "differenceVsScbPct": 2.9,
+          "differenceVsRebasedScb": 1330.7,
+          "differenceVsRebasedScbPct": 1.7
+        },
+        {
+          "year": 2040,
+          "modelPopulation": 83975.6,
+          "scbPopulation": 79444,
+          "scbRebasedToActual2025": 80381.1,
+          "differenceVsScb": 4531.6,
+          "differenceVsScbPct": 5.7,
+          "differenceVsRebasedScb": 3594.5,
+          "differenceVsRebasedScbPct": 4.5
+        },
+        {
+          "year": 2050,
+          "modelPopulation": 86215.4,
+          "scbPopulation": 79614.4,
+          "scbRebasedToActual2025": 80553.5,
+          "differenceVsScb": 6601.1,
+          "differenceVsScbPct": 8.3,
+          "differenceVsRebasedScb": 5662,
+          "differenceVsRebasedScbPct": 7
+        }
+      ],
+      "10": [
+        {
+          "year": 2030,
+          "modelPopulation": 81765.1,
+          "scbPopulation": 79356.7,
+          "scbRebasedToActual2025": 80292.8,
+          "differenceVsScb": 2408.4,
+          "differenceVsScbPct": 3,
+          "differenceVsRebasedScb": 1472.3,
+          "differenceVsRebasedScbPct": 1.8
+        },
+        {
+          "year": 2040,
+          "modelPopulation": 84251.7,
+          "scbPopulation": 79444,
+          "scbRebasedToActual2025": 80381.1,
+          "differenceVsScb": 4807.7,
+          "differenceVsScbPct": 6.1,
+          "differenceVsRebasedScb": 3870.6,
+          "differenceVsRebasedScbPct": 4.8
+        },
+        {
+          "year": 2050,
+          "modelPopulation": 86471.5,
+          "scbPopulation": 79614.4,
+          "scbRebasedToActual2025": 80553.5,
+          "differenceVsScb": 6857.1,
+          "differenceVsScbPct": 8.6,
+          "differenceVsRebasedScb": 5918,
+          "differenceVsRebasedScbPct": 7.3
+        }
+      ],
+      "19": [
+        {
+          "year": 2030,
+          "modelPopulation": 81502.3,
+          "scbPopulation": 79356.7,
+          "scbRebasedToActual2025": 80292.8,
+          "differenceVsScb": 2145.6,
+          "differenceVsScbPct": 2.7,
+          "differenceVsRebasedScb": 1209.5,
+          "differenceVsRebasedScbPct": 1.5
+        },
+        {
+          "year": 2040,
+          "modelPopulation": 83314.3,
+          "scbPopulation": 79444,
+          "scbRebasedToActual2025": 80381.1,
+          "differenceVsScb": 3870.3,
+          "differenceVsScbPct": 4.9,
+          "differenceVsRebasedScb": 2933.2,
+          "differenceVsRebasedScbPct": 3.6
+        },
+        {
+          "year": 2050,
+          "modelPopulation": 84731.3,
+          "scbPopulation": 79614.4,
+          "scbRebasedToActual2025": 80553.5,
+          "differenceVsScb": 5117,
+          "differenceVsScbPct": 6.4,
+          "differenceVsRebasedScb": 4177.8,
+          "differenceVsRebasedScbPct": 5.2
+        }
+      ]
+    },
+    "2581": {
+      "6": [
+        {
+          "year": 2030,
+          "modelPopulation": 42306.8,
+          "scbPopulation": 41509.8,
+          "scbRebasedToActual2025": 41610.6,
+          "differenceVsScb": 797,
+          "differenceVsScbPct": 1.9,
+          "differenceVsRebasedScb": 696.2,
+          "differenceVsRebasedScbPct": 1.7
+        },
+        {
+          "year": 2040,
+          "modelPopulation": 42034.1,
+          "scbPopulation": 40489,
+          "scbRebasedToActual2025": 40587.3,
+          "differenceVsScb": 1545.1,
+          "differenceVsScbPct": 3.8,
+          "differenceVsRebasedScb": 1446.8,
+          "differenceVsRebasedScbPct": 3.6
+        },
+        {
+          "year": 2050,
+          "modelPopulation": 41802.2,
+          "scbPopulation": 40179.4,
+          "scbRebasedToActual2025": 40276.9,
+          "differenceVsScb": 1622.8,
+          "differenceVsScbPct": 4,
+          "differenceVsRebasedScb": 1525.3,
+          "differenceVsRebasedScbPct": 3.8
+        }
+      ],
+      "10": [
+        {
+          "year": 2030,
+          "modelPopulation": 42402,
+          "scbPopulation": 41509.8,
+          "scbRebasedToActual2025": 41610.6,
+          "differenceVsScb": 892.1,
+          "differenceVsScbPct": 2.1,
+          "differenceVsRebasedScb": 791.4,
+          "differenceVsRebasedScbPct": 1.9
+        },
+        {
+          "year": 2040,
+          "modelPopulation": 42258,
+          "scbPopulation": 40489,
+          "scbRebasedToActual2025": 40587.3,
+          "differenceVsScb": 1769,
+          "differenceVsScbPct": 4.4,
+          "differenceVsRebasedScb": 1670.7,
+          "differenceVsRebasedScbPct": 4.1
+        },
+        {
+          "year": 2050,
+          "modelPopulation": 42178.9,
+          "scbPopulation": 40179.4,
+          "scbRebasedToActual2025": 40276.9,
+          "differenceVsScb": 1999.5,
+          "differenceVsScbPct": 5,
+          "differenceVsRebasedScb": 1902,
+          "differenceVsRebasedScbPct": 4.7
+        }
+      ],
+      "19": [
+        {
+          "year": 2030,
+          "modelPopulation": 42204.8,
+          "scbPopulation": 41509.8,
+          "scbRebasedToActual2025": 41610.6,
+          "differenceVsScb": 695,
+          "differenceVsScbPct": 1.7,
+          "differenceVsRebasedScb": 594.2,
+          "differenceVsRebasedScbPct": 1.4
+        },
+        {
+          "year": 2040,
+          "modelPopulation": 41569.2,
+          "scbPopulation": 40489,
+          "scbRebasedToActual2025": 40587.3,
+          "differenceVsScb": 1080.1,
+          "differenceVsScbPct": 2.7,
+          "differenceVsRebasedScb": 981.9,
+          "differenceVsRebasedScbPct": 2.4
+        },
+        {
+          "year": 2050,
+          "modelPopulation": 40936.4,
+          "scbPopulation": 40179.4,
+          "scbRebasedToActual2025": 40276.9,
+          "differenceVsScb": 756.9,
+          "differenceVsScbPct": 1.9,
+          "differenceVsRebasedScb": 659.4,
+          "differenceVsRebasedScbPct": 1.6
+        }
+      ]
+    },
+    "2582": {
+      "6": [
+        {
+          "year": 2030,
+          "modelPopulation": 28581.2,
+          "scbPopulation": 27134.9,
+          "scbRebasedToActual2025": 28096.2,
+          "differenceVsScb": 1446.3,
+          "differenceVsScbPct": 5.3,
+          "differenceVsRebasedScb": 485,
+          "differenceVsRebasedScbPct": 1.7
+        },
+        {
+          "year": 2040,
+          "modelPopulation": 28099.8,
+          "scbPopulation": 26389.6,
+          "scbRebasedToActual2025": 27324.5,
+          "differenceVsScb": 1710.2,
+          "differenceVsScbPct": 6.5,
+          "differenceVsRebasedScb": 775.2,
+          "differenceVsRebasedScbPct": 2.8
+        },
+        {
+          "year": 2050,
+          "modelPopulation": 27537.5,
+          "scbPopulation": 25976.3,
+          "scbRebasedToActual2025": 26896.6,
+          "differenceVsScb": 1561.3,
+          "differenceVsScbPct": 6,
+          "differenceVsRebasedScb": 641,
+          "differenceVsRebasedScbPct": 2.4
+        }
+      ],
+      "10": [
+        {
+          "year": 2030,
+          "modelPopulation": 28600.6,
+          "scbPopulation": 27134.9,
+          "scbRebasedToActual2025": 28096.2,
+          "differenceVsScb": 1465.8,
+          "differenceVsScbPct": 5.4,
+          "differenceVsRebasedScb": 504.4,
+          "differenceVsRebasedScbPct": 1.8
+        },
+        {
+          "year": 2040,
+          "modelPopulation": 28120.5,
+          "scbPopulation": 26389.6,
+          "scbRebasedToActual2025": 27324.5,
+          "differenceVsScb": 1730.9,
+          "differenceVsScbPct": 6.6,
+          "differenceVsRebasedScb": 796,
+          "differenceVsRebasedScbPct": 2.9
+        },
+        {
+          "year": 2050,
+          "modelPopulation": 27503.9,
+          "scbPopulation": 25976.3,
+          "scbRebasedToActual2025": 26896.6,
+          "differenceVsScb": 1527.6,
+          "differenceVsScbPct": 5.9,
+          "differenceVsRebasedScb": 607.3,
+          "differenceVsRebasedScbPct": 2.3
+        }
+      ],
+      "19": [
+        {
+          "year": 2030,
+          "modelPopulation": 28461.2,
+          "scbPopulation": 27134.9,
+          "scbRebasedToActual2025": 28096.2,
+          "differenceVsScb": 1326.3,
+          "differenceVsScbPct": 4.9,
+          "differenceVsRebasedScb": 365,
+          "differenceVsRebasedScbPct": 1.3
+        },
+        {
+          "year": 2040,
+          "modelPopulation": 27669,
+          "scbPopulation": 26389.6,
+          "scbRebasedToActual2025": 27324.5,
+          "differenceVsScb": 1279.4,
+          "differenceVsScbPct": 4.8,
+          "differenceVsRebasedScb": 344.5,
+          "differenceVsRebasedScbPct": 1.3
+        },
+        {
+          "year": 2050,
+          "modelPopulation": 26647,
+          "scbPopulation": 25976.3,
+          "scbRebasedToActual2025": 26896.6,
+          "differenceVsScb": 670.7,
+          "differenceVsScbPct": 2.6,
+          "differenceVsRebasedScb": -249.5,
+          "differenceVsRebasedScbPct": -0.9
+        }
+      ]
+    },
+    "FA_LULEA": {
+      "6": [
+        {
+          "year": 2030,
+          "modelPopulation": 174747.3,
+          "scbPopulation": 169936.6,
+          "scbRebasedToActual2025": 172181.7,
+          "differenceVsScb": 4810.7,
+          "differenceVsScbPct": 2.8,
+          "differenceVsRebasedScb": 2565.6,
+          "differenceVsRebasedScbPct": 1.5
+        },
+        {
+          "year": 2040,
+          "modelPopulation": 174454.4,
+          "scbPopulation": 167053.3,
+          "scbRebasedToActual2025": 169260.3,
+          "differenceVsScb": 7401.1,
+          "differenceVsScbPct": 4.4,
+          "differenceVsRebasedScb": 5194.1,
+          "differenceVsRebasedScbPct": 3.1
+        },
+        {
+          "year": 2050,
+          "modelPopulation": 173871.8,
+          "scbPopulation": 165938.3,
+          "scbRebasedToActual2025": 168130.5,
+          "differenceVsScb": 7933.6,
+          "differenceVsScbPct": 4.8,
+          "differenceVsRebasedScb": 5741.3,
+          "differenceVsRebasedScbPct": 3.4
+        }
+      ],
+      "10": [
+        {
+          "year": 2030,
+          "modelPopulation": 175170.8,
+          "scbPopulation": 169936.6,
+          "scbRebasedToActual2025": 172181.7,
+          "differenceVsScb": 5234.2,
+          "differenceVsScbPct": 3.1,
+          "differenceVsRebasedScb": 2989.1,
+          "differenceVsRebasedScbPct": 1.7
+        },
+        {
+          "year": 2040,
+          "modelPopulation": 175531.1,
+          "scbPopulation": 167053.3,
+          "scbRebasedToActual2025": 169260.3,
+          "differenceVsScb": 8477.8,
+          "differenceVsScbPct": 5.1,
+          "differenceVsRebasedScb": 6270.9,
+          "differenceVsRebasedScbPct": 3.7
+        },
+        {
+          "year": 2050,
+          "modelPopulation": 175512.9,
+          "scbPopulation": 165938.3,
+          "scbRebasedToActual2025": 168130.5,
+          "differenceVsScb": 9574.6,
+          "differenceVsScbPct": 5.8,
+          "differenceVsRebasedScb": 7382.3,
+          "differenceVsRebasedScbPct": 4.4
+        }
+      ],
+      "19": [
+        {
+          "year": 2030,
+          "modelPopulation": 174393.8,
+          "scbPopulation": 169936.6,
+          "scbRebasedToActual2025": 172181.7,
+          "differenceVsScb": 4457.2,
+          "differenceVsScbPct": 2.6,
+          "differenceVsRebasedScb": 2212.1,
+          "differenceVsRebasedScbPct": 1.3
+        },
+        {
+          "year": 2040,
+          "modelPopulation": 172800.2,
+          "scbPopulation": 167053.3,
+          "scbRebasedToActual2025": 169260.3,
+          "differenceVsScb": 5746.9,
+          "differenceVsScbPct": 3.4,
+          "differenceVsRebasedScb": 3539.9,
+          "differenceVsRebasedScbPct": 2.1
+        },
+        {
+          "year": 2050,
+          "modelPopulation": 170416.7,
+          "scbPopulation": 165938.3,
+          "scbRebasedToActual2025": 168130.5,
+          "differenceVsScb": 4478.5,
+          "differenceVsScbPct": 2.7,
+          "differenceVsRebasedScb": 2286.2,
+          "differenceVsRebasedScbPct": 1.4
+        }
+      ]
+    }
+  }
+};
