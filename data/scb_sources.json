@@ -1,23 +1,101 @@
 {
-  "schema_version": "0.1.0",
-  "note": "Explicit SCB PxWebApi v2 table IDs verified for the Luleå rAps-like model. Discovery remains as a diagnostic, but production extraction should use these IDs until a deliberate source update is made.",
+  "schema_version": "0.2.0",
+  "note": "Explicit SCB PxWebApi v2 table IDs verified for the Luleå rAps-like model. Production extraction uses these IDs. TAB5958 and TAB5959 are used to derive aggregate national future age profiles, which are then scaled by municipality/FA historical ratios.",
   "tables": {
-    "population_pre2025": {"id":"TAB638","period":"1968-2024","purpose":"historical population by region, marital status, age and sex"},
-    "population_2025": {"id":"TAB5557","period":"2025","purpose":"base-year population, CKM"},
-    "mean_population_pre2025": {"id":"TAB2818","period":"2006-2024","purpose":"historical exposure population by birth-year age and sex"},
-    "mean_population_2025": {"id":"TAB6758","period":"2025","purpose":"exposure population, CKM"},
-    "migration_pre2025": {"id":"TAB1212","period":"1997-2024","purpose":"historical migration by region, age and sex"},
-    "migration_2025": {"id":"TAB6640","period":"2025","purpose":"migration by region, age and sex, CKM"},
-    "births_pre2025": {"id":"TAB1264","period":"1968-2024","purpose":"births by region, mother's age and child's sex"},
-    "births_2025": {"id":"TAB6401","period":"2025","purpose":"births, CKM"},
-    "deaths_pre2025": {"id":"TAB959","period":"1968-2024","purpose":"deaths by region, birth-year age and sex"},
-    "deaths_2025": {"id":"TAB6756","period":"2025","purpose":"deaths, CKM"},
-    "migration_birth_region_pre2025": {"id":"TAB4693","period":"2002-2024","purpose":"migration profile by birth region, region, age and sex"},
-    "migration_birth_region_2025": {"id":"TAB6657","period":"2025","purpose":"migration profile by birth region, CKM"},
-    "fertility_forecast": {"id":"TAB5963","period":"2026-2120","purpose":"national age-specific fertility assumptions"},
-    "mortality_forecast": {"id":"TAB5962","period":"2026-2120","purpose":"national mortality assumptions by birth region, sex and age"},
-    "national_population_forecast": {"id":"TAB5974","period":"2026-2120","purpose":"national population forecast"},
-    "regional_forecast_benchmark": {"id":"TAB6008","period":"2024-2070","purpose":"SCB regional population benchmark; not an input to the rAps-like base model"},
-    "regional_flows_benchmark": {"id":"TAB698","period":"2024-2070","purpose":"SCB regional births, deaths and migration benchmark"}
+    "population_pre2025": {
+      "id": "TAB638",
+      "period": "1968-2024",
+      "purpose": "historical population by region, marital status, age and sex"
+    },
+    "population_2025": {
+      "id": "TAB5557",
+      "period": "2025",
+      "purpose": "base-year population, CKM"
+    },
+    "mean_population_pre2025": {
+      "id": "TAB2818",
+      "period": "2006-2024",
+      "purpose": "historical exposure population by birth-year age and sex"
+    },
+    "mean_population_2025": {
+      "id": "TAB6758",
+      "period": "2025",
+      "purpose": "exposure population, CKM"
+    },
+    "migration_pre2025": {
+      "id": "TAB1212",
+      "period": "1997-2024",
+      "purpose": "historical migration by region, age and sex"
+    },
+    "migration_2025": {
+      "id": "TAB6640",
+      "period": "2025",
+      "purpose": "migration by region, age and sex, CKM"
+    },
+    "births_pre2025": {
+      "id": "TAB1264",
+      "period": "1968-2024",
+      "purpose": "births by region, mother's age and child's sex"
+    },
+    "births_2025": {
+      "id": "TAB6401",
+      "period": "2025",
+      "purpose": "births, CKM"
+    },
+    "deaths_pre2025": {
+      "id": "TAB959",
+      "period": "1968-2024",
+      "purpose": "deaths by region, birth-year age and sex"
+    },
+    "deaths_2025": {
+      "id": "TAB6756",
+      "period": "2025",
+      "purpose": "deaths, CKM"
+    },
+    "migration_birth_region_pre2025": {
+      "id": "TAB4693",
+      "period": "2002-2024",
+      "purpose": "migration profile by birth region, region, age and sex"
+    },
+    "migration_birth_region_2025": {
+      "id": "TAB6657",
+      "period": "2025",
+      "purpose": "migration profile by birth region, CKM"
+    },
+    "fertility_forecast": {
+      "id": "TAB5963",
+      "period": "2026-2120",
+      "purpose": "national age-specific fertility assumptions"
+    },
+    "mortality_forecast": {
+      "id": "TAB5962",
+      "period": "2026-2120",
+      "purpose": "national mortality assumptions by birth region, sex and age"
+    },
+    "national_population_forecast": {
+      "id": "TAB5974",
+      "period": "2026-2120",
+      "purpose": "national population forecast"
+    },
+    "regional_forecast_benchmark": {
+      "id": "TAB6008",
+      "period": "2024-2070",
+      "purpose": "SCB regional population benchmark; not an input to the rAps-like base model"
+    },
+    "regional_flows_benchmark": {
+      "id": "TAB698",
+      "period": "2024-2070",
+      "purpose": "SCB regional births, deaths and migration benchmark"
+    },
+    "national_forecast_detail": {
+      "id": "TAB5958",
+      "period": "2026-2120",
+      "purpose": "national forecast deaths, immigration, emigration and mean population by birth region, sex and age"
+    },
+    "national_forecast_births": {
+      "id": "TAB5959",
+      "period": "2026-2120",
+      "purpose": "national forecast births by mother's birth region and age"
+    }
   }
 }
