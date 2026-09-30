@@ -4,7 +4,7 @@
     "population_2025": {
       "table_id": "TAB5557",
       "path": "data/raw/population_2025.csv",
-      "rows_including_header": 5001,
+      "rows_including_header": 1011,
       "selection": {
         "Region": [
           "2580",
@@ -14,11 +14,7 @@
           "2514"
         ],
         "Civilstand": [
-          "SC",
-          "OG",
-          "G",
-          "SK",
-          "ÄNKL"
+          "SC"
         ],
         "Alder": [
           "0",
@@ -120,7 +116,8 @@
           "96",
           "97",
           "98",
-          "99"
+          "99",
+          "100+1"
         ],
         "Kon": [
           "1",
@@ -282,7 +279,7 @@
     "mean_population_2025": {
       "table_id": "TAB6758",
       "path": "data/raw/mean_population_2025.csv",
-      "rows_including_header": 1001,
+      "rows_including_header": 1011,
       "selection": {
         "Region": [
           "2580",
@@ -391,7 +388,8 @@
           "96",
           "97",
           "98",
-          "99"
+          "99",
+          "100+1"
         ],
         "Kon": [
           "1",
@@ -561,7 +559,7 @@
     "migration_2025": {
       "table_id": "TAB6640",
       "path": "data/raw/migration_2025.csv",
-      "rows_including_header": 1001,
+      "rows_including_header": 1011,
       "selection": {
         "Region": [
           "2580",
@@ -670,7 +668,8 @@
           "96",
           "97",
           "98",
-          "99"
+          "99",
+          "100+1"
         ],
         "Kon": [
           "1",
@@ -695,7 +694,7 @@
     "births_pre2025": {
       "table_id": "TAB1264",
       "path": "data/raw/births_pre2025.csv",
-      "rows_including_header": 371,
+      "rows_including_header": 351,
       "selection": {
         "Region": [
           "2580",
@@ -705,7 +704,6 @@
           "2514"
         ],
         "AlderModer": [
-          "-14",
           "15",
           "16",
           "17",
@@ -740,8 +738,7 @@
           "46",
           "47",
           "48",
-          "49+",
-          "us"
+          "49+"
         ],
         "Kon": [
           "1",
@@ -776,7 +773,7 @@
     "births_2025": {
       "table_id": "TAB6401",
       "path": "data/raw/births_2025.csv",
-      "rows_including_header": 561,
+      "rows_including_header": 351,
       "selection": {
         "Region": [
           "2580",
@@ -786,62 +783,41 @@
           "2514"
         ],
         "AlderModer": [
-          "-1410",
-          "-145",
-          "TotSA",
-          "-14",
           "15",
-          "15-19",
-          "15-24",
           "16",
           "17",
           "18",
           "19",
           "20",
-          "20-24",
           "21",
           "22",
           "23",
           "24",
           "25",
-          "25-29",
-          "25-34",
           "26",
           "27",
           "28",
           "29",
           "30",
-          "30-34",
           "31",
           "32",
           "33",
           "34",
           "35",
-          "35-39",
-          "35-44",
           "36",
           "37",
           "38",
           "39",
           "40",
-          "40-44",
           "41",
           "42",
           "43",
           "44",
           "45",
-          "45+10",
-          "45+5",
           "46",
           "47",
           "48",
-          "49+",
-          "TOT1",
-          "TOT10",
-          "TOT5",
-          "us",
-          "US10",
-          "US5"
+          "49+"
         ],
         "Kon": [
           "1",
@@ -1003,7 +979,7 @@
     "deaths_2025": {
       "table_id": "TAB6756",
       "path": "data/raw/deaths_2025.csv",
-      "rows_including_header": 1001,
+      "rows_including_header": 1011,
       "selection": {
         "Region": [
           "2580",
@@ -1112,7 +1088,8 @@
           "96",
           "97",
           "98",
-          "99"
+          "99",
+          "100+1"
         ],
         "Kon": [
           "1",
@@ -1289,7 +1266,7 @@
     "migration_birth_region_2025": {
       "table_id": "TAB6657",
       "path": "data/raw/migration_birth_region_2025.csv",
-      "rows_including_header": 3001,
+      "rows_including_header": 3031,
       "selection": {
         "Region": [
           "2580",
@@ -1398,7 +1375,8 @@
           "96",
           "97",
           "98",
-          "99"
+          "99",
+          "100+1"
         ],
         "Kon": [
           "1",
