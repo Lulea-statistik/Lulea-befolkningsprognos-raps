@@ -277,6 +277,7 @@ def download_csv(table_id: str, selection: dict[str, list[str]]) -> str:
     return merge_wide_csv_chunks(chunks)
 
 SPECS = {
+    "population_pre2025": {"start":2006,"end":2024,"content_terms":["Folkmängd"]},
     "population_2025": {"start":2025,"end":2025,"content_terms":["Folkmängd"]},
     "mean_population_pre2025": {"start":2006,"end":2024,"include_riket":True},
     "mean_population_2025": {"start":2025,"end":2025},
@@ -290,6 +291,8 @@ SPECS = {
     "migration_birth_region_2025": {"start":2025,"end":2025},
     "raps_fertility_forecast": {"start":2024,"end":2050},
     "raps_mortality_forecast": {"start":2024,"end":2050},
+    "regional_forecast_benchmark": {"start":2024,"end":2050},
+    "regional_flows_benchmark": {"start":2024,"end":2050},
 }
 
 def main():
