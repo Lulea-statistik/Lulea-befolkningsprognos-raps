@@ -25,6 +25,12 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Validate Python syntax
+        run: python -m py_compile scripts/*.py
+
+      - name: Test fading policy
+        run: python tests/test_fading.py
+
       - name: Discover current SCB PxWeb tables
         run: python scripts/scb_v2_client.py --out data/scb_discovery.json
 
