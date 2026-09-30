@@ -77,6 +77,8 @@ def age_value(code: str) -> int | None:
         return n if 0 <= n <= 100 else None
     if c == "49+":
         return 49
+    if c == "-15":
+        return 15
     return None
 
 def value_columns(fieldnames, content_codes=None):
@@ -91,6 +93,114 @@ def value_columns(fieldnames, content_codes=None):
             continue
         out.append((h, code, year))
     return out
+
+def manifest():
+    path = RAW / "manifest.json"
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {"files": {}}
+
+def content_code_for(file_key: str, label_term: str) -> str | None:
+    info = manifest().get("files", {}).get(file_key, {})
+    labels_map = info.get("content_labels", {})
+    term = label_term.lower()
+    for code, label in labels_map.items():
+        if term in str(label).lower():
+            return code
+    return None
+
+def load_forecast_birth_counts(filename: str):
+    """Aggregate national projected births across mother's birth regions by age/year."""
+    path = RAW / filename
+    out = defaultdict(float)
+    if not path.exists():
+        return out
+    for r in rows(path):
+        age = age_value(r.get("Alder", ""))
+        if age is None or not (15 <= age <= 49):
+            continue
+        for col, _, year in value_columns(r.keys()):
+            out[(year, age)] += num(r[col])
+    return out
+
+def load_forecast_detail(filename: str, file_key: str):
+    """Aggregate projected deaths and mean population across birth regions."""
+    path = RAW / filename
+    deaths = defaultdict(float)
+    exposure = defaultdict(float)
+    if not path.exists():
+        return deaths, exposure
+    death_code = content_code_for(file_key, "döda")
+    mean_code = content_code_for(file_key, "medelfolkmängd")
+    if not death_code or not mean_code:
+        raise RuntimeError(
+            f"Could not identify Döda/Medelfolkmängd content codes for {file_key}."
+        )
+    for r in rows(path):
+        age = age_value(r.get("Alder", ""))
+        sex = SEX_MAP.get(r.get("Kon", ""))
+        if age is None or not sex:
+            continue
+        for col, code, year in value_columns(r.keys(), {death_code, mean_code}):
+            if code == death_code:
+                deaths[(year, sex, age)] += num(r[col])
+            elif code == mean_code:
+                exposure[(year, sex, age)] += num(r[col])
+    return deaths, exposure
+
+def national_future_profiles(detail_filename: str, detail_key: str, births_filename: str):
+    birth_counts = load_forecast_birth_counts(births_filename)
+    deaths, exposure = load_forecast_detail(detail_filename, detail_key)
+    fert = {}
+    mort_hazard = {}
+    years = sorted({y for y, _ in birth_counts} | {y for y, _, _ in deaths})
+    for year in years:
+        for age in range(15, 50):
+            women = exposure.get((year, "K", age), 0.0)
+            fert[(year, age)] = 0.0 if women <= 0 else birth_counts.get((year, age), 0.0) / women
+        for sex in ("K", "M"):
+            for age in range(101):
+                p = exposure.get((year, sex, age), 0.0)
+                mort_hazard[(year, sex, age)] = 0.0 if p <= 0 else deaths.get((year, sex, age), 0.0) / p
+    return fert, mort_hazard
+
+def extend_profiles_with_future(fertility_rows, mortality_rows, future_fert, future_mort, start_year=2026):
+    """Apply historical local relative shapes to annual SCB national future profiles."""
+    fert_out = list(fertility_rows)
+    mort_out = list(mortality_rows)
+
+    base_fert = [r for r in fertility_rows if "year" not in r]
+    for r in base_fert:
+        hist_nat = float(r.get("nationalRate") or 0.0)
+        relative = 1.0 if hist_nat <= 0 else float(r.get("value") or 0.0) / hist_nat
+        for (year, age), national_rate in future_fert.items():
+            if year < start_year or age != int(r["age"]):
+                continue
+            fert_out.append({
+                "geo": r["geo"], "window": r["window"], "year": year,
+                "age": age, "value": max(0.0, national_rate * relative),
+                "nationalRate": national_rate,
+                "relativeHistoricalShape": relative,
+                "source": "SCB national forecast profile × local calibrated relative shape",
+            })
+
+    base_mort = [r for r in mortality_rows if "year" not in r]
+    for r in base_mort:
+        hist_nat = float(r.get("nationalHazard") or 0.0)
+        local_risk = max(0.0, min(0.999999999, float(r.get("value") or 0.0)))
+        local_hazard = -math.log(max(1e-12, 1.0 - local_risk))
+        relative = 1.0 if hist_nat <= 0 else local_hazard / hist_nat
+        for (year, sex, age), national_hazard in future_mort.items():
+            if year < start_year or sex != r["sex"] or age != int(r["age"]):
+                continue
+            hazard = max(0.0, national_hazard * relative)
+            mort_out.append({
+                "geo": r["geo"], "window": r["window"], "year": year,
+                "sex": sex, "age": age,
+                "value": max(0.0, min(1.0, 1.0 - math.exp(-hazard))),
+                "nationalHazard": national_hazard,
+                "relativeHistoricalShape": relative,
+                "source": "SCB national forecast hazard × local calibrated relative shape",
+            })
+    return fert_out, mort_out
 
 def load_population_2025():
     path = RAW / "population_2025.csv"
@@ -418,21 +528,34 @@ def main():
     fertility_rates, fertility_factors = fertility_profiles(births, exposure)
     mortality_risks, mortality_factors = mortality_profiles(deaths, exposure)
 
+    future_fert, future_mort = national_future_profiles(
+        "raps_national_detail_2024.csv",
+        "raps_national_detail_2024",
+        "raps_births_2024.csv",
+    )
+    if future_fert and future_mort:
+        fertility_rates, mortality_risks = extend_profiles_with_future(
+            fertility_rates, mortality_risks, future_fert, future_mort, start_year=2026
+        )
+        future_profile_mode = "SCB 2024 annual national profiles × local relative shape"
+    else:
+        future_profile_mode = "Historical national profile held constant (fallback)"
+
     model = {
         "meta": {
-            "schemaVersion": "0.4.0",
+            "schemaVersion": "0.5.0",
             "generatedBy": "scripts/build_model_data.py",
             "dataReady": True,
             "baseYear": 2025,
-            "projectionAssumptionVersion": "national-profile-local-ratio-v1",
+            "projectionAssumptionVersion": "scb2024-national-trend-local-ratio-v1",
             "methodBreakYear": 2025,
             "methodBreak": "SCB Cell Key Method (CKM)",
             "calibrationEndYear": CALIBRATION_END,
             "note": (
-                "Fertility and mortality use national age profiles multiplied by "
-                "age-standardized municipality/FA ratios calibrated over 6/10/19 "
-                "pre-CKM years ending 2024. Net migration remains locally calibrated. "
-                "Future national SCB profile trends are the next model stage."
+                "Fertility and mortality use annual SCB 2024 national forecast profiles "
+                "multiplied by locally calibrated municipality/FA relative shapes. "
+                "Small age cells fade toward the national age profile. Net migration "
+                "remains locally calibrated in V1."
             ),
         },
         "geographies": [
@@ -456,6 +579,7 @@ def main():
             "sexRatioMaleAtBirthSource": "Raps technical specification: 0.515 boys / 0.485 girls",
             "observedMaleBirthShareFA2015_2024": male_birth_share,
             "relativeToNationalMethod": "General age-standardized municipality/FA ratio to Sweden",
+            "futureNationalProfileMode": future_profile_mode,
         },
         "populationBase": [
             {"geo": geo, "year": 2025, "sex": sex, "age": age, "value": value}
