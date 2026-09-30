@@ -23,7 +23,9 @@ CONFIG = ROOT / "data" / "scb_sources.json"
 OUT = ROOT / "data" / "raw"
 
 MUNICIPALITIES = ["2580", "2582", "2581", "2560", "2514"]
-MODEL_AGES = [str(i) for i in range(100)] + ["100+"]
+MODEL_AGES = [str(i) for i in range(100)]
+TOP_AGE_CODES = ["100+", "100+1"]
+FERTILITY_AGES = [str(i) for i in range(15, 49)] + ["49+"]
 SEXES = ["1", "2"]
 
 def decode_response(raw: bytes, declared_charset: str | None = None) -> tuple[str, str]:
@@ -113,13 +115,23 @@ def build_selection(md: dict, spec: dict) -> dict[str, list[str]]:
             sel[dim_id] = [x for x in MUNICIPALITIES if x in vals]
         elif dim_id in ("Alder", "AlderModer"):
             if dim_id == "AlderModer":
-                sel[dim_id] = [x for x in vals if x not in ("tot", "Total", "TOTAL")]
+                # Only mutually exclusive one-year maternal ages. 2025 CKM
+                # tables also expose overlapping 5-/10-year groups and totals.
+                sel[dim_id] = [x for x in FERTILITY_AGES if x in vals]
             else:
                 sel[dim_id] = [x for x in MODEL_AGES if x in vals]
+                # Historical tables use 100+, while CKM tables use 100+1 for
+                # the one-year age classification.
+                for top in TOP_AGE_CODES:
+                    if top in vals:
+                        sel[dim_id].append(top)
+                        break
         elif dim_id == "Kon":
             sel[dim_id] = [x for x in SEXES if x in vals]
         elif dim_id == "Civilstand":
-            sel[dim_id] = vals
+            # SC = total, all marital statuses. Selecting SC plus its
+            # components would duplicate the population.
+            sel[dim_id] = ["SC"] if "SC" in vals else vals
         elif dim_id == "Fodelseregion":
             sel[dim_id] = vals
         elif dim_id == "ContentsCode":
