@@ -37,8 +37,8 @@ RATIO_MAX = 1.50
 # Fallback only when an official Raps cluster/parameter is unavailable.
 # The local signal fades in smoothly with statistical information instead of
 # switching abruptly from national to municipal data.
-FADING_MAX_LOCAL_WEIGHT = 0.25
-FADING_HALF_SATURATION_EVENTS = 20.0
+FADING_ZERO_LOCAL_EXPOSURE = 20.0
+FADING_FULL_LOCAL_EXPOSURE = 100.0
 CALIBRATION_END = 2024
 SEX_MAP = {"1": "M", "2": "K", "M": "M", "K": "K"}
 
@@ -288,24 +288,27 @@ def clip_ratio(value):
         return 1.0
     return max(RATIO_MIN, min(RATIO_MAX, value))
 
-def fallback_fading_weight(expected_events):
-    """Continuous national/local blend used only where Raps is underspecified.
+def fallback_fading_weight(local_exposure):
+    """Outcome-independent local weight used only where Raps is underspecified.
 
-    Weight is based on expected events rather than a hard population cutoff.
-    This is especially useful for rare events such as births to very young
-    mothers: a large exposure with almost no expected events should still stay
-    close to the national profile.
-
-    At FADING_HALF_SATURATION_EVENTS the local weight is half of its maximum.
-    The weight asymptotically approaches FADING_MAX_LOCAL_WEIGHT.
+    The weight is fixed ex ante from the amount of local exposure, never from
+    forecast errors or observed-vs-predicted outcomes. Below 20 observations /
+    person-years the cell stays on the national profile. Between 20 and 100
+    the local share rises smoothly, and at 100+ the cell is fully local.
     """
-    e = max(0.0, float(expected_events or 0.0))
-    if e <= 0:
+    x = max(0.0, float(local_exposure or 0.0))
+    if x <= FADING_ZERO_LOCAL_EXPOSURE:
         return 0.0
-    return FADING_MAX_LOCAL_WEIGHT * e / (e + FADING_HALF_SATURATION_EVENTS)
+    if x >= FADING_FULL_LOCAL_EXPOSURE:
+        return 1.0
+    t = (x - FADING_ZERO_LOCAL_EXPOSURE) / (
+        FADING_FULL_LOCAL_EXPOSURE - FADING_ZERO_LOCAL_EXPOSURE
+    )
+    # Smoothstep: continuous slope at both ends, avoiding a visible cutoff.
+    return t * t * (3.0 - 2.0 * t)
 
-def faded_ratio(raw_ratio, expected_events):
-    w = fallback_fading_weight(expected_events)
+def faded_ratio(raw_ratio, local_exposure):
+    w = fallback_fading_weight(local_exposure)
     raw = 1.0 if not math.isfinite(raw_ratio) else raw_ratio
     applied = 1.0 + w * (raw - 1.0)
     return clip_ratio(applied), w
@@ -323,8 +326,8 @@ def fertility_factor(geo, window, births, exposure):
             observed += births.get((geo, year, age), 0.0)
             expected += local_women * national_rate
     raw = 1.0 if expected <= 0 else observed / expected
-    applied, local_weight = faded_ratio(raw, expected)
-    return raw, applied, observed, expected, local_weight
+    applied = clip_ratio(raw)
+    return raw, applied, observed, expected, 1.0
 
 def mortality_factor(geo, window, deaths, exposure):
     yrs = set(window_years(window))
@@ -340,8 +343,8 @@ def mortality_factor(geo, window, deaths, exposure):
                 observed += deaths.get((geo, year, sex, age), 0.0)
                 expected += local_pop * national_hazard
     raw = 1.0 if expected <= 0 else observed / expected
-    applied, local_weight = faded_ratio(raw, expected)
-    return raw, applied, observed, expected, local_weight
+    applied = clip_ratio(raw)
+    return raw, applied, observed, expected, 1.0
 
 def window_years(window):
     return range(CALIBRATION_END - window + 1, CALIBRATION_END + 1)
@@ -387,7 +390,7 @@ def mortality_profiles(deaths, exposure):
                         raw_cell_factor = general_factor
                     else:
                         raw_cell_factor = local_hazard / national_hazard if local_exposure > 0 else general_factor
-                        cell_weight = fallback_fading_weight(expected_cell)
+                        cell_weight = fallback_fading_weight(local_exposure)
                         # Blend the local age/sex deviation around the general
                         # municipality factor. Sparse cells stay on the
                         # national age profile scaled by the general factor.
@@ -443,7 +446,7 @@ def fertility_profiles(births, exposure):
                     raw_cell_factor = general_factor
                 else:
                     raw_cell_factor = local_rate / national_rate if local_women > 0 else general_factor
-                    cell_weight = fallback_fading_weight(expected_cell)
+                    cell_weight = fallback_fading_weight(local_women)
                     local_target = national_rate * clip_ratio(raw_cell_factor)
                     blended_rate = (1 - cell_weight) * base_rate + cell_weight * local_target
 
@@ -543,7 +546,7 @@ def main():
 
     model = {
         "meta": {
-            "schemaVersion": "0.5.0",
+            "schemaVersion": "0.6.0",
             "generatedBy": "scripts/build_model_data.py",
             "dataReady": True,
             "baseYear": 2025,
@@ -598,9 +601,12 @@ def main():
                 "method": "Observed / expected at national age-specific rates",
                 "fallbackFading": {
                     "enabledOnlyWhenOfficialRapsParameterUnavailable": True,
-                    "maxLocalWeight": FADING_MAX_LOCAL_WEIGHT,
-                    "halfSaturationExpectedEvents": FADING_HALF_SATURATION_EVENTS,
-                    "formula": "generalFactor=observed/expected; w=maxLocalWeight*Ecell/(Ecell+halfSaturation); cellRate=(1-w)*(nationalRate*generalFactor)+w*localCellRate"
+                    "weightDependsOnOutcome": False,
+                    "zeroLocalExposure": FADING_ZERO_LOCAL_EXPOSURE,
+                    "fullLocalExposure": FADING_FULL_LOCAL_EXPOSURE,
+                    "maxLocalWeight": 1.0,
+                    "formula": "w=smoothstep(localExposure,20,100); cellRate=(1-w)*(nationalRate*generalFactor)+w*localCellRate",
+                    "governance": "Thresholds are fixed before benchmark evaluation and must not be tuned to improve backtest results."
                 }
             },
             "faNetMigrationPrinciple": (
