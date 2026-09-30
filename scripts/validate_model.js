@@ -96,9 +96,9 @@ if (Math.abs(faDifference) > 0.5) {
 }
 if (data.parameters && data.parameters.sexRatioMaleAtBirthSource) {
   warnings.push(
-    'Birth sex ratio is derived from observed FA births; source: ' +
+    'Birth sex ratio source: ' +
     data.parameters.sexRatioMaleAtBirthSource +
-    '.'
+    '. Observed FA share is retained only as a diagnostic.'
   );
 }
 warnings.push('V1.3 keeps 6/10/19-year local fertility, mortality and net-migration profiles constant through the projection horizon; national future SCB assumptions are not yet integrated.');
