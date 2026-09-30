@@ -23,6 +23,7 @@ CONFIG = ROOT / "data" / "scb_sources.json"
 OUT = ROOT / "data" / "raw"
 
 MUNICIPALITIES = ["2580", "2582", "2581", "2560", "2514"]
+RIKET = "00"
 MODEL_AGES = [str(i) for i in range(100)]
 TOP_AGE_CODES = ["100+", "100+1"]
 FERTILITY_AGES = [str(i) for i in range(15, 49)] + ["49+"]
@@ -112,7 +113,10 @@ def build_selection(md: dict, spec: dict) -> dict[str, list[str]]:
     for dim_id, dim in dims.items():
         vals = values(dim)
         if dim_id == "Region":
-            sel[dim_id] = [x for x in MUNICIPALITIES if x in vals]
+            wanted = list(MUNICIPALITIES)
+            if spec.get("include_riket"):
+                wanted.append(RIKET)
+            sel[dim_id] = [x for x in wanted if x in vals]
         elif dim_id in ("Alder", "AlderModer"):
             if dim_id == "AlderModer":
                 # Only mutually exclusive one-year maternal ages. 2025 CKM
@@ -274,13 +278,13 @@ def download_csv(table_id: str, selection: dict[str, list[str]]) -> str:
 
 SPECS = {
     "population_2025": {"start":2025,"end":2025,"content_terms":["Folkmängd"]},
-    "mean_population_pre2025": {"start":2006,"end":2024},
+    "mean_population_pre2025": {"start":2006,"end":2024,"include_riket":true},
     "mean_population_2025": {"start":2025,"end":2025},
     "migration_pre2025": {"start":2006,"end":2024},
     "migration_2025": {"start":2025,"end":2025},
-    "births_pre2025": {"start":2006,"end":2024},
+    "births_pre2025": {"start":2006,"end":2024,"include_riket":true},
     "births_2025": {"start":2025,"end":2025},
-    "deaths_pre2025": {"start":2006,"end":2024},
+    "deaths_pre2025": {"start":2006,"end":2024,"include_riket":true},
     "deaths_2025": {"start":2025,"end":2025},
     "migration_birth_region_pre2025": {"start":2006,"end":2024},
     "migration_birth_region_2025": {"start":2025,"end":2025},
