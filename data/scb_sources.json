@@ -1,5 +1,5 @@
 {
-  "schema_version": "0.3.0",
+  "schema_version": "0.4.0",
   "note": "Production sources for the Raps-reference baseline use Tillvaxtverket's published SCB 2024 demographic scenario where available. Latest SCB forecasts are retained only as alternative-scenario sources.",
   "tables": {
     "population_pre2025": {
@@ -106,6 +106,26 @@
       "id": "TAB5248",
       "period": "2024-2120",
       "purpose": "Raps reference scenario SCB 2024: national mortality by birth region, sex and age"
+    },
+    "raps_national_detail_2024": {
+      "id": "TAB5337",
+      "period": "2024-2120",
+      "purpose": "SCB 2024 national forecast detailed deaths and mean population by birth region, sex and age; used to derive aggregate future mortality"
+    },
+    "raps_births_2024": {
+      "id": "TAB5270",
+      "period": "2024-2120",
+      "purpose": "SCB 2024 national forecast births by mother's birth region and age; used with projected female mean population to derive aggregate fertility"
+    },
+    "backtest_national_detail_2021": {
+      "id": "TAB5946",
+      "period": "2021-2120",
+      "purpose": "Vintage-correct SCB 2021 detailed national forecast for the 2022-2024 backtest"
+    },
+    "backtest_births_2021": {
+      "id": "TAB5948",
+      "period": "2021-2120",
+      "purpose": "Vintage-correct SCB 2021 births forecast for the 2022-2024 backtest"
     }
   }
 }
