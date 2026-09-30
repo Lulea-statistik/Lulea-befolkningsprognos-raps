@@ -29,7 +29,10 @@ MUNICIPALITIES = {
     "2514": "Kalix kommun",
 }
 FA_CODE = "FA_LULEA"
+RIKET_CODE = "00"
 WINDOWS = (6, 10, 19)
+RATIO_MIN = 0.50
+RATIO_MAX = 1.50
 CALIBRATION_END = 2024
 SEX_MAP = {"1": "M", "2": "K", "M": "M", "K": "K"}
 
@@ -92,7 +95,7 @@ def load_population_2025():
         age = age_value(r.get("Alder", ""))
         sex = SEX_MAP.get(r.get("Kon", ""))
         geo = r.get("Region")
-        if age is None or not sex or geo not in MUNICIPALITIES:
+        if age is None or not sex or geo not in set(MUNICIPALITIES) | {RIKET_CODE}:
             continue
         for col, _, year in value_columns(r.keys()):
             if year == 2025:
@@ -118,7 +121,7 @@ def load_births(filename: str):
     for r in rows(path):
         age = age_value(r.get("AlderModer", ""))
         geo = r.get("Region")
-        if age is None or geo not in MUNICIPALITIES or not (15 <= age <= 49):
+        if age is None or geo not in set(MUNICIPALITIES) | {RIKET_CODE} or not (15 <= age <= 49):
             continue
         # Sum boys + girls to births by mother's age.
         for col, _, year in value_columns(r.keys()):
@@ -133,7 +136,7 @@ def load_births_by_child_sex(filename: str):
         age = age_value(r.get("AlderModer", ""))
         geo = r.get("Region")
         sex = SEX_MAP.get(r.get("Kon", ""))
-        if age is None or geo not in MUNICIPALITIES or not sex or not (15 <= age <= 49):
+        if age is None or geo not in set(MUNICIPALITIES) | {RIKET_CODE} or not sex or not (15 <= age <= 49):
             continue
         for col, _, year in value_columns(r.keys()):
             out[(geo, year, sex)] += num(r[col])
@@ -152,53 +155,119 @@ def aggregate_fa_age_sex(source):
     out = defaultdict(float)
     for (geo, year, sex, age), value in source.items():
         out[(geo, year, sex, age)] += value
-        out[(FA_CODE, year, sex, age)] += value
+        if geo in MUNICIPALITIES:
+            out[(FA_CODE, year, sex, age)] += value
     return out
 
 def aggregate_fa_births(source):
     out = defaultdict(float)
     for (geo, year, age), value in source.items():
         out[(geo, year, age)] += value
-        out[(FA_CODE, year, age)] += value
+        if geo in MUNICIPALITIES:
+            out[(FA_CODE, year, age)] += value
     return out
+
+def clip_ratio(value):
+    if not math.isfinite(value):
+        return 1.0
+    return max(RATIO_MIN, min(RATIO_MAX, value))
+
+def fertility_factor(geo, window, births, exposure):
+    yrs = set(window_years(window))
+    observed = 0.0
+    expected = 0.0
+    for year in yrs:
+        for age in range(15, 50):
+            rb = births.get((RIKET_CODE, year, age), 0.0)
+            rw = exposure.get((RIKET_CODE, year, "K", age), 0.0)
+            national_rate = 0.0 if rw <= 0 else rb / rw
+            local_women = exposure.get((geo, year, "K", age), 0.0)
+            observed += births.get((geo, year, age), 0.0)
+            expected += local_women * national_rate
+    raw = 1.0 if expected <= 0 else observed / expected
+    return raw, clip_ratio(raw), observed, expected
+
+def mortality_factor(geo, window, deaths, exposure):
+    yrs = set(window_years(window))
+    observed = 0.0
+    expected = 0.0
+    for year in yrs:
+        for sex in ("K", "M"):
+            for age in range(101):
+                rd = deaths.get((RIKET_CODE, year, sex, age), 0.0)
+                rp = exposure.get((RIKET_CODE, year, sex, age), 0.0)
+                national_hazard = 0.0 if rp <= 0 else rd / rp
+                local_pop = exposure.get((geo, year, sex, age), 0.0)
+                observed += deaths.get((geo, year, sex, age), 0.0)
+                expected += local_pop * national_hazard
+    raw = 1.0 if expected <= 0 else observed / expected
+    return raw, clip_ratio(raw), observed, expected
 
 def window_years(window):
     return range(CALIBRATION_END - window + 1, CALIBRATION_END + 1)
 
 def mortality_profiles(deaths, exposure):
     result = []
+    factors = []
     geos = list(MUNICIPALITIES) + [FA_CODE]
     for window in WINDOWS:
         yrs = set(window_years(window))
         for geo in geos:
+            raw_factor, applied_factor, observed, expected = mortality_factor(
+                geo, window, deaths, exposure
+            )
+            factors.append({
+                "geo": geo,
+                "window": window,
+                "raw": raw_factor,
+                "applied": applied_factor,
+                "observedDeaths": observed,
+                "expectedDeathsAtNationalRates": expected,
+            })
             for sex in ("K", "M"):
                 for age in range(101):
-                    d = sum(deaths.get((geo, y, sex, age), 0) for y in yrs)
-                    p = sum(exposure.get((geo, y, sex, age), 0) for y in yrs)
-                    risk = 0 if p <= 0 else max(0.0, min(1.0, 1 - math.exp(-d / p)))
+                    d_riket = sum(deaths.get((RIKET_CODE, y, sex, age), 0) for y in yrs)
+                    p_riket = sum(exposure.get((RIKET_CODE, y, sex, age), 0) for y in yrs)
+                    national_hazard = 0.0 if p_riket <= 0 else d_riket / p_riket
+                    local_hazard = national_hazard * applied_factor
+                    risk = max(0.0, min(1.0, 1 - math.exp(-local_hazard)))
                     result.append({
                         "geo": geo, "window": window, "sex": sex,
                         "age": age, "value": risk,
-                        "events": d, "exposure": p,
+                        "nationalHazard": national_hazard,
+                        "municipalityFactor": applied_factor,
                     })
-    return result
+    return result, factors
 
 def fertility_profiles(births, exposure):
     result = []
+    factors = []
     geos = list(MUNICIPALITIES) + [FA_CODE]
     for window in WINDOWS:
         yrs = set(window_years(window))
         for geo in geos:
+            raw_factor, applied_factor, observed, expected = fertility_factor(
+                geo, window, births, exposure
+            )
+            factors.append({
+                "geo": geo,
+                "window": window,
+                "raw": raw_factor,
+                "applied": applied_factor,
+                "observedBirths": observed,
+                "expectedBirthsAtNationalRates": expected,
+            })
             for age in range(15, 50):
-                b = sum(births.get((geo, y, age), 0) for y in yrs)
-                women = sum(exposure.get((geo, y, "K", age), 0) for y in yrs)
-                rate = 0 if women <= 0 else b / women
+                b_riket = sum(births.get((RIKET_CODE, y, age), 0) for y in yrs)
+                w_riket = sum(exposure.get((RIKET_CODE, y, "K", age), 0) for y in yrs)
+                national_rate = 0.0 if w_riket <= 0 else b_riket / w_riket
                 result.append({
                     "geo": geo, "window": window, "age": age,
-                    "value": max(0.0, rate),
-                    "births": b, "female_exposure": women,
+                    "value": max(0.0, national_rate * applied_factor),
+                    "nationalRate": national_rate,
+                    "municipalityFactor": applied_factor,
                 })
-    return result
+    return result, factors
 
 def migration_profiles(netmig):
     result = []
@@ -267,21 +336,24 @@ def main():
             load_wide_age_sex("migration_2025.csv", NET_MIG_CODES)
         )
 
+    fertility_rates, fertility_factors = fertility_profiles(births, exposure)
+    mortality_risks, mortality_factors = mortality_profiles(deaths, exposure)
+
     model = {
         "meta": {
-            "schemaVersion": "0.3.0",
+            "schemaVersion": "0.4.0",
             "generatedBy": "scripts/build_model_data.py",
             "dataReady": True,
             "baseYear": 2025,
-            "projectionAssumptionVersion": "observed-local-constant-v1",
+            "projectionAssumptionVersion": "national-profile-local-ratio-v1",
             "methodBreakYear": 2025,
             "methodBreak": "SCB Cell Key Method (CKM)",
             "calibrationEndYear": CALIBRATION_END,
             "note": (
-                "First operational baseline. Fertility, mortality and net migration "
-                "are held at locally calibrated age/sex profiles from 6/10/19-year "
-                "pre-CKM windows ending 2024. National future SCB assumptions will "
-                "replace the constant profiles in the next model stage."
+                "Fertility and mortality use national age profiles multiplied by "
+                "age-standardized municipality/FA ratios calibrated over 6/10/19 "
+                "pre-CKM years ending 2024. Net migration remains locally calibrated. "
+                "Future national SCB profile trends are the next model stage."
             ),
         },
         "geographies": [
@@ -303,17 +375,24 @@ def main():
             "iflMode": "deferred",
             "sexRatioMaleAtBirth": male_birth_share,
             "sexRatioMaleAtBirthSource": "Observed births in the five FA municipalities, 2015-2024",
+            "relativeToNationalMethod": "General age-standardized municipality/FA ratio to Sweden",
         },
         "populationBase": [
             {"geo": geo, "year": 2025, "sex": sex, "age": age, "value": value}
             for (geo, sex, age), value in sorted(base.items())
         ],
-        "fertilityRates": fertility_profiles(births, exposure),
-        "mortalityRisks": mortality_profiles(deaths, exposure),
+        "fertilityRates": fertility_rates,
+        "mortalityRisks": mortality_risks,
         "netMigration": migration_profiles(netmig),
         "diagnostics": {
             "ckm": ckm_diagnostics(base, deaths_2025, netmig_2025),
             "calibrationWindows": list(WINDOWS),
+            "relativeFactors": {
+                "fertility": fertility_factors,
+                "mortality": mortality_factors,
+                "bounds": {"min": RATIO_MIN, "max": RATIO_MAX},
+                "method": "Observed / expected at national age-specific rates"
+            },
             "faNetMigrationPrinciple": (
                 "Municipal net migration is summed to FA because internal "
                 "municipal moves cancel in the net."
