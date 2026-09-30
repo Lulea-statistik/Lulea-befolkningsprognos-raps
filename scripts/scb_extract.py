@@ -103,15 +103,71 @@ def build_selection(md: dict, spec: dict) -> dict[str, list[str]]:
     return {k:v for k,v in sel.items() if v}
 
 def encode_params(selection: dict[str, list[str]]) -> str:
-    pairs: list[tuple[str,str]] = [("lang","sv"), ("outputFormat","csv")]
+    # PxWebApi v2 GET syntax is:
+    # valueCodes[Variable]=code1,code2,code3
+    # Parameter name is case-sensitive in SCB's implementation.
+    pairs: list[tuple[str, str]] = [("lang", "sv"), ("outputFormat", "csv")]
     for dim, vals in selection.items():
-        for val in vals:
-            pairs.append((f"valuecodes[{dim}]", val))
+        pairs.append((f"valueCodes[{dim}]", ",".join(vals)))
     return urlencode(pairs)
 
+def cell_count(selection: dict[str, list[str]]) -> int:
+    total = 1
+    for vals in selection.values():
+        total *= max(1, len(vals))
+    return total
+
+def split_selection(selection: dict[str, list[str]], max_cells: int = 100000):
+    """Split large requests by time so every SCB request stays below the API cell limit."""
+    if cell_count(selection) <= max_cells:
+        return [selection]
+
+    years = selection.get("Tid") or []
+    if len(years) <= 1:
+        raise RuntimeError(
+            f"Selection has {cell_count(selection):,} cells and cannot be split by year."
+        )
+
+    cells_per_year = cell_count(selection) // len(years)
+    years_per_batch = max(1, max_cells // max(1, cells_per_year))
+    batches = []
+    for i in range(0, len(years), years_per_batch):
+        part = {k: list(v) for k, v in selection.items()}
+        part["Tid"] = years[i:i + years_per_batch]
+        batches.append(part)
+    return batches
+
 def download_csv(table_id: str, selection: dict[str, list[str]]) -> str:
-    url = f"{BASE}/tables/{table_id}/data?" + encode_params(selection)
-    return request_text(url)
+    chunks = []
+    for batch_no, part in enumerate(split_selection(selection), 1):
+        url = f"{BASE}/tables/{table_id}/data?" + encode_params(part)
+        print(
+            f"    request {batch_no}: {cell_count(part):,} cells",
+            file=sys.stderr,
+        )
+        try:
+            chunks.append(request_text(url))
+        except Exception as e:
+            print(f"    failed URL: {url}", file=sys.stderr)
+            raise
+
+    if len(chunks) == 1:
+        return chunks[0]
+
+    # Merge CSV chunks while keeping the header only once.
+    merged = []
+    header = None
+    for text in chunks:
+        lines = text.splitlines()
+        if not lines:
+            continue
+        if header is None:
+            header = lines[0]
+            merged.append(header)
+        elif lines[0] != header:
+            raise RuntimeError("CSV headers differ between SCB request batches.")
+        merged.extend(lines[1:])
+    return "\n".join(merged) + "\n"
 
 SPECS = {
     "population_2025": {"start":2025,"end":2025,"content_terms":["Folkmängd"]},
