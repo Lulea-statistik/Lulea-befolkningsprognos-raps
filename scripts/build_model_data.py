@@ -687,6 +687,61 @@ def scenario_migration_profiles(inflow):
                         })
     return result
 
+def outmigration_risk_profiles(outflow, exposure):
+    """Historical municipal out-migration risks (urisk) by age and sex.
+
+    Gross municipal outflows are valid at municipality level. They are not
+    aggregated to FA_LULEA because moves between member municipalities would
+    otherwise be counted as external out-migration from the FA region.
+    """
+    result = []
+    for window in WINDOWS:
+        yrs = set(window_years(window))
+        for geo in MUNICIPALITIES:
+            for sex in ("K", "M"):
+                for age in range(101):
+                    events = sum(outflow.get((geo, y, sex, age), 0.0) for y in yrs)
+                    pop = sum(exposure.get((geo, y, sex, age), 0.0) for y in yrs)
+                    hazard = 0.0 if pop <= 0 else events / pop
+                    risk = 0.0 if hazard <= 0 else 1.0 - math.exp(-hazard)
+                    result.append({
+                        "geo": geo,
+                        "window": window,
+                        "sex": sex,
+                        "age": age,
+                        "value": max(0.0, min(1.0, risk)),
+                        "events": events,
+                        "exposure": pop,
+                        "annualMeanOutflow": events / float(window),
+                        "method": "1-exp(-U/P)",
+                    })
+    return result
+
+def gross_inmigration_profiles(inflow):
+    """Observed annual mean gross in-migration by municipality, age and sex.
+
+    These rows are model-building inputs for a future IMIG specification. They
+    remain descriptive in V1 and are deliberately not created for FA_LULEA.
+    """
+    result = []
+    for window in WINDOWS:
+        yrs = set(window_years(window))
+        for geo in MUNICIPALITIES:
+            for sex in ("K", "M"):
+                for age in range(101):
+                    total = sum(inflow.get((geo, y, sex, age), 0.0) for y in yrs)
+                    result.append({
+                        "geo": geo,
+                        "window": window,
+                        "year": "BASE",
+                        "sex": sex,
+                        "age": age,
+                        "value": total / float(window),
+                        "totalObserved": total,
+                        "method": "historical annual mean gross in-migration",
+                    })
+    return result
+
 def migration_profiles(netmig):
     result = []
     geos = list(MUNICIPALITIES) + [FA_CODE]
@@ -789,8 +844,9 @@ def main():
             "note": (
                 "Fertility and mortality use annual SCB 2024 national forecast profiles "
                 "multiplied by locally calibrated municipality/FA relative shapes. "
-                "Small age cells fade toward the national age profile. Net migration "
-                "remains locally calibrated in V1."
+                "Small age cells fade toward the national age profile. Historical municipal "
+                "urisk and gross inflow profiles are stored as migration-building inputs, while "
+                "the published V1 baseline still uses locally calibrated net migration."
             ),
         },
         "geographies": [
@@ -809,6 +865,8 @@ def main():
             "qutbMode": "identity",
             "endogenousInMigration": False,
             "endogenousOutMigration": False,
+            "uriskMode": "historical municipal gross-outflow risk; diagnostic until UMIG is enabled",
+            "imigMode": "historical municipal gross-inflow profile; diagnostic until IMIG is enabled",
             "iflMode": "deferred",
             "sexRatioMaleAtBirth": 0.515,
             "sexRatioMaleAtBirthSource": "Raps technical specification: 0.515 boys / 0.485 girls",
@@ -829,6 +887,8 @@ def main():
         "fertilityRates": fertility_rates,
         "mortalityRisks": mortality_risks,
         "netMigration": migration_profiles(netmig),
+        "outMigrationRisks": outmigration_risk_profiles(outflow, exposure),
+        "grossInMigration": gross_inmigration_profiles(inflow),
         "scenarioMigrationProfiles": scenario_migration_profiles(inflow),
         "diagnostics": {
             "ckm": ckm_diagnostics(base, deaths_2025, netmig_2025),
@@ -881,7 +941,9 @@ def main():
         print(
             f"window={window}: fertility={sum(1 for r in model['fertilityRates'] if r['window']==window)}, "
             f"mortality={sum(1 for r in model['mortalityRisks'] if r['window']==window)}, "
-            f"migration={sum(1 for r in model['netMigration'] if r['window']==window)}"
+            f"migration={sum(1 for r in model['netMigration'] if r['window']==window)}, "
+            f"urisk={sum(1 for r in model['outMigrationRisks'] if r['window']==window)}, "
+            f"gross_in={sum(1 for r in model['grossInMigration'] if r['window']==window)}"
         )
 
 if __name__ == "__main__":
