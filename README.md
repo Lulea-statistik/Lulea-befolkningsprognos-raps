@@ -28,7 +28,7 @@ Geografi, kalibreringsfönster och slutår är globala filter och gäller på al
 - `js/app.js` – navigering, filter, diagram, scenariotabeller och valideringsvyer.
 - `data/model_data.json/js` – genererade modellindata för browser och analys.
 - `data/model_validation.json/js` – 6/10/19-årig valideringssammanställning.
-- `data/backtests/` – 2022–2024 out-of-sample-backtest.
+- `data/backtests/` – 2022–2024 utvecklingsbacktest samt rolling-origin-validering med SCB-vintages 2018–2021.
 - `data/benchmarks/` – SCB- och Tillväxtverket/Raps-benchmarks.
 - `data/raw/` – reproducerbara SCB-uttag.
 - `docs/RAPS_ALIGNMENT.md` – Raps-prioritet, fallback-fading och anti-overfitting-regel.
@@ -86,6 +86,7 @@ Modellen ska inte konstrueras om för att passa ett känt historiskt utfall. Bac
 - använder SCB:s 2021-prognosvintage för nationella framtidsprofiler,
 - jämför befolkning, födda, döda och nettoflyttning,
 - redovisar bland annat MAE och MAPE.
+Därutöver byggs en rolling-origin-validering med startår 2018, 2019, 2020 och 2021. Varje körning använder endast lokal information som fanns tillgänglig vid respektive origin och SCB:s nationella prognosvintage från samma år, med tre års prognoshorisont. Testfönstren överlappar och ska därför tolkas som robusthetskontroll snarare än helt oberoende experiment.
 
 SCB TAB6008 används som en separat alternativ metodbenchmark och visas även omankrad till faktisk befolkning 2025.
 
