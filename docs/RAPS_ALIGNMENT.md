@@ -27,18 +27,25 @@ First calculate a broad age-standardized municipality/FA factor:
 
 The broad factor describes whether the municipality is generally above or below Sweden after controlling for age/sex structure.
 
-For each maternal-age fertility cell or age/sex mortality cell, the local weight is based only on the amount of local exposure. It does not depend on forecast errors or on whether the local outcome happens to fit a benchmark.
+For each maternal-age fertility cell or age/sex mortality cell, the local weight is based on two ex-ante information signals. It does not depend on forecast errors or on whether the local outcome happens to fit a benchmark.
 
-Default exposure thresholds:
+Signal 1: average annual local population/exposure in the cell.
 
-- local exposure <= 20: 0 % direct local age-cell weight
-- local exposure >= 100: 100 % direct local age-cell weight
-- between 20 and 100: smooth transition using a cubic smoothstep function
+- <= 20: 0 % exposure weight
+- >= 100: 100 % exposure weight
+- between 20 and 100: cubic smoothstep
 
-For 20 < exposure < 100:
+Signal 2: expected number of events under national rates over the calibration window.
 
-    t = (exposure - 20) / (100 - 20)
-    w = t^2 * (3 - 2t)
+- <= 1 expected event: 0 % event weight
+- >= 20 expected events: 100 % event weight
+- between 1 and 20: cubic smoothstep
+
+The final local cell weight is:
+
+    w = exposure_weight * event_weight
+
+This reconciles two requirements: a sufficiently large and information-rich cell can become 100 % local, while a rare-event cell such as births to 15-year-olds can remain close to the national age pattern even if its population denominator is not tiny.
 
 The base cell rate is:
 
