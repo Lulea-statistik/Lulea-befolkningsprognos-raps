@@ -327,6 +327,156 @@
       <div class="kv"><span>Scenarioeffekt, ack.</span><strong>${scenario>=0?"+":""}${fmt.format(scenario)}</strong></div>`;
   }
 
+  function renderDetailedAgeAnalysis(){
+    const geo=$("geo").value, w=+$("window").value;
+    const fert=(data.fertilityRates||[])
+      .filter(r=>r.geo===geo && +r.window===w && r.year==null)
+      .sort((a,b)=>+a.age-+b.age);
+    const mort=(data.mortalityRisks||[])
+      .filter(r=>r.geo===geo && +r.window===w && r.year==null)
+      .sort((a,b)=>(+a.age-+b.age)||String(a.sex).localeCompare(String(b.sex)));
+
+    if(fert.length){
+      $("fertilityAgeTable").querySelector("tbody").innerHTML=fert.map(r=>`<tr>
+        <td>${r.age}</td>
+        <td>${r.cellAverageAnnualExposure==null?"–":fmt1.format(r.cellAverageAnnualExposure)}</td>
+        <td>${r.cellExpectedEvents==null?"–":fmt1.format(r.cellExpectedEvents)}</td>
+        <td>${r.cellLocalWeight==null?"–":pct.format(r.cellLocalWeight*100)+" %"}</td>
+        <td>${r.rawCellFactor==null?"–":pct.format(r.rawCellFactor*100)+" %"}</td>
+        <td>${fmt1.format(Number(r.value||0)*1000)}</td>
+      </tr>`).join("");
+      drawAgeLineChart("fertilityWeightChart",fert.map(r=>+r.age),[
+        {name:"Lokal vikt",values:fert.map(r=>Number(r.cellLocalWeight||0)*100),cls:"lineLocalWeight",suffix:" %"}
+      ],{yMin:0,yMax:100,xLabel:"Ålder",valueDigits:1});
+    }else{
+      $("fertilityAgeTable").querySelector("tbody").innerHTML="";
+      $("fertilityWeightChart").innerHTML="";
+    }
+
+    const ages=[...new Set(mort.map(r=>+r.age))].sort((a,b)=>a-b);
+    const women=ages.map(age=>mort.find(r=>+r.age===age&&r.sex==="K"));
+    const men=ages.map(age=>mort.find(r=>+r.age===age&&r.sex==="M"));
+    $("mortalityAgeTable").querySelector("tbody").innerHTML=ages.map((age,i)=>{
+      const k=women[i],m=men[i];
+      return `<tr>
+        <td>${age===100?"100+":age}</td>
+        <td>${k?.cellLocalWeight==null?"–":pct.format(k.cellLocalWeight*100)+" %"}</td>
+        <td>${m?.cellLocalWeight==null?"–":pct.format(m.cellLocalWeight*100)+" %"}</td>
+        <td>${k?.cellExpectedEvents==null?"–":fmt1.format(k.cellExpectedEvents)}</td>
+        <td>${m?.cellExpectedEvents==null?"–":fmt1.format(m.cellExpectedEvents)}</td>
+        <td>${k?.rawCellFactor==null?"–":pct.format(k.rawCellFactor*100)+" %"}</td>
+        <td>${m?.rawCellFactor==null?"–":pct.format(m.rawCellFactor*100)+" %"}</td>
+      </tr>`;
+    }).join("");
+    if(ages.length){
+      drawAgeLineChart("mortalityWeightChart",ages,[
+        {name:"Kvinnor lokal vikt",values:women.map(r=>Number(r?.cellLocalWeight||0)*100),cls:"lineWomen",suffix:" %"},
+        {name:"Män lokal vikt",values:men.map(r=>Number(r?.cellLocalWeight||0)*100),cls:"lineMen",suffix:" %"}
+      ],{yMin:0,yMax:100,xLabel:"Ålder",valueDigits:1});
+    }
+  }
+
+  function renderMigrationAnalysis(){
+    const geo=$("geo").value, w=+$("window").value;
+    const rows=(data.diagnostics?.migrationByAge||[])
+      .filter(r=>r.geo===geo && +r.window===w)
+      .sort((a,b)=>+a.age-+b.age);
+
+    if(!rows.length){
+      ["migrationInflowKpi","migrationOutflowKpi","migrationNetKpi","migrationImpactKpi"].forEach(id=>$(id).textContent="–");
+      $("migrationImpactAge").textContent="genereras i nästa workflow-körning";
+      $("migrationAgeTable").querySelector("tbody").innerHTML="";
+      $("migrationAgeChart").innerHTML="";
+      $("migrationVariationChart").innerHTML="";
+      return;
+    }
+
+    const inflow=rows.reduce((s,r)=>s+Number(r.meanInflow||0),0);
+    const outflow=rows.reduce((s,r)=>s+Number(r.meanOutflow||0),0);
+    const net=rows.reduce((s,r)=>s+Number(r.meanNetMigration||0),0);
+    const impact=[...rows].sort((a,b)=>Number(b.sensitivity5PctInflowPersons||0)-Number(a.sensitivity5PctInflowPersons||0))[0];
+
+    $("migrationInflowKpi").textContent=fmt.format(inflow);
+    $("migrationOutflowKpi").textContent=fmt.format(outflow);
+    $("migrationNetKpi").textContent=(net>=0?"+":"")+fmt.format(net);
+    $("migrationImpactKpi").textContent=fmt1.format(impact?.sensitivity5PctInflowPersons||0)+" pers.";
+    $("migrationImpactAge").textContent=`ålder ${impact?.age===100?"100+":impact?.age}, ±5 % av inflyttning`;
+
+    $("migrationAgeTable").querySelector("tbody").innerHTML=rows.map(r=>`<tr>
+      <td>${r.age===100?"100+":r.age}</td>
+      <td>${fmt1.format(r.meanInflow||0)}</td>
+      <td>${fmt1.format(r.meanOutflow||0)}</td>
+      <td>${(r.meanNetMigration||0)>=0?"+":""}${fmt1.format(r.meanNetMigration||0)}</td>
+      <td>${fmt1.format(r.sdInflow||0)}</td>
+      <td>${r.cvInflowPct==null?"–":pct.format(r.cvInflowPct)+" %"}</td>
+      <td>${pct.format(r.shareOfInflowPct||0)} %</td>
+      <td>${fmt1.format(r.sensitivity5PctInflowPersons||0)} pers.</td>
+    </tr>`).join("");
+
+    const ages=rows.map(r=>+r.age);
+    drawAgeLineChart("migrationAgeChart",ages,[
+      {name:"Inflyttning",values:rows.map(r=>Number(r.meanInflow||0)),cls:"lineInflow"},
+      {name:"Utflyttning",values:rows.map(r=>Number(r.meanOutflow||0)),cls:"lineOutflow"},
+      {name:"Netto",values:rows.map(r=>Number(r.meanNetMigration||0)),cls:"lineMigration"}
+    ],{includeZero:true,xLabel:"Ålder",valueDigits:1});
+
+    drawAgeLineChart("migrationVariationChart",ages,[
+      {name:"SD inflyttning",values:rows.map(r=>Number(r.sdInflow||0)),cls:"lineVariation"},
+      {name:"5 %-effekt",values:rows.map(r=>Number(r.sensitivity5PctInflowPersons||0)),cls:"lineSensitivity"}
+    ],{yMin:0,xLabel:"Ålder",valueDigits:1});
+  }
+
+  function drawAgeLineChart(svgId,xValues,series,options={}){
+    const svg=$(svgId),W=900,H=options.height||330,p=48;
+    if(!svg||!xValues.length){if(svg)svg.innerHTML="";return;}
+    const all=series.flatMap(s=>s.values.map(Number).filter(Number.isFinite));
+    let min=options.yMin!=null?options.yMin:Math.min(...all);
+    let max=options.yMax!=null?options.yMax:Math.max(...all);
+    if(options.includeZero){min=Math.min(0,min);max=Math.max(0,max);}
+    if(!Number.isFinite(min))min=0;if(!Number.isFinite(max))max=1;
+    const span=Math.max(1e-9,max-min);
+    const xmin=Math.min(...xValues),xmax=Math.max(...xValues),xspan=Math.max(1,xmax-xmin);
+    const x=v=>p+(v-xmin)*(W-2*p)/xspan;
+    const y=v=>H-p-(v-min)*(H-2*p)/span;
+
+    const grid=[0,.25,.5,.75,1].map(t=>{
+      const yy=p+t*(H-2*p),val=max-t*span;
+      return `<line x1="${p}" y1="${yy}" x2="${W-p}" y2="${yy}" class="gridline"/><text x="8" y="${yy+4}" class="axisText">${fmt1.format(val)}</text>`;
+    }).join("");
+    const lines=series.map(s=>`<polyline points="${xValues.map((age,i)=>`${x(age)},${y(Number(s.values[i]||0))}`).join(" ")}" class="${s.cls}"/>`).join("");
+    const legends=series.map((s,i)=>`<text x="${p+i*155}" y="20" class="chartLegend">${s.name}</text>`).join("");
+    svg.innerHTML=`${grid}${lines}${legends}
+      <text x="${p}" y="${H-10}" class="axisText">${xmin}</text>
+      <text x="${W-p-30}" y="${H-10}" class="axisText">${xmax===100?"100+":xmax}</text>`;
+
+    bindIndexedHover(svg,xValues,(i)=>{
+      const age=xValues[i]===100?"100+":xValues[i];
+      return `<strong>Ålder ${age}</strong>`+series.map(s=>{
+        const value=Number(s.values[i]||0);
+        return `<div><span>${s.name}</span><b>${fmt1.format(value)}${s.suffix||""}</b></div>`;
+      }).join("");
+    },i=>x(xValues[i]));
+  }
+
+  function bindIndexedHover(svg,xValues,htmlForIndex,xForIndex){
+    const tip=$("chartTooltip");
+    if(!tip||!svg)return;
+    svg.onmousemove=e=>{
+      const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;
+      const loc=pt.matrixTransform(svg.getScreenCTM().inverse());
+      let best=0,bestD=Infinity;
+      for(let i=0;i<xValues.length;i++){
+        const d=Math.abs(loc.x-xForIndex(i));
+        if(d<bestD){bestD=d;best=i;}
+      }
+      tip.innerHTML=htmlForIndex(best);
+      tip.classList.add("show");
+      tip.style.left=(e.clientX+14)+"px";
+      tip.style.top=(e.clientY+14)+"px";
+    };
+    svg.onmouseleave=()=>tip.classList.remove("show");
+  }
+
   function renderValidation(){
     const geo=$("geo").value, selected=String($("window").value);
     const bw=backtest?.summary?.[geo]?.[selected]?selected:(backtest?.summary?.[geo]?.["10"]?"10":null);
