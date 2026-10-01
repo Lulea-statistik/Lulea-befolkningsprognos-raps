@@ -716,6 +716,43 @@
       ${allocations.map(r=>`<tr><td>${r.name}</td><td>${pct.format(r.share)} %</td><td>${fmt1.format(r.jobs)}</td></tr>`).join("")}
     </tbody></table>`;
 
+    const profileWindow=+$("window").value;
+    const scenarioProfiles=(data.scenarioMigrationProfiles||[])
+      .filter(r=>r.geo===workplace && +r.window===profileWindow);
+    const jobProfile=scenarioProfiles.filter(r=>r.profile==="job_family");
+    const allProfile=scenarioProfiles.filter(r=>r.profile==="observed_inflow");
+    if(jobProfile.length || allProfile.length){
+      const ages=[...new Set(
+        scenarioProfiles.map(r=>+r.age)
+      )].sort((a,b)=>a-b);
+      const valuesFor=rows=>ages.map(age=>
+        rows.filter(r=>+r.age===age)
+          .reduce((s,r)=>s+Number(r.share||0),0)*100
+      );
+      const series=[];
+      if(jobProfile.length) series.push({
+        name:"Jobb/familj 0–64",
+        values:valuesFor(jobProfile),
+        cls:"lineInflow",
+        suffix:" %"
+      });
+      if(allProfile.length) series.push({
+        name:"Alla observerade inflyttare",
+        values:valuesFor(allProfile),
+        cls:"lineVariation",
+        suffix:" %"
+      });
+      drawAgeLineChart(
+        "labourAgeProfileChart",
+        ages,
+        series,
+        {yMin:0,xLabel:"Ålder",hoverLabel:"Ålder",valueDigits:2}
+      );
+    }else{
+      $("labourAgeProfileChart").innerHTML=
+        '<text x="30" y="40" class="axisText">Åldersprofil genereras i nästa workflow-körning.</text>';
+    }
+
     const outside=allocations.find(r=>r.residence===labour.outsideGroup.code);
     const movePct=Math.max(0,Math.min(100,+$("labourExternalMovePct").value||0))/100;
     const personsPerJob=Math.max(0,+$("labourPersonsPerMover").value||0);
