@@ -12,7 +12,7 @@
       <h1>Luleå befolkningsprognos</h1>
       <p>rAps-liknande demografimodell · Luleå FA + kommuner · SCB/Raps-benchmark</p>
     </div>
-    <span class="badge">V2.2 · arbetstagare + hushåll</span>
+    <span class="badge">V2.3 · hushåll + bostad</span>
   </header>
 
   <nav class="tabs" aria-label="Rapportsidor">
@@ -21,6 +21,7 @@
     <button class="tab" data-page="age">Åldersanalys 1-år</button>
     <button class="tab" data-page="migration">Flyttanalys</button>
     <button class="tab" data-page="labour">Arbetsmarknad & pendling</button>
+    <button class="tab" data-page="housing">Hushåll & bostad</button>
     <button class="tab" data-page="scenario">Scenario & justering</button>
     <button class="tab" data-page="validation">Validering</button>
     <button class="tab" data-page="method">Metod & data</button>
@@ -274,6 +275,66 @@
         </article>
       </section>
 
+      <section class="page" id="page-housing">
+        <div class="pageTitle">
+          <div><h2>Hushåll & bostadsefterfrågan</h2><p>Observerad hushållsbildning, boendetäthet och en indikativ jämförelse mellan nya hushåll och bostadstillskott.</p></div>
+        </div>
+
+        <div class="cards">
+          <article class="card"><span>Hushåll</span><strong id="householdsKpi">–</strong><small id="householdsYear">–</small></article>
+          <article class="card"><span>Personer/hushåll</span><strong id="householdSizeKpi">–</strong><small>observerat</small></article>
+          <article class="card"><span>Bostadsbestånd</span><strong id="housingStockKpi">–</strong><small id="housingStockYear">–</small></article>
+          <article class="card"><span>Balansförändring slutår</span><strong id="housingBalanceKpi">–</strong><small>planerat tillskott − ny efterfrågan</small></article>
+        </div>
+
+        <article class="panel">
+          <div class="formGrid3">
+            <label>Hushållsstorlek i framskrivning
+              <select id="householdProjectionMode">
+                <option value="constant">Konstant senaste nivå</option>
+                <option value="trend">Senaste 5 årens trend</option>
+                <option value="manual">Manuell nivå</option>
+              </select>
+            </label>
+            <label>Manuellt personer/hushåll
+              <input id="householdManualSize" type="number" min="1" max="5" step="0.01" value="2.1" />
+            </label>
+            <label>Önskad reserv/vakans %
+              <input id="housingReservePct" type="number" min="0" max="20" step="0.5" value="3" />
+            </label>
+          </div>
+          <p class="hint">Balansen är en efterfrågeindikator, inte ett mått på faktisk bostadsbrist. Den jämför förändringen i beräknat hushållsbehov med aktiva bostadsscenariers färdigställda bostäder.</p>
+        </article>
+
+        <div class="grid2">
+          <article class="panel chartPanel">
+            <div class="panelHead"><div><h2>Hushållsutveckling</h2><p class="hint">Historiska hushåll och modellens implicita hushållsframskrivning.</p></div></div>
+            <svg id="householdTrendChart" viewBox="0 0 900 330" role="img" aria-label="Hushållsutveckling"></svg>
+          </article>
+          <article class="panel chartPanel">
+            <div class="panelHead"><div><h2>Ny bostadsefterfrågan mot planerat tillskott</h2><p class="hint">Båda serierna visas som förändring från basåret.</p></div></div>
+            <svg id="housingDemandChart" viewBox="0 0 900 330" role="img" aria-label="Ny hushållsefterfrågan och bostadstillskott"></svg>
+          </article>
+        </div>
+
+        <article class="panel">
+          <h2>SCB-standard: personer per bostad</h2>
+          <p class="hint">2024 används som automatisk scenariostandard. Flerbostadshus kan skiljas efter upplåtelseform och antal rum; småhus använder upplåtelseform. Riket används endast som fallback om kommunvärde saknas.</p>
+          <div id="occupancyDefaultsTable"></div>
+        </article>
+
+        <div class="grid2">
+          <article class="panel">
+            <h2>Hushållstyper 2024</h2>
+            <div id="householdComposition"></div>
+          </article>
+          <article class="panel">
+            <h2>Bostadsbestånd</h2>
+            <div id="housingStockTable"></div>
+          </article>
+        </div>
+      </section>
+
       <section class="page" id="page-scenario">
         <div class="pageTitle">
           <div><h2>Scenario & justering</h2><p>Ändra demografiska antaganden, bostadsbyggande och arbetsplatsetableringar.</p></div>
@@ -301,7 +362,7 @@
             <button id="addHousing" class="secondary compact">+ Bostadsrad</button>
           </div>
           <div class="tableWrap"><table id="housingTable"><thead><tr>
-            <th>Aktiv</th><th>År</th><th>Kommun</th><th>Typ</th><th>Upplåtelse</th><th>Storlek</th><th>Antal</th><th>Färdig %</th><th>Beläggning %</th><th>Personer/bostad</th><th>Nya till FA %</th><th>Intern flytt %</th><th>Infasning</th><th></th>
+            <th>Aktiv</th><th>År</th><th>Kommun</th><th>Typ</th><th>Upplåtelse</th><th>Storlek</th><th>Antal</th><th>Färdig %</th><th>Beläggning %</th><th>Pers/bostad läge</th><th>Personer/bostad</th><th>Nya till FA %</th><th>Intern flytt %</th><th>Infasning</th><th></th>
           </tr></thead><tbody></tbody></table></div>
         </article>
 
@@ -398,6 +459,7 @@
 
   <script src="data/model_data.js"></script>
   <script src="data/labour_market.js"></script>
+  <script src="data/housing_households.js"></script>
   <script src="data/model_validation.js"></script>
   <script src="data/backtests/backtest_2022_2024.js"></script>
   <script src="data/benchmarks/scb_model_comparison.js"></script>
