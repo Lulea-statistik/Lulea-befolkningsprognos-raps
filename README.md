@@ -47,7 +47,7 @@ Geografi, kalibreringsfönster och slutår är globala filter och gäller på al
 - Där officiella Raps-parametrar saknas används en outcome-oberoende fading per ålderscell.
 - Fading använder två outcome-oberoende informationssignaler: genomsnittlig årlig cellpopulation och förväntat antal händelser. Populationssignalen går från 0 % vid <=20 till 100 % vid >=100; händelsesignalen går från 0 % vid <=1 förväntad händelse till 100 % vid >=20. Den slutliga lokala vikten är produkten av de två.
 - Fadinggränserna är fastställda före benchmarkutvärderingen och får inte trimmas mot känt utfall.
-- `urisk`: V1 använder exogen historisk nettoflyttning; endogena IMIG/UMIG-koefficienter kommer senare.
+- `urisk`: historisk kommunal utflyttningsrisk lagras nu per kön/ettårsålder och 6/10/19-årsfönster. Historisk bruttoinflyttning lagras parallellt. Basscenariot använder fortfarande exogen nettoflyttning tills IMIG/UMIG/`ifl` aktiveras.
 - `qutb`: identitetsmatris tills övergångstal läggs in.
 - Kalibreringsfönster 6, 10 (standard) och 19 år.
 - CKM-metodbrottet 2025 flaggas separat.

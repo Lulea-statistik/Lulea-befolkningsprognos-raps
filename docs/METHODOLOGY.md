@@ -26,7 +26,11 @@ Där `D` är döda och `P` är relevant medelfolkmängd. Framtida riskprofil utg
 
 `urisk = 1 - exp(-U/P)`
 
-V1 lagrar och diagnostiserar `urisk`, men prognosens migration drivs av exogena nettoflyttningsprofiler tills `ifl` och IMIG/UMIG utvecklas vidare.
+V1 beräknar och lagrar `urisk` per kommun, kön och ettårsålder för 6-, 10- och 19-årsfönstren. `U` är observerad kommunal brutto-utflyttning och `P` motsvarande summerad exponering/medelfolkmängd under kalibreringsfönstret. Ett historiskt årligt bruttoinflyttningsprofil per kommun, kön och ålder lagras parallellt som underlag för en framtida IMIG-modell.
+
+Dessa bruttoflöden skapas inte för FA genom summering av kommunerna, eftersom flyttar mellan medlemskommunerna då felaktigt skulle räknas som extern FA-migration.
+
+Basscenariot använder fortfarande exogena nettoflyttningsprofiler. `urisk` och bruttoinflyttningen är därför i denna version modellbyggande diagnostik tills IMIG/UMIG och `ifl` aktiveras.
 
 ### Utbildningsbyte
 
