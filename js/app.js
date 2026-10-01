@@ -410,6 +410,40 @@
       ?`ålder ${impact?.age===100?"100+":impact?.age}, ±5 % av inflyttning`
       :`ålder ${impact?.age===100?"100+":impact?.age}, ±5 % av flyttnetto · brutto saknas för FA`;
 
+    const practical=[...rows]
+      .filter(r=>grossAvailable?r.sensitivity5PctInflowPersons!=null:r.sensitivity5PctNetPersons!=null)
+      .sort((a,b)=>{
+        const av=grossAvailable?Number(a.sensitivity5PctInflowPersons||0):Number(a.sensitivity5PctNetPersons||0);
+        const bv=grossAvailable?Number(b.sensitivity5PctInflowPersons||0):Number(b.sensitivity5PctNetPersons||0);
+        return bv-av;
+      }).slice(0,10);
+    const relative=grossAvailable?[...rows]
+      .filter(r=>r.cvInflowPct!=null)
+      .sort((a,b)=>Number(b.cvInflowPct||0)-Number(a.cvInflowPct||0)).slice(0,10):[...rows]
+      .filter(r=>r.cvNetMigrationPct!=null)
+      .sort((a,b)=>Number(b.cvNetMigrationPct||0)-Number(a.cvNetMigrationPct||0)).slice(0,10);
+    $("migrationPriority").innerHTML=`
+      <div class="grid2">
+        <div><h3>Störst praktisk 5 %-effekt</h3>
+          <table class="miniTable"><thead><tr><th>Ålder</th><th>Flöde</th><th>5 %-effekt</th></tr></thead><tbody>
+          ${practical.map(r=>{
+            const flow=grossAvailable?r.meanInflow:r.meanNetMigration;
+            const effect=grossAvailable?r.sensitivity5PctInflowPersons:r.sensitivity5PctNetPersons;
+            return `<tr><td>${r.age===100?"100+":r.age}</td><td>${fmt1.format(flow||0)}</td><td>${fmt1.format(effect||0)} pers.</td></tr>`;
+          }).join("")}</tbody></table>
+        </div>
+        <div><h3>Högst relativ historisk variation</h3>
+          <table class="miniTable"><thead><tr><th>Ålder</th><th>CV</th><th>Flöde</th><th>5 %-effekt</th></tr></thead><tbody>
+          ${relative.map(r=>{
+            const cv=grossAvailable?r.cvInflowPct:r.cvNetMigrationPct;
+            const flow=grossAvailable?r.meanInflow:r.meanNetMigration;
+            const effect=grossAvailable?r.sensitivity5PctInflowPersons:r.sensitivity5PctNetPersons;
+            return `<tr><td>${r.age===100?"100+":r.age}</td><td>${pct.format(cv||0)} %</td><td>${fmt1.format(flow||0)}</td><td>${fmt1.format(effect||0)} pers.</td></tr>`;
+          }).join("")}</tbody></table>
+        </div>
+      </div>
+      <p class="hint">Hög relativ variation betyder inte automatiskt stor prognosbetydelse. Jämför CV med flödets storlek och 5 %-effekten i personer.</p>`;
+
     $("migrationAgeTable").querySelector("tbody").innerHTML=rows.map(r=>{
       const fivePct=grossAvailable?r.sensitivity5PctInflowPersons:r.sensitivity5PctNetPersons;
       return `<tr>
