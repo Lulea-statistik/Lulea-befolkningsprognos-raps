@@ -35,3 +35,29 @@ ul{padding-left:19px;margin:0}li{margin:7px 0}code{background:#eef2f6;padding:2p
 @media(max-width:1150px){main{grid-template-columns:1fr}.controls{position:static}.grid2{grid-template-columns:1fr}.policyGrid{grid-template-columns:1fr 1fr}}
 @media(max-width:760px){.cards,.validationCards{grid-template-columns:1fr 1fr}.formGrid3{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}.ageRow{grid-template-columns:50px 1fr 60px}.ageRow small{display:none}}
 @media(max-width:520px){.cards,.validationCards{grid-template-columns:1fr}.tabs{padding-left:10px;padding-right:10px}}
+
+.analysisTableWrap{max-height:520px;overflow:auto;border:1px solid #edf0f3;border-radius:10px;margin-top:14px}
+.analysisTableWrap thead th{position:sticky;top:0;background:#fff;z-index:2}
+.ageStructureTable td:nth-child(2){min-width:180px}
+.chartLegend{font-size:12px;font-weight:700;fill:#344054}
+.lineLocalWeight,.lineWomen,.lineMen,.lineInflow,.lineOutflow,.lineVariation,.lineSensitivity{
+  fill:none;stroke-width:2.5
+}
+.lineLocalWeight{stroke:#3157a3}
+.lineWomen{stroke:#7b4da7}
+.lineMen{stroke:#3157a3}
+.lineInflow{stroke:#227a55}
+.lineOutflow{stroke:#9b3b3b}
+.lineVariation{stroke:#7b4da7}
+.lineSensitivity{stroke:#b7791f}
+.chartTooltip{
+  position:fixed;display:none;z-index:50;pointer-events:none;
+  min-width:170px;max-width:300px;padding:10px 12px;border-radius:9px;
+  background:#17202a;color:#fff;box-shadow:0 8px 24px rgba(16,24,40,.22);
+  font-size:12px;line-height:1.35
+}
+.chartTooltip.show{display:block}
+.chartTooltip strong{display:block;margin-bottom:5px;font-size:13px}
+.chartTooltip div{display:flex;justify-content:space-between;gap:18px;margin:3px 0}
+.chartTooltip span{color:#d0d5dd}.chartTooltip b{font-weight:700;text-align:right}
+svg{cursor:crosshair}
