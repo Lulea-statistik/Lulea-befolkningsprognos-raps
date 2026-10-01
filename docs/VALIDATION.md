@@ -95,3 +95,11 @@ The historical SCB vintages are:
 The generated report is `data/backtests/rolling_2018_2024.json/js`. Intermediate per-origin model inputs are generated during the workflow under `data/backtests/rolling_work/` but are not versioned.
 
 Because the forecast windows overlap in calendar time, pooled rolling-origin errors are a robustness diagnostic rather than four statistically independent experiments. The report therefore also preserves origin-specific and forecast-horizon-specific errors.
+
+### National forecast-vintage diagnostic
+
+The rolling-origin report also compares each historical SCB national forecast vintage directly with the later realized Sweden totals for births and deaths. This check is performed **before** local municipal calibration.
+
+Its purpose is diagnostic: if a municipality-level mortality bias has the same sign as the national SCB vintage error, part of the local error may originate in the national forecast assumption rather than the localization method. Conversely, a large municipal bias when the national vintage is close to the observed national total points more strongly toward local calibration, age structure, or simulation mechanics.
+
+This diagnostic must not be used to retroactively scale historical vintages to their known outcomes.
