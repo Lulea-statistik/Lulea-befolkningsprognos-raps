@@ -2,8 +2,10 @@
 import json
 from pathlib import Path
 import importlib.util
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
 
 def load_module(name, path):
     spec = importlib.util.spec_from_file_location(name, path)
