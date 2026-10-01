@@ -4,16 +4,17 @@ HTML-baserad demografisk prognosmodell för Luleå FA och kommunerna Luleå, Bod
 
 ## Dashboard
 
-Gränssnittet är uppdelat i åtta rapportsidor:
+Gränssnittet är uppdelat i nio rapportsidor:
 
 1. **Resultat** – KPI:er, befolkningskurva, demografiska komponenter, årsresultat och SCB-benchmark.
 2. **Befolkningsanalys** – kalibreringskänslighet 6/10/19 år, kommun/Riket-faktorer, åldersstruktur och demografisk balans.
 3. **Åldersanalys 1-år** – fruktsamhets- och dödlighetsfading för varje enskild ålder, inklusive kvinnor/män för dödlighet.
 4. **Flyttanalys** – inflyttning, utflyttning, netto, historisk variation och praktisk 5 %-känslighet i 1-årsåldrar.
 5. **Arbetsmarknad & pendling** – jobbutveckling, bostads-/arbetsställekommun, pendlingsmatris och scenariofördelning av nya jobb.
-6. **Scenario & justering** – generella demografiska multiplikatorer, bostadsbyggande och arbetsplatsetableringar.
-7. **Validering** – historisk 2022–2024-backtest, fel per 1-årsålder och jämförelse mot SCB:s regionala framskrivning.
-8. **Metod & data** – källor, CKM-status, Raps-anpassning och fading-policy.
+6. **Hushåll & bostad** – hushållsbildning, personer per hushåll, SCB-standardvärden per bostadstyp, bostadsbestånd och indikativ ny bostadsefterfrågan.
+7. **Scenario & justering** – generella demografiska multiplikatorer, bostadsbyggande och arbetsplatsetableringar.
+8. **Validering** – historisk 2022–2024-backtest, fel per 1-årsålder och jämförelse mot SCB:s regionala framskrivning.
+9. **Metod & data** – källor, CKM-status, Raps-anpassning och fading-policy.
 
 Linjediagrammen har hover-värden för närmaste år eller ålder. Flyttanalysens historiska standardavvikelse är en variationsindikator, inte ett statistiskt konfidensintervall.
 
@@ -66,7 +67,7 @@ Bostadsrader kan ange:
 - andel som ger nya invånare till FA,
 - intern flyttning och infasningstid.
 
-Bostadstyp/upplåtelseform/storlek är ännu metadata. Personer per bostad anges explicit tills empiriska hushållsstorlekar per bostadstyp kopplas in.
+Bostadsscenariot har nu **SCB auto** eller **Manuell** för personer per bostad. Auto använder i första hand kommunens observerade värde 2024. Flerbostadshus hämtar boendeform + lägenhetstyp från SCB HushallT30/TAB4937; småhus hämtar boendeform från HushallT29/TAB4538. Om kommunvärde saknas används motsvarande riksvärde som fallback. Värdet är en observerad hushållsstorlek, inte en fysisk maxkapacitet för bostaden.
 
 Arbetsplatsscenarier kan använda **observerad pendling** eller en manuell fördelning. Med observerad pendling fördelas nya jobb först efter SCB TAB1830:s aktuella bostadskommunmönster för vald arbetsställekommun. Jobb som tas av boende i annan FA-kommun ger i sig ingen befolkningstillväxt i FA; en separat intern flyttandel kan omfördela boende mellan kommunerna. Endast en separat vald andel av jobben som tas av personer bosatta utanför FA omvandlas till extern inflyttning, multiplicerad med personer per inflyttat jobb.
 
@@ -116,3 +117,18 @@ Workflow **Update SCB data** kan köras manuellt och månadsvis. Det:
 SCB TAB3205 används för ålder/kön bland sysselsatta efter arbetsställekommun. Dashboarden visar ett 2022–2024-genomsnitt i SCB:s tre ömsesidigt uteslutande breda åldersgrupper **15–24, 25–54 och 55–74**.
 
 Jämförelsen visade att Luleås observerade inflyttning är starkt studentpåverkad: 38,4 % av 0–64-inflyttningen ligger i 18–24 år, medan bara cirka 11,2 % av de sysselsatta på arbetsställen i Luleå ligger i 15–24 år. Därför används arbetsmarknadsprofilen i standardscenariot för jobbinnehavaren, medan medföljande hushåll hanteras separat. Förändringen bygger på mer relevant källdata och inte på att optimera prognosutfallet.
+
+
+## Hushåll och bostadsefterfrågan
+
+Hushållsdelen använder flera separata SCB-källor:
+
+- **TAB4538 / HushallT29** – personer per hushåll efter region och boendeform; används bland annat för småhus.
+- **TAB4937 / HushallT30** – hushåll och genomsnittligt antal personer per hushåll efter boendeform och lägenhetstyp; används för flerbostadshus och antal rum.
+- **TAB1533 / HushallT05** – hushåll och personer efter hushållstyp och antal barn.
+- **TAB4374 / HushallT09** – totalt antal hushåll och personer per hushåll över tid.
+- **TAB824 / BO0104T04** – bostadsbestånd efter hustyp och upplåtelseform.
+
+Dashboardens bostadsefterfrågan är en **indikativ hushållsbildningsmodell**. Prognostiserad befolkning divideras med vald hushållsstorlek (senaste nivå, femårstrend eller manuell nivå). Förändringen i beräknat hushållsbehov jämförs med färdigställt tillskott i aktiva bostadsscenarier. En valbar reserv/vakansandel kan läggas ovanpå efterfrågan.
+
+Måttet ska inte tolkas som ett direkt marknadsunderskott eller som en prisprognos. Det tar i denna version inte fullt hänsyn till vakanser, fritidsbostäder, specialbostäder, bostadspriser, hushållens ekonomi eller matchning mellan hushållstyp och bostad.
