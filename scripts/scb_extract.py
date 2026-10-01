@@ -213,7 +213,8 @@ def cell_count(selection: dict[str, list[str]]) -> int:
 def split_selection(
     selection: dict[str, list[str]],
     max_cells: int = 100000,
-    max_query_chars: int = 5500,
+    max_query_chars: int = 3500,
+    max_values_per_dimension: int = 80,
 ):
     """Split requests by both cell count and URL/query length.
 
@@ -229,6 +230,31 @@ def split_selection(
     """
     encoded_len = len(encode_params(selection))
     cells = cell_count(selection)
+
+    # A single dimension with hundreds of selected values can produce a GET
+    # request that is rejected by a web server/proxy even when the number of
+    # returned cells is modest. Split such dimensions proactively.
+    oversized_dims = [
+        (dim, vals)
+        for dim, vals in selection.items()
+        if len(vals) > max_values_per_dimension and dim != "ContentsCode"
+    ]
+    if oversized_dims:
+        dim, vals = max(oversized_dims, key=lambda item: len(item[1]))
+        batches = []
+        for i in range(0, len(vals), max_values_per_dimension):
+            part = {k: list(v) for k, v in selection.items()}
+            part[dim] = list(vals[i:i + max_values_per_dimension])
+            batches.extend(
+                split_selection(
+                    part,
+                    max_cells,
+                    max_query_chars,
+                    max_values_per_dimension,
+                )
+            )
+        return batches
+
     if cells <= max_cells and encoded_len <= max_query_chars:
         return [selection]
 
@@ -255,7 +281,7 @@ def split_selection(
                 continue
             part = {k: list(v) for k, v in selection.items()}
             part[dim] = list(chunk)
-            batches.extend(split_selection(part, max_cells, max_query_chars))
+            batches.extend(split_selection(part, max_cells, max_query_chars, max_values_per_dimension))
         return batches
 
     # Cell-heavy requests are most naturally split by time because PxWeb CSV is
@@ -268,7 +294,7 @@ def split_selection(
         for i in range(0, len(years), years_per_batch):
             part = {k: list(v) for k, v in selection.items()}
             part["Tid"] = years[i:i + years_per_batch]
-            batches.extend(split_selection(part, max_cells, max_query_chars))
+            batches.extend(split_selection(part, max_cells, max_query_chars, max_values_per_dimension))
         return batches
 
     candidates = [
@@ -288,7 +314,7 @@ def split_selection(
             continue
         part = {k: list(v) for k, v in selection.items()}
         part[dim] = list(chunk)
-        batches.extend(split_selection(part, max_cells, max_query_chars))
+        batches.extend(split_selection(part, max_cells, max_query_chars, max_values_per_dimension))
     return batches
 
 def _csv_dialect(text: str):
