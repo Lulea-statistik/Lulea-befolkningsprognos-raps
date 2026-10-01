@@ -210,24 +210,85 @@ def cell_count(selection: dict[str, list[str]]) -> int:
         total *= max(1, len(vals))
     return total
 
-def split_selection(selection: dict[str, list[str]], max_cells: int = 100000):
-    """Split large requests by time so every SCB request stays below the API cell limit."""
-    if cell_count(selection) <= max_cells:
+def split_selection(
+    selection: dict[str, list[str]],
+    max_cells: int = 100000,
+    max_query_chars: int = 5500,
+):
+    """Split requests by both cell count and URL/query length.
+
+    PxWebApi v2 uses GET parameters for value selections. A request can have
+    relatively few cells but still exceed practical URL limits when a
+    dimension contains hundreds of value codes (for example all Swedish
+    residence municipalities in TAB1830).
+
+    Splitting is generic: prefer Tid for cell-heavy requests, otherwise split
+    the dimension contributing the longest encoded value list. The CSV merger
+    outer-joins chunks on dimension columns, so chunks may differ by year or by
+    another selected dimension.
+    """
+    encoded_len = len(encode_params(selection))
+    cells = cell_count(selection)
+    if cells <= max_cells and encoded_len <= max_query_chars:
         return [selection]
 
-    years = selection.get("Tid") or []
-    if len(years) <= 1:
-        raise RuntimeError(
-            f"Selection has {cell_count(selection):,} cells and cannot be split by year."
+    # If the query string itself is too long, split the dimension whose encoded
+    # list contributes most. Avoid ContentsCode where possible.
+    if encoded_len > max_query_chars:
+        candidates = [
+            (dim, vals)
+            for dim, vals in selection.items()
+            if len(vals) > 1 and dim != "ContentsCode"
+        ]
+        if not candidates:
+            raise RuntimeError(
+                f"Selection URL is too long ({encoded_len:,} chars) and cannot be split."
+            )
+        dim, vals = max(
+            candidates,
+            key=lambda item: sum(len(str(v)) + 1 for v in item[1]),
         )
+        mid = max(1, len(vals) // 2)
+        batches = []
+        for chunk in (vals[:mid], vals[mid:]):
+            if not chunk:
+                continue
+            part = {k: list(v) for k, v in selection.items()}
+            part[dim] = list(chunk)
+            batches.extend(split_selection(part, max_cells, max_query_chars))
+        return batches
 
-    cells_per_year = cell_count(selection) // len(years)
-    years_per_batch = max(1, max_cells // max(1, cells_per_year))
+    # Cell-heavy requests are most naturally split by time because PxWeb CSV is
+    # wide by year. If time cannot be split, fall back to the largest dimension.
+    years = selection.get("Tid") or []
+    if len(years) > 1:
+        cells_per_year = max(1, cells // len(years))
+        years_per_batch = max(1, max_cells // cells_per_year)
+        batches = []
+        for i in range(0, len(years), years_per_batch):
+            part = {k: list(v) for k, v in selection.items()}
+            part["Tid"] = years[i:i + years_per_batch]
+            batches.extend(split_selection(part, max_cells, max_query_chars))
+        return batches
+
+    candidates = [
+        (dim, vals)
+        for dim, vals in selection.items()
+        if len(vals) > 1 and dim != "ContentsCode"
+    ]
+    if not candidates:
+        raise RuntimeError(
+            f"Selection has {cells:,} cells and no splittable dimension."
+        )
+    dim, vals = max(candidates, key=lambda item: len(item[1]))
+    mid = max(1, len(vals) // 2)
     batches = []
-    for i in range(0, len(years), years_per_batch):
+    for chunk in (vals[:mid], vals[mid:]):
+        if not chunk:
+            continue
         part = {k: list(v) for k, v in selection.items()}
-        part["Tid"] = years[i:i + years_per_batch]
-        batches.append(part)
+        part[dim] = list(chunk)
+        batches.extend(split_selection(part, max_cells, max_query_chars))
     return batches
 
 def _csv_dialect(text: str):
@@ -238,12 +299,11 @@ def _csv_dialect(text: str):
         return csv.excel
 
 def merge_wide_csv_chunks(chunks: list[tuple[str, dict[str, list[str]]]]) -> str:
-    """Merge PxWeb CSV batches that differ only by selected year columns.
+    """Merge PxWeb CSV batches split by year or by another dimension.
 
-    PxWeb's CSV output is wide: years are emitted as columns. When a large
-    request is split by Tid, each response therefore has a different header.
-    We outer-join the batches on all non-year columns and append the year
-    columns instead of requiring identical headers.
+    PxWeb's CSV output is wide by year. Dimension-split chunks have identical
+    value columns but different rows; year-split chunks have different value
+    columns. The same outer-join by dimension columns handles both cases.
     """
     if not chunks:
         return ""
