@@ -491,7 +491,7 @@ SPECS = {
         "content_terms":["arbetsställets belägenhet"]
     },
     "household_size_by_tenure": {"start":2012,"end":2025,"include_riket":True,"content_terms":["Antal personer per hushåll"]},
-    "household_size_by_apartment": {"start":2012,"end":2025,"include_riket":True,"content_terms":["antal personer per hushåll"]},
+    "household_size_by_apartment": {"start":2012,"end":2025,"include_riket":True,"content_terms":["antal hushåll","antal personer per hushåll"]},
     "households_by_type": {"start":2011,"end":2024,"include_riket":True,"content_terms":["Antal hushåll","Antal personer"]},
     "household_totals": {"start":2011,"end":2025,"include_riket":True,"content_terms":["Antal hushåll","Antal personer per hushåll"]},
     "housing_stock": {"start":2013,"end":2025},
