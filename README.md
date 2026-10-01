@@ -38,7 +38,7 @@ Geografi, kalibreringsfönster och slutår är globala filter och gäller på al
 - Fruktsamhet och dödlighet följer SCB 2024:s nationella framtidstrender och lokaliseras mot kommun/FA.
 - Lokal nivå skattas som observerat/förväntat mot rikets åldersprofil.
 - Där officiella Raps-parametrar saknas används en outcome-oberoende fading per ålderscell.
-- Fading: 0 % direkt lokal cellpåverkan vid lokalt underlag <=20, mjuk övergång därefter och 100 % lokal cellpåverkan vid underlag >=100.
+- Fading använder två outcome-oberoende informationssignaler: genomsnittlig årlig cellpopulation och förväntat antal händelser. Populationssignalen går från 0 % vid <=20 till 100 % vid >=100; händelsesignalen går från 0 % vid <=1 förväntad händelse till 100 % vid >=20. Den slutliga lokala vikten är produkten av de två.
 - Fadinggränserna är fastställda före benchmarkutvärderingen och får inte trimmas mot känt utfall.
 - `urisk`: V1 använder exogen historisk nettoflyttning; endogena IMIG/UMIG-koefficienter kommer senare.
 - `qutb`: identitetsmatris tills övergångstal läggs in.
