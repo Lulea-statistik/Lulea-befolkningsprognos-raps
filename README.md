@@ -51,6 +51,7 @@ Geografi, kalibreringsfönster och slutår är globala filter och gäller på al
 - `qutb`: identitetsmatris tills övergångstal läggs in.
 - Kalibreringsfönster 6, 10 (standard) och 19 år.
 - CKM-metodbrottet 2025 flaggas separat.
+- Luleå FA prognostiseras additivt som summan av de fem kommunprognoserna. FA-specifika kalibrerade profiler används som diagnostik, inte som en separat prognosmotor.
 
 ## Bostads- och arbetsplatsscenarier
 
