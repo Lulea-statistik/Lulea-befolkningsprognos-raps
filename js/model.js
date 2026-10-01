@@ -172,7 +172,22 @@
     const rows=data.populationBase.filter(r=>r.geo===geo && +r.year===baseYear);
     if(!rows.length) throw new Error(`Saknar startbefolkning för ${geo}, ${baseYear}.`);
     let pop=indexed(rows,geo);
-    const results=[{year:baseYear,population:[...pop.values()].reduce((s,v)=>s+v,0),births:0,deaths:0,netMigration:0,scenarioEffect:0,change:0}];
+    const snapshot=()=>{
+      if(!options.includeDetail) return undefined;
+      const out=[];
+      for(const sex of ["K","M"]){
+        for(let age=0;age<=MAX_AGE;age++){
+          out.push({sex,age,value:n(pop.get(key(sex,age)))});
+        }
+      }
+      return out;
+    };
+    const results=[{
+      year:baseYear,
+      population:[...pop.values()].reduce((s,v)=>s+v,0),
+      births:0,deaths:0,netMigration:0,scenarioEffect:0,change:0,
+      populationByAgeSex:snapshot()
+    }];
 
     for(let year=baseYear+1;year<=endYear;year++){
       let births=0, deaths=0, netMigration=0;
@@ -209,8 +224,12 @@
 
       const total=[...survivors.values()].reduce((s,v)=>s+v,0);
       const prev=results[results.length-1].population;
-      results.push({year,population:total,births,deaths,netMigration,scenarioEffect:sfx.total,scenarioDetail:sfx,change:total-prev});
       pop=survivors;
+      results.push({
+        year,population:total,births,deaths,netMigration,
+        scenarioEffect:sfx.total,scenarioDetail:sfx,change:total-prev,
+        populationByAgeSex:snapshot()
+      });
     }
     return results;
   }
