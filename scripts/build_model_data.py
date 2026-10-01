@@ -39,6 +39,8 @@ RATIO_MAX = 1.50
 # switching abruptly from national to municipal data.
 FADING_ZERO_LOCAL_EXPOSURE = 20.0
 FADING_FULL_LOCAL_EXPOSURE = 100.0
+FADING_ZERO_EXPECTED_EVENTS = 1.0
+FADING_FULL_EXPECTED_EVENTS = 20.0
 CALIBRATION_END = 2024
 SEX_MAP = {"1": "M", "2": "K", "M": "M", "K": "K"}
 
@@ -288,27 +290,41 @@ def clip_ratio(value):
         return 1.0
     return max(RATIO_MIN, min(RATIO_MAX, value))
 
-def fallback_fading_weight(local_exposure):
-    """Outcome-independent local weight used only where Raps is underspecified.
-
-    The weight is fixed ex ante from the amount of local exposure, never from
-    forecast errors or observed-vs-predicted outcomes. Below 20 observations /
-    person-years the cell stays on the national profile. Between 20 and 100
-    the local share rises smoothly, and at 100+ the cell is fully local.
-    """
-    x = max(0.0, float(local_exposure or 0.0))
-    if x <= FADING_ZERO_LOCAL_EXPOSURE:
+def _smooth_weight(value, zero_at, full_at):
+    x = max(0.0, float(value or 0.0))
+    if x <= zero_at:
         return 0.0
-    if x >= FADING_FULL_LOCAL_EXPOSURE:
+    if x >= full_at:
         return 1.0
-    t = (x - FADING_ZERO_LOCAL_EXPOSURE) / (
-        FADING_FULL_LOCAL_EXPOSURE - FADING_ZERO_LOCAL_EXPOSURE
-    )
-    # Smoothstep: continuous slope at both ends, avoiding a visible cutoff.
+    t = (x - zero_at) / (full_at - zero_at)
     return t * t * (3.0 - 2.0 * t)
 
-def faded_ratio(raw_ratio, local_exposure):
-    w = fallback_fading_weight(local_exposure)
+def fallback_fading_weight(avg_annual_exposure, expected_events):
+    """Outcome-independent local age-cell weight.
+
+    Two ex-ante information requirements are combined:
+    1) average annual local population/exposure in the cell;
+    2) expected event count under national rates over the calibration window.
+
+    A cell can reach 100% local weight only when both signals are sufficiently
+    strong. This lets large, information-rich cells become fully local while
+    rare-event cells (e.g. births to age 15) remain close to the national age
+    profile even when the population denominator itself is not tiny.
+    """
+    w_exposure = _smooth_weight(
+        avg_annual_exposure,
+        FADING_ZERO_LOCAL_EXPOSURE,
+        FADING_FULL_LOCAL_EXPOSURE,
+    )
+    w_events = _smooth_weight(
+        expected_events,
+        FADING_ZERO_EXPECTED_EVENTS,
+        FADING_FULL_EXPECTED_EVENTS,
+    )
+    return w_exposure * w_events
+
+def faded_ratio(raw_ratio, avg_annual_exposure, expected_events):
+    w = fallback_fading_weight(avg_annual_exposure, expected_events)
     raw = 1.0 if not math.isfinite(raw_ratio) else raw_ratio
     applied = 1.0 + w * (raw - 1.0)
     return clip_ratio(applied), w
@@ -390,7 +406,10 @@ def mortality_profiles(deaths, exposure):
                         raw_cell_factor = general_factor
                     else:
                         raw_cell_factor = local_hazard / national_hazard if local_exposure > 0 else general_factor
-                        cell_weight = fallback_fading_weight(local_exposure)
+                        avg_annual_exposure = local_exposure / float(window)
+                        cell_weight = fallback_fading_weight(
+                            avg_annual_exposure, expected_cell
+                        )
                         # Blend the local age/sex deviation around the general
                         # municipality factor. Sparse cells stay on the
                         # national age profile scaled by the general factor.
@@ -405,6 +424,7 @@ def mortality_profiles(deaths, exposure):
                         "municipalityFactor": general_factor,
                         "rawCellFactor": raw_cell_factor,
                         "cellExpectedEvents": expected_cell,
+                        "cellAverageAnnualExposure": avg_annual_exposure if national_hazard > 0 and base_hazard > 0 else (local_exposure / float(window)),
                         "cellLocalWeight": cell_weight,
                     })
     return result, factors
@@ -446,7 +466,10 @@ def fertility_profiles(births, exposure):
                     raw_cell_factor = general_factor
                 else:
                     raw_cell_factor = local_rate / national_rate if local_women > 0 else general_factor
-                    cell_weight = fallback_fading_weight(local_women)
+                    avg_annual_exposure = local_women / float(window)
+                    cell_weight = fallback_fading_weight(
+                        avg_annual_exposure, expected_cell
+                    )
                     local_target = national_rate * clip_ratio(raw_cell_factor)
                     blended_rate = (1 - cell_weight) * base_rate + cell_weight * local_target
 
@@ -457,6 +480,7 @@ def fertility_profiles(births, exposure):
                     "municipalityFactor": general_factor,
                     "rawCellFactor": raw_cell_factor,
                     "cellExpectedEvents": expected_cell,
+                    "cellAverageAnnualExposure": avg_annual_exposure if national_rate > 0 and base_rate > 0 else (local_women / float(window)),
                     "cellLocalWeight": cell_weight,
                 })
     return result, factors
@@ -546,7 +570,7 @@ def main():
 
     model = {
         "meta": {
-            "schemaVersion": "0.6.0",
+            "schemaVersion": "0.6.1",
             "generatedBy": "scripts/build_model_data.py",
             "dataReady": True,
             "baseYear": 2025,
@@ -604,8 +628,10 @@ def main():
                     "weightDependsOnOutcome": False,
                     "zeroLocalExposure": FADING_ZERO_LOCAL_EXPOSURE,
                     "fullLocalExposure": FADING_FULL_LOCAL_EXPOSURE,
+                    "zeroExpectedEvents": FADING_ZERO_EXPECTED_EVENTS,
+                    "fullExpectedEvents": FADING_FULL_EXPECTED_EVENTS,
                     "maxLocalWeight": 1.0,
-                    "formula": "w=smoothstep(localExposure,20,100); cellRate=(1-w)*(nationalRate*generalFactor)+w*localCellRate",
+                    "formula": "w=smoothstep(avgAnnualExposure,20,100)*smoothstep(expectedEvents,1,20); cellRate=(1-w)*(nationalRate*generalFactor)+w*localCellRate",
                     "governance": "Thresholds are fixed before benchmark evaluation and must not be tuned to improve backtest results."
                 }
             },
