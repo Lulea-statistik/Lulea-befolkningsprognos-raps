@@ -18,6 +18,8 @@
   <nav class="tabs" aria-label="Rapportsidor">
     <button class="tab active" data-page="results">Resultat</button>
     <button class="tab" data-page="analysis">Befolkningsanalys</button>
+    <button class="tab" data-page="age">Åldersanalys 1-år</button>
+    <button class="tab" data-page="migration">Flyttanalys</button>
     <button class="tab" data-page="scenario">Scenario & justering</button>
     <button class="tab" data-page="validation">Validering</button>
     <button class="tab" data-page="method">Metod & data</button>
@@ -120,6 +122,77 @@
           <h2>Fading per ålderscell</h2>
           <p class="hint">Visar hur stor direkt lokal vikt som används i utvalda åldrar. 0 % innebär helt nationell åldersprofil (med generell kommunnivå), 100 % innebär fullt lokal ålderscell.</p>
           <div id="fadingExamples"></div>
+        </article>
+      </section>
+
+      <section class="page" id="page-age">
+        <div class="pageTitle">
+          <div><h2>Åldersanalys i 1-årsklasser</h2><p>Lokal påverkan, riksprofil och fading för varje enskild ålder.</p></div>
+        </div>
+
+        <article class="panel chartPanel">
+          <div class="panelHead">
+            <div><h2>Fruktsamhet – lokal vikt per ålder</h2><p class="hint">Moderns ålder 15–49 år. Hover visar lokal vikt, årlig population, förväntade händelser och modellens nivå.</p></div>
+          </div>
+          <svg id="fertilityWeightChart" viewBox="0 0 900 320" role="img" aria-label="Lokal vikt för fruktsamhet efter ålder"></svg>
+          <div class="tableWrap analysisTableWrap"><table id="fertilityAgeTable" class="miniTable"><thead><tr>
+            <th>Ålder</th><th>Årlig population</th><th>Förv. födslar</th><th>Lokal vikt</th><th>Lokal/rike</th><th>Modell per 1 000 kvinnor</th>
+          </tr></thead><tbody></tbody></table></div>
+        </article>
+
+        <article class="panel chartPanel">
+          <div class="panelHead">
+            <div><h2>Dödlighet – lokal vikt per ålder och kön</h2><p class="hint">0–100+ år. Kvinnor och män visas separat; hover visar cellens stöd och lokal påverkan.</p></div>
+          </div>
+          <svg id="mortalityWeightChart" viewBox="0 0 900 340" role="img" aria-label="Lokal vikt för dödlighet efter ålder och kön"></svg>
+          <div class="tableWrap analysisTableWrap"><table id="mortalityAgeTable" class="miniTable"><thead><tr>
+            <th>Ålder</th><th>Kvinnor vikt</th><th>Män vikt</th><th>Kvinnor förv. döda</th><th>Män förv. döda</th><th>Kvinnor lokal/rike</th><th>Män lokal/rike</th>
+          </tr></thead><tbody></tbody></table></div>
+        </article>
+
+        <article class="panel">
+          <h2>Hur ska lokal påverkan tolkas?</h2>
+          <p>0 % betyder att åldersmönstret hämtas från Riket men fortfarande skalas med kommunens generella nivå. 100 % betyder att den enskilda lokala ålderscellen används fullt ut. Vikten bestäms i förväg av cellens population och informationsmängd, inte av hur väl prognosen råkar träffa ett känt utfall.</p>
+        </article>
+      </section>
+
+      <section class="page" id="page-migration">
+        <div class="pageTitle">
+          <div><h2>Flyttanalys i 1-årsklasser</h2><p>Historiska flyttströmmar, variation och praktisk betydelse per ålder.</p></div>
+        </div>
+
+        <div class="cards">
+          <article class="card"><span>Årlig inflyttning</span><strong id="migrationInflowKpi">–</strong><small>historiskt medel</small></article>
+          <article class="card"><span>Årlig utflyttning</span><strong id="migrationOutflowKpi">–</strong><small>historiskt medel</small></article>
+          <article class="card"><span>Årligt flyttnetto</span><strong id="migrationNetKpi">–</strong><small>historiskt medel</small></article>
+          <article class="card"><span>Störst 5 %-känslighet</span><strong id="migrationImpactKpi">–</strong><small id="migrationImpactAge">–</small></article>
+        </div>
+
+        <article class="panel chartPanel">
+          <div class="panelHead">
+            <div><h2>Flyttströmmar efter ålder</h2><p class="hint">Historiskt årsmedel för inflyttning, utflyttning och netto. Hover visar värde för varje 1-årsålder.</p></div>
+          </div>
+          <svg id="migrationAgeChart" viewBox="0 0 900 340" role="img" aria-label="Flyttströmmar efter ålder"></svg>
+        </article>
+
+        <article class="panel chartPanel">
+          <div class="panelHead">
+            <div><h2>Variation kontra praktisk betydelse</h2><p class="hint">Historisk standardavvikelse visar variation över år. 5 %-känslighet visar hur många personer per år en ±5 % förändring i inflyttningen motsvarar.</p></div>
+          </div>
+          <svg id="migrationVariationChart" viewBox="0 0 900 340" role="img" aria-label="Historisk variation och känslighet i inflyttning efter ålder"></svg>
+        </article>
+
+        <article class="panel">
+          <h2>Flyttströmmar per 1-årsålder</h2>
+          <p class="hint">Relativ variation kan vara hög för små flöden. Kolumnen 5 %-effekt visar därför den praktiska storleken i personer per år.</p>
+          <div class="tableWrap analysisTableWrap"><table id="migrationAgeTable" class="miniTable"><thead><tr>
+            <th>Ålder</th><th>Inflyttning</th><th>Utflyttning</th><th>Netto</th><th>SD inflyttning</th><th>CV inflyttning</th><th>Andel av inflyttning</th><th>5 %-effekt</th>
+          </tr></thead><tbody></tbody></table></div>
+        </article>
+
+        <article class="panel">
+          <h2>Nuvarande modellstatus för flyttning</h2>
+          <p>I V1 är nettoflyttningen fortfarande 100 % lokalt historiskt kalibrerad och använder ännu inte Raps fulla IMIG/UMIG-koefficientstruktur. Den här sidan visar därför framför allt vilka åldersströmmar som är stora, stabila eller historiskt varierande, så att nästa utvecklingssteg kan prioritera de flöden som faktiskt betyder mest för prognosen.</p>
         </article>
       </section>
 
@@ -232,6 +305,8 @@
       </section>
     </section>
   </main>
+
+  <div id="chartTooltip" class="chartTooltip" role="status" aria-live="polite"></div>
 
   <script src="data/model_data.js"></script>
   <script src="data/model_validation.js"></script>
