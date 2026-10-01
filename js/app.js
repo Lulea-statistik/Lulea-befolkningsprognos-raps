@@ -525,6 +525,13 @@
       <text x="${p+110}" y="20" class="legendBaseline">Bas utan bostads-/jobbscenario</text>
       <text x="${p}" y="${H-12}" class="axisText">${rows[0].year}</text>
       <text x="${W-p-30}" y="${H-12}" class="axisText">${rows.at(-1).year}</text>`;
+    bindIndexedHover(svg,rows.map(r=>r.year),(i)=>{
+      const r=rows[i],b=baseRows[i];
+      return `<strong>År ${r.year}</strong>
+        <div><span>Vald prognos</span><b>${fmt.format(r.population)}</b></div>
+        ${b?`<div><span>Bas utan scenario</span><b>${fmt.format(b.population)}</b></div>`:""}
+        <div><span>Förändring</span><b>${r.change>=0?"+":""}${fmt.format(r.change)}</b></div>`;
+    },x);
   }
 
   function drawComponentsChart(rows){
@@ -543,6 +550,13 @@
     svg.innerHTML=`<line x1="${p}" y1="${zero}" x2="${W-p}" y2="${zero}" class="gridline"/>${lines}
       <text x="${p}" y="20" class="legendBirths">Födda</text><text x="${p+90}" y="20" class="legendDeaths">Döda</text><text x="${p+165}" y="20" class="legendMigration">Nettoflyttning</text>
       <text x="${p}" y="${H-10}" class="axisText">${rows[0].year}</text><text x="${W-p-30}" y="${H-10}" class="axisText">${rows.at(-1).year}</text>`;
+    bindIndexedHover(svg,rows.map(r=>r.year),(i)=>{
+      const r=rows[i];
+      return `<strong>År ${r.year}</strong>
+        <div><span>Födda</span><b>${fmt1.format(r.births)}</b></div>
+        <div><span>Döda</span><b>${fmt1.format(r.deaths)}</b></div>
+        <div><span>Nettoflyttning</span><b>${r.netMigration>=0?"+":""}${fmt1.format(r.netMigration)}</b></div>`;
+    },x);
   }
 
   function exportCsv(){
