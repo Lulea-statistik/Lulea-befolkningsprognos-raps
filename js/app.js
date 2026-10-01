@@ -636,7 +636,9 @@
   function drawAgeLineChart(svgId,xValues,series,options={}){
     const svg=$(svgId),W=900,H=options.height||330,p=48;
     if(!svg||!xValues.length){if(svg)svg.innerHTML="";return;}
-    const all=series.flatMap(s=>s.values.map(Number).filter(Number.isFinite));
+    const all=series.flatMap(s=>s.values
+      .map(v=>v==null?NaN:Number(v))
+      .filter(Number.isFinite));
     let min=options.yMin!=null?options.yMin:Math.min(...all);
     let max=options.yMax!=null?options.yMax:Math.max(...all);
     if(options.includeZero){min=Math.min(0,min);max=Math.max(0,max);}
@@ -650,7 +652,13 @@
       const yy=p+t*(H-2*p),val=max-t*span;
       return `<line x1="${p}" y1="${yy}" x2="${W-p}" y2="${yy}" class="gridline"/><text x="8" y="${yy+4}" class="axisText">${fmt1.format(val)}</text>`;
     }).join("");
-    const lines=series.map(s=>`<polyline points="${xValues.map((age,i)=>`${x(age)},${y(Number(s.values[i]||0))}`).join(" ")}" class="${s.cls}"/>`).join("");
+    const lines=series.map(s=>{
+      const points=xValues.map((age,i)=>{
+        const v=s.values[i];
+        return v==null||!Number.isFinite(Number(v))?null:`${x(age)},${y(Number(v))}`;
+      }).filter(Boolean).join(" ");
+      return points?`<polyline points="${points}" class="${s.cls}"/>`:"";
+    }).join("");
     const legends=series.map((s,i)=>`<text x="${p+i*155}" y="20" class="chartLegend">${s.name}</text>`).join("");
     svg.innerHTML=`${grid}${lines}${legends}
       <text x="${p}" y="${H-10}" class="axisText">${xmin}</text>
@@ -659,8 +667,9 @@
     bindIndexedHover(svg,xValues,(i)=>{
       const age=xValues[i]===100?"100+":xValues[i];
       return `<strong>${options.hoverLabel||"Ålder"} ${age}</strong>`+series.map(s=>{
-        const value=Number(s.values[i]||0);
-        return `<div><span>${s.name}</span><b>${fmt1.format(value)}${s.suffix||""}</b></div>`;
+        const raw=s.values[i];
+        const shown=raw==null||!Number.isFinite(Number(raw))?"–":fmt1.format(Number(raw))+(s.suffix||"");
+        return `<div><span>${s.name}</span><b>${shown}</b></div>`;
       }).join("");
     },i=>x(xValues[i]));
   }
