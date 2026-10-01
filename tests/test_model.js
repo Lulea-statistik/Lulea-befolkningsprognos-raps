@@ -167,4 +167,60 @@ const w6=M.simulate(windowData,{geo:'2580',endYear:2026,fertMult:1,mortMult:1,mi
 const w10=M.simulate(windowData,{geo:'2580',endYear:2026,fertMult:1,mortMult:1,migMult:1,window:10,scenarios:{}})[1];
 assert(w6.births>w10.births,'calibration window changes projected births');
 
-console.log('OK: model core, scenario balance, commuting allocation, worker-household migration profiles and calibration-window tests passed');
+
+const faAdditiveData={
+  meta:{baseYear:2025},
+  calibration:{defaultYears:10},
+  geographies:[
+    {code:'FA_LULEA',members:['2580','2582','2581','2560','2514']},
+    {code:'2580'},{code:'2582'},{code:'2581'},{code:'2560'},{code:'2514'}
+  ],
+  parameters:{sexRatioMaleAtBirth:0.515},
+  populationBase:[
+    ...['2580','2582','2581','2560','2514'].map((geo,i)=>({geo,year:2025,sex:'K',age:30,value:100+i*10})),
+    {geo:'FA_LULEA',year:2025,sex:'K',age:30,value:999}
+  ],
+  fertilityRates:[
+    ...['2580','2582','2581','2560','2514'].map((geo,i)=>({geo,window:10,age:30,value:0.01*(i+1)})),
+    {geo:'FA_LULEA',window:10,age:30,value:0.99}
+  ],
+  mortalityRisks:[],
+  netMigration:[]
+};
+const faAdditiveScenario={
+  housing:[{
+    active:true,year:2026,municipality:'2580',dwellings:100,completionPct:100,
+    occupancyPct:100,personsPerDwelling:2,externalSharePct:50,
+    internalSharePct:25,phaseYears:1
+  }],
+  workplaces:[],
+  overlapPct:0
+};
+const additiveMembers=['2580','2582','2581','2560','2514'].map(geo=>
+  M.simulate(faAdditiveData,{
+    geo,endYear:2026,fertMult:1,mortMult:1,migMult:1,window:10,
+    scenarios:faAdditiveScenario,includeDetail:true
+  })
+);
+const additiveFA=M.simulate(faAdditiveData,{
+  geo:'FA_LULEA',endYear:2026,fertMult:1,mortMult:1,migMult:1,window:10,
+  scenarios:faAdditiveScenario,includeDetail:true
+});
+for(let i=0;i<additiveFA.length;i++){
+  const sumPopulation=additiveMembers.reduce((s,rows)=>s+rows[i].population,0);
+  const sumBirths=additiveMembers.reduce((s,rows)=>s+rows[i].births,0);
+  const sumDeaths=additiveMembers.reduce((s,rows)=>s+rows[i].deaths,0);
+  const sumMigration=additiveMembers.reduce((s,rows)=>s+rows[i].netMigration,0);
+  const sumScenario=additiveMembers.reduce((s,rows)=>s+rows[i].scenarioEffect,0);
+  assert(Math.abs(additiveFA[i].population-sumPopulation)<1e-9,'FA population is sum of municipalities');
+  assert(Math.abs(additiveFA[i].births-sumBirths)<1e-9,'FA births are sum of municipalities');
+  assert(Math.abs(additiveFA[i].deaths-sumDeaths)<1e-9,'FA deaths are sum of municipalities');
+  assert(Math.abs(additiveFA[i].netMigration-sumMigration)<1e-9,'FA migration is sum of municipalities');
+  assert(Math.abs(additiveFA[i].scenarioEffect-sumScenario)<1e-9,'FA scenario effect is sum of municipalities');
+  const faDetailTotal=additiveFA[i].populationByAgeSex.reduce((s,r)=>s+r.value,0);
+  assert(Math.abs(faDetailTotal-additiveFA[i].population)<1e-9,'FA age-sex detail preserves total population');
+}
+assert(Math.abs(additiveFA[0].population-600)<1e-9,'FA base ignores divergent standalone FA row');
+assert(Math.abs(additiveFA[1].births-19)<1e-9,'FA fertility follows municipal forecasts, not standalone FA fertility');
+
+console.log('OK: model core, scenario balance, commuting allocation, worker-household migration profiles and calibration-window and additive-FA tests passed');

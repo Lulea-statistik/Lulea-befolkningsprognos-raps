@@ -2,7 +2,7 @@
 
 ## Geografi
 
-Luleå FA definieras i V1 som summan av kommunerna 2580 Luleå, 2582 Boden, 2581 Piteå, 2560 Älvsbyn och 2514 Kalix. Kommunresultat och FA-resultat ska avstämmas så att FA-totalen är summan av kommunerna.
+Luleå FA definieras i V1 som summan av kommunerna 2580 Luleå, 2582 Boden, 2581 Piteå, 2560 Älvsbyn och 2514 Kalix. Den publicerade FA-prognosen beräknas därför år för år som summan av de fem kommunprognoserna, inklusive födda, döda, nettoflyttning, scenarieeffekter och ålder/kön. Separat kalibrerade FA-profiler behålls som diagnostik men driver inte en fristående sjätte prognos som kan avvika från kommunsumman.
 
 ## Årssteg
 

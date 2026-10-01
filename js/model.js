@@ -376,7 +376,7 @@
     }
   }
 
-  function simulate(data, options){
+  function simulateSingleGeo(data, options){
     const geo=options.geo;
     const baseYear=+data.meta.baseYear;
     const endYear=+options.endYear;
@@ -451,6 +451,84 @@
         year,population:total,births,deaths,netMigration,
         scenarioEffect:sfx.total,scenarioDetail:sfx,change:total-prev,
         populationByAgeSex:snapshot()
+      });
+    }
+    return results;
+  }
+
+  function aggregatePopulationByAgeSex(parts){
+    if(!parts.length || !parts.every(r=>Array.isArray(r.populationByAgeSex))) return undefined;
+    const totals=new Map();
+    for(const r of parts){
+      for(const cell of r.populationByAgeSex){
+        const k=key(cell.sex,+cell.age);
+        totals.set(k,n(totals.get(k))+n(cell.value));
+      }
+    }
+    const out=[];
+    for(const sex of ["K","M"]){
+      for(let age=0;age<=MAX_AGE;age++){
+        out.push({sex,age,value:n(totals.get(key(sex,age)))});
+      }
+    }
+    return out;
+  }
+
+  function aggregateScenarioDetails(parts){
+    const details=parts.map(r=>r.scenarioDetail).filter(Boolean);
+    if(!details.length) return undefined;
+    const sumField=field=>details.reduce((s,d)=>s+n(d[field]),0);
+    return {
+      total:sumField("total"),
+      housingExternal:sumField("housingExternal"),
+      housingInternalNet:sumField("housingInternalNet"),
+      jobExternal:sumField("jobExternal"),
+      jobInternalNet:sumField("jobInternalNet"),
+      overlapDeduction:sumField("overlapDeduction"),
+      jobExternalProfileEffects:details.flatMap(d=>d.jobExternalProfileEffects||[]),
+      aggregatedFromMunicipalities:true
+    };
+  }
+
+  function simulate(data, options){
+    const geo=options.geo;
+    if(geo!=="FA_LULEA"){
+      return simulateSingleGeo(data,options);
+    }
+
+    const fa=(data.geographies||[]).find(g=>g.code==="FA_LULEA");
+    const members=(fa&&fa.members)||[];
+    if(!members.length){
+      throw new Error("Luleå FA saknar medlemskommuner i modelldatan.");
+    }
+
+    // The published FA forecast is deliberately additive: each year and every
+    // component is the sum of the five municipal forecasts. FA-specific
+    // calibrated profiles remain available as diagnostics but do not drive a
+    // separate sixth forecast that could diverge from the municipal total.
+    const memberRuns=members.map(code=>
+      simulateSingleGeo(data,{...options,geo:code})
+    );
+    const length=memberRuns[0]?.length||0;
+    if(!length || !memberRuns.every(rows=>rows.length===length)){
+      throw new Error("Kommunprognoserna för Luleå FA har olika längd.");
+    }
+
+    const results=[];
+    for(let i=0;i<length;i++){
+      const parts=memberRuns.map(rows=>rows[i]);
+      const population=parts.reduce((s,r)=>s+n(r.population),0);
+      const prev=i>0?results[i-1].population:population;
+      results.push({
+        year:parts[0].year,
+        population,
+        births:parts.reduce((s,r)=>s+n(r.births),0),
+        deaths:parts.reduce((s,r)=>s+n(r.deaths),0),
+        netMigration:parts.reduce((s,r)=>s+n(r.netMigration),0),
+        scenarioEffect:parts.reduce((s,r)=>s+n(r.scenarioEffect),0),
+        scenarioDetail:aggregateScenarioDetails(parts),
+        change:i===0?0:population-prev,
+        populationByAgeSex:aggregatePopulationByAgeSex(parts)
       });
     }
     return results;
