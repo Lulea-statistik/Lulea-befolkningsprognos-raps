@@ -498,97 +498,97 @@
       "6": [
         {
           "year": 2030,
-          "modelPopulation": 174667.8,
+          "modelPopulation": 174604.7,
           "scbPopulation": 169936.6,
           "scbRebasedToActual2025": 172181.7,
-          "differenceVsScb": 4731.2,
-          "differenceVsScbPct": 2.8,
-          "differenceVsRebasedScb": 2486.1,
+          "differenceVsScb": 4668.1,
+          "differenceVsScbPct": 2.7,
+          "differenceVsRebasedScb": 2423,
           "differenceVsRebasedScbPct": 1.4
         },
         {
           "year": 2040,
-          "modelPopulation": 174155.7,
+          "modelPopulation": 173952.6,
           "scbPopulation": 167053.3,
           "scbRebasedToActual2025": 169260.3,
-          "differenceVsScb": 7102.4,
-          "differenceVsScbPct": 4.3,
-          "differenceVsRebasedScb": 4895.4,
-          "differenceVsRebasedScbPct": 2.9
+          "differenceVsScb": 6899.3,
+          "differenceVsScbPct": 4.1,
+          "differenceVsRebasedScb": 4692.3,
+          "differenceVsRebasedScbPct": 2.8
         },
         {
           "year": 2050,
-          "modelPopulation": 173151.1,
+          "modelPopulation": 172948.9,
           "scbPopulation": 165938.3,
           "scbRebasedToActual2025": 168130.5,
-          "differenceVsScb": 7212.9,
-          "differenceVsScbPct": 4.3,
-          "differenceVsRebasedScb": 5020.6,
-          "differenceVsRebasedScbPct": 3
+          "differenceVsScb": 7010.7,
+          "differenceVsScbPct": 4.2,
+          "differenceVsRebasedScb": 4818.4,
+          "differenceVsRebasedScbPct": 2.9
         }
       ],
       "10": [
         {
           "year": 2030,
-          "modelPopulation": 175036.1,
+          "modelPopulation": 175045,
           "scbPopulation": 169936.6,
           "scbRebasedToActual2025": 172181.7,
-          "differenceVsScb": 5099.5,
+          "differenceVsScb": 5108.3,
           "differenceVsScbPct": 3,
-          "differenceVsRebasedScb": 2854.4,
+          "differenceVsRebasedScb": 2863.3,
           "differenceVsRebasedScbPct": 1.7
         },
         {
           "year": 2040,
-          "modelPopulation": 175064.5,
+          "modelPopulation": 175105.8,
           "scbPopulation": 167053.3,
           "scbRebasedToActual2025": 169260.3,
-          "differenceVsScb": 8011.2,
+          "differenceVsScb": 8052.5,
           "differenceVsScbPct": 4.8,
-          "differenceVsRebasedScb": 5804.3,
-          "differenceVsRebasedScbPct": 3.4
+          "differenceVsRebasedScb": 5845.5,
+          "differenceVsRebasedScbPct": 3.5
         },
         {
           "year": 2050,
-          "modelPopulation": 174552.2,
+          "modelPopulation": 174727.3,
           "scbPopulation": 165938.3,
           "scbRebasedToActual2025": 168130.5,
-          "differenceVsScb": 8613.9,
-          "differenceVsScbPct": 5.2,
-          "differenceVsRebasedScb": 6421.7,
-          "differenceVsRebasedScbPct": 3.8
+          "differenceVsScb": 8789.1,
+          "differenceVsScbPct": 5.3,
+          "differenceVsRebasedScb": 6596.8,
+          "differenceVsRebasedScbPct": 3.9
         }
       ],
       "19": [
         {
           "year": 2030,
-          "modelPopulation": 174265.1,
+          "modelPopulation": 174314.7,
           "scbPopulation": 169936.6,
           "scbRebasedToActual2025": 172181.7,
-          "differenceVsScb": 4328.5,
-          "differenceVsScbPct": 2.5,
-          "differenceVsRebasedScb": 2083.4,
+          "differenceVsScb": 4378.1,
+          "differenceVsScbPct": 2.6,
+          "differenceVsRebasedScb": 2133,
           "differenceVsRebasedScbPct": 1.2
         },
         {
           "year": 2040,
-          "modelPopulation": 172355.8,
+          "modelPopulation": 172484.2,
           "scbPopulation": 167053.3,
           "scbRebasedToActual2025": 169260.3,
-          "differenceVsScb": 5302.5,
-          "differenceVsScbPct": 3.2,
-          "differenceVsRebasedScb": 3095.5,
-          "differenceVsRebasedScbPct": 1.8
+          "differenceVsScb": 5430.9,
+          "differenceVsScbPct": 3.3,
+          "differenceVsRebasedScb": 3223.9,
+          "differenceVsRebasedScbPct": 1.9
         },
         {
           "year": 2050,
-          "modelPopulation": 169524.9,
+          "modelPopulation": 169788.4,
           "scbPopulation": 165938.3,
           "scbRebasedToActual2025": 168130.5,
-          "differenceVsScb": 3586.6,
-          "differenceVsScbPct": 2.2,
-          "differenceVsRebasedScb": 1394.4,
-          "differenceVsRebasedScbPct": 0.8
+          "differenceVsScb": 3850.1,
+          "differenceVsScbPct": 2.3,
+          "differenceVsRebasedScb": 1657.9,
+          "differenceVsRebasedScbPct": 1
         }
       ]
     }

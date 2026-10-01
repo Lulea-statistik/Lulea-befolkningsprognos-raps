@@ -15,6 +15,24 @@
     "faPopulation": 174294,
     "municipalSum": 174294,
     "difference": 0,
+    "forecastWindows": {
+      "6": {
+        "maxAbsDifference": 0,
+        "endDifference": 0,
+        "ok": true
+      },
+      "10": {
+        "maxAbsDifference": 0,
+        "endDifference": 0,
+        "ok": true
+      },
+      "19": {
+        "maxAbsDifference": 0,
+        "endDifference": 0,
+        "ok": true
+      }
+    },
+    "maxForecastDifference": 0,
     "ok": true
   },
   "parameterSummary": {
@@ -4473,23 +4491,23 @@
     "FA_LULEA": {
       "6": {
         "startPopulation": 174294,
-        "endPopulation": 173151.1,
-        "change": -1142.9,
-        "changePct": -0.7,
-        "cumulativeBirths": 36673.7,
-        "cumulativeDeaths": 48991.6,
+        "endPopulation": 172948.9,
+        "change": -1345.1,
+        "changePct": -0.8,
+        "cumulativeBirths": 36509,
+        "cumulativeDeaths": 49029.1,
         "cumulativeNetMigration": 11175,
         "cumulativeScenarioEffect": 0,
-        "differenceVs10YearEnd": -1401.1,
-        "differenceVs10YearEndPct": -0.8
+        "differenceVs10YearEnd": -1778.4,
+        "differenceVs10YearEndPct": -1
       },
       "10": {
         "startPopulation": 174294,
-        "endPopulation": 174552.2,
-        "change": 258.2,
-        "changePct": 0.1,
-        "cumulativeBirths": 35650.4,
-        "cumulativeDeaths": 49027.2,
+        "endPopulation": 174727.3,
+        "change": 433.3,
+        "changePct": 0.2,
+        "cumulativeBirths": 35769.9,
+        "cumulativeDeaths": 48971.5,
         "cumulativeNetMigration": 13635,
         "cumulativeScenarioEffect": 0,
         "differenceVs10YearEnd": 0,
@@ -4497,15 +4515,15 @@
       },
       "19": {
         "startPopulation": 174294,
-        "endPopulation": 169524.9,
-        "change": -4769.1,
-        "changePct": -2.7,
-        "cumulativeBirths": 34202.3,
-        "cumulativeDeaths": 48897.8,
+        "endPopulation": 169788.4,
+        "change": -4505.6,
+        "changePct": -2.6,
+        "cumulativeBirths": 34323,
+        "cumulativeDeaths": 48755,
         "cumulativeNetMigration": 9926.3,
         "cumulativeScenarioEffect": 0,
-        "differenceVs10YearEnd": -5027.3,
-        "differenceVs10YearEndPct": -2.9
+        "differenceVs10YearEnd": -4938.9,
+        "differenceVs10YearEndPct": -2.8
       }
     }
   },
