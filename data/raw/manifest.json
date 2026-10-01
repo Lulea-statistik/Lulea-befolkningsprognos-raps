@@ -3134,6 +3134,63 @@
         "ContentsCode": "tabellinnehåll",
         "Tid": "år"
       }
+    },
+    "employment_age_profile": {
+      "table_id": "TAB3205",
+      "path": "data/raw/employment_age_profile.csv",
+      "rows_including_header": 101,
+      "selection": {
+        "Region": [
+          "2580",
+          "2582",
+          "2581",
+          "2560",
+          "2514"
+        ],
+        "Yrkesstallning": [
+          "TOT"
+        ],
+        "Kon": [
+          "1",
+          "2"
+        ],
+        "Alder": [
+          "15-24",
+          "15-74",
+          "16-64",
+          "16-65",
+          "16-66",
+          "20-64",
+          "20-65",
+          "20-66",
+          "25-54",
+          "55-74"
+        ],
+        "Fodelseregion": [
+          "tot"
+        ],
+        "ContentsCode": [
+          "000002XJ"
+        ],
+        "Tid": [
+          "2022",
+          "2023",
+          "2024"
+        ]
+      },
+      "content_labels": {
+        "000002XJ": "sysselsatta efter arbetsställets belägenhet",
+        "000002XS": "sysselsatta efter bostadens belägenhet"
+      },
+      "dimension_labels": {
+        "Region": "region",
+        "Yrkesstallning": "yrkesställning",
+        "Kon": "kön",
+        "Alder": "ålder",
+        "Fodelseregion": "födelseregion",
+        "ContentsCode": "tabellinnehåll",
+        "Tid": "år"
+      }
     }
   }
 }
