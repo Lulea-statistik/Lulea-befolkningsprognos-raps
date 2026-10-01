@@ -46,6 +46,9 @@ jobs:
       - name: Build labour-market and commuting analysis
         run: python scripts/build_labour_market.py
 
+      - name: Build household and housing analysis
+        run: python scripts/build_housing_households.py
+
       - name: Validate dashboard JavaScript syntax
         run: |
           node --check js/model.js
@@ -72,7 +75,7 @@ jobs:
       - name: Commit changed SCB and model data
         shell: bash
         run: |
-          git add data/scb_discovery.json data/raw data/model_data.json data/model_data.js data/model_validation.json data/model_validation.js data/labour_market.json data/labour_market.js data/backtests data/benchmarks
+          git add data/scb_discovery.json data/raw data/model_data.json data/model_data.js data/model_validation.json data/model_validation.js data/labour_market.json data/labour_market.js data/housing_households.json data/housing_households.js data/backtests data/benchmarks
           if git diff --cached --quiet; then
             echo "No SCB/model data changes."
             exit 0
