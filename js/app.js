@@ -386,6 +386,7 @@
       ["migrationInflowKpi","migrationOutflowKpi","migrationNetKpi","migrationImpactKpi"].forEach(id=>$(id).textContent="–");
       $("migrationImpactAge").textContent="genereras i nästa workflow-körning";
       $("migrationAgeTable").querySelector("tbody").innerHTML="";
+      $("migrationPriority").innerHTML="<p class='hint'>Flyttdiagnostik genereras i nästa workflow-körning.</p>";
       $("migrationAgeChart").innerHTML="";
       $("migrationVariationChart").innerHTML="";
       return;
@@ -456,7 +457,7 @@
         <td>${r.cvInflowPct==null?"–":pct.format(r.cvInflowPct)+" %"}</td>
         <td>${r.shareOfInflowPct==null?"–":pct.format(r.shareOfInflowPct)+" %"}</td>
         <td>${fmt1.format(fivePct||0)} pers.</td>
-        <td>100 %</td>
+        <td>100 % (netto)</td>
       </tr>`;
     }).join("");
 
