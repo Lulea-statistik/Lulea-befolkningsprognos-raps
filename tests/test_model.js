@@ -223,4 +223,41 @@ for(let i=0;i<additiveFA.length;i++){
 assert(Math.abs(additiveFA[0].population-600)<1e-9,'FA base ignores divergent standalone FA row');
 assert(Math.abs(additiveFA[1].births-19)<1e-9,'FA fertility follows municipal forecasts, not standalone FA fertility');
 
-console.log('OK: model core, scenario balance, commuting allocation, worker-household migration profiles and calibration-window and additive-FA tests passed');
+
+const grossFlowData={
+  meta:{baseYear:2025},
+  calibration:{defaultYears:10},
+  geographies:[{code:'2580'}],
+  parameters:{sexRatioMaleAtBirth:0.5},
+  populationBase:[
+    {geo:'2580',year:2025,sex:'K',age:30,value:1000}
+  ],
+  fertilityRates:[],
+  mortalityRisks:[],
+  netMigration:[
+    {geo:'2580',window:10,year:'BASE',sex:'K',age:31,value:10}
+  ],
+  outMigrationRisks:[
+    {geo:'2580',window:10,sex:'K',age:31,value:0.10}
+  ],
+  grossInMigration:[
+    {geo:'2580',window:10,year:'BASE',sex:'K',age:31,value:50}
+  ]
+};
+const netMode=M.simulate(grossFlowData,{
+  geo:'2580',endYear:2026,fertMult:1,mortMult:1,migMult:1,window:10,
+  scenarios:{},includeDetail:true
+})[1];
+assert(Math.abs(netMode.population-1010)<1e-9,'default migration mode remains exogenous net migration');
+assert(netMode.grossInMigration===null&&netMode.grossOutMigration===null,'default mode does not expose gross flows');
+
+const grossMode=M.simulate(grossFlowData,{
+  geo:'2580',endYear:2026,fertMult:1,mortMult:1,migMult:1,window:10,
+  migrationMode:'gross_flow',scenarios:{},includeDetail:true
+})[1];
+assert(Math.abs(grossMode.grossInMigration-50)<1e-9,'gross-flow candidate uses historical gross inflow');
+assert(Math.abs(grossMode.grossOutMigration-100)<1e-9,'gross-flow candidate applies urisk to current population');
+assert(Math.abs(grossMode.netMigration+50)<1e-9,'gross-flow candidate derives net migration from gross flows');
+assert(Math.abs(grossMode.population-950)<1e-9,'gross-flow candidate updates population from gross inflow and outflow');
+
+console.log('OK: model core, scenarios, additive FA and gross-flow migration candidate tests passed');
