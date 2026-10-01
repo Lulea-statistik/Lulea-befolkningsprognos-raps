@@ -96,15 +96,13 @@ Workplace scenarios now separate three concepts:
 2. what share of job holders currently outside the FA region is assumed to relocate;
 3. the age/sex distribution of the resulting new residents.
 
-The default age/sex scenario prior is based on observed municipal gross in-migration over the selected calibration window and is restricted to ages 0-64. It therefore includes children as well as working-age adults, while avoiding a mechanically population-proportional allocation to older ages. The profile is descriptive and must not be interpreted as a causal estimate of job-induced migration.
+The default workplace scenario now separates the moving job holder from additional household members. Up to one person per moving job follows a worker-specific hybrid profile based on SCB TAB3205 workplace employment age/sex shares. Within each broad worker group, observed municipal in-migration is used only to distribute the group across single-year ages. Additional persons per job follow a separate household-companion proxy based on observed in-migration ages 0-17 and 25-64.
 
-Alternative dashboard modes retain all observed in-migrant ages or use the old population-proportional allocation for sensitivity comparison.
+Alternative dashboard modes retain the earlier 0-64 observed-inflow profile, all observed in-migrant ages, or the old population-proportional allocation for sensitivity comparison. All profiles are descriptive scenario priors, not causal estimates of job-induced migration.
 
 
 ## Worker age benchmark
 
-A separate workplace-worker age benchmark is built from SCB TAB3205. It uses employed persons by workplace municipality, sex and mutually exclusive 10-year age groups, averaged over 2022-2024.
+A workplace-worker age benchmark is built from SCB TAB3205. The table provides three mutually exclusive broad groups suitable for this purpose: 15-24, 25-54 and 55-74, by sex and workplace municipality, averaged over 2022-2024.
 
-This benchmark is intentionally kept separate from the migration prior. In a university municipality such as Lulea, total in-migration can be dominated by student ages. Comparing the two profiles helps determine whether a workplace scenario should use a worker-specific profile, a household-companion profile, or the broader observed in-migration distribution.
-
-The benchmark is diagnostic first; it must not be substituted into the model merely because it produces a preferred forecast result.
+For Lulea, about 11.2% of workers are 15-24, while 38.4% of observed municipal in-migration age 0-64 is 18-24. This confirms that total in-migration is too student-heavy to serve as the default job-holder profile. The worker benchmark is therefore used to construct the worker component of the default workplace scenario; the model still keeps alternative profiles for sensitivity analysis. This change is source-driven rather than fitted to a preferred forecast outcome.
