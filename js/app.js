@@ -149,7 +149,8 @@
     $("fadingPolicy").innerHTML=`
       <div class="policyGrid">
         <div><span>0 % lokal vikt t.o.m.</span><strong>${p.zeroLocalExposure??"–"}</strong></div>
-        <div><span>100 % lokal vikt från</span><strong>${p.fullLocalExposure??"–"}</strong></div>
+        <div><span>100 % populationssignal från</span><strong>${p.fullLocalExposure??"–"}</strong></div>
+        <div><span>100 % händelsesignal från</span><strong>${p.fullExpectedEvents??"–"}</strong></div>
         <div><span>Max lokal vikt</span><strong>${pct.format((p.maxLocalWeight||0)*100)} %</strong></div>
         <div><span>Resultatstyrd?</span><strong>${p.weightDependsOnOutcome===false?"Nej":"–"}</strong></div>
       </div>
@@ -283,12 +284,12 @@
       $("fadingExamples").innerHTML="<p class='hint'>Fadingdiagnostik genereras i nästa workflow-körning.</p>";
       return;
     }
-    const fertRows=(ex.fertility||[]).map(r=>`<tr><td>${r.age}</td><td>${r.localWeight==null?"–":pct.format(r.localWeight)+" %"}</td><td>${r.rawCellFactor==null?"–":pct.format(r.rawCellFactor*100)+" %"}</td></tr>`).join("");
-    const mortRows=(ex.mortality||[]).map(r=>`<tr><td>${r.age}</td><td>${r.sex}</td><td>${r.localWeight==null?"–":pct.format(r.localWeight)+" %"}</td><td>${r.rawCellFactor==null?"–":pct.format(r.rawCellFactor*100)+" %"}</td></tr>`).join("");
+    const fertRows=(ex.fertility||[]).map(r=>`<tr><td>${r.age}</td><td>${r.averageAnnualExposure==null?"–":fmt1.format(r.averageAnnualExposure)}</td><td>${r.expectedEvents==null?"–":fmt1.format(r.expectedEvents)}</td><td>${r.localWeight==null?"–":pct.format(r.localWeight)+" %"}</td><td>${r.rawCellFactor==null?"–":pct.format(r.rawCellFactor*100)+" %"}</td></tr>`).join("");
+    const mortRows=(ex.mortality||[]).map(r=>`<tr><td>${r.age}</td><td>${r.sex}</td><td>${r.averageAnnualExposure==null?"–":fmt1.format(r.averageAnnualExposure)}</td><td>${r.expectedEvents==null?"–":fmt1.format(r.expectedEvents)}</td><td>${r.localWeight==null?"–":pct.format(r.localWeight)+" %"}</td><td>${r.rawCellFactor==null?"–":pct.format(r.rawCellFactor*100)+" %"}</td></tr>`).join("");
     $("fadingExamples").innerHTML=`
       <div class="grid2">
-        <div><h3>Fruktsamhet</h3><table class="miniTable"><thead><tr><th>Moderns ålder</th><th>Lokal vikt</th><th>Lokal/rike-cell</th></tr></thead><tbody>${fertRows}</tbody></table></div>
-        <div><h3>Dödlighet</h3><table class="miniTable"><thead><tr><th>Ålder</th><th>Kön</th><th>Lokal vikt</th><th>Lokal/rike-cell</th></tr></thead><tbody>${mortRows}</tbody></table></div>
+        <div><h3>Fruktsamhet</h3><table class="miniTable"><thead><tr><th>Moderns ålder</th><th>Årlig population</th><th>Förv. händelser</th><th>Lokal vikt</th><th>Lokal/rike-cell</th></tr></thead><tbody>${fertRows}</tbody></table></div>
+        <div><h3>Dödlighet</h3><table class="miniTable"><thead><tr><th>Ålder</th><th>Kön</th><th>Årlig population</th><th>Förv. händelser</th><th>Lokal vikt</th><th>Lokal/rike-cell</th></tr></thead><tbody>${mortRows}</tbody></table></div>
       </div>`;
   }
 
