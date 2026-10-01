@@ -99,3 +99,12 @@ Workplace scenarios now separate three concepts:
 The default age/sex scenario prior is based on observed municipal gross in-migration over the selected calibration window and is restricted to ages 0-64. It therefore includes children as well as working-age adults, while avoiding a mechanically population-proportional allocation to older ages. The profile is descriptive and must not be interpreted as a causal estimate of job-induced migration.
 
 Alternative dashboard modes retain all observed in-migrant ages or use the old population-proportional allocation for sensitivity comparison.
+
+
+## Worker age benchmark
+
+A separate workplace-worker age benchmark is built from SCB TAB3205. It uses employed persons by workplace municipality, sex and mutually exclusive 10-year age groups, averaged over 2022-2024.
+
+This benchmark is intentionally kept separate from the migration prior. In a university municipality such as Lulea, total in-migration can be dominated by student ages. Comparing the two profiles helps determine whether a workplace scenario should use a worker-specific profile, a household-companion profile, or the broader observed in-migration distribution.
+
+The benchmark is diagnostic first; it must not be substituted into the model merely because it produces a preferred forecast result.
