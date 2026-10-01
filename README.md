@@ -87,6 +87,7 @@ Modellen ska inte konstrueras om för att passa ett känt historiskt utfall. Bac
 - jämför befolkning, födda, döda och nettoflyttning,
 - redovisar bland annat MAE och MAPE.
 Därutöver byggs en rolling-origin-validering med startår 2018, 2019, 2020 och 2021. Varje körning använder endast lokal information som fanns tillgänglig vid respektive origin och SCB:s nationella prognosvintage från samma år, med tre års prognoshorisont. Testfönstren överlappar och ska därför tolkas som robusthetskontroll snarare än helt oberoende experiment.
+Rolling-rapporten innehåller dessutom en nationell vintage-diagnostik som jämför SCB:s då publicerade prognos för födda och döda med senare faktiskt utfall för Riket. Därmed kan fel i den nationella framtidsprofilen skiljas från fel som uppstår när profilen lokaliseras till kommunerna.
 
 SCB TAB6008 används som en separat alternativ metodbenchmark och visas även omankrad till faktisk befolkning 2025.
 
