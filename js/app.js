@@ -4,6 +4,7 @@
   const validation=window.MODEL_VALIDATION||null;
   const backtest=window.MODEL_BACKTEST||null;
   const scbComparison=window.SCB_BENCHMARK_COMPARISON||null;
+  const labour=window.LABOUR_MARKET_DATA||null;
   let latest=[];
   let baseline=[];
 
@@ -26,6 +27,7 @@
 
   function setup(){
     fillGeo();
+    fillLabourWorkplace();
     bindTabs();
     renderScenarioTables();
     $("runBtn").addEventListener("click",run);
@@ -33,7 +35,15 @@
     $("exportBtn").addEventListener("click",exportCsv);
     $("addHousing").addEventListener("click",()=>{syncScenarioTables();defaultHousing.push(blankHousing());renderScenarioTables();});
     $("addWorkplace").addEventListener("click",()=>{syncScenarioTables();defaultWorkplaces.push(blankWorkplace());renderScenarioTables();});
-    ["geo","window","endYear"].forEach(id=>$(id).addEventListener("change",run));
+    ["geo","window","endYear"].forEach(id=>$(id).addEventListener("change",()=>{
+      if(id==="geo" && $("geo").value!=="FA_LULEA" && $("labourWorkplace")){
+        $("labourWorkplace").value=$("geo").value;
+      }
+      run();
+    }));
+    ["labourWorkplace","labourAddedJobs","labourExternalMovePct","labourPersonsPerMover"].forEach(id=>{
+      if($(id)) $(id).addEventListener("change",renderLabourAnalysis);
+    });
     renderDataStatus();
     renderStatus();
     if(data?.meta?.dataReady) run();
@@ -57,6 +67,12 @@
   }
   function fillGeo(){
     $("geo").innerHTML=data.geographies.map(g=>`<option value="${g.code}">${g.name}</option>`).join("");
+  }
+  function fillLabourWorkplace(){
+    if(!$("labourWorkplace")) return;
+    const geos=(labour?.geographies||data.geographies.filter(g=>g.code!=="FA_LULEA"));
+    $("labourWorkplace").innerHTML=geos.map(g=>`<option value="${g.code}">${g.name}</option>`).join("");
+    if(geos.some(g=>g.code==="2580")) $("labourWorkplace").value="2580";
   }
   function blankHousing(){
     return {active:true,year:2030,municipality:"2580",dwellingType:"flerbostadshus",tenure:"hyresrätt",size:"2 rum",dwellings:100,completionPct:100,occupancyPct:95,personsPerDwelling:1.6,externalSharePct:50,internalSharePct:25,phaseYears:3};
@@ -198,6 +214,7 @@
     renderAnalysis();
     renderDetailedAgeAnalysis();
     renderMigrationAnalysis();
+    renderLabourAnalysis();
     renderValidation();
     renderDataStatus();
   }
@@ -506,7 +523,7 @@
 
     bindIndexedHover(svg,xValues,(i)=>{
       const age=xValues[i]===100?"100+":xValues[i];
-      return `<strong>Ålder ${age}</strong>`+series.map(s=>{
+      return `<strong>${options.hoverLabel||"Ålder"} ${age}</strong>`+series.map(s=>{
         const value=Number(s.values[i]||0);
         return `<div><span>${s.name}</span><b>${fmt1.format(value)}${s.suffix||""}</b></div>`;
       }).join("");
@@ -530,6 +547,86 @@
       tip.style.top=(e.clientY+14)+"px";
     };
     svg.onmouseleave=()=>tip.classList.remove("show");
+  }
+
+  function renderLabourAnalysis(){
+    if(!$("labourWorkplace")) return;
+    if(!labour){
+      $("labourJobsKpi").textContent="–";
+      $("labourLocalShareKpi").textContent="–";
+      $("labourOtherFaShareKpi").textContent="–";
+      $("labourOutsideShareKpi").textContent="–";
+      $("labourResidenceShares").innerHTML="<p class='hint'>Pendlingsdata genereras i nästa workflow-körning.</p>";
+      $("labourScenarioAllocation").innerHTML="<p class='hint'>Pendlingsdata genereras i nästa workflow-körning.</p>";
+      $("labourPopulationEffect").innerHTML="";
+      $("commutingMatrix").innerHTML="";
+      $("labourJobsChart").innerHTML="";
+      return;
+    }
+
+    const workplace=$("labourWorkplace").value;
+    const summary=(labour.workplaceSummary||[]).find(r=>r.workplace===workplace);
+    if(!summary) return;
+    const latest=labour.meta.latestYear;
+    $("labourJobsKpi").textContent=fmt.format(summary.jobs||0);
+    $("labourLatestYear").textContent=`år ${latest}`;
+    $("labourLocalShareKpi").textContent=pct.format(summary.sameMunicipalitySharePct||0)+" %";
+    $("labourOtherFaShareKpi").textContent=pct.format(summary.otherFASharePct||0)+" %";
+    $("labourOutsideShareKpi").textContent=pct.format(summary.outsideFASharePct||0)+" %";
+
+    const series=(labour.workplaceSeries||[]).filter(r=>r.workplace===workplace).sort((a,b)=>a.year-b.year);
+    drawAgeLineChart("labourJobsChart",series.map(r=>r.year),[
+      {name:"Jobb",values:series.map(r=>Number(r.jobs||0)),cls:"populationLine"}
+    ],{xLabel:"År",hoverLabel:"År",valueDigits:0});
+
+    const shares=(labour.residenceShares||[])
+      .filter(r=>r.workplace===workplace && +r.year===+latest)
+      .sort((a,b)=>Number(b.value||0)-Number(a.value||0));
+    const nameFor=code=>{
+      if(code===labour.outsideGroup?.code) return labour.outsideGroup.name;
+      return labour.geographies.find(g=>g.code===code)?.name||code;
+    };
+    $("labourResidenceShares").innerHTML=shares.map(r=>`<div class="shareRow">
+      <span>${nameFor(r.residence)}</span>
+      <div class="barTrack"><div class="barFill" style="width:${Math.max(0,Math.min(100,r.sharePct||0))}%"></div></div>
+      <strong>${pct.format(r.sharePct||0)} %</strong>
+      <small>${fmt.format(r.value||0)}</small>
+    </div>`).join("");
+
+    const workGeos=labour.geographies||[];
+    const residenceRows=[...workGeos,{code:labour.outsideGroup.code,name:labour.outsideGroup.name}];
+    const matrixHeader=`<thead><tr><th>Bostad</th>${workGeos.map(g=>`<th>${g.name.replace(" kommun","")}</th>`).join("")}</tr></thead>`;
+    const matrixBody=`<tbody>${residenceRows.map(res=>`<tr><td>${res.name.replace(" kommun","")}</td>${workGeos.map(work=>{
+      const r=(labour.matrixLatest||[]).find(x=>x.residence===res.code&&x.workplace===work.code);
+      return `<td>${fmt.format(r?.value||0)}</td>`;
+    }).join("")}</tr>`).join("")}</tbody>`;
+    $("commutingMatrix").innerHTML=matrixHeader+matrixBody;
+
+    const added=Math.max(0,+$("labourAddedJobs").value||0);
+    const allocations=shares.map(r=>({
+      residence:r.residence,
+      name:nameFor(r.residence),
+      jobs:added*(Number(r.sharePct||0)/100),
+      share:Number(r.sharePct||0)
+    }));
+    $("labourScenarioAllocation").innerHTML=`<table class="miniTable"><thead><tr><th>Bostadsområde</th><th>Dagens andel</th><th>Av ${fmt.format(added)} nya jobb</th></tr></thead><tbody>
+      ${allocations.map(r=>`<tr><td>${r.name}</td><td>${pct.format(r.share)} %</td><td>${fmt1.format(r.jobs)}</td></tr>`).join("")}
+    </tbody></table>`;
+
+    const outside=allocations.find(r=>r.residence===labour.outsideGroup.code);
+    const movePct=Math.max(0,Math.min(100,+$("labourExternalMovePct").value||0))/100;
+    const personsPerJob=Math.max(0,+$("labourPersonsPerMover").value||0);
+    const outsideJobs=outside?.jobs||0;
+    const movingJobs=outsideJobs*movePct;
+    const populationEffect=movingJobs*personsPerJob;
+    $("labourPopulationEffect").innerHTML=`
+      <div class="policyGrid">
+        <div><span>Nya jobb till boende utanför FA</span><strong>${fmt1.format(outsideJobs)}</strong></div>
+        <div><span>Antas flytta till FA</span><strong>${fmt1.format(movingJobs)}</strong></div>
+        <div><span>Personer per inflyttat jobb</span><strong>${fmt1.format(personsPerJob)}</strong></div>
+        <div><span>Potentiell extra befolkning</span><strong>+${fmt1.format(populationEffect)}</strong></div>
+      </div>
+      <p class="hint">${labour.meta.qualityNote||""}</p>`;
   }
 
   function renderValidation(){
