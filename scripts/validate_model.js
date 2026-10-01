@@ -34,8 +34,10 @@ const municipalSum = round1(sum((fa && fa.members || []).map(code => basePopulat
 const faDifference = round1((basePopulation.FA_LULEA || 0) - municipalSum);
 
 const forecasts = {};
+const simulationRows = {};
 for (const geo of TARGET_GEOS) {
   forecasts[geo] = {};
+  simulationRows[geo] = {};
   for (const window of WINDOWS) {
     const rows = M.simulate(data, {
       geo,
@@ -46,6 +48,7 @@ for (const geo of TARGET_GEOS) {
       window,
       scenarios: {housing: [], workplaces: [], overlapPct: 0}
     });
+    simulationRows[geo][window] = rows;
     const first = rows[0];
     const last = rows.at(-1);
     forecasts[geo][window] = {
@@ -70,6 +73,29 @@ for (const geo of TARGET_GEOS) {
     );
   }
 }
+
+const faForecastConsistency = {};
+for (const window of WINDOWS) {
+  const faRows = simulationRows.FA_LULEA[window];
+  let maxAbsDifference = 0;
+  let endDifference = 0;
+  for (let i = 0; i < faRows.length; i++) {
+    const municipalPopulation = sum(
+      (fa && fa.members || []).map(code => simulationRows[code][window][i].population)
+    );
+    const difference = faRows[i].population - municipalPopulation;
+    maxAbsDifference = Math.max(maxAbsDifference, Math.abs(difference));
+    if (i === faRows.length - 1) endDifference = difference;
+  }
+  faForecastConsistency[window] = {
+    maxAbsDifference: round1(maxAbsDifference),
+    endDifference: round1(endDifference),
+    ok: maxAbsDifference <= 1e-6
+  };
+}
+const maxForecastDifference = Math.max(
+  ...Object.values(faForecastConsistency).map(x => x.maxAbsDifference)
+);
 
 const relativeFactors = data.diagnostics?.relativeFactors || {};
 
@@ -134,6 +160,12 @@ const warnings = [];
 if (Math.abs(faDifference) > 0.5) {
   warnings.push(`FA base population differs from municipal sum by ${faDifference} persons.`);
 }
+if (Object.values(faForecastConsistency).some(x => !x.ok)) {
+  warnings.push(
+    'FA forecast differs from the sum of municipal forecasts; maximum difference ' +
+    maxForecastDifference + ' persons.'
+  );
+}
 if (data.parameters && data.parameters.sexRatioMaleAtBirthSource) {
   warnings.push(
     'Birth sex ratio source: ' +
@@ -157,7 +189,10 @@ const report = {
     faPopulation: basePopulation.FA_LULEA,
     municipalSum,
     difference: faDifference,
-    ok: Math.abs(faDifference) <= 0.5
+    forecastWindows: faForecastConsistency,
+    maxForecastDifference,
+    ok: Math.abs(faDifference) <= 0.5 &&
+      Object.values(faForecastConsistency).every(x => x.ok)
   },
   parameterSummary,
   relativeFactors,
