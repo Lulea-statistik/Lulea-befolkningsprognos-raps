@@ -68,3 +68,5 @@ svg{cursor:crosshair}
 #commutingMatrix th,#commutingMatrix td{text-align:right}
 #commutingMatrix th:first-child,#commutingMatrix td:first-child{text-align:left}
 @media(max-width:760px){.shareRow{grid-template-columns:110px 1fr 60px}.shareRow small{display:none}}
+
+.lineError{fill:none;stroke-width:2.5;stroke:#b42318}
