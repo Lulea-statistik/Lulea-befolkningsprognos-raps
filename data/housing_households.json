@@ -11562,7 +11562,413 @@
       "personsPerHousehold": 1.95
     }
   ],
-  "householdComposition": [],
+  "householdComposition": [
+    {
+      "geo": "2514",
+      "year": 2024,
+      "householdTypeCode": "ESMB24",
+      "householdType": "ensamstående med barn  25+ år",
+      "households": 121.0,
+      "persons": 248.0,
+      "personsPerHousehold": 2.049586776859504
+    },
+    {
+      "geo": "2514",
+      "year": 2024,
+      "householdTypeCode": "ESMB25",
+      "householdType": "ensamstående med barn 0–24 år",
+      "households": 394.0,
+      "persons": 1022.0,
+      "personsPerHousehold": 2.5939086294416245
+    },
+    {
+      "geo": "2514",
+      "year": 2024,
+      "householdTypeCode": "ESUB",
+      "householdType": "ensamstående utan barn",
+      "households": 3460.0,
+      "persons": 3460.0,
+      "personsPerHousehold": 1.0
+    },
+    {
+      "geo": "2514",
+      "year": 2024,
+      "householdTypeCode": "SBMB25",
+      "householdType": "sammanboende med barn 0–24 år",
+      "households": 1258.0,
+      "persons": 4932.0,
+      "personsPerHousehold": 3.920508744038156
+    },
+    {
+      "geo": "2514",
+      "year": 2024,
+      "householdTypeCode": "SBMB24",
+      "householdType": "sammanboende med barn 25+ år",
+      "households": 113.0,
+      "persons": 348.0,
+      "personsPerHousehold": 3.079646017699115
+    },
+    {
+      "geo": "2514",
+      "year": 2024,
+      "householdTypeCode": "SMUB",
+      "householdType": "sammanboende utan barn",
+      "households": 2331.0,
+      "persons": 4662.0,
+      "personsPerHousehold": 2.0
+    },
+    {
+      "geo": "2514",
+      "year": 2024,
+      "householdTypeCode": "ÖMB25",
+      "householdType": "övriga hushåll med barn 0–24 år",
+      "households": 68.0,
+      "persons": 312.0,
+      "personsPerHousehold": 4.588235294117647
+    },
+    {
+      "geo": "2514",
+      "year": 2024,
+      "householdTypeCode": "ÖMB24",
+      "householdType": "övriga hushåll med barn 25+ år",
+      "households": 6.0,
+      "persons": 20.0,
+      "personsPerHousehold": 3.3333333333333335
+    },
+    {
+      "geo": "2514",
+      "year": 2024,
+      "householdTypeCode": "OVRIUB",
+      "householdType": "övriga hushåll utan barn",
+      "households": 155.0,
+      "persons": 373.0,
+      "personsPerHousehold": 2.4064516129032256
+    },
+    {
+      "geo": "2560",
+      "year": 2024,
+      "householdTypeCode": "ESMB24",
+      "householdType": "ensamstående med barn  25+ år",
+      "households": 36.0,
+      "persons": 74.0,
+      "personsPerHousehold": 2.0555555555555554
+    },
+    {
+      "geo": "2560",
+      "year": 2024,
+      "householdTypeCode": "ESMB25",
+      "householdType": "ensamstående med barn 0–24 år",
+      "households": 184.0,
+      "persons": 495.0,
+      "personsPerHousehold": 2.6902173913043477
+    },
+    {
+      "geo": "2560",
+      "year": 2024,
+      "householdTypeCode": "ESUB",
+      "householdType": "ensamstående utan barn",
+      "households": 1694.0,
+      "persons": 1694.0,
+      "personsPerHousehold": 1.0
+    },
+    {
+      "geo": "2560",
+      "year": 2024,
+      "householdTypeCode": "SBMB25",
+      "householdType": "sammanboende med barn 0–24 år",
+      "households": 685.0,
+      "persons": 2672.0,
+      "personsPerHousehold": 3.9007299270072995
+    },
+    {
+      "geo": "2560",
+      "year": 2024,
+      "householdTypeCode": "SBMB24",
+      "householdType": "sammanboende med barn 25+ år",
+      "households": 39.0,
+      "persons": 119.0,
+      "personsPerHousehold": 3.051282051282051
+    },
+    {
+      "geo": "2560",
+      "year": 2024,
+      "householdTypeCode": "SMUB",
+      "householdType": "sammanboende utan barn",
+      "households": 1116.0,
+      "persons": 2232.0,
+      "personsPerHousehold": 2.0
+    },
+    {
+      "geo": "2560",
+      "year": 2024,
+      "householdTypeCode": "ÖMB25",
+      "householdType": "övriga hushåll med barn 0–24 år",
+      "households": 47.0,
+      "persons": 242.0,
+      "personsPerHousehold": 5.148936170212766
+    },
+    {
+      "geo": "2560",
+      "year": 2024,
+      "householdTypeCode": "ÖMB24",
+      "householdType": "övriga hushåll med barn 25+ år",
+      "households": 4.0,
+      "persons": 12.0,
+      "personsPerHousehold": 3.0
+    },
+    {
+      "geo": "2560",
+      "year": 2024,
+      "householdTypeCode": "OVRIUB",
+      "householdType": "övriga hushåll utan barn",
+      "households": 92.0,
+      "persons": 222.0,
+      "personsPerHousehold": 2.4130434782608696
+    },
+    {
+      "geo": "2580",
+      "year": 2024,
+      "householdTypeCode": "ESMB24",
+      "householdType": "ensamstående med barn  25+ år",
+      "households": 450.0,
+      "persons": 929.0,
+      "personsPerHousehold": 2.0644444444444443
+    },
+    {
+      "geo": "2580",
+      "year": 2024,
+      "householdTypeCode": "ESMB25",
+      "householdType": "ensamstående med barn 0–24 år",
+      "households": 2052.0,
+      "persons": 5212.0,
+      "personsPerHousehold": 2.539961013645224
+    },
+    {
+      "geo": "2580",
+      "year": 2024,
+      "householdTypeCode": "ESUB",
+      "householdType": "ensamstående utan barn",
+      "households": 18673.0,
+      "persons": 18673.0,
+      "personsPerHousehold": 1.0
+    },
+    {
+      "geo": "2580",
+      "year": 2024,
+      "householdTypeCode": "SBMB25",
+      "householdType": "sammanboende med barn 0–24 år",
+      "households": 7182.0,
+      "persons": 27837.0,
+      "personsPerHousehold": 3.8759398496240602
+    },
+    {
+      "geo": "2580",
+      "year": 2024,
+      "householdTypeCode": "SBMB24",
+      "householdType": "sammanboende med barn 25+ år",
+      "households": 491.0,
+      "persons": 1512.0,
+      "personsPerHousehold": 3.079429735234216
+    },
+    {
+      "geo": "2580",
+      "year": 2024,
+      "householdTypeCode": "SMUB",
+      "householdType": "sammanboende utan barn",
+      "households": 10094.0,
+      "persons": 20188.0,
+      "personsPerHousehold": 2.0
+    },
+    {
+      "geo": "2580",
+      "year": 2024,
+      "householdTypeCode": "ÖMB25",
+      "householdType": "övriga hushåll med barn 0–24 år",
+      "households": 476.0,
+      "persons": 2347.0,
+      "personsPerHousehold": 4.930672268907563
+    },
+    {
+      "geo": "2580",
+      "year": 2024,
+      "householdTypeCode": "ÖMB24",
+      "householdType": "övriga hushåll med barn 25+ år",
+      "households": 45.0,
+      "persons": 174.0,
+      "personsPerHousehold": 3.8666666666666667
+    },
+    {
+      "geo": "2580",
+      "year": 2024,
+      "householdTypeCode": "OVRIUB",
+      "householdType": "övriga hushåll utan barn",
+      "households": 1089.0,
+      "persons": 2643.0,
+      "personsPerHousehold": 2.4269972451790633
+    },
+    {
+      "geo": "2581",
+      "year": 2024,
+      "householdTypeCode": "ESMB24",
+      "householdType": "ensamstående med barn  25+ år",
+      "households": 142.0,
+      "persons": 292.0,
+      "personsPerHousehold": 2.056338028169014
+    },
+    {
+      "geo": "2581",
+      "year": 2024,
+      "householdTypeCode": "ESMB25",
+      "householdType": "ensamstående med barn 0–24 år",
+      "households": 1046.0,
+      "persons": 2714.0,
+      "personsPerHousehold": 2.5946462715105163
+    },
+    {
+      "geo": "2581",
+      "year": 2024,
+      "householdTypeCode": "ESUB",
+      "householdType": "ensamstående utan barn",
+      "households": 8607.0,
+      "persons": 8607.0,
+      "personsPerHousehold": 1.0
+    },
+    {
+      "geo": "2581",
+      "year": 2024,
+      "householdTypeCode": "SBMB25",
+      "householdType": "sammanboende med barn 0–24 år",
+      "households": 4059.0,
+      "persons": 15755.0,
+      "personsPerHousehold": 3.88149790588815
+    },
+    {
+      "geo": "2581",
+      "year": 2024,
+      "householdTypeCode": "SBMB24",
+      "householdType": "sammanboende med barn 25+ år",
+      "households": 224.0,
+      "persons": 682.0,
+      "personsPerHousehold": 3.044642857142857
+    },
+    {
+      "geo": "2581",
+      "year": 2024,
+      "householdTypeCode": "SMUB",
+      "householdType": "sammanboende utan barn",
+      "households": 6182.0,
+      "persons": 12364.0,
+      "personsPerHousehold": 2.0
+    },
+    {
+      "geo": "2581",
+      "year": 2024,
+      "householdTypeCode": "ÖMB25",
+      "householdType": "övriga hushåll med barn 0–24 år",
+      "households": 201.0,
+      "persons": 960.0,
+      "personsPerHousehold": 4.776119402985074
+    },
+    {
+      "geo": "2581",
+      "year": 2024,
+      "householdTypeCode": "ÖMB24",
+      "householdType": "övriga hushåll med barn 25+ år",
+      "households": 14.0,
+      "persons": 54.0,
+      "personsPerHousehold": 3.857142857142857
+    },
+    {
+      "geo": "2581",
+      "year": 2024,
+      "householdTypeCode": "OVRIUB",
+      "householdType": "övriga hushåll utan barn",
+      "households": 388.0,
+      "persons": 957.0,
+      "personsPerHousehold": 2.466494845360825
+    },
+    {
+      "geo": "2582",
+      "year": 2024,
+      "householdTypeCode": "ESMB24",
+      "householdType": "ensamstående med barn  25+ år",
+      "households": 154.0,
+      "persons": 325.0,
+      "personsPerHousehold": 2.1103896103896105
+    },
+    {
+      "geo": "2582",
+      "year": 2024,
+      "householdTypeCode": "ESMB25",
+      "householdType": "ensamstående med barn 0–24 år",
+      "households": 715.0,
+      "persons": 1848.0,
+      "personsPerHousehold": 2.5846153846153848
+    },
+    {
+      "geo": "2582",
+      "year": 2024,
+      "householdTypeCode": "ESUB",
+      "householdType": "ensamstående utan barn",
+      "households": 6410.0,
+      "persons": 6410.0,
+      "personsPerHousehold": 1.0
+    },
+    {
+      "geo": "2582",
+      "year": 2024,
+      "householdTypeCode": "SBMB25",
+      "householdType": "sammanboende med barn 0–24 år",
+      "households": 2474.0,
+      "persons": 9647.0,
+      "personsPerHousehold": 3.8993532740501213
+    },
+    {
+      "geo": "2582",
+      "year": 2024,
+      "householdTypeCode": "SBMB24",
+      "householdType": "sammanboende med barn 25+ år",
+      "households": 150.0,
+      "persons": 469.0,
+      "personsPerHousehold": 3.1266666666666665
+    },
+    {
+      "geo": "2582",
+      "year": 2024,
+      "householdTypeCode": "SMUB",
+      "householdType": "sammanboende utan barn",
+      "households": 3876.0,
+      "persons": 7752.0,
+      "personsPerHousehold": 2.0
+    },
+    {
+      "geo": "2582",
+      "year": 2024,
+      "householdTypeCode": "ÖMB25",
+      "householdType": "övriga hushåll med barn 0–24 år",
+      "households": 151.0,
+      "persons": 725.0,
+      "personsPerHousehold": 4.801324503311259
+    },
+    {
+      "geo": "2582",
+      "year": 2024,
+      "householdTypeCode": "ÖMB24",
+      "householdType": "övriga hushåll med barn 25+ år",
+      "households": 13.0,
+      "persons": 50.0,
+      "personsPerHousehold": 3.8461538461538463
+    },
+    {
+      "geo": "2582",
+      "year": 2024,
+      "householdTypeCode": "OVRIUB",
+      "householdType": "övriga hushåll utan barn",
+      "households": 319.0,
+      "persons": 788.0,
+      "personsPerHousehold": 2.470219435736677
+    }
+  ],
   "housingStock": [
     {
       "geo": "2514",
