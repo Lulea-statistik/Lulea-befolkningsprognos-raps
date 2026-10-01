@@ -8,6 +8,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: update-scb-data-main
+  cancel-in-progress: false
+
 jobs:
   update-build-and-test:
     runs-on: ubuntu-latest
@@ -83,4 +87,16 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Update SCB data and calibrated model inputs"
+
+          # Avoid non-fast-forward failures and, more importantly, avoid
+          # publishing generated files built from stale source code.
+          git fetch origin main
+          if ! git merge-base --is-ancestor origin/main HEAD; then
+            if git diff --quiet origin/main HEAD -- data/scb_discovery.json data/raw data/model_data.json data/model_data.js data/model_validation.json data/model_validation.js data/labour_market.json data/labour_market.js data/housing_households.json data/housing_households.js data/backtests data/benchmarks; then
+              echo "Remote main advanced, but generated data are already equivalent. Nothing to push."
+              exit 0
+            fi
+            echo "::error::main changed while this workflow was running and generated outputs differ. Re-run Update SCB data on the latest main."
+            exit 1
+          fi
           git push
