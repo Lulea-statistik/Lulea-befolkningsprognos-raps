@@ -107,12 +107,27 @@ def choose_years(md: dict, start: int | None, end: int | None) -> list[str]:
         out.append(y)
     return out
 
+def total_code(dim: dict) -> str | None:
+    labs = labels(dim)
+    for code, label in labs.items():
+        if str(label).strip().lower() in {"totalt", "total", "båda könen", "samtliga"}:
+            return code
+    return None
+
 def build_selection(md: dict, spec: dict) -> dict[str, list[str]]:
     dims = md.get("dimension") or {}
     sel: dict[str, list[str]] = {}
     for dim_id, dim in dims.items():
         vals = values(dim)
-        if dim_id == "Region":
+        dim_label = str(dim.get("label") or "").strip().lower()
+
+        if spec.get("commuting") and "bostadskommun" in dim_label:
+            # Keep all residence municipalities so the dashboard can separate
+            # the five FA municipalities from commuters residing outside FA.
+            sel[dim_id] = vals
+        elif spec.get("commuting") and ("arbetsställekommun" in dim_label or "arbetsstallekommun" in dim_label):
+            sel[dim_id] = [x for x in MUNICIPALITIES if x in vals]
+        elif dim_id == "Region":
             wanted = list(MUNICIPALITIES)
             if spec.get("include_riket"):
                 wanted.append(RIKET)
@@ -136,8 +151,12 @@ def build_selection(md: dict, spec: dict) -> dict[str, list[str]]:
                         if top in vals:
                             sel[dim_id].append(top)
                             break
-        elif dim_id == "Kon":
-            sel[dim_id] = [x for x in SEXES if x in vals]
+        elif dim_id == "Kon" or dim_label == "kön":
+            if spec.get("commuting"):
+                tc = total_code(dim)
+                sel[dim_id] = [tc] if tc in vals else vals[:1]
+            else:
+                sel[dim_id] = [x for x in SEXES if x in vals]
         elif dim_id == "Civilstand":
             # SC = total, all marital statuses. Selecting SC plus its
             # components would duplicate the population.
@@ -155,8 +174,22 @@ def build_selection(md: dict, spec: dict) -> dict[str, list[str]]:
             sel[dim_id] = ["83"] if "83" in vals else vals
         elif dim_id == "ContentsCode":
             sel[dim_id] = choose_content_codes(md, spec.get("content_terms"))
-        elif dim_id == "Tid":
-            sel[dim_id] = choose_years(md, spec.get("start"), spec.get("end"))
+        elif dim_id == "Tid" or dim_label == "år":
+            if dim_id == "Tid":
+                sel[dim_id] = choose_years(md, spec.get("start"), spec.get("end"))
+            else:
+                out = []
+                for y in vals:
+                    try:
+                        iy = int(y)
+                    except ValueError:
+                        continue
+                    if spec.get("start") is not None and iy < spec["start"]:
+                        continue
+                    if spec.get("end") is not None and iy > spec["end"]:
+                        continue
+                    out.append(y)
+                sel[dim_id] = out
         else:
             sel[dim_id] = vals
     return {k:v for k,v in sel.items() if v}
@@ -312,6 +345,7 @@ SPECS = {
     "backtest_births_2021": {"start":2021,"end":2024,"all_birth_regions":True,"all_maternal_ages":True},
     "regional_forecast_benchmark": {"start":2024,"end":2050},
     "regional_flows_benchmark": {"start":2024,"end":2050},
+    "commuting_flows": {"start":2020,"end":2024,"commuting":True},
 }
 
 def main():
@@ -342,6 +376,7 @@ def main():
             "rows_including_header": len(rows),
             "selection": selection,
             "content_labels": labels((md.get("dimension") or {}).get("ContentsCode") or {}),
+            "dimension_labels": {k: str(v.get("label") or "") for k, v in (md.get("dimension") or {}).items()},
         }
         print(f"  {len(rows)-1} rows -> {path.relative_to(ROOT)}", file=sys.stderr)
         time.sleep(0.4)
