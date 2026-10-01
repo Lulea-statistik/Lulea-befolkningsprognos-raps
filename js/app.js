@@ -391,39 +391,59 @@
       return;
     }
 
-    const inflow=rows.reduce((s,r)=>s+Number(r.meanInflow||0),0);
-    const outflow=rows.reduce((s,r)=>s+Number(r.meanOutflow||0),0);
+    const grossAvailable=rows.some(r=>r.grossFlowsAvailable!==false);
+    const inflow=grossAvailable?rows.reduce((s,r)=>s+Number(r.meanInflow||0),0):null;
+    const outflow=grossAvailable?rows.reduce((s,r)=>s+Number(r.meanOutflow||0),0):null;
     const net=rows.reduce((s,r)=>s+Number(r.meanNetMigration||0),0);
-    const impact=[...rows].sort((a,b)=>Number(b.sensitivity5PctInflowPersons||0)-Number(a.sensitivity5PctInflowPersons||0))[0];
+    const impact=[...rows].sort((a,b)=>{
+      const av=grossAvailable?Number(a.sensitivity5PctInflowPersons||0):Number(a.sensitivity5PctNetPersons||0);
+      const bv=grossAvailable?Number(b.sensitivity5PctInflowPersons||0):Number(b.sensitivity5PctNetPersons||0);
+      return bv-av;
+    })[0];
+    const impactValue=grossAvailable?impact?.sensitivity5PctInflowPersons:impact?.sensitivity5PctNetPersons;
 
-    $("migrationInflowKpi").textContent=fmt.format(inflow);
-    $("migrationOutflowKpi").textContent=fmt.format(outflow);
+    $("migrationInflowKpi").textContent=grossAvailable?fmt.format(inflow):"–";
+    $("migrationOutflowKpi").textContent=grossAvailable?fmt.format(outflow):"–";
     $("migrationNetKpi").textContent=(net>=0?"+":"")+fmt.format(net);
-    $("migrationImpactKpi").textContent=fmt1.format(impact?.sensitivity5PctInflowPersons||0)+" pers.";
-    $("migrationImpactAge").textContent=`ålder ${impact?.age===100?"100+":impact?.age}, ±5 % av inflyttning`;
+    $("migrationImpactKpi").textContent=fmt1.format(impactValue||0)+" pers.";
+    $("migrationImpactAge").textContent=grossAvailable
+      ?`ålder ${impact?.age===100?"100+":impact?.age}, ±5 % av inflyttning`
+      :`ålder ${impact?.age===100?"100+":impact?.age}, ±5 % av flyttnetto · brutto saknas för FA`;
 
-    $("migrationAgeTable").querySelector("tbody").innerHTML=rows.map(r=>`<tr>
-      <td>${r.age===100?"100+":r.age}</td>
-      <td>${fmt1.format(r.meanInflow||0)}</td>
-      <td>${fmt1.format(r.meanOutflow||0)}</td>
-      <td>${(r.meanNetMigration||0)>=0?"+":""}${fmt1.format(r.meanNetMigration||0)}</td>
-      <td>${fmt1.format(r.sdInflow||0)}</td>
-      <td>${r.cvInflowPct==null?"–":pct.format(r.cvInflowPct)+" %"}</td>
-      <td>${pct.format(r.shareOfInflowPct||0)} %</td>
-      <td>${fmt1.format(r.sensitivity5PctInflowPersons||0)} pers.</td>
-    </tr>`).join("");
+    $("migrationAgeTable").querySelector("tbody").innerHTML=rows.map(r=>{
+      const fivePct=grossAvailable?r.sensitivity5PctInflowPersons:r.sensitivity5PctNetPersons;
+      return `<tr>
+        <td>${r.age===100?"100+":r.age}</td>
+        <td>${r.meanInflow==null?"–":fmt1.format(r.meanInflow)}</td>
+        <td>${r.meanOutflow==null?"–":fmt1.format(r.meanOutflow)}</td>
+        <td>${(r.meanNetMigration||0)>=0?"+":""}${fmt1.format(r.meanNetMigration||0)}</td>
+        <td>${r.sdInflow==null?"–":fmt1.format(r.sdInflow)}</td>
+        <td>${fmt1.format(r.sdNetMigration||0)}</td>
+        <td>${r.cvInflowPct==null?"–":pct.format(r.cvInflowPct)+" %"}</td>
+        <td>${r.shareOfInflowPct==null?"–":pct.format(r.shareOfInflowPct)+" %"}</td>
+        <td>${fmt1.format(fivePct||0)} pers.</td>
+        <td>100 %</td>
+      </tr>`;
+    }).join("");
 
     const ages=rows.map(r=>+r.age);
-    drawAgeLineChart("migrationAgeChart",ages,[
+    const flowSeries=grossAvailable?[
       {name:"Inflyttning",values:rows.map(r=>Number(r.meanInflow||0)),cls:"lineInflow"},
       {name:"Utflyttning",values:rows.map(r=>Number(r.meanOutflow||0)),cls:"lineOutflow"},
       {name:"Netto",values:rows.map(r=>Number(r.meanNetMigration||0)),cls:"lineMigration"}
-    ],{includeZero:true,xLabel:"Ålder",valueDigits:1});
+    ]:[
+      {name:"Flyttnetto",values:rows.map(r=>Number(r.meanNetMigration||0)),cls:"lineMigration"}
+    ];
+    drawAgeLineChart("migrationAgeChart",ages,flowSeries,{includeZero:true,xLabel:"Ålder",valueDigits:1});
 
-    drawAgeLineChart("migrationVariationChart",ages,[
+    const variationSeries=grossAvailable?[
       {name:"SD inflyttning",values:rows.map(r=>Number(r.sdInflow||0)),cls:"lineVariation"},
       {name:"5 %-effekt",values:rows.map(r=>Number(r.sensitivity5PctInflowPersons||0)),cls:"lineSensitivity"}
-    ],{yMin:0,xLabel:"Ålder",valueDigits:1});
+    ]:[
+      {name:"SD flyttnetto",values:rows.map(r=>Number(r.sdNetMigration||0)),cls:"lineVariation"},
+      {name:"5 %-effekt netto",values:rows.map(r=>Number(r.sensitivity5PctNetPersons||0)),cls:"lineSensitivity"}
+    ];
+    drawAgeLineChart("migrationVariationChart",ages,variationSeries,{yMin:0,xLabel:"Ålder",valueDigits:1});
   }
 
   function drawAgeLineChart(svgId,xValues,series,options={}){
