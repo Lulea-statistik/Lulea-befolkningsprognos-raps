@@ -5,6 +5,7 @@
   const backtest=window.MODEL_BACKTEST||null;
   const scbComparison=window.SCB_BENCHMARK_COMPARISON||null;
   let latest=[];
+  let baseline=[];
 
   const $=id=>document.getElementById(id);
   const fmt=new Intl.NumberFormat("sv-SE",{maximumFractionDigits:0});
@@ -168,20 +169,27 @@
 
   function run(){
     try{
-      latest=RAPSModel.simulate(data,{
+      const common={
         geo:$("geo").value,
         endYear:+$("endYear").value,
         fertMult:+$("fertMult").value,
         mortMult:+$("mortMult").value,
         migMult:+$("migMult").value,
-        window:+$("window").value,
+        window:+$("window").value
+      };
+      baseline=RAPSModel.simulate(data,{
+        ...common,
+        scenarios:{housing:[],workplaces:[],overlapPct:0}
+      });
+      latest=RAPSModel.simulate(data,{
+        ...common,
         scenarios:currentScenarios()
       });
       renderAll();
       renderStatus("Beräkningen genomfördes.");
       $("exportBtn").disabled=false;
     }catch(e){
-      latest=[];$("exportBtn").disabled=true;renderStatus(e.message);
+      latest=[];baseline=[];$("exportBtn").disabled=true;renderStatus(e.message);
     }
   }
 
@@ -201,7 +209,8 @@
     $("changePct").textContent=(last.population>=first.population?"+":"")+pct.format((last.population-first.population)/first.population*100)+" %";
     $("startYearLabel").textContent=first.year;
     $("endYearLabel").textContent=last.year;
-    const scenarioTotal=latest.slice(1).reduce((s,r)=>s+Number(r.scenarioEffect||0),0);
+    const baselineEnd=baseline.length?baseline.at(-1).population:last.population;
+    const scenarioTotal=last.population-baselineEnd;
     $("scenarioKpi").textContent=(scenarioTotal>=0?"+":"")+fmt.format(scenarioTotal);
     $("chartCaption").textContent=`${first.year}–${last.year}`;
 
@@ -210,7 +219,7 @@
       <td>${fmt.format(r.deaths)}</td><td>${fmt.format(r.netMigration)}</td>
       <td>${r.scenarioEffect>=0?"+":""}${fmt.format(r.scenarioEffect||0)}</td>
       <td>${r.change>=0?"+":""}${fmt.format(r.change)}</td></tr>`).join("");
-    drawPopulationChart(latest);
+    drawPopulationChart(latest,baseline);
     drawComponentsChart(latest.slice(1));
     renderBenchmarkCards();
   }
@@ -338,13 +347,23 @@
       </tbody></table>`;
   }
 
-  function drawPopulationChart(rows){
+  function drawPopulationChart(rows,baseRows=[]){
     const svg=$("chart"), W=900,H=380,p=48;
-    const vals=rows.map(r=>r.population), min=Math.min(...vals), max=Math.max(...vals), span=Math.max(1,max-min);
+    const vals=[...rows.map(r=>r.population),...baseRows.map(r=>r.population)];
+    const min=Math.min(...vals), max=Math.max(...vals), span=Math.max(1,max-min);
     const x=i=>p+i*(W-2*p)/Math.max(1,rows.length-1), y=v=>H-p-(v-min)*(H-2*p)/span;
-    const pts=rows.map((r,i)=>`${x(i)},${y(r.population)}`).join(" ");
-    const grid=[0,.25,.5,.75,1].map(t=>{const yy=p+t*(H-2*p),val=max-t*span;return `<line x1="${p}" y1="${yy}" x2="${W-p}" y2="${yy}" class="gridline"/><text x="8" y="${yy+4}" class="axisText">${fmt.format(val)}</text>`}).join("");
-    svg.innerHTML=`${grid}<polyline points="${pts}" class="populationLine"/><text x="${p}" y="${H-12}" class="axisText">${rows[0].year}</text><text x="${W-p-30}" y="${H-12}" class="axisText">${rows.at(-1).year}</text>`;
+    const scenarioPts=rows.map((r,i)=>`${x(i)},${y(r.population)}`).join(" ");
+    const basePts=baseRows.map((r,i)=>`${x(i)},${y(r.population)}`).join(" ");
+    const grid=[0,.25,.5,.75,1].map(t=>{
+      const yy=p+t*(H-2*p),val=max-t*span;
+      return `<line x1="${p}" y1="${yy}" x2="${W-p}" y2="${yy}" class="gridline"/><text x="8" y="${yy+4}" class="axisText">${fmt.format(val)}</text>`;
+    }).join("");
+    const baseLine=baseRows.length?`<polyline points="${basePts}" class="baselineLine"/>`:"";
+    svg.innerHTML=`${grid}${baseLine}<polyline points="${scenarioPts}" class="populationLine"/>
+      <text x="${p}" y="20" class="legendScenario">Vald prognos</text>
+      <text x="${p+110}" y="20" class="legendBaseline">Bas utan bostads-/jobbscenario</text>
+      <text x="${p}" y="${H-12}" class="axisText">${rows[0].year}</text>
+      <text x="${W-p-30}" y="${H-12}" class="axisText">${rows.at(-1).year}</text>`;
   }
 
   function drawComponentsChart(rows){
