@@ -96,6 +96,30 @@
     return shares;
   }
 
+  function observedCommutingShares(s,members){
+    if(!s.useObservedCommuting || !s.commutingShares) return null;
+    const raw={};
+    let total=0;
+    for(const code of members){
+      raw[code]=Math.max(0,n(s.commutingShares[code]));
+      total+=raw[code];
+    }
+    raw.OUTSIDE_FA=Math.max(0,n(s.commutingShares.OUTSIDE_FA));
+    total+=raw.OUTSIDE_FA;
+    if(total<=0) return null;
+
+    const jobShares={};
+    for(const code of members) jobShares[code]=raw[code]/total;
+    jobShares.OUTSIDE_FA=raw.OUTSIDE_FA/total;
+
+    const faTotal=members.reduce((sum,code)=>sum+jobShares[code],0);
+    const faResidenceShares={};
+    for(const code of members){
+      faResidenceShares[code]=faTotal>0?jobShares[code]/faTotal:1/Math.max(1,members.length);
+    }
+    return {jobShares,faResidenceShares,commutingYear:s.commutingYear||null};
+  }
+
   function scenarioEffect(data,options,year,geo){
     const scenarios=options.scenarios||{};
     const {members,weights}=baseMunicipalityWeights(data);
@@ -124,16 +148,62 @@
     for(const s of scenarios.workplaces||[]){
       if(!s.active) continue;
       const realizedJobs=n(s.jobs)*n(s.realizationPct)/100;
-      const externalTotal=realizedJobs*n(s.moveSharePct)/100*n(s.personsPerJob);
-      const internalTotal=realizedJobs*n(s.internalSharePct)/100*n(s.personsPerJob);
-      const ext=phasedAmount(externalTotal,+s.year,n(s.phaseYears),year);
-      const intl=phasedAmount(internalTotal,+s.year,n(s.phaseYears),year);
-      if(geo==="FA_LULEA"){
-        jobExternal+=ext;
-      }else if(members.includes(geo)){
-        const dest=destinationShares(s.municipality,members,weights,s.hostResidencePct);
-        jobExternal+=ext*n(dest[geo]);
-        jobInternalNet+=intl*(n(dest[geo])-n(weights[geo]));
+      const commuting=observedCommutingShares(s,members);
+
+      if(commuting){
+        // Observed commuting determines who is likely to hold the jobs.
+        // It does NOT imply that commuters move residence.
+        const outsideJobs=realizedJobs*n(commuting.jobShares.OUTSIDE_FA);
+        const externalPeopleTotal=
+          outsideJobs*n(s.moveSharePct)/100*n(s.personsPerJob);
+
+        // If an external worker does relocate to FA, distribute that new
+        // resident according to the observed residence pattern among current
+        // FA-resident workers in the same workplace municipality.
+        const ext=phasedAmount(
+          externalPeopleTotal,+s.year,n(s.phaseYears),year
+        );
+
+        // A separate assumption can move some existing inter-municipal
+        // commuters to the host municipality. This is a redistribution only:
+        // it must net to zero across the FA municipalities.
+        const internalMovePct=clamp(n(s.internalSharePct)/100,0,1);
+        let internalPeopleTotal=0;
+        const internalBySource={};
+        for(const source of members){
+          if(source===s.municipality) continue;
+          const people=
+            realizedJobs*n(commuting.jobShares[source])*
+            internalMovePct*n(s.personsPerJob);
+          internalBySource[source]=phasedAmount(
+            people,+s.year,n(s.phaseYears),year
+          );
+          internalPeopleTotal+=internalBySource[source];
+        }
+
+        if(geo==="FA_LULEA"){
+          jobExternal+=ext;
+        }else if(members.includes(geo)){
+          jobExternal+=ext*n(commuting.faResidenceShares[geo]);
+          if(geo===s.municipality){
+            jobInternalNet+=internalPeopleTotal;
+          }else{
+            jobInternalNet-=n(internalBySource[geo]);
+          }
+        }
+      }else{
+        // Manual fallback retained for scenarios without commuting data.
+        const externalTotal=realizedJobs*n(s.moveSharePct)/100*n(s.personsPerJob);
+        const internalTotal=realizedJobs*n(s.internalSharePct)/100*n(s.personsPerJob);
+        const ext=phasedAmount(externalTotal,+s.year,n(s.phaseYears),year);
+        const intl=phasedAmount(internalTotal,+s.year,n(s.phaseYears),year);
+        if(geo==="FA_LULEA"){
+          jobExternal+=ext;
+        }else if(members.includes(geo)){
+          const dest=destinationShares(s.municipality,members,weights,s.hostResidencePct);
+          jobExternal+=ext*n(dest[geo]);
+          jobInternalNet+=intl*(n(dest[geo])-n(weights[geo]));
+        }
       }
     }
 
