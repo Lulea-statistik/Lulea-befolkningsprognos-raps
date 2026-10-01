@@ -70,6 +70,8 @@ Bostadstyp/upplåtelseform/storlek är ännu metadata. Personer per bostad anges
 
 Arbetsplatsscenarier kan använda **observerad pendling** eller en manuell fördelning. Med observerad pendling fördelas nya jobb först efter SCB TAB1830:s aktuella bostadskommunmönster för vald arbetsställekommun. Jobb som tas av boende i annan FA-kommun ger i sig ingen befolkningstillväxt i FA; en separat intern flyttandel kan omfördela boende mellan kommunerna. Endast en separat vald andel av jobben som tas av personer bosatta utanför FA omvandlas till extern inflyttning, multiplicerad med personer per inflyttat jobb.
 
+Jobbrelaterad extern inflyttning kan dessutom använda en **ålder/kön-profil**. Standard är `job_family`: observerad kommunal inflyttning efter ålder och kön, begränsad till 0–64 år och normaliserad till 100 %. Alternativ är all observerad inflyttning eller den äldre befolkningsproportionella fördelningen. Profilen är ett empiriskt scenarioantagande, inte en kausal skattning av vilka individer som flyttar för ett arbete.
+
 Intern flyttning summerar till noll för hela FA-regionen. Ett justerbart överlappsavdrag minskar risken att samma hushåll dubbelräknas via både bostäder och jobb. Från sidan **Arbetsmarknad & pendling** kan ett valt jobbscenario skickas direkt till prognossidan med observerad pendling som standardfördelning.
 
 ## Validering utan resultatstyrning
@@ -104,5 +106,6 @@ Workflow **Update SCB data** kan köras manuellt och månadsvis. Det:
 - koppla officiella Raps-kluster/parametrar där de går att få fram,
 - förbättra IMIG/UMIG och `urisk`,
 - använda TAB1830-pendlingsmatrisen som prior för var nya jobbinnehavare bor och därefter separat skatta faktisk flyttbenägenhet,
+- vidareutveckla den jobbrelaterade ålder/kön-profilen med riktade flytt-/hushållsdata när sådana finns,
 - koppla empiriska personer-per-bostad-antaganden per bostadstyp/upplåtelseform/storlek,
 - lägga till delområden när stabila delområdesdata och geometrier finns.
