@@ -4,15 +4,19 @@ HTML-baserad demografisk prognosmodell för Luleå FA och kommunerna Luleå, Bod
 
 ## Dashboard
 
-Gränssnittet är uppdelat i fem rapportsidor:
+Gränssnittet är uppdelat i sju rapportsidor:
 
 1. **Resultat** – KPI:er, befolkningskurva, demografiska komponenter, årsresultat och SCB-benchmark.
 2. **Befolkningsanalys** – kalibreringskänslighet 6/10/19 år, kommun/Riket-faktorer, åldersstruktur och demografisk balans.
-3. **Scenario & justering** – generella demografiska multiplikatorer, bostadsbyggande och arbetsplatsetableringar.
-4. **Validering** – historisk 2022–2024-backtest och jämförelse mot SCB:s regionala framskrivning.
-5. **Metod & data** – källor, CKM-status, Raps-anpassning och fading-policy.
+3. **Åldersanalys 1-år** – fruktsamhets- och dödlighetsfading för varje enskild ålder, inklusive kvinnor/män för dödlighet.
+4. **Flyttanalys** – inflyttning, utflyttning, netto, historisk variation och praktisk 5 %-känslighet i 1-årsåldrar.
+5. **Scenario & justering** – generella demografiska multiplikatorer, bostadsbyggande och arbetsplatsetableringar.
+6. **Validering** – historisk 2022–2024-backtest och jämförelse mot SCB:s regionala framskrivning.
+7. **Metod & data** – källor, CKM-status, Raps-anpassning och fading-policy.
 
-Geografi, kalibreringsfönster och slutår är globala filter och gäller på alla sidor.
+Linjediagrammen har hover-värden för närmaste år eller ålder. Flyttanalysens historiska standardavvikelse är en variationsindikator, inte ett statistiskt konfidensintervall.
+
+Geografi, kalibreringsfönster och slutår är globala filter och gäller på alla sidor. För FA-regionen visas inte bruttoinflyttning/utflyttning genom summering av kommuner, eftersom interna FA-flyttar då skulle dubbelräknas; FA-nettot kan däremot summeras korrekt.
 
 ## Struktur
 
