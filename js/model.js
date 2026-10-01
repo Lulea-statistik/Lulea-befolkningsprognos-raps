@@ -120,10 +120,28 @@
     return {jobShares,faResidenceShares,commutingYear:s.commutingYear||null};
   }
 
+  function scenarioMigrationProfile(data,geo,window,mode){
+    if(!mode || mode==="population") return null;
+    const rows=(data.scenarioMigrationProfiles||[]).filter(r=>
+      r.geo===geo && +r.window===+window && r.profile===mode
+    );
+    return rows.length?rows:null;
+  }
+
+  function addProfileEffect(effects,amount,profileGeo,profileMode){
+    if(!amount) return;
+    effects.push({
+      amount,
+      profileGeo,
+      profileMode:profileMode||"job_family"
+    });
+  }
+
   function scenarioEffect(data,options,year,geo){
     const scenarios=options.scenarios||{};
     const {members,weights}=baseMunicipalityWeights(data);
     let housingExternal=0,housingInternalNet=0,jobExternal=0,jobInternalNet=0;
+    const jobExternalProfileEffects=[];
 
     for(const s of scenarios.housing||[]){
       if(!s.active) continue;
@@ -183,8 +201,23 @@
 
         if(geo==="FA_LULEA"){
           jobExternal+=ext;
+          for(const dest of members){
+            addProfileEffect(
+              jobExternalProfileEffects,
+              ext*n(commuting.faResidenceShares[dest]),
+              dest,
+              s.ageProfileMode
+            );
+          }
         }else if(members.includes(geo)){
-          jobExternal+=ext*n(commuting.faResidenceShares[geo]);
+          const geoExternal=ext*n(commuting.faResidenceShares[geo]);
+          jobExternal+=geoExternal;
+          addProfileEffect(
+            jobExternalProfileEffects,
+            geoExternal,
+            geo,
+            s.ageProfileMode
+          );
           if(geo===s.municipality){
             jobInternalNet+=internalPeopleTotal;
           }else{
@@ -197,11 +230,26 @@
         const internalTotal=realizedJobs*n(s.internalSharePct)/100*n(s.personsPerJob);
         const ext=phasedAmount(externalTotal,+s.year,n(s.phaseYears),year);
         const intl=phasedAmount(internalTotal,+s.year,n(s.phaseYears),year);
+        const dest=destinationShares(s.municipality,members,weights,s.hostResidencePct);
         if(geo==="FA_LULEA"){
           jobExternal+=ext;
+          for(const code of members){
+            addProfileEffect(
+              jobExternalProfileEffects,
+              ext*n(dest[code]),
+              code,
+              s.ageProfileMode
+            );
+          }
         }else if(members.includes(geo)){
-          const dest=destinationShares(s.municipality,members,weights,s.hostResidencePct);
-          jobExternal+=ext*n(dest[geo]);
+          const geoExternal=ext*n(dest[geo]);
+          jobExternal+=geoExternal;
+          addProfileEffect(
+            jobExternalProfileEffects,
+            geoExternal,
+            geo,
+            s.ageProfileMode
+          );
           jobInternalNet+=intl*(n(dest[geo])-n(weights[geo]));
         }
       }
@@ -216,6 +264,7 @@
       housingInternalNet,
       jobExternal,
       jobInternalNet,
+      jobExternalProfileEffects,
       overlapDeduction:overlapBase
     };
   }
@@ -230,6 +279,25 @@
     }
     for(const [k,v] of pop.entries()){
       pop.set(k,Math.max(0,v+amount*(v/total)));
+    }
+  }
+
+  function addScenarioWithProfile(pop,amount,profileRows){
+    if(!amount) return;
+    if(!profileRows || !profileRows.length){
+      addScenarioToPopulation(pop,amount);
+      return;
+    }
+    const totalShare=profileRows.reduce((s,r)=>s+Math.max(0,n(r.share)),0);
+    if(totalShare<=0){
+      addScenarioToPopulation(pop,amount);
+      return;
+    }
+    for(const r of profileRows){
+      const share=Math.max(0,n(r.share))/totalShare;
+      if(!share) continue;
+      const k=key(r.sex,+r.age);
+      pop.set(k,Math.max(0,n(pop.get(k))+amount*share));
     }
   }
 
@@ -290,7 +358,16 @@
       }
 
       const sfx=scenarioEffect(data,options,year,geo);
-      addScenarioToPopulation(survivors,sfx.total);
+      const profiledJobTotal=(sfx.jobExternalProfileEffects||[])
+        .reduce((sum,e)=>sum+n(e.amount),0);
+      const residualScenario=sfx.total-profiledJobTotal;
+      addScenarioToPopulation(survivors,residualScenario);
+      for(const e of sfx.jobExternalProfileEffects||[]){
+        const profile=scenarioMigrationProfile(
+          data,e.profileGeo,window,e.profileMode
+        );
+        addScenarioWithProfile(survivors,e.amount,profile);
+      }
 
       const total=[...survivors.values()].reduce((s,v)=>s+v,0);
       const prev=results[results.length-1].population;
