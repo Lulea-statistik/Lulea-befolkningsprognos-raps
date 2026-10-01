@@ -42,9 +42,10 @@
       }
       run();
     }));
-    ["labourWorkplace","labourAddedJobs","labourExternalMovePct","labourPersonsPerMover"].forEach(id=>{
+    ["labourWorkplace","labourScenarioYear","labourAddedJobs","labourExternalMovePct","labourPersonsPerMover"].forEach(id=>{
       if($(id)) $(id).addEventListener("change",renderLabourAnalysis);
     });
+    if($("labourToScenario")) $("labourToScenario").addEventListener("click",addLabourScenarioToForecast);
     renderDataStatus();
     renderStatus();
     if(data?.meta?.dataReady) run();
@@ -613,6 +614,31 @@
       tip.style.top=(e.clientY+14)+"px";
     };
     svg.onmouseleave=()=>tip.classList.remove("show");
+  }
+
+  function addLabourScenarioToForecast(){
+    const workplace=$("labourWorkplace")?.value;
+    if(!workplace) return;
+    const row=blankWorkplace();
+    row.active=true;
+    row.year=Math.max(2026,+$("labourScenarioYear").value||2030);
+    row.municipality=workplace;
+    row.jobs=Math.max(0,+$("labourAddedJobs").value||0);
+    row.allocationMode="commuting";
+    row.realizationPct=100;
+    row.moveSharePct=Math.max(0,Math.min(100,+$("labourExternalMovePct").value||0));
+    row.personsPerJob=Math.max(0,+$("labourPersonsPerMover").value||0);
+    row.internalSharePct=10;
+    defaultWorkplaces.push(row);
+    renderScenarioTables();
+
+    document.querySelectorAll(".tab").forEach(btn=>
+      btn.classList.toggle("active",btn.dataset.page==="scenario")
+    );
+    document.querySelectorAll(".page").forEach(p=>
+      p.classList.toggle("active",p.id==="page-scenario")
+    );
+    run();
   }
 
   function renderLabourAnalysis(){
