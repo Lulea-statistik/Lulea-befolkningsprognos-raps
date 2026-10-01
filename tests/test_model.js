@@ -105,6 +105,48 @@ assert(Math.abs(k30-1.5)<1e-9,'job profile adds external movers to female age ce
 assert(Math.abs(m30-0.5)<1e-9,'job profile adds external movers to male age cell');
 assert(Math.abs(k30+m30-2)<1e-9,'profiled job movers preserve total scenario effect');
 
+
+const householdScenarioData={
+  meta:{baseYear:2025},
+  calibration:{defaultYears:10},
+  geographies:[
+    {code:'FA_LULEA',members:['2580','2582','2581','2560','2514']},
+    {code:'2580'},{code:'2582'},{code:'2581'},{code:'2560'},{code:'2514'}
+  ],
+  parameters:{sexRatioMaleAtBirth:0.515},
+  populationBase:[
+    {geo:'2580',year:2025,sex:'K',age:20,value:1000},
+    {geo:'2580',year:2025,sex:'M',age:20,value:1000}
+  ],
+  fertilityRates:[],
+  mortalityRisks:[],
+  netMigration:[],
+  scenarioMigrationProfiles:[
+    {geo:'2580',window:10,profile:'worker_hybrid',sex:'K',age:30,share:1},
+    {geo:'2580',window:10,profile:'family_companion',sex:'M',age:5,share:1}
+  ]
+};
+const householdScenario={
+  housing:[],
+  workplaces:[{
+    active:true,year:2026,municipality:'2580',jobs:10,realizationPct:100,
+    useObservedCommuting:true,
+    commutingShares:{'2580':80,'2582':0,'2581':0,'2560':0,'2514':0,OUTSIDE_FA:20},
+    moveSharePct:100,personsPerJob:1.5,internalSharePct:0,phaseYears:1,
+    ageProfileMode:'worker_household'
+  }],
+  overlapPct:0
+};
+const household=M.simulate(householdScenarioData,{
+  geo:'2580',endYear:2026,fertMult:1,mortMult:1,migMult:1,window:10,
+  scenarios:householdScenario,includeDetail:true
+})[1];
+const worker30=household.populationByAgeSex.find(r=>r.sex==='K'&&r.age===30).value;
+const companion5=household.populationByAgeSex.find(r=>r.sex==='M'&&r.age===5).value;
+assert(Math.abs(worker30-2)<1e-9,'one worker per moving job uses worker profile');
+assert(Math.abs(companion5-1)<1e-9,'persons above one per job use household-companion profile');
+assert(Math.abs(worker30+companion5-3)<1e-9,'worker plus household profiles preserve total people per job');
+
 const windowData={
   meta:{baseYear:2025},
   calibration:{defaultYears:10},
@@ -125,4 +167,4 @@ const w6=M.simulate(windowData,{geo:'2580',endYear:2026,fertMult:1,mortMult:1,mi
 const w10=M.simulate(windowData,{geo:'2580',endYear:2026,fertMult:1,mortMult:1,migMult:1,window:10,scenarios:{}})[1];
 assert(w6.births>w10.births,'calibration window changes projected births');
 
-console.log('OK: model core, scenario balance, commuting allocation, age-profiled job migration and calibration-window tests passed');
+console.log('OK: model core, scenario balance, commuting allocation, worker-household migration profiles and calibration-window tests passed');
