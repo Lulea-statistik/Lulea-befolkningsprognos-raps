@@ -527,6 +527,8 @@ def migration_age_diagnostics(inflow, outflow, netmig):
                     "sdInflow": sd_in,
                     "sdOutflow": sd_out,
                     "sdNetMigration": sd_net,
+                    "cvNetMigrationPct": None if abs(mean_net) < 1e-12 else 100.0 * sd_net / abs(mean_net),
+                    "sensitivity5PctNetPersons": abs(mean_net) * 0.05,
                     "cvInflowPct": None if mean_in is None or abs(mean_in) < 1e-12 else 100.0 * sd_in / abs(mean_in),
                     "cvOutflowPct": None if mean_out is None or abs(mean_out) < 1e-12 else 100.0 * sd_out / abs(mean_out),
                     "sensitivity5PctInflowPersons": None if mean_in is None else abs(mean_in) * 0.05,
