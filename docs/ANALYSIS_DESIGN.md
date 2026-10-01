@@ -106,3 +106,28 @@ Alternative dashboard modes retain the earlier 0-64 observed-inflow profile, all
 A workplace-worker age benchmark is built from SCB TAB3205. The table provides three mutually exclusive broad groups suitable for this purpose: 15-24, 25-54 and 55-74, by sex and workplace municipality, averaged over 2022-2024.
 
 For Lulea, about 11.2% of workers are 15-24, while 38.4% of observed municipal in-migration age 0-64 is 18-24. This confirms that total in-migration is too student-heavy to serve as the default job-holder profile. The worker benchmark is therefore used to construct the worker component of the default workplace scenario; the model still keeps alternative profiles for sensitivity analysis. This change is source-driven rather than fitted to a preferred forecast outcome.
+
+
+## Household formation and housing demand
+
+The housing scenario uses observed household size as an empirical default rather than a single hard-coded persons-per-dwelling assumption.
+
+Source hierarchy for scenario defaults:
+
+1. municipality + building type + tenure + apartment-size class, where available;
+2. municipality + building type + tenure without apartment-size detail;
+3. corresponding national value.
+
+SCB HushallT30/TAB4937 provides households and average persons per household by housing form and apartment type for multifamily dwellings. Multiple detailed SCB apartment labels are household-weighted into the dashboard classes 1 room, 2 rooms, 3 rooms, 4 rooms and 5+ rooms. SCB HushallT29/TAB4538 supplies small-house defaults by tenure.
+
+The default reference year is 2024. The 2025 observations remain available for analysis, but the pre-CKM 2024 value is used as the automatic scenario default to avoid injecting small disclosure-control perturbations into a scenario coefficient.
+
+The household-demand view is intentionally a first-stage demand proxy:
+
+    projected households = projected population / assumed persons per household
+
+It supports constant latest household size, a recent-trend sensitivity and a manual household-size assumption. Required new dwellings can include a selected reserve/vacancy share. The result is compared with completed dwellings in active housing scenarios as a change from the base year, not interpreted as an absolute housing shortage.
+
+SCB HushallT05/TAB1533 supplies household-type composition and HushallT09/TAB4374 supplies the historical household count/average-size series. BO0104T04/TAB824 supplies dwelling stock by building type and tenure.
+
+For future sub-municipal analysis, HushallT32Deso/TAB6065 is useful for persons by building type at DeSO/RegSO level. It is not a substitute for HushallT30 when estimating persons per household by apartment size.
