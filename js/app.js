@@ -662,6 +662,7 @@
       $("labourResidenceShares").innerHTML="<p class='hint'>Pendlingsdata genereras i nästa workflow-körning.</p>";
       $("labourScenarioAllocation").innerHTML="<p class='hint'>Pendlingsdata genereras i nästa workflow-körning.</p>";
       $("labourPopulationEffect").innerHTML="";
+      $("labourWorkerAgeGroups").innerHTML="<p class='hint'>Arbetsmarknadens åldersprofil genereras i nästa workflow-körning.</p>";
       $("commutingMatrix").innerHTML="";
       $("labourJobsChart").innerHTML="";
       return;
@@ -751,6 +752,30 @@
     }else{
       $("labourAgeProfileChart").innerHTML=
         '<text x="30" y="40" class="axisText">Åldersprofil genereras i nästa workflow-körning.</text>';
+    }
+
+    const workerGroups=(labour.workerAgeGroups||[])
+      .filter(r=>r.workplace===workplace)
+      .sort((a,b)=>(+a.ageMin-+b.ageMin)||String(a.sex).localeCompare(String(b.sex)));
+    if(workerGroups.length){
+      const bands=[...new Map(workerGroups.map(r=>[
+        `${r.ageMin}-${r.ageMax}`,
+        {label:`${r.ageMin}–${r.ageMax}`,ageMin:r.ageMin,ageMax:r.ageMax}
+      ])).values()];
+      $("labourWorkerAgeGroups").innerHTML=`
+        <h3>Sysselsatta efter arbetsställets åldersgrupp</h3>
+        <p class="hint">SCB TAB3205, genomsnitt 2022–2024. Detta är en arbetsmarknadsreferens för själva jobbinnehavaren, inte en flyttprofil.</p>
+        <table class="miniTable"><thead><tr><th>Ålder</th><th>Totalt</th><th>Kvinnor</th><th>Män</th></tr></thead><tbody>
+        ${bands.map(b=>{
+          const rows=workerGroups.filter(r=>+r.ageMin===+b.ageMin&&+r.ageMax===+b.ageMax);
+          const k=rows.find(r=>r.sex==="K");
+          const m=rows.find(r=>r.sex==="M");
+          const total=rows.reduce((s,r)=>s+Number(r.sharePct||0),0);
+          return `<tr><td>${b.label}</td><td>${pct.format(total)} %</td><td>${pct.format(k?.sharePct||0)} %</td><td>${pct.format(m?.sharePct||0)} %</td></tr>`;
+        }).join("")}
+        </tbody></table>`;
+    }else{
+      $("labourWorkerAgeGroups").innerHTML="<p class='hint'>Arbetsmarknadens åldersprofil genereras i nästa workflow-körning.</p>";
     }
 
     const outside=allocations.find(r=>r.residence===labour.outsideGroup.code);
