@@ -1,0 +1,1 @@
+window.HOUSING_HOUSEHOLD_DATA = null;
