@@ -110,7 +110,8 @@ def choose_years(md: dict, start: int | None, end: int | None) -> list[str]:
 def total_code(dim: dict) -> str | None:
     labs = labels(dim)
     for code, label in labs.items():
-        if str(label).strip().lower() in {"totalt", "total", "båda könen", "samtliga"}:
+        ll = str(label).strip().lower()
+        if ll in {"totalt", "total", "båda könen", "samtliga"} or "totalt" in ll or "båda kön" in ll:
             return code
     return None
 
