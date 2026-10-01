@@ -22,6 +22,10 @@ for part in parts:
     qlen = len(s.encode_params(part))
     if qlen > 5500:
         raise AssertionError(f"Split query is still too long: {qlen}")
+    if len(part["Bostadskommun"]) > 80:
+        raise AssertionError(
+            f"Too many municipality values remain in one request: {len(part['Bostadskommun'])}"
+        )
 
 original = set(selection["Bostadskommun"])
 recombined = []
