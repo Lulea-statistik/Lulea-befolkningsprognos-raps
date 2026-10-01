@@ -61,8 +61,54 @@ const report = {
   horizonYears: manifest.horizonYears,
   overlapNote: manifest.overlapNote,
   results: {},
-  summary: {}
+  summary: {},
+  nationalAssumptionBenchmark: {
+    note: 'Compares each SCB national forecast vintage directly with realized Sweden births and deaths before local calibration.',
+    rows: [],
+    summary: {}
+  }
 };
+
+for (const entry of origins) {
+  for (const row of entry.actual.nationalAssumptionRows || []) {
+    report.nationalAssumptionBenchmark.rows.push({
+      origin: entry.origin,
+      ...Object.fromEntries(
+        Object.entries(row).map(([k,v]) => [
+          k,
+          typeof v === 'number' ? round1(v) : v
+        ])
+      )
+    });
+  }
+}
+
+{
+  const rows = report.nationalAssumptionBenchmark.rows;
+  const byOrigin = {};
+  for (const entry of origins) {
+    const x = rows.filter(row => +row.origin === +entry.origin);
+    byOrigin[entry.origin] = {
+      observations: x.length,
+      birthsMAPE: round1(mean(x.map(row => ape(row.predictedBirths, row.actualBirths)))),
+      birthsMAE: round1(mean(x.map(row => Math.abs(row.birthsError)))),
+      birthsMeanError: round1(mean(x.map(row => row.birthsError))),
+      deathsMAPE: round1(mean(x.map(row => ape(row.predictedDeaths, row.actualDeaths)))),
+      deathsMAE: round1(mean(x.map(row => Math.abs(row.deathsError)))),
+      deathsMeanError: round1(mean(x.map(row => row.deathsError)))
+    };
+  }
+  report.nationalAssumptionBenchmark.summary = {
+    observations: rows.length,
+    birthsMAPE: round1(mean(rows.map(row => ape(row.predictedBirths, row.actualBirths)))),
+    birthsMAE: round1(mean(rows.map(row => Math.abs(row.birthsError)))),
+    birthsMeanError: round1(mean(rows.map(row => row.birthsError))),
+    deathsMAPE: round1(mean(rows.map(row => ape(row.predictedDeaths, row.actualDeaths)))),
+    deathsMAE: round1(mean(rows.map(row => Math.abs(row.deathsError)))),
+    deathsMeanError: round1(mean(rows.map(row => row.deathsError))),
+    byOrigin
+  };
+}
 
 for (const geo of geos) {
   report.results[geo] = {};
@@ -197,6 +243,11 @@ fs.writeFileSync(
 );
 
 console.log('Wrote data/backtests/rolling_2018_2024.json/js');
+const national = report.nationalAssumptionBenchmark.summary;
+console.log(
+  `National SCB vintage diagnostic: births mean error=${national.birthsMeanError} | ` +
+  `deaths mean error=${national.deathsMeanError} | deaths MAPE=${national.deathsMAPE}%`
+);
 for (const geo of ['2580', 'FA_LULEA']) {
   for (const window of windows) {
     const s = report.summary[geo][window];
