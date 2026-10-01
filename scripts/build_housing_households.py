@@ -254,20 +254,29 @@ def household_composition(manifest):
         return []
     region_dim = dimension_id(manifest, key, ["region"]) or "Region"
     type_dim = dimension_id(manifest, key, ["hushallstyp", "hushållstyp"]) or "Hushallstyp"
-    child_dim = dimension_id(manifest, key, ["antal barn"]) or "AntalBarn"
+    child_dim = dimension_id(manifest, key, ["antal barn"]) or "Barn"
     cols = content_columns(manifest, key, rows[0].keys())
-    out = []
+
+    # HushallT05 has no separate "all children" row. Household types and
+    # child-count categories form the detailed cells, so aggregate all valid
+    # child-count rows within each household type for the selected year.
+    grouped = defaultdict(lambda: {"households": 0.0, "persons": 0.0})
     for r in rows:
         geo = r.get(region_dim)
         if geo not in MUNICIPALITIES:
             continue
-        child_label = norm(value_label(manifest, key, child_dim, r.get(child_dim)))
-        if not any(x in child_label for x in ("totalt", "samtliga")):
+
+        type_code = r.get(type_dim)
+        type_label = value_label(manifest, key, type_dim, type_code)
+        if norm(type_label) == "uppgift saknas":
             continue
-        type_label = value_label(manifest, key, type_dim, r.get(type_dim))
-        if any(x in norm(type_label) for x in ("samtliga hushall", "totalt")):
+
+        child_label = value_label(manifest, key, child_dim, r.get(child_dim))
+        if norm(child_label) == "uppgift saknas":
             continue
-        vals = defaultdict(dict)
+
+        households = None
+        persons = None
         for col, _, year, label in cols:
             if year != 2024:
                 continue
@@ -276,20 +285,32 @@ def household_composition(manifest):
                 continue
             nlabel = norm(label)
             if nlabel.startswith("antal hushall"):
-                vals[year]["households"] = val
+                households = val
             elif nlabel.startswith("antal personer"):
-                vals[year]["persons"] = val
-        if 2024 in vals and vals[2024].get("households", 0) > 0:
-            hh = vals[2024]["households"]
-            persons = vals[2024].get("persons")
-            out.append({
-                "geo": geo,
-                "year": 2024,
-                "householdType": type_label,
-                "households": hh,
-                "persons": persons,
-                "personsPerHousehold": None if persons is None else persons / hh,
-            })
+                persons = val
+
+        if households is None and persons is None:
+            continue
+
+        g = grouped[(geo, type_code, type_label)]
+        g["households"] += households or 0.0
+        g["persons"] += persons or 0.0
+
+    out = []
+    for (geo, type_code, type_label), vals in grouped.items():
+        hh = vals["households"]
+        persons = vals["persons"]
+        if hh <= 0:
+            continue
+        out.append({
+            "geo": geo,
+            "year": 2024,
+            "householdTypeCode": type_code,
+            "householdType": type_label,
+            "households": hh,
+            "persons": persons,
+            "personsPerHousehold": persons / hh if persons > 0 else None,
+        })
     return sorted(out, key=lambda r: (r["geo"], r["householdType"]))
 
 def housing_stock(manifest):
