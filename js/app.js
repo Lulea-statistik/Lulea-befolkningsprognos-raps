@@ -5,6 +5,7 @@
   const backtest=window.MODEL_BACKTEST||null;
   const scbComparison=window.SCB_BENCHMARK_COMPARISON||null;
   const labour=window.LABOUR_MARKET_DATA||null;
+  const housing=window.HOUSING_HOUSEHOLD_DATA||null;
   let latest=[];
   let baseline=[];
 
@@ -16,7 +17,7 @@
   const defaultHousing=[{
     active:false,year:2030,municipality:"2580",dwellingType:"småhus",
     tenure:"äganderätt",size:"5+",dwellings:1000,completionPct:100,
-    occupancyPct:95,personsPerDwelling:2.0,externalSharePct:50,
+    occupancyPct:95,personsMode:"auto",personsPerDwelling:2.0,externalSharePct:50,
     internalSharePct:25,phaseYears:3
   }];
   const defaultWorkplaces=[{
@@ -46,6 +47,9 @@
       if($(id)) $(id).addEventListener("change",renderLabourAnalysis);
     });
     if($("labourToScenario")) $("labourToScenario").addEventListener("click",addLabourScenarioToForecast);
+    ["householdProjectionMode","householdManualSize","housingReservePct"].forEach(id=>{
+      if($(id)) $(id).addEventListener("change",renderHousingAnalysis);
+    });
     renderDataStatus();
     renderStatus();
     if(data?.meta?.dataReady) run();
@@ -77,7 +81,7 @@
     if(geos.some(g=>g.code==="2580")) $("labourWorkplace").value="2580";
   }
   function blankHousing(){
-    return {active:true,year:2030,municipality:"2580",dwellingType:"flerbostadshus",tenure:"hyresrätt",size:"2 rum",dwellings:100,completionPct:100,occupancyPct:95,personsPerDwelling:1.6,externalSharePct:50,internalSharePct:25,phaseYears:3};
+    return {active:true,year:2030,municipality:"2580",dwellingType:"flerbostadshus",tenure:"hyresrätt",size:"2 rum",dwellings:100,completionPct:100,occupancyPct:95,personsMode:"auto",personsPerDwelling:1.6,externalSharePct:50,internalSharePct:25,phaseYears:3};
   }
   function blankWorkplace(){
     return {
@@ -296,6 +300,7 @@
     renderDetailedAgeAnalysis();
     renderMigrationAnalysis();
     renderLabourAnalysis();
+    renderHousingAnalysis();
     renderValidation();
     renderDataStatus();
   }
