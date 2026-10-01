@@ -16,6 +16,11 @@ const geos = input.geographies.map(g => g.code);
 function byActual(geo, year) {
   return actual.rows.find(r => r.geo === geo && +r.year === +year);
 }
+function byActualAge(geo, year, age) {
+  return (actual.ageRows||[]).find(r =>
+    r.geo === geo && +r.year === +year && +r.age === +age
+  );
+}
 function ape(pred, obs) {
   return obs ? Math.abs(pred - obs) / Math.abs(obs) * 100 : null;
 }
@@ -34,11 +39,13 @@ const report = {
   endYear: 2024,
   windows: WINDOWS,
   results: {},
+  ageErrors: {},
   summary: {}
 };
 
 for (const geo of geos) {
   report.results[geo] = {};
+  report.ageErrors[geo] = {};
   report.summary[geo] = {};
   for (const window of WINDOWS) {
     const pred = M.simulate(input, {
@@ -48,7 +55,8 @@ for (const geo of geos) {
       mortMult: 1,
       migMult: 1,
       window,
-      scenarios: {housing: [], workplaces: [], overlapPct: 0}
+      scenarios: {housing: [], workplaces: [], overlapPct: 0},
+      includeDetail: true
     });
 
     const rows = [];
@@ -74,6 +82,29 @@ for (const geo of geos) {
       });
     }
     report.results[geo][window] = rows;
+    const ageRows = [];
+    for (const p of pred) {
+      if (+p.year <= 2021 || !p.populationByAgeSex) continue;
+      for (let age=0; age<=100; age++) {
+        const predicted = p.populationByAgeSex
+          .filter(r=>+r.age===age)
+          .reduce((s,r)=>s+Number(r.value||0),0);
+        const a = byActualAge(geo,p.year,age);
+        if (!a) continue;
+        ageRows.push({
+          year:+p.year,
+          age,
+          predictedPopulation:round1(predicted),
+          actualPopulation:round1(a.total),
+          error:round1(predicted-a.total),
+          absError:round1(Math.abs(predicted-a.total)),
+          pctError:a.total?round1((predicted-a.total)/a.total*100):null,
+          absPctError:round1(ape(predicted,a.total))
+        });
+      }
+    }
+    report.ageErrors[geo][window] = ageRows;
+
     report.summary[geo][window] = {
       populationMAPE: round1(mean(rows.map(r=>r.populationAbsPctError))),
       populationMAE: round1(mean(rows.map(r=>Math.abs(r.populationError)))),
@@ -81,7 +112,9 @@ for (const geo of geos) {
       deathsMAE: round1(mean(rows.map(r=>Math.abs(r.deathsError)))),
       netMigrationMAE: round1(mean(rows.map(r=>Math.abs(r.netMigrationError)))),
       populationError2024: rows.length ? rows.at(-1).populationError : null,
-      populationAbsPctError2024: rows.length ? rows.at(-1).populationAbsPctError : null
+      populationAbsPctError2024: rows.length ? rows.at(-1).populationAbsPctError : null,
+      ageMAE2024: round1(mean(ageRows.filter(r=>r.year===2024).map(r=>r.absError))),
+      ageMAPE2024: round1(mean(ageRows.filter(r=>r.year===2024).map(r=>r.absPctError)))
     };
   }
 }
