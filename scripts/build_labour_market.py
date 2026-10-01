@@ -80,9 +80,9 @@ def age_group(v: str):
     if not m:
         return None
     a, b = int(m.group(1)), int(m.group(2))
-    # Keep the mutually exclusive 10-year groups only. The SCB table also
-    # contains overlapping totals such as 15-74 and 16-64.
-    if (a, b) not in {(15,24),(25,34),(35,44),(45,54),(55,64),(65,74)}:
+    # Keep only SCB's mutually exclusive broad groups. The table also contains
+    # overlapping totals such as 15-74, 16-64, 20-64 and 25-54.
+    if (a, b) not in {(15,24),(25,54),(55,74)}:
         return None
     return a, b
 
@@ -122,7 +122,7 @@ def load_worker_age_groups():
     for workplace in MUNICIPALITIES:
         cell_means = {}
         for sex in ("K", "M"):
-            for age_min, age_max in ((15,24),(25,34),(35,44),(45,54),(55,64),(65,74)):
+            for age_min, age_max in ((15,24),(25,54),(55,74)):
                 vals = [
                     values_by_cell.get((workplace, sex, age_min, age_max, y), 0.0)
                     for y in years
@@ -133,6 +133,19 @@ def load_worker_age_groups():
         total = sum(cell_means.values())
         if total <= 0:
             continue
+        group_totals = {
+            (age_min, age_max): sum(
+                value for (sex, a, b), value in cell_means.items()
+                if a == age_min and b == age_max
+            )
+            for age_min, age_max in ((15,24),(25,54),(55,74))
+        }
+        missing = [f"{a}-{b}" for (a,b), value in group_totals.items() if value <= 0]
+        if missing:
+            raise RuntimeError(
+                f"Employment age profile for {workplace} has zero/missing broad groups: {missing}"
+            )
+
         for (sex, age_min, age_max), value in cell_means.items():
             result.append({
                 "workplace": workplace,
