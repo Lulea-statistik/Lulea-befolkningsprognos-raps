@@ -71,6 +71,41 @@
   function simpleOptions(values,selected){
     return values.map(v=>`<option value="${v}" ${v===selected?"selected":""}>${v}</option>`).join("");
   }
+  function housingDefaultFor(s){
+    if(!housing?.occupancyDefaults?.length) return null;
+    const targetYear=Number(housing.meta?.occupancyDefaultYear||2024);
+    const size=s.dwellingType==="småhus"?"alla":s.size;
+    const rows=housing.occupancyDefaults.filter(r=>
+      +r.year===targetYear &&
+      r.dwellingType===s.dwellingType &&
+      r.tenure===s.tenure &&
+      (r.geo===s.municipality || r.geo==="00")
+    );
+    const ranked=rows
+      .map(r=>({
+        row:r,
+        score:(r.geo===s.municipality?100:0) +
+          (r.size===size?20:r.size==="alla"?10:0)
+      }))
+      .filter(x=>x.score>0)
+      .sort((a,b)=>b.score-a.score);
+    return ranked[0]?.row||null;
+  }
+
+  function applyAutoHousingDefaults(){
+    defaultHousing.forEach(s=>{
+      if(!s.personsMode) s.personsMode="auto";
+      if(s.personsMode==="manual") return;
+      const d=housingDefaultFor(s);
+      if(d){
+        s.personsPerDwelling=Number(d.personsPerDwelling);
+        s.personsSource=`${d.geo==="00"?"Riket":s.municipality} · ${d.year} · ${d.source}`;
+      }else{
+        s.personsSource="SCB-standard saknas";
+      }
+    });
+  }
+
   function fillGeo(){
     $("geo").innerHTML=data.geographies.map(g=>`<option value="${g.code}">${g.name}</option>`).join("");
   }
@@ -93,6 +128,7 @@
   }
 
   function renderScenarioTables(){
+    applyAutoHousingDefaults();
     const hBody=$("housingTable").querySelector("tbody");
     hBody.innerHTML=defaultHousing.map((s,i)=>`<tr data-i="${i}">
       <td><input data-k="active" type="checkbox" ${s.active?"checked":""}></td>
@@ -104,7 +140,11 @@
       <td><input data-k="dwellings" type="number" value="${s.dwellings}" min="0"></td>
       <td><input data-k="completionPct" type="number" value="${s.completionPct}" min="0" max="100"></td>
       <td><input data-k="occupancyPct" type="number" value="${s.occupancyPct}" min="0" max="100"></td>
-      <td><input data-k="personsPerDwelling" type="number" value="${s.personsPerDwelling}" min="0" step="0.1"></td>
+      <td><select data-k="personsMode">
+        <option value="auto" ${s.personsMode!=="manual"?"selected":""}>SCB auto</option>
+        <option value="manual" ${s.personsMode==="manual"?"selected":""}>Manuell</option>
+      </select></td>
+      <td title="${s.personsSource||""}"><input data-k="personsPerDwelling" type="number" value="${Number(s.personsPerDwelling||0).toFixed(2)}" min="0" step="0.01" ${s.personsMode!=="manual"?"readonly":""}></td>
       <td><input data-k="externalSharePct" type="number" value="${s.externalSharePct}" min="0" max="100"></td>
       <td><input data-k="internalSharePct" type="number" value="${s.internalSharePct}" min="0" max="100"></td>
       <td><input data-k="phaseYears" type="number" value="${s.phaseYears}" min="1" max="20"></td>
@@ -138,6 +178,15 @@
 
     document.querySelectorAll(".removeHousing").forEach(b=>b.addEventListener("click",()=>{syncScenarioTables();defaultHousing.splice(+b.dataset.i,1);renderScenarioTables();run();}));
     document.querySelectorAll(".removeWorkplace").forEach(b=>b.addEventListener("click",()=>{syncScenarioTables();defaultWorkplaces.splice(+b.dataset.i,1);renderScenarioTables();run();}));
+    hBody.querySelectorAll("input,select").forEach(el=>el.addEventListener("change",()=>{
+      const keyName=el.dataset.k;
+      syncScenarioTables();
+      if(["municipality","dwellingType","tenure","size","personsMode"].includes(keyName)){
+        applyAutoHousingDefaults();
+        renderScenarioTables();
+      }
+      renderHousingAnalysis();
+    }));
     wBody.querySelectorAll("input,select").forEach(el=>el.addEventListener("change",()=>{
       syncScenarioTables();
       renderWorkplaceScenarioPreview();
