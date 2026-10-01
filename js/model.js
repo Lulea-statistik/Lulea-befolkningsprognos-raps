@@ -137,6 +137,16 @@
     });
   }
 
+  function splitWorkerHousehold(movingJobs,personsPerJob,startYear,phaseYears,year){
+    const ppj=Math.max(0,n(personsPerJob));
+    const workersTotal=movingJobs*Math.min(1,ppj);
+    const companionsTotal=movingJobs*Math.max(0,ppj-1);
+    return {
+      workers:phasedAmount(workersTotal,startYear,phaseYears,year),
+      companions:phasedAmount(companionsTotal,startYear,phaseYears,year)
+    };
+  }
+
   function scenarioEffect(data,options,year,geo){
     const scenarios=options.scenarios||{};
     const {members,weights}=baseMunicipalityWeights(data);
@@ -172,15 +182,12 @@
         // Observed commuting determines who is likely to hold the jobs.
         // It does NOT imply that commuters move residence.
         const outsideJobs=realizedJobs*n(commuting.jobShares.OUTSIDE_FA);
-        const externalPeopleTotal=
-          outsideJobs*n(s.moveSharePct)/100*n(s.personsPerJob);
-
-        // If an external worker does relocate to FA, distribute that new
-        // resident according to the observed residence pattern among current
-        // FA-resident workers in the same workplace municipality.
-        const ext=phasedAmount(
-          externalPeopleTotal,+s.year,n(s.phaseYears),year
+        const movingJobs=
+          outsideJobs*clamp(n(s.moveSharePct)/100,0,1);
+        const split=splitWorkerHousehold(
+          movingJobs,n(s.personsPerJob),+s.year,n(s.phaseYears),year
         );
+        const ext=split.workers+split.companions;
 
         // A separate assumption can move some existing inter-municipal
         // commuters to the host municipality. This is a redistribution only:
@@ -202,22 +209,54 @@
         if(geo==="FA_LULEA"){
           jobExternal+=ext;
           for(const dest of members){
+            const destShare=n(commuting.faResidenceShares[dest]);
+            if(s.ageProfileMode==="worker_household"){
+              addProfileEffect(
+                jobExternalProfileEffects,
+                split.workers*destShare,
+                s.municipality,
+                "worker_hybrid"
+              );
+              addProfileEffect(
+                jobExternalProfileEffects,
+                split.companions*destShare,
+                dest,
+                "family_companion"
+              );
+            }else{
+              addProfileEffect(
+                jobExternalProfileEffects,
+                ext*destShare,
+                dest,
+                s.ageProfileMode
+              );
+            }
+          }
+        }else if(members.includes(geo)){
+          const destShare=n(commuting.faResidenceShares[geo]);
+          const geoExternal=ext*destShare;
+          jobExternal+=geoExternal;
+          if(s.ageProfileMode==="worker_household"){
             addProfileEffect(
               jobExternalProfileEffects,
-              ext*n(commuting.faResidenceShares[dest]),
-              dest,
+              split.workers*destShare,
+              s.municipality,
+              "worker_hybrid"
+            );
+            addProfileEffect(
+              jobExternalProfileEffects,
+              split.companions*destShare,
+              geo,
+              "family_companion"
+            );
+          }else{
+            addProfileEffect(
+              jobExternalProfileEffects,
+              geoExternal,
+              geo,
               s.ageProfileMode
             );
           }
-        }else if(members.includes(geo)){
-          const geoExternal=ext*n(commuting.faResidenceShares[geo]);
-          jobExternal+=geoExternal;
-          addProfileEffect(
-            jobExternalProfileEffects,
-            geoExternal,
-            geo,
-            s.ageProfileMode
-          );
           if(geo===s.municipality){
             jobInternalNet+=internalPeopleTotal;
           }else{
@@ -226,30 +265,66 @@
         }
       }else{
         // Manual fallback retained for scenarios without commuting data.
-        const externalTotal=realizedJobs*n(s.moveSharePct)/100*n(s.personsPerJob);
+        const movingJobs=
+          realizedJobs*clamp(n(s.moveSharePct)/100,0,1);
+        const split=splitWorkerHousehold(
+          movingJobs,n(s.personsPerJob),+s.year,n(s.phaseYears),year
+        );
+        const ext=split.workers+split.companions;
         const internalTotal=realizedJobs*n(s.internalSharePct)/100*n(s.personsPerJob);
-        const ext=phasedAmount(externalTotal,+s.year,n(s.phaseYears),year);
         const intl=phasedAmount(internalTotal,+s.year,n(s.phaseYears),year);
         const dest=destinationShares(s.municipality,members,weights,s.hostResidencePct);
         if(geo==="FA_LULEA"){
           jobExternal+=ext;
           for(const code of members){
+            const destShare=n(dest[code]);
+            if(s.ageProfileMode==="worker_household"){
+              addProfileEffect(
+                jobExternalProfileEffects,
+                split.workers*destShare,
+                s.municipality,
+                "worker_hybrid"
+              );
+              addProfileEffect(
+                jobExternalProfileEffects,
+                split.companions*destShare,
+                code,
+                "family_companion"
+              );
+            }else{
+              addProfileEffect(
+                jobExternalProfileEffects,
+                ext*destShare,
+                code,
+                s.ageProfileMode
+              );
+            }
+          }
+        }else if(members.includes(geo)){
+          const destShare=n(dest[geo]);
+          const geoExternal=ext*destShare;
+          jobExternal+=geoExternal;
+          if(s.ageProfileMode==="worker_household"){
             addProfileEffect(
               jobExternalProfileEffects,
-              ext*n(dest[code]),
-              code,
+              split.workers*destShare,
+              s.municipality,
+              "worker_hybrid"
+            );
+            addProfileEffect(
+              jobExternalProfileEffects,
+              split.companions*destShare,
+              geo,
+              "family_companion"
+            );
+          }else{
+            addProfileEffect(
+              jobExternalProfileEffects,
+              geoExternal,
+              geo,
               s.ageProfileMode
             );
           }
-        }else if(members.includes(geo)){
-          const geoExternal=ext*n(dest[geo]);
-          jobExternal+=geoExternal;
-          addProfileEffect(
-            jobExternalProfileEffects,
-            geoExternal,
-            geo,
-            s.ageProfileMode
-          );
           jobInternalNet+=intl*(n(dest[geo])-n(weights[geo]));
         }
       }
