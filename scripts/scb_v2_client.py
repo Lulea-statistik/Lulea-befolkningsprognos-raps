@@ -36,6 +36,11 @@ DEFAULT_QUERIES = {
     "regional_forecast_benchmark": "Befolkningsframskrivning region kommun ålder kön 2024 2070",
     "commuting_flows": "Sysselsatta bostadskommun arbetsställekommun kön 2020 2024",
     "employment_age_profile": "Sysselsatta region yrkesställning kön ålder födelseregion arbetsställets belägenhet 2020 2024",
+    "household_size_by_tenure": "Antal personer per hushåll region boendeform 2012 2025",
+    "household_size_by_apartment": "Antal hushåll genomsnittligt antal personer per hushåll region boendeform lägenhetstyp 2012 2025",
+    "households_by_type": "Antal hushåll personer region hushållstyp antal barn 2011 2024",
+    "household_totals": "Antal personer hushåll personer per hushåll region 2011 2025",
+    "housing_stock": "Antal lägenheter region hustyp upplåtelseform 2013 2025",
 }
 
 def get_json(path: str, params: dict | None = None):
