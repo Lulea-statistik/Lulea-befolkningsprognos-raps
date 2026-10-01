@@ -27,6 +27,42 @@ const sum=['2580','2582','2581','2560','2514'].reduce((s,g)=>s+M.scenarioEffect(
 assert(Math.abs(fa-1000)<1e-9,'FA housing external effect');
 assert(Math.abs(sum-fa)<1e-9,'internal housing moves net to zero across municipalities');
 
+
+const commutingScenario={
+  housing:[],
+  workplaces:[{
+    active:true,
+    year:2030,
+    municipality:'2580',
+    jobs:1000,
+    realizationPct:100,
+    allocationMode:'commuting',
+    useObservedCommuting:true,
+    commutingYear:2024,
+    commutingShares:{
+      '2580':80,
+      '2582':10,
+      '2581':5,
+      '2560':2,
+      '2514':1,
+      OUTSIDE_FA:2
+    },
+    moveSharePct:50,
+    personsPerJob:2,
+    internalSharePct:20,
+    phaseYears:1
+  }],
+  overlapPct:0
+};
+const faJobs=M.scenarioEffect(demoData,{scenarios:commutingScenario},2030,'FA_LULEA');
+assert(Math.abs(faJobs.jobExternal-20)<1e-9,'observed commuting external job effect');
+assert(Math.abs(faJobs.jobInternalNet)<1e-9,'FA internal commuting moves net to zero');
+const municipalJobs=['2580','2582','2581','2560','2514']
+  .map(g=>M.scenarioEffect(demoData,{scenarios:commutingScenario},2030,g));
+const sumJobs=municipalJobs.reduce((s,r)=>s+r.total,0);
+assert(Math.abs(sumJobs-faJobs.total)<1e-9,'observed commuting workplace effects balance across municipalities');
+assert(Math.abs(faJobs.total-20)<1e-9,'only outside-FA movers add population to FA');
+
 const windowData={
   meta:{baseYear:2025},
   calibration:{defaultYears:10},
@@ -47,4 +83,4 @@ const w6=M.simulate(windowData,{geo:'2580',endYear:2026,fertMult:1,mortMult:1,mi
 const w10=M.simulate(windowData,{geo:'2580',endYear:2026,fertMult:1,mortMult:1,migMult:1,window:10,scenarios:{}})[1];
 assert(w6.births>w10.births,'calibration window changes projected births');
 
-console.log('OK: model core, scenario balance and calibration-window tests passed');
+console.log('OK: model core, housing/workplace scenario balance, commuting allocation and calibration-window tests passed');
