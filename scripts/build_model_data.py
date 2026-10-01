@@ -502,41 +502,45 @@ def migration_age_diagnostics(inflow, outflow, netmig):
         yrs = list(window_years(window))
         for geo in geos:
             age_rows = []
+            gross_available = geo != FA_CODE
             for age in range(101):
                 ins, outs, nets = [], [], []
                 for year in yrs:
-                    ins.append(sum(inflow.get((geo, year, sex, age), 0.0) for sex in ("K", "M")))
-                    outs.append(sum(outflow.get((geo, year, sex, age), 0.0) for sex in ("K", "M")))
+                    if gross_available:
+                        ins.append(sum(inflow.get((geo, year, sex, age), 0.0) for sex in ("K", "M")))
+                        outs.append(sum(outflow.get((geo, year, sex, age), 0.0) for sex in ("K", "M")))
                     nets.append(sum(netmig.get((geo, year, sex, age), 0.0) for sex in ("K", "M")))
-                mean_in = statistics.fmean(ins) if ins else 0.0
-                mean_out = statistics.fmean(outs) if outs else 0.0
+                mean_in = statistics.fmean(ins) if ins else None
+                mean_out = statistics.fmean(outs) if outs else None
                 mean_net = statistics.fmean(nets) if nets else 0.0
-                sd_in = statistics.pstdev(ins) if len(ins) > 1 else 0.0
-                sd_out = statistics.pstdev(outs) if len(outs) > 1 else 0.0
+                sd_in = statistics.pstdev(ins) if len(ins) > 1 else None
+                sd_out = statistics.pstdev(outs) if len(outs) > 1 else None
                 sd_net = statistics.pstdev(nets) if len(nets) > 1 else 0.0
                 age_rows.append({
                     "geo": geo,
                     "window": window,
                     "age": age,
+                    "grossFlowsAvailable": gross_available,
                     "meanInflow": mean_in,
                     "meanOutflow": mean_out,
                     "meanNetMigration": mean_net,
                     "sdInflow": sd_in,
                     "sdOutflow": sd_out,
                     "sdNetMigration": sd_net,
-                    "cvInflowPct": None if abs(mean_in) < 1e-12 else 100.0 * sd_in / abs(mean_in),
-                    "cvOutflowPct": None if abs(mean_out) < 1e-12 else 100.0 * sd_out / abs(mean_out),
-                    "sensitivity5PctInflowPersons": abs(mean_in) * 0.05,
-                    "sensitivity5PctOutflowPersons": abs(mean_out) * 0.05,
+                    "cvInflowPct": None if mean_in is None or abs(mean_in) < 1e-12 else 100.0 * sd_in / abs(mean_in),
+                    "cvOutflowPct": None if mean_out is None or abs(mean_out) < 1e-12 else 100.0 * sd_out / abs(mean_out),
+                    "sensitivity5PctInflowPersons": None if mean_in is None else abs(mean_in) * 0.05,
+                    "sensitivity5PctOutflowPersons": None if mean_out is None else abs(mean_out) * 0.05,
                 })
-            total_in = sum(r["meanInflow"] for r in age_rows)
-            total_out = sum(r["meanOutflow"] for r in age_rows)
+            total_in = sum((r["meanInflow"] or 0.0) for r in age_rows)
+            total_out = sum((r["meanOutflow"] or 0.0) for r in age_rows)
             for r in age_rows:
-                r["shareOfInflowPct"] = 0.0 if total_in <= 0 else 100.0 * r["meanInflow"] / total_in
-                r["shareOfOutflowPct"] = 0.0 if total_out <= 0 else 100.0 * r["meanOutflow"] / total_out
+                r["shareOfInflowPct"] = None if not gross_available else (0.0 if total_in <= 0 else 100.0 * r["meanInflow"] / total_in)
+                r["shareOfOutflowPct"] = None if not gross_available else (0.0 if total_out <= 0 else 100.0 * r["meanOutflow"] / total_out)
                 r["sensitivity5PctShareOfTotalInflowPct"] = (
-                    0.0 if total_in <= 0 else
-                    100.0 * r["sensitivity5PctInflowPersons"] / total_in
+                    None if not gross_available else
+                    (0.0 if total_in <= 0 else
+                     100.0 * r["sensitivity5PctInflowPersons"] / total_in)
                 )
                 result.append(r)
     return result
@@ -704,7 +708,8 @@ def main():
             "migrationByAge": migration_age_diagnostics(inflow, outflow, netmig),
             "migrationUncertaintyNote": (
                 "Historical standard deviations and percentage sensitivities are diagnostics, "
-                "not statistical confidence intervals."
+                "not statistical confidence intervals. Gross inflow/outflow are not shown for FA "
+                "because municipal gross flows contain internal FA moves; FA net migration remains valid."
             ),
         },
     }
