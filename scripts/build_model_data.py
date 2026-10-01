@@ -547,18 +547,72 @@ def migration_age_diagnostics(inflow, outflow, netmig):
                 result.append(r)
     return result
 
+def load_worker_age_groups():
+    """Average employed persons by workplace municipality, sex and broad age group."""
+    path = RAW / "employment_age_profile.csv"
+    out = {}
+    if not path.exists():
+        return out
+
+    groups = ((15, 24), (25, 54), (55, 74))
+    values_by_cell = defaultdict(list)
+
+    for r in rows(path):
+        geo = r.get("Region")
+        sex = SEX_MAP.get(r.get("Kon", ""))
+        if geo not in MUNICIPALITIES or not sex:
+            continue
+        m = re.match(r"^(\d{1,2})-(\d{1,2})$", str(r.get("Alder", "")).strip())
+        if not m:
+            continue
+        grp = (int(m.group(1)), int(m.group(2)))
+        if grp not in groups:
+            continue
+        for col, _, year in value_columns(r.keys()):
+            if 2022 <= year <= 2024:
+                values_by_cell[(geo, sex, grp[0], grp[1])].append(num(r[col]))
+
+    for geo in MUNICIPALITIES:
+        cell_means = {}
+        for sex in ("K", "M"):
+            for age_min, age_max in groups:
+                vals = values_by_cell.get((geo, sex, age_min, age_max), [])
+                cell_means[(sex, age_min, age_max)] = (
+                    statistics.fmean(vals) if vals else 0.0
+                )
+        total = sum(cell_means.values())
+        if total <= 0:
+            continue
+        out[geo] = {
+            key: value / total
+            for key, value in cell_means.items()
+        }
+    return out
+
 def scenario_migration_profiles(inflow):
-    """Observed age/sex profiles for scenario-driven in-migration.
+    """Scenario priors for age/sex distribution of new residents.
 
-    Profiles are descriptive, not causal estimates of job-related movers.
-    observed_inflow uses all observed in-migrants. job_family uses the same
-    observed inflow data but restricts the profile to ages 0-64 so a workplace
-    scenario does not mechanically allocate new residents to 65+ ages.
+    observed_inflow:
+        all observed municipal in-migrants.
+    job_family:
+        legacy sensitivity profile using observed in-migration ages 0-64.
+    worker_hybrid:
+        workplace employment age/sex shares from SCB TAB3205, disaggregated
+        to single-year ages using the municipality's observed in-migration
+        pattern within each sex x broad age group.
+    family_companion:
+        descriptive household-companion proxy based on observed in-migration
+        ages 0-17 and 25-64. Ages 18-24 are excluded to reduce university-
+        driven student bias in workplace scenarios.
 
-    Gross FA inflow is deliberately not produced here because summing municipal
-    gross flows would double-count moves within the FA region.
+    These are scenario priors, not causal estimates of job-induced migration.
+    Gross FA inflow is not produced because municipal gross flows would
+    double-count moves within the FA region.
     """
     result = []
+    worker_groups = load_worker_age_groups()
+    broad_groups = ((15, 24), (25, 54), (55, 74))
+
     for window in WINDOWS:
         yrs = set(window_years(window))
         for geo in MUNICIPALITIES:
@@ -569,26 +623,67 @@ def scenario_migration_profiles(inflow):
                         inflow.get((geo, y, sex, age), 0.0) for y in yrs
                     )
 
-            for mode, max_age in (
-                ("observed_inflow", 100),
-                ("job_family", 64),
+            # Existing descriptive sensitivity profiles.
+            for mode, allowed in (
+                ("observed_inflow", lambda age: 0 <= age <= 100),
+                ("job_family", lambda age: 0 <= age <= 64),
+                ("family_companion", lambda age: age <= 17 or 25 <= age <= 64),
             ):
                 total = sum(
                     value for (sex, age), value in cells.items()
-                    if age <= max_age
+                    if allowed(age)
                 )
-                if total <= 0:
-                    continue
+                if total > 0:
+                    for sex in ("K", "M"):
+                        for age in range(101):
+                            value = cells[(sex, age)] if allowed(age) else 0.0
+                            result.append({
+                                "geo": geo,
+                                "window": window,
+                                "profile": mode,
+                                "sex": sex,
+                                "age": age,
+                                "share": value / total,
+                            })
+
+            # Worker profile: preserve SCB workplace broad age/sex structure,
+            # but use local observed in-migration to distribute within group.
+            targets = worker_groups.get(geo)
+            if not targets:
+                continue
+            worker_rows = []
+            for sex in ("K", "M"):
+                for age_min, age_max in broad_groups:
+                    target_share = targets.get((sex, age_min, age_max), 0.0)
+                    if target_share <= 0:
+                        continue
+                    local_total = sum(
+                        cells[(sex, age)]
+                        for age in range(age_min, age_max + 1)
+                    )
+                    width = age_max - age_min + 1
+                    for age in range(age_min, age_max + 1):
+                        within_share = (
+                            cells[(sex, age)] / local_total
+                            if local_total > 0
+                            else 1.0 / width
+                        )
+                        worker_rows.append((sex, age, target_share * within_share))
+
+            total_worker_share = sum(v for _, _, v in worker_rows)
+            if total_worker_share > 0:
+                by_cell = defaultdict(float)
+                for sex, age, value in worker_rows:
+                    by_cell[(sex, age)] += value / total_worker_share
                 for sex in ("K", "M"):
                     for age in range(101):
-                        value = cells[(sex, age)] if age <= max_age else 0.0
                         result.append({
                             "geo": geo,
                             "window": window,
-                            "profile": mode,
+                            "profile": "worker_hybrid",
                             "sex": sex,
                             "age": age,
-                            "share": value / total,
+                            "share": by_cell.get((sex, age), 0.0),
                         })
     return result
 
@@ -683,7 +778,7 @@ def main():
 
     model = {
         "meta": {
-            "schemaVersion": "0.7.0",
+            "schemaVersion": "0.8.0",
             "generatedBy": "scripts/build_model_data.py",
             "dataReady": True,
             "baseYear": 2025,
@@ -721,8 +816,10 @@ def main():
             "relativeToNationalMethod": "General age-standardized municipality/FA ratio to Sweden",
             "futureNationalProfileMode": future_profile_mode,
             "scenarioMigrationProfileMethod": (
-                "Observed municipal gross in-migration by age/sex. Job/family profile "
-                "uses ages 0-64 only; descriptive scenario prior, not a causal estimate."
+                "Workplace scenarios support a worker hybrid profile based on SCB TAB3205 "
+                "employment age/sex shares, disaggregated to one-year ages with observed "
+                "municipal in-migration. Household companions use a separate descriptive "
+                "proxy excluding student-heavy ages 18-24. Scenario priors are not causal estimates."
             ),
         },
         "populationBase": [
