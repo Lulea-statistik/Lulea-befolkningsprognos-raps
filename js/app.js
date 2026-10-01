@@ -21,8 +21,9 @@
   }];
   const defaultWorkplaces=[{
     active:false,year:2034,municipality:"2580",jobs:1000,
-    realizationPct:60,moveSharePct:35,personsPerJob:1.7,
-    hostResidencePct:60,internalSharePct:20,phaseYears:4
+    allocationMode:"commuting",
+    realizationPct:60,moveSharePct:25,personsPerJob:1.7,
+    hostResidencePct:60,internalSharePct:10,phaseYears:4
   }];
 
   function setup(){
