@@ -1,0 +1,258 @@
+#!/usr/bin/env python3
+"""Build vintage-correct rolling-origin demographic backtest inputs.
+
+Origins 2018, 2019, 2020 and 2021 use local observations only through the
+origin year and the SCB national forecast vintage published in that same year.
+Each origin is evaluated for the following three calendar years.
+
+Intermediate model/actual files are written under data/backtests/rolling_work
+and are intentionally git-ignored. The scored report is produced separately by
+scripts/run_rolling_backtest.js.
+"""
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+import build_model_data as b
+
+ROOT = Path(__file__).resolve().parents[1]
+OUTDIR = ROOT / "data" / "backtests"
+WORKDIR = OUTDIR / "rolling_work"
+WORKDIR.mkdir(parents=True, exist_ok=True)
+
+WINDOWS = (6, 10)
+HORIZON_YEARS = 3
+ORIGINS = {
+    2018: {
+        "detail_key": "backtest_national_detail_2018",
+        "births_key": "backtest_births_2018",
+    },
+    2019: {
+        "detail_key": "backtest_national_detail_2019",
+        "births_key": "backtest_births_2019",
+    },
+    2020: {
+        "detail_key": "backtest_national_detail_2020",
+        "births_key": "backtest_births_2020",
+    },
+    2021: {
+        "detail_key": "backtest_national_detail_2021",
+        "births_key": "backtest_births_2021",
+    },
+}
+
+
+def historical_population():
+    return b.aggregate_fa_age_sex(
+        b.load_wide_age_sex("population_pre2025.csv")
+    )
+
+
+def base_population(pop, year):
+    result = []
+    for geo in list(b.MUNICIPALITIES) + [b.FA_CODE]:
+        for sex in ("K", "M"):
+            for age in range(101):
+                result.append({
+                    "geo": geo,
+                    "year": year,
+                    "sex": sex,
+                    "age": age,
+                    "value": pop.get((geo, year, sex, age), 0.0),
+                })
+    return result
+
+
+def annual_actuals(pop, births, deaths, netmig, origin, end_year):
+    result = []
+    for geo in list(b.MUNICIPALITIES) + [b.FA_CODE]:
+        for year in range(origin + 1, end_year + 1):
+            result.append({
+                "geo": geo,
+                "year": year,
+                "horizon": year - origin,
+                "population": sum(
+                    pop.get((geo, year, sex, age), 0.0)
+                    for sex in ("K", "M") for age in range(101)
+                ),
+                "births": sum(
+                    births.get((geo, year, age), 0.0)
+                    for age in range(15, 50)
+                ),
+                "deaths": sum(
+                    deaths.get((geo, year, sex, age), 0.0)
+                    for sex in ("K", "M") for age in range(101)
+                ),
+                "netMigration": sum(
+                    netmig.get((geo, year, sex, age), 0.0)
+                    for sex in ("K", "M") for age in range(101)
+                ),
+            })
+    return result
+
+
+def build_origin(origin, cfg, pop, exposure, deaths, births, netmig):
+    original_end = b.CALIBRATION_END
+    original_windows = b.WINDOWS
+    end_year = origin + HORIZON_YEARS
+    try:
+        b.CALIBRATION_END = origin
+        b.WINDOWS = WINDOWS
+
+        fertility_rates, fertility_factors = b.fertility_profiles(
+            births, exposure
+        )
+        mortality_risks, mortality_factors = b.mortality_profiles(
+            deaths, exposure
+        )
+
+        detail_key = cfg["detail_key"]
+        births_key = cfg["births_key"]
+        detail_file = f"{detail_key}.csv"
+        births_file = f"{births_key}.csv"
+        future_fert, future_mort = b.national_future_profiles(
+            detail_file,
+            detail_key,
+            births_file,
+        )
+        if not future_fert or not future_mort:
+            raise RuntimeError(
+                f"Missing usable SCB forecast profiles for origin {origin}"
+            )
+
+        fertility_rates, mortality_risks = b.extend_profiles_with_future(
+            fertility_rates,
+            mortality_risks,
+            future_fert,
+            future_mort,
+            start_year=origin + 1,
+        )
+
+        model = {
+            "meta": {
+                "schemaVersion": "0.1.0-rolling-backtest",
+                "dataReady": True,
+                "baseYear": origin,
+                "backtestEndYear": end_year,
+                "calibrationEndYear": origin,
+                "nationalForecastVintage": origin,
+                "note": (
+                    "Rolling-origin validation: local calibration uses no "
+                    f"information after {origin}; future national fertility "
+                    f"and mortality use the SCB {origin} forecast vintage."
+                ),
+            },
+            "geographies": [
+                {
+                    "code": b.FA_CODE,
+                    "name": "Luleå FA",
+                    "members": list(b.MUNICIPALITIES),
+                },
+                *[
+                    {"code": code, "name": name}
+                    for code, name in b.MUNICIPALITIES.items()
+                ],
+            ],
+            "calibration": {
+                "defaultYears": 10,
+                "options": list(WINDOWS),
+            },
+            "parameters": {
+                "sexRatioMaleAtBirth": 0.515,
+                "sexRatioMaleAtBirthSource": "Raps technical specification",
+                "qutbMode": "identity",
+                "endogenousInMigration": False,
+                "endogenousOutMigration": False,
+            },
+            "populationBase": base_population(pop, origin),
+            "fertilityRates": fertility_rates,
+            "mortalityRisks": mortality_risks,
+            "netMigration": b.migration_profiles(netmig),
+            "diagnostics": {
+                "relativeFactors": {
+                    "fertility": fertility_factors,
+                    "mortality": mortality_factors,
+                }
+            },
+        }
+        actual = {
+            "origin": origin,
+            "endYear": end_year,
+            "rows": annual_actuals(
+                pop, births, deaths, netmig, origin, end_year
+            ),
+        }
+
+        model_path = WORKDIR / f"model_{origin}.json"
+        actual_path = WORKDIR / f"actual_{origin}.json"
+        model_path.write_text(
+            json.dumps(model, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        actual_path.write_text(
+            json.dumps(actual, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+
+        return {
+            "origin": origin,
+            "endYear": end_year,
+            "detailKey": detail_key,
+            "birthsKey": births_key,
+            "modelFile": model_path.name,
+            "actualFile": actual_path.name,
+        }
+    finally:
+        b.CALIBRATION_END = original_end
+        b.WINDOWS = original_windows
+
+
+def main():
+    pop = historical_population()
+    exposure = b.aggregate_fa_age_sex(
+        b.load_wide_age_sex("mean_population_pre2025.csv")
+    )
+    deaths = b.aggregate_fa_age_sex(
+        b.load_wide_age_sex("deaths_pre2025.csv")
+    )
+    births = b.aggregate_fa_births(
+        b.load_births("births_pre2025.csv")
+    )
+    netmig = b.aggregate_fa_age_sex(
+        b.load_wide_age_sex("migration_pre2025.csv", b.NET_MIG_CODES)
+    )
+
+    entries = [
+        build_origin(
+            origin, cfg, pop, exposure, deaths, births, netmig
+        )
+        for origin, cfg in ORIGINS.items()
+    ]
+
+    manifest = {
+        "schemaVersion": "0.1.0",
+        "method": (
+            "Vintage-correct rolling-origin validation with three-year "
+            "forecast horizons."
+        ),
+        "origins": entries,
+        "windows": list(WINDOWS),
+        "horizonYears": HORIZON_YEARS,
+        "overlapNote": (
+            "Forecast windows overlap in calendar time and must not be treated "
+            "as statistically independent experiments."
+        ),
+    }
+    (WORKDIR / "manifest.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    print(
+        "Built rolling-origin inputs for: "
+        + ", ".join(str(x["origin"]) for x in entries)
+    )
+
+
+if __name__ == "__main__":
+    main()
