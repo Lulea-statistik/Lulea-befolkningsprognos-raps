@@ -20,6 +20,7 @@
     <button class="tab" data-page="analysis">Befolkningsanalys</button>
     <button class="tab" data-page="age">Åldersanalys 1-år</button>
     <button class="tab" data-page="migration">Flyttanalys</button>
+    <button class="tab" data-page="labour">Arbetsmarknad & pendling</button>
     <button class="tab" data-page="scenario">Scenario & justering</button>
     <button class="tab" data-page="validation">Validering</button>
     <button class="tab" data-page="method">Metod & data</button>
@@ -201,6 +202,63 @@
         </article>
       </section>
 
+      <section class="page" id="page-labour">
+        <div class="pageTitle">
+          <div><h2>Arbetsmarknad & pendling</h2><p>Jobbtillväxt och var de sysselsatta i respektive arbetsställekommun bor.</p></div>
+        </div>
+
+        <article class="panel">
+          <div class="formGrid3">
+            <label>Arbetsställekommun
+              <select id="labourWorkplace"></select>
+            </label>
+            <label>Scenario: nya jobb
+              <input id="labourAddedJobs" type="number" min="0" step="10" value="1000" />
+            </label>
+            <label>Andel externa jobbinnehavare som flyttar till FA %
+              <input id="labourExternalMovePct" type="number" min="0" max="100" step="1" value="25" />
+            </label>
+          </div>
+          <p class="hint">Pendlingsmatrisen används som fördelningsnyckel för var jobbinnehavare bor. Den är inte samma sak som en flyttmatris. Flyttantagandet för personer bosatta utanför FA anges separat.</p>
+        </article>
+
+        <div class="cards">
+          <article class="card"><span>Jobb i arbetsställekommun</span><strong id="labourJobsKpi">–</strong><small id="labourLatestYear">–</small></article>
+          <article class="card"><span>Bor i samma kommun</span><strong id="labourLocalShareKpi">–</strong><small>andel av jobben</small></article>
+          <article class="card"><span>Bor i övriga FA</span><strong id="labourOtherFaShareKpi">–</strong><small>andel av jobben</small></article>
+          <article class="card"><span>Bor utanför FA</span><strong id="labourOutsideShareKpi">–</strong><small>andel av jobben</small></article>
+        </div>
+
+        <div class="grid2">
+          <article class="panel chartPanel">
+            <div class="panelHead"><div><h2>Jobbutveckling</h2><p class="hint">Sysselsatta efter arbetsställekommun, 2020–2024.</p></div></div>
+            <svg id="labourJobsChart" viewBox="0 0 900 320" role="img" aria-label="Jobbutveckling efter arbetsställekommun"></svg>
+          </article>
+          <article class="panel">
+            <h2>Var bor de som arbetar här?</h2>
+            <div id="labourResidenceShares"></div>
+          </article>
+        </div>
+
+        <article class="panel">
+          <h2>Pendlingsmatris inom Luleå FA</h2>
+          <p class="hint">Rader = bostadskommun, kolumner = arbetsställekommun. Tabellen visar antal sysselsatta senaste året. Gruppen Utanför FA samlar övriga bostadskommuner.</p>
+          <div class="tableWrap"><table id="commutingMatrix" class="miniTable"></table></div>
+        </article>
+
+        <article class="panel">
+          <h2>Jobbscenario – fördelning efter dagens pendlingsmönster</h2>
+          <p class="hint">Visar hur exempelvis 1 000 nya jobb i Luleå skulle fördelas mellan boende i Luleå, övriga FA-kommuner och utanför FA om dagens bostadsandelar bland arbetstagare består.</p>
+          <div id="labourScenarioAllocation"></div>
+        </article>
+
+        <article class="panel">
+          <h2>Potentiell befolkningseffekt</h2>
+          <p class="hint">Endast den del av nya jobb som enligt fördelningsnyckeln innehas av personer bosatta utanför FA kan här omvandlas till potentiell inflyttning. Det är ett scenarioantagande och inte ett observerat flyttbeteende.</p>
+          <div id="labourPopulationEffect"></div>
+        </article>
+      </section>
+
       <section class="page" id="page-scenario">
         <div class="pageTitle">
           <div><h2>Scenario & justering</h2><p>Ändra demografiska antaganden, bostadsbyggande och arbetsplatsetableringar.</p></div>
@@ -314,6 +372,7 @@
   <div id="chartTooltip" class="chartTooltip" role="status" aria-live="polite"></div>
 
   <script src="data/model_data.js"></script>
+  <script src="data/labour_market.js"></script>
   <script src="data/model_validation.js"></script>
   <script src="data/backtests/backtest_2022_2024.js"></script>
   <script src="data/benchmarks/scb_model_comparison.js"></script>
