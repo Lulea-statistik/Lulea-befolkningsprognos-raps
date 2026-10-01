@@ -335,6 +335,14 @@
           </article>
         </div>
 
+        <article class="panel chartPanel">
+          <div class="panelHead">
+            <div><h2>Utvecklingsbacktest 2024 per 1-årsålder</h2><p class="hint">Skillnad mellan prognos och faktiskt utfall i antal personer. Tabellen visar även procentfelet så absolut och relativ avvikelse kan bedömas tillsammans.</p></div>
+          </div>
+          <svg id="backtestAgeErrorChart" viewBox="0 0 900 340" role="img" aria-label="Backtestfel per ålder"></svg>
+          <div id="backtestAgeErrorTable"></div>
+        </article>
+
         <article class="panel">
           <h2>Valideringsprincip</h2>
           <p>Backtest och benchmark används för att bedöma modellen, inte för att i efterhand ändra antaganden så att historiska utfall passas bättre. Parametrar för fading och metodval ska vara dokumenterade och fastställda före utvärderingen.</p>
