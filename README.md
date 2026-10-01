@@ -68,9 +68,9 @@ Bostadsrader kan ange:
 
 Bostadstyp/upplåtelseform/storlek är ännu metadata. Personer per bostad anges explicit tills empiriska hushållsstorlekar per bostadstyp kopplas in.
 
-Arbetsplatsscenarier innehåller bland annat antal jobb, realiseringsgrad, andel som leder till inflyttning, personer per inflyttat jobb och bosättningsfördelning.
+Arbetsplatsscenarier kan använda **observerad pendling** eller en manuell fördelning. Med observerad pendling fördelas nya jobb först efter SCB TAB1830:s aktuella bostadskommunmönster för vald arbetsställekommun. Jobb som tas av boende i annan FA-kommun ger i sig ingen befolkningstillväxt i FA; en separat intern flyttandel kan omfördela boende mellan kommunerna. Endast en separat vald andel av jobben som tas av personer bosatta utanför FA omvandlas till extern inflyttning, multiplicerad med personer per inflyttat jobb.
 
-Intern flyttning summerar till noll för hela FA-regionen. Ett justerbart överlappsavdrag minskar risken att samma hushåll dubbelräknas via både bostäder och jobb.
+Intern flyttning summerar till noll för hela FA-regionen. Ett justerbart överlappsavdrag minskar risken att samma hushåll dubbelräknas via både bostäder och jobb. Från sidan **Arbetsmarknad & pendling** kan ett valt jobbscenario skickas direkt till prognossidan med observerad pendling som standardfördelning.
 
 ## Validering utan resultatstyrning
 
