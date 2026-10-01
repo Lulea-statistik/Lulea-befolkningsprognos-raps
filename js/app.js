@@ -641,6 +641,7 @@
     $("faConsistency").textContent=validation?.faConsistency?.ok?"OK":"–";
 
     renderBacktestTable(geo,bw);
+    renderBacktestAgeError(geo,bw);
     renderScbBenchmarkTable(geo,selected);
   }
 
@@ -650,6 +651,32 @@
     $("backtestTable").innerHTML=`<table class="miniTable"><thead><tr><th>År</th><th>Prognos</th><th>Utfall</th><th>Fel</th><th>Födda fel</th><th>Döda fel</th><th>Flytt fel</th></tr></thead><tbody>
       ${rows.map(r=>`<tr><td>${r.year}</td><td>${fmt.format(r.predictedPopulation)}</td><td>${fmt.format(r.actualPopulation)}</td><td>${r.populationError>=0?"+":""}${fmt.format(r.populationError)}</td><td>${r.birthsError>=0?"+":""}${fmt.format(r.birthsError)}</td><td>${r.deathsError>=0?"+":""}${fmt.format(r.deathsError)}</td><td>${r.netMigrationError>=0?"+":""}${fmt.format(r.netMigrationError)}</td></tr>`).join("")}
       </tbody></table>`;
+  }
+
+  function renderBacktestAgeError(geo,w){
+    const rows=w?(backtest?.ageErrors?.[geo]?.[w]||[]).filter(r=>+r.year===2024):[];
+    if(!rows.length){
+      $("backtestAgeErrorChart").innerHTML="";
+      $("backtestAgeErrorTable").innerHTML="<p class='hint'>Åldersspecifikt backtest genereras i nästa workflow-körning.</p>";
+      return;
+    }
+    const sorted=[...rows].sort((a,b)=>+a.age-+b.age);
+    drawAgeLineChart("backtestAgeErrorChart",sorted.map(r=>+r.age),[
+      {name:"Prognos − utfall",values:sorted.map(r=>Number(r.error||0)),cls:"lineError"}
+    ],{includeZero:true,xLabel:"Ålder",hoverLabel:"Ålder",valueDigits:1});
+
+    $("backtestAgeErrorTable").innerHTML=`
+      <div class="tableWrap analysisTableWrap"><table class="miniTable"><thead><tr>
+        <th>Ålder</th><th>Prognos</th><th>Utfall</th><th>Fel antal</th><th>Fel %</th>
+      </tr></thead><tbody>
+      ${sorted.map(r=>`<tr>
+        <td>${r.age===100?"100+":r.age}</td>
+        <td>${fmt1.format(r.predictedPopulation||0)}</td>
+        <td>${fmt1.format(r.actualPopulation||0)}</td>
+        <td>${r.error>=0?"+":""}${fmt1.format(r.error||0)}</td>
+        <td>${r.pctError==null?"–":(r.pctError>=0?"+":"")+pct.format(r.pctError)+" %"}</td>
+      </tr>`).join("")}
+      </tbody></table></div>`;
   }
 
   function renderScbBenchmarkTable(geo,w){
