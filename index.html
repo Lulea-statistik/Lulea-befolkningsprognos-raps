@@ -212,6 +212,9 @@
             <label>Arbetsställekommun
               <select id="labourWorkplace"></select>
             </label>
+            <label>Etableringsår
+              <input id="labourScenarioYear" type="number" min="2026" max="2070" step="1" value="2030" />
+            </label>
             <label>Scenario: nya jobb
               <input id="labourAddedJobs" type="number" min="0" step="10" value="1000" />
             </label>
@@ -222,6 +225,7 @@
               <input id="labourPersonsPerMover" type="number" min="0" max="10" step="0.1" value="1.5" />
             </label>
           </div>
+          <button id="labourToScenario" class="secondary">Lägg till som prognosscenario</button>
           <p class="hint">Pendlingsmatrisen används som fördelningsnyckel för var jobbinnehavare bor. Den är inte samma sak som en flyttmatris. Flyttantagandet för personer bosatta utanför FA anges separat.</p>
         </article>
 
