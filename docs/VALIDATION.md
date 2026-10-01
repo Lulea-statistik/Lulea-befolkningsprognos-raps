@@ -103,3 +103,13 @@ The rolling-origin report also compares each historical SCB national forecast vi
 Its purpose is diagnostic: if a municipality-level mortality bias has the same sign as the national SCB vintage error, part of the local error may originate in the national forecast assumption rather than the localization method. Conversely, a large municipal bias when the national vintage is close to the observed national total points more strongly toward local calibration, age structure, or simulation mechanics.
 
 This diagnostic must not be used to retroactively scale historical vintages to their known outcomes.
+
+### Mortality localization diagnostic
+
+The rolling-origin report also runs a **national-only mortality alternative**. It applies the same vintage-correct SCB national age/sex mortality hazard to each municipality without the locally calibrated mortality multiplier. Fertility, migration and all other model settings are left unchanged.
+
+The comparison reports deaths MAE/mean error and population MAPE/mean error for:
+- the production localization method,
+- the national-only alternative.
+
+It also records the general local mortality factor that was available at each forecast origin. This is an attribution diagnostic, not a new default model. If national-only materially removes a persistent local deaths bias across several origins, the next methodological work should focus on the local mortality calibration/fading rule rather than modifying the national SCB trajectory. The alternative must not be selected merely because it fits these already observed years better.
