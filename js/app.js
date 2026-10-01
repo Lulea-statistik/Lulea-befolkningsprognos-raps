@@ -874,6 +874,195 @@
       <p class="hint">${labour.meta.qualityNote||""}</p>`;
   }
 
+  function housingMembers(geo){
+    if(geo!=="FA_LULEA") return [geo];
+    const g=(data.geographies||[]).find(x=>x.code==="FA_LULEA");
+    return g?.members?.length?g.members:["2580","2582","2581","2560","2514"];
+  }
+
+  function householdTimelineForGeo(geo){
+    if(!housing?.householdTotals?.length) return [];
+    const members=housingMembers(geo);
+    const grouped=new Map();
+    for(const r of housing.householdTotals){
+      if(!members.includes(r.geo)) continue;
+      const year=+r.year;
+      if(!grouped.has(year)) grouped.set(year,{year,households:0,persons:0});
+      const g=grouped.get(year);
+      const hh=Number(r.households||0);
+      const pph=Number(r.personsPerHousehold||0);
+      g.households+=hh;
+      if(hh>0&&pph>0) g.persons+=hh*pph;
+    }
+    return [...grouped.values()].sort((a,b)=>a.year-b.year).map(r=>({
+      year:r.year,
+      households:r.households,
+      personsPerHousehold:r.households>0?r.persons/r.households:null
+    }));
+  }
+
+  function stockForGeo(geo){
+    if(!housing?.housingStock?.length) return [];
+    const members=housingMembers(geo);
+    const latestYear=Number(housing.meta?.latestHousingStockYear||0);
+    const grouped=new Map();
+    for(const r of housing.housingStock){
+      if(!members.includes(r.geo)||+r.year!==latestYear) continue;
+      const key=`${r.dwellingType}|${r.tenure}`;
+      if(!grouped.has(key)){
+        grouped.set(key,{
+          dwellingType:r.dwellingType,tenure:r.tenure,dwellings:0
+        });
+      }
+      grouped.get(key).dwellings+=Number(r.dwellings||0);
+    }
+    return [...grouped.values()].sort((a,b)=>
+      a.dwellingType.localeCompare(b.dwellingType,"sv")||
+      a.tenure.localeCompare(b.tenure,"sv")
+    );
+  }
+
+  function projectedHouseholdSize(year,history){
+    const mode=$("householdProjectionMode")?.value||"constant";
+    const valid=history.filter(r=>Number.isFinite(Number(r.personsPerHousehold)));
+    const last=valid.at(-1);
+    const base=Number(last?.personsPerHousehold||2.1);
+    if(mode==="manual"){
+      return Math.max(1,Math.min(5,+$("householdManualSize").value||base));
+    }
+    if(mode==="trend"&&valid.length>=2){
+      const recent=valid.slice(-5);
+      const first=recent[0], end=recent.at(-1);
+      const span=Math.max(1,end.year-first.year);
+      const slope=(Number(end.personsPerHousehold)-Number(first.personsPerHousehold))/span;
+      return Math.max(1.2,Math.min(4,base+slope*(year-end.year)));
+    }
+    return base;
+  }
+
+  function plannedHousingCumulative(geo,year){
+    const members=housingMembers(geo);
+    return defaultHousing.reduce((sum,s)=>{
+      if(!s.active||!members.includes(s.municipality)) return sum;
+      const total=Number(s.dwellings||0)*Number(s.completionPct||0)/100;
+      if(year<+s.year) return sum;
+      const phase=Math.max(1,+s.phaseYears||1);
+      const fraction=phase<=1?1:Math.min(1,(year-(+s.year)+1)/phase);
+      return sum+total*Math.max(0,fraction);
+    },0);
+  }
+
+  function renderHousingAnalysis(){
+    if(!$("householdsKpi")) return;
+    if(!housing?.householdTotals?.length){
+      $("householdsKpi").textContent="–";
+      $("householdSizeKpi").textContent="–";
+      $("housingStockKpi").textContent="–";
+      $("housingBalanceKpi").textContent="–";
+      $("occupancyDefaultsTable").innerHTML="<p class='hint'>Hushålls- och bostadsdata genereras i nästa workflow-körning.</p>";
+      $("householdComposition").innerHTML="";
+      $("housingStockTable").innerHTML="";
+      $("householdTrendChart").innerHTML="";
+      $("housingDemandChart").innerHTML="";
+      return;
+    }
+
+    const geo=$("geo").value;
+    const members=housingMembers(geo);
+    const history=householdTimelineForGeo(geo);
+    const observed=history.at(-1);
+    const stockRows=stockForGeo(geo);
+    const totalStock=stockRows.reduce((s,r)=>s+Number(r.dwellings||0),0);
+
+    $("householdsKpi").textContent=fmt.format(observed?.households||0);
+    $("householdsYear").textContent=observed?`år ${observed.year}`:"–";
+    $("householdSizeKpi").textContent=observed?.personsPerHousehold==null?"–":fmt1.format(observed.personsPerHousehold);
+    $("housingStockKpi").textContent=fmt.format(totalStock);
+    $("housingStockYear").textContent=`år ${housing.meta?.latestHousingStockYear||"–"}`;
+
+    const projection=latest.map(r=>{
+      const pph=projectedHouseholdSize(+r.year,history);
+      return {
+        year:+r.year,
+        households:pph>0?Number(r.population||0)/pph:0,
+        personsPerHousehold:pph
+      };
+    });
+    const baseProjected=projection[0]?.households||0;
+    const reserve=Math.max(0,Math.min(.2,(+$("housingReservePct").value||0)/100));
+    const basePlanned=projection.length?plannedHousingCumulative(geo,projection[0].year):0;
+    const demandRows=projection.map(r=>{
+      const newHouseholds=r.households-baseProjected;
+      const required=reserve<1?newHouseholds/(1-reserve):newHouseholds;
+      const planned=plannedHousingCumulative(geo,r.year)-basePlanned;
+      return {...r,newHouseholds,requiredNewDwellings:required,plannedAdditions:planned,balance:planned-required};
+    });
+    const lastDemand=demandRows.at(-1);
+    $("housingBalanceKpi").textContent=lastDemand
+      ?(lastDemand.balance>=0?"+":"")+fmt.format(lastDemand.balance)
+      :"–";
+
+    const allYears=[...new Set([
+      ...history.map(r=>r.year),
+      ...projection.map(r=>r.year)
+    ])].sort((a,b)=>a-b);
+    const histMap=new Map(history.map(r=>[r.year,r.households]));
+    const projMap=new Map(projection.map(r=>[r.year,r.households]));
+    drawAgeLineChart("householdTrendChart",allYears,[
+      {name:"Observerade hushåll",values:allYears.map(y=>histMap.has(y)?histMap.get(y):null),cls:"lineVariation"},
+      {name:"Implicit framskrivning",values:allYears.map(y=>projMap.has(y)?projMap.get(y):null),cls:"populationLine"}
+    ],{hoverLabel:"År",valueDigits:0});
+
+    drawAgeLineChart("housingDemandChart",demandRows.map(r=>r.year),[
+      {name:"Ny bostadsefterfrågan",values:demandRows.map(r=>r.requiredNewDwellings),cls:"lineSensitivity"},
+      {name:"Planerat tillskott",values:demandRows.map(r=>r.plannedAdditions),cls:"lineInflow"}
+    ],{includeZero:true,hoverLabel:"År",valueDigits:0});
+
+    const occYear=Number(housing.meta?.occupancyDefaultYear||2024);
+    const occRows=(housing.occupancyDefaults||[])
+      .filter(r=>members.includes(r.geo)&&+r.year===occYear)
+      .sort((a,b)=>
+        a.geo.localeCompare(b.geo)||
+        a.dwellingType.localeCompare(b.dwellingType,"sv")||
+        a.tenure.localeCompare(b.tenure,"sv")||
+        a.size.localeCompare(b.size,"sv",{numeric:true})
+      );
+    const geoName=code=>housing.geographies?.find(g=>g.code===code)?.name||code;
+    $("occupancyDefaultsTable").innerHTML=occRows.length?`
+      <div class="tableWrap analysisTableWrap"><table class="miniTable"><thead><tr>
+        <th>Kommun</th><th>Typ</th><th>Upplåtelse</th><th>Storlek</th><th>Personer/bostad</th>
+      </tr></thead><tbody>${occRows.map(r=>`<tr>
+        <td>${geoName(r.geo)}</td><td>${r.dwellingType}</td><td>${r.tenure}</td>
+        <td>${r.size}</td><td>${fmt1.format(r.personsPerDwelling)}</td>
+      </tr>`).join("")}</tbody></table></div>`
+      :"<p class='hint'>Inga SCB-standardvärden för vald geografi.</p>";
+
+    const compMap=new Map();
+    for(const r of housing.householdComposition||[]){
+      if(!members.includes(r.geo)) continue;
+      const key=r.householdType;
+      if(!compMap.has(key)) compMap.set(key,{type:key,households:0,persons:0});
+      const g=compMap.get(key);
+      g.households+=Number(r.households||0);
+      g.persons+=Number(r.persons||0);
+    }
+    const comp=[...compMap.values()].sort((a,b)=>b.households-a.households);
+    const compTotal=comp.reduce((s,r)=>s+r.households,0);
+    $("householdComposition").innerHTML=comp.length?`
+      <table class="miniTable"><thead><tr><th>Hushållstyp</th><th>Hushåll</th><th>Andel</th><th>Pers/hushåll</th></tr></thead><tbody>
+      ${comp.map(r=>`<tr><td>${r.type}</td><td>${fmt.format(r.households)}</td>
+        <td>${pct.format(compTotal?100*r.households/compTotal:0)} %</td>
+        <td>${r.households?fmt1.format(r.persons/r.households):"–"}</td></tr>`).join("")}
+      </tbody></table>`
+      :"<p class='hint'>Hushållstyper genereras i nästa workflow-körning.</p>";
+
+    $("housingStockTable").innerHTML=stockRows.length?`
+      <table class="miniTable"><thead><tr><th>Typ</th><th>Upplåtelse</th><th>Bostäder</th></tr></thead><tbody>
+      ${stockRows.map(r=>`<tr><td>${r.dwellingType}</td><td>${r.tenure}</td><td>${fmt.format(r.dwellings)}</td></tr>`).join("")}
+      </tbody></table>`
+      :"<p class='hint'>Bostadsbestånd saknas.</p>";
+  }
+
   function renderValidation(){
     const geo=$("geo").value, selected=String($("window").value);
     const bw=backtest?.summary?.[geo]?.[selected]?selected:(backtest?.summary?.[geo]?.["10"]?"10":null);
