@@ -131,3 +131,42 @@ It supports constant latest household size, a recent-trend sensitivity and a man
 SCB HushallT05/TAB1533 supplies household-type composition and HushallT09/TAB4374 supplies the historical household count/average-size series. BO0104T04/TAB824 supplies dwelling stock by building type and tenure.
 
 For future sub-municipal analysis, HushallT32Deso/TAB6065 is useful for persons by building type at DeSO/RegSO level. It is not a substitute for HushallT30 when estimating persons per household by apartment size.
+
+
+## Boverket benchmark and housing-need perspective
+
+Two Boverket frameworks are relevant and should be kept conceptually separate.
+
+### Long-run building need
+
+Boverket's building-need model combines projected household growth with the future housing stock, including demolitions/withdrawals and available rental dwellings, an initial balance/imbalance, and a housing reserve. The reserve assumption in the 2024-2033 regional calculation is about 1 percent of projected households. Boverket approximates housing markets with functional analysis regions (FA).
+
+The dashboard therefore treats these as distinct components:
+- demographic household formation,
+- existing dwelling stock,
+- planned additions,
+- reserve,
+- future additions/withdrawals,
+- starting balance,
+- available/vacant dwellings,
+- external Boverket benchmark.
+
+Only the first four are implemented in the current housing-demand prototype. Missing components must be shown as missing rather than implicitly set to zero.
+
+### Eight needs-based housing-shortage measures
+
+Boverket's separate needs-based framework describes household housing problems rather than the quantity of new construction required. The current eight measures are:
+1. low economic standard,
+2. strained housing economy based on KALP,
+3. overcrowding,
+4. overcrowding plus low economic standard,
+5. overcrowding plus strained housing economy (KALP),
+6. frequent moves,
+7. adult children living with parents,
+8. recurring problems.
+
+These measures should remain separate indicators and should not be summed into one shortage score or used mechanically as weights in the population model.
+
+### Next methodological improvement
+
+The current household-demand prototype uses persons per household. Boverket's stronger approach uses age/sex-specific household rates, because household growth can differ materially from population growth when the age structure changes. A future version should therefore replace the average-household-size projection with age/sex household-formation rates before adding historical starting-balance, vacancy and demolition components.
