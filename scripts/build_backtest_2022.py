@@ -76,6 +76,23 @@ def annual_actuals(pop, births, deaths, netmig):
             })
     return result
 
+def age_actuals(pop):
+    result = []
+    for geo in list(b.MUNICIPALITIES) + [b.FA_CODE]:
+        for year in range(BACKTEST_BASE_YEAR + 1, BACKTEST_END_YEAR + 1):
+            for age in range(101):
+                women = pop.get((geo, year, "K", age), 0.0)
+                men = pop.get((geo, year, "M", age), 0.0)
+                result.append({
+                    "geo": geo,
+                    "year": year,
+                    "age": age,
+                    "women": women,
+                    "men": men,
+                    "total": women + men,
+                })
+    return result
+
 def main():
     # Reuse the production calibration logic but change the historical cutoff.
     original_end = b.CALIBRATION_END
@@ -159,6 +176,7 @@ def main():
             "endYear": BACKTEST_END_YEAR,
             "source": "SCB historical population, births, deaths and migration tables",
             "rows": annual_actuals(pop, births, deaths, netmig),
+            "ageRows": age_actuals(pop),
         }
 
         (OUTDIR / "model_2022_input.json").write_text(
