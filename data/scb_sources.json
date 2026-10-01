@@ -1,5 +1,5 @@
 {
-  "schema_version": "0.6.0",
+  "schema_version": "0.7.0",
   "note": "Production sources for the Raps-reference baseline use Tillvaxtverket's published SCB 2024 demographic scenario where available. Latest SCB forecasts are retained only as alternative-scenario sources.",
   "tables": {
     "population_pre2025": {
@@ -136,6 +136,31 @@
       "id": "TAB3205",
       "period": "2020-2024",
       "purpose": "employed persons by workplace municipality, sex and broad age group; used as job-holder age/sex prior for workplace scenarios"
+    },
+    "household_size_by_tenure": {
+      "id": "TAB4538",
+      "period": "2012-2025",
+      "purpose": "average persons per household by region and housing form; provides small-house and broad tenure defaults"
+    },
+    "household_size_by_apartment": {
+      "id": "TAB4937",
+      "period": "2012-2025",
+      "purpose": "households and average persons per household by region, housing form and apartment type; multifamily detail by rooms"
+    },
+    "households_by_type": {
+      "id": "TAB1533",
+      "period": "2011-2024",
+      "purpose": "households and persons by region, household type and number of children"
+    },
+    "household_totals": {
+      "id": "TAB4374",
+      "period": "2011-2025",
+      "purpose": "population, household count and average persons per household by region"
+    },
+    "housing_stock": {
+      "id": "TAB824",
+      "period": "1990-2025",
+      "purpose": "dwelling stock by region, building type and tenure"
     }
   }
 }
