@@ -526,6 +526,7 @@ def main():
             "selection": selection,
             "content_labels": labels((md.get("dimension") or {}).get("ContentsCode") or {}),
             "dimension_labels": {k: str(v.get("label") or "") for k, v in (md.get("dimension") or {}).items()},
+            "dimension_value_labels": {k: labels(v) for k, v in (md.get("dimension") or {}).items()},
         }
         print(f"  {len(rows)-1} rows -> {path.relative_to(ROOT)}", file=sys.stderr)
         time.sleep(0.4)
