@@ -17,6 +17,21 @@ Raps groups municipalities by observed deaths relative to the number expected un
 ### Out-migration
 Raps uses municipality types and multi-year smoothing for out-migration risks. V1 still uses locally calibrated exogenous net migration while IMIG/UMIG coefficients are deferred.
 
+### Migration candidate used for development
+The public Raps technical specification models both in-migration and out-migration as population shares transformed with a logit and then explained by lagged migration and regional covariates such as employment, unemployment, housing prices and immigration. Those equations require coefficient tables and explanatory inputs that are not yet available in this repository.
+
+The project therefore does **not** label the current development alternative as full IMIG/UMIG. Instead, a fixed ex-ante gross-flow candidate is evaluated:
+
+    gross_in(a,s) = historical annual mean municipal in-migration
+    gross_out(a,s,t) = urisk(a,s) * current population(a,s,t)
+    net_migration = gross_in - gross_out
+
+The candidate uses the same 6- and 10-year calibration windows as the historical backtest. It is compared side by side with the published V1 exogenous net-migration baseline. Its parameters must not be tuned to improve the already-known 2022-2024 outcome.
+
+Municipal gross flows include moves between municipalities inside Lulea FA. They are therefore valid municipal diagnostics but must not be presented as external FA gross flows. The published FA forecast remains the additive sum of municipal forecasts.
+
+Reference: Tillväxtverket, *Raps Teknisk modellspecifikation*, sections 1.2.1-1.2.2.
+
 ## Fallback fading
 
 The fallback avoids a hard switch between national and local age-specific data.
