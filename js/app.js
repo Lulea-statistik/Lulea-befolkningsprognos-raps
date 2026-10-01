@@ -235,6 +235,7 @@
     renderRelativeFactors(geo);
     renderAgeStructure(geo);
     renderBalanceSummary();
+    renderFadingExamples(geo);
   }
 
   function renderWindowComparison(geo){
@@ -273,6 +274,22 @@
       <span>${x.name}</span><div class="barTrack"><div class="barFill" style="width:${(x.k+x.m)/max*100}%"></div></div>
       <strong>${fmt.format(x.k+x.m)}</strong><small>K ${fmt.format(x.k)} · M ${fmt.format(x.m)}</small>
       </div>`).join("");
+  }
+
+  function renderFadingExamples(geo){
+    const w=String($("window").value);
+    const ex=validation?.fadingExamples?.[geo]?.[w];
+    if(!ex){
+      $("fadingExamples").innerHTML="<p class='hint'>Fadingdiagnostik genereras i nästa workflow-körning.</p>";
+      return;
+    }
+    const fertRows=(ex.fertility||[]).map(r=>`<tr><td>${r.age}</td><td>${r.localWeight==null?"–":pct.format(r.localWeight)+" %"}</td><td>${r.rawCellFactor==null?"–":pct.format(r.rawCellFactor*100)+" %"}</td></tr>`).join("");
+    const mortRows=(ex.mortality||[]).map(r=>`<tr><td>${r.age}</td><td>${r.sex}</td><td>${r.localWeight==null?"–":pct.format(r.localWeight)+" %"}</td><td>${r.rawCellFactor==null?"–":pct.format(r.rawCellFactor*100)+" %"}</td></tr>`).join("");
+    $("fadingExamples").innerHTML=`
+      <div class="grid2">
+        <div><h3>Fruktsamhet</h3><table class="miniTable"><thead><tr><th>Moderns ålder</th><th>Lokal vikt</th><th>Lokal/rike-cell</th></tr></thead><tbody>${fertRows}</tbody></table></div>
+        <div><h3>Dödlighet</h3><table class="miniTable"><thead><tr><th>Ålder</th><th>Kön</th><th>Lokal vikt</th><th>Lokal/rike-cell</th></tr></thead><tbody>${mortRows}</tbody></table></div>
+      </div>`;
   }
 
   function renderBalanceSummary(){
