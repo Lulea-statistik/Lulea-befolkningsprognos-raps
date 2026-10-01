@@ -109,3 +109,10 @@ Workflow **Update SCB data** kan köras manuellt och månadsvis. Det:
 - vidareutveckla den jobbrelaterade ålder/kön-profilen med riktade flytt-/hushållsdata när sådana finns,
 - koppla empiriska personer-per-bostad-antaganden per bostadstyp/upplåtelseform/storlek,
 - lägga till delområden när stabila delområdesdata och geometrier finns.
+
+
+## Arbetsmarknadens åldersprofil
+
+SCB TAB3205 används som separat benchmark för ålder/kön bland sysselsatta efter arbetsställekommun. Dashboarden visar ett 2022–2024-genomsnitt i breda åldersgrupper (15–24, 25–34, 35–44, 45–54, 55–64 och 65–74).
+
+Syftet är att kontrollera om den observerade inflyttningsprofilen är rimlig som jobbscenario. För Luleå är total inflyttning tydligt studentpåverkad, så arbetsmarknadens åldersprofil behandlas först som analys/benchmark och ersätter inte automatiskt scenarioantagandet.
