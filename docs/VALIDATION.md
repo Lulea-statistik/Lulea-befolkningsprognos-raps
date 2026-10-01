@@ -75,3 +75,23 @@ The 2022-2024 results were inspected before the v1.6 exposure-based fading rule 
 The 2022-2024 test remains useful for diagnostics and component-level error analysis, but the v1.6 fading thresholds (20 and 100 local exposure units) must not be changed in response to the rerun of the same period.
 
 A later independent validation should use a different historical forecast origin, a rolling-origin design, or genuinely future observations that were not available when the v1.6 rule was fixed.
+
+## Rolling-origin validation
+
+A second validation layer uses four historical forecast origins: **2018, 2019, 2020 and 2021**. For each origin:
+
+- local calibration uses observations only through the origin year,
+- the national fertility/mortality trajectory uses the SCB forecast vintage from that same year,
+- the model is evaluated for horizons 1, 2 and 3 years ahead,
+- calibration windows 6 and 10 years are scored separately.
+
+The historical SCB vintages are:
+
+- 2018: detailed national forecast `TAB2895`, births `TAB2902`,
+- 2019: detailed national forecast `TAB5381`, births `TAB5331`,
+- 2020: detailed national forecast `TAB643`, births `TAB647`,
+- 2021: detailed national forecast `TAB5946`, births `TAB5948`.
+
+The generated report is `data/backtests/rolling_2018_2024.json/js`. Intermediate per-origin model inputs are generated during the workflow under `data/backtests/rolling_work/` but are not versioned.
+
+Because the forecast windows overlap in calendar time, pooled rolling-origin errors are a robustness diagnostic rather than four statistically independent experiments. The report therefore also preserves origin-specific and forecast-horizon-specific errors.

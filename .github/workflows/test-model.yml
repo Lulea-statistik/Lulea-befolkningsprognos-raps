@@ -47,10 +47,14 @@ jobs:
       - name: Test migration risk profiles
         run: python tests/test_migration_risk.py
 
-      - name: Validate dashboard JavaScript syntax
+      - name: Test rolling-origin configuration
+        run: python tests/test_rolling_backtest_config.py
+
+      - name: Validate JavaScript syntax
         run: |
           node --check js/model.js
           node --check js/app.js
+          node --check scripts/run_rolling_backtest.js
 
       - name: Run model tests
         run: node tests/test_model.js

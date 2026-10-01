@@ -41,6 +41,9 @@ jobs:
       - name: Test migration risk profiles
         run: python tests/test_migration_risk.py
 
+      - name: Test rolling-origin configuration
+        run: python tests/test_rolling_backtest_config.py
+
       - name: Discover current SCB PxWeb tables
         run: python scripts/scb_v2_client.py --out data/scb_discovery.json
 
@@ -56,10 +59,11 @@ jobs:
       - name: Build household and housing analysis
         run: python scripts/build_housing_households.py
 
-      - name: Validate dashboard JavaScript syntax
+      - name: Validate JavaScript syntax
         run: |
           node --check js/model.js
           node --check js/app.js
+          node --check scripts/run_rolling_backtest.js
 
       - name: Run model tests
         run: node tests/test_model.js
@@ -72,6 +76,12 @@ jobs:
 
       - name: Run and score historical backtest
         run: node scripts/run_backtest.js
+
+      - name: Build rolling-origin historical validation
+        run: python scripts/build_rolling_backtest.py
+
+      - name: Run and score rolling-origin validation
+        run: node scripts/run_rolling_backtest.js
 
       - name: Normalize SCB regional benchmark
         run: python scripts/prepare_scb_benchmark.py

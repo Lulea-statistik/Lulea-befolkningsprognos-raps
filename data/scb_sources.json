@@ -1,5 +1,5 @@
 {
-  "schema_version": "0.7.0",
+  "schema_version": "0.8.0",
   "note": "Production sources for the Raps-reference baseline use Tillvaxtverket's published SCB 2024 demographic scenario where available. Latest SCB forecasts are retained only as alternative-scenario sources.",
   "tables": {
     "population_pre2025": {
@@ -116,6 +116,36 @@
       "id": "TAB5270",
       "period": "2024-2120",
       "purpose": "SCB 2024 national forecast births by mother's birth region and age; used with projected female mean population to derive aggregate fertility"
+    },
+    "backtest_national_detail_2018": {
+      "id": "TAB2895",
+      "period": "2018-2120",
+      "purpose": "Vintage-correct SCB 2018 detailed national forecast for rolling-origin validation"
+    },
+    "backtest_births_2018": {
+      "id": "TAB2902",
+      "period": "2018-2120",
+      "purpose": "Vintage-correct SCB 2018 births forecast for rolling-origin validation"
+    },
+    "backtest_national_detail_2019": {
+      "id": "TAB5381",
+      "period": "2019-2120",
+      "purpose": "Vintage-correct SCB 2019 detailed national forecast for rolling-origin validation"
+    },
+    "backtest_births_2019": {
+      "id": "TAB5331",
+      "period": "2019-2120",
+      "purpose": "Vintage-correct SCB 2019 births forecast for rolling-origin validation"
+    },
+    "backtest_national_detail_2020": {
+      "id": "TAB643",
+      "period": "2020-2120",
+      "purpose": "Vintage-correct SCB 2020 detailed national forecast for rolling-origin validation"
+    },
+    "backtest_births_2020": {
+      "id": "TAB647",
+      "period": "2020-2120",
+      "purpose": "Vintage-correct SCB 2020 births forecast for rolling-origin validation"
     },
     "backtest_national_detail_2021": {
       "id": "TAB5946",
