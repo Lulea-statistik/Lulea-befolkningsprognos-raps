@@ -21,7 +21,7 @@
   }];
   const defaultWorkplaces=[{
     active:false,year:2034,municipality:"2580",jobs:1000,
-    allocationMode:"commuting",
+    allocationMode:"commuting",ageProfileMode:"job_family",
     realizationPct:60,moveSharePct:25,personsPerJob:1.7,
     hostResidencePct:60,internalSharePct:10,phaseYears:4
   }];
@@ -82,7 +82,7 @@
   function blankWorkplace(){
     return {
       active:true,year:2034,municipality:"2580",jobs:1000,
-      allocationMode:"commuting",
+      allocationMode:"commuting",ageProfileMode:"job_family",
       realizationPct:60,moveSharePct:25,personsPerJob:1.7,
       hostResidencePct:60,internalSharePct:10,phaseYears:4
     };
@@ -116,6 +116,11 @@
       <td><select data-k="allocationMode">
         <option value="commuting" ${s.allocationMode!=="manual"?"selected":""}>Observerad pendling</option>
         <option value="manual" ${s.allocationMode==="manual"?"selected":""}>Manuell</option>
+      </select></td>
+      <td><select data-k="ageProfileMode">
+        <option value="job_family" ${s.ageProfileMode!=="observed_inflow"&&s.ageProfileMode!=="population"?"selected":""}>Jobb/familj 0–64</option>
+        <option value="observed_inflow" ${s.ageProfileMode==="observed_inflow"?"selected":""}>Observerad inflyttning alla åldrar</option>
+        <option value="population" ${s.ageProfileMode==="population"?"selected":""}>Befolkningsproportionell</option>
       </select></td>
       <td><input data-k="realizationPct" type="number" value="${s.realizationPct}" min="0" max="100"></td>
       <td><input data-k="moveSharePct" type="number" value="${s.moveSharePct}" min="0" max="100"></td>
@@ -201,10 +206,16 @@
       const host=Number(shares[s.municipality]||0);
       const other=faCodes.filter(code=>code!==s.municipality).reduce((sum,code)=>sum+Number(shares[code]||0),0);
       const outside=Number(shares.OUTSIDE_FA||0);
+      const profileLabel=s.ageProfileMode==="observed_inflow"
+        ?"observerad inflyttning, alla åldrar"
+        :s.ageProfileMode==="population"
+          ?"befolkningsproportionell"
+          :"jobb/familj, observerad inflyttning 0–64";
       return `<div class="scenarioPreview">
         <strong>Rad ${i+1}: observerad pendling ${cs.year} för ${names[s.municipality]||s.municipality}.</strong>
         Samma kommun ${pct.format(host)} %, övriga FA ${pct.format(other)} %, utanför FA ${pct.format(outside)} %.
         Av jobben utanför FA antas ${pct.format(Number(s.moveSharePct||0))} % flytta till FA.
+        Åldersprofil: ${profileLabel}.
       </div>`;
     }).join("") || "<p class='hint'>Ingen aktiv arbetsplatsrad.</p>";
   }
