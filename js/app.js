@@ -967,6 +967,34 @@
       return;
     }
 
+    $("boverketHousingMethod").innerHTML=`
+      <table class="miniTable"><thead><tr><th>Del</th><th>Status i modellen</th><th>Kommentar</th></tr></thead><tbody>
+        <tr><td>Befolkningsframskrivning</td><td><strong>Ja</strong></td><td>Kohortmodell per ålder/kön.</td></tr>
+        <tr><td>Hushållsbildning</td><td><strong>Delvis</strong></td><td>Nuvarande version använder personer/hushåll. Boverkets hushållskvoter per ålder/kön är ett bättre nästa steg.</td></tr>
+        <tr><td>Bostadsbestånd</td><td><strong>Ja</strong></td><td>SCB efter hustyp och upplåtelseform.</td></tr>
+        <tr><td>Rivningar/avgångar</td><td>Ej ännu</td><td>Boverket använder historiskt genomsnitt som framtidsantagande.</td></tr>
+        <tr><td>Outhyrda bostäder i startläge</td><td>Ej ännu</td><td>Relevant främst för hyresrätter.</td></tr>
+        <tr><td>Ingående över-/underskott</td><td>Ej ännu</td><td>Bör läggas som separat benchmark, inte blandas ihop med prognosens demografiska behov.</td></tr>
+        <tr><td>Bostadsreserv</td><td><strong>Ja</strong></td><td>Justerbar; standard 1 % enligt Boverkets byggbehovsmodell.</td></tr>
+        <tr><td>FA-region som bostadsmarknad</td><td><strong>Ja, med versionsnot</strong></td><td>Vår Luleå FA används som funktionell marknad; definitionen behöver versioneras mot Boverkets/FA25.</td></tr>
+      </tbody></table>`;
+
+    const measures=[
+      ["Låg ekonomisk standard","Disponibel inkomst under 60 % av medianen."],
+      ["Ansträngd boendeekonomi (KALP)","Inkomst räcker inte till schabloniserad boendeutgift och normal konsumtion."],
+      ["Trångboddhet","Bostaden uppfyller inte Boverkets utrymmeskriterium."],
+      ["Trångbodd + låg ekonomisk standard","Kombinationsmått."],
+      ["Trångbodd + ansträngd boendeekonomi (KALP)","Kombinationsmått."],
+      ["Flyttar ofta","Någon i hushållet har flyttat minst en gång per år under de senaste tre åren."],
+      ["Hemmaboende vuxna barn","Barn 25+ bor kvar hos förälder/föräldrar."],
+      ["Återkommande problem","Minst ett av utvalda problem återkommer två år i rad."]
+    ];
+    $("boverketNeedMeasures").innerHTML=`
+      <table class="miniTable"><thead><tr><th>Mått</th><th>Tolkning</th><th>Modellstatus</th></tr></thead><tbody>
+      ${measures.map(m=>`<tr><td>${m[0]}</td><td>${m[1]}</td><td>Extern Boverket-benchmark</td></tr>`).join("")}
+      </tbody></table>
+      <p class="hint">Måtten ska analyseras var för sig och i lokal kontext; de är inte åtta vikter som ska summeras till ett byggbehov.</p>`;
+
     const geo=$("geo").value;
     const members=housingMembers(geo);
     const history=householdTimelineForGeo(geo);
