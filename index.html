@@ -12,7 +12,7 @@
       <h1>Luleå befolkningsprognos</h1>
       <p>rAps-liknande demografimodell · Luleå FA + kommuner · SCB/Raps-benchmark</p>
     </div>
-    <span class="badge">V2.1 · arbetsmarknadsprofil</span>
+    <span class="badge">V2.2 · arbetstagare + hushåll</span>
   </header>
 
   <nav class="tabs" aria-label="Rapportsidor">
@@ -261,7 +261,7 @@
 
         <article class="panel chartPanel">
           <div class="panelHead">
-            <div><h2>Åldersprofil för jobbrelaterad inflyttning</h2><p class="hint">Diagrammet visar observerad inflyttning. Tabellen under jämför med SCB:s åldersstruktur för sysselsatta efter arbetsställekommun, som är en bättre referens för själva jobbinnehavaren.</p></div>
+            <div><h2>Åldersprofil för jobbrelaterad inflyttning</h2><p class="hint">Diagrammet jämför arbetstagarprofil, hushållsproxy och observerad inflyttning i 1-årsåldrar. Tabellen under visar SCB:s breda arbetsmarknadsgrupper 15–24, 25–54 och 55–74.</p></div>
           </div>
           <svg id="labourAgeProfileChart" viewBox="0 0 900 330" role="img" aria-label="Åldersprofil för jobbrelaterad inflyttning"></svg>
           <div id="labourWorkerAgeGroups"></div>
@@ -314,7 +314,7 @@
             <th>Aktiv</th><th>År</th><th>Kommun</th><th>Planerade jobb</th><th>Fördelning</th><th>Åldersprofil</th><th>Realiseras %</th><th>Utanför FA → flyttar %</th><th>Personer/inflyttat jobb</th><th>Värdkommun % (manuell)</th><th>Övriga FA-pendlare → flyttar %</th><th>Infasning</th><th></th>
           </tr></thead><tbody></tbody></table></div>
           <div id="workplaceScenarioPreview" class="scenarioPreviewList"></div>
-          <p class="hint">Med observerad pendling fördelas jobben först efter dagens bostadskommuner. Endast en separat vald andel av jobben som tas av personer utanför FA ger ny inflyttning. Åldersprofilen styr vilka åldrar/kön de nya invånarna läggs på. Flytt mellan FA-kommuner påverkar bara kommunfördelningen, inte FA-totalen.</p>
+          <p class="hint">Med observerad pendling fördelas jobben först efter dagens bostadskommuner. Endast en separat vald andel av jobben som tas av personer utanför FA ger ny inflyttning. Standardprofilen skiljer på själva arbetstagaren och medföljande hushållsmedlemmar. Flytt mellan FA-kommuner påverkar bara kommunfördelningen, inte FA-totalen.</p>
         </article>
 
         <article class="panel">
