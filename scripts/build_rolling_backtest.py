@@ -92,6 +92,51 @@ def annual_actuals(pop, births, deaths, netmig, origin, end_year):
     return result
 
 
+def national_assumption_rows_from_counts(
+    origin,
+    end_year,
+    forecast_births,
+    forecast_deaths,
+    actual_births,
+    actual_deaths,
+):
+    """Compare the SCB national forecast vintage with realized Sweden totals.
+
+    This diagnostic separates errors already present in the national forecast
+    vintage from errors introduced when the national age profiles are localized
+    to the municipalities.
+    """
+    result = []
+    for year in range(origin + 1, end_year + 1):
+        predicted_births = sum(
+            forecast_births.get((year, age), 0.0)
+            for age in range(15, 50)
+        )
+        observed_births = sum(
+            actual_births.get((b.RIKET_CODE, year, age), 0.0)
+            for age in range(15, 50)
+        )
+        predicted_deaths = sum(
+            forecast_deaths.get((year, sex, age), 0.0)
+            for sex in ("K", "M") for age in range(101)
+        )
+        observed_deaths = sum(
+            actual_deaths.get((b.RIKET_CODE, year, sex, age), 0.0)
+            for sex in ("K", "M") for age in range(101)
+        )
+        result.append({
+            "year": year,
+            "horizon": year - origin,
+            "predictedBirths": predicted_births,
+            "actualBirths": observed_births,
+            "birthsError": predicted_births - observed_births,
+            "predictedDeaths": predicted_deaths,
+            "actualDeaths": observed_deaths,
+            "deathsError": predicted_deaths - observed_deaths,
+        })
+    return result
+
+
 def build_origin(origin, cfg, pop, exposure, deaths, births, netmig):
     original_end = b.CALIBRATION_END
     original_windows = b.WINDOWS
@@ -111,6 +156,8 @@ def build_origin(origin, cfg, pop, exposure, deaths, births, netmig):
         births_key = cfg["births_key"]
         detail_file = f"{detail_key}.csv"
         births_file = f"{births_key}.csv"
+        forecast_birth_counts = b.load_forecast_birth_counts(births_file)
+        forecast_deaths, _ = b.load_forecast_detail(detail_file, detail_key)
         future_fert, future_mort = b.national_future_profiles(
             detail_file,
             detail_key,
@@ -181,6 +228,14 @@ def build_origin(origin, cfg, pop, exposure, deaths, births, netmig):
             "endYear": end_year,
             "rows": annual_actuals(
                 pop, births, deaths, netmig, origin, end_year
+            ),
+            "nationalAssumptionRows": national_assumption_rows_from_counts(
+                origin,
+                end_year,
+                forecast_birth_counts,
+                forecast_deaths,
+                births,
+                deaths,
             ),
         }
 

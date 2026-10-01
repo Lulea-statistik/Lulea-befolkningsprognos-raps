@@ -47,4 +47,36 @@ for origin, (detail_id, births_id) in expected.items():
     assert births_spec["all_birth_regions"] is True
     assert births_spec["all_maternal_ages"] is True
 
+
+forecast_births = {
+    (2019, 30): 100.0,
+    (2020, 30): 110.0,
+    (2021, 30): 120.0,
+}
+actual_births = {
+    (rolling.b.RIKET_CODE, 2019, 30): 90.0,
+    (rolling.b.RIKET_CODE, 2020, 30): 100.0,
+    (rolling.b.RIKET_CODE, 2021, 30): 130.0,
+}
+forecast_deaths = {
+    (2019, "K", 80): 200.0,
+    (2020, "K", 80): 210.0,
+    (2021, "K", 80): 220.0,
+}
+actual_deaths = {
+    (rolling.b.RIKET_CODE, 2019, "K", 80): 230.0,
+    (rolling.b.RIKET_CODE, 2020, "K", 80): 240.0,
+    (rolling.b.RIKET_CODE, 2021, "K", 80): 250.0,
+}
+diag = rolling.national_assumption_rows_from_counts(
+    2018, 2021,
+    forecast_births, forecast_deaths,
+    actual_births, actual_deaths,
+)
+assert len(diag) == 3
+assert diag[0]["birthsError"] == 10.0
+assert diag[0]["deathsError"] == -30.0
+assert diag[-1]["birthsError"] == -10.0
+assert diag[-1]["deathsError"] == -30.0
+
 print("OK: rolling-origin SCB vintages and extraction windows are consistent")
