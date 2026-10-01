@@ -1,0 +1,12 @@
+{
+  "meta": {
+    "schemaVersion": "0.0.0",
+    "dataReady": false,
+    "note": "Placeholder until next Update SCB data workflow run."
+  },
+  "geographies": [],
+  "occupancyDefaults": [],
+  "householdTotals": [],
+  "householdComposition": [],
+  "housingStock": []
+}
