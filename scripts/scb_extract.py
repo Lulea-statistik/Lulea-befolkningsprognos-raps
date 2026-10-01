@@ -180,7 +180,9 @@ def build_selection(md: dict, spec: dict) -> dict[str, list[str]]:
                 wanted.append(RIKET)
             sel[dim_id] = [x for x in wanted if x in vals]
         elif dim_id in ("Alder", "AlderModer"):
-            if dim_id == "AlderModer":
+            if spec.get("all_age_groups") and dim_id == "Alder":
+                sel[dim_id] = vals
+            elif dim_id == "AlderModer":
                 if spec.get("all_maternal_ages"):
                     sel[dim_id] = vals
                 else:
@@ -208,6 +210,9 @@ def build_selection(md: dict, spec: dict) -> dict[str, list[str]]:
             # SC = total, all marital statuses. Selecting SC plus its
             # components would duplicate the population.
             sel[dim_id] = ["SC"] if "SC" in vals else vals
+        elif spec.get("employment_age_profile") and dim_label in ("yrkesställning", "yrkesstallning", "födelseregion", "fodelseregion"):
+            tc = total_code(dim)
+            sel[dim_id] = [tc] if tc in vals else vals[:1]
         elif dim_id == "Fodelseregion":
             if spec.get("all_birth_regions"):
                 sel[dim_id] = vals
@@ -479,6 +484,12 @@ SPECS = {
     "regional_forecast_benchmark": {"start":2024,"end":2050},
     "regional_flows_benchmark": {"start":2024,"end":2050},
     "commuting_flows": {"start":2020,"end":2024,"commuting":True},
+    "employment_age_profile": {
+        "start":2022,"end":2024,
+        "all_age_groups":True,
+        "employment_age_profile":True,
+        "content_terms":["arbetsställets belägenhet"]
+    },
 }
 
 def main():
