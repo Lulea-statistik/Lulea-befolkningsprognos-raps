@@ -13,7 +13,9 @@ import io
 import json
 import sys
 import time
+from http.client import RemoteDisconnected
 from pathlib import Path
+from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
@@ -52,15 +54,59 @@ def decode_response(raw: bytes, declared_charset: str | None = None) -> tuple[st
             pass
     raise UnicodeDecodeError("unknown", raw, 0, min(1, len(raw)), "No supported encoding")
 
-def request_text(url: str) -> str:
-    req = Request(url, headers={"User-Agent": "lulea-raps-model/0.4"})
-    with urlopen(req, timeout=120) as r:
-        raw = r.read()
-        declared = r.headers.get_content_charset()
-        text, used = decode_response(raw, declared)
-        if used.lower() not in ("utf-8", "utf-8-sig"):
-            print(f"    decoded response as {used}", file=sys.stderr)
-        return text
+def request_text(url: str, max_attempts: int = 5) -> str:
+    """GET an SCB resource with retry/backoff for transient network failures.
+
+    Permanent client errors such as 400/404 are raised immediately. Temporary
+    connection resets, timeouts, 429 and common 5xx responses are retried so a
+    long multi-table workflow is not lost because SCB closes one connection.
+    """
+    retry_http = {429, 500, 502, 503, 504}
+
+    for attempt in range(1, max_attempts + 1):
+        req = Request(
+            url,
+            headers={
+                "User-Agent": "lulea-raps-model/0.5",
+                "Connection": "close",
+            },
+        )
+        try:
+            with urlopen(req, timeout=120) as r:
+                raw = r.read()
+                declared = r.headers.get_content_charset()
+                text, used = decode_response(raw, declared)
+                if used.lower() not in ("utf-8", "utf-8-sig"):
+                    print(f"    decoded response as {used}", file=sys.stderr)
+                # Small courtesy pause also reduces burst pressure on PxWeb.
+                time.sleep(0.15)
+                return text
+
+        except HTTPError as e:
+            if e.code not in retry_http or attempt >= max_attempts:
+                raise
+            retry_after = e.headers.get("Retry-After") if e.headers else None
+            try:
+                delay = float(retry_after) if retry_after else min(16.0, 2.0 ** (attempt - 1))
+            except ValueError:
+                delay = min(16.0, 2.0 ** (attempt - 1))
+            print(
+                f"    transient HTTP {e.code}; retry {attempt}/{max_attempts} in {delay:g}s",
+                file=sys.stderr,
+            )
+            time.sleep(delay)
+
+        except (RemoteDisconnected, URLError, TimeoutError, ConnectionResetError, OSError) as e:
+            if attempt >= max_attempts:
+                raise
+            delay = min(16.0, 2.0 ** (attempt - 1))
+            print(
+                f"    transient {type(e).__name__}; retry {attempt}/{max_attempts} in {delay:g}s",
+                file=sys.stderr,
+            )
+            time.sleep(delay)
+
+    raise RuntimeError("SCB request retry loop ended unexpectedly")
 
 def request_json(url: str):
     return json.loads(request_text(url))
