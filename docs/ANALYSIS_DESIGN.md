@@ -86,3 +86,16 @@ Long horizon: use primarily as a demographic projection/scenario. Annual peaks a
   https://www.scb.se/publikation/51867
 - SCB, commuting table TAB1830:
   https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__AM__AM0210__AM0210F/ArRegPend2/
+
+
+## Age/sex profile for job-driven migration
+
+Workplace scenarios now separate three concepts:
+
+1. who holds a new job, estimated from the observed residence distribution of workers in SCB TAB1830;
+2. what share of job holders currently outside the FA region is assumed to relocate;
+3. the age/sex distribution of the resulting new residents.
+
+The default age/sex scenario prior is based on observed municipal gross in-migration over the selected calibration window and is restricted to ages 0-64. It therefore includes children as well as working-age adults, while avoiding a mechanically population-proportional allocation to older ages. The profile is descriptive and must not be interpreted as a causal estimate of job-induced migration.
+
+Alternative dashboard modes retain all observed in-migrant ages or use the old population-proportional allocation for sensitivity comparison.
