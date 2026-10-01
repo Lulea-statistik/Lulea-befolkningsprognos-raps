@@ -12,7 +12,7 @@
       <h1>Luleå befolkningsprognos</h1>
       <p>rAps-liknande demografimodell · Luleå FA + kommuner · SCB/Raps-benchmark</p>
     </div>
-    <span class="badge">V2.0 · pendling + åldersprofil</span>
+    <span class="badge">V2.1 · arbetsmarknadsprofil</span>
   </header>
 
   <nav class="tabs" aria-label="Rapportsidor">
@@ -261,9 +261,10 @@
 
         <article class="panel chartPanel">
           <div class="panelHead">
-            <div><h2>Åldersprofil för jobbrelaterad inflyttning</h2><p class="hint">Observerad inflyttning till vald kommun, normaliserad till en scenariofördelning. Jobb/familj-profilen använder åldrar 0–64.</p></div>
+            <div><h2>Åldersprofil för jobbrelaterad inflyttning</h2><p class="hint">Diagrammet visar observerad inflyttning. Tabellen under jämför med SCB:s åldersstruktur för sysselsatta efter arbetsställekommun, som är en bättre referens för själva jobbinnehavaren.</p></div>
           </div>
           <svg id="labourAgeProfileChart" viewBox="0 0 900 330" role="img" aria-label="Åldersprofil för jobbrelaterad inflyttning"></svg>
+          <div id="labourWorkerAgeGroups"></div>
         </article>
 
         <article class="panel">
