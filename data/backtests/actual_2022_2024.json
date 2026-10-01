@@ -9,7 +9,9 @@
       "population": 78867.0,
       "births": 0.0,
       "deaths": 0.0,
-      "netMigration": 0.0
+      "netMigration": 0.0,
+      "grossInMigration": null,
+      "grossOutMigration": null
     },
     {
       "geo": "2580",
@@ -17,7 +19,9 @@
       "population": 79244.0,
       "births": 660.0,
       "deaths": 758.0,
-      "netMigration": 424.0
+      "netMigration": 424.0,
+      "grossInMigration": 4020.0,
+      "grossOutMigration": 3596.0
     },
     {
       "geo": "2580",
@@ -25,7 +29,9 @@
       "population": 79352.0,
       "births": 655.0,
       "deaths": 794.0,
-      "netMigration": 234.0
+      "netMigration": 234.0,
+      "grossInMigration": 3788.0,
+      "grossOutMigration": 3554.0
     },
     {
       "geo": "2580",
@@ -33,7 +39,9 @@
       "population": 79645.0,
       "births": 613.0,
       "deaths": 774.0,
-      "netMigration": 455.0
+      "netMigration": 455.0,
+      "grossInMigration": 4121.0,
+      "grossOutMigration": 3666.0
     },
     {
       "geo": "2582",
@@ -41,7 +49,9 @@
       "population": 28160.0,
       "births": 0.0,
       "deaths": 0.0,
-      "netMigration": 0.0
+      "netMigration": 0.0,
+      "grossInMigration": null,
+      "grossOutMigration": null
     },
     {
       "geo": "2582",
@@ -49,7 +59,9 @@
       "population": 28048.0,
       "births": 245.0,
       "deaths": 322.0,
-      "netMigration": -47.0
+      "netMigration": -47.0,
+      "grossInMigration": 1301.0,
+      "grossOutMigration": 1348.0
     },
     {
       "geo": "2582",
@@ -57,7 +69,9 @@
       "population": 27943.0,
       "births": 224.0,
       "deaths": 349.0,
-      "netMigration": 9.0
+      "netMigration": 9.0,
+      "grossInMigration": 1356.0,
+      "grossOutMigration": 1347.0
     },
     {
       "geo": "2582",
@@ -65,7 +79,9 @@
       "population": 28049.0,
       "births": 230.0,
       "deaths": 323.0,
-      "netMigration": 204.0
+      "netMigration": 204.0,
+      "grossInMigration": 1516.0,
+      "grossOutMigration": 1312.0
     },
     {
       "geo": "2581",
@@ -73,7 +89,9 @@
       "population": 42323.0,
       "births": 0.0,
       "deaths": 0.0,
-      "netMigration": 0.0
+      "netMigration": 0.0,
+      "grossInMigration": null,
+      "grossOutMigration": null
     },
     {
       "geo": "2581",
@@ -81,7 +99,9 @@
       "population": 42362.0,
       "births": 374.0,
       "deaths": 432.0,
-      "netMigration": 91.0
+      "netMigration": 91.0,
+      "grossInMigration": 1427.0,
+      "grossOutMigration": 1336.0
     },
     {
       "geo": "2581",
@@ -89,7 +109,9 @@
       "population": 42344.0,
       "births": 367.0,
       "deaths": 463.0,
-      "netMigration": 52.0
+      "netMigration": 52.0,
+      "grossInMigration": 1395.0,
+      "grossOutMigration": 1343.0
     },
     {
       "geo": "2581",
@@ -97,7 +119,9 @@
       "population": 42447.0,
       "births": 340.0,
       "deaths": 446.0,
-      "netMigration": 211.0
+      "netMigration": 211.0,
+      "grossInMigration": 1540.0,
+      "grossOutMigration": 1329.0
     },
     {
       "geo": "2560",
@@ -105,7 +129,9 @@
       "population": 8009.0,
       "births": 0.0,
       "deaths": 0.0,
-      "netMigration": 0.0
+      "netMigration": 0.0,
+      "grossInMigration": null,
+      "grossOutMigration": null
     },
     {
       "geo": "2560",
@@ -113,7 +139,9 @@
       "population": 7911.0,
       "births": 75.0,
       "deaths": 120.0,
-      "netMigration": -61.0
+      "netMigration": -61.0,
+      "grossInMigration": 369.0,
+      "grossOutMigration": 430.0
     },
     {
       "geo": "2560",
@@ -121,7 +149,9 @@
       "population": 7783.0,
       "births": 61.0,
       "deaths": 97.0,
-      "netMigration": -98.0
+      "netMigration": -98.0,
+      "grossInMigration": 363.0,
+      "grossOutMigration": 461.0
     },
     {
       "geo": "2560",
@@ -129,7 +159,9 @@
       "population": 7774.0,
       "births": 69.0,
       "deaths": 106.0,
-      "netMigration": 26.0
+      "netMigration": 26.0,
+      "grossInMigration": 379.0,
+      "grossOutMigration": 353.0
     },
     {
       "geo": "2514",
@@ -137,7 +169,9 @@
       "population": 15768.0,
       "births": 0.0,
       "deaths": 0.0,
-      "netMigration": 0.0
+      "netMigration": 0.0,
+      "grossInMigration": null,
+      "grossOutMigration": null
     },
     {
       "geo": "2514",
@@ -145,7 +179,9 @@
       "population": 15729.0,
       "births": 127.0,
       "deaths": 246.0,
-      "netMigration": 73.0
+      "netMigration": 73.0,
+      "grossInMigration": 659.0,
+      "grossOutMigration": 586.0
     },
     {
       "geo": "2514",
@@ -153,7 +189,9 @@
       "population": 15547.0,
       "births": 110.0,
       "deaths": 247.0,
-      "netMigration": -53.0
+      "netMigration": -53.0,
+      "grossInMigration": 595.0,
+      "grossOutMigration": 648.0
     },
     {
       "geo": "2514",
@@ -161,7 +199,9 @@
       "population": 15391.0,
       "births": 121.0,
       "deaths": 216.0,
-      "netMigration": -58.0
+      "netMigration": -58.0,
+      "grossInMigration": 590.0,
+      "grossOutMigration": 648.0
     },
     {
       "geo": "FA_LULEA",
@@ -169,7 +209,9 @@
       "population": 173127.0,
       "births": 0.0,
       "deaths": 0.0,
-      "netMigration": 0.0
+      "netMigration": 0.0,
+      "grossInMigration": null,
+      "grossOutMigration": null
     },
     {
       "geo": "FA_LULEA",
@@ -177,7 +219,9 @@
       "population": 173294.0,
       "births": 1481.0,
       "deaths": 1878.0,
-      "netMigration": 480.0
+      "netMigration": 480.0,
+      "grossInMigration": null,
+      "grossOutMigration": null
     },
     {
       "geo": "FA_LULEA",
@@ -185,7 +229,9 @@
       "population": 172969.0,
       "births": 1417.0,
       "deaths": 1950.0,
-      "netMigration": 144.0
+      "netMigration": 144.0,
+      "grossInMigration": null,
+      "grossOutMigration": null
     },
     {
       "geo": "FA_LULEA",
@@ -193,7 +239,9 @@
       "population": 173306.0,
       "births": 1373.0,
       "deaths": 1865.0,
-      "netMigration": 838.0
+      "netMigration": 838.0,
+      "grossInMigration": null,
+      "grossOutMigration": null
     }
   ],
   "ageRows": [
