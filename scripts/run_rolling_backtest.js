@@ -66,6 +66,10 @@ const report = {
     note: 'Compares each SCB national forecast vintage directly with realized Sweden births and deaths before local calibration.',
     rows: [],
     summary: {}
+  },
+  mortalityLocalizationDiagnostic: {
+    note: 'Diagnostic only: compares current localized mortality with the same SCB national age/sex mortality profile applied without any local multiplier. It does not change the production baseline.',
+    summary: {}
   }
 };
 
@@ -223,6 +227,78 @@ for (const geo of geos) {
   }
 }
 
+
+for (const geo of geos) {
+  report.mortalityLocalizationDiagnostic.summary[geo] = {};
+  for (const window of windows) {
+    const currentRows = [];
+    const nationalRows = [];
+    const byOrigin = {};
+
+    for (const entry of origins) {
+      const localized = report.results[geo][entry.origin][window] || [];
+      currentRows.push(...localized);
+
+      const nationalModel = {
+        ...entry.model,
+        mortalityRisks: entry.model.mortalityRisksNationalOnly || []
+      };
+      const pred = M.simulate(nationalModel, {
+        geo,
+        endYear: entry.endYear,
+        fertMult: 1,
+        mortMult: 1,
+        migMult: 1,
+        window,
+        scenarios: {housing: [], workplaces: [], overlapPct: 0},
+        includeDetail: false
+      });
+
+      const altRows = [];
+      for (const p of pred) {
+        if (+p.year <= +entry.origin) continue;
+        const a = byActual(entry.actual, geo, p.year);
+        if (!a) continue;
+        altRows.push({
+          year: +p.year,
+          horizon: +p.year - +entry.origin,
+          populationError: p.population - a.population,
+          populationAbsPctError: ape(p.population, a.population),
+          deathsError: p.deaths - a.deaths
+        });
+      }
+      nationalRows.push(...altRows);
+
+      const localFactor = geo === 'FA_LULEA'
+        ? null
+        : entry.model.diagnostics?.relativeFactors?.mortality?.find(
+            x => x.geo === geo && +x.window === +window
+          )?.applied ?? null;
+
+      byOrigin[entry.origin] = {
+        localGeneralMortalityFactor: round1(localFactor),
+        localizedDeathsMeanError: round1(mean(localized.map(x => x.deathsError))),
+        nationalOnlyDeathsMeanError: round1(mean(altRows.map(x => x.deathsError))),
+        localizedPopulationEndError: localized.at(-1)?.populationError ?? null,
+        nationalOnlyPopulationEndError: round1(altRows.at(-1)?.populationError)
+      };
+    }
+
+    report.mortalityLocalizationDiagnostic.summary[geo][window] = {
+      observations: currentRows.length,
+      localizedDeathsMAE: round1(mean(currentRows.map(x => Math.abs(x.deathsError)))),
+      localizedDeathsMeanError: round1(mean(currentRows.map(x => x.deathsError))),
+      nationalOnlyDeathsMAE: round1(mean(nationalRows.map(x => Math.abs(x.deathsError)))),
+      nationalOnlyDeathsMeanError: round1(mean(nationalRows.map(x => x.deathsError))),
+      localizedPopulationMAPE: round1(mean(currentRows.map(x => x.populationAbsPctError))),
+      localizedPopulationMeanError: round1(mean(currentRows.map(x => x.populationError))),
+      nationalOnlyPopulationMAPE: round1(mean(nationalRows.map(x => x.populationAbsPctError))),
+      nationalOnlyPopulationMeanError: round1(mean(nationalRows.map(x => x.populationError))),
+      byOrigin
+    };
+  }
+}
+
 const outJson = path.join(
   ROOT, 'data', 'backtests', 'rolling_2018_2024.json'
 );
@@ -256,6 +332,18 @@ for (const geo of ['2580', 'FA_LULEA']) {
       `3-year MAPE=${s.threeYearMAPE}% | ` +
       `net migration MAE=${s.netMigrationMAE} | ` +
       `mean population error=${s.populationMeanError}`
+    );
+  }
+}
+
+for (const geo of ['2580', 'FA_LULEA']) {
+  for (const window of windows) {
+    const s = report.mortalityLocalizationDiagnostic.summary[geo][window];
+    console.log(
+      `${geo} window=${window}: deaths mean error localized=${s.localizedDeathsMeanError} | ` +
+      `national-only=${s.nationalOnlyDeathsMeanError} | ` +
+      `population MAPE localized=${s.localizedPopulationMAPE}% | ` +
+      `national-only=${s.nationalOnlyPopulationMAPE}%`
     );
   }
 }

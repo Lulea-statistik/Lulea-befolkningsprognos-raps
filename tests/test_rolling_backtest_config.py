@@ -79,4 +79,27 @@ assert diag[0]["deathsError"] == -30.0
 assert diag[-1]["birthsError"] == -10.0
 assert diag[-1]["deathsError"] == -30.0
 
+
+national_only = rolling.national_only_mortality_rows(
+    {
+        (2019, "K", 80): 0.02,
+        (2020, "M", 70): 0.01,
+        (2022, "K", 90): 0.10,
+    },
+    start_year=2019,
+    end_year=2020,
+)
+assert len(national_only) == len(rolling.b.MUNICIPALITIES) * len(rolling.WINDOWS) * 2
+sample = next(
+    row for row in national_only
+    if row["geo"] == "2580"
+    and row["window"] == 10
+    and row["year"] == 2019
+    and row["sex"] == "K"
+    and row["age"] == 80
+)
+assert abs(sample["value"] - (1.0 - __import__("math").exp(-0.02))) < 1e-12
+assert all(row["geo"] != rolling.b.FA_CODE for row in national_only)
+assert all(row["year"] <= 2020 for row in national_only)
+
 print("OK: rolling-origin SCB vintages and extraction windows are consistent")

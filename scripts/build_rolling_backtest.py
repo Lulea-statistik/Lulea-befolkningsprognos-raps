@@ -12,6 +12,7 @@ scripts/run_rolling_backtest.js.
 from __future__ import annotations
 
 import json
+import math
 from pathlib import Path
 
 import build_model_data as b
@@ -137,6 +138,32 @@ def national_assumption_rows_from_counts(
     return result
 
 
+def national_only_mortality_rows(future_mort, start_year, end_year):
+    """Build a no-localization mortality alternative for diagnostics only.
+
+    Every municipality receives the same SCB national age/sex hazard for each
+    forecast year. The rows are duplicated across calibration windows so the
+    ordinary model engine can be reused without changing production behavior.
+    """
+    result = []
+    for geo in b.MUNICIPALITIES:
+        for window in WINDOWS:
+            for (year, sex, age), hazard in future_mort.items():
+                if year < start_year or year > end_year:
+                    continue
+                risk = 1.0 - math.exp(-max(0.0, float(hazard or 0.0)))
+                result.append({
+                    "geo": geo,
+                    "window": window,
+                    "year": year,
+                    "sex": sex,
+                    "age": age,
+                    "value": max(0.0, min(1.0, risk)),
+                    "source": "SCB national forecast mortality; no local multiplier",
+                })
+    return result
+
+
 def build_origin(origin, cfg, pop, exposure, deaths, births, netmig):
     original_end = b.CALIBRATION_END
     original_windows = b.WINDOWS
@@ -174,6 +201,12 @@ def build_origin(origin, cfg, pop, exposure, deaths, births, netmig):
             future_fert,
             future_mort,
             start_year=origin + 1,
+        )
+
+        mortality_risks_national_only = national_only_mortality_rows(
+            future_mort,
+            start_year=origin + 1,
+            end_year=end_year,
         )
 
         model = {
@@ -215,6 +248,7 @@ def build_origin(origin, cfg, pop, exposure, deaths, births, netmig):
             "populationBase": base_population(pop, origin),
             "fertilityRates": fertility_rates,
             "mortalityRisks": mortality_risks,
+            "mortalityRisksNationalOnly": mortality_risks_national_only,
             "netMigration": b.migration_profiles(netmig),
             "diagnostics": {
                 "relativeFactors": {
