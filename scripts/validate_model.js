@@ -73,6 +73,42 @@ for (const geo of TARGET_GEOS) {
 
 const relativeFactors = data.diagnostics?.relativeFactors || {};
 
+
+function fadingExamplesFor(geo, window) {
+  const fertilityAges = [15,20,25,30,35,40,45];
+  const mortalityAges = [0,15,25,40,65,80,90];
+  const fertility = fertilityAges.map(age => {
+    const r = data.fertilityRates.find(x =>
+      x.geo === geo && +x.window === +window && x.year == null && +x.age === age
+    );
+    return r ? {
+      age,
+      localWeight: round1((r.cellLocalWeight || 0) * 100),
+      nationalRate: r.nationalRate ?? null,
+      modelRate: r.value ?? null,
+      rawCellFactor: r.rawCellFactor ?? null
+    } : {age, localWeight:null};
+  });
+  const mortality = [];
+  for (const age of mortalityAges) {
+    for (const sex of ['K','M']) {
+      const r = data.mortalityRisks.find(x =>
+        x.geo === geo && +x.window === +window && x.year == null &&
+        +x.age === age && x.sex === sex
+      );
+      mortality.push(r ? {
+        age, sex,
+        localWeight: round1((r.cellLocalWeight || 0) * 100),
+        nationalHazard: r.nationalHazard ?? null,
+        modelRisk: r.value ?? null,
+        rawCellFactor: r.rawCellFactor ?? null
+      } : {age,sex,localWeight:null});
+    }
+  }
+  return {fertility, mortality};
+}
+
+
 const parameterSummary = {};
 for (const geo of TARGET_GEOS) {
   parameterSummary[geo] = {};
@@ -121,6 +157,12 @@ const report = {
   },
   parameterSummary,
   relativeFactors,
+  fadingExamples: Object.fromEntries(
+    TARGET_GEOS.map(geo => [
+      geo,
+      Object.fromEntries(WINDOWS.map(w => [w, fadingExamplesFor(geo, w)]))
+    ])
+  ),
   forecasts,
   warnings
 };
