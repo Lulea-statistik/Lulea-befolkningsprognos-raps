@@ -11,7 +11,9 @@ import argparse
 import json
 import sys
 import time
+from http.client import RemoteDisconnected
 from pathlib import Path
+from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
@@ -43,13 +45,56 @@ DEFAULT_QUERIES = {
     "housing_stock": "Antal lägenheter region hustyp upplåtelseform 2013 2025",
 }
 
-def get_json(path: str, params: dict | None = None):
+def get_json(path: str, params: dict | None = None, max_attempts: int = 5):
+    """Read PxWeb v2 JSON with retry/backoff for transient SCB failures.
+
+    Permanent 4xx client errors are raised immediately, while temporary
+    disconnects, rate limiting and common 5xx responses are retried.
+    """
     url = BASE + path
     if params:
         url += "?" + urlencode(params)
-    req = Request(url, headers={"User-Agent": "lulea-raps-model/0.2"})
-    with urlopen(req, timeout=60) as r:
-        return json.loads(r.read().decode("utf-8"))
+
+    retry_http = {429, 500, 502, 503, 504}
+    for attempt in range(1, max_attempts + 1):
+        req = Request(
+            url,
+            headers={
+                "User-Agent": "lulea-raps-model/0.6",
+                "Connection": "close",
+            },
+        )
+        try:
+            with urlopen(req, timeout=60) as r:
+                payload = json.loads(r.read().decode("utf-8"))
+                time.sleep(0.15)
+                return payload
+
+        except HTTPError as e:
+            if e.code not in retry_http or attempt >= max_attempts:
+                raise
+            retry_after = e.headers.get("Retry-After") if e.headers else None
+            try:
+                delay = float(retry_after) if retry_after else min(16.0, 2.0 ** (attempt - 1))
+            except ValueError:
+                delay = min(16.0, 2.0 ** (attempt - 1))
+            print(
+                f"  transient HTTP {e.code}; retry {attempt}/{max_attempts} in {delay:g}s",
+                file=sys.stderr,
+            )
+            time.sleep(delay)
+
+        except (RemoteDisconnected, URLError, TimeoutError, ConnectionResetError, OSError) as e:
+            if attempt >= max_attempts:
+                raise
+            delay = min(16.0, 2.0 ** (attempt - 1))
+            print(
+                f"  transient {type(e).__name__}; retry {attempt}/{max_attempts} in {delay:g}s",
+                file=sys.stderr,
+            )
+            time.sleep(delay)
+
+    raise RuntimeError("SCB discovery retry loop ended unexpectedly")
 
 def discover(query: str, page_size: int = 30):
     return get_json("/tables", {"lang": "sv", "query": query, "pageSize": page_size})
