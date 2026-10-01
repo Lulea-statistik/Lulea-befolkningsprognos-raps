@@ -4,15 +4,16 @@ HTML-baserad demografisk prognosmodell för Luleå FA och kommunerna Luleå, Bod
 
 ## Dashboard
 
-Gränssnittet är uppdelat i sju rapportsidor:
+Gränssnittet är uppdelat i åtta rapportsidor:
 
 1. **Resultat** – KPI:er, befolkningskurva, demografiska komponenter, årsresultat och SCB-benchmark.
 2. **Befolkningsanalys** – kalibreringskänslighet 6/10/19 år, kommun/Riket-faktorer, åldersstruktur och demografisk balans.
 3. **Åldersanalys 1-år** – fruktsamhets- och dödlighetsfading för varje enskild ålder, inklusive kvinnor/män för dödlighet.
 4. **Flyttanalys** – inflyttning, utflyttning, netto, historisk variation och praktisk 5 %-känslighet i 1-årsåldrar.
-5. **Scenario & justering** – generella demografiska multiplikatorer, bostadsbyggande och arbetsplatsetableringar.
-6. **Validering** – historisk 2022–2024-backtest och jämförelse mot SCB:s regionala framskrivning.
-7. **Metod & data** – källor, CKM-status, Raps-anpassning och fading-policy.
+5. **Arbetsmarknad & pendling** – jobbutveckling, bostads-/arbetsställekommun, pendlingsmatris och scenariofördelning av nya jobb.
+6. **Scenario & justering** – generella demografiska multiplikatorer, bostadsbyggande och arbetsplatsetableringar.
+7. **Validering** – historisk 2022–2024-backtest, fel per 1-årsålder och jämförelse mot SCB:s regionala framskrivning.
+8. **Metod & data** – källor, CKM-status, Raps-anpassning och fading-policy.
 
 Linjediagrammen har hover-värden för närmaste år eller ålder. Flyttanalysens historiska standardavvikelse är en variationsindikator, inte ett statistiskt konfidensintervall.
 
@@ -31,6 +32,7 @@ Geografi, kalibreringsfönster och slutår är globala filter och gäller på al
 - `data/raw/` – reproducerbara SCB-uttag.
 - `docs/RAPS_ALIGNMENT.md` – Raps-prioritet, fallback-fading och anti-overfitting-regel.
 - `docs/VALIDATION.md` – benchmark- och backteststrategi.
+- `docs/ANALYSIS_DESIGN.md` – rekommenderade illustrationer, utvärdering och arbetsmarknads-/pendlingsanalys.
 - `scripts/scb_extract.py` – rådatahämtning från SCB PxWebApi v2.
 - `scripts/build_model_data.py` – bygger kalibrerad modell.
 - `scripts/build_backtest_2022.py` – bygger historiskt holdout-test.
@@ -101,6 +103,6 @@ Workflow **Update SCB data** kan köras manuellt och månadsvis. Det:
 
 - koppla officiella Raps-kluster/parametrar där de går att få fram,
 - förbättra IMIG/UMIG och `urisk`,
-- koppla observerade pendlings-/flyttmatriser till arbetsplatsscenarier,
+- använda TAB1830-pendlingsmatrisen som prior för var nya jobbinnehavare bor och därefter separat skatta faktisk flyttbenägenhet,
 - koppla empiriska personer-per-bostad-antaganden per bostadstyp/upplåtelseform/storlek,
 - lägga till delområden när stabila delområdesdata och geometrier finns.
