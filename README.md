@@ -70,7 +70,7 @@ Bostadstyp/upplåtelseform/storlek är ännu metadata. Personer per bostad anges
 
 Arbetsplatsscenarier kan använda **observerad pendling** eller en manuell fördelning. Med observerad pendling fördelas nya jobb först efter SCB TAB1830:s aktuella bostadskommunmönster för vald arbetsställekommun. Jobb som tas av boende i annan FA-kommun ger i sig ingen befolkningstillväxt i FA; en separat intern flyttandel kan omfördela boende mellan kommunerna. Endast en separat vald andel av jobben som tas av personer bosatta utanför FA omvandlas till extern inflyttning, multiplicerad med personer per inflyttat jobb.
 
-Jobbrelaterad extern inflyttning kan dessutom använda en **ålder/kön-profil**. Standard är `job_family`: observerad kommunal inflyttning efter ålder och kön, begränsad till 0–64 år och normaliserad till 100 %. Alternativ är all observerad inflyttning eller den äldre befolkningsproportionella fördelningen. Profilen är ett empiriskt scenarioantagande, inte en kausal skattning av vilka individer som flyttar för ett arbete.
+Jobbrelaterad extern inflyttning kan dessutom använda en **ålder/kön-profil**. Standard är nu `worker_household`: upp till en person per flyttande jobb behandlas som jobbinnehavare och följer SCB TAB3205:s arbetsmarknadsstruktur (15–24, 25–54, 55–74, kön), nedbruten till 1-årsåldrar med observerad lokal inflyttning. Personer utöver den första per jobb behandlas som medföljande hushåll och följer en separat proxy baserad på observerad inflyttning 0–17 och 25–64. Alternativen `job_family`, all observerad inflyttning och befolkningsproportionell fördelning finns kvar för känslighetsanalys. Profilerna är scenarioantaganden, inte kausala skattningar.
 
 Intern flyttning summerar till noll för hela FA-regionen. Ett justerbart överlappsavdrag minskar risken att samma hushåll dubbelräknas via både bostäder och jobb. Från sidan **Arbetsmarknad & pendling** kan ett valt jobbscenario skickas direkt till prognossidan med observerad pendling som standardfördelning.
 
@@ -113,6 +113,6 @@ Workflow **Update SCB data** kan köras manuellt och månadsvis. Det:
 
 ## Arbetsmarknadens åldersprofil
 
-SCB TAB3205 används som separat benchmark för ålder/kön bland sysselsatta efter arbetsställekommun. Dashboarden visar ett 2022–2024-genomsnitt i breda åldersgrupper (15–24, 25–34, 35–44, 45–54, 55–64 och 65–74).
+SCB TAB3205 används för ålder/kön bland sysselsatta efter arbetsställekommun. Dashboarden visar ett 2022–2024-genomsnitt i SCB:s tre ömsesidigt uteslutande breda åldersgrupper **15–24, 25–54 och 55–74**.
 
-Syftet är att kontrollera om den observerade inflyttningsprofilen är rimlig som jobbscenario. För Luleå är total inflyttning tydligt studentpåverkad, så arbetsmarknadens åldersprofil behandlas först som analys/benchmark och ersätter inte automatiskt scenarioantagandet.
+Jämförelsen visade att Luleås observerade inflyttning är starkt studentpåverkad: 38,4 % av 0–64-inflyttningen ligger i 18–24 år, medan bara cirka 11,2 % av de sysselsatta på arbetsställen i Luleå ligger i 15–24 år. Därför används arbetsmarknadsprofilen i standardscenariot för jobbinnehavaren, medan medföljande hushåll hanteras separat. Förändringen bygger på mer relevant källdata och inte på att optimera prognosutfallet.
