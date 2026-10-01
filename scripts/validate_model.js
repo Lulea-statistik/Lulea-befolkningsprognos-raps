@@ -84,6 +84,8 @@ function fadingExamplesFor(geo, window) {
     return r ? {
       age,
       localWeight: round1((r.cellLocalWeight || 0) * 100),
+      averageAnnualExposure: r.cellAverageAnnualExposure ?? null,
+      expectedEvents: r.cellExpectedEvents ?? null,
       nationalRate: r.nationalRate ?? null,
       modelRate: r.value ?? null,
       rawCellFactor: r.rawCellFactor ?? null
@@ -99,6 +101,8 @@ function fadingExamplesFor(geo, window) {
       mortality.push(r ? {
         age, sex,
         localWeight: round1((r.cellLocalWeight || 0) * 100),
+        averageAnnualExposure: r.cellAverageAnnualExposure ?? null,
+        expectedEvents: r.cellExpectedEvents ?? null,
         nationalHazard: r.nationalHazard ?? null,
         modelRisk: r.value ?? null,
         rawCellFactor: r.rawCellFactor ?? null
