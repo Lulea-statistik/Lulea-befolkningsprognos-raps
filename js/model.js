@@ -65,6 +65,20 @@
     return profile?n(profile.value):0;
   }
 
+  function getOutMigrationRisk(rows,geo,sex,age,window){
+    const r=(rows||[]).find(x=>
+      x.geo===geo && x.sex===sex && +x.age===+age && byWindow(x,window)
+    );
+    return r?clamp(n(r.value),0,1):0;
+  }
+  function getGrossInMigration(rows,geo,sex,age,window){
+    const r=(rows||[]).find(x=>
+      x.geo===geo && x.sex===sex && +x.age===+age &&
+      (x.year==="BASE" || x.year==null) && byWindow(x,window)
+    );
+    return r?Math.max(0,n(r.value)):0;
+  }
+
   function baseMunicipalityWeights(data){
     const members=(data.geographies.find(g=>g.code==="FA_LULEA")||{}).members||[];
     const totals={};
@@ -381,9 +395,19 @@
     const baseYear=+data.meta.baseYear;
     const endYear=+options.endYear;
     const fertMult=n(options.fertMult||1), mortMult=n(options.mortMult||1), migMult=n(options.migMult||1);
+    const migrationMode=options.migrationMode||"net";
+    const imigMult=options.imigMult==null?migMult:n(options.imigMult);
+    const umigMult=options.umigMult==null?migMult:n(options.umigMult);
     const window=+(options.window || data.calibration?.defaultYears || 10);
     const rows=data.populationBase.filter(r=>r.geo===geo && +r.year===baseYear);
     if(!rows.length) throw new Error(`Saknar startbefolkning för ${geo}, ${baseYear}.`);
+    if(migrationMode==="gross_flow"){
+      const hasOut=(data.outMigrationRisks||[]).some(r=>r.geo===geo && +r.window===window);
+      const hasIn=(data.grossInMigration||[]).some(r=>r.geo===geo && +r.window===window);
+      if(!hasOut || !hasIn){
+        throw new Error(`Saknar bruttoflyttningsunderlag för ${geo}, ${window} år.`);
+      }
+    }
     let pop=indexed(rows,geo);
     const snapshot=()=>{
       if(!options.includeDetail) return undefined;
@@ -398,12 +422,17 @@
     const results=[{
       year:baseYear,
       population:[...pop.values()].reduce((s,v)=>s+v,0),
-      births:0,deaths:0,netMigration:0,scenarioEffect:0,change:0,
+      births:0,deaths:0,netMigration:0,
+      grossInMigration:migrationMode==="gross_flow"?0:null,
+      grossOutMigration:migrationMode==="gross_flow"?0:null,
+      migrationMode,
+      scenarioEffect:0,change:0,
       populationByAgeSex:snapshot()
     }];
 
     for(let year=baseYear+1;year<=endYear;year++){
       let births=0, deaths=0, netMigration=0;
+      let grossInMigration=0, grossOutMigration=0;
       const survivors=new Map();
       for(const sex of ["K","M"]){
         for(let age=0;age<=MAX_AGE;age++){
@@ -424,11 +453,32 @@
       survivors.set(key("M",0),n(survivors.get(key("M",0)))+male);
       survivors.set(key("K",0),n(survivors.get(key("K",0)))+female);
 
-      for(const sex of ["K","M"]){
-        for(let age=0;age<=MAX_AGE;age++){
-          const mig=getNetMig(data.netMigration,geo,year,sex,age,window)*migMult;
-          netMigration+=mig;
-          survivors.set(key(sex,age),Math.max(0,n(survivors.get(key(sex,age)))+mig));
+      if(migrationMode==="gross_flow"){
+        for(const sex of ["K","M"]){
+          for(let age=0;age<=MAX_AGE;age++){
+            const k=key(sex,age);
+            const p=n(survivors.get(k));
+            const incoming=getGrossInMigration(
+              data.grossInMigration,geo,sex,age,window
+            )*imigMult;
+            const risk=clamp(
+              getOutMigrationRisk(data.outMigrationRisks,geo,sex,age,window)*umigMult,
+              0,1
+            );
+            const outgoing=Math.min(p,p*risk);
+            grossInMigration+=incoming;
+            grossOutMigration+=outgoing;
+            netMigration+=incoming-outgoing;
+            survivors.set(k,Math.max(0,p-outgoing+incoming));
+          }
+        }
+      }else{
+        for(const sex of ["K","M"]){
+          for(let age=0;age<=MAX_AGE;age++){
+            const mig=getNetMig(data.netMigration,geo,year,sex,age,window)*migMult;
+            netMigration+=mig;
+            survivors.set(key(sex,age),Math.max(0,n(survivors.get(key(sex,age)))+mig));
+          }
         }
       }
 
@@ -449,6 +499,9 @@
       pop=survivors;
       results.push({
         year,population:total,births,deaths,netMigration,
+        grossInMigration:migrationMode==="gross_flow"?grossInMigration:null,
+        grossOutMigration:migrationMode==="gross_flow"?grossOutMigration:null,
+        migrationMode,
         scenarioEffect:sfx.total,scenarioDetail:sfx,change:total-prev,
         populationByAgeSex:snapshot()
       });
@@ -525,6 +578,11 @@
         births:parts.reduce((s,r)=>s+n(r.births),0),
         deaths:parts.reduce((s,r)=>s+n(r.deaths),0),
         netMigration:parts.reduce((s,r)=>s+n(r.netMigration),0),
+        // Municipal gross flows include moves within the FA and must not be
+        // presented as external FA gross migration.
+        grossInMigration:null,
+        grossOutMigration:null,
+        migrationMode:options.migrationMode||"net",
         scenarioEffect:parts.reduce((s,r)=>s+n(r.scenarioEffect),0),
         scenarioDetail:aggregateScenarioDetails(parts),
         change:i===0?0:population-prev,
