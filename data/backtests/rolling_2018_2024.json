@@ -3336,5 +3336,189 @@
         ]
       }
     }
+  },
+  "nationalAssumptionBenchmark": {
+    "note": "Compares each SCB national forecast vintage directly with realized Sweden births and deaths before local calibration.",
+    "rows": [
+      {
+        "origin": 2018,
+        "year": 2019,
+        "horizon": 1,
+        "predictedBirths": 118539,
+        "actualBirths": 114522,
+        "birthsError": 4017,
+        "predictedDeaths": 92246,
+        "actualDeaths": 88766,
+        "deathsError": 3480
+      },
+      {
+        "origin": 2018,
+        "year": 2020,
+        "horizon": 2,
+        "predictedBirths": 121342,
+        "actualBirths": 113073,
+        "birthsError": 8269,
+        "predictedDeaths": 92687,
+        "actualDeaths": 98124,
+        "deathsError": -5437
+      },
+      {
+        "origin": 2018,
+        "year": 2021,
+        "horizon": 3,
+        "predictedBirths": 123615,
+        "actualBirths": 114262,
+        "birthsError": 9353,
+        "predictedDeaths": 93241,
+        "actualDeaths": 91958,
+        "deathsError": 1283
+      },
+      {
+        "origin": 2019,
+        "year": 2020,
+        "horizon": 1,
+        "predictedBirths": 119737,
+        "actualBirths": 113073,
+        "birthsError": 6664,
+        "predictedDeaths": 92896,
+        "actualDeaths": 98124,
+        "deathsError": -5228
+      },
+      {
+        "origin": 2019,
+        "year": 2021,
+        "horizon": 2,
+        "predictedBirths": 121817,
+        "actualBirths": 114262,
+        "birthsError": 7555,
+        "predictedDeaths": 93411,
+        "actualDeaths": 91958,
+        "deathsError": 1453
+      },
+      {
+        "origin": 2019,
+        "year": 2022,
+        "horizon": 3,
+        "predictedBirths": 123439,
+        "actualBirths": 104730,
+        "birthsError": 18709,
+        "predictedDeaths": 94038,
+        "actualDeaths": 94737,
+        "deathsError": -699
+      },
+      {
+        "origin": 2020,
+        "year": 2021,
+        "horizon": 1,
+        "predictedBirths": 115395,
+        "actualBirths": 114262,
+        "birthsError": 1133,
+        "predictedDeaths": 91005,
+        "actualDeaths": 91958,
+        "deathsError": -953
+      },
+      {
+        "origin": 2020,
+        "year": 2022,
+        "horizon": 2,
+        "predictedBirths": 115986,
+        "actualBirths": 104730,
+        "birthsError": 11256,
+        "predictedDeaths": 91767,
+        "actualDeaths": 94737,
+        "deathsError": -2970
+      },
+      {
+        "origin": 2020,
+        "year": 2023,
+        "horizon": 3,
+        "predictedBirths": 116819,
+        "actualBirths": 100048,
+        "birthsError": 16771,
+        "predictedDeaths": 92670,
+        "actualDeaths": 94385,
+        "deathsError": -1715
+      },
+      {
+        "origin": 2021,
+        "year": 2022,
+        "horizon": 1,
+        "predictedBirths": 108502,
+        "actualBirths": 104730,
+        "birthsError": 3772,
+        "predictedDeaths": 92298,
+        "actualDeaths": 94737,
+        "deathsError": -2439
+      },
+      {
+        "origin": 2021,
+        "year": 2023,
+        "horizon": 2,
+        "predictedBirths": 107096,
+        "actualBirths": 100048,
+        "birthsError": 7048,
+        "predictedDeaths": 93039,
+        "actualDeaths": 94385,
+        "deathsError": -1346
+      },
+      {
+        "origin": 2021,
+        "year": 2024,
+        "horizon": 3,
+        "predictedBirths": 106810,
+        "actualBirths": 98446,
+        "birthsError": 8364,
+        "predictedDeaths": 93922,
+        "actualDeaths": 91268,
+        "deathsError": 2654
+      }
+    ],
+    "summary": {
+      "observations": 12,
+      "birthsMAPE": 8.1,
+      "birthsMAE": 8575.9,
+      "birthsMeanError": 8575.9,
+      "deathsMAPE": 2.6,
+      "deathsMAE": 2471.4,
+      "deathsMeanError": -993.1,
+      "byOrigin": {
+        "2018": {
+          "observations": 3,
+          "birthsMAPE": 6.3,
+          "birthsMAE": 7213,
+          "birthsMeanError": 7213,
+          "deathsMAPE": 3.6,
+          "deathsMAE": 3400,
+          "deathsMeanError": -224.7
+        },
+        "2019": {
+          "observations": 3,
+          "birthsMAPE": 10.1,
+          "birthsMAE": 10976,
+          "birthsMeanError": 10976,
+          "deathsMAPE": 2.5,
+          "deathsMAE": 2460,
+          "deathsMeanError": -1491.3
+        },
+        "2020": {
+          "observations": 3,
+          "birthsMAPE": 9.5,
+          "birthsMAE": 9720,
+          "birthsMeanError": 9720,
+          "deathsMAPE": 2,
+          "deathsMAE": 1879.3,
+          "deathsMeanError": -1879.3
+        },
+        "2021": {
+          "observations": 3,
+          "birthsMAPE": 6.4,
+          "birthsMAE": 6394.7,
+          "birthsMeanError": 6394.7,
+          "deathsMAPE": 2.3,
+          "deathsMAE": 2146.3,
+          "deathsMeanError": -377
+        }
+      }
+    }
   }
 }
