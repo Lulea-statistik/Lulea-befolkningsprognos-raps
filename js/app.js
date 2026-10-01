@@ -21,7 +21,7 @@
   }];
   const defaultWorkplaces=[{
     active:false,year:2034,municipality:"2580",jobs:1000,
-    allocationMode:"commuting",ageProfileMode:"job_family",
+    allocationMode:"commuting",ageProfileMode:"worker_household",
     realizationPct:60,moveSharePct:25,personsPerJob:1.7,
     hostResidencePct:60,internalSharePct:10,phaseYears:4
   }];
@@ -82,7 +82,7 @@
   function blankWorkplace(){
     return {
       active:true,year:2034,municipality:"2580",jobs:1000,
-      allocationMode:"commuting",ageProfileMode:"job_family",
+      allocationMode:"commuting",ageProfileMode:"worker_household",
       realizationPct:60,moveSharePct:25,personsPerJob:1.7,
       hostResidencePct:60,internalSharePct:10,phaseYears:4
     };
@@ -118,7 +118,8 @@
         <option value="manual" ${s.allocationMode==="manual"?"selected":""}>Manuell</option>
       </select></td>
       <td><select data-k="ageProfileMode">
-        <option value="job_family" ${s.ageProfileMode!=="observed_inflow"&&s.ageProfileMode!=="population"?"selected":""}>Jobb/familj 0–64</option>
+        <option value="worker_household" ${s.ageProfileMode!=="job_family"&&s.ageProfileMode!=="observed_inflow"&&s.ageProfileMode!=="population"?"selected":""}>Arbetstagare + hushåll</option>
+        <option value="job_family" ${s.ageProfileMode==="job_family"?"selected":""}>Inflyttning 0–64</option>
         <option value="observed_inflow" ${s.ageProfileMode==="observed_inflow"?"selected":""}>Observerad inflyttning alla åldrar</option>
         <option value="population" ${s.ageProfileMode==="population"?"selected":""}>Befolkningsproportionell</option>
       </select></td>
@@ -206,11 +207,13 @@
       const host=Number(shares[s.municipality]||0);
       const other=faCodes.filter(code=>code!==s.municipality).reduce((sum,code)=>sum+Number(shares[code]||0),0);
       const outside=Number(shares.OUTSIDE_FA||0);
-      const profileLabel=s.ageProfileMode==="observed_inflow"
-        ?"observerad inflyttning, alla åldrar"
-        :s.ageProfileMode==="population"
-          ?"befolkningsproportionell"
-          :"jobb/familj, observerad inflyttning 0–64";
+      const profileLabel=s.ageProfileMode==="worker_household"
+        ?"arbetstagare enligt arbetsmarknadsprofil + medföljande hushåll"
+        :s.ageProfileMode==="observed_inflow"
+          ?"observerad inflyttning, alla åldrar"
+          :s.ageProfileMode==="population"
+            ?"befolkningsproportionell"
+            :"observerad inflyttning 0–64";
       return `<div class="scenarioPreview">
         <strong>Rad ${i+1}: observerad pendling ${cs.year} för ${names[s.municipality]||s.municipality}.</strong>
         Samma kommun ${pct.format(host)} %, övriga FA ${pct.format(other)} %, utanför FA ${pct.format(outside)} %.
@@ -720,9 +723,11 @@
     const profileWindow=+$("window").value;
     const scenarioProfiles=(data.scenarioMigrationProfiles||[])
       .filter(r=>r.geo===workplace && +r.window===profileWindow);
+    const workerProfile=scenarioProfiles.filter(r=>r.profile==="worker_hybrid");
+    const companionProfile=scenarioProfiles.filter(r=>r.profile==="family_companion");
     const jobProfile=scenarioProfiles.filter(r=>r.profile==="job_family");
     const allProfile=scenarioProfiles.filter(r=>r.profile==="observed_inflow");
-    if(jobProfile.length || allProfile.length){
+    if(workerProfile.length || companionProfile.length || jobProfile.length || allProfile.length){
       const ages=[...new Set(
         scenarioProfiles.map(r=>+r.age)
       )].sort((a,b)=>a-b);
@@ -731,10 +736,22 @@
           .reduce((s,r)=>s+Number(r.share||0),0)*100
       );
       const series=[];
-      if(jobProfile.length) series.push({
-        name:"Jobb/familj 0–64",
-        values:valuesFor(jobProfile),
+      if(workerProfile.length) series.push({
+        name:"Arbetstagare – hybrid",
+        values:valuesFor(workerProfile),
         cls:"lineInflow",
+        suffix:" %"
+      });
+      if(companionProfile.length) series.push({
+        name:"Medföljande hushåll – proxy",
+        values:valuesFor(companionProfile),
+        cls:"lineSensitivity",
+        suffix:" %"
+      });
+      if(jobProfile.length) series.push({
+        name:"Inflyttning 0–64",
+        values:valuesFor(jobProfile),
+        cls:"lineMen",
         suffix:" %"
       });
       if(allProfile.length) series.push({
