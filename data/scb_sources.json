@@ -1,5 +1,5 @@
 {
-  "schema_version": "0.4.0",
+  "schema_version": "0.5.0",
   "note": "Production sources for the Raps-reference baseline use Tillvaxtverket's published SCB 2024 demographic scenario where available. Latest SCB forecasts are retained only as alternative-scenario sources.",
   "tables": {
     "population_pre2025": {
@@ -126,6 +126,11 @@
       "id": "TAB5948",
       "period": "2021-2120",
       "purpose": "Vintage-correct SCB 2021 births forecast for the 2022-2024 backtest"
+    },
+    "commuting_flows": {
+      "id": "TAB1830",
+      "period": "2020-2024",
+      "purpose": "employed persons age 15-74 by municipality of residence, municipality of workplace and sex; commuting/job-residence matrix"
     }
   }
 }
