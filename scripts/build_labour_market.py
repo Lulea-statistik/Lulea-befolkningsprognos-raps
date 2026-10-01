@@ -16,6 +16,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw" / "commuting_flows.csv"
+EMP_AGE_RAW = ROOT / "data" / "raw" / "employment_age_profile.csv"
 OUT_JSON = ROOT / "data" / "labour_market.json"
 OUT_JS = ROOT / "data" / "labour_market.js"
 
@@ -64,6 +65,85 @@ def value_columns(fields):
         if m:
             out.append((h, int(m.group(1))))
     return out
+
+def sex_code(v: str) -> str | None:
+    s = str(v or "").strip().lower()
+    if s in {"1", "m", "man", "män", "maner"} or s.startswith("män"):
+        return "M"
+    if s in {"2", "k", "kvinna", "kvinnor"} or s.startswith("kvinn"):
+        return "K"
+    return None
+
+def age_group(v: str):
+    s = str(v or "").strip().lower().replace("—", "-").replace("–", "-")
+    m = re.search(r"(\d{1,2})\s*-\s*(\d{1,2})", s)
+    if not m:
+        return None
+    a, b = int(m.group(1)), int(m.group(2))
+    # Keep the mutually exclusive 10-year groups only. The SCB table also
+    # contains overlapping totals such as 15-74 and 16-64.
+    if (a, b) not in {(15,24),(25,34),(35,44),(45,54),(55,64),(65,74)}:
+        return None
+    return a, b
+
+def load_worker_age_groups():
+    if not EMP_AGE_RAW.exists():
+        return []
+
+    text = EMP_AGE_RAW.read_text(encoding="utf-8")
+    dialect = sniff(text)
+    reader = csv.DictReader(io.StringIO(text), dialect=dialect)
+    fields = reader.fieldnames or []
+    region_col = find_header(fields, "region")
+    age_col = find_header(fields, "ålder") or find_header(fields, "alder")
+    sex_col = find_header(fields, "kön") or find_header(fields, "kon")
+    if not region_col or not age_col or not sex_col:
+        raise RuntimeError(
+            f"Could not identify region/age/sex columns in employment age profile: {fields!r}"
+        )
+
+    year_cols = value_columns(fields)
+    if not year_cols:
+        raise RuntimeError("No year columns found in employment age profile.")
+
+    values_by_cell = defaultdict(float)
+    years = sorted({y for _, y in year_cols})
+    for r in reader:
+        workplace = municipality_code(r.get(region_col))
+        grp = age_group(r.get(age_col))
+        sex = sex_code(r.get(sex_col))
+        if workplace not in MUNICIPALITIES or not grp or not sex:
+            continue
+        age_min, age_max = grp
+        for col, year in year_cols:
+            values_by_cell[(workplace, sex, age_min, age_max, year)] += num(r.get(col))
+
+    result = []
+    for workplace in MUNICIPALITIES:
+        cell_means = {}
+        for sex in ("K", "M"):
+            for age_min, age_max in ((15,24),(25,34),(35,44),(45,54),(55,64),(65,74)):
+                vals = [
+                    values_by_cell.get((workplace, sex, age_min, age_max, y), 0.0)
+                    for y in years
+                ]
+                cell_means[(sex, age_min, age_max)] = (
+                    sum(vals) / len(vals) if vals else 0.0
+                )
+        total = sum(cell_means.values())
+        if total <= 0:
+            continue
+        for (sex, age_min, age_max), value in cell_means.items():
+            result.append({
+                "workplace": workplace,
+                "sex": sex,
+                "ageMin": age_min,
+                "ageMax": age_max,
+                "value": value,
+                "sharePct": 100.0 * value / total,
+                "years": years,
+            })
+    return result
 
 def main():
     if not RAW.exists():
@@ -166,10 +246,13 @@ def main():
             None if not first_total else 100.0 * ((last_total or 0.0) - first_total) / first_total
         )
 
+    worker_age_groups = load_worker_age_groups()
+
     data = {
         "meta": {
-            "schemaVersion": "0.1.0",
+            "schemaVersion": "0.2.0",
             "sourceTable": "TAB1830",
+            "employmentAgeSourceTable": "TAB3205",
             "years": years,
             "latestYear": latest,
             "note": (
@@ -190,6 +273,7 @@ def main():
         "residenceShares": residence_shares,
         "workplaceSummary": workplace_summary,
         "matrixLatest": matrix_latest,
+        "workerAgeGroups": worker_age_groups,
     }
 
     OUT_JSON.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -201,6 +285,7 @@ def main():
     )
 
     print(f"Wrote {OUT_JSON.relative_to(ROOT)} and {OUT_JS.relative_to(ROOT)}")
+    print(f"worker age-group rows={len(worker_age_groups)}")
     for s in workplace_summary:
         print(
             f"{s['workplace']}: jobs={s['jobs']:.0f}, "
