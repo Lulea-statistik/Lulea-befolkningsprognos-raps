@@ -196,6 +196,8 @@
   function renderAll(){
     renderResults();
     renderAnalysis();
+    renderDetailedAgeAnalysis();
+    renderMigrationAnalysis();
     renderValidation();
     renderDataStatus();
   }
@@ -277,13 +279,22 @@
     const rows=data.populationBase.filter(r=>r.geo===geo&&+r.year===+data.meta.baseYear);
     const totals=bands.map(b=>{
       const rr=rows.filter(r=>+r.age>=b.min&&+r.age<=b.max);
-      return {name:b.name,k:rr.filter(r=>r.sex==="K").reduce((s,r)=>s+Number(r.value||0),0),m:rr.filter(r=>r.sex==="M").reduce((s,r)=>s+Number(r.value||0),0)};
+      const women=rr.filter(r=>r.sex==="K").reduce((s,r)=>s+Number(r.value||0),0);
+      const men=rr.filter(r=>r.sex==="M").reduce((s,r)=>s+Number(r.value||0),0);
+      return {name:b.name,women,men,total:women+men};
     });
-    const max=Math.max(1,...totals.map(x=>x.k+x.m));
-    $("ageStructure").innerHTML=totals.map(x=>`<div class="ageRow">
-      <span>${x.name}</span><div class="barTrack"><div class="barFill" style="width:${(x.k+x.m)/max*100}%"></div></div>
-      <strong>${fmt.format(x.k+x.m)}</strong><small>K ${fmt.format(x.k)} · M ${fmt.format(x.m)}</small>
-      </div>`).join("");
+    const max=Math.max(1,...totals.map(x=>x.total));
+    $("ageStructure").innerHTML=`
+      <table class="miniTable ageStructureTable">
+        <thead><tr><th>Ålder</th><th>Struktur</th><th>Totalt</th><th>Kvinnor</th><th>Män</th></tr></thead>
+        <tbody>${totals.map(x=>`<tr>
+          <td>${x.name}</td>
+          <td><div class="barTrack"><div class="barFill" style="width:${x.total/max*100}%"></div></div></td>
+          <td><strong>${fmt.format(x.total)}</strong></td>
+          <td>${fmt.format(x.women)}</td>
+          <td>${fmt.format(x.men)}</td>
+        </tr>`).join("")}</tbody>
+      </table>`;
   }
 
   function renderFadingExamples(geo){
