@@ -547,6 +547,51 @@ def migration_age_diagnostics(inflow, outflow, netmig):
                 result.append(r)
     return result
 
+def scenario_migration_profiles(inflow):
+    """Observed age/sex profiles for scenario-driven in-migration.
+
+    Profiles are descriptive, not causal estimates of job-related movers.
+    observed_inflow uses all observed in-migrants. job_family uses the same
+    observed inflow data but restricts the profile to ages 0-64 so a workplace
+    scenario does not mechanically allocate new residents to 65+ ages.
+
+    Gross FA inflow is deliberately not produced here because summing municipal
+    gross flows would double-count moves within the FA region.
+    """
+    result = []
+    for window in WINDOWS:
+        yrs = set(window_years(window))
+        for geo in MUNICIPALITIES:
+            cells = {}
+            for sex in ("K", "M"):
+                for age in range(101):
+                    cells[(sex, age)] = sum(
+                        inflow.get((geo, y, sex, age), 0.0) for y in yrs
+                    )
+
+            for mode, max_age in (
+                ("observed_inflow", 100),
+                ("job_family", 64),
+            ):
+                total = sum(
+                    value for (sex, age), value in cells.items()
+                    if age <= max_age
+                )
+                if total <= 0:
+                    continue
+                for sex in ("K", "M"):
+                    for age in range(101):
+                        value = cells[(sex, age)] if age <= max_age else 0.0
+                        result.append({
+                            "geo": geo,
+                            "window": window,
+                            "profile": mode,
+                            "sex": sex,
+                            "age": age,
+                            "share": value / total,
+                        })
+    return result
+
 def migration_profiles(netmig):
     result = []
     geos = list(MUNICIPALITIES) + [FA_CODE]
@@ -638,7 +683,7 @@ def main():
 
     model = {
         "meta": {
-            "schemaVersion": "0.6.1",
+            "schemaVersion": "0.7.0",
             "generatedBy": "scripts/build_model_data.py",
             "dataReady": True,
             "baseYear": 2025,
@@ -675,6 +720,10 @@ def main():
             "observedMaleBirthShareFA2015_2024": male_birth_share,
             "relativeToNationalMethod": "General age-standardized municipality/FA ratio to Sweden",
             "futureNationalProfileMode": future_profile_mode,
+            "scenarioMigrationProfileMethod": (
+                "Observed municipal gross in-migration by age/sex. Job/family profile "
+                "uses ages 0-64 only; descriptive scenario prior, not a causal estimate."
+            ),
         },
         "populationBase": [
             {"geo": geo, "year": 2025, "sex": sex, "age": age, "value": value}
@@ -683,6 +732,7 @@ def main():
         "fertilityRates": fertility_rates,
         "mortalityRisks": mortality_risks,
         "netMigration": migration_profiles(netmig),
+        "scenarioMigrationProfiles": scenario_migration_profiles(inflow),
         "diagnostics": {
             "ckm": ckm_diagnostics(base, deaths_2025, netmig_2025),
             "calibrationWindows": list(WINDOWS),
