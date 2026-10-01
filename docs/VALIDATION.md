@@ -43,6 +43,14 @@ Generated files:
 - data/benchmarks/scb_regional_projection_normalized.json
 - data/benchmarks/scb_model_comparison.json
 
+### Migration alternative within the development backtest
+
+The backtest also reports a **gross-flow candidate** alongside the unchanged V1 net-migration baseline. The candidate uses historical mean gross in-migration and a population-responsive historical out-migration risk (`urisk`). It is a diagnostic intermediate model, not a reproduction of the full Raps IMIG/UMIG equations.
+
+For municipalities, the report compares population MAPE/MAE, net-migration MAE and, where available, gross in- and out-migration MAE. For Lulea FA, municipal results are aggregated additively, but municipal gross flows are not reported as FA external gross migration because internal FA moves would be double-counted.
+
+The 2022-2024 period must not be used to tune this candidate after inspection. A later rolling-origin or independent holdout remains required before any change of default migration engine.
+
 
 ## Development-backtest status after model v1.6
 
