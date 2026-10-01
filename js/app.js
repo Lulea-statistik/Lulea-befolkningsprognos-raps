@@ -78,7 +78,12 @@
     return {active:true,year:2030,municipality:"2580",dwellingType:"flerbostadshus",tenure:"hyresrätt",size:"2 rum",dwellings:100,completionPct:100,occupancyPct:95,personsPerDwelling:1.6,externalSharePct:50,internalSharePct:25,phaseYears:3};
   }
   function blankWorkplace(){
-    return {active:true,year:2034,municipality:"2580",jobs:1000,realizationPct:60,moveSharePct:35,personsPerJob:1.7,hostResidencePct:60,internalSharePct:20,phaseYears:4};
+    return {
+      active:true,year:2034,municipality:"2580",jobs:1000,
+      allocationMode:"commuting",
+      realizationPct:60,moveSharePct:25,personsPerJob:1.7,
+      hostResidencePct:60,internalSharePct:10,phaseYears:4
+    };
   }
 
   function renderScenarioTables(){
@@ -106,6 +111,10 @@
       <td><input data-k="year" type="number" value="${s.year}" min="2025" max="2070"></td>
       <td><select data-k="municipality">${municipalityOptions(s.municipality)}</select></td>
       <td><input data-k="jobs" type="number" value="${s.jobs}" min="0"></td>
+      <td><select data-k="allocationMode">
+        <option value="commuting" ${s.allocationMode!=="manual"?"selected":""}>Observerad pendling</option>
+        <option value="manual" ${s.allocationMode==="manual"?"selected":""}>Manuell</option>
+      </select></td>
       <td><input data-k="realizationPct" type="number" value="${s.realizationPct}" min="0" max="100"></td>
       <td><input data-k="moveSharePct" type="number" value="${s.moveSharePct}" min="0" max="100"></td>
       <td><input data-k="personsPerJob" type="number" value="${s.personsPerJob}" min="0" step="0.1"></td>
@@ -117,6 +126,11 @@
 
     document.querySelectorAll(".removeHousing").forEach(b=>b.addEventListener("click",()=>{syncScenarioTables();defaultHousing.splice(+b.dataset.i,1);renderScenarioTables();run();}));
     document.querySelectorAll(".removeWorkplace").forEach(b=>b.addEventListener("click",()=>{syncScenarioTables();defaultWorkplaces.splice(+b.dataset.i,1);renderScenarioTables();run();}));
+    wBody.querySelectorAll("input,select").forEach(el=>el.addEventListener("change",()=>{
+      syncScenarioTables();
+      renderWorkplaceScenarioPreview();
+    }));
+    renderWorkplaceScenarioPreview();
   }
 
   function readRows(tableId){
@@ -133,13 +147,64 @@
     defaultHousing.splice(0,defaultHousing.length,...readRows("housingTable"));
     defaultWorkplaces.splice(0,defaultWorkplaces.length,...readRows("workplaceTable"));
   }
+  function commutingSharesFor(workplace){
+    if(!labour) return null;
+    const latest=labour.meta?.latestYear;
+    const rows=(labour.residenceShares||[])
+      .filter(r=>r.workplace===workplace && +r.year===+latest);
+    if(!rows.length) return null;
+    return {
+      year:latest,
+      shares:Object.fromEntries(rows.map(r=>[r.residence,Number(r.sharePct||0)]))
+    };
+  }
+
+  function enrichWorkplaceScenario(x){
+    const out={...x};
+    const cs=commutingSharesFor(x.municipality);
+    if(x.allocationMode!=="manual" && cs){
+      out.useObservedCommuting=true;
+      out.commutingYear=cs.year;
+      out.commutingShares=cs.shares;
+    }else{
+      out.useObservedCommuting=false;
+    }
+    return out;
+  }
+
   function currentScenarios(){
     syncScenarioTables();
     return {
       housing:defaultHousing.map(x=>({...x})),
-      workplaces:defaultWorkplaces.map(x=>({...x})),
+      workplaces:defaultWorkplaces.map(enrichWorkplaceScenario),
       overlapPct:+$("overlapPct").value
     };
+  }
+
+  function renderWorkplaceScenarioPreview(){
+    const el=$("workplaceScenarioPreview");
+    if(!el) return;
+    const names=Object.fromEntries((labour?.geographies||[]).map(g=>[g.code,g.name.replace(" kommun","")]));
+    el.innerHTML=defaultWorkplaces.map((s,i)=>{
+      if(!s.active) return "";
+      if(s.allocationMode==="manual"){
+        return `<div class="scenarioPreview"><strong>Rad ${i+1}: manuell fördelning.</strong> Extern inflyttning beräknas från vald jobb→inflyttning-andel och bosättningsandel.</div>`;
+      }
+      const cs=commutingSharesFor(s.municipality);
+      if(!cs){
+        return `<div class="scenarioPreview warn"><strong>Rad ${i+1}:</strong> pendlingsdata saknas; modellen faller tillbaka till manuell fördelning.</div>`;
+      }
+      const shares=cs.shares;
+      const faCodes=(labour?.geographies||[]).map(g=>g.code);
+      const host=Number(shares[s.municipality]||0);
+      const other=faCodes.filter(code=>code!==s.municipality).reduce((sum,code)=>sum+Number(shares[code]||0),0);
+      const outside=Number(shares.OUTSIDE_FA||0);
+      return `<div class="scenarioPreview">
+        <strong>Rad ${i+1}: observerad pendling ${cs.year} för ${names[s.municipality]||s.municipality}.</strong>
+        Samma kommun ${pct.format(host)} %, övriga FA ${pct.format(other)} %, utanför FA ${pct.format(outside)} %.
+        Av jobben utanför FA antas ${pct.format(Number(s.moveSharePct||0))} % flytta till FA.
+      </div>`;
+    }).join("") || "<p class='hint'>Ingen aktiv arbetsplatsrad.</p>";
   }
 
   function renderStatus(msg){
