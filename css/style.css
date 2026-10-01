@@ -61,3 +61,10 @@ ul{padding-left:19px;margin:0}li{margin:7px 0}code{background:#eef2f6;padding:2p
 .chartTooltip div{display:flex;justify-content:space-between;gap:18px;margin:3px 0}
 .chartTooltip span{color:#d0d5dd}.chartTooltip b{font-weight:700;text-align:right}
 svg{cursor:crosshair}
+
+.shareRow{display:grid;grid-template-columns:minmax(130px,1.2fr) minmax(160px,2fr) 70px 70px;gap:10px;align-items:center;margin:9px 0}
+.shareRow>span{font-size:12px}.shareRow strong,.shareRow small{text-align:right}
+.shareRow small{color:var(--muted)}
+#commutingMatrix th,#commutingMatrix td{text-align:right}
+#commutingMatrix th:first-child,#commutingMatrix td:first-child{text-align:left}
+@media(max-width:760px){.shareRow{grid-template-columns:110px 1fr 60px}.shareRow small{display:none}}
