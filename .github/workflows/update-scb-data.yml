@@ -38,6 +38,9 @@ jobs:
       - name: Test SCB request batching
         run: python tests/test_scb_extract.py
 
+      - name: Test migration risk profiles
+        run: python tests/test_migration_risk.py
+
       - name: Discover current SCB PxWeb tables
         run: python scripts/scb_v2_client.py --out data/scb_discovery.json
 
