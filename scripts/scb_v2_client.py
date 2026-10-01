@@ -34,6 +34,7 @@ DEFAULT_QUERIES = {
     "mortality_forecast": "Dödstal prognos födelseregion kön ålder 2026 2120",
     "national_population_forecast": "Befolkningsframskrivning Sverige ålder kön 2026 2120",
     "regional_forecast_benchmark": "Befolkningsframskrivning region kommun ålder kön 2024 2070",
+    "commuting_flows": "Sysselsatta bostadskommun arbetsställekommun kön 2020 2024",
 }
 
 def get_json(path: str, params: dict | None = None):
