@@ -54,3 +54,8 @@ jobs:
 
       - name: Run model tests
         run: node tests/test_model.js
+
+      - name: Build and score historical migration candidate
+        run: |
+          python scripts/build_backtest_2022.py
+          node scripts/run_backtest.js
