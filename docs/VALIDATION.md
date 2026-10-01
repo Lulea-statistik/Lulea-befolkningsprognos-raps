@@ -43,6 +43,30 @@ Generated files:
 - data/benchmarks/scb_regional_projection_normalized.json
 - data/benchmarks/scb_model_comparison.json
 
+### Migration alternative within the development backtest
+
+The backtest also reports a **gross-flow candidate** alongside the unchanged V1 net-migration baseline. The candidate uses historical mean gross in-migration and a population-responsive historical out-migration risk (`urisk`). It is a diagnostic intermediate model, not a reproduction of the full Raps IMIG/UMIG equations.
+
+For municipalities, the report compares population MAPE/MAE, net-migration MAE and, where available, gross in- and out-migration MAE. For Lulea FA, municipal results are aggregated additively, but municipal gross flows are not reported as FA external gross migration because internal FA moves would be double-counted.
+
+The 2022-2024 period must not be used to tune this candidate after inspection. A later rolling-origin or independent holdout remains required before any change of default migration engine.
+
+#### First development-backtest result
+
+The first fixed-specification comparison was run without tuning the gross-flow candidate to the observed 2022-2024 outcome. It performed worse than the existing net-migration baseline for every municipality and for both 6- and 10-year calibration windows.
+
+For Lulea municipality with the 10-year window:
+- population MAPE: **0.4% net baseline vs 0.8% gross-flow candidate**,
+- net-migration MAE: **93.9 vs 134.2 persons/year**,
+- 2024 population error: **+450.4 vs +888.4 persons**.
+
+For additive Lulea FA with the 10-year window:
+- population MAPE: **0.5% vs 1.0%**,
+- net-migration MAE: **278.1 vs 514.2 persons/year**,
+- 2024 population error: **+1231.1 vs +2406.1 persons**.
+
+The candidate is therefore retained only as a diagnostic comparison. The V1 exogenous net-migration engine remains the default. The candidate must not now be retuned against 2022-2024; the next migration-method improvement should come from independent methodology or official Raps coefficient/input data.
+
 
 ## Development-backtest status after model v1.6
 

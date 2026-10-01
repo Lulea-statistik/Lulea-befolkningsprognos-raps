@@ -41,7 +41,7 @@ def base_population(pop, year):
                 })
     return out
 
-def annual_actuals(pop, births, deaths, netmig):
+def annual_actuals(pop, births, deaths, netmig, inflow, outflow):
     result = []
     geos = list(b.MUNICIPALITIES) + [b.FA_CODE]
     for geo in geos:
@@ -53,6 +53,8 @@ def annual_actuals(pop, births, deaths, netmig):
             births_total = 0.0
             deaths_total = 0.0
             netmig_total = 0.0
+            inflow_total = None
+            outflow_total = None
             if year > BACKTEST_BASE_YEAR:
                 births_total = sum(
                     births.get((geo, year, age), 0.0)
@@ -66,6 +68,15 @@ def annual_actuals(pop, births, deaths, netmig):
                     netmig.get((geo, year, sex, age), 0.0)
                     for sex in ("K", "M") for age in range(101)
                 )
+                if geo in b.MUNICIPALITIES:
+                    inflow_total = sum(
+                        inflow.get((geo, year, sex, age), 0.0)
+                        for sex in ("K", "M") for age in range(101)
+                    )
+                    outflow_total = sum(
+                        outflow.get((geo, year, sex, age), 0.0)
+                        for sex in ("K", "M") for age in range(101)
+                    )
             result.append({
                 "geo": geo,
                 "year": year,
@@ -73,6 +84,8 @@ def annual_actuals(pop, births, deaths, netmig):
                 "births": births_total,
                 "deaths": deaths_total,
                 "netMigration": netmig_total,
+                "grossInMigration": inflow_total,
+                "grossOutMigration": outflow_total,
             })
     return result
 
@@ -110,6 +123,12 @@ def main():
         )
         births = b.aggregate_fa_births(
             b.load_births("births_pre2025.csv")
+        )
+        inflow = b.aggregate_fa_age_sex(
+            b.load_wide_age_sex("migration_pre2025.csv", b.IN_MIG_CODES)
+        )
+        outflow = b.aggregate_fa_age_sex(
+            b.load_wide_age_sex("migration_pre2025.csv", b.OUT_MIG_CODES)
         )
         netmig = b.aggregate_fa_age_sex(
             b.load_wide_age_sex("migration_pre2025.csv", b.NET_MIG_CODES)
@@ -158,11 +177,17 @@ def main():
                 "qutbMode": "identity",
                 "endogenousInMigration": False,
                 "endogenousOutMigration": False,
+                "grossFlowCandidate": (
+                    "historical gross inflow counts plus population-responsive "
+                    "historical urisk; diagnostic only"
+                ),
             },
             "populationBase": base_population(pop, BACKTEST_BASE_YEAR),
             "fertilityRates": fertility_rates,
             "mortalityRisks": mortality_risks,
             "netMigration": b.migration_profiles(netmig),
+            "outMigrationRisks": b.outmigration_risk_profiles(outflow, exposure),
+            "grossInMigration": b.gross_inmigration_profiles(inflow),
             "diagnostics": {
                 "relativeFactors": {
                     "fertility": fertility_factors,
@@ -175,7 +200,7 @@ def main():
             "baseYear": BACKTEST_BASE_YEAR,
             "endYear": BACKTEST_END_YEAR,
             "source": "SCB historical population, births, deaths and migration tables",
-            "rows": annual_actuals(pop, births, deaths, netmig),
+            "rows": annual_actuals(pop, births, deaths, netmig, inflow, outflow),
             "ageRows": age_actuals(pop),
         }
 

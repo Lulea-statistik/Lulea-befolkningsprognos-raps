@@ -31,6 +31,9 @@ function mean(values) {
   const x = values.filter(v => Number.isFinite(v));
   return x.length ? x.reduce((s,v)=>s+v,0)/x.length : null;
 }
+function roundMaybe(x) {
+  return Number.isFinite(x) ? round1(x) : null;
+}
 
 const report = {
   schemaVersion: '0.1.0',
@@ -119,6 +122,90 @@ for (const geo of geos) {
   }
 }
 
+report.migrationModeComparison = {
+  grossFlow: {
+    label: 'Gross-flow candidate',
+    method: 'Historical mean gross in-migration minus population-responsive historical out-migration risk (urisk). Diagnostic candidate; not full Raps IMIG/UMIG.',
+    caveat: 'Municipal gross flows include moves between FA municipalities. FA results are additive municipal outcomes; FA gross in/out are intentionally not reported as external FA flows.',
+    results: {},
+    summary: {}
+  }
+};
+
+const grossReport = report.migrationModeComparison.grossFlow;
+for (const geo of geos) {
+  grossReport.results[geo] = {};
+  grossReport.summary[geo] = {};
+  for (const window of WINDOWS) {
+    const pred = M.simulate(input, {
+      geo,
+      endYear: 2024,
+      fertMult: 1,
+      mortMult: 1,
+      migMult: 1,
+      window,
+      migrationMode: 'gross_flow',
+      scenarios: {housing: [], workplaces: [], overlapPct: 0},
+      includeDetail: false
+    });
+
+    const rows = [];
+    for (const p of pred) {
+      if (+p.year <= 2021) continue;
+      const a = byActual(geo, p.year);
+      if (!a) continue;
+      rows.push({
+        year: p.year,
+        predictedPopulation: round1(p.population),
+        actualPopulation: round1(a.population),
+        populationError: round1(p.population - a.population),
+        populationAbsPctError: round1(ape(p.population, a.population)),
+        predictedNetMigration: round1(p.netMigration),
+        actualNetMigration: round1(a.netMigration),
+        netMigrationError: round1(p.netMigration - a.netMigration),
+        predictedGrossInMigration: p.grossInMigration == null ? null : round1(p.grossInMigration),
+        actualGrossInMigration: a.grossInMigration == null ? null : round1(a.grossInMigration),
+        grossInMigrationError:
+          p.grossInMigration == null || a.grossInMigration == null
+            ? null : round1(p.grossInMigration - a.grossInMigration),
+        predictedGrossOutMigration: p.grossOutMigration == null ? null : round1(p.grossOutMigration),
+        actualGrossOutMigration: a.grossOutMigration == null ? null : round1(a.grossOutMigration),
+        grossOutMigrationError:
+          p.grossOutMigration == null || a.grossOutMigration == null
+            ? null : round1(p.grossOutMigration - a.grossOutMigration)
+      });
+    }
+    grossReport.results[geo][window] = rows;
+
+    const populationMAPE = mean(rows.map(x=>x.populationAbsPctError));
+    const populationMAE = mean(rows.map(x=>Math.abs(x.populationError)));
+    const netMigrationMAE = mean(rows.map(x=>Math.abs(x.netMigrationError)));
+    const grossInMigrationMAE = mean(rows.map(x=>
+      Number.isFinite(x.grossInMigrationError) ? Math.abs(x.grossInMigrationError) : null
+    ));
+    const grossOutMigrationMAE = mean(rows.map(x=>
+      Number.isFinite(x.grossOutMigrationError) ? Math.abs(x.grossOutMigrationError) : null
+    ));
+    const baseline = report.summary[geo][window];
+
+    grossReport.summary[geo][window] = {
+      populationMAPE: roundMaybe(populationMAPE),
+      populationMAE: roundMaybe(populationMAE),
+      netMigrationMAE: roundMaybe(netMigrationMAE),
+      grossInMigrationMAE: roundMaybe(grossInMigrationMAE),
+      grossOutMigrationMAE: roundMaybe(grossOutMigrationMAE),
+      populationError2024: rows.length ? rows.at(-1).populationError : null,
+      populationAbsPctError2024: rows.length ? rows.at(-1).populationAbsPctError : null,
+      populationMAPEDeltaVsNet: roundMaybe(
+        populationMAPE == null ? null : populationMAPE - baseline.populationMAPE
+      ),
+      netMigrationMAEDeltaVsNet: roundMaybe(
+        netMigrationMAE == null ? null : netMigrationMAE - baseline.netMigrationMAE
+      )
+    };
+  }
+}
+
 const out = path.join(ROOT, 'data', 'backtests', 'backtest_2022_2024.json');
 fs.writeFileSync(out, JSON.stringify(report, null, 2) + '\n', 'utf8');
 fs.writeFileSync(
@@ -131,6 +218,8 @@ console.log('Wrote data/backtests/backtest_2022_2024.json/js');
 for (const geo of ['2580','2582','2581','2560','2514','FA_LULEA']) {
   for (const window of WINDOWS) {
     const s = report.summary[geo][window];
-    console.log(`${geo} window=${window}: population MAPE=${s.populationMAPE}% | 2024 error=${s.populationError2024}`);
+    const g = grossReport.summary[geo][window];
+    console.log(`${geo} window=${window}: net-baseline MAPE=${s.populationMAPE}% | 2024 error=${s.populationError2024}`);
+    console.log(`  gross-flow candidate: MAPE=${g.populationMAPE}% (delta ${g.populationMAPEDeltaVsNet}) | net migration MAE=${g.netMigrationMAE} (delta ${g.netMigrationMAEDeltaVsNet}) | 2024 error=${g.populationError2024}`);
   }
 }
