@@ -1515,7 +1515,7 @@
       "ageMin": 15,
       "ageMax": 24,
       "value": 2506.6666666666665,
-      "sharePct": 48.52865255549819,
+      "sharePct": 5.413888928885114,
       "years": [
         2022,
         2023,
@@ -1526,35 +1526,9 @@
       "workplace": "2580",
       "sex": "K",
       "ageMin": 25,
-      "ageMax": 34,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2580",
-      "sex": "K",
-      "ageMin": 35,
-      "ageMax": 44,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2580",
-      "sex": "K",
-      "ageMin": 45,
       "ageMax": 54,
-      "value": 0.0,
-      "sharePct": 0.0,
+      "value": 13921.333333333334,
+      "sharePct": 30.06724165238802,
       "years": [
         2022,
         2023,
@@ -1565,22 +1539,9 @@
       "workplace": "2580",
       "sex": "K",
       "ageMin": 55,
-      "ageMax": 64,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2580",
-      "sex": "K",
-      "ageMin": 65,
       "ageMax": 74,
-      "value": 0.0,
-      "sharePct": 0.0,
+      "value": 5673.333333333333,
+      "sharePct": 12.25324329383306,
       "years": [
         2022,
         2023,
@@ -1593,7 +1554,7 @@
       "ageMin": 15,
       "ageMax": 24,
       "value": 2658.6666666666665,
-      "sharePct": 51.4713474445018,
+      "sharePct": 5.742177938402614,
       "years": [
         2022,
         2023,
@@ -1604,35 +1565,9 @@
       "workplace": "2580",
       "sex": "M",
       "ageMin": 25,
-      "ageMax": 34,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2580",
-      "sex": "M",
-      "ageMin": 35,
-      "ageMax": 44,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2580",
-      "sex": "M",
-      "ageMin": 45,
       "ageMax": 54,
-      "value": 0.0,
-      "sharePct": 0.0,
+      "value": 15355.666666666666,
+      "sharePct": 33.16510921369023,
       "years": [
         2022,
         2023,
@@ -1643,22 +1578,9 @@
       "workplace": "2580",
       "sex": "M",
       "ageMin": 55,
-      "ageMax": 64,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2580",
-      "sex": "M",
-      "ageMin": 65,
       "ageMax": 74,
-      "value": 0.0,
-      "sharePct": 0.0,
+      "value": 6185.0,
+      "sharePct": 13.358338972800968,
       "years": [
         2022,
         2023,
@@ -1671,7 +1593,7 @@
       "ageMin": 15,
       "ageMax": 24,
       "value": 746.0,
-      "sharePct": 46.258784621744525,
+      "sharePct": 6.303337558090409,
       "years": [
         2022,
         2023,
@@ -1682,35 +1604,9 @@
       "workplace": "2582",
       "sex": "K",
       "ageMin": 25,
-      "ageMax": 34,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2582",
-      "sex": "K",
-      "ageMin": 35,
-      "ageMax": 44,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2582",
-      "sex": "K",
-      "ageMin": 45,
       "ageMax": 54,
-      "value": 0.0,
-      "sharePct": 0.0,
+      "value": 3352.3333333333335,
+      "sharePct": 28.32558794535981,
       "years": [
         2022,
         2023,
@@ -1721,22 +1617,9 @@
       "workplace": "2582",
       "sex": "K",
       "ageMin": 55,
-      "ageMax": 64,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2582",
-      "sex": "K",
-      "ageMin": 65,
       "ageMax": 74,
-      "value": 0.0,
-      "sharePct": 0.0,
+      "value": 1519.6666666666667,
+      "sharePct": 12.840445007745389,
       "years": [
         2022,
         2023,
@@ -1749,7 +1632,7 @@
       "ageMin": 15,
       "ageMax": 24,
       "value": 866.6666666666666,
-      "sharePct": 53.741215378255475,
+      "sharePct": 7.322912265878045,
       "years": [
         2022,
         2023,
@@ -1760,35 +1643,9 @@
       "workplace": "2582",
       "sex": "M",
       "ageMin": 25,
-      "ageMax": 34,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2582",
-      "sex": "M",
-      "ageMin": 35,
-      "ageMax": 44,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2582",
-      "sex": "M",
-      "ageMin": 45,
       "ageMax": 54,
-      "value": 0.0,
-      "sharePct": 0.0,
+      "value": 3664.3333333333335,
+      "sharePct": 30.961836361075907,
       "years": [
         2022,
         2023,
@@ -1799,22 +1656,9 @@
       "workplace": "2582",
       "sex": "M",
       "ageMin": 55,
-      "ageMax": 64,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2582",
-      "sex": "M",
-      "ageMin": 65,
       "ageMax": 74,
-      "value": 0.0,
-      "sharePct": 0.0,
+      "value": 1686.0,
+      "sharePct": 14.245880861850443,
       "years": [
         2022,
         2023,
@@ -1827,7 +1671,7 @@
       "ageMin": 15,
       "ageMax": 24,
       "value": 1027.0,
-      "sharePct": 48.6038807382868,
+      "sharePct": 5.340706200488829,
       "years": [
         2022,
         2023,
@@ -1838,35 +1682,9 @@
       "workplace": "2581",
       "sex": "K",
       "ageMin": 25,
-      "ageMax": 34,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2581",
-      "sex": "K",
-      "ageMin": 35,
-      "ageMax": 44,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2581",
-      "sex": "K",
-      "ageMin": 45,
       "ageMax": 54,
-      "value": 0.0,
-      "sharePct": 0.0,
+      "value": 5794.333333333333,
+      "sharePct": 30.132260916292534,
       "years": [
         2022,
         2023,
@@ -1877,22 +1695,9 @@
       "workplace": "2581",
       "sex": "K",
       "ageMin": 55,
-      "ageMax": 64,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2581",
-      "sex": "K",
-      "ageMin": 65,
       "ageMax": 74,
-      "value": 0.0,
-      "sharePct": 0.0,
+      "value": 2410.6666666666665,
+      "sharePct": 12.53618540796339,
       "years": [
         2022,
         2023,
@@ -1905,7 +1710,7 @@
       "ageMin": 15,
       "ageMax": 24,
       "value": 1086.0,
-      "sharePct": 51.3961192617132,
+      "sharePct": 5.647523791364039,
       "years": [
         2022,
         2023,
@@ -1916,35 +1721,9 @@
       "workplace": "2581",
       "sex": "M",
       "ageMin": 25,
-      "ageMax": 34,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2581",
-      "sex": "M",
-      "ageMin": 35,
-      "ageMax": 44,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2581",
-      "sex": "M",
-      "ageMin": 45,
       "ageMax": 54,
-      "value": 0.0,
-      "sharePct": 0.0,
+      "value": 6196.0,
+      "sharePct": 32.2210473400475,
       "years": [
         2022,
         2023,
@@ -1955,22 +1734,9 @@
       "workplace": "2581",
       "sex": "M",
       "ageMin": 55,
-      "ageMax": 64,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2581",
-      "sex": "M",
-      "ageMin": 65,
       "ageMax": 74,
-      "value": 0.0,
-      "sharePct": 0.0,
+      "value": 2715.6666666666665,
+      "sharePct": 14.122276343843714,
       "years": [
         2022,
         2023,
@@ -1983,7 +1749,7 @@
       "ageMin": 15,
       "ageMax": 24,
       "value": 144.33333333333334,
-      "sharePct": 42.87128712871287,
+      "sharePct": 4.398618447785453,
       "years": [
         2022,
         2023,
@@ -1994,35 +1760,9 @@
       "workplace": "2560",
       "sex": "K",
       "ageMin": 25,
-      "ageMax": 34,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2560",
-      "sex": "K",
-      "ageMin": 35,
-      "ageMax": 44,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2560",
-      "sex": "K",
-      "ageMin": 45,
       "ageMax": 54,
-      "value": 0.0,
-      "sharePct": 0.0,
+      "value": 979.3333333333334,
+      "sharePct": 29.84559122308005,
       "years": [
         2022,
         2023,
@@ -2033,22 +1773,9 @@
       "workplace": "2560",
       "sex": "K",
       "ageMin": 55,
-      "ageMax": 64,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2560",
-      "sex": "K",
-      "ageMin": 65,
       "ageMax": 74,
-      "value": 0.0,
-      "sharePct": 0.0,
+      "value": 447.6666666666667,
+      "sharePct": 13.642828118650955,
       "years": [
         2022,
         2023,
@@ -2061,7 +1788,7 @@
       "ageMin": 15,
       "ageMax": 24,
       "value": 192.33333333333334,
-      "sharePct": 57.128712871287135,
+      "sharePct": 5.861438439658675,
       "years": [
         2022,
         2023,
@@ -2072,35 +1799,9 @@
       "workplace": "2560",
       "sex": "M",
       "ageMin": 25,
-      "ageMax": 34,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2560",
-      "sex": "M",
-      "ageMin": 35,
-      "ageMax": 44,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2560",
-      "sex": "M",
-      "ageMin": 45,
       "ageMax": 54,
-      "value": 0.0,
-      "sharePct": 0.0,
+      "value": 965.0,
+      "sharePct": 29.408776919951237,
       "years": [
         2022,
         2023,
@@ -2111,22 +1812,9 @@
       "workplace": "2560",
       "sex": "M",
       "ageMin": 55,
-      "ageMax": 64,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2560",
-      "sex": "M",
-      "ageMin": 65,
       "ageMax": 74,
-      "value": 0.0,
-      "sharePct": 0.0,
+      "value": 552.6666666666666,
+      "sharePct": 16.842746850873628,
       "years": [
         2022,
         2023,
@@ -2139,7 +1827,7 @@
       "ageMin": 15,
       "ageMax": 24,
       "value": 355.0,
-      "sharePct": 47.651006711409394,
+      "sharePct": 5.16789596273292,
       "years": [
         2022,
         2023,
@@ -2150,35 +1838,9 @@
       "workplace": "2514",
       "sex": "K",
       "ageMin": 25,
-      "ageMax": 34,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2514",
-      "sex": "K",
-      "ageMin": 35,
-      "ageMax": 44,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2514",
-      "sex": "K",
-      "ageMin": 45,
       "ageMax": 54,
-      "value": 0.0,
-      "sharePct": 0.0,
+      "value": 1924.6666666666667,
+      "sharePct": 28.01824534161491,
       "years": [
         2022,
         2023,
@@ -2189,22 +1851,9 @@
       "workplace": "2514",
       "sex": "K",
       "ageMin": 55,
-      "ageMax": 64,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2514",
-      "sex": "K",
-      "ageMin": 65,
       "ageMax": 74,
-      "value": 0.0,
-      "sharePct": 0.0,
+      "value": 1012.6666666666666,
+      "sharePct": 14.741847826086955,
       "years": [
         2022,
         2023,
@@ -2217,7 +1866,7 @@
       "ageMin": 15,
       "ageMax": 24,
       "value": 390.0,
-      "sharePct": 52.348993288590606,
+      "sharePct": 5.677406832298137,
       "years": [
         2022,
         2023,
@@ -2228,35 +1877,9 @@
       "workplace": "2514",
       "sex": "M",
       "ageMin": 25,
-      "ageMax": 34,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2514",
-      "sex": "M",
-      "ageMin": 35,
-      "ageMax": 44,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2514",
-      "sex": "M",
-      "ageMin": 45,
       "ageMax": 54,
-      "value": 0.0,
-      "sharePct": 0.0,
+      "value": 2060.6666666666665,
+      "sharePct": 29.99805900621118,
       "years": [
         2022,
         2023,
@@ -2267,22 +1890,9 @@
       "workplace": "2514",
       "sex": "M",
       "ageMin": 55,
-      "ageMax": 64,
-      "value": 0.0,
-      "sharePct": 0.0,
-      "years": [
-        2022,
-        2023,
-        2024
-      ]
-    },
-    {
-      "workplace": "2514",
-      "sex": "M",
-      "ageMin": 65,
       "ageMax": 74,
-      "value": 0.0,
-      "sharePct": 0.0,
+      "value": 1126.3333333333333,
+      "sharePct": 16.3965450310559,
       "years": [
         2022,
         2023,

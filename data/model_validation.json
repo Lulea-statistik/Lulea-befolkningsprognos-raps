@@ -1,6 +1,6 @@
 {
   "generatedBy": "scripts/validate_model.js",
-  "modelSchemaVersion": "0.7.0",
+  "modelSchemaVersion": "0.8.0",
   "baseYear": 2025,
   "endYear": 2050,
   "basePopulation": {
