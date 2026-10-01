@@ -40,6 +40,11 @@ jobs:
       - name: Build calibrated model data
         run: python scripts/build_model_data.py
 
+      - name: Validate dashboard JavaScript syntax
+        run: |
+          node --check js/model.js
+          node --check js/app.js
+
       - name: Run model tests
         run: node tests/test_model.js
 
