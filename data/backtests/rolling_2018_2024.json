@@ -5136,6 +5136,761 @@
       }
     }
   },
+  "fertilityLocalizationDiagnostic": {
+    "note": "Diagnostic only: compares current localized fertility with the same SCB national age-specific fertility profile applied without any local multiplier. It does not change the production baseline.",
+    "summary": {
+      "2514": {
+        "3": {
+          "observations": 12,
+          "localizedBirthsMAE": 7.8,
+          "localizedBirthsMeanError": -0.7,
+          "nationalOnlyBirthsMAE": 9.3,
+          "nationalOnlyBirthsMeanError": -6.3,
+          "localizedPopulationMAPE": 0.6,
+          "localizedPopulationMeanError": -48.7,
+          "nationalOnlyPopulationMAPE": 0.7,
+          "nationalOnlyPopulationMeanError": -60.4,
+          "byOrigin": {
+            "2018": {
+              "localGeneralFertilityFactor": 1.032,
+              "localizedBirthsMeanError": -8.1,
+              "nationalOnlyBirthsMeanError": -9.3,
+              "localizedPopulationEndError": 100.4,
+              "nationalOnlyPopulationEndError": 96.8
+            },
+            "2019": {
+              "localGeneralFertilityFactor": 1.114,
+              "localizedBirthsMeanError": 0.3,
+              "nationalOnlyBirthsMeanError": -8.5,
+              "localizedPopulationEndError": -213.8,
+              "nationalOnlyPopulationEndError": -240.2
+            },
+            "2020": {
+              "localGeneralFertilityFactor": 1.137,
+              "localizedBirthsMeanError": 6.4,
+              "nationalOnlyBirthsMeanError": -1,
+              "localizedPopulationEndError": -124.6,
+              "nationalOnlyPopulationEndError": -146.9
+            },
+            "2021": {
+              "localGeneralFertilityFactor": 1.156,
+              "localizedBirthsMeanError": -1.1,
+              "nationalOnlyBirthsMeanError": -6.4,
+              "localizedPopulationEndError": -11,
+              "nationalOnlyPopulationEndError": -26.8
+            }
+          }
+        },
+        "6": {
+          "observations": 12,
+          "localizedBirthsMAE": 7.8,
+          "localizedBirthsMeanError": -1.4,
+          "nationalOnlyBirthsMAE": 9.3,
+          "nationalOnlyBirthsMeanError": -5.9,
+          "localizedPopulationMAPE": 0.4,
+          "localizedPopulationMeanError": -11.2,
+          "nationalOnlyPopulationMAPE": 0.4,
+          "nationalOnlyPopulationMeanError": -20.5,
+          "byOrigin": {
+            "2018": {
+              "localGeneralFertilityFactor": 1.056,
+              "localizedBirthsMeanError": -5.6,
+              "nationalOnlyBirthsMeanError": -9.6,
+              "localizedPopulationEndError": 60.1,
+              "nationalOnlyPopulationEndError": 48.3
+            },
+            "2019": {
+              "localGeneralFertilityFactor": 1.073,
+              "localizedBirthsMeanError": -3,
+              "nationalOnlyBirthsMeanError": -7.7,
+              "localizedPopulationEndError": -118.7,
+              "nationalOnlyPopulationEndError": -132.7
+            },
+            "2020": {
+              "localGeneralFertilityFactor": 1.101,
+              "localizedBirthsMeanError": 5,
+              "nationalOnlyBirthsMeanError": -0.8,
+              "localizedPopulationEndError": -14.5,
+              "nationalOnlyPopulationEndError": -31.7
+            },
+            "2021": {
+              "localGeneralFertilityFactor": 1.093,
+              "localizedBirthsMeanError": -1.8,
+              "nationalOnlyBirthsMeanError": -5.6,
+              "localizedPopulationEndError": 51.9,
+              "nationalOnlyPopulationEndError": 40.6
+            }
+          }
+        },
+        "10": {
+          "observations": 12,
+          "localizedBirthsMAE": 9.4,
+          "localizedBirthsMeanError": -6.3,
+          "nationalOnlyBirthsMAE": 9.4,
+          "nationalOnlyBirthsMeanError": -6.3,
+          "localizedPopulationMAPE": 0.5,
+          "localizedPopulationMeanError": -49.9,
+          "nationalOnlyPopulationMAPE": 0.4,
+          "nationalOnlyPopulationMeanError": -50.4,
+          "byOrigin": {
+            "2018": {
+              "localGeneralFertilityFactor": 1.022,
+              "localizedBirthsMeanError": -11.9,
+              "nationalOnlyBirthsMeanError": -10.4,
+              "localizedPopulationEndError": -57.8,
+              "nationalOnlyPopulationEndError": -53.3
+            },
+            "2019": {
+              "localGeneralFertilityFactor": 1.045,
+              "localizedBirthsMeanError": -8.6,
+              "nationalOnlyBirthsMeanError": -8.3,
+              "localizedPopulationEndError": -190.5,
+              "nationalOnlyPopulationEndError": -189.9
+            },
+            "2020": {
+              "localGeneralFertilityFactor": 1.059,
+              "localizedBirthsMeanError": -1.1,
+              "nationalOnlyBirthsMeanError": -1.2,
+              "localizedPopulationEndError": -52.5,
+              "nationalOnlyPopulationEndError": -52.7
+            },
+            "2021": {
+              "localGeneralFertilityFactor": 1.075,
+              "localizedBirthsMeanError": -3.7,
+              "nationalOnlyBirthsMeanError": -5.4,
+              "localizedPopulationEndError": 43.2,
+              "nationalOnlyPopulationEndError": 38
+            }
+          }
+        }
+      },
+      "2560": {
+        "3": {
+          "observations": 12,
+          "localizedBirthsMAE": 6.5,
+          "localizedBirthsMeanError": 3.3,
+          "nationalOnlyBirthsMAE": 6.5,
+          "nationalOnlyBirthsMeanError": -0.1,
+          "localizedPopulationMAPE": 0.7,
+          "localizedPopulationMeanError": 38.1,
+          "nationalOnlyPopulationMAPE": 0.6,
+          "nationalOnlyPopulationMeanError": 31.3,
+          "byOrigin": {
+            "2018": {
+              "localGeneralFertilityFactor": 1.043,
+              "localizedBirthsMeanError": 2.8,
+              "nationalOnlyBirthsMeanError": -0.4,
+              "localizedPopulationEndError": 86.4,
+              "nationalOnlyPopulationEndError": 76.8
+            },
+            "2019": {
+              "localGeneralFertilityFactor": 1.06,
+              "localizedBirthsMeanError": 6,
+              "nationalOnlyBirthsMeanError": 2,
+              "localizedPopulationEndError": 24.2,
+              "nationalOnlyPopulationEndError": 12.4
+            },
+            "2020": {
+              "localGeneralFertilityFactor": 1.04,
+              "localizedBirthsMeanError": 1.4,
+              "nationalOnlyBirthsMeanError": -0.7,
+              "localizedPopulationEndError": 56.1,
+              "nationalOnlyPopulationEndError": 49.7
+            },
+            "2021": {
+              "localGeneralFertilityFactor": 1.07,
+              "localizedBirthsMeanError": 3.1,
+              "nationalOnlyBirthsMeanError": -1.2,
+              "localizedPopulationEndError": 89.7,
+              "nationalOnlyPopulationEndError": 76.9
+            }
+          }
+        },
+        "6": {
+          "observations": 12,
+          "localizedBirthsMAE": 6.6,
+          "localizedBirthsMeanError": 2.1,
+          "nationalOnlyBirthsMAE": 6.6,
+          "nationalOnlyBirthsMeanError": 0.3,
+          "localizedPopulationMAPE": 1.1,
+          "localizedPopulationMeanError": 87.2,
+          "nationalOnlyPopulationMAPE": 1.1,
+          "nationalOnlyPopulationMeanError": 83.5,
+          "byOrigin": {
+            "2018": {
+              "localGeneralFertilityFactor": 0.986,
+              "localizedBirthsMeanError": -1.6,
+              "nationalOnlyBirthsMeanError": -0.5,
+              "localizedPopulationEndError": 101.6,
+              "nationalOnlyPopulationEndError": 105
+            },
+            "2019": {
+              "localGeneralFertilityFactor": 1.046,
+              "localizedBirthsMeanError": 5.6,
+              "nationalOnlyBirthsMeanError": 2.5,
+              "localizedPopulationEndError": 105.1,
+              "nationalOnlyPopulationEndError": 95.7
+            },
+            "2020": {
+              "localGeneralFertilityFactor": 1.035,
+              "localizedBirthsMeanError": 2.2,
+              "nationalOnlyBirthsMeanError": 0.2,
+              "localizedPopulationEndError": 215.9,
+              "nationalOnlyPopulationEndError": 209.7
+            },
+            "2021": {
+              "localGeneralFertilityFactor": 1.056,
+              "localizedBirthsMeanError": 2,
+              "nationalOnlyBirthsMeanError": -1.1,
+              "localizedPopulationEndError": 128.4,
+              "nationalOnlyPopulationEndError": 119
+            }
+          }
+        },
+        "10": {
+          "observations": 12,
+          "localizedBirthsMAE": 6.7,
+          "localizedBirthsMeanError": 0.5,
+          "nationalOnlyBirthsMAE": 6.6,
+          "nationalOnlyBirthsMeanError": 0.1,
+          "localizedPopulationMAPE": 0.9,
+          "localizedPopulationMeanError": 68.9,
+          "nationalOnlyPopulationMAPE": 0.9,
+          "nationalOnlyPopulationMeanError": 68,
+          "byOrigin": {
+            "2018": {
+              "localGeneralFertilityFactor": 0.998,
+              "localizedBirthsMeanError": -1.4,
+              "nationalOnlyBirthsMeanError": -0.8,
+              "localizedPopulationEndError": 38.2,
+              "nationalOnlyPopulationEndError": 40.1
+            },
+            "2019": {
+              "localGeneralFertilityFactor": 1.023,
+              "localizedBirthsMeanError": 3.6,
+              "nationalOnlyBirthsMeanError": 2.4,
+              "localizedPopulationEndError": 66,
+              "nationalOnlyPopulationEndError": 62.5
+            },
+            "2020": {
+              "localGeneralFertilityFactor": 1.012,
+              "localizedBirthsMeanError": 0.1,
+              "nationalOnlyBirthsMeanError": -0.1,
+              "localizedPopulationEndError": 192.3,
+              "nationalOnlyPopulationEndError": 191.7
+            },
+            "2021": {
+              "localGeneralFertilityFactor": 1.025,
+              "localizedBirthsMeanError": -0.3,
+              "nationalOnlyBirthsMeanError": -1.2,
+              "localizedPopulationEndError": 144,
+              "nationalOnlyPopulationEndError": 141.4
+            }
+          }
+        }
+      },
+      "2580": {
+        "3": {
+          "observations": 12,
+          "localizedBirthsMAE": 61.4,
+          "localizedBirthsMeanError": 57.3,
+          "nationalOnlyBirthsMAE": 113.3,
+          "nationalOnlyBirthsMeanError": 113.3,
+          "localizedPopulationMAPE": 0.2,
+          "localizedPopulationMeanError": 154.2,
+          "nationalOnlyPopulationMAPE": 0.4,
+          "nationalOnlyPopulationMeanError": 264.7,
+          "byOrigin": {
+            "2018": {
+              "localGeneralFertilityFactor": 0.92,
+              "localizedBirthsMeanError": 31.8,
+              "nationalOnlyBirthsMeanError": 97.9,
+              "localizedPopulationEndError": 695.2,
+              "nationalOnlyPopulationEndError": 892.5
+            },
+            "2019": {
+              "localGeneralFertilityFactor": 0.918,
+              "localizedBirthsMeanError": 51.1,
+              "nationalOnlyBirthsMeanError": 118.2,
+              "localizedPopulationEndError": 130.5,
+              "nationalOnlyPopulationEndError": 331.1
+            },
+            "2020": {
+              "localGeneralFertilityFactor": 0.932,
+              "localizedBirthsMeanError": 59.4,
+              "nationalOnlyBirthsMeanError": 114.3,
+              "localizedPopulationEndError": 237.7,
+              "nationalOnlyPopulationEndError": 401.8
+            },
+            "2021": {
+              "localGeneralFertilityFactor": 0.955,
+              "localizedBirthsMeanError": 86.8,
+              "nationalOnlyBirthsMeanError": 122.7,
+              "localizedPopulationEndError": -11.5,
+              "nationalOnlyPopulationEndError": 95.7
+            }
+          }
+        },
+        "6": {
+          "observations": 12,
+          "localizedBirthsMAE": 62.5,
+          "localizedBirthsMeanError": 57,
+          "nationalOnlyBirthsMAE": 115,
+          "nationalOnlyBirthsMeanError": 115,
+          "localizedPopulationMAPE": 0.2,
+          "localizedPopulationMeanError": 178.2,
+          "nationalOnlyPopulationMAPE": 0.4,
+          "nationalOnlyPopulationMeanError": 292.9,
+          "byOrigin": {
+            "2018": {
+              "localGeneralFertilityFactor": 0.923,
+              "localizedBirthsMeanError": 39,
+              "nationalOnlyBirthsMeanError": 98.7,
+              "localizedPopulationEndError": 394.4,
+              "nationalOnlyPopulationEndError": 573
+            },
+            "2019": {
+              "localGeneralFertilityFactor": 0.926,
+              "localizedBirthsMeanError": 61.8,
+              "nationalOnlyBirthsMeanError": 121.1,
+              "localizedPopulationEndError": 121.4,
+              "nationalOnlyPopulationEndError": 298.8
+            },
+            "2020": {
+              "localGeneralFertilityFactor": 0.921,
+              "localizedBirthsMeanError": 52.4,
+              "nationalOnlyBirthsMeanError": 116.4,
+              "localizedPopulationEndError": 384.6,
+              "nationalOnlyPopulationEndError": 575.8
+            },
+            "2021": {
+              "localGeneralFertilityFactor": 0.937,
+              "localizedBirthsMeanError": 74.9,
+              "nationalOnlyBirthsMeanError": 123.9,
+              "localizedPopulationEndError": 304.7,
+              "nationalOnlyPopulationEndError": 451.2
+            }
+          }
+        },
+        "10": {
+          "observations": 12,
+          "localizedBirthsMAE": 63.2,
+          "localizedBirthsMeanError": 58.5,
+          "nationalOnlyBirthsMAE": 115.6,
+          "nationalOnlyBirthsMeanError": 115.6,
+          "localizedPopulationMAPE": 0.2,
+          "localizedPopulationMeanError": 116.2,
+          "nationalOnlyPopulationMAPE": 0.3,
+          "nationalOnlyPopulationMeanError": 229,
+          "byOrigin": {
+            "2018": {
+              "localGeneralFertilityFactor": 0.926,
+              "localizedBirthsMeanError": 42,
+              "nationalOnlyBirthsMeanError": 97.2,
+              "localizedPopulationEndError": 238.9,
+              "nationalOnlyPopulationEndError": 403.9
+            },
+            "2019": {
+              "localGeneralFertilityFactor": 0.923,
+              "localizedBirthsMeanError": 62.7,
+              "nationalOnlyBirthsMeanError": 121.7,
+              "localizedPopulationEndError": -4.8,
+              "nationalOnlyPopulationEndError": 171.6
+            },
+            "2020": {
+              "localGeneralFertilityFactor": 0.924,
+              "localizedBirthsMeanError": 59,
+              "nationalOnlyBirthsMeanError": 118.2,
+              "localizedPopulationEndError": 376.4,
+              "nationalOnlyPopulationEndError": 553.4
+            },
+            "2021": {
+              "localGeneralFertilityFactor": 0.926,
+              "localizedBirthsMeanError": 70.5,
+              "nationalOnlyBirthsMeanError": 125.4,
+              "localizedPopulationEndError": 225.8,
+              "nationalOnlyPopulationEndError": 390
+            }
+          }
+        }
+      },
+      "2581": {
+        "3": {
+          "observations": 12,
+          "localizedBirthsMAE": 25.9,
+          "localizedBirthsMeanError": 13.1,
+          "nationalOnlyBirthsMAE": 24.8,
+          "nationalOnlyBirthsMeanError": 15.2,
+          "localizedPopulationMAPE": 0.3,
+          "localizedPopulationMeanError": 74.6,
+          "nationalOnlyPopulationMAPE": 0.3,
+          "nationalOnlyPopulationMeanError": 75.9,
+          "byOrigin": {
+            "2018": {
+              "localGeneralFertilityFactor": 0.981,
+              "localizedBirthsMeanError": -7.5,
+              "nationalOnlyBirthsMeanError": 0.7,
+              "localizedPopulationEndError": 315.4,
+              "nationalOnlyPopulationEndError": 340
+            },
+            "2019": {
+              "localGeneralFertilityFactor": 1.01,
+              "localizedBirthsMeanError": 24.6,
+              "nationalOnlyBirthsMeanError": 24.5,
+              "localizedPopulationEndError": 268.8,
+              "nationalOnlyPopulationEndError": 268.6
+            },
+            "2020": {
+              "localGeneralFertilityFactor": 0.998,
+              "localizedBirthsMeanError": 7.7,
+              "nationalOnlyBirthsMeanError": 16.5,
+              "localizedPopulationEndError": -73.8,
+              "nationalOnlyPopulationEndError": -47.3
+            },
+            "2021": {
+              "localGeneralFertilityFactor": 1.049,
+              "localizedBirthsMeanError": 27.6,
+              "nationalOnlyBirthsMeanError": 19.1,
+              "localizedPopulationEndError": -74,
+              "nationalOnlyPopulationEndError": -99.4
+            }
+          }
+        },
+        "6": {
+          "observations": 12,
+          "localizedBirthsMAE": 20.9,
+          "localizedBirthsMeanError": 7.6,
+          "nationalOnlyBirthsMAE": 24.4,
+          "nationalOnlyBirthsMeanError": 14.7,
+          "localizedPopulationMAPE": 0.4,
+          "localizedPopulationMeanError": 145,
+          "nationalOnlyPopulationMAPE": 0.4,
+          "nationalOnlyPopulationMeanError": 156.5,
+          "byOrigin": {
+            "2018": {
+              "localGeneralFertilityFactor": 0.992,
+              "localizedBirthsMeanError": -3.2,
+              "nationalOnlyBirthsMeanError": 0.4,
+              "localizedPopulationEndError": 255.6,
+              "nationalOnlyPopulationEndError": 266.5
+            },
+            "2019": {
+              "localGeneralFertilityFactor": 0.996,
+              "localizedBirthsMeanError": 17.4,
+              "nationalOnlyBirthsMeanError": 24,
+              "localizedPopulationEndError": 356.4,
+              "nationalOnlyPopulationEndError": 376.2
+            },
+            "2020": {
+              "localGeneralFertilityFactor": 0.997,
+              "localizedBirthsMeanError": 3.2,
+              "nationalOnlyBirthsMeanError": 15.6,
+              "localizedPopulationEndError": 171.1,
+              "nationalOnlyPopulationEndError": 208.1
+            },
+            "2021": {
+              "localGeneralFertilityFactor": 1.015,
+              "localizedBirthsMeanError": 13.1,
+              "nationalOnlyBirthsMeanError": 18.9,
+              "localizedPopulationEndError": 72.7,
+              "nationalOnlyPopulationEndError": 89.9
+            }
+          }
+        },
+        "10": {
+          "observations": 12,
+          "localizedBirthsMAE": 20.2,
+          "localizedBirthsMeanError": 0.8,
+          "nationalOnlyBirthsMAE": 24.1,
+          "nationalOnlyBirthsMeanError": 13.9,
+          "localizedPopulationMAPE": 0.3,
+          "localizedPopulationMeanError": 103.9,
+          "nationalOnlyPopulationMAPE": 0.3,
+          "nationalOnlyPopulationMeanError": 127.4,
+          "byOrigin": {
+            "2018": {
+              "localGeneralFertilityFactor": 0.955,
+              "localizedBirthsMeanError": -18.1,
+              "nationalOnlyBirthsMeanError": -0.7,
+              "localizedPopulationEndError": 77.3,
+              "nationalOnlyPopulationEndError": 129.2
+            },
+            "2019": {
+              "localGeneralFertilityFactor": 0.979,
+              "localizedBirthsMeanError": 12.2,
+              "nationalOnlyBirthsMeanError": 23.3,
+              "localizedPopulationEndError": 266.7,
+              "nationalOnlyPopulationEndError": 299.9
+            },
+            "2020": {
+              "localGeneralFertilityFactor": 0.991,
+              "localizedBirthsMeanError": 1.2,
+              "nationalOnlyBirthsMeanError": 14.9,
+              "localizedPopulationEndError": 188.4,
+              "nationalOnlyPopulationEndError": 229.3
+            },
+            "2021": {
+              "localGeneralFertilityFactor": 1.004,
+              "localizedBirthsMeanError": 8,
+              "nationalOnlyBirthsMeanError": 18.1,
+              "localizedPopulationEndError": 73.7,
+              "nationalOnlyPopulationEndError": 104.1
+            }
+          }
+        }
+      },
+      "2582": {
+        "3": {
+          "observations": 12,
+          "localizedBirthsMAE": 15.8,
+          "localizedBirthsMeanError": 11.9,
+          "nationalOnlyBirthsMAE": 15.1,
+          "nationalOnlyBirthsMeanError": 10.6,
+          "localizedPopulationMAPE": 0.3,
+          "localizedPopulationMeanError": 6.7,
+          "nationalOnlyPopulationMAPE": 0.2,
+          "nationalOnlyPopulationMeanError": 2.9,
+          "byOrigin": {
+            "2018": {
+              "localGeneralFertilityFactor": 1.029,
+              "localizedBirthsMeanError": 0.3,
+              "nationalOnlyBirthsMeanError": 2,
+              "localizedPopulationEndError": -21.5,
+              "nationalOnlyPopulationEndError": -16.4
+            },
+            "2019": {
+              "localGeneralFertilityFactor": 1.028,
+              "localizedBirthsMeanError": 15.1,
+              "nationalOnlyBirthsMeanError": 16.6,
+              "localizedPopulationEndError": 0.2,
+              "nationalOnlyPopulationEndError": 4.9
+            },
+            "2020": {
+              "localGeneralFertilityFactor": 1.037,
+              "localizedBirthsMeanError": 11.9,
+              "nationalOnlyBirthsMeanError": 11.4,
+              "localizedPopulationEndError": -41.2,
+              "nationalOnlyPopulationEndError": -42.7
+            },
+            "2021": {
+              "localGeneralFertilityFactor": 1.047,
+              "localizedBirthsMeanError": 20.3,
+              "nationalOnlyBirthsMeanError": 12.3,
+              "localizedPopulationEndError": 90.8,
+              "nationalOnlyPopulationEndError": 66.9
+            }
+          }
+        },
+        "6": {
+          "observations": 12,
+          "localizedBirthsMAE": 16,
+          "localizedBirthsMeanError": 12.1,
+          "nationalOnlyBirthsMAE": 15.9,
+          "nationalOnlyBirthsMeanError": 11.5,
+          "localizedPopulationMAPE": 0.3,
+          "localizedPopulationMeanError": 71.3,
+          "nationalOnlyPopulationMAPE": 0.3,
+          "nationalOnlyPopulationMeanError": 68.8,
+          "byOrigin": {
+            "2018": {
+              "localGeneralFertilityFactor": 1.024,
+              "localizedBirthsMeanError": 2,
+              "nationalOnlyBirthsMeanError": 3.4,
+              "localizedPopulationEndError": 95.6,
+              "nationalOnlyPopulationEndError": 99.7
+            },
+            "2019": {
+              "localGeneralFertilityFactor": 1.037,
+              "localizedBirthsMeanError": 17.9,
+              "nationalOnlyBirthsMeanError": 17,
+              "localizedPopulationEndError": 98.5,
+              "nationalOnlyPopulationEndError": 95.7
+            },
+            "2020": {
+              "localGeneralFertilityFactor": 1.048,
+              "localizedBirthsMeanError": 14.9,
+              "nationalOnlyBirthsMeanError": 13.3,
+              "localizedPopulationEndError": 134.4,
+              "nationalOnlyPopulationEndError": 129.5
+            },
+            "2021": {
+              "localGeneralFertilityFactor": 1.038,
+              "localizedBirthsMeanError": 13.6,
+              "nationalOnlyBirthsMeanError": 12.2,
+              "localizedPopulationEndError": 89.6,
+              "nationalOnlyPopulationEndError": 85.4
+            }
+          }
+        },
+        "10": {
+          "observations": 12,
+          "localizedBirthsMAE": 12.8,
+          "localizedBirthsMeanError": 7,
+          "nationalOnlyBirthsMAE": 16.2,
+          "nationalOnlyBirthsMeanError": 11.8,
+          "localizedPopulationMAPE": 0.4,
+          "localizedPopulationMeanError": 98.7,
+          "nationalOnlyPopulationMAPE": 0.4,
+          "nationalOnlyPopulationMeanError": 107.2,
+          "byOrigin": {
+            "2018": {
+              "localGeneralFertilityFactor": 0.997,
+              "localizedBirthsMeanError": -2.8,
+              "nationalOnlyBirthsMeanError": 3.1,
+              "localizedPopulationEndError": 24.5,
+              "nationalOnlyPopulationEndError": 42.1
+            },
+            "2019": {
+              "localGeneralFertilityFactor": 1.01,
+              "localizedBirthsMeanError": 13.2,
+              "nationalOnlyBirthsMeanError": 17.2,
+              "localizedPopulationEndError": 191.7,
+              "nationalOnlyPopulationEndError": 203.8
+            },
+            "2020": {
+              "localGeneralFertilityFactor": 1.016,
+              "localizedBirthsMeanError": 8.3,
+              "nationalOnlyBirthsMeanError": 14,
+              "localizedPopulationEndError": 234.4,
+              "nationalOnlyPopulationEndError": 251.4
+            },
+            "2021": {
+              "localGeneralFertilityFactor": 1.024,
+              "localizedBirthsMeanError": 9.3,
+              "nationalOnlyBirthsMeanError": 12.9,
+              "localizedPopulationEndError": 134.1,
+              "nationalOnlyPopulationEndError": 144.9
+            }
+          }
+        }
+      },
+      "FA_LULEA": {
+        "3": {
+          "observations": 12,
+          "localizedBirthsMAE": 103,
+          "localizedBirthsMeanError": 84.9,
+          "nationalOnlyBirthsMAE": 137.9,
+          "nationalOnlyBirthsMeanError": 132.7,
+          "localizedPopulationMAPE": 0.2,
+          "localizedPopulationMeanError": 224.8,
+          "nationalOnlyPopulationMAPE": 0.2,
+          "nationalOnlyPopulationMeanError": 314.5,
+          "byOrigin": {
+            "2018": {
+              "localGeneralFertilityFactor": 0.965,
+              "localizedBirthsMeanError": 19.2,
+              "nationalOnlyBirthsMeanError": 90.8,
+              "localizedPopulationEndError": 1175.7,
+              "nationalOnlyPopulationEndError": 1389.7
+            },
+            "2019": {
+              "localGeneralFertilityFactor": 0.978,
+              "localizedBirthsMeanError": 97,
+              "nationalOnlyBirthsMeanError": 152.9,
+              "localizedPopulationEndError": 209.9,
+              "nationalOnlyPopulationEndError": 376.8
+            },
+            "2020": {
+              "localGeneralFertilityFactor": 0.984,
+              "localizedBirthsMeanError": 86.9,
+              "nationalOnlyBirthsMeanError": 140.5,
+              "localizedPopulationEndError": 54.1,
+              "nationalOnlyPopulationEndError": 214.5
+            },
+            "2021": {
+              "localGeneralFertilityFactor": 1.012,
+              "localizedBirthsMeanError": 136.6,
+              "nationalOnlyBirthsMeanError": 146.4,
+              "localizedPopulationEndError": 84,
+              "nationalOnlyPopulationEndError": 113.3
+            }
+          }
+        },
+        "6": {
+          "observations": 12,
+          "localizedBirthsMAE": 96.4,
+          "localizedBirthsMeanError": 77.4,
+          "nationalOnlyBirthsMAE": 140.7,
+          "nationalOnlyBirthsMeanError": 135.5,
+          "localizedPopulationMAPE": 0.3,
+          "localizedPopulationMeanError": 470.5,
+          "nationalOnlyPopulationMAPE": 0.3,
+          "nationalOnlyPopulationMeanError": 581.2,
+          "byOrigin": {
+            "2018": {
+              "localGeneralFertilityFactor": 0.968,
+              "localizedBirthsMeanError": 30.6,
+              "nationalOnlyBirthsMeanError": 92.5,
+              "localizedPopulationEndError": 907.4,
+              "nationalOnlyPopulationEndError": 1092.5
+            },
+            "2019": {
+              "localGeneralFertilityFactor": 0.976,
+              "localizedBirthsMeanError": 99.7,
+              "nationalOnlyBirthsMeanError": 156.9,
+              "localizedPopulationEndError": 562.8,
+              "nationalOnlyPopulationEndError": 733.7
+            },
+            "2020": {
+              "localGeneralFertilityFactor": 0.977,
+              "localizedBirthsMeanError": 77.8,
+              "nationalOnlyBirthsMeanError": 144.6,
+              "localizedPopulationEndError": 891.5,
+              "nationalOnlyPopulationEndError": 1091.4
+            },
+            "2021": {
+              "localGeneralFertilityFactor": 0.988,
+              "localizedBirthsMeanError": 101.8,
+              "nationalOnlyBirthsMeanError": 148.2,
+              "localizedPopulationEndError": 647.3,
+              "nationalOnlyPopulationEndError": 786.1
+            }
+          }
+        },
+        "10": {
+          "observations": 12,
+          "localizedBirthsMAE": 86.7,
+          "localizedBirthsMeanError": 60.5,
+          "nationalOnlyBirthsMAE": 140.3,
+          "nationalOnlyBirthsMeanError": 135.1,
+          "localizedPopulationMAPE": 0.2,
+          "localizedPopulationMeanError": 337.8,
+          "nationalOnlyPopulationMAPE": 0.3,
+          "nationalOnlyPopulationMeanError": 481.2,
+          "byOrigin": {
+            "2018": {
+              "localGeneralFertilityFactor": 0.954,
+              "localizedBirthsMeanError": 7.8,
+              "nationalOnlyBirthsMeanError": 88.4,
+              "localizedPopulationEndError": 321.1,
+              "nationalOnlyPopulationEndError": 561.9
+            },
+            "2019": {
+              "localGeneralFertilityFactor": 0.964,
+              "localizedBirthsMeanError": 83.1,
+              "nationalOnlyBirthsMeanError": 156.3,
+              "localizedPopulationEndError": 329.2,
+              "nationalOnlyPopulationEndError": 547.8
+            },
+            "2020": {
+              "localGeneralFertilityFactor": 0.969,
+              "localizedBirthsMeanError": 67.5,
+              "nationalOnlyBirthsMeanError": 145.8,
+              "localizedPopulationEndError": 938.9,
+              "nationalOnlyPopulationEndError": 1173.1
+            },
+            "2021": {
+              "localGeneralFertilityFactor": 0.975,
+              "localizedBirthsMeanError": 83.7,
+              "nationalOnlyBirthsMeanError": 149.8,
+              "localizedPopulationEndError": 621,
+              "nationalOnlyPopulationEndError": 818.5
+            }
+          }
+        }
+      }
+    }
+  },
   "mortalityLocalizationDiagnostic": {
     "note": "Diagnostic only: compares current localized mortality with the same SCB national age/sex mortality profile applied without any local multiplier. It does not change the production baseline.",
     "summary": {
@@ -9473,7 +10228,7 @@
     }
   },
   "migrationWindowDiagnostic": {
-    "note": "Migration-only comparison: fertility and mortality are fixed to the 10-year calibration while net migration uses 2, 4, 6 or 10 years. n+1 is primary and n+2 secondary.",
+    "note": "Migration-only comparison: fertility and mortality are fixed to the 10-year calibration while net migration uses 2, 3, 4, 6 or 10 years. n+1 is primary and n+2 secondary.",
     "windows": [
       2,
       3,
