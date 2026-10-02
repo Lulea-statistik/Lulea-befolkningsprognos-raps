@@ -43,6 +43,8 @@ FADING_FULL_LOCAL_EXPOSURE = 100.0
 FADING_ZERO_EXPECTED_EVENTS = 1.0
 FADING_FULL_EXPECTED_EVENTS = 20.0
 CALIBRATION_END = 2024
+HISTORICAL_BIRTH_YEAR_EXPOSURE_FILE = "mean_population_pre2025.csv"
+HISTORICAL_EVENT_AGE_EXPOSURE_FILE = "mean_population_event_age_pre2025.csv"
 SEX_MAP = {"1": "M", "2": "K", "M": "M", "K": "K"}
 
 # Same concepts in the pre-CKM and 2025 CKM tables.
@@ -782,7 +784,8 @@ def ckm_diagnostics(base, deaths_2025, netmig_2025):
 
 def main():
     required = [
-        "population_2025.csv", "mean_population_pre2025.csv",
+        "population_2025.csv", HISTORICAL_BIRTH_YEAR_EXPOSURE_FILE,
+        HISTORICAL_EVENT_AGE_EXPOSURE_FILE,
         "migration_pre2025.csv", "births_pre2025.csv",
         "deaths_pre2025.csv"
     ]
@@ -791,7 +794,17 @@ def main():
         raise SystemExit("Missing raw SCB files: " + ", ".join(missing))
 
     base = add_fa_population(load_population_2025())
-    exposure = aggregate_fa_age_sex(load_wide_age_sex("mean_population_pre2025.csv"))
+    # Exposure denominators must match the event's age convention.
+    # Deaths (TAB959) and migration (TAB1212) are classified by attained age
+    # at year-end / birth-year age, so they use TAB2818.
+    birth_year_exposure = aggregate_fa_age_sex(
+        load_wide_age_sex(HISTORICAL_BIRTH_YEAR_EXPOSURE_FILE)
+    )
+    # Births (TAB1264) use the mother's age at the birth event, so fertility
+    # uses SCB's mean population by age during the year (TAB2819).
+    fertility_exposure = aggregate_fa_age_sex(
+        load_wide_age_sex(HISTORICAL_EVENT_AGE_EXPOSURE_FILE)
+    )
     deaths = aggregate_fa_age_sex(load_wide_age_sex("deaths_pre2025.csv"))
     births = aggregate_fa_births(load_births("births_pre2025.csv"))
     births_by_sex = load_births_by_child_sex("births_pre2025.csv")
@@ -815,8 +828,8 @@ def main():
             load_wide_age_sex("migration_2025.csv", NET_MIG_CODES)
         )
 
-    fertility_rates, fertility_factors = fertility_profiles(births, exposure)
-    mortality_risks, mortality_factors = mortality_profiles(deaths, exposure)
+    fertility_rates, fertility_factors = fertility_profiles(births, fertility_exposure)
+    mortality_risks, mortality_factors = mortality_profiles(deaths, birth_year_exposure)
 
     future_fert, future_mort = national_future_profiles(
         "raps_national_detail_2024.csv",
@@ -841,6 +854,25 @@ def main():
             "methodBreakYear": 2025,
             "methodBreak": "SCB Cell Key Method (CKM)",
             "calibrationEndYear": CALIBRATION_END,
+            "exposurePopulation": {
+                "birthYearAge": {
+                    "sourceKey": "mean_population_pre2025",
+                    "scbTable": "TAB2818",
+                    "usedFor": ["mortality", "out-migration risk"],
+                    "ageConvention": "attained age at year-end / birth-year age",
+                },
+                "eventAge": {
+                    "sourceKey": "mean_population_event_age_pre2025",
+                    "scbTable": "TAB2819",
+                    "usedFor": ["fertility by mother's age at birth"],
+                    "ageConvention": "age during the year / age at event",
+                },
+                "stockPopulation": {
+                    "sourceKey": "population_2025",
+                    "usedFor": ["reported population stock", "forecast base population"],
+                    "referenceTime": "31 December",
+                },
+            },
             "note": (
                 "Fertility and mortality use annual SCB 2024 national forecast profiles "
                 "multiplied by locally calibrated municipality/FA relative shapes. "
@@ -887,7 +919,7 @@ def main():
         "fertilityRates": fertility_rates,
         "mortalityRisks": mortality_risks,
         "netMigration": migration_profiles(netmig),
-        "outMigrationRisks": outmigration_risk_profiles(outflow, exposure),
+        "outMigrationRisks": outmigration_risk_profiles(outflow, birth_year_exposure),
         "grossInMigration": gross_inmigration_profiles(inflow),
         "scenarioMigrationProfiles": scenario_migration_profiles(inflow),
         "diagnostics": {
