@@ -30,7 +30,7 @@ Geografi, kalibreringsfönster och slutår är globala filter och gäller på al
 - `data/model_validation.json/js` – 6/10/19-årig valideringssammanställning.
 - `data/backtests/` – 2022–2024 utvecklingsbacktest samt rolling-origin-validering med SCB-vintages 2018–2021.
 - `data/reference_fa_regions.json` – låst FA15-konfiguration för externa referensregioner.
-- `data/migration_component_windows.json` – låst utvecklingskandidat för komponentvisa migrationsfönster inför extern validering.
+- `data/migration_component_windows.json` – låst utvecklingskandidat för komponentvisa migrationsfönster; #38 har genomfört första externa testet utan regional omtrimning.
 - `data/benchmarks/` – SCB- och Tillväxtverket/Raps-benchmarks.
 - `data/raw/` – reproducerbara SCB-uttag.
 - `docs/RAPS_ALIGNMENT.md` – Raps-prioritet, fallback-fading och anti-overfitting-regel.
@@ -101,6 +101,8 @@ Som extern robusthetskontroll körs samma rolling-origin-metod även på tre fö
 
 Den fördefinierade n+1-valideringen stödde event-age-timingen: dödsfalls-MAE förbättrades i samtliga 23 medlemskommuner i Luleå och referensregionerna, medan population MAE förbättrades i 19 av 23 och på FA-totalnivå i alla fyra testade regioner. Därför är event-age-aligned timing produktionsstandard från schema 0.9.0.
 
+**Update SCB data #38** testade dessutom den efter #37 låsta migrationskandidaten (Norrbotten 6/6, övriga Sverige 10/4, utlandet 10/2 år för in/ut) på samma externa referenskommuner utan regional omtrimning. Poolad net migration MAE förbättrades från 109.0 till **107.1** på n+1 och från 148.9 till **144.0** på n+2 jämfört med 10 år för all in- och utflyttning. Stödet är dock tydligare för **komponentstrukturen** än för samtliga exakta fönster: länsbenets 6/6 generaliserade starkt, medan 4 år för utflyttning till övriga Sverige var sämre än 10 år externt och 2 år för utvandring gav blandat n+1/n+2-resultat. Kandidaten är därför fortsatt utvecklingsdiagnostik och inte produktionsstandard. Referenskommunerna i #38 är efter detta test förbrukade som oberoende holdout för eventuell omtrimning.
+
 SCB TAB6008 används som en separat alternativ metodbenchmark och visas även omankrad till faktisk befolkning 2025.
 
 ## GitHub Actions
@@ -121,7 +123,7 @@ Workflow **Update SCB data** kan köras manuellt och månadsvis. Det:
 
 - koppla officiella Raps-kluster/parametrar där de går att få fram,
 - förbättra IMIG/UMIG och `urisk`,
-- validera den låsta komponentkandidaten (Norrbotten 6/6, övriga Sverige 10/4, utlandet 10/2 år för in/ut) på externa referenskommuner innan någon komponentmotor kan bli produktionsstandard,
+- behåll #38-resultatet orört och testa den låsta komponentkandidaten på nya, fördeklarerade holdout-kommuner/regioner innan någon komponentmotor eller ändrade komponentfönster kan bli produktionsstandard,
 - använda TAB1830-pendlingsmatrisen som prior för var nya jobbinnehavare bor och därefter separat skatta faktisk flyttbenägenhet,
 - vidareutveckla den jobbrelaterade ålder/kön-profilen med riktade flytt-/hushållsdata när sådana finns,
 - koppla empiriska personer-per-bostad-antaganden per bostadstyp/upplåtelseform/storlek,

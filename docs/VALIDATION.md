@@ -124,6 +124,27 @@ The candidate is stored in `data/migration_component_windows.json`. It is then t
 
 The generated report `data/backtests/migration_component_external.json` compares the fixed candidate with a uniform 10-year in/out baseline at n+1 and n+2. These external municipalities were not used to choose the six candidate windows. Once the report has been viewed, those municipalities cease to be independent evidence for any further retuning of the candidate.
 
+#### External component result after Update SCB data #38
+
+Run #38 is the first external test of the six windows frozen after #37. The result supports the **component structure more strongly than the exact six window lengths**.
+
+Pooled across the external reference municipalities:
+
+- n+1 net-migration MAE: **107.1** for the component candidate vs **109.0** for uniform 10-year in/out,
+- n+2 net-migration MAE: **144.0** vs **148.9**,
+- the candidate improved 36 of 72 n+1 cases and 34 of 72 n+2 cases.
+
+The strongest external support is for the same-county leg. Compared with a uniform 10-year window, the frozen 6-year windows reduced pooled n+1 MAE from **72.4 to 52.5** for inflow and from **70.1 to 51.5** for outflow.
+
+Two frozen short outflow windows are less robust externally:
+
+- other-Sweden outflow, 4 years: n+1 MAE **54.1** vs **46.0** with 10 years,
+- international outflow, 2 years: n+1 MAE **12.2** vs **15.1**, but n+2 MAE **27.7** vs **25.6**.
+
+At reference-region level the candidate improves the pooled result for Trollhättan-Vänersborg and Gävle, while Sundsvall is a counterexample at n+1 (**125.6** vs **106.1** MAE). The six window lengths are therefore **not** promoted to production defaults.
+
+The three reference-region municipality sets used in #38 are now treated as **consumed holdout evidence** for this candidate. They must not be used as independent confirmation after any retuning based on #38. A revised candidate requires either a pre-declared rule evaluated on genuinely new holdout municipalities/regions or future observations not used for parameter selection.
+
 ## Rolling-origin validation
 
 A second validation layer uses four historical forecast origins: **2018, 2019, 2020 and 2021**. For each origin:
