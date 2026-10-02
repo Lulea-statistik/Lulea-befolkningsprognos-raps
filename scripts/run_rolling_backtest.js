@@ -92,6 +92,13 @@ const report = {
     summary: {},
     results: {}
   },
+  componentRecencyDiagnostic: {
+    note: 'Stage-1 development diagnostic. Uses the locked component_flow engine but replaces only rest-of-Sweden out-migration hazards with the pre-declared adaptive recency rule selected after #53. Not independent evidence.',
+    independentHoldout: false,
+    candidate: manifest.migrationRecencyCandidate || null,
+    summary: {},
+    results: {}
+  },
   scbRiskFlowDiagnostic: {
     note: 'Development diagnostic only. Compares a method locked from SCB regional projection documentation with the existing 10-year exogenous net-migration baseline. Domestic inflow is risk-based on the rest of Sweden, outflows are municipal risks, and immigration follows the municipality share of projected national immigration.',
     independentHoldout: false,
@@ -608,6 +615,111 @@ for (const geo of geos) {
 for (const geo of geos) {
   const allRows=[];
   const byOrigin={};
+  report.componentRecencyDiagnostic.results[geo]={};
+
+  for (const entry of origins) {
+    const pred=M.simulate(entry.model,{
+      geo,
+      endYear:entry.endYear,
+      fertMult:1,
+      mortMult:1,
+      migMult:1,
+      window:10,
+      migrationMode:'component_recency',
+      cohortTimingMode:'event_age_aligned',
+      scenarios:{housing:[],workplaces:[],overlapPct:0},
+      includeDetail:false
+    });
+    const baselineRows=report.results[geo][entry.origin][10]||[];
+    const rows=[];
+
+    for(const p of pred){
+      if(+p.year<=+entry.origin) continue;
+      const a=byActual(entry.actual,geo,p.year);
+      if(!a) continue;
+      const base=baselineRows.find(r=>+r.year===+p.year);
+      const row={
+        year:+p.year,
+        horizon:+p.year-+entry.origin,
+        recencyPopulationError:p.population-a.population,
+        recencyPopulationAbsPctError:ape(p.population,a.population),
+        baselinePopulationError:base?base.populationError:null,
+        recencyNetMigrationError:p.netMigration-a.netMigration,
+        baselineNetMigrationError:base?base.netMigrationError:null,
+        predictedGrossInMigration:p.grossInMigration,
+        actualGrossInMigration:geo==='FA_LULEA'?null:a.grossInMigration,
+        predictedGrossOutMigration:p.grossOutMigration,
+        actualGrossOutMigration:geo==='FA_LULEA'?null:a.grossOutMigration,
+        predictedNetMigration:p.netMigration,
+        actualNetMigration:a.netMigration
+      };
+      if(geo!=='FA_LULEA'){
+        row.grossInMigrationError=p.grossInMigration-a.grossInMigration;
+        row.grossOutMigrationError=p.grossOutMigration-a.grossOutMigration;
+      }
+      rows.push(row);
+      allRows.push(row);
+    }
+
+    byOrigin[entry.origin]=rows.map(r=>({
+      year:r.year,
+      horizon:r.horizon,
+      recencyPopulationError:round1(r.recencyPopulationError),
+      baselinePopulationError:round1(r.baselinePopulationError),
+      predictedGrossInMigration:round1(r.predictedGrossInMigration),
+      actualGrossInMigration:round1(r.actualGrossInMigration),
+      predictedGrossOutMigration:round1(r.predictedGrossOutMigration),
+      actualGrossOutMigration:round1(r.actualGrossOutMigration),
+      predictedNetMigration:round1(r.predictedNetMigration),
+      actualNetMigration:round1(r.actualNetMigration),
+      recencyNetMigrationError:round1(r.recencyNetMigrationError),
+      baselineNetMigrationError:round1(r.baselineNetMigrationError)
+    }));
+    report.componentRecencyDiagnostic.results[geo][entry.origin]=byOrigin[entry.origin];
+  }
+
+  const byHorizon={};
+  for(let horizon=1;horizon<=manifest.horizonYears;horizon++){
+    const h=allRows.filter(r=>r.horizon===horizon);
+    const locked=report.componentFlowDiagnostic.summary[geo]?.byHorizon?.[horizon]?.component||null;
+    const recency={
+      populationMAE:round1(mean(h.map(r=>Math.abs(r.recencyPopulationError)))),
+      populationMAPE:round1(mean(h.map(r=>r.recencyPopulationAbsPctError))),
+      populationMeanError:round1(mean(h.map(r=>r.recencyPopulationError))),
+      netMigrationMAE:round1(mean(h.map(r=>Math.abs(r.recencyNetMigrationError)))),
+      netMigrationMeanError:round1(mean(h.map(r=>r.recencyNetMigrationError))),
+      grossInMigrationMAE:geo==='FA_LULEA'?null:round1(mean(h.map(r=>Math.abs(r.grossInMigrationError)))),
+      grossOutMigrationMAE:geo==='FA_LULEA'?null:round1(mean(h.map(r=>Math.abs(r.grossOutMigrationError))))
+    };
+    byHorizon[horizon]={
+      observations:h.length,
+      componentRecency:recency,
+      lockedComponent:locked,
+      net10Baseline:{
+        populationMAE:round1(mean(h.map(r=>Math.abs(r.baselinePopulationError)))),
+        netMigrationMAE:round1(mean(h.map(r=>Math.abs(r.baselineNetMigrationError))))
+      },
+      improvementVsLockedComponentPct:locked?{
+        populationMAE:locked.populationMAE?round1(100*(locked.populationMAE-recency.populationMAE)/locked.populationMAE):null,
+        netMigrationMAE:locked.netMigrationMAE?round1(100*(locked.netMigrationMAE-recency.netMigrationMAE)/locked.netMigrationMAE):null,
+        grossOutMigrationMAE:(geo!=='FA_LULEA'&&locked.grossOutMigrationMAE)?round1(100*(locked.grossOutMigrationMAE-recency.grossOutMigrationMAE)/locked.grossOutMigrationMAE):null
+      }:null
+    };
+  }
+
+  report.componentRecencyDiagnostic.summary[geo]={
+    observations:allRows.length,
+    oneYear:byHorizon[1],
+    twoYear:byHorizon[2],
+    threeYear:byHorizon[3],
+    byHorizon,
+    byOrigin
+  };
+}
+
+for (const geo of geos) {
+  const allRows=[];
+  const byOrigin={};
   report.scbRiskFlowDiagnostic.results[geo]={};
 
   for (const entry of origins) {
@@ -780,6 +892,15 @@ for (const geo of ['2580','FA_LULEA']) {
     `${geo} component_flow: n+1 migration MAE=${s.oneYear.component.netMigrationMAE} vs net10=${s.oneYear.net10Baseline.netMigrationMAE} | `+
     `n+1 population MAE=${s.oneYear.component.populationMAE} vs net10=${s.oneYear.net10Baseline.populationMAE} | `+
     `n+2 migration MAE=${s.twoYear.component.netMigrationMAE} vs net10=${s.twoYear.net10Baseline.netMigrationMAE}`
+  );
+}
+
+for (const geo of ['2580','FA_LULEA']) {
+  const s=report.componentRecencyDiagnostic.summary[geo];
+  console.log(
+    `${geo} component_recency: n+1 migration MAE=${s.oneYear.componentRecency.netMigrationMAE} vs component=${s.oneYear.lockedComponent.netMigrationMAE} vs net10=${s.oneYear.net10Baseline.netMigrationMAE} | `+
+    `n+1 population MAE=${s.oneYear.componentRecency.populationMAE} vs component=${s.oneYear.lockedComponent.populationMAE} | `+
+    `n+2 migration MAE=${s.twoYear.componentRecency.netMigrationMAE} vs component=${s.twoYear.lockedComponent.netMigrationMAE}`
   );
 }
 
