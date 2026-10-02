@@ -3,11 +3,14 @@ name: Update SCB data
 on:
   workflow_dispatch:
     inputs:
-      refresh_scb:
-        description: "Refresh SCB source files before rebuilding and validating"
+      mode:
+        description: "Rebuild mode"
         required: true
-        type: boolean
-        default: false
+        default: "fast"
+        type: choice
+        options:
+          - fast
+          - full
   schedule:
     - cron: "17 5 1 * *"
 
@@ -66,15 +69,15 @@ jobs:
         run: python tests/test_scb_consistency_parser.py
 
       - name: Discover current SCB PxWeb tables
-        if: github.event_name == 'schedule' || inputs.refresh_scb == true
+        if: ${{ github.event_name == 'schedule' || github.event.inputs.mode == 'full' }}
         run: python scripts/scb_v2_client.py --out data/scb_discovery.json
 
       - name: Download selected SCB raw data
-        if: github.event_name == 'schedule' || inputs.refresh_scb == true
+        if: ${{ github.event_name == 'schedule' || github.event.inputs.mode == 'full' }}
         run: python scripts/scb_extract.py
 
       - name: Reuse committed SCB source files
-        if: github.event_name == 'workflow_dispatch' && inputs.refresh_scb != true
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.mode != 'full' }}
         run: echo "FAST rebuild: using committed data/raw SCB extracts without network refresh."
 
       - name: Build calibrated model data
