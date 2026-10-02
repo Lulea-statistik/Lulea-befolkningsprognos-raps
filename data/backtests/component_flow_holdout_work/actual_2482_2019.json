@@ -1,0 +1,41 @@
+{
+  "geo": "2482",
+  "name": "Skellefteå",
+  "origin": 2019,
+  "endYear": 2022,
+  "rows": [
+    {
+      "geo": "2482",
+      "year": 2020,
+      "horizon": 1,
+      "population": 72840.0,
+      "births": 716.0,
+      "deaths": 784.0,
+      "grossInMigration": 2196.0,
+      "grossOutMigration": 1886.0,
+      "netMigration": 310.0
+    },
+    {
+      "geo": "2482",
+      "year": 2021,
+      "horizon": 2,
+      "population": 73393.0,
+      "births": 717.0,
+      "deaths": 865.0,
+      "grossInMigration": 2704.0,
+      "grossOutMigration": 2098.0,
+      "netMigration": 606.0
+    },
+    {
+      "geo": "2482",
+      "year": 2022,
+      "horizon": 3,
+      "population": 74402.0,
+      "births": 666.0,
+      "deaths": 851.0,
+      "grossInMigration": 3126.0,
+      "grossOutMigration": 2011.0,
+      "netMigration": 1115.0
+    }
+  ]
+}

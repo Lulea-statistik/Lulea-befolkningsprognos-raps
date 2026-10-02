@@ -1,0 +1,41 @@
+{
+  "geo": "1780",
+  "name": "Karlstad",
+  "origin": 2020,
+  "endYear": 2023,
+  "rows": [
+    {
+      "geo": "1780",
+      "year": 2021,
+      "horizon": 1,
+      "population": 95408.0,
+      "births": 962.0,
+      "deaths": 883.0,
+      "grossInMigration": 5819.0,
+      "grossOutMigration": 5343.0,
+      "netMigration": 476.0
+    },
+    {
+      "geo": "1780",
+      "year": 2022,
+      "horizon": 2,
+      "population": 96466.0,
+      "births": 901.0,
+      "deaths": 855.0,
+      "grossInMigration": 6168.0,
+      "grossOutMigration": 5203.0,
+      "netMigration": 965.0
+    },
+    {
+      "geo": "1780",
+      "year": 2023,
+      "horizon": 3,
+      "population": 97233.0,
+      "births": 838.0,
+      "deaths": 853.0,
+      "grossInMigration": 6042.0,
+      "grossOutMigration": 5270.0,
+      "netMigration": 772.0
+    }
+  ]
+}

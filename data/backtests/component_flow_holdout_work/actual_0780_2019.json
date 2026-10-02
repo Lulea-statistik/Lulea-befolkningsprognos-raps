@@ -1,0 +1,41 @@
+{
+  "geo": "0780",
+  "name": "Växjö",
+  "origin": 2019,
+  "endYear": 2022,
+  "rows": [
+    {
+      "geo": "0780",
+      "year": 2020,
+      "horizon": 1,
+      "population": 94859.0,
+      "births": 1207.0,
+      "deaths": 808.0,
+      "grossInMigration": 5393.0,
+      "grossOutMigration": 5085.0,
+      "netMigration": 308.0
+    },
+    {
+      "geo": "0780",
+      "year": 2021,
+      "horizon": 2,
+      "population": 95995.0,
+      "births": 1177.0,
+      "deaths": 764.0,
+      "grossInMigration": 5709.0,
+      "grossOutMigration": 5066.0,
+      "netMigration": 643.0
+    },
+    {
+      "geo": "0780",
+      "year": 2022,
+      "horizon": 3,
+      "population": 97137.0,
+      "births": 1048.0,
+      "deaths": 711.0,
+      "grossInMigration": 6072.0,
+      "grossOutMigration": 5312.0,
+      "netMigration": 760.0
+    }
+  ]
+}

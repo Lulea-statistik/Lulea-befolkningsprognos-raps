@@ -1,0 +1,41 @@
+{
+  "geo": "2380",
+  "name": "Östersund",
+  "origin": 2019,
+  "endYear": 2022,
+  "rows": [
+    {
+      "geo": "2380",
+      "year": 2020,
+      "horizon": 1,
+      "population": 63985.0,
+      "births": 629.0,
+      "deaths": 650.0,
+      "grossInMigration": 3402.0,
+      "grossOutMigration": 3178.0,
+      "netMigration": 224.0
+    },
+    {
+      "geo": "2380",
+      "year": 2021,
+      "horizon": 2,
+      "population": 64324.0,
+      "births": 692.0,
+      "deaths": 596.0,
+      "grossInMigration": 3446.0,
+      "grossOutMigration": 3223.0,
+      "netMigration": 223.0
+    },
+    {
+      "geo": "2380",
+      "year": 2022,
+      "horizon": 3,
+      "population": 64714.0,
+      "births": 602.0,
+      "deaths": 615.0,
+      "grossInMigration": 3558.0,
+      "grossOutMigration": 3177.0,
+      "netMigration": 381.0
+    }
+  ]
+}

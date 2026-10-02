@@ -1,0 +1,41 @@
+{
+  "geo": "2480",
+  "name": "Umeå",
+  "origin": 2019,
+  "endYear": 2022,
+  "rows": [
+    {
+      "geo": "2480",
+      "year": 2020,
+      "horizon": 1,
+      "population": 130224.0,
+      "births": 1521.0,
+      "deaths": 909.0,
+      "grossInMigration": 7256.0,
+      "grossOutMigration": 6564.0,
+      "netMigration": 692.0
+    },
+    {
+      "geo": "2480",
+      "year": 2021,
+      "horizon": 2,
+      "population": 130997.0,
+      "births": 1448.0,
+      "deaths": 974.0,
+      "grossInMigration": 7055.0,
+      "grossOutMigration": 6824.0,
+      "netMigration": 231.0
+    },
+    {
+      "geo": "2480",
+      "year": 2022,
+      "horizon": 3,
+      "population": 132235.0,
+      "births": 1320.0,
+      "deaths": 977.0,
+      "grossInMigration": 7445.0,
+      "grossOutMigration": 6593.0,
+      "netMigration": 852.0
+    }
+  ]
+}

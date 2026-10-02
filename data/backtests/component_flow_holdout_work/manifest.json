@@ -1,0 +1,209 @@
+{
+  "schemaVersion": "0.1.0",
+  "method": "Locked external municipality validation of component_flow versus the 10-year exogenous net-migration baseline inside the full event-age aligned cohort model.",
+  "holdoutConfig": "data/component_flow_holdout_municipalities.json",
+  "componentWindowConfig": "data/migration_component_windows.json",
+  "candidateLockedBeforeResults": true,
+  "productionDefaultChanged": false,
+  "decisionRule": {
+    "primaryHorizon": 1,
+    "secondaryHorizon": 2,
+    "pooledN1NetMigrationMAE": "component_flow <= net_10y",
+    "pooledN1PopulationMAE": "component_flow <= 1.05 * net_10y",
+    "pooledN2NetMigrationMAE": "component_flow <= 1.05 * net_10y",
+    "pooledN2PopulationMAE": "component_flow <= 1.05 * net_10y",
+    "municipalityRobustness": "At most one holdout municipality may have component-flow n+1 net-migration MAE more than 10% worse than net_10y.",
+    "note": "Passing this gate is necessary but not sufficient for production promotion. No parameter or window may be retuned after viewing these holdout results and then re-evaluated on the same municipalities as independent evidence."
+  },
+  "municipalities": {
+    "2480": {
+      "name": "Umeå",
+      "rationale": "Northern regional and university centre; tests a strong young-adult migration structure without using Luleå data."
+    },
+    "2482": {
+      "name": "Skellefteå",
+      "rationale": "Northern industrial stress test with major structural change; tests robustness to non-stationary migration."
+    },
+    "2380": {
+      "name": "Östersund",
+      "rationale": "Northern regional centre with a smaller population base than Luleå."
+    },
+    "1780": {
+      "name": "Karlstad",
+      "rationale": "Regional university centre outside northern Sweden; tests geographic transferability."
+    },
+    "0780": {
+      "name": "Växjö",
+      "rationale": "Regional university centre in southern Sweden; adds a structurally different external holdout."
+    }
+  },
+  "origins": [
+    2018,
+    2019,
+    2020,
+    2021
+  ],
+  "horizonYears": 3,
+  "entries": [
+    {
+      "geo": "2480",
+      "name": "Umeå",
+      "origin": 2018,
+      "endYear": 2021,
+      "modelFile": "model_2480_2018.json",
+      "actualFile": "actual_2480_2018.json"
+    },
+    {
+      "geo": "2480",
+      "name": "Umeå",
+      "origin": 2019,
+      "endYear": 2022,
+      "modelFile": "model_2480_2019.json",
+      "actualFile": "actual_2480_2019.json"
+    },
+    {
+      "geo": "2480",
+      "name": "Umeå",
+      "origin": 2020,
+      "endYear": 2023,
+      "modelFile": "model_2480_2020.json",
+      "actualFile": "actual_2480_2020.json"
+    },
+    {
+      "geo": "2480",
+      "name": "Umeå",
+      "origin": 2021,
+      "endYear": 2024,
+      "modelFile": "model_2480_2021.json",
+      "actualFile": "actual_2480_2021.json"
+    },
+    {
+      "geo": "2482",
+      "name": "Skellefteå",
+      "origin": 2018,
+      "endYear": 2021,
+      "modelFile": "model_2482_2018.json",
+      "actualFile": "actual_2482_2018.json"
+    },
+    {
+      "geo": "2482",
+      "name": "Skellefteå",
+      "origin": 2019,
+      "endYear": 2022,
+      "modelFile": "model_2482_2019.json",
+      "actualFile": "actual_2482_2019.json"
+    },
+    {
+      "geo": "2482",
+      "name": "Skellefteå",
+      "origin": 2020,
+      "endYear": 2023,
+      "modelFile": "model_2482_2020.json",
+      "actualFile": "actual_2482_2020.json"
+    },
+    {
+      "geo": "2482",
+      "name": "Skellefteå",
+      "origin": 2021,
+      "endYear": 2024,
+      "modelFile": "model_2482_2021.json",
+      "actualFile": "actual_2482_2021.json"
+    },
+    {
+      "geo": "2380",
+      "name": "Östersund",
+      "origin": 2018,
+      "endYear": 2021,
+      "modelFile": "model_2380_2018.json",
+      "actualFile": "actual_2380_2018.json"
+    },
+    {
+      "geo": "2380",
+      "name": "Östersund",
+      "origin": 2019,
+      "endYear": 2022,
+      "modelFile": "model_2380_2019.json",
+      "actualFile": "actual_2380_2019.json"
+    },
+    {
+      "geo": "2380",
+      "name": "Östersund",
+      "origin": 2020,
+      "endYear": 2023,
+      "modelFile": "model_2380_2020.json",
+      "actualFile": "actual_2380_2020.json"
+    },
+    {
+      "geo": "2380",
+      "name": "Östersund",
+      "origin": 2021,
+      "endYear": 2024,
+      "modelFile": "model_2380_2021.json",
+      "actualFile": "actual_2380_2021.json"
+    },
+    {
+      "geo": "1780",
+      "name": "Karlstad",
+      "origin": 2018,
+      "endYear": 2021,
+      "modelFile": "model_1780_2018.json",
+      "actualFile": "actual_1780_2018.json"
+    },
+    {
+      "geo": "1780",
+      "name": "Karlstad",
+      "origin": 2019,
+      "endYear": 2022,
+      "modelFile": "model_1780_2019.json",
+      "actualFile": "actual_1780_2019.json"
+    },
+    {
+      "geo": "1780",
+      "name": "Karlstad",
+      "origin": 2020,
+      "endYear": 2023,
+      "modelFile": "model_1780_2020.json",
+      "actualFile": "actual_1780_2020.json"
+    },
+    {
+      "geo": "1780",
+      "name": "Karlstad",
+      "origin": 2021,
+      "endYear": 2024,
+      "modelFile": "model_1780_2021.json",
+      "actualFile": "actual_1780_2021.json"
+    },
+    {
+      "geo": "0780",
+      "name": "Växjö",
+      "origin": 2018,
+      "endYear": 2021,
+      "modelFile": "model_0780_2018.json",
+      "actualFile": "actual_0780_2018.json"
+    },
+    {
+      "geo": "0780",
+      "name": "Växjö",
+      "origin": 2019,
+      "endYear": 2022,
+      "modelFile": "model_0780_2019.json",
+      "actualFile": "actual_0780_2019.json"
+    },
+    {
+      "geo": "0780",
+      "name": "Växjö",
+      "origin": 2020,
+      "endYear": 2023,
+      "modelFile": "model_0780_2020.json",
+      "actualFile": "actual_0780_2020.json"
+    },
+    {
+      "geo": "0780",
+      "name": "Växjö",
+      "origin": 2021,
+      "endYear": 2024,
+      "modelFile": "model_0780_2021.json",
+      "actualFile": "actual_0780_2021.json"
+    }
+  ]
+}
