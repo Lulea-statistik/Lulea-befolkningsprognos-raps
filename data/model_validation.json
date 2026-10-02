@@ -1,6 +1,6 @@
 {
   "generatedBy": "scripts/validate_model.js",
-  "modelSchemaVersion": "0.10.0",
+  "modelSchemaVersion": "0.12.0",
   "baseYear": 2025,
   "endYear": 2050,
   "basePopulation": {
@@ -4632,6 +4632,316 @@
         }
       }
     }
+  },
+  "migrationSensitivity": {
+    "baseWindow": 10,
+    "windows": [
+      6,
+      10,
+      19
+    ],
+    "geographies": {
+      "2580": {
+        "6": {
+          "endPopulation": 85476.8,
+          "cumulativeBirths": 18535.9,
+          "cumulativeDeaths": 21417.6,
+          "cumulativeNetMigration": 8037.5,
+          "annualMeanNetMigration": 321.5,
+          "deltaPopulationVs10Year": -256.9,
+          "deltaPopulationPctVs10Year": -0.3,
+          "deltaNetMigrationVs10Year": -625
+        },
+        "10": {
+          "endPopulation": 85733.7,
+          "cumulativeBirths": 18123.3,
+          "cumulativeDeaths": 21373.1,
+          "cumulativeNetMigration": 8662.5,
+          "annualMeanNetMigration": 346.5,
+          "deltaPopulationVs10Year": 0,
+          "deltaPopulationPctVs10Year": 0,
+          "deltaNetMigrationVs10Year": 0
+        },
+        "19": {
+          "endPopulation": 83677.1,
+          "cumulativeBirths": 17716,
+          "cumulativeDeaths": 21374.4,
+          "cumulativeNetMigration": 7014.5,
+          "annualMeanNetMigration": 280.6,
+          "deltaPopulationVs10Year": -2056.6,
+          "deltaPopulationPctVs10Year": -2.4,
+          "deltaNetMigrationVs10Year": -1648
+        }
+      },
+      "FA_LULEA": {
+        "6": {
+          "endPopulation": 170217.9,
+          "cumulativeBirths": 35719,
+          "cumulativeDeaths": 50970.1,
+          "cumulativeNetMigration": 11175,
+          "annualMeanNetMigration": 447,
+          "deltaPopulationVs10Year": -2087.6,
+          "deltaPopulationPctVs10Year": -1.2,
+          "deltaNetMigrationVs10Year": -2460
+        },
+        "10": {
+          "endPopulation": 172305.5,
+          "cumulativeBirths": 35434.9,
+          "cumulativeDeaths": 51058.4,
+          "cumulativeNetMigration": 13635,
+          "annualMeanNetMigration": 545.4,
+          "deltaPopulationVs10Year": 0,
+          "deltaPopulationPctVs10Year": 0,
+          "deltaNetMigrationVs10Year": 0
+        },
+        "19": {
+          "endPopulation": 167440.4,
+          "cumulativeBirths": 34361.9,
+          "cumulativeDeaths": 51142,
+          "cumulativeNetMigration": 9926.3,
+          "annualMeanNetMigration": 397.1,
+          "deltaPopulationVs10Year": -4865.1,
+          "deltaPopulationPctVs10Year": -2.8,
+          "deltaNetMigrationVs10Year": -3708.7
+        }
+      }
+    },
+    "observed2025": [
+      {
+        "geo": "2580",
+        "year": 2025,
+        "method": "post-2024 calibration diagnostic; observed value uses SCB CKM",
+        "actualNetMigration": 777,
+        "windows": {
+          "2": {
+            "predictedAnnualNetMigration": 344.5,
+            "actualNetMigration2025": 777,
+            "error": -432.5,
+            "absoluteError": 432.5
+          },
+          "4": {
+            "predictedAnnualNetMigration": 327.75,
+            "actualNetMigration2025": 777,
+            "error": -449.25,
+            "absoluteError": 449.25
+          },
+          "6": {
+            "predictedAnnualNetMigration": 321.5,
+            "actualNetMigration2025": 777,
+            "error": -455.5,
+            "absoluteError": 455.5
+          },
+          "10": {
+            "predictedAnnualNetMigration": 346.5,
+            "actualNetMigration2025": 777,
+            "error": -430.5,
+            "absoluteError": 430.5
+          },
+          "19": {
+            "predictedAnnualNetMigration": 280.57894736842104,
+            "actualNetMigration2025": 777,
+            "error": -496.42105263157896,
+            "absoluteError": 496.42105263157896
+          }
+        },
+        "note": "2025 is not used to fit these profiles. Aggregate CKM uncertainty is not treated as +/-3."
+      },
+      {
+        "geo": "2582",
+        "year": 2025,
+        "method": "post-2024 calibration diagnostic; observed value uses SCB CKM",
+        "actualNetMigration": 714,
+        "windows": {
+          "2": {
+            "predictedAnnualNetMigration": 106.5,
+            "actualNetMigration2025": 714,
+            "error": -607.5,
+            "absoluteError": 607.5
+          },
+          "4": {
+            "predictedAnnualNetMigration": 69.25,
+            "actualNetMigration2025": 714,
+            "error": -644.75,
+            "absoluteError": 644.75
+          },
+          "6": {
+            "predictedAnnualNetMigration": 61.66666666666667,
+            "actualNetMigration2025": 714,
+            "error": -652.3333333333334,
+            "absoluteError": 652.3333333333334
+          },
+          "10": {
+            "predictedAnnualNetMigration": 59.4,
+            "actualNetMigration2025": 714,
+            "error": -654.6,
+            "absoluteError": 654.6
+          },
+          "19": {
+            "predictedAnnualNetMigration": 40.15789473684211,
+            "actualNetMigration2025": 714,
+            "error": -673.8421052631579,
+            "absoluteError": 673.8421052631579
+          }
+        },
+        "note": "2025 is not used to fit these profiles. Aggregate CKM uncertainty is not treated as +/-3."
+      },
+      {
+        "geo": "2581",
+        "year": 2025,
+        "method": "post-2024 calibration diagnostic; observed value uses SCB CKM",
+        "actualNetMigration": -52,
+        "windows": {
+          "2": {
+            "predictedAnnualNetMigration": 131.5,
+            "actualNetMigration2025": -52,
+            "error": 183.5,
+            "absoluteError": 183.5
+          },
+          "4": {
+            "predictedAnnualNetMigration": 116,
+            "actualNetMigration2025": -52,
+            "error": 168,
+            "absoluteError": 168
+          },
+          "6": {
+            "predictedAnnualNetMigration": 113,
+            "actualNetMigration2025": -52,
+            "error": 165,
+            "absoluteError": 165
+          },
+          "10": {
+            "predictedAnnualNetMigration": 147.1,
+            "actualNetMigration2025": -52,
+            "error": 199.1,
+            "absoluteError": 199.1
+          },
+          "19": {
+            "predictedAnnualNetMigration": 117.52631578947368,
+            "actualNetMigration2025": -52,
+            "error": 169.5263157894737,
+            "absoluteError": 169.5263157894737
+          }
+        },
+        "note": "2025 is not used to fit these profiles. Aggregate CKM uncertainty is not treated as +/-3."
+      },
+      {
+        "geo": "2560",
+        "year": 2025,
+        "method": "post-2024 calibration diagnostic; observed value uses SCB CKM",
+        "actualNetMigration": 69,
+        "windows": {
+          "2": {
+            "predictedAnnualNetMigration": -36,
+            "actualNetMigration2025": 69,
+            "error": -105,
+            "absoluteError": 105
+          },
+          "4": {
+            "predictedAnnualNetMigration": -38.75,
+            "actualNetMigration2025": 69,
+            "error": -107.75,
+            "absoluteError": 107.75
+          },
+          "6": {
+            "predictedAnnualNetMigration": -30.333333333333332,
+            "actualNetMigration2025": 69,
+            "error": -99.33333333333333,
+            "absoluteError": 99.33333333333333
+          },
+          "10": {
+            "predictedAnnualNetMigration": -8.6,
+            "actualNetMigration2025": 69,
+            "error": -77.6,
+            "absoluteError": 77.6
+          },
+          "19": {
+            "predictedAnnualNetMigration": -13.789473684210527,
+            "actualNetMigration2025": 69,
+            "error": -82.78947368421052,
+            "absoluteError": 82.78947368421052
+          }
+        },
+        "note": "2025 is not used to fit these profiles. Aggregate CKM uncertainty is not treated as +/-3."
+      },
+      {
+        "geo": "2514",
+        "year": 2025,
+        "method": "post-2024 calibration diagnostic; observed value uses SCB CKM",
+        "actualNetMigration": -9,
+        "windows": {
+          "2": {
+            "predictedAnnualNetMigration": -55.5,
+            "actualNetMigration2025": -9,
+            "error": -46.5,
+            "absoluteError": 46.5
+          },
+          "4": {
+            "predictedAnnualNetMigration": -1,
+            "actualNetMigration2025": -9,
+            "error": 8,
+            "absoluteError": 8
+          },
+          "6": {
+            "predictedAnnualNetMigration": -18.833333333333332,
+            "actualNetMigration2025": -9,
+            "error": -9.833333333333332,
+            "absoluteError": 9.833333333333332
+          },
+          "10": {
+            "predictedAnnualNetMigration": 0.9999999999999993,
+            "actualNetMigration2025": -9,
+            "error": 10,
+            "absoluteError": 10
+          },
+          "19": {
+            "predictedAnnualNetMigration": -27.42105263157895,
+            "actualNetMigration2025": -9,
+            "error": -18.42105263157895,
+            "absoluteError": 18.42105263157895
+          }
+        },
+        "note": "2025 is not used to fit these profiles. Aggregate CKM uncertainty is not treated as +/-3."
+      },
+      {
+        "geo": "FA_LULEA",
+        "year": 2025,
+        "method": "post-2024 calibration diagnostic; observed value uses SCB CKM",
+        "actualNetMigration": 1499,
+        "windows": {
+          "2": {
+            "predictedAnnualNetMigration": 491,
+            "actualNetMigration2025": 1499,
+            "error": -1008,
+            "absoluteError": 1008
+          },
+          "4": {
+            "predictedAnnualNetMigration": 473.25,
+            "actualNetMigration2025": 1499,
+            "error": -1025.75,
+            "absoluteError": 1025.75
+          },
+          "6": {
+            "predictedAnnualNetMigration": 447,
+            "actualNetMigration2025": 1499,
+            "error": -1052,
+            "absoluteError": 1052
+          },
+          "10": {
+            "predictedAnnualNetMigration": 545.4,
+            "actualNetMigration2025": 1499,
+            "error": -953.6,
+            "absoluteError": 953.6
+          },
+          "19": {
+            "predictedAnnualNetMigration": 397.05263157894734,
+            "actualNetMigration2025": 1499,
+            "error": -1101.9473684210527,
+            "absoluteError": 1101.9473684210527
+          }
+        },
+        "note": "2025 is not used to fit these profiles. Aggregate CKM uncertainty is not treated as +/-3."
+      }
+    ]
   },
   "warnings": [
     "Birth sex ratio source: Raps technical specification: 0.515 boys / 0.485 girls. Observed FA share is retained only as a diagnostic.",

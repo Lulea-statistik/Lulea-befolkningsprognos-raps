@@ -6422,5 +6422,3940 @@
         }
       }
     }
+  },
+  "migrationWindowDiagnostic": {
+    "note": "Migration-only comparison: fertility and mortality are fixed to the 10-year calibration while net migration uses 2, 4, 6 or 10 years. n+1 is primary and n+2 secondary.",
+    "windows": [
+      2,
+      4,
+      6,
+      10
+    ],
+    "summary": {
+      "2514": {
+        "2": {
+          "observations": 12,
+          "populationMAPE": 0.8,
+          "populationMAE": 126.4,
+          "netMigrationMAE": 72,
+          "netMigrationMeanError": -25.7,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.5,
+            "populationMAE": 83.6,
+            "populationMeanError": -37.7,
+            "netMigrationMAE": 82,
+            "netMigrationMeanError": -21
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.8,
+            "populationMAE": 133.4,
+            "populationMeanError": -74,
+            "netMigrationMAE": 75.5,
+            "netMigrationMeanError": -35.5
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 1,
+            "populationMAE": 162.3,
+            "populationMeanError": -90.5,
+            "netMigrationMAE": 58.5,
+            "netMigrationMeanError": -20.5
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.5,
+              "populationMAE": 83.6,
+              "populationMeanError": -37.7,
+              "netMigrationMAE": 82,
+              "netMigrationMeanError": -21
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.8,
+              "populationMAE": 133.4,
+              "populationMeanError": -74,
+              "netMigrationMAE": 75.5,
+              "netMigrationMeanError": -35.5
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 1,
+              "populationMAE": 162.3,
+              "populationMeanError": -90.5,
+              "netMigrationMAE": 58.5,
+              "netMigrationMeanError": -20.5
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 11,
+                "actualNetMigration": -111,
+                "netMigrationError": 122,
+                "populationError": 91.9
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 11,
+                "actualNetMigration": 2,
+                "netMigrationError": 9,
+                "populationError": 85.7
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 11,
+                "actualNetMigration": 34,
+                "netMigrationError": -23,
+                "populationError": 49.8
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": -60.5,
+                "actualNetMigration": 2,
+                "netMigrationError": -62.5,
+                "populationError": -81.2
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": -60.5,
+                "actualNetMigration": 34,
+                "netMigrationError": -94.5,
+                "populationError": -192.7
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": -60.5,
+                "actualNetMigration": 73,
+                "netMigrationError": -133.5,
+                "populationError": -310.2
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": -54.5,
+                "actualNetMigration": 34,
+                "netMigrationError": -88.5,
+                "populationError": -107.4
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": -54.5,
+                "actualNetMigration": 73,
+                "netMigrationError": -127.5,
+                "populationError": -222
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": -54.5,
+                "actualNetMigration": -53,
+                "netMigrationError": -1.5,
+                "populationError": -195.5
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 18,
+                "actualNetMigration": 73,
+                "netMigrationError": -55,
+                "populationError": -54.1
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 18,
+                "actualNetMigration": -53,
+                "netMigrationError": 71,
+                "populationError": 33.2
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 18,
+                "actualNetMigration": -58,
+                "netMigrationError": 76,
+                "populationError": 93.7
+              }
+            ]
+          }
+        },
+        "4": {
+          "observations": 12,
+          "populationMAPE": 0.6,
+          "populationMAE": 90.1,
+          "netMigrationMAE": 53.1,
+          "netMigrationMeanError": -8.1,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.5,
+            "populationMAE": 76,
+            "populationMeanError": -20.1,
+            "netMigrationMAE": 74.3,
+            "netMigrationMeanError": -3.4
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.6,
+            "populationMAE": 101.5,
+            "populationMeanError": -38.5,
+            "netMigrationMAE": 48.2,
+            "netMigrationMeanError": -17.9
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.6,
+            "populationMAE": 92.7,
+            "populationMeanError": -36.9,
+            "netMigrationMAE": 36.9,
+            "netMigrationMeanError": -2.9
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.5,
+              "populationMAE": 76,
+              "populationMeanError": -20.1,
+              "netMigrationMAE": 74.3,
+              "netMigrationMeanError": -3.4
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.6,
+              "populationMAE": 101.5,
+              "populationMeanError": -38.5,
+              "netMigrationMAE": 48.2,
+              "netMigrationMeanError": -17.9
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.6,
+              "populationMAE": 92.7,
+              "populationMeanError": -36.9,
+              "netMigrationMAE": 36.9,
+              "netMigrationMeanError": -2.9
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 30.8,
+                "actualNetMigration": -111,
+                "netMigrationError": 141.8,
+                "populationError": 111.6
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 30.8,
+                "actualNetMigration": 2,
+                "netMigrationError": 28.8,
+                "populationError": 126
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 30.8,
+                "actualNetMigration": 34,
+                "netMigrationError": -3.2,
+                "populationError": 111.6
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": -3.5,
+                "actualNetMigration": 2,
+                "netMigrationError": -5.5,
+                "populationError": -24.2
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": -3.5,
+                "actualNetMigration": 34,
+                "netMigrationError": -37.5,
+                "populationError": -78.5
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": -3.5,
+                "actualNetMigration": 73,
+                "netMigrationError": -76.5,
+                "populationError": -138.7
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": -21.7,
+                "actualNetMigration": 34,
+                "netMigrationError": -55.7,
+                "populationError": -74.6
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": -21.7,
+                "actualNetMigration": 73,
+                "netMigrationError": -94.7,
+                "populationError": -156.2
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": -21.7,
+                "actualNetMigration": -53,
+                "netMigrationError": 31.3,
+                "populationError": -96
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": -21.2,
+                "actualNetMigration": 73,
+                "netMigrationError": -94.2,
+                "populationError": -93.4
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": -21.2,
+                "actualNetMigration": -53,
+                "netMigrationError": 31.8,
+                "populationError": -45.4
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": -21.2,
+                "actualNetMigration": -58,
+                "netMigrationError": 36.8,
+                "populationError": -24.5
+              }
+            ]
+          }
+        },
+        "6": {
+          "observations": 12,
+          "populationMAPE": 0.4,
+          "populationMAE": 62.2,
+          "netMigrationMAE": 50.3,
+          "netMigrationMeanError": 1,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 57.8,
+            "populationMeanError": -11,
+            "netMigrationMAE": 56.2,
+            "netMigrationMeanError": 5.7
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 67,
+            "populationMeanError": -20.1,
+            "netMigrationMAE": 42.5,
+            "netMigrationMeanError": -8.8
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 61.9,
+            "populationMeanError": -9,
+            "netMigrationMAE": 52.3,
+            "netMigrationMeanError": 6.2
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 57.8,
+              "populationMeanError": -11,
+              "netMigrationMAE": 56.2,
+              "netMigrationMeanError": 5.7
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 67,
+              "populationMeanError": -20.1,
+              "netMigrationMAE": 42.5,
+              "netMigrationMeanError": -8.8
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 61.9,
+              "populationMeanError": -9,
+              "netMigrationMAE": 52.3,
+              "netMigrationMeanError": 6.2
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 12.7,
+                "actualNetMigration": -111,
+                "netMigrationError": 123.7,
+                "populationError": 93.5
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 12.7,
+                "actualNetMigration": 2,
+                "netMigrationError": 10.7,
+                "populationError": 89.3
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 12.7,
+                "actualNetMigration": 34,
+                "netMigrationError": -21.3,
+                "populationError": 55.6
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 2.2,
+                "actualNetMigration": 2,
+                "netMigrationError": 0.2,
+                "populationError": -18.6
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 2.2,
+                "actualNetMigration": 34,
+                "netMigrationError": -31.8,
+                "populationError": -66.7
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 2.2,
+                "actualNetMigration": 73,
+                "netMigrationError": -70.8,
+                "populationError": -120.1
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 2.3,
+                "actualNetMigration": 34,
+                "netMigrationError": -31.7,
+                "populationError": -50.5
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 2.3,
+                "actualNetMigration": 73,
+                "netMigrationError": -70.7,
+                "populationError": -107.4
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 2.3,
+                "actualNetMigration": -53,
+                "netMigrationError": 55.3,
+                "populationError": -21.8
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 3.7,
+                "actualNetMigration": 73,
+                "netMigrationError": -69.3,
+                "populationError": -68.4
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 3.7,
+                "actualNetMigration": -53,
+                "netMigrationError": 56.7,
+                "populationError": 4.4
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 3.7,
+                "actualNetMigration": -58,
+                "netMigrationError": 61.7,
+                "populationError": 50.2
+              }
+            ]
+          }
+        },
+        "10": {
+          "observations": 12,
+          "populationMAPE": 0.4,
+          "populationMAE": 69,
+          "netMigrationMAE": 57.8,
+          "netMigrationMeanError": -16.8,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 57.2,
+            "populationMeanError": -28.9,
+            "netMigrationMAE": 55.5,
+            "netMigrationMeanError": -12.2
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 63.7,
+            "populationMeanError": -56.4,
+            "netMigrationMAE": 53.8,
+            "netMigrationMeanError": -26.7
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.5,
+            "populationMAE": 86,
+            "populationMeanError": -64.4,
+            "netMigrationMAE": 64.2,
+            "netMigrationMeanError": -11.7
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 57.2,
+              "populationMeanError": -28.9,
+              "netMigrationMAE": 55.5,
+              "netMigrationMeanError": -12.2
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 63.7,
+              "populationMeanError": -56.4,
+              "netMigrationMAE": 53.8,
+              "netMigrationMeanError": -26.7
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.5,
+              "populationMAE": 86,
+              "populationMeanError": -64.4,
+              "netMigrationMAE": 64.2,
+              "netMigrationMeanError": -11.7
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": -24.3,
+                "actualNetMigration": -111,
+                "netMigrationError": 86.7,
+                "populationError": 56.7
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": -24.3,
+                "actualNetMigration": 2,
+                "netMigrationError": -26.3,
+                "populationError": 14.7
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": -24.3,
+                "actualNetMigration": 34,
+                "netMigrationError": -58.3,
+                "populationError": -57.8
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": -20.4,
+                "actualNetMigration": 2,
+                "netMigrationError": -22.4,
+                "populationError": -41.1
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": -20.4,
+                "actualNetMigration": 34,
+                "netMigrationError": -54.4,
+                "populationError": -112.7
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": -20.4,
+                "actualNetMigration": 73,
+                "netMigrationError": -93.4,
+                "populationError": -190.5
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": -7.3,
+                "actualNetMigration": 34,
+                "netMigrationError": -41.3,
+                "populationError": -60.2
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": -7.3,
+                "actualNetMigration": 73,
+                "netMigrationError": -80.3,
+                "populationError": -127.2
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": -7.3,
+                "actualNetMigration": -53,
+                "netMigrationError": 45.7,
+                "populationError": -52.5
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 1.3,
+                "actualNetMigration": 73,
+                "netMigrationError": -71.7,
+                "populationError": -70.8
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 1.3,
+                "actualNetMigration": -53,
+                "netMigrationError": 54.3,
+                "populationError": -0.3
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 1.3,
+                "actualNetMigration": -58,
+                "netMigrationError": 59.3,
+                "populationError": 43.2
+              }
+            ]
+          }
+        }
+      },
+      "2560": {
+        "2": {
+          "observations": 12,
+          "populationMAPE": 1.1,
+          "populationMAE": 89.4,
+          "netMigrationMAE": 48.3,
+          "netMigrationMeanError": 16,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.6,
+            "populationMAE": 50.7,
+            "populationMeanError": 5.6,
+            "netMigrationMAE": 54.9,
+            "netMigrationMeanError": 8.1
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 1.2,
+            "populationMAE": 98.5,
+            "populationMeanError": 24.7,
+            "netMigrationMAE": 52.4,
+            "netMigrationMeanError": 20.4
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 1.5,
+            "populationMAE": 119.1,
+            "populationMeanError": 43,
+            "netMigrationMAE": 37.6,
+            "netMigrationMeanError": 19.4
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.6,
+              "populationMAE": 50.7,
+              "populationMeanError": 5.6,
+              "netMigrationMAE": 54.9,
+              "netMigrationMeanError": 8.1
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 1.2,
+              "populationMAE": 98.5,
+              "populationMeanError": 24.7,
+              "netMigrationMAE": 52.4,
+              "netMigrationMeanError": 20.4
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 1.5,
+              "populationMAE": 119.1,
+              "populationMeanError": 43,
+              "netMigrationMAE": 37.6,
+              "netMigrationMeanError": 19.4
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 7.5,
+                "actualNetMigration": -49,
+                "netMigrationError": 56.5,
+                "populationError": 51
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 7.5,
+                "actualNetMigration": 22,
+                "netMigrationError": -14.5,
+                "populationError": 40.9
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 7.5,
+                "actualNetMigration": -22,
+                "netMigrationError": 29.5,
+                "populationError": 64.6
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": -71.5,
+                "actualNetMigration": 22,
+                "netMigrationError": -93.5,
+                "populationError": -90.2
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": -71.5,
+                "actualNetMigration": -22,
+                "netMigrationError": -49.5,
+                "populationError": -147.6
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": -71.5,
+                "actualNetMigration": -61,
+                "netMigrationError": -10.5,
+                "populationError": -152.2
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": -13.5,
+                "actualNetMigration": -22,
+                "netMigrationError": 8.5,
+                "populationError": 0
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": -13.5,
+                "actualNetMigration": -61,
+                "netMigrationError": 47.5,
+                "populationError": 52.8
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": -13.5,
+                "actualNetMigration": -98,
+                "netMigrationError": 84.5,
+                "populationError": 135.7
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 0,
+                "actualNetMigration": -61,
+                "netMigrationError": 61,
+                "populationError": 61.7
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 0,
+                "actualNetMigration": -98,
+                "netMigrationError": 98,
+                "populationError": 152.5
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 0,
+                "actualNetMigration": 26,
+                "netMigrationError": -26,
+                "populationError": 124
+              }
+            ]
+          }
+        },
+        "4": {
+          "observations": 12,
+          "populationMAPE": 0.8,
+          "populationMAE": 59.9,
+          "netMigrationMAE": 45.6,
+          "netMigrationMeanError": 31.6,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 30.7,
+            "populationMeanError": 21.2,
+            "netMigrationMAE": 34.9,
+            "netMigrationMeanError": 23.8
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.7,
+            "populationMAE": 58.2,
+            "populationMeanError": 56.3,
+            "netMigrationMAE": 36,
+            "netMigrationMeanError": 36
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 1.2,
+            "populationMAE": 90.9,
+            "populationMeanError": 90.9,
+            "netMigrationMAE": 65.9,
+            "netMigrationMeanError": 35
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 30.7,
+              "populationMeanError": 21.2,
+              "netMigrationMAE": 34.9,
+              "netMigrationMeanError": 23.8
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.7,
+              "populationMAE": 58.2,
+              "populationMeanError": 56.3,
+              "netMigrationMAE": 36,
+              "netMigrationMeanError": 36
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 1.2,
+              "populationMAE": 90.9,
+              "populationMeanError": 90.9,
+              "netMigrationMAE": 65.9,
+              "netMigrationMeanError": 35
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 24,
+                "actualNetMigration": -49,
+                "netMigrationError": 73,
+                "populationError": 67.5
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 24,
+                "actualNetMigration": 22,
+                "netMigrationError": 2,
+                "populationError": 74.5
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 24,
+                "actualNetMigration": -22,
+                "netMigrationError": 46,
+                "populationError": 115.7
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": -0.2,
+                "actualNetMigration": 22,
+                "netMigrationError": -22.2,
+                "populationError": -18.9
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": -0.2,
+                "actualNetMigration": -22,
+                "netMigrationError": 21.8,
+                "populationError": -3.8
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": -0.2,
+                "actualNetMigration": -61,
+                "netMigrationError": 60.8,
+                "populationError": 65.4
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": -3,
+                "actualNetMigration": -22,
+                "netMigrationError": 19,
+                "populationError": 10.5
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": -3,
+                "actualNetMigration": -61,
+                "netMigrationError": 58,
+                "populationError": 73.8
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": -3,
+                "actualNetMigration": -98,
+                "netMigrationError": 95,
+                "populationError": 167.3
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": -35.7,
+                "actualNetMigration": -61,
+                "netMigrationError": 25.3,
+                "populationError": 26
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": -35.7,
+                "actualNetMigration": -98,
+                "netMigrationError": 62.3,
+                "populationError": 80.5
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": -35.7,
+                "actualNetMigration": 26,
+                "netMigrationError": -61.7,
+                "populationError": 15.3
+              }
+            ]
+          }
+        },
+        "6": {
+          "observations": 12,
+          "populationMAPE": 1.1,
+          "populationMAE": 87.5,
+          "netMigrationMAE": 52.6,
+          "netMigrationMeanError": 46.5,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.5,
+            "populationMAE": 39.7,
+            "populationMeanError": 36.2,
+            "netMigrationMAE": 43.8,
+            "netMigrationMeanError": 38.7
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 1.1,
+            "populationMAE": 86.4,
+            "populationMeanError": 86.4,
+            "netMigrationMAE": 51.1,
+            "netMigrationMeanError": 50.9
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 1.7,
+            "populationMAE": 136.4,
+            "populationMeanError": 136.4,
+            "netMigrationMAE": 63,
+            "netMigrationMeanError": 49.9
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.5,
+              "populationMAE": 39.7,
+              "populationMeanError": 36.2,
+              "netMigrationMAE": 43.8,
+              "netMigrationMeanError": 38.7
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 1.1,
+              "populationMAE": 86.4,
+              "populationMeanError": 86.4,
+              "netMigrationMAE": 51.1,
+              "netMigrationMeanError": 50.9
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 1.7,
+              "populationMAE": 136.4,
+              "populationMeanError": 136.4,
+              "netMigrationMAE": 63,
+              "netMigrationMeanError": 49.9
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 21.7,
+                "actualNetMigration": -49,
+                "netMigrationError": 70.7,
+                "populationError": 65.1
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 21.7,
+                "actualNetMigration": 22,
+                "netMigrationError": -0.3,
+                "populationError": 69.8
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 21.7,
+                "actualNetMigration": -22,
+                "netMigrationError": 43.7,
+                "populationError": 108.7
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 11.7,
+                "actualNetMigration": 22,
+                "netMigrationError": -10.3,
+                "populationError": -7
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 11.7,
+                "actualNetMigration": -22,
+                "netMigrationError": 33.7,
+                "populationError": 20.1
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 11.7,
+                "actualNetMigration": -61,
+                "netMigrationError": 72.7,
+                "populationError": 101.3
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 11.5,
+                "actualNetMigration": -22,
+                "netMigrationError": 33.5,
+                "populationError": 25
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 11.5,
+                "actualNetMigration": -61,
+                "netMigrationError": 72.5,
+                "populationError": 103.2
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 11.5,
+                "actualNetMigration": -98,
+                "netMigrationError": 109.5,
+                "populationError": 211.9
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": -0.2,
+                "actualNetMigration": -61,
+                "netMigrationError": 60.8,
+                "populationError": 61.6
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": -0.2,
+                "actualNetMigration": -98,
+                "netMigrationError": 97.8,
+                "populationError": 152.3
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": -0.2,
+                "actualNetMigration": 26,
+                "netMigrationError": -26.2,
+                "populationError": 123.8
+              }
+            ]
+          }
+        },
+        "10": {
+          "observations": 12,
+          "populationMAPE": 0.9,
+          "populationMAE": 72.6,
+          "netMigrationMAE": 48.7,
+          "netMigrationMeanError": 37.8,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.5,
+            "populationMAE": 36.9,
+            "populationMeanError": 27.5,
+            "netMigrationMAE": 41.1,
+            "netMigrationMeanError": 30
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.9,
+            "populationMAE": 70.7,
+            "populationMeanError": 69,
+            "netMigrationMAE": 54,
+            "netMigrationMeanError": 42.3
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 1.4,
+            "populationMAE": 110.1,
+            "populationMeanError": 110.1,
+            "netMigrationMAE": 51,
+            "netMigrationMeanError": 41.3
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.5,
+              "populationMAE": 36.9,
+              "populationMeanError": 27.5,
+              "netMigrationMAE": 41.1,
+              "netMigrationMeanError": 30
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.9,
+              "populationMAE": 70.7,
+              "populationMeanError": 69,
+              "netMigrationMAE": 54,
+              "netMigrationMeanError": 42.3
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 1.4,
+              "populationMAE": 110.1,
+              "populationMeanError": 110.1,
+              "netMigrationMAE": 51,
+              "netMigrationMeanError": 41.3
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": -1.5,
+                "actualNetMigration": -49,
+                "netMigrationError": 47.5,
+                "populationError": 42
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": -1.5,
+                "actualNetMigration": 22,
+                "netMigrationError": -23.5,
+                "populationError": 23.2
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": -1.5,
+                "actualNetMigration": -22,
+                "netMigrationError": 20.5,
+                "populationError": 38.2
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": -0.1,
+                "actualNetMigration": 22,
+                "netMigrationError": -22.1,
+                "populationError": -18.8
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": -0.1,
+                "actualNetMigration": -22,
+                "netMigrationError": 21.9,
+                "populationError": -3.4
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": -0.1,
+                "actualNetMigration": -61,
+                "netMigrationError": 60.9,
+                "populationError": 66
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 5.1,
+                "actualNetMigration": -22,
+                "netMigrationError": 27.1,
+                "populationError": 18.6
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 5.1,
+                "actualNetMigration": -61,
+                "netMigrationError": 66.1,
+                "populationError": 90.3
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 5.1,
+                "actualNetMigration": -98,
+                "netMigrationError": 103.1,
+                "populationError": 192.3
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 6.5,
+                "actualNetMigration": -61,
+                "netMigrationError": 67.5,
+                "populationError": 68.2
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 6.5,
+                "actualNetMigration": -98,
+                "netMigrationError": 104.5,
+                "populationError": 165.7
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 6.5,
+                "actualNetMigration": 26,
+                "netMigrationError": -19.5,
+                "populationError": 144
+              }
+            ]
+          }
+        }
+      },
+      "2580": {
+        "2": {
+          "observations": 12,
+          "populationMAPE": 0.3,
+          "populationMAE": 210.6,
+          "netMigrationMAE": 138.3,
+          "netMigrationMeanError": 12.4,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 138.1,
+            "populationMeanError": 25.9,
+            "netMigrationMAE": 178.3,
+            "netMigrationMeanError": 22.8
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 176.9,
+            "populationMeanError": 86.1,
+            "netMigrationMAE": 67,
+            "netMigrationMeanError": 9.5
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 316.7,
+            "populationMeanError": 176.6,
+            "netMigrationMAE": 169.5,
+            "netMigrationMeanError": 5
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 138.1,
+              "populationMeanError": 25.9,
+              "netMigrationMAE": 178.3,
+              "netMigrationMeanError": 22.8
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 176.9,
+              "populationMeanError": 86.1,
+              "netMigrationMAE": 67,
+              "netMigrationMeanError": 9.5
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 316.7,
+              "populationMeanError": 176.6,
+              "netMigrationMAE": 169.5,
+              "netMigrationMeanError": 5
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 472,
+                "actualNetMigration": 181,
+                "netMigrationError": 291,
+                "populationError": 289.8
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 472,
+                "actualNetMigration": 437,
+                "netMigrationError": 35,
+                "populationError": 413.2
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 472,
+                "actualNetMigration": 198,
+                "netMigrationError": 274,
+                "populationError": 663.4
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 232.5,
+                "actualNetMigration": 437,
+                "netMigrationError": -204.5,
+                "populationError": -151.8
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 232.5,
+                "actualNetMigration": 198,
+                "netMigrationError": 34.5,
+                "populationError": -181.6
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 232.5,
+                "actualNetMigration": 424,
+                "netMigrationError": -191.5,
+                "populationError": -280.2
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 309,
+                "actualNetMigration": 198,
+                "netMigrationError": 111,
+                "populationError": 38.1
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 309,
+                "actualNetMigration": 424,
+                "netMigrationError": -115,
+                "populationError": 4.6
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 309,
+                "actualNetMigration": 234,
+                "netMigrationError": 75,
+                "populationError": 228.5
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 317.5,
+                "actualNetMigration": 424,
+                "netMigrationError": -106.5,
+                "populationError": -72.7
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 317.5,
+                "actualNetMigration": 234,
+                "netMigrationError": 83.5,
+                "populationError": 108.1
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 317.5,
+                "actualNetMigration": 455,
+                "netMigrationError": -137.5,
+                "populationError": 94.9
+              }
+            ]
+          }
+        },
+        "4": {
+          "observations": 12,
+          "populationMAPE": 0.2,
+          "populationMAE": 191.9,
+          "netMigrationMAE": 120,
+          "netMigrationMeanError": 46.4,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.1,
+            "populationMAE": 117.4,
+            "populationMeanError": 59.8,
+            "netMigrationMAE": 141.1,
+            "netMigrationMeanError": 56.7
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 154.5,
+            "populationMeanError": 154.5,
+            "netMigrationMAE": 86.7,
+            "netMigrationMeanError": 43.4
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 303.8,
+            "populationMeanError": 280.2,
+            "netMigrationMAE": 132.3,
+            "netMigrationMeanError": 38.9
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.1,
+              "populationMAE": 117.4,
+              "populationMeanError": 59.8,
+              "netMigrationMAE": 141.1,
+              "netMigrationMeanError": 56.7
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 154.5,
+              "populationMeanError": 154.5,
+              "netMigrationMAE": 86.7,
+              "netMigrationMeanError": 43.4
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 303.8,
+              "populationMeanError": 280.2,
+              "netMigrationMAE": 132.3,
+              "netMigrationMeanError": 38.9
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 384,
+                "actualNetMigration": 181,
+                "netMigrationError": 203,
+                "populationError": 201.8
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 384,
+                "actualNetMigration": 437,
+                "netMigrationError": -53,
+                "populationError": 238.2
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 384,
+                "actualNetMigration": 198,
+                "netMigrationError": 186,
+                "populationError": 402.2
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 417.3,
+                "actualNetMigration": 437,
+                "netMigrationError": -19.7,
+                "populationError": 33
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 417.3,
+                "actualNetMigration": 198,
+                "netMigrationError": 219.3,
+                "populationError": 193
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 417.3,
+                "actualNetMigration": 424,
+                "netMigrationError": -6.7,
+                "populationError": 290.1
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 390.5,
+                "actualNetMigration": 198,
+                "netMigrationError": 192.5,
+                "populationError": 119.6
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 390.5,
+                "actualNetMigration": 424,
+                "netMigrationError": -33.5,
+                "populationError": 168.5
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 390.5,
+                "actualNetMigration": 234,
+                "netMigrationError": 156.5,
+                "populationError": 475.7
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 275,
+                "actualNetMigration": 424,
+                "netMigrationError": -149,
+                "populationError": -115.2
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 275,
+                "actualNetMigration": 234,
+                "netMigrationError": 41,
+                "populationError": 18.3
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 275,
+                "actualNetMigration": 455,
+                "netMigrationError": -180,
+                "populationError": -47.3
+              }
+            ]
+          }
+        },
+        "6": {
+          "observations": 12,
+          "populationMAPE": 0.2,
+          "populationMAE": 186.9,
+          "netMigrationMAE": 113.4,
+          "netMigrationMeanError": 54.2,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.1,
+            "populationMAE": 81.1,
+            "populationMeanError": 67.7,
+            "netMigrationMAE": 121.2,
+            "netMigrationMeanError": 64.6
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 171.6,
+            "populationMeanError": 171.6,
+            "netMigrationMAE": 106.5,
+            "netMigrationMeanError": 51.3
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 307.9,
+            "populationMeanError": 307.9,
+            "netMigrationMAE": 112.5,
+            "netMigrationMeanError": 46.8
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.1,
+              "populationMAE": 81.1,
+              "populationMeanError": 67.7,
+              "netMigrationMAE": 121.2,
+              "netMigrationMeanError": 64.6
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 171.6,
+              "populationMeanError": 171.6,
+              "netMigrationMAE": 106.5,
+              "netMigrationMeanError": 51.3
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 307.9,
+              "populationMeanError": 307.9,
+              "netMigrationMAE": 112.5,
+              "netMigrationMeanError": 46.8
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 391.7,
+                "actualNetMigration": 181,
+                "netMigrationError": 210.7,
+                "populationError": 209.4
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 391.7,
+                "actualNetMigration": 437,
+                "netMigrationError": -45.3,
+                "populationError": 255.5
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 391.7,
+                "actualNetMigration": 198,
+                "netMigrationError": 193.7,
+                "populationError": 431.1
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 363.7,
+                "actualNetMigration": 437,
+                "netMigrationError": -73.3,
+                "populationError": -20.6
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 363.7,
+                "actualNetMigration": 198,
+                "netMigrationError": 165.7,
+                "populationError": 86.8
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 363.7,
+                "actualNetMigration": 424,
+                "netMigrationError": -60.3,
+                "populationError": 132.3
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 359,
+                "actualNetMigration": 198,
+                "netMigrationError": 161,
+                "populationError": 88.1
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 359,
+                "actualNetMigration": 424,
+                "netMigrationError": -65,
+                "populationError": 106.3
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 359,
+                "actualNetMigration": 234,
+                "netMigrationError": 125,
+                "populationError": 383.9
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 384,
+                "actualNetMigration": 424,
+                "netMigrationError": -40,
+                "populationError": -6.2
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 384,
+                "actualNetMigration": 234,
+                "netMigrationError": 150,
+                "populationError": 237.8
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 384,
+                "actualNetMigration": 455,
+                "netMigrationError": -71,
+                "populationError": 284.2
+              }
+            ]
+          }
+        },
+        "10": {
+          "observations": 12,
+          "populationMAPE": 0.2,
+          "populationMAE": 133.5,
+          "netMigrationMAE": 113.5,
+          "netMigrationMeanError": 20.9,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.1,
+            "populationMAE": 81.2,
+            "populationMeanError": 34.3,
+            "netMigrationMAE": 121.4,
+            "netMigrationMeanError": 31.2
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.1,
+            "populationMAE": 107.8,
+            "populationMeanError": 105.3,
+            "netMigrationMAE": 106.4,
+            "netMigrationMeanError": 18
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.3,
+            "populationMAE": 211.5,
+            "populationMeanError": 209.1,
+            "netMigrationMAE": 112.6,
+            "netMigrationMeanError": 13.5
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.1,
+              "populationMAE": 81.2,
+              "populationMeanError": 34.3,
+              "netMigrationMAE": 121.4,
+              "netMigrationMeanError": 31.2
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.1,
+              "populationMAE": 107.8,
+              "populationMeanError": 105.3,
+              "netMigrationMAE": 106.4,
+              "netMigrationMeanError": 18
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.3,
+              "populationMAE": 211.5,
+              "populationMeanError": 209.1,
+              "netMigrationMAE": 112.6,
+              "netMigrationMeanError": 13.5
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 329.3,
+                "actualNetMigration": 181,
+                "netMigrationError": 148.3,
+                "populationError": 147.1
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 329.3,
+                "actualNetMigration": 437,
+                "netMigrationError": -107.7,
+                "populationError": 129.1
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 329.3,
+                "actualNetMigration": 198,
+                "netMigrationError": 131.3,
+                "populationError": 238.9
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 317.5,
+                "actualNetMigration": 437,
+                "netMigrationError": -119.5,
+                "populationError": -66.8
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 317.5,
+                "actualNetMigration": 198,
+                "netMigrationError": 119.5,
+                "populationError": -5
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 317.5,
+                "actualNetMigration": 424,
+                "netMigrationError": -106.5,
+                "populationError": -4.8
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 354.9,
+                "actualNetMigration": 198,
+                "netMigrationError": 156.9,
+                "populationError": 84
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 354.9,
+                "actualNetMigration": 424,
+                "netMigrationError": -69.1,
+                "populationError": 99.8
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 354.9,
+                "actualNetMigration": 234,
+                "netMigrationError": 120.9,
+                "populationError": 376.4
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 363.2,
+                "actualNetMigration": 424,
+                "netMigrationError": -60.8,
+                "populationError": -27
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 363.2,
+                "actualNetMigration": 234,
+                "netMigrationError": 129.2,
+                "populationError": 197.5
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 363.2,
+                "actualNetMigration": 455,
+                "netMigrationError": -91.8,
+                "populationError": 225.8
+              }
+            ]
+          }
+        }
+      },
+      "2581": {
+        "2": {
+          "observations": 12,
+          "populationMAPE": 0.2,
+          "populationMAE": 86.1,
+          "netMigrationMAE": 49.5,
+          "netMigrationMeanError": 15.4,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 70.8,
+            "populationMeanError": -14.2,
+            "netMigrationMAE": 37.3,
+            "netMigrationMeanError": 7.8
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 76.5,
+            "populationMeanError": 12,
+            "netMigrationMAE": 43,
+            "netMigrationMeanError": 43
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.3,
+            "populationMAE": 111.1,
+            "populationMeanError": -7.5,
+            "netMigrationMAE": 68.3,
+            "netMigrationMeanError": -4.5
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 70.8,
+              "populationMeanError": -14.2,
+              "netMigrationMAE": 37.3,
+              "netMigrationMeanError": 7.8
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 76.5,
+              "populationMeanError": 12,
+              "netMigrationMAE": 43,
+              "netMigrationMeanError": 43
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.3,
+              "populationMAE": 111.1,
+              "populationMeanError": -7.5,
+              "netMigrationMAE": 68.3,
+              "netMigrationMeanError": -4.5
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 162.5,
+                "actualNetMigration": 193,
+                "netMigrationError": -30.5,
+                "populationError": -58.2
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 162.5,
+                "actualNetMigration": 21,
+                "netMigrationError": 141.5,
+                "populationError": 103.2
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 162.5,
+                "actualNetMigration": 110,
+                "netMigrationError": 52.5,
+                "populationError": 107.9
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 111,
+                "actualNetMigration": 21,
+                "netMigrationError": 90,
+                "populationError": 113.3
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 111,
+                "actualNetMigration": 110,
+                "netMigrationError": 1,
+                "populationError": 73.9
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 111,
+                "actualNetMigration": 91,
+                "netMigrationError": 20,
+                "populationError": 89.1
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 107,
+                "actualNetMigration": 110,
+                "netMigrationError": -3,
+                "populationError": -47.2
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 107,
+                "actualNetMigration": 91,
+                "netMigrationError": 16,
+                "populationError": -44
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 107,
+                "actualNetMigration": 52,
+                "netMigrationError": 55,
+                "populationError": 10.2
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 65.5,
+                "actualNetMigration": 91,
+                "netMigrationError": -25.5,
+                "populationError": -64.4
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 65.5,
+                "actualNetMigration": 52,
+                "netMigrationError": 13.5,
+                "populationError": -85
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 65.5,
+                "actualNetMigration": 211,
+                "netMigrationError": -145.5,
+                "populationError": -237.2
+              }
+            ]
+          }
+        },
+        "4": {
+          "observations": 12,
+          "populationMAPE": 0.3,
+          "populationMAE": 145.4,
+          "netMigrationMAE": 86.8,
+          "netMigrationMeanError": 65.9,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 78.2,
+            "populationMeanError": 36.3,
+            "netMigrationMAE": 59.6,
+            "netMigrationMeanError": 58.3
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.3,
+            "populationMAE": 132,
+            "populationMeanError": 112.3,
+            "netMigrationMAE": 93.5,
+            "netMigrationMeanError": 93.5
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.5,
+            "populationMAE": 226.1,
+            "populationMeanError": 142,
+            "netMigrationMAE": 107.4,
+            "netMigrationMeanError": 46
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 78.2,
+              "populationMeanError": 36.3,
+              "netMigrationMAE": 59.6,
+              "netMigrationMeanError": 58.3
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.3,
+              "populationMAE": 132,
+              "populationMeanError": 112.3,
+              "netMigrationMAE": 93.5,
+              "netMigrationMeanError": 93.5
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.5,
+              "populationMAE": 226.1,
+              "populationMeanError": 142,
+              "netMigrationMAE": 107.4,
+              "netMigrationMeanError": 46
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 198.3,
+                "actualNetMigration": 193,
+                "netMigrationError": 5.3,
+                "populationError": -22.5
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 198.3,
+                "actualNetMigration": 21,
+                "netMigrationError": 177.3,
+                "populationError": 174.8
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 198.3,
+                "actualNetMigration": 110,
+                "netMigrationError": 88.3,
+                "populationError": 215.6
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 226.8,
+                "actualNetMigration": 21,
+                "netMigrationError": 205.8,
+                "populationError": 229
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 226.8,
+                "actualNetMigration": 110,
+                "netMigrationError": 116.8,
+                "populationError": 304.1
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 226.8,
+                "actualNetMigration": 91,
+                "netMigrationError": 135.8,
+                "populationError": 432.8
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 134.8,
+                "actualNetMigration": 110,
+                "netMigrationError": 24.8,
+                "populationError": -19.5
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 134.8,
+                "actualNetMigration": 91,
+                "netMigrationError": 43.8,
+                "populationError": 9.6
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 134.8,
+                "actualNetMigration": 52,
+                "netMigrationError": 82.8,
+                "populationError": 87.8
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 88.3,
+                "actualNetMigration": 91,
+                "netMigrationError": -2.7,
+                "populationError": -41.7
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 88.3,
+                "actualNetMigration": 52,
+                "netMigrationError": 36.3,
+                "populationError": -39.3
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 88.3,
+                "actualNetMigration": 211,
+                "netMigrationError": -122.7,
+                "populationError": -168.1
+              }
+            ]
+          }
+        },
+        "6": {
+          "observations": 12,
+          "populationMAPE": 0.4,
+          "populationMAE": 150.2,
+          "netMigrationMAE": 97.7,
+          "netMigrationMeanError": 91.3,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 70,
+            "populationMeanError": 61.8,
+            "netMigrationMAE": 83.7,
+            "netMigrationMeanError": 83.7
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 162.9,
+            "populationMeanError": 162.9,
+            "netMigrationMAE": 118.9,
+            "netMigrationMeanError": 118.9
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.5,
+            "populationMAE": 217.8,
+            "populationMeanError": 217.8,
+            "netMigrationMAE": 90.4,
+            "netMigrationMeanError": 71.4
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 70,
+              "populationMeanError": 61.8,
+              "netMigrationMAE": 83.7,
+              "netMigrationMeanError": 83.7
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 162.9,
+              "populationMeanError": 162.9,
+              "netMigrationMAE": 118.9,
+              "netMigrationMeanError": 118.9
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.5,
+              "populationMAE": 217.8,
+              "populationMeanError": 217.8,
+              "netMigrationMAE": 90.4,
+              "netMigrationMeanError": 71.4
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 204.3,
+                "actualNetMigration": 193,
+                "netMigrationError": 11.3,
+                "populationError": -16.4
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 204.3,
+                "actualNetMigration": 21,
+                "netMigrationError": 183.3,
+                "populationError": 187.6
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 204.3,
+                "actualNetMigration": 110,
+                "netMigrationError": 94.3,
+                "populationError": 236.6
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 204.5,
+                "actualNetMigration": 21,
+                "netMigrationError": 183.5,
+                "populationError": 206.8
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 204.5,
+                "actualNetMigration": 110,
+                "netMigrationError": 94.5,
+                "populationError": 259.1
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 204.5,
+                "actualNetMigration": 91,
+                "netMigrationError": 113.5,
+                "populationError": 364.9
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 167.8,
+                "actualNetMigration": 110,
+                "netMigrationError": 57.8,
+                "populationError": 13.6
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 167.8,
+                "actualNetMigration": 91,
+                "netMigrationError": 76.8,
+                "populationError": 75.3
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 167.8,
+                "actualNetMigration": 52,
+                "netMigrationError": 115.8,
+                "populationError": 185.4
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 173,
+                "actualNetMigration": 91,
+                "netMigrationError": 82,
+                "populationError": 43.1
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 173,
+                "actualNetMigration": 52,
+                "netMigrationError": 121,
+                "populationError": 129.6
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 173,
+                "actualNetMigration": 211,
+                "netMigrationError": -38,
+                "populationError": 84.2
+              }
+            ]
+          }
+        },
+        "10": {
+          "observations": 12,
+          "populationMAPE": 0.3,
+          "populationMAE": 115.3,
+          "netMigrationMAE": 83.7,
+          "netMigrationMeanError": 70.2,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 74.7,
+            "populationMeanError": 40.6,
+            "netMigrationMAE": 82.7,
+            "netMigrationMeanError": 62.5
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.3,
+            "populationMAE": 119.6,
+            "populationMeanError": 119.6,
+            "netMigrationMAE": 97.8,
+            "netMigrationMeanError": 97.8
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 151.6,
+            "populationMeanError": 151.6,
+            "netMigrationMAE": 70.6,
+            "netMigrationMeanError": 50.3
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 74.7,
+              "populationMeanError": 40.6,
+              "netMigrationMAE": 82.7,
+              "netMigrationMeanError": 62.5
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.3,
+              "populationMAE": 119.6,
+              "populationMeanError": 119.6,
+              "netMigrationMAE": 97.8,
+              "netMigrationMeanError": 97.8
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 151.6,
+              "populationMeanError": 151.6,
+              "netMigrationMAE": 70.6,
+              "netMigrationMeanError": 50.3
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 152.6,
+                "actualNetMigration": 193,
+                "netMigrationError": -40.4,
+                "populationError": -68.1
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 152.6,
+                "actualNetMigration": 21,
+                "netMigrationError": 131.6,
+                "populationError": 82.8
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 152.6,
+                "actualNetMigration": 110,
+                "netMigrationError": 42.6,
+                "populationError": 77.3
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 172.7,
+                "actualNetMigration": 21,
+                "netMigrationError": 151.7,
+                "populationError": 175
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 172.7,
+                "actualNetMigration": 110,
+                "netMigrationError": 62.7,
+                "populationError": 194.6
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 172.7,
+                "actualNetMigration": 91,
+                "netMigrationError": 81.7,
+                "populationError": 266.7
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 169.5,
+                "actualNetMigration": 110,
+                "netMigrationError": 59.5,
+                "populationError": 15.3
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 169.5,
+                "actualNetMigration": 91,
+                "netMigrationError": 78.5,
+                "populationError": 77.8
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 169.5,
+                "actualNetMigration": 52,
+                "netMigrationError": 117.5,
+                "populationError": 188.4
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 170.2,
+                "actualNetMigration": 91,
+                "netMigrationError": 79.2,
+                "populationError": 40.3
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 170.2,
+                "actualNetMigration": 52,
+                "netMigrationError": 118.2,
+                "populationError": 123.2
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 170.2,
+                "actualNetMigration": 211,
+                "netMigrationError": -40.8,
+                "populationError": 73.7
+              }
+            ]
+          }
+        }
+      },
+      "2582": {
+        "2": {
+          "observations": 12,
+          "populationMAPE": 0.4,
+          "populationMAE": 115.3,
+          "netMigrationMAE": 73.3,
+          "netMigrationMeanError": -14.9,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.3,
+            "populationMAE": 78.3,
+            "populationMeanError": -14.6,
+            "netMigrationMAE": 72,
+            "netMigrationMeanError": -7.5
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 124.6,
+            "populationMeanError": -1.2,
+            "netMigrationMAE": 83,
+            "netMigrationMeanError": 0.3
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.5,
+            "populationMAE": 143,
+            "populationMeanError": -22.5,
+            "netMigrationMAE": 65,
+            "netMigrationMeanError": -37.5
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.3,
+              "populationMAE": 78.3,
+              "populationMeanError": -14.6,
+              "netMigrationMAE": 72,
+              "netMigrationMeanError": -7.5
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 124.6,
+              "populationMeanError": -1.2,
+              "netMigrationMAE": 83,
+              "netMigrationMeanError": 0.3
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.5,
+              "populationMAE": 143,
+              "populationMeanError": -22.5,
+              "netMigrationMAE": 65,
+              "netMigrationMeanError": -37.5
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 28,
+                "actualNetMigration": 40,
+                "netMigrationError": -12,
+                "populationError": -33.7
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 28,
+                "actualNetMigration": 53,
+                "netMigrationError": -25,
+                "populationError": -28.7
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 28,
+                "actualNetMigration": 111,
+                "netMigrationError": -83,
+                "populationError": -144.3
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": -29.5,
+                "actualNetMigration": 53,
+                "netMigrationError": -82.5,
+                "populationError": -50.9
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": -29.5,
+                "actualNetMigration": 111,
+                "netMigrationError": -140.5,
+                "populationError": -222.9
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": -29.5,
+                "actualNetMigration": -47,
+                "netMigrationError": 17.5,
+                "populationError": -186.7
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 46.5,
+                "actualNetMigration": 111,
+                "netMigrationError": -64.5,
+                "populationError": -101.2
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 46.5,
+                "actualNetMigration": -47,
+                "netMigrationError": 93.5,
+                "populationError": 5
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 46.5,
+                "actualNetMigration": 9,
+                "netMigrationError": 37.5,
+                "populationError": 102
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 82,
+                "actualNetMigration": -47,
+                "netMigrationError": 129,
+                "populationError": 127.4
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 82,
+                "actualNetMigration": 9,
+                "netMigrationError": 73,
+                "populationError": 241.6
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 82,
+                "actualNetMigration": 204,
+                "netMigrationError": -122,
+                "populationError": 139.1
+              }
+            ]
+          }
+        },
+        "4": {
+          "observations": 12,
+          "populationMAPE": 0.2,
+          "populationMAE": 56.4,
+          "netMigrationMAE": 57.2,
+          "netMigrationMeanError": -3.6,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 54.8,
+            "populationMeanError": -3.3,
+            "netMigrationMAE": 40.8,
+            "netMigrationMeanError": 3.8
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 56.7,
+            "populationMeanError": 21.7,
+            "netMigrationMAE": 40.7,
+            "netMigrationMeanError": 11.6
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 57.6,
+            "populationMeanError": 12.3,
+            "netMigrationMAE": 90.2,
+            "netMigrationMeanError": -26.2
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 54.8,
+              "populationMeanError": -3.3,
+              "netMigrationMAE": 40.8,
+              "netMigrationMeanError": 3.8
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 56.7,
+              "populationMeanError": 21.7,
+              "netMigrationMAE": 40.7,
+              "netMigrationMeanError": 11.6
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 57.6,
+              "populationMeanError": 12.3,
+              "netMigrationMAE": 90.2,
+              "netMigrationMeanError": -26.2
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 56,
+                "actualNetMigration": 40,
+                "netMigrationError": 16,
+                "populationError": -5.7
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 56,
+                "actualNetMigration": 53,
+                "netMigrationError": 3,
+                "populationError": 27
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 56,
+                "actualNetMigration": 111,
+                "netMigrationError": -55,
+                "populationError": -61
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 52.8,
+                "actualNetMigration": 53,
+                "netMigrationError": -0.2,
+                "populationError": 31.4
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 52.8,
+                "actualNetMigration": 111,
+                "netMigrationError": -58.2,
+                "populationError": -56.6
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 52.8,
+                "actualNetMigration": -47,
+                "netMigrationError": 99.8,
+                "populationError": 65.3
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 37.3,
+                "actualNetMigration": 111,
+                "netMigrationError": -73.7,
+                "populationError": -110.5
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 37.3,
+                "actualNetMigration": -47,
+                "netMigrationError": 84.3,
+                "populationError": -13.3
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 37.3,
+                "actualNetMigration": 9,
+                "netMigrationError": 28.3,
+                "populationError": 74.5
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 26.3,
+                "actualNetMigration": -47,
+                "netMigrationError": 73.3,
+                "populationError": 71.7
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 26.3,
+                "actualNetMigration": 9,
+                "netMigrationError": 17.3,
+                "populationError": 129.7
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 26.3,
+                "actualNetMigration": 204,
+                "netMigrationError": -177.7,
+                "populationError": -29.5
+              }
+            ]
+          }
+        },
+        "6": {
+          "observations": 12,
+          "populationMAPE": 0.3,
+          "populationMAE": 82.6,
+          "netMigrationMAE": 65,
+          "netMigrationMeanError": 19.9,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 67.7,
+            "populationMeanError": 20.2,
+            "netMigrationMAE": 56.4,
+            "netMigrationMeanError": 27.3
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.3,
+            "populationMAE": 95.1,
+            "populationMeanError": 69.5,
+            "netMigrationMAE": 63.1,
+            "netMigrationMeanError": 35.1
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.3,
+            "populationMAE": 85.1,
+            "populationMeanError": 85.1,
+            "netMigrationMAE": 75.6,
+            "netMigrationMeanError": -2.7
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 67.7,
+              "populationMeanError": 20.2,
+              "netMigrationMAE": 56.4,
+              "netMigrationMeanError": 27.3
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.3,
+              "populationMAE": 95.1,
+              "populationMeanError": 69.5,
+              "netMigrationMAE": 63.1,
+              "netMigrationMeanError": 35.1
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.3,
+              "populationMAE": 85.1,
+              "populationMeanError": 85.1,
+              "netMigrationMAE": 75.6,
+              "netMigrationMeanError": -2.7
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 96,
+                "actualNetMigration": 40,
+                "netMigrationError": 56,
+                "populationError": 34.3
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 96,
+                "actualNetMigration": 53,
+                "netMigrationError": 43,
+                "populationError": 108.3
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 96,
+                "actualNetMigration": 111,
+                "netMigrationError": -15,
+                "populationError": 63
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 55,
+                "actualNetMigration": 53,
+                "netMigrationError": 2,
+                "populationError": 33.6
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 55,
+                "actualNetMigration": 111,
+                "netMigrationError": -56,
+                "populationError": -51.3
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 55,
+                "actualNetMigration": -47,
+                "netMigrationError": 102,
+                "populationError": 74.6
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 52.8,
+                "actualNetMigration": 111,
+                "netMigrationError": -58.2,
+                "populationError": -94.9
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 52.8,
+                "actualNetMigration": -47,
+                "netMigrationError": 99.8,
+                "populationError": 17.8
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 52.8,
+                "actualNetMigration": 9,
+                "netMigrationError": 43.8,
+                "populationError": 120.9
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 62.5,
+                "actualNetMigration": -47,
+                "netMigrationError": 109.5,
+                "populationError": 107.9
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 62.5,
+                "actualNetMigration": 9,
+                "netMigrationError": 53.5,
+                "populationError": 203.1
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 62.5,
+                "actualNetMigration": 204,
+                "netMigrationError": -141.5,
+                "populationError": 81.9
+              }
+            ]
+          }
+        },
+        "10": {
+          "observations": 12,
+          "populationMAPE": 0.4,
+          "populationMAE": 108.4,
+          "netMigrationMAE": 71.7,
+          "netMigrationMeanError": 39.8,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 69.2,
+            "populationMeanError": 40.2,
+            "netMigrationMAE": 57.9,
+            "netMigrationMeanError": 47.3
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 109.7,
+            "populationMeanError": 109.7,
+            "netMigrationMAE": 63.6,
+            "netMigrationMeanError": 55
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.5,
+            "populationMAE": 146.2,
+            "populationMeanError": 146.2,
+            "netMigrationMAE": 93.5,
+            "netMigrationMeanError": 17.3
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 69.2,
+              "populationMeanError": 40.2,
+              "netMigrationMAE": 57.9,
+              "netMigrationMeanError": 47.3
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 109.7,
+              "populationMeanError": 109.7,
+              "netMigrationMAE": 63.6,
+              "netMigrationMeanError": 55
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.5,
+              "populationMAE": 146.2,
+              "populationMeanError": 146.2,
+              "netMigrationMAE": 93.5,
+              "netMigrationMeanError": 17.3
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 83.5,
+                "actualNetMigration": 40,
+                "netMigrationError": 43.5,
+                "populationError": 21.8
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 83.5,
+                "actualNetMigration": 53,
+                "netMigrationError": 30.5,
+                "populationError": 82.9
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 83.5,
+                "actualNetMigration": 111,
+                "netMigrationError": -27.5,
+                "populationError": 24.5
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 93.8,
+                "actualNetMigration": 53,
+                "netMigrationError": 40.8,
+                "populationError": 72.4
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 93.8,
+                "actualNetMigration": 111,
+                "netMigrationError": -17.2,
+                "populationError": 26.5
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 93.8,
+                "actualNetMigration": -47,
+                "netMigrationError": 140.8,
+                "populationError": 191.7
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 89.7,
+                "actualNetMigration": 111,
+                "netMigrationError": -21.3,
+                "populationError": -58
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 89.7,
+                "actualNetMigration": -47,
+                "netMigrationError": 136.7,
+                "populationError": 92.4
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 89.7,
+                "actualNetMigration": 9,
+                "netMigrationError": 80.7,
+                "populationError": 234.4
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 79,
+                "actualNetMigration": -47,
+                "netMigrationError": 126,
+                "populationError": 124.4
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 79,
+                "actualNetMigration": 9,
+                "netMigrationError": 70,
+                "populationError": 237
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 79,
+                "actualNetMigration": 204,
+                "netMigrationError": -125,
+                "populationError": 134.1
+              }
+            ]
+          }
+        }
+      },
+      "FA_LULEA": {
+        "2": {
+          "observations": 12,
+          "populationMAPE": 0.2,
+          "populationMAE": 403.1,
+          "netMigrationMAE": 232.7,
+          "netMigrationMeanError": 3.2,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.1,
+            "populationMAE": 205.3,
+            "populationMeanError": -35,
+            "netMigrationMAE": 204.9,
+            "netMigrationMeanError": 10.1
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.3,
+            "populationMAE": 484.8,
+            "populationMeanError": 47.5,
+            "netMigrationMAE": 204.9,
+            "netMigrationMeanError": 37.6
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.3,
+            "populationMAE": 519.2,
+            "populationMeanError": 99.1,
+            "netMigrationMAE": 288.4,
+            "netMigrationMeanError": -38.1
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.1,
+              "populationMAE": 205.3,
+              "populationMeanError": -35,
+              "netMigrationMAE": 204.9,
+              "netMigrationMeanError": 10.1
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.3,
+              "populationMAE": 484.8,
+              "populationMeanError": 47.5,
+              "netMigrationMAE": 204.9,
+              "netMigrationMeanError": 37.6
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.3,
+              "populationMAE": 519.2,
+              "populationMeanError": 99.1,
+              "netMigrationMAE": 288.4,
+              "netMigrationMeanError": -38.1
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 681,
+                "actualNetMigration": 254,
+                "netMigrationError": 427,
+                "populationError": 340.7
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 681,
+                "actualNetMigration": 535,
+                "netMigrationError": 146,
+                "populationError": 614.3
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 681,
+                "actualNetMigration": 431,
+                "netMigrationError": 250,
+                "populationError": 741.5
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 182,
+                "actualNetMigration": 535,
+                "netMigrationError": -353,
+                "populationError": -260.8
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 182,
+                "actualNetMigration": 431,
+                "netMigrationError": -249,
+                "populationError": -670.9
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 182,
+                "actualNetMigration": 480,
+                "netMigrationError": -298,
+                "populationError": -840.2
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 394.5,
+                "actualNetMigration": 431,
+                "netMigrationError": -36.5,
+                "populationError": -217.7
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 394.5,
+                "actualNetMigration": 480,
+                "netMigrationError": -85.5,
+                "populationError": -203.7
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 394.5,
+                "actualNetMigration": 144,
+                "netMigrationError": 250.5,
+                "populationError": 280.9
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 483,
+                "actualNetMigration": 480,
+                "netMigrationError": 3,
+                "populationError": -2.1
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 483,
+                "actualNetMigration": 144,
+                "netMigrationError": 339,
+                "populationError": 450.4
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 483,
+                "actualNetMigration": 838,
+                "netMigrationError": -355,
+                "populationError": 214.5
+              }
+            ]
+          }
+        },
+        "4": {
+          "observations": 12,
+          "populationMAPE": 0.2,
+          "populationMAE": 376.5,
+          "netMigrationMAE": 241,
+          "netMigrationMeanError": 132.1,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.1,
+            "populationMAE": 207.5,
+            "populationMeanError": 94,
+            "netMigrationMAE": 212.8,
+            "netMigrationMeanError": 139.1
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 306.2,
+            "populationMeanError": 306.2,
+            "netMigrationMAE": 166.6,
+            "netMigrationMeanError": 166.6
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 615.7,
+            "populationMeanError": 488.6,
+            "netMigrationMAE": 343.6,
+            "netMigrationMeanError": 90.8
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.1,
+              "populationMAE": 207.5,
+              "populationMeanError": 94,
+              "netMigrationMAE": 212.8,
+              "netMigrationMeanError": 139.1
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 306.2,
+              "populationMeanError": 306.2,
+              "netMigrationMAE": 166.6,
+              "netMigrationMeanError": 166.6
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 615.7,
+              "populationMeanError": 488.6,
+              "netMigrationMAE": 343.6,
+              "netMigrationMeanError": 90.8
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 693,
+                "actualNetMigration": 254,
+                "netMigrationError": 439,
+                "populationError": 352.7
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 693,
+                "actualNetMigration": 535,
+                "netMigrationError": 158,
+                "populationError": 640.5
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 693,
+                "actualNetMigration": 431,
+                "netMigrationError": 262,
+                "populationError": 784.2
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 693,
+                "actualNetMigration": 535,
+                "netMigrationError": 158,
+                "populationError": 250.2
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 693,
+                "actualNetMigration": 431,
+                "netMigrationError": 262,
+                "populationError": 358.2
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 693,
+                "actualNetMigration": 480,
+                "netMigrationError": 213,
+                "populationError": 715
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 537.8,
+                "actualNetMigration": 431,
+                "netMigrationError": 106.8,
+                "populationError": -74.5
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 537.8,
+                "actualNetMigration": 480,
+                "netMigrationError": 57.8,
+                "populationError": 82.4
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 537.8,
+                "actualNetMigration": 144,
+                "netMigrationError": 393.8,
+                "populationError": 709.2
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 332.5,
+                "actualNetMigration": 480,
+                "netMigrationError": -147.5,
+                "populationError": -152.6
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 332.5,
+                "actualNetMigration": 144,
+                "netMigrationError": 188.5,
+                "populationError": 143.9
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 332.5,
+                "actualNetMigration": 838,
+                "netMigrationError": -505.5,
+                "populationError": -254.2
+              }
+            ]
+          }
+        },
+        "6": {
+          "observations": 12,
+          "populationMAPE": 0.3,
+          "populationMAE": 464.2,
+          "netMigrationMAE": 248.9,
+          "netMigrationMeanError": 213,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.1,
+            "populationMAE": 184.2,
+            "populationMeanError": 174.9,
+            "netMigrationMAE": 220,
+            "netMigrationMeanError": 220
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.3,
+            "populationMAE": 470.2,
+            "populationMeanError": 470.2,
+            "netMigrationMAE": 247.5,
+            "netMigrationMeanError": 247.5
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 738.2,
+            "populationMeanError": 738.2,
+            "netMigrationMAE": 279.2,
+            "netMigrationMeanError": 171.7
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.1,
+              "populationMAE": 184.2,
+              "populationMeanError": 174.9,
+              "netMigrationMAE": 220,
+              "netMigrationMeanError": 220
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.3,
+              "populationMAE": 470.2,
+              "populationMeanError": 470.2,
+              "netMigrationMAE": 247.5,
+              "netMigrationMeanError": 247.5
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 738.2,
+              "populationMeanError": 738.2,
+              "netMigrationMAE": 279.2,
+              "netMigrationMeanError": 171.7
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 726.3,
+                "actualNetMigration": 254,
+                "netMigrationError": 472.3,
+                "populationError": 386
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 726.3,
+                "actualNetMigration": 535,
+                "netMigrationError": 191.3,
+                "populationError": 710.5
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 726.3,
+                "actualNetMigration": 431,
+                "netMigrationError": 295.3,
+                "populationError": 895
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 637,
+                "actualNetMigration": 535,
+                "netMigrationError": 102,
+                "populationError": 194.2
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 637,
+                "actualNetMigration": 431,
+                "netMigrationError": 206,
+                "populationError": 248
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 637,
+                "actualNetMigration": 480,
+                "netMigrationError": 157,
+                "populationError": 553
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 593.5,
+                "actualNetMigration": 431,
+                "netMigrationError": 162.5,
+                "populationError": -18.7
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 593.5,
+                "actualNetMigration": 480,
+                "netMigrationError": 113.5,
+                "populationError": 195.2
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 593.5,
+                "actualNetMigration": 144,
+                "netMigrationError": 449.5,
+                "populationError": 880.3
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 623,
+                "actualNetMigration": 480,
+                "netMigrationError": 143,
+                "populationError": 137.9
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 623,
+                "actualNetMigration": 144,
+                "netMigrationError": 479,
+                "populationError": 727.2
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 623,
+                "actualNetMigration": 838,
+                "netMigrationError": -215,
+                "populationError": 624.4
+              }
+            ]
+          }
+        },
+        "10": {
+          "observations": 12,
+          "populationMAPE": 0.2,
+          "populationMAE": 337.9,
+          "netMigrationMAE": 188.2,
+          "netMigrationMeanError": 151.9,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.1,
+            "populationMAE": 113.9,
+            "populationMeanError": 113.7,
+            "netMigrationMAE": 158.8,
+            "netMigrationMeanError": 158.8
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 347.2,
+            "populationMeanError": 347.2,
+            "netMigrationMAE": 186.3,
+            "netMigrationMeanError": 186.3
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.3,
+            "populationMAE": 552.5,
+            "populationMeanError": 552.5,
+            "netMigrationMAE": 219.4,
+            "netMigrationMeanError": 110.5
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.1,
+              "populationMAE": 113.9,
+              "populationMeanError": 113.7,
+              "netMigrationMAE": 158.8,
+              "netMigrationMeanError": 158.8
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 347.2,
+              "populationMeanError": 347.2,
+              "netMigrationMAE": 186.3,
+              "netMigrationMeanError": 186.3
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.3,
+              "populationMAE": 552.5,
+              "populationMeanError": 552.5,
+              "netMigrationMAE": 219.4,
+              "netMigrationMeanError": 110.5
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 539.6,
+                "actualNetMigration": 254,
+                "netMigrationError": 285.6,
+                "populationError": 199.4
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 539.6,
+                "actualNetMigration": 535,
+                "netMigrationError": 4.6,
+                "populationError": 332.7
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 539.6,
+                "actualNetMigration": 431,
+                "netMigrationError": 108.6,
+                "populationError": 321.1
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 563.5,
+                "actualNetMigration": 535,
+                "netMigrationError": 28.5,
+                "populationError": 120.7
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 563.5,
+                "actualNetMigration": 431,
+                "netMigrationError": 132.5,
+                "populationError": 100
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 563.5,
+                "actualNetMigration": 480,
+                "netMigrationError": 83.5,
+                "populationError": 329.2
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 611.9,
+                "actualNetMigration": 431,
+                "netMigrationError": 180.9,
+                "populationError": -0.3
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 611.9,
+                "actualNetMigration": 480,
+                "netMigrationError": 131.9,
+                "populationError": 233
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 611.9,
+                "actualNetMigration": 144,
+                "netMigrationError": 467.9,
+                "populationError": 938.9
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 620.2,
+                "actualNetMigration": 480,
+                "netMigrationError": 140.2,
+                "populationError": 135.1
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 620.2,
+                "actualNetMigration": 144,
+                "netMigrationError": 476.2,
+                "populationError": 723.2
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 620.2,
+                "actualNetMigration": 838,
+                "netMigrationError": -217.8,
+                "populationError": 621
+              }
+            ]
+          }
+        }
+      }
+    }
   }
 }
