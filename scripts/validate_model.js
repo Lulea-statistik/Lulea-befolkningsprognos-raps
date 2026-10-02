@@ -255,11 +255,13 @@ for (const geo of TARGET_GEOS) {
   for (const window of WINDOWS) {
     const fert = data.fertilityRates.filter(r => r.geo === geo && +r.window === window);
     const mort = data.mortalityRisks.filter(r => r.geo === geo && +r.window === window);
-    const mig = data.netMigration.filter(r => r.geo === geo && +r.window === window);
+    const migrationWindow = MIGRATION_WINDOWS.includes(window) ? window : 10;
+    const mig = data.netMigration.filter(r => r.geo === geo && +r.window === migrationWindow);
     parameterSummary[geo][window] = {
       fertilityProfileRows: fert.length,
       fertilityRateSum: round1(sum(fert, r => r.value)),
       mortalityProfileRows: mort.length,
+      migrationWindowUsed: migrationWindow,
       migrationProfileRows: mig.length,
       annualNetMigrationProfileSum: round1(sum(mig, r => r.value))
     };
