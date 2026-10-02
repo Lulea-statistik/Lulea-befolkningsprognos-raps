@@ -110,6 +110,7 @@ def build_region_origin(region_code, region, origin, origin_cfg, raw):
     original_fa_code = b.FA_CODE
     original_end = b.CALIBRATION_END
     original_windows = b.WINDOWS
+    original_migration_windows = b.MIGRATION_WINDOWS
 
     try:
         b.MUNICIPALITIES = members
