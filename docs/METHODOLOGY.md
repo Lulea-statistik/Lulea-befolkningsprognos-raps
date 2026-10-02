@@ -43,6 +43,10 @@ Där `D` är döda och `P` är relevant medelfolkmängd. Framtida riskprofil utg
 
 `K_fert_local` ska beräknas åldersstandardiserat genom att jämföra observerade lokala födda med det antal som skulle förväntas om lokal kvinnlig befolkning hade rikets åldersspecifika fruktsamhetstal. Historisk exponering för kvinnor 15–49 år hämtas från TAB2819 (ålder under året), eftersom moderns ålder i födelsetabellen avser ålder vid själva födelsen.
 
+Basscenariot använder SCB:s 2024-vintage som Raps-referens. Modellen lagrar dessutom **SCB 2026** som en separat fruktsamhetsbana. Den alternativa banan byter endast `frukty_SE(a,t)`; samma lokala relativa åldersprofil, dödlighet, migration, kalibreringsfönster och kohorttiming används. Den är därför en känslighetsanalys och inte en omkalibrerad Luleåprognos.
+
+Dashboardens manuella fruktsamhetsmultiplikator appliceras ovanpå vald nationell bana och kan användas för transparenta låg-/högscenarier. Den får inte användas för att trimma modellen mot känt historiskt utfall.
+
 ### Utflyttningsrisk
 
 `urisk = 1 - exp(-U/P)`

@@ -15,6 +15,8 @@ API v2 erbjuder bl.a. `GET /tables`, `GET /tables/{id}/metadata`, `GET/POST /tab
 - Födda historiskt + `FoddaKCKM` 2025+.
 - Döda historiskt + CKM-variant från 2025 när exakt tabell-id är verifierat.
 - Nationella framtida fruktsamhets- och dödlighetsprofiler.
+  - Produktionsbas: SCB 2024/Raps, byggd från `raps_national_detail_2024` och `raps_births_2024`.
+  - Fruktsamhetskänslighet: SCB 2026, byggd från `national_forecast_detail` och `national_forecast_births`; samma lokala relativa profil används och dödlighet/migration lämnas oförändrade.
 
 ## Geografier
 

@@ -37,4 +37,12 @@ if set(recombined) != original:
 if len(recombined) != len(original):
     raise AssertionError("Municipality values were duplicated while splitting.")
 
+for key in ("national_forecast_detail","national_forecast_births"):
+    if key not in s.SPECS:
+        raise AssertionError(f"Missing latest fertility sensitivity input: {key}")
+    if s.SPECS[key].get("start") != 2026:
+        raise AssertionError(f"{key} must start at the 2026 forecast vintage")
+    if not s.SPECS[key].get("all_birth_regions"):
+        raise AssertionError(f"{key} must include all birth regions")
+
 print(f"OK: long PxWeb query split into {len(parts)} URL-safe batches")

@@ -10,6 +10,8 @@ Use documented Raps methodology and scenario assumptions wherever available. Whe
 
 SCB TAB6008 is treated as an external alternative benchmark, not as a target the model must reproduce.
 
+The same principle applies to later SCB national demographic assumptions: a newer SCB trajectory may be shown as a sensitivity path without replacing the Raps-reference baseline merely because it produces a result closer to SCB's regional benchmark.
+
 Two comparisons are stored:
 - raw SCB regional projection,
 - SCB trajectory rebased to the model's observed 2025 starting population.
@@ -75,6 +77,18 @@ The 2022-2024 results were inspected before the v1.6 exposure-based fading rule 
 The 2022-2024 test remains useful for diagnostics and component-level error analysis, but the v1.6 fading thresholds (20 and 100 local exposure units) must not be changed in response to the rerun of the same period.
 
 A later independent validation should use a different historical forecast origin, a rolling-origin design, or genuinely future observations that were not available when the v1.6 rule was fixed.
+
+## Forward fertility sensitivity
+
+The production baseline keeps the SCB 2024/Raps national fertility path. A separate **SCB 2026 fertility-only sensitivity** is generated from the current SCB national detailed population/deaths table and births-by-maternal-age table. The local historical relative age pattern is held fixed.
+
+The validation report stores, for Luleå municipality and additive Luleå FA with the standard 10-year calibration window:
+- end population in 2050,
+- cumulative births,
+- difference versus the Raps/SCB 2024 baseline,
+- selected national TFR values for 2026, 2030, 2040 and 2050.
+
+This comparison is a forward assumption sensitivity, not a historical score and not a reason to calibrate toward SCB's regional projection.
 
 ## Rolling-origin validation
 

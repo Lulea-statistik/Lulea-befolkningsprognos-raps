@@ -12,7 +12,7 @@ Gränssnittet är uppdelat i nio rapportsidor:
 4. **Flyttanalys** – inflyttning, utflyttning, netto, historisk variation och praktisk 5 %-känslighet i 1-årsåldrar.
 5. **Arbetsmarknad & pendling** – jobbutveckling, bostads-/arbetsställekommun, pendlingsmatris och scenariofördelning av nya jobb.
 6. **Hushåll & bostad** – hushållsbildning, personer per hushåll, SCB-standardvärden per bostadstyp, bostadsbestånd och indikativ ny bostadsefterfrågan.
-7. **Scenario & justering** – generella demografiska multiplikatorer, bostadsbyggande och arbetsplatsetableringar.
+7. **Scenario & justering** – val mellan Raps/SCB 2024 och SCB 2026 fruktsamhetsbana, generella demografiska multiplikatorer, bostadsbyggande och arbetsplatsetableringar.
 8. **Validering** – historisk 2022–2024-backtest, fel per 1-årsålder och jämförelse mot SCB:s regionala framskrivning.
 9. **Metod & data** – källor, CKM-status, Raps-anpassning och fading-policy.
 
@@ -44,6 +44,7 @@ Geografi, kalibreringsfönster och slutår är globala filter och gäller på al
 
 - Basår 2025, prognos normalt till 2050.
 - Fruktsamhet och dödlighet följer SCB 2024:s nationella framtidstrender och lokaliseras mot kommun/FA.
+- SCB 2026 kan väljas som en **fruktsamhets-only känslighetsbana**. Den behåller samma lokala Luleåprofil och ändrar inte dödlighet eller migration. SCB-benchmark är jämförelse, inte kalibreringsmål.
 - Händelserisker använder medelfolkmängd som exponering med matchad åldersdefinition: TAB2818 för dödlighet/flyttning (ålder vid årets slut) och TAB2819 för fruktsamhet (moderns ålder vid födelsen). Folkmängd 31 december används fortfarande för bestånd och redovisade befolkningsnivåer.
 - Kohorttimingen är event-age-aligned: 31-decemberbeståndet åldras först till prognosårets ålder, födda beräknas på prognosårets mödrar, nyfödda läggs till och dödlighet appliceras därefter på prognosårets ålder inklusive ålder 0. Legacy V1-timing finns endast kvar i valideringen.
 - Lokal nivå skattas som observerat/förväntat mot rikets åldersprofil.

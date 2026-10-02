@@ -29,6 +29,7 @@
 
   function setup(){
     fillGeo();
+    fillFertilityScenario();
     fillLabourWorkplace();
     bindTabs();
     renderScenarioTables();
@@ -37,6 +38,9 @@
     $("exportBtn").addEventListener("click",exportCsv);
     $("addHousing").addEventListener("click",()=>{syncScenarioTables();defaultHousing.push(blankHousing());renderScenarioTables();});
     $("addWorkplace").addEventListener("click",()=>{syncScenarioTables();defaultWorkplaces.push(blankWorkplace());renderScenarioTables();});
+    ["fertilityScenario","fertMult","mortMult","migMult"].forEach(id=>{
+      if($(id)) $(id).addEventListener("change",run);
+    });
     ["geo","window","endYear"].forEach(id=>$(id).addEventListener("change",()=>{
       if(id==="geo" && $("geo").value!=="FA_LULEA" && $("labourWorkplace")){
         $("labourWorkplace").value=$("geo").value;
@@ -53,6 +57,19 @@
     renderDataStatus();
     renderStatus();
     if(data?.meta?.dataReady) run();
+  }
+
+  function fillFertilityScenario(){
+    const el=$("fertilityScenario");
+    if(!el) return;
+    const current=el.value||data?.parameters?.defaultFertilityScenario||"raps2024";
+    const scenarios=(data?.fertilityScenarios?.length
+      ? data.fertilityScenarios
+      : [{id:"raps2024",label:"Raps/SCB 2024 (bas)",isBaseline:true}]);
+    el.innerHTML=scenarios.map(s=>
+      `<option value="${s.id}" ${s.id===current?"selected":""}>${s.label||s.id}</option>`
+    ).join("");
+    if(!scenarios.some(s=>s.id===el.value)) el.value=scenarios[0]?.id||"raps2024";
   }
 
   function bindTabs(){
@@ -313,7 +330,7 @@
     try{
       const parsed=JSON.parse(await file.text());
       if(!parsed.meta||!parsed.geographies) throw new Error("Ogiltigt schema.");
-      data=parsed; fillGeo(); renderScenarioTables(); renderDataStatus(); run();
+      data=parsed; fillGeo(); fillFertilityScenario(); renderScenarioTables(); renderDataStatus(); run();
     }catch(e){renderStatus("Kunde inte läsa datafil: "+e.message);}
   }
 
@@ -322,6 +339,7 @@
       const common={
         geo:$("geo").value,
         endYear:+$("endYear").value,
+        fertilityScenario:$("fertilityScenario")?.value||"raps2024",
         fertMult:+$("fertMult").value,
         mortMult:+$("mortMult").value,
         migMult:+$("migMult").value,

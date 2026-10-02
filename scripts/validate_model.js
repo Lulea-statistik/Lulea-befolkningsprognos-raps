@@ -74,6 +74,42 @@ for (const geo of TARGET_GEOS) {
   }
 }
 
+const fertilitySensitivity = {
+  defaultScenario: data.parameters?.defaultFertilityScenario || 'raps2024',
+  scenarios: data.fertilityScenarios || [],
+  nationalTFR: (data.fertilityScenarioNationalTFR || []).filter(r =>
+    [2026,2030,2040,2050].includes(+r.year)
+  ),
+  geographies: {}
+};
+
+for (const geo of ['2580','FA_LULEA']) {
+  fertilitySensitivity.geographies[geo] = {};
+  const base = forecasts[geo][10];
+  for (const s of fertilitySensitivity.scenarios) {
+    const rows = M.simulate(data, {
+      geo,
+      endYear: END_YEAR,
+      fertilityScenario: s.id,
+      fertMult: 1,
+      mortMult: 1,
+      migMult: 1,
+      window: 10,
+      scenarios: {housing: [], workplaces: [], overlapPct: 0}
+    });
+    const last = rows.at(-1);
+    const cumulativeBirths = round1(sum(rows.slice(1), r => r.births));
+    fertilitySensitivity.geographies[geo][s.id] = {
+      label: s.label || s.id,
+      endPopulation: round1(last.population),
+      cumulativeBirths,
+      deltaPopulationVsBaseline: round1(last.population - base.endPopulation),
+      deltaPopulationPctVsBaseline: pctDiff(last.population, base.endPopulation),
+      deltaBirthsVsBaseline: round1(cumulativeBirths - base.cumulativeBirths)
+    };
+  }
+}
+
 const faForecastConsistency = {};
 for (const window of WINDOWS) {
   const faRows = simulationRows.FA_LULEA[window];
@@ -203,6 +239,7 @@ const report = {
     ])
   ),
   forecasts,
+  fertilitySensitivity,
   warnings
 };
 

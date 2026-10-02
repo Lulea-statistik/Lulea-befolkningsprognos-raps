@@ -1,6 +1,6 @@
 {
-  "schema_version": "0.8.0",
-  "note": "Production sources for the Raps-reference baseline use Tillvaxtverket's published SCB 2024 demographic scenario where available. Latest SCB forecasts are retained only as alternative-scenario sources.",
+  "schema_version": "0.10.0",
+  "note": "Production baseline uses the Raps-reference SCB 2024 demographic scenario. SCB 2026 national detail and births are downloaded as a fertility-only sensitivity path; they do not replace the baseline automatically.",
   "tables": {
     "population_pre2025": {
       "id": "TAB638",
