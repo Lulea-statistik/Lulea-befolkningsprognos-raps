@@ -110,6 +110,45 @@ for (const geo of ['2580','FA_LULEA']) {
   }
 }
 
+const migrationSensitivity = {
+  baseWindow: 10,
+  windows: WINDOWS,
+  geographies: {},
+  observed2025: data.diagnostics?.migration2025Validation || []
+};
+
+for (const geo of ['2580','FA_LULEA']) {
+  migrationSensitivity.geographies[geo] = {};
+  const base = forecasts[geo][10];
+  for (const migrationWindow of WINDOWS) {
+    const rows = M.simulate(data, {
+      geo,
+      endYear: END_YEAR,
+      fertilityScenario: data.parameters?.defaultFertilityScenario || 'raps2024',
+      fertMult: 1,
+      mortMult: 1,
+      migMult: 1,
+      window: 10,
+      migrationWindow,
+      scenarios: {housing: [], workplaces: [], overlapPct: 0}
+    });
+    const last = rows.at(-1);
+    const cumulativeBirths = round1(sum(rows.slice(1), r => r.births));
+    const cumulativeDeaths = round1(sum(rows.slice(1), r => r.deaths));
+    const cumulativeNetMigration = round1(sum(rows.slice(1), r => r.netMigration));
+    migrationSensitivity.geographies[geo][migrationWindow] = {
+      endPopulation: round1(last.population),
+      cumulativeBirths,
+      cumulativeDeaths,
+      cumulativeNetMigration,
+      annualMeanNetMigration: round1(cumulativeNetMigration / Math.max(1, END_YEAR - data.meta.baseYear)),
+      deltaPopulationVs10Year: round1(last.population - base.endPopulation),
+      deltaPopulationPctVs10Year: pctDiff(last.population, base.endPopulation),
+      deltaNetMigrationVs10Year: round1(cumulativeNetMigration - base.cumulativeNetMigration)
+    };
+  }
+}
+
 const faForecastConsistency = {};
 for (const window of WINDOWS) {
   const faRows = simulationRows.FA_LULEA[window];
@@ -240,6 +279,7 @@ const report = {
   ),
   forecasts,
   fertilitySensitivity,
+  migrationSensitivity,
   warnings
 };
 
