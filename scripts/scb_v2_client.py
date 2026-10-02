@@ -24,6 +24,8 @@ DEFAULT_QUERIES = {
     "population_2025": "Folkmängden efter region civilstånd ålder och kön 2025",
     "mean_population_pre2025": "Medelfolkmängd efter födelseår region ålder kön",
     "mean_population_2025": "Medelfolkmängd efter födelseår region ålder kön 2025",
+    "mean_population_event_age_pre2025": "Medelfolkmängd ålder under året region civilstånd ålder kön 2006 2024",
+    "mean_population_event_age_2025": "Medelfolkmängd ålder under året region civilstånd ålder kön 2025",
     "migration_pre2025": "Flyttningar efter region ålder och kön 1997 2024",
     "migration_2025": "Flyttningar efter region ålder och kön 2025",
     "births_pre2025": "Födda efter region moderns ålder barnets kön 1968 2024",
