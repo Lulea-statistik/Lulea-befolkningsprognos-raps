@@ -78,7 +78,8 @@ jobs:
 
       - name: Reuse committed SCB source files
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.mode != 'full' }}
-        run: echo "FAST rebuild: using committed data/raw SCB extracts without network refresh."
+        run: |
+          echo "FAST rebuild: using committed data/raw SCB extracts without network refresh."
 
       - name: Build calibrated model data
         run: python scripts/build_model_data.py
