@@ -115,8 +115,11 @@ def main():
         b.WINDOWS = BACKTEST_WINDOWS
 
         pop = historical_population()
-        exposure = b.aggregate_fa_age_sex(
-            b.load_wide_age_sex("mean_population_pre2025.csv")
+        birth_year_exposure = b.aggregate_fa_age_sex(
+            b.load_wide_age_sex(b.HISTORICAL_BIRTH_YEAR_EXPOSURE_FILE)
+        )
+        fertility_exposure = b.aggregate_fa_age_sex(
+            b.load_wide_age_sex(b.HISTORICAL_EVENT_AGE_EXPOSURE_FILE)
         )
         deaths = b.aggregate_fa_age_sex(
             b.load_wide_age_sex("deaths_pre2025.csv")
@@ -134,8 +137,8 @@ def main():
             b.load_wide_age_sex("migration_pre2025.csv", b.NET_MIG_CODES)
         )
 
-        fertility_rates, fertility_factors = b.fertility_profiles(births, exposure)
-        mortality_risks, mortality_factors = b.mortality_profiles(deaths, exposure)
+        fertility_rates, fertility_factors = b.fertility_profiles(births, fertility_exposure)
+        mortality_risks, mortality_factors = b.mortality_profiles(deaths, birth_year_exposure)
 
         future_fert, future_mort = b.national_future_profiles(
             "backtest_national_detail_2021.csv",
@@ -186,7 +189,7 @@ def main():
             "fertilityRates": fertility_rates,
             "mortalityRisks": mortality_risks,
             "netMigration": b.migration_profiles(netmig),
-            "outMigrationRisks": b.outmigration_risk_profiles(outflow, exposure),
+            "outMigrationRisks": b.outmigration_risk_profiles(outflow, birth_year_exposure),
             "grossInMigration": b.gross_inmigration_profiles(inflow),
             "diagnostics": {
                 "relativeFactors": {

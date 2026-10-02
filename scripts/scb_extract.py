@@ -467,6 +467,8 @@ SPECS = {
     "population_2025": {"start":2025,"end":2025,"content_terms":["Folkmängd"]},
     "mean_population_pre2025": {"start":2006,"end":2024,"include_riket":True},
     "mean_population_2025": {"start":2025,"end":2025},
+    "mean_population_event_age_pre2025": {"start":2006,"end":2024,"include_riket":True},
+    "mean_population_event_age_2025": {"start":2025,"end":2025},
     "migration_pre2025": {"start":2006,"end":2024},
     "migration_2025": {"start":2025,"end":2025},
     "births_pre2025": {"start":2006,"end":2024,"include_riket":True},

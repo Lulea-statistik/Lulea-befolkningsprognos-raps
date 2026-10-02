@@ -37,6 +37,20 @@ Recommended evaluation views:
 
 ## Recommended illustrations
 
+Presentation ideas reviewed from `FaluPeppe/befprognos` and `Analytikernatverket/befolkningsprognoser` should be treated as visualization inspiration, not as model specification.
+
+Useful patterns to adopt:
+- distinguish historical and forecast series strongly: historical one-year-age curves thinner/more muted, forecast curves thicker/more prominent;
+- show a clear forecast-start marker in time-series charts;
+- compare several forecast vintages when evaluating forecast stability;
+- show age-group change as diverging bars around zero;
+- decompose population change into natural change and migration components;
+- use a visible zero line for net migration/change charts;
+- keep source/method captions close to the chart;
+- allow single-year-age views of births, deaths and migration alongside grouped summaries.
+
+For rate/risk charts, the subtitle or tooltip should state the denominator source (31 December stock, birth-year mean population, or event-age mean population) so that a rate cannot be mistaken for a stock measure.
+
 - historical population followed by forecast with a clear vertical forecast-start marker,
 - age pyramid for base year versus selected future year,
 - age-group shares over time,
@@ -78,6 +92,8 @@ Long horizon: use primarily as a demographic projection/scenario. Annual peaks a
 
 ## Source inspiration
 
+- FaluPeppe, `befprognos`: forecast-vintage comparison, age-group change bars, demographic-component decomposition, source captions and reusable chart output.
+- Analytikernatverket, `befolkningsprognoser`: historical-versus-forecast one-year-age curves, zero lines for net components and interactive inspection of demographic risks. Its model code is not copied mechanically; denominator definitions are checked independently against SCB.
 - Västra Götalandsregionen, *Befolkningsprognos 2025–2040*:
   https://mellanarkiv-offentlig.vgregion.se/alfresco/s/archive/stream/public/v1/source/available/sofia/rs7897-268913469-852/surrogate/Befolkningsprognos%202025-2040.pdf
 - SCB, population projections and documentation:

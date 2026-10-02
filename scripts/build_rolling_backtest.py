@@ -164,7 +164,7 @@ def national_only_mortality_rows(future_mort, start_year, end_year):
     return result
 
 
-def build_origin(origin, cfg, pop, exposure, deaths, births, netmig):
+def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deaths, births, netmig):
     original_end = b.CALIBRATION_END
     original_windows = b.WINDOWS
     end_year = origin + HORIZON_YEARS
@@ -173,10 +173,10 @@ def build_origin(origin, cfg, pop, exposure, deaths, births, netmig):
         b.WINDOWS = WINDOWS
 
         fertility_rates, fertility_factors = b.fertility_profiles(
-            births, exposure
+            births, fertility_exposure
         )
         mortality_risks, mortality_factors = b.mortality_profiles(
-            deaths, exposure
+            deaths, birth_year_exposure
         )
 
         detail_key = cfg["detail_key"]
@@ -299,8 +299,11 @@ def build_origin(origin, cfg, pop, exposure, deaths, births, netmig):
 
 def main():
     pop = historical_population()
-    exposure = b.aggregate_fa_age_sex(
-        b.load_wide_age_sex("mean_population_pre2025.csv")
+    birth_year_exposure = b.aggregate_fa_age_sex(
+        b.load_wide_age_sex(b.HISTORICAL_BIRTH_YEAR_EXPOSURE_FILE)
+    )
+    fertility_exposure = b.aggregate_fa_age_sex(
+        b.load_wide_age_sex(b.HISTORICAL_EVENT_AGE_EXPOSURE_FILE)
     )
     deaths = b.aggregate_fa_age_sex(
         b.load_wide_age_sex("deaths_pre2025.csv")
@@ -314,7 +317,8 @@ def main():
 
     entries = [
         build_origin(
-            origin, cfg, pop, exposure, deaths, births, netmig
+            origin, cfg, pop, birth_year_exposure, fertility_exposure,
+            deaths, births, netmig
         )
         for origin, cfg in ORIGINS.items()
     ]

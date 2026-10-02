@@ -43,6 +43,7 @@ Geografi, kalibreringsfönster och slutår är globala filter och gäller på al
 
 - Basår 2025, prognos normalt till 2050.
 - Fruktsamhet och dödlighet följer SCB 2024:s nationella framtidstrender och lokaliseras mot kommun/FA.
+- Händelserisker använder medelfolkmängd som exponering med matchad åldersdefinition: TAB2818 för dödlighet/flyttning (ålder vid årets slut) och TAB2819 för fruktsamhet (moderns ålder vid födelsen). Folkmängd 31 december används fortfarande för bestånd och redovisade befolkningsnivåer.
 - Lokal nivå skattas som observerat/förväntat mot rikets åldersprofil.
 - Där officiella Raps-parametrar saknas används en outcome-oberoende fading per ålderscell.
 - Fading använder två outcome-oberoende informationssignaler: genomsnittlig årlig cellpopulation och förväntat antal händelser. Populationssignalen går från 0 % vid <=20 till 100 % vid >=100; händelsesignalen går från 0 % vid <=1 förväntad händelse till 100 % vid >=20. Den slutliga lokala vikten är produkten av de två.
