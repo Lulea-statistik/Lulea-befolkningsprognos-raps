@@ -396,7 +396,7 @@
     const endYear=+options.endYear;
     const fertMult=n(options.fertMult||1), mortMult=n(options.mortMult||1), migMult=n(options.migMult||1);
     const migrationMode=options.migrationMode||"net";
-    const cohortTimingMode=options.cohortTimingMode||"legacy_start_age";
+    const cohortTimingMode=options.cohortTimingMode||data.parameters?.cohortTimingMode||"event_age_aligned";
     const imigMult=options.imigMult==null?migMult:n(options.imigMult);
     const umigMult=options.umigMult==null?migMult:n(options.umigMult);
     const window=+(options.window || data.calibration?.defaultYears || 10);
@@ -487,8 +487,8 @@
           }
         }
       }else{
-        // Legacy V1 timing retained as the production default while the
-        // source-aligned alternative is evaluated out of sample.
+        // Legacy V1 timing is retained only for validation and historical
+        // comparison. Production uses event-age aligned timing by default.
         for(const sex of ["K","M"]){
           for(let age=0;age<=MAX_AGE;age++){
             const p=n(pop.get(key(sex,age)));
