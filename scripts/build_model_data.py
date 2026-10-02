@@ -169,6 +169,54 @@ def national_future_profiles(detail_filename: str, detail_key: str, births_filen
                 mort_hazard[(year, sex, age)] = 0.0 if p <= 0 else deaths.get((year, sex, age), 0.0) / p
     return fert, mort_hazard
 
+def fertility_scenario_rows(
+    historical_fertility_rows,
+    future_fert,
+    scenario,
+    source,
+    start_year=2026,
+):
+    """Apply the existing local relative age pattern to another national path."""
+    out = []
+    base_fert = [r for r in historical_fertility_rows if "year" not in r]
+    for r in base_fert:
+        hist_nat = float(r.get("nationalRate") or 0.0)
+        relative = 1.0 if hist_nat <= 0 else float(r.get("value") or 0.0) / hist_nat
+        for (year, age), national_rate in future_fert.items():
+            if year < start_year or age != int(r["age"]):
+                continue
+            out.append({
+                "scenario": scenario,
+                "geo": r["geo"],
+                "window": r["window"],
+                "year": year,
+                "age": age,
+                "value": max(0.0, national_rate * relative),
+                "nationalRate": national_rate,
+                "relativeHistoricalShape": relative,
+                "source": source,
+            })
+    return out
+
+
+def national_tfr_rows(scenarios):
+    """Sum annual age-specific national fertility rates, ages 15-49."""
+    rows_out = []
+    for scenario, source, future_fert in scenarios:
+        years = sorted({year for year, _ in future_fert})
+        for year in years:
+            rows_out.append({
+                "scenario": scenario,
+                "source": source,
+                "year": year,
+                "tfr": sum(
+                    max(0.0, float(future_fert.get((year, age), 0.0)))
+                    for age in range(15, 50)
+                ),
+            })
+    return rows_out
+
+
 def extend_profiles_with_future(fertility_rows, mortality_rows, future_fert, future_mort, start_year=2026):
     """Apply historical local relative shapes to annual SCB national future profiles."""
     fert_out = list(fertility_rows)
@@ -851,13 +899,60 @@ def main():
         "raps_national_detail_2024",
         "raps_births_2024.csv",
     )
+    historical_fertility_rows = list(fertility_rates)
+    fertility_scenario_rates = []
+    fertility_scenarios = []
+    fertility_scenario_tfr = []
+
     if future_fert and future_mort:
         fertility_rates, mortality_risks = extend_profiles_with_future(
             fertility_rates, mortality_risks, future_fert, future_mort, start_year=2026
         )
         future_profile_mode = "SCB 2024 annual national profiles × local relative shape"
+        fertility_scenarios.append({
+            "id": "raps2024",
+            "label": "Raps/SCB 2024 (bas)",
+            "isBaseline": True,
+            "source": "SCB 2024 national forecast used by the Raps reference baseline",
+        })
     else:
         future_profile_mode = "Historical national profile held constant (fallback)"
+
+    latest_fert, _latest_mort = national_future_profiles(
+        "national_forecast_detail.csv",
+        "national_forecast_detail",
+        "national_forecast_births.csv",
+    )
+    if latest_fert:
+        fertility_scenario_rates.extend(
+            fertility_scenario_rows(
+                historical_fertility_rows,
+                latest_fert,
+                "scb2026",
+                "SCB Sveriges framtida befolkning 2026 national fertility profile × unchanged local calibrated relative shape",
+                start_year=2026,
+            )
+        )
+        fertility_scenarios.append({
+            "id": "scb2026",
+            "label": "SCB 2026 – aktuell nationell bana",
+            "isBaseline": False,
+            "source": "SCB Sveriges framtida befolkning 2026",
+            "changes": "fertility only; mortality and migration remain at baseline assumptions",
+        })
+
+    fertility_scenario_tfr = national_tfr_rows([
+        (
+            "raps2024",
+            "SCB 2024 Raps reference",
+            future_fert,
+        ),
+        (
+            "scb2026",
+            "SCB 2026 current national projection",
+            latest_fert,
+        ),
+    ])
 
     model = {
         "meta": {
@@ -889,8 +984,9 @@ def main():
                 },
             },
             "note": (
-                "Fertility and mortality use annual SCB 2024 national forecast profiles "
+                "Baseline fertility and mortality use annual SCB 2024 national forecast profiles "
                 "multiplied by locally calibrated municipality/FA relative shapes. "
+                "SCB 2026 is stored as a fertility-only sensitivity path using the same local calibration. "
                 "Cohorts are aged to forecast-year/event age before fertility and mortality are applied. "
                 "Newborns are included before age-0 mortality. Small age cells fade toward the national age profile. "
                 "Historical municipal "
@@ -923,6 +1019,7 @@ def main():
             "observedMaleBirthShareFA2015_2024": male_birth_share,
             "relativeToNationalMethod": "General age-standardized municipality/FA ratio to Sweden",
             "futureNationalProfileMode": future_profile_mode,
+            "defaultFertilityScenario": "raps2024",
             "scenarioMigrationProfileMethod": (
                 "Workplace scenarios support a worker hybrid profile based on SCB TAB3205 "
                 "employment age/sex shares, disaggregated to one-year ages with observed "
@@ -935,6 +1032,9 @@ def main():
             for (geo, sex, age), value in sorted(base.items())
         ],
         "fertilityRates": fertility_rates,
+        "fertilityScenarioRates": fertility_scenario_rates,
+        "fertilityScenarios": fertility_scenarios,
+        "fertilityScenarioNationalTFR": fertility_scenario_tfr,
         "mortalityRisks": mortality_risks,
         "netMigration": migration_profiles(netmig),
         "outMigrationRisks": outmigration_risk_profiles(outflow, birth_year_exposure),
