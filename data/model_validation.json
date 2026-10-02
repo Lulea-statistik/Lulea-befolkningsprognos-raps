@@ -1,6 +1,6 @@
 {
   "generatedBy": "scripts/validate_model.js",
-  "modelSchemaVersion": "0.9.0",
+  "modelSchemaVersion": "0.10.0",
   "baseYear": 2025,
   "endYear": 2050,
   "basePopulation": {
@@ -4524,6 +4524,112 @@
         "cumulativeScenarioEffect": 0,
         "differenceVs10YearEnd": -5012.3,
         "differenceVs10YearEndPct": -2.9
+      }
+    }
+  },
+  "fertilitySensitivity": {
+    "defaultScenario": "raps2024",
+    "scenarios": [
+      {
+        "id": "raps2024",
+        "label": "Raps/SCB 2024 (bas)",
+        "isBaseline": true,
+        "source": "SCB 2024 national forecast used by the Raps reference baseline"
+      },
+      {
+        "id": "scb2026",
+        "label": "SCB 2026 – aktuell nationell bana",
+        "isBaseline": false,
+        "source": "SCB Sveriges framtida befolkning 2026",
+        "changes": "fertility only; mortality and migration remain at baseline assumptions"
+      }
+    ],
+    "nationalTFR": [
+      {
+        "scenario": "raps2024",
+        "source": "SCB 2024 Raps reference",
+        "year": 2026,
+        "tfr": 1.411659623033273
+      },
+      {
+        "scenario": "raps2024",
+        "source": "SCB 2024 Raps reference",
+        "year": 2030,
+        "tfr": 1.513150703603564
+      },
+      {
+        "scenario": "raps2024",
+        "source": "SCB 2024 Raps reference",
+        "year": 2040,
+        "tfr": 1.6423800101853414
+      },
+      {
+        "scenario": "raps2024",
+        "source": "SCB 2024 Raps reference",
+        "year": 2050,
+        "tfr": 1.6615215621205628
+      },
+      {
+        "scenario": "scb2026",
+        "source": "SCB 2026 current national projection",
+        "year": 2026,
+        "tfr": 1.4352980487384208
+      },
+      {
+        "scenario": "scb2026",
+        "source": "SCB 2026 current national projection",
+        "year": 2030,
+        "tfr": 1.5130021925240944
+      },
+      {
+        "scenario": "scb2026",
+        "source": "SCB 2026 current national projection",
+        "year": 2040,
+        "tfr": 1.641736881714127
+      },
+      {
+        "scenario": "scb2026",
+        "source": "SCB 2026 current national projection",
+        "year": 2050,
+        "tfr": 1.661279783012063
+      }
+    ],
+    "geographies": {
+      "2580": {
+        "raps2024": {
+          "label": "Raps/SCB 2024 (bas)",
+          "endPopulation": 85733.7,
+          "cumulativeBirths": 18123.3,
+          "deltaPopulationVsBaseline": 0,
+          "deltaPopulationPctVsBaseline": 0,
+          "deltaBirthsVsBaseline": 0
+        },
+        "scb2026": {
+          "label": "SCB 2026 – aktuell nationell bana",
+          "endPopulation": 85754.1,
+          "cumulativeBirths": 18143.9,
+          "deltaPopulationVsBaseline": 20.4,
+          "deltaPopulationPctVsBaseline": 0,
+          "deltaBirthsVsBaseline": 20.6
+        }
+      },
+      "FA_LULEA": {
+        "raps2024": {
+          "label": "Raps/SCB 2024 (bas)",
+          "endPopulation": 172305.5,
+          "cumulativeBirths": 35434.9,
+          "deltaPopulationVsBaseline": 0,
+          "deltaPopulationPctVsBaseline": 0,
+          "deltaBirthsVsBaseline": 0
+        },
+        "scb2026": {
+          "label": "SCB 2026 – aktuell nationell bana",
+          "endPopulation": 172346,
+          "cumulativeBirths": 35475.7,
+          "deltaPopulationVsBaseline": 40.5,
+          "deltaPopulationPctVsBaseline": 0,
+          "deltaBirthsVsBaseline": 40.8
+        }
       }
     }
   },
