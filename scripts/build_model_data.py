@@ -891,7 +891,9 @@ def main():
             "note": (
                 "Fertility and mortality use annual SCB 2024 national forecast profiles "
                 "multiplied by locally calibrated municipality/FA relative shapes. "
-                "Small age cells fade toward the national age profile. Historical municipal "
+                "Cohorts are aged to forecast-year/event age before fertility and mortality are applied. "
+                "Newborns are included before age-0 mortality. Small age cells fade toward the national age profile. "
+                "Historical municipal "
                 "urisk and gross inflow profiles are stored as migration-building inputs, while "
                 "the published V1 baseline still uses locally calibrated net migration."
             ),
@@ -909,6 +911,7 @@ def main():
             "ckmCellDelta": 3,
         },
         "parameters": {
+            "cohortTimingMode": "event_age_aligned",
             "qutbMode": "identity",
             "endogenousInMigration": False,
             "endogenousOutMigration": False,
