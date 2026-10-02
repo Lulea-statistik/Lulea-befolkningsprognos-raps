@@ -22,8 +22,8 @@ OUTDIR = ROOT / "data" / "backtests"
 WORKDIR = OUTDIR / "rolling_work"
 WORKDIR.mkdir(parents=True, exist_ok=True)
 
-WINDOWS = (6, 10)
-MIGRATION_WINDOWS = (2, 4, 6, 10)
+WINDOWS = (3, 6, 10)
+MIGRATION_WINDOWS = (2, 3, 4, 6, 10)
 HORIZON_YEARS = 3
 ORIGINS = {
     2018: {
