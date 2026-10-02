@@ -336,11 +336,13 @@ def load_wide_age_sex(filename: str, allowed_codes=None, allowed_geos=None):
 def load_migration_legs(filename: str, code_map, allowed_geos=None):
     """Load migration split into county / rest of Sweden / international legs.
 
-    The SCB table is also split by birth region. For the geographic migration
-    legs we use only the row representing all birth regions to avoid double
-    counting Swedish-born and foreign-born subtotals.
+    SCB also splits rows by birth region. Some vintages provide an explicit
+    all-birth-regions row while older TAB4693 extracts provide Swedish-born
+    and foreign-born rows only. Use the total row when available; otherwise
+    sum the two mutually exclusive birth-region rows.
     """
     path = RAW / filename
+    source_rows = list(rows(path))
     out = defaultdict(float)
     geos = _allowed_geographies(allowed_geos)
     reverse = {
@@ -348,8 +350,12 @@ def load_migration_legs(filename: str, code_map, allowed_geos=None):
         for leg, directions in code_map.items()
         for direction, code in directions.items()
     }
-    for r in rows(path):
-        if r.get("Fodelseregion") not in ("samt", "SAMT", "Tot", "TOT", ""):
+    total_codes = {"samt", "SAMT", "Tot", "TOT", "TotSa", "TotSA", ""}
+    has_total = any(str(r.get("Fodelseregion", "")).strip() in total_codes for r in source_rows)
+    accepted_birth_regions = total_codes if has_total else {"09", "11"}
+
+    for r in source_rows:
+        if str(r.get("Fodelseregion", "")).strip() not in accepted_birth_regions:
             continue
         age = age_value(r.get("Alder", ""))
         sex = SEX_MAP.get(r.get("Kon", ""))
