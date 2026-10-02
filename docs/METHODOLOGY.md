@@ -51,26 +51,35 @@ Dashboardens manuella fruktsamhetsmultiplikator appliceras ovanpå vald nationel
 
 `urisk = 1 - exp(-U/P)`
 
-V1 beräknar och lagrar `urisk` per kommun, kön och ettårsålder för 2-, 4-, 6-, 10- och 19-årsfönstren. `U` är observerad kommunal brutto-utflyttning och `P` motsvarande summerad exponering/medelfolkmängd under kalibreringsfönstret. Ett historiskt årligt bruttoinflyttningsprofil per kommun, kön och ålder lagras parallellt som underlag för en framtida IMIG-modell.
+V1 beräknar och lagrar `urisk` per kommun, kön och ettårsålder för 2-, 4-, 6- och 10-årsfönstren. `U` är observerad kommunal brutto-utflyttning och `P` motsvarande summerad exponering/medelfolkmängd under kalibreringsfönstret. Ett historiskt årligt bruttoinflyttningsprofil per kommun, kön och ålder lagras parallellt som underlag för en framtida IMIG-modell.
 
 Dessa bruttoflöden skapas inte för FA genom summering av kommunerna, eftersom flyttar mellan medlemskommunerna då felaktigt skulle räknas som extern FA-migration.
 
 Basscenariot använder fortfarande exogena nettoflyttningsprofiler. `urisk` och bruttoinflyttningen är därför i denna version modellbyggande diagnostik tills IMIG/UMIG och `ifl` aktiveras.
 
-Nettoflyttningens kalibreringsfönster kan analyseras separat från fruktsamhet och dödlighet. Produktionsbasen följer det globala kalibreringsfönstret (10 år som standard), men en migration-only känslighet kan hålla fruktsamhet/dödlighet på 10 år och byta endast nettoflyttningen mellan 2, 4, 6, 10 och 19 år. I rolling-origin-valideringen testas 2/4/6/10 år; 19 år kan inte användas vid de tidiga prognosstarterna eftersom den jämförbara råserien börjar 2006. Detta är en antagandekänslighet, inte en automatisk metodväljare.
+Nettoflyttningens kalibreringsfönster kan analyseras separat från fruktsamhet och dödlighet. Produktionsbasen följer det globala kalibreringsfönstret (10 år som standard), men en migration-only känslighet kan hålla fruktsamhet/dödlighet på 10 år och byta endast nettoflyttningen mellan 2, 4, 6 och 10 år. 19 år används inte längre som migrationsalternativ efter #36 eftersom det saknade prognosstöd och inte kunde valideras på samma rolling-origin-grund som de kortare fönstren. Detta är en antagandekänslighet, inte en automatisk metodväljare.
 
 Observerat netto 2025 används dessutom som en separat post-kalibreringsdiagnostik eftersom migrationsprofilerna byggs på data till och med 2024. År 2025 ligger efter CKM-metodbrottet och används därför inte för att trimma profil eller fönster.
 
-#### Studentåldrar i Luleå
+#### Unga vuxnas flyttmönster i Luleå
 
-Basscenariot använder redan nettoflyttning per **ettårsålder och kön**, vilket gör att en återkommande topp vid 19–20 år bevaras i åldersprofilen. Modellen har däremot ingen direkt studentstatus och kopplar inte automatiskt en inflyttning vid 19–20 till en senare utflyttning efter studietiden.
+Basscenariot använder nettoflyttning per **ettårsålder och kön**, vilket gör att återkommande toppar inte försvinner i breda åldersgrupper. För Luleå följs därför särskilt:
+- 19–20 år: tydlig inflyttningsålder,
+- 19–25 år: bred kontrollgrupp,
+- 24–25 år: tydlig utflyttningsålder.
 
-Därför lagras en separat, deskriptiv studentåldersdiagnostik för Luleå:
-- 19–20 år: möjlig studentinflyttnings-proxy,
-- 18–24 år: bred studentålders-proxy,
-- 23–27 år: möjlig examens-/utflyttnings-proxy.
+Detta är åldersmönster i faktisk flyttstatistik. Modellen klassificerar inte personer som studenter och behöver ingen särskild studentregel för att bevara topparna.
 
-För varje grupp redovisas bruttoinflyttning, bruttoutflyttning, netto och variation för 2/4/6/10/19 år. Ålder får **inte** tolkas som bevis på studentstatus. En framtida studentmodul bör helst bygga på faktisk student-/inskrivningsdata eller annan extern information och länka studentinflyttning till en separat senare utflyttningsrisk.
+#### Tre geografiska migrationsben
+
+SCB TAB4693 (2006–2024) och TAB6657 (2025, CKM) delar kommunal migration i:
+- **övriga Norrbotten**: till/från andra kommuner i samma län,
+- **övriga Sverige**: till/från andra län,
+- **utlandet**: utrikes in-/utflyttning.
+
+Varje ben lagras som in, ut och netto per ettårsålder och kön. För Luleå kommun kan alla sex bruttoflöden användas direkt. För Luleå FA får länsbrutto inte summeras från medlemskommunerna eftersom interna FA-flyttar då dubbelräknas; länsnetto kan däremot summeras eftersom interna flöden tar ut varandra.
+
+Komponenternas 2/4/6/10-årsfönster utvärderas separat på n+1 och n+2. Syftet är att kunna använda kort historik där en process är snabbföränderlig utan att göra hela migrationsmodellen kortsiktig.
 
 ### Utbildningsbyte
 
@@ -84,7 +93,7 @@ För fruktsamhet och dödlighet sparas tre fönster:
 - 10 år: standard.
 - 19 år: lång historik för stabilitets-/strukturkontroll när definitionerna är jämförbara.
 
-För migration sparas dessutom **2 och 4 år**, eftersom flyttning kan reagera snabbare på aktuella förhållanden. 19 år behålls tills vidare endast som långminnes-kontrast och ska tas bort som migrationsalternativ om valideringen inte visar något praktiskt värde.
+För migration sparas **2, 4, 6 och 10 år**, eftersom flyttning kan reagera snabbare på aktuella förhållanden. 19 år används inte som aktivt migrationsfönster efter #36.
 
 Långa råserier sparas även när ett kortare kalibreringsfönster används.
 
