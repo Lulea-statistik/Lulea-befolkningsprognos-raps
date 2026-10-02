@@ -861,11 +861,11 @@ def main():
 
     model = {
         "meta": {
-            "schemaVersion": "0.8.0",
+            "schemaVersion": "0.9.0",
             "generatedBy": "scripts/build_model_data.py",
             "dataReady": True,
             "baseYear": 2025,
-            "projectionAssumptionVersion": "scb2024-national-trend-local-ratio-v1",
+            "projectionAssumptionVersion": "scb2024-national-trend-local-ratio-v2-event-age",
             "methodBreakYear": 2025,
             "methodBreak": "SCB Cell Key Method (CKM)",
             "calibrationEndYear": CALIBRATION_END,
