@@ -4,7 +4,7 @@
 V1.3 intentionally creates a fully runnable demographic baseline from observed
 SCB data before future national assumption tables are wired in. It calibrates
 age/sex mortality, age-specific fertility and age/sex net migration for the
-6-, 10- and 19-year windows ending 2024. The 2025 CKM observations are kept as
+3-, 6- and 10-year windows ending 2024. The 2025 CKM observations are kept as
 diagnostics/control data rather than mixed into the pre-CKM calibration.
 """
 from __future__ import annotations
@@ -32,8 +32,8 @@ MUNICIPALITIES = {
 }
 FA_CODE = "FA_LULEA"
 RIKET_CODE = "00"
-WINDOWS = (6, 10, 19)
-MIGRATION_WINDOWS = (2, 4, 6, 10)
+WINDOWS = (3, 6, 10)
+MIGRATION_WINDOWS = (2, 3, 4, 6, 10)
 RATIO_MIN = 0.50
 RATIO_MAX = 1.50
 
@@ -2007,7 +2007,7 @@ def migration_2025_diagnostics(netmig_2025, migration_rows):
     """Fresh post-calibration comparison of 2025 net migration.
 
     Historical profiles end in 2024. The 2025 CKM observation is therefore not
-    used to fit the 2/4/6/10/19-year profiles and is retained as a one-year
+    used to fit the 2/3/4/6/10-year profiles and is retained as a one-year
     diagnostic only. Aggregate CKM perturbation is not assumed to be +/-3.
     """
     result = []
@@ -2378,6 +2378,9 @@ def main():
             ),
             "migrationByAge": migration_age_diagnostics(inflow, outflow, netmig),
             "migrationAgeSmoothing": migration_age_smoothing,
+            "migrationAgeSmoothingCompact": compact_migration_smoothing_diagnostic(
+                migration_age_smoothing
+            ),
             "youngAdultMigration": young_adult_migration_diagnostics(inflow, outflow, netmig),
             "migrationLegs": migration_leg_diagnostics(
                 migration_legs_pre2025, migration_legs_2025
