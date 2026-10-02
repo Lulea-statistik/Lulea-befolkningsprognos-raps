@@ -79,6 +79,21 @@
     return r?Math.max(0,n(r.value)):0;
   }
 
+  function getMigrationComponentRow(rows,geo,leg,sex,age,window){
+    return (rows||[]).find(x=>
+      x.geo===geo && x.leg===leg && x.sex===sex &&
+      +x.age===+age && +x.window===+window
+    )||null;
+  }
+  function componentWindows(data){
+    const cfg=data.parameters?.migrationComponentWindows||{};
+    return {
+      county:{in:+(cfg.county?.inflowWindow||10),out:+(cfg.county?.outflowWindow||10)},
+      rest_sweden:{in:+(cfg.rest_sweden?.inflowWindow||10),out:+(cfg.rest_sweden?.outflowWindow||10)},
+      international:{in:+(cfg.international?.inflowWindow||10),out:+(cfg.international?.outflowWindow||10)}
+    };
+  }
+
   function baseMunicipalityWeights(data){
     const members=(data.geographies.find(g=>g.code==="FA_LULEA")||{}).members||[];
     const totals={};
@@ -421,6 +436,17 @@
         throw new Error(`Saknar bruttoflyttningsunderlag för ${geo}, ${window} år.`);
       }
     }
+    if(migrationMode==="component_flow"){
+      const cw=componentWindows(data);
+      const legs=["county","rest_sweden","international"];
+      const missing=legs.filter(leg=>
+        !(data.migrationComponentInflow||[]).some(r=>r.geo===geo&&r.leg===leg&&+r.window===cw[leg].in) ||
+        !(data.migrationComponentOutHazards||[]).some(r=>r.geo===geo&&r.leg===leg&&+r.window===cw[leg].out)
+      );
+      if(missing.length){
+        throw new Error(`Saknar komponentflyttningsunderlag för ${geo}: ${missing.join(", ")}.`);
+      }
+    }
     let pop=indexed(rows,geo);
     const snapshot=()=>{
       if(!options.includeDetail) return undefined;
@@ -436,8 +462,8 @@
       year:baseYear,
       population:[...pop.values()].reduce((s,v)=>s+v,0),
       births:0,deaths:0,netMigration:0,
-      grossInMigration:migrationMode==="gross_flow"?0:null,
-      grossOutMigration:migrationMode==="gross_flow"?0:null,
+      grossInMigration:(migrationMode==="gross_flow"||migrationMode==="component_flow")?0:null,
+      grossOutMigration:(migrationMode==="gross_flow"||migrationMode==="component_flow")?0:null,
       migrationMode,
       migrationWindow,
       cohortTimingMode,
@@ -552,6 +578,33 @@
             survivors.set(k,Math.max(0,p-outgoing+incoming));
           }
         }
+      }else if(migrationMode==="component_flow"){
+        const cw=componentWindows(data);
+        const legs=["county","rest_sweden","international"];
+        for(const sex of ["K","M"]){
+          for(let age=0;age<=MAX_AGE;age++){
+            const k=key(sex,age);
+            const p=n(survivors.get(k));
+            let incoming=0;
+            let totalHazard=0;
+            for(const leg of legs){
+              const inRow=getMigrationComponentRow(
+                data.migrationComponentInflow,geo,leg,sex,age,cw[leg].in
+              );
+              const outRow=getMigrationComponentRow(
+                data.migrationComponentOutHazards,geo,leg,sex,age,cw[leg].out
+              );
+              incoming+=Math.max(0,n(inRow?.value))*imigMult;
+              totalHazard+=Math.max(0,n(outRow?.value))*umigMult;
+            }
+            const risk=clamp(1-Math.exp(-totalHazard),0,1);
+            const outgoing=Math.min(p,p*risk);
+            grossInMigration+=incoming;
+            grossOutMigration+=outgoing;
+            netMigration+=incoming-outgoing;
+            survivors.set(k,Math.max(0,p-outgoing+incoming));
+          }
+        }
       }else{
         for(const sex of ["K","M"]){
           for(let age=0;age<=MAX_AGE;age++){
@@ -579,8 +632,8 @@
       pop=survivors;
       results.push({
         year,population:total,births,deaths,netMigration,
-        grossInMigration:migrationMode==="gross_flow"?grossInMigration:null,
-        grossOutMigration:migrationMode==="gross_flow"?grossOutMigration:null,
+        grossInMigration:(migrationMode==="gross_flow"||migrationMode==="component_flow")?grossInMigration:null,
+        grossOutMigration:(migrationMode==="gross_flow"||migrationMode==="component_flow")?grossOutMigration:null,
         migrationMode,
         migrationWindow,
         cohortTimingMode,
