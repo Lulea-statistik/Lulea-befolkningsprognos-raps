@@ -25,6 +25,7 @@ expected = {
 }
 
 assert tuple(rolling.WINDOWS) == (6, 10)
+assert tuple(rolling.MIGRATION_WINDOWS) == (2, 4, 6, 10)
 assert rolling.HORIZON_YEARS == 3
 assert set(rolling.ORIGINS) == set(expected)
 
