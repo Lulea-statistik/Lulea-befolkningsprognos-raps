@@ -396,6 +396,7 @@
     const endYear=+options.endYear;
     const fertMult=n(options.fertMult||1), mortMult=n(options.mortMult||1), migMult=n(options.migMult||1);
     const migrationMode=options.migrationMode||"net";
+    const cohortTimingMode=options.cohortTimingMode||"legacy_start_age";
     const imigMult=options.imigMult==null?migMult:n(options.imigMult);
     const umigMult=options.umigMult==null?migMult:n(options.umigMult);
     const window=+(options.window || data.calibration?.defaultYears || 10);
@@ -426,6 +427,7 @@
       grossInMigration:migrationMode==="gross_flow"?0:null,
       grossOutMigration:migrationMode==="gross_flow"?0:null,
       migrationMode,
+      cohortTimingMode,
       scenarioEffect:0,change:0,
       populationByAgeSex:snapshot()
     }];
@@ -433,25 +435,89 @@
     for(let year=baseYear+1;year<=endYear;year++){
       let births=0, deaths=0, netMigration=0;
       let grossInMigration=0, grossOutMigration=0;
-      const survivors=new Map();
-      for(const sex of ["K","M"]){
-        for(let age=0;age<=MAX_AGE;age++){
-          const p=n(pop.get(key(sex,age)));
-          const q=clamp(getRate(data.mortalityRisks,geo,year,sex,age,window)*mortMult,0,1);
-          const d=p*q; deaths+=d;
-          const target=Math.min(MAX_AGE,age+1);
-          survivors.set(key(sex,target),n(survivors.get(key(sex,target)))+(p-d));
+      let survivors=new Map();
+
+      if(cohortTimingMode==="event_age_aligned"){
+        // SCB birth-year event ages refer to attained age at the end of the
+        // forecast year. Age the 31-December stock first, then apply
+        // age-at-event fertility/mortality to those forecast-year ages.
+        // Newborns are added before mortality so age-0 deaths can occur in
+        // their birth year.
+        const eventAgePopulation=new Map();
+        for(const sex of ["K","M"]){
+          for(let age=0;age<=MAX_AGE;age++){
+            const target=Math.min(MAX_AGE,age+1);
+            eventAgePopulation.set(
+              key(sex,target),
+              n(eventAgePopulation.get(key(sex,target)))+
+              n(pop.get(key(sex,age)))
+            );
+          }
         }
+
+        for(let age=15;age<=49;age++){
+          const women=n(eventAgePopulation.get(key("K",age)));
+          const f=Math.max(
+            0,
+            getFert(data.fertilityRates,geo,year,age,window)*fertMult
+          );
+          births += women*f;
+        }
+        const male=births*n(data.parameters.sexRatioMaleAtBirth||0.515);
+        const female=births-male;
+        eventAgePopulation.set(
+          key("M",0),
+          n(eventAgePopulation.get(key("M",0)))+male
+        );
+        eventAgePopulation.set(
+          key("K",0),
+          n(eventAgePopulation.get(key("K",0)))+female
+        );
+
+        for(const sex of ["K","M"]){
+          for(let age=0;age<=MAX_AGE;age++){
+            const p=n(eventAgePopulation.get(key(sex,age)));
+            const q=clamp(
+              getRate(data.mortalityRisks,geo,year,sex,age,window)*mortMult,
+              0,1
+            );
+            const d=p*q;
+            deaths+=d;
+            survivors.set(key(sex,age),Math.max(0,p-d));
+          }
+        }
+      }else{
+        // Legacy V1 timing retained as the production default while the
+        // source-aligned alternative is evaluated out of sample.
+        for(const sex of ["K","M"]){
+          for(let age=0;age<=MAX_AGE;age++){
+            const p=n(pop.get(key(sex,age)));
+            const q=clamp(
+              getRate(data.mortalityRisks,geo,year,sex,age,window)*mortMult,
+              0,1
+            );
+            const d=p*q;
+            deaths+=d;
+            const target=Math.min(MAX_AGE,age+1);
+            survivors.set(
+              key(sex,target),
+              n(survivors.get(key(sex,target)))+(p-d)
+            );
+          }
+        }
+        for(let age=15;age<=49;age++){
+          const women=n(pop.get(key("K",age)));
+          const f=Math.max(
+            0,
+            getFert(data.fertilityRates,geo,year,age,window)*fertMult
+          );
+          births += women*f;
+        }
+        const male=births*n(data.parameters.sexRatioMaleAtBirth||0.515);
+        const female=births-male;
+        survivors.set(key("M",0),n(survivors.get(key("M",0)))+male);
+        survivors.set(key("K",0),n(survivors.get(key("K",0)))+female);
       }
-      for(let age=15;age<=49;age++){
-        const women=n(pop.get(key("K",age)));
-        const f=Math.max(0,getFert(data.fertilityRates,geo,year,age,window)*fertMult);
-        births += women*f;
-      }
-      const male=births*n(data.parameters.sexRatioMaleAtBirth||0.515);
-      const female=births-male;
-      survivors.set(key("M",0),n(survivors.get(key("M",0)))+male);
-      survivors.set(key("K",0),n(survivors.get(key("K",0)))+female);
 
       if(migrationMode==="gross_flow"){
         for(const sex of ["K","M"]){
@@ -502,6 +568,7 @@
         grossInMigration:migrationMode==="gross_flow"?grossInMigration:null,
         grossOutMigration:migrationMode==="gross_flow"?grossOutMigration:null,
         migrationMode,
+        cohortTimingMode,
         scenarioEffect:sfx.total,scenarioDetail:sfx,change:total-prev,
         populationByAgeSex:snapshot()
       });
