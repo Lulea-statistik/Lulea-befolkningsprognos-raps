@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "development_candidate_locked_before_external_component_results",
+  "selectionBasis": "Lulea municipality component results from Update SCB data #37; n+1 primary, n+2 secondary",
+  "note": "These windows are a development candidate, not production defaults. External reference municipalities must be evaluated without region-specific retuning.",
+  "legs": {
+    "county": {
+      "label": "Övriga länskommuner",
+      "luleaLabel": "Övriga Norrbotten",
+      "inflowWindow": 6,
+      "outflowWindow": 6,
+      "rationale": "6 years had the lowest n+1 MAE for both inflow and outflow in Lulea; n+2 remained competitive."
+    },
+    "rest_sweden": {
+      "label": "Övriga Sverige",
+      "inflowWindow": 10,
+      "outflowWindow": 4,
+      "rationale": "10 years minimized n+1 inflow MAE; 4 years marginally minimized n+1 outflow MAE."
+    },
+    "international": {
+      "label": "Utlandet",
+      "inflowWindow": 10,
+      "outflowWindow": 2,
+      "rationale": "10 years minimized international inflow MAE at n+1 and n+2; 2 years clearly minimized emigration MAE at both horizons."
+    }
+  }
+}
