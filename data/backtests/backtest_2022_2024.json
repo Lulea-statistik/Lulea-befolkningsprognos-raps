@@ -12,13 +12,13 @@
       "6": [
         {
           "year": 2022,
-          "predictedPopulation": 15687.9,
+          "predictedPopulation": 15688.4,
           "actualPopulation": 15729,
-          "populationError": -41.1,
+          "populationError": -40.6,
           "populationAbsPctError": 0.3,
-          "predictedBirths": 120.4,
+          "predictedBirths": 120.9,
           "actualBirths": 127,
-          "birthsError": -6.6,
+          "birthsError": -6.1,
           "predictedDeaths": 204.1,
           "actualDeaths": 246,
           "deathsError": -41.9,
@@ -28,13 +28,13 @@
         },
         {
           "year": 2023,
-          "predictedPopulation": 15603.1,
+          "predictedPopulation": 15603.9,
           "actualPopulation": 15547,
-          "populationError": 56.1,
+          "populationError": 56.9,
           "populationAbsPctError": 0.4,
-          "predictedBirths": 118.4,
+          "predictedBirths": 118.8,
           "actualBirths": 110,
-          "birthsError": 8.4,
+          "birthsError": 8.8,
           "predictedDeaths": 206.9,
           "actualDeaths": 247,
           "deathsError": -40.1,
@@ -44,13 +44,13 @@
         },
         {
           "year": 2024,
-          "predictedPopulation": 15515.7,
+          "predictedPopulation": 15516.9,
           "actualPopulation": 15391,
-          "populationError": 124.7,
+          "populationError": 125.9,
           "populationAbsPctError": 0.8,
-          "predictedBirths": 117.6,
+          "predictedBirths": 117.9,
           "actualBirths": 121,
-          "birthsError": -3.4,
+          "birthsError": -3.1,
           "predictedDeaths": 208.6,
           "actualDeaths": 216,
           "deathsError": -7.4,
@@ -62,13 +62,13 @@
       "10": [
         {
           "year": 2022,
-          "predictedPopulation": 15685.6,
+          "predictedPopulation": 15685.2,
           "actualPopulation": 15729,
-          "populationError": -43.4,
+          "populationError": -43.8,
           "populationAbsPctError": 0.3,
-          "predictedBirths": 119,
+          "predictedBirths": 118.6,
           "actualBirths": 127,
-          "birthsError": -8,
+          "birthsError": -8.4,
           "predictedDeaths": 202.7,
           "actualDeaths": 246,
           "deathsError": -43.3,
@@ -78,13 +78,13 @@
         },
         {
           "year": 2023,
-          "predictedPopulation": 15598.7,
+          "predictedPopulation": 15598,
           "actualPopulation": 15547,
-          "populationError": 51.7,
+          "populationError": 51,
           "populationAbsPctError": 0.3,
-          "predictedBirths": 117,
+          "predictedBirths": 116.6,
           "actualBirths": 110,
-          "birthsError": 7,
+          "birthsError": 6.6,
           "predictedDeaths": 205.2,
           "actualDeaths": 247,
           "deathsError": -41.8,
@@ -94,13 +94,13 @@
         },
         {
           "year": 2024,
-          "predictedPopulation": 15509.6,
+          "predictedPopulation": 15508.4,
           "actualPopulation": 15391,
-          "populationError": 118.6,
+          "populationError": 117.4,
           "populationAbsPctError": 0.8,
-          "predictedBirths": 116.6,
+          "predictedBirths": 116.2,
           "actualBirths": 121,
-          "birthsError": -4.4,
+          "birthsError": -4.8,
           "predictedDeaths": 207.1,
           "actualDeaths": 216,
           "deathsError": -8.9,
@@ -114,13 +114,13 @@
       "6": [
         {
           "year": 2022,
-          "predictedPopulation": 7986.1,
+          "predictedPopulation": 7986.3,
           "actualPopulation": 7911,
-          "populationError": 75.1,
-          "populationAbsPctError": 0.9,
-          "predictedBirths": 71.6,
+          "populationError": 75.3,
+          "populationAbsPctError": 1,
+          "predictedBirths": 71.8,
           "actualBirths": 75,
-          "birthsError": -3.4,
+          "birthsError": -3.2,
           "predictedDeaths": 94.3,
           "actualDeaths": 120,
           "deathsError": -25.7,
@@ -130,13 +130,13 @@
         },
         {
           "year": 2023,
-          "predictedPopulation": 7962,
+          "predictedPopulation": 7962.3,
           "actualPopulation": 7783,
-          "populationError": 179,
+          "populationError": 179.3,
           "populationAbsPctError": 2.3,
-          "predictedBirths": 71.2,
+          "predictedBirths": 71.3,
           "actualBirths": 61,
-          "birthsError": 10.2,
+          "birthsError": 10.3,
           "predictedDeaths": 95.2,
           "actualDeaths": 97,
           "deathsError": -1.8,
@@ -146,13 +146,13 @@
         },
         {
           "year": 2024,
-          "predictedPopulation": 7936.6,
+          "predictedPopulation": 7937.2,
           "actualPopulation": 7774,
-          "populationError": 162.6,
+          "populationError": 163.2,
           "populationAbsPctError": 2.1,
-          "predictedBirths": 70.8,
+          "predictedBirths": 70.9,
           "actualBirths": 69,
-          "birthsError": 1.8,
+          "birthsError": 1.9,
           "predictedDeaths": 95.9,
           "actualDeaths": 106,
           "deathsError": -10.1,
@@ -164,9 +164,9 @@
       "10": [
         {
           "year": 2022,
-          "predictedPopulation": 7991.3,
+          "predictedPopulation": 7991.4,
           "actualPopulation": 7911,
-          "populationError": 80.3,
+          "populationError": 80.4,
           "populationAbsPctError": 1,
           "predictedBirths": 69.4,
           "actualBirths": 75,
@@ -196,13 +196,13 @@
         },
         {
           "year": 2024,
-          "predictedPopulation": 7952.3,
+          "predictedPopulation": 7952.4,
           "actualPopulation": 7774,
-          "populationError": 178.3,
+          "populationError": 178.4,
           "populationAbsPctError": 2.3,
-          "predictedBirths": 68.6,
+          "predictedBirths": 68.7,
           "actualBirths": 69,
-          "birthsError": -0.4,
+          "birthsError": -0.3,
           "predictedDeaths": 95.1,
           "actualDeaths": 106,
           "deathsError": -10.9,
@@ -216,13 +216,13 @@
       "6": [
         {
           "year": 2022,
-          "predictedPopulation": 79321.1,
+          "predictedPopulation": 79324.8,
           "actualPopulation": 79244,
-          "populationError": 77.1,
+          "populationError": 80.8,
           "populationAbsPctError": 0.1,
-          "predictedBirths": 720.3,
+          "predictedBirths": 724.1,
           "actualBirths": 660,
-          "birthsError": 60.3,
+          "birthsError": 64.1,
           "predictedDeaths": 650.3,
           "actualDeaths": 758,
           "deathsError": -107.7,
@@ -232,13 +232,13 @@
         },
         {
           "year": 2023,
-          "predictedPopulation": 79754.1,
+          "predictedPopulation": 79761.3,
           "actualPopulation": 79352,
-          "populationError": 402.1,
+          "populationError": 409.3,
           "populationAbsPctError": 0.5,
-          "predictedBirths": 713.4,
+          "predictedBirths": 716.8,
           "actualBirths": 655,
-          "birthsError": 58.4,
+          "birthsError": 61.8,
           "predictedDeaths": 664.3,
           "actualDeaths": 794,
           "deathsError": -129.7,
@@ -248,13 +248,13 @@
         },
         {
           "year": 2024,
-          "predictedPopulation": 80170.1,
+          "predictedPopulation": 80180.5,
           "actualPopulation": 79645,
-          "populationError": 525.1,
+          "populationError": 535.5,
           "populationAbsPctError": 0.7,
-          "predictedBirths": 712.1,
+          "predictedBirths": 715.4,
           "actualBirths": 613,
-          "birthsError": 99.1,
+          "birthsError": 102.4,
           "predictedDeaths": 680.2,
           "actualDeaths": 774,
           "deathsError": -93.8,
@@ -266,13 +266,13 @@
       "10": [
         {
           "year": 2022,
-          "predictedPopulation": 79294.7,
+          "predictedPopulation": 79297.9,
           "actualPopulation": 79244,
-          "populationError": 50.7,
+          "populationError": 53.9,
           "populationAbsPctError": 0.1,
-          "predictedBirths": 715.3,
+          "predictedBirths": 718.5,
           "actualBirths": 660,
-          "birthsError": 55.3,
+          "birthsError": 58.5,
           "predictedDeaths": 650.8,
           "actualDeaths": 758,
           "deathsError": -107.2,
@@ -282,13 +282,13 @@
         },
         {
           "year": 2023,
-          "predictedPopulation": 79701.8,
+          "predictedPopulation": 79708,
           "actualPopulation": 79352,
-          "populationError": 349.8,
+          "populationError": 356,
           "populationAbsPctError": 0.4,
-          "predictedBirths": 709.7,
+          "predictedBirths": 712.6,
           "actualBirths": 655,
-          "birthsError": 54.7,
+          "birthsError": 57.6,
           "predictedDeaths": 665.8,
           "actualDeaths": 794,
           "deathsError": -128.2,
@@ -298,16 +298,16 @@
         },
         {
           "year": 2024,
-          "predictedPopulation": 80095.4,
+          "predictedPopulation": 80104.3,
           "actualPopulation": 79645,
-          "populationError": 450.4,
+          "populationError": 459.3,
           "populationAbsPctError": 0.6,
-          "predictedBirths": 710.2,
+          "predictedBirths": 712.9,
           "actualBirths": 613,
-          "birthsError": 97.2,
-          "predictedDeaths": 679.7,
+          "birthsError": 99.9,
+          "predictedDeaths": 679.8,
           "actualDeaths": 774,
-          "deathsError": -94.3,
+          "deathsError": -94.2,
           "predictedNetMigration": 363.2,
           "actualNetMigration": 455,
           "netMigrationError": -91.8
@@ -318,13 +318,13 @@
       "6": [
         {
           "year": 2022,
-          "predictedPopulation": 42461.2,
+          "predictedPopulation": 42461.8,
           "actualPopulation": 42362,
-          "populationError": 99.2,
+          "populationError": 99.8,
           "populationAbsPctError": 0.2,
-          "predictedBirths": 388.2,
+          "predictedBirths": 388.8,
           "actualBirths": 374,
-          "birthsError": 14.2,
+          "birthsError": 14.8,
           "predictedDeaths": 423,
           "actualDeaths": 432,
           "deathsError": -9,
@@ -334,13 +334,13 @@
         },
         {
           "year": 2023,
-          "predictedPopulation": 42582.8,
+          "predictedPopulation": 42583.9,
           "actualPopulation": 42344,
-          "populationError": 238.8,
+          "populationError": 239.9,
           "populationAbsPctError": 0.6,
-          "predictedBirths": 380.1,
+          "predictedBirths": 380.5,
           "actualBirths": 367,
-          "birthsError": 13.1,
+          "birthsError": 13.5,
           "predictedDeaths": 431.4,
           "actualDeaths": 463,
           "deathsError": -31.6,
@@ -350,13 +350,13 @@
         },
         {
           "year": 2024,
-          "predictedPopulation": 42692.1,
+          "predictedPopulation": 42693.5,
           "actualPopulation": 42447,
-          "populationError": 245.1,
+          "populationError": 246.5,
           "populationAbsPctError": 0.6,
-          "predictedBirths": 375.7,
+          "predictedBirths": 376,
           "actualBirths": 340,
-          "birthsError": 35.7,
+          "birthsError": 36,
           "predictedDeaths": 439.4,
           "actualDeaths": 446,
           "deathsError": -6.6,
@@ -368,13 +368,13 @@
       "10": [
         {
           "year": 2022,
-          "predictedPopulation": 42462,
+          "predictedPopulation": 42462.2,
           "actualPopulation": 42362,
-          "populationError": 100,
+          "populationError": 100.2,
           "populationAbsPctError": 0.2,
-          "predictedBirths": 384.1,
+          "predictedBirths": 384.3,
           "actualBirths": 374,
-          "birthsError": 10.1,
+          "birthsError": 10.3,
           "predictedDeaths": 415.3,
           "actualDeaths": 432,
           "deathsError": -16.7,
@@ -384,13 +384,13 @@
         },
         {
           "year": 2023,
-          "predictedPopulation": 42583.9,
+          "predictedPopulation": 42584.1,
           "actualPopulation": 42344,
-          "populationError": 239.9,
+          "populationError": 240.1,
           "populationAbsPctError": 0.6,
-          "predictedBirths": 375.3,
+          "predictedBirths": 375.4,
           "actualBirths": 367,
-          "birthsError": 8.3,
+          "birthsError": 8.4,
           "predictedDeaths": 423.7,
           "actualDeaths": 463,
           "deathsError": -39.3,
@@ -400,9 +400,9 @@
         },
         {
           "year": 2024,
-          "predictedPopulation": 42692.1,
+          "predictedPopulation": 42692.3,
           "actualPopulation": 42447,
-          "populationError": 245.1,
+          "populationError": 245.3,
           "populationAbsPctError": 0.6,
           "predictedBirths": 370.3,
           "actualBirths": 340,
@@ -420,13 +420,13 @@
       "6": [
         {
           "year": 2022,
-          "predictedPopulation": 28195.3,
+          "predictedPopulation": 28195.7,
           "actualPopulation": 28048,
-          "populationError": 147.3,
+          "populationError": 147.7,
           "populationAbsPctError": 0.5,
-          "predictedBirths": 253.3,
+          "predictedBirths": 253.7,
           "actualBirths": 245,
-          "birthsError": 8.3,
+          "birthsError": 8.7,
           "predictedDeaths": 280.5,
           "actualDeaths": 322,
           "deathsError": -41.5,
@@ -436,13 +436,13 @@
         },
         {
           "year": 2023,
-          "predictedPopulation": 28221.9,
+          "predictedPopulation": 28222.7,
           "actualPopulation": 27943,
-          "populationError": 278.9,
+          "populationError": 279.7,
           "populationAbsPctError": 1,
-          "predictedBirths": 248.3,
+          "predictedBirths": 248.6,
           "actualBirths": 224,
-          "birthsError": 24.3,
+          "birthsError": 24.6,
           "predictedDeaths": 284.1,
           "actualDeaths": 349,
           "deathsError": -64.9,
@@ -452,13 +452,13 @@
         },
         {
           "year": 2024,
-          "predictedPopulation": 28243.3,
+          "predictedPopulation": 28244.4,
           "actualPopulation": 28049,
-          "populationError": 194.3,
+          "populationError": 195.4,
           "populationAbsPctError": 0.7,
-          "predictedBirths": 248.1,
+          "predictedBirths": 248.5,
           "actualBirths": 230,
-          "birthsError": 18.1,
+          "birthsError": 18.5,
           "predictedDeaths": 289.2,
           "actualDeaths": 323,
           "deathsError": -33.8,
@@ -470,13 +470,13 @@
       "10": [
         {
           "year": 2022,
-          "predictedPopulation": 28209.3,
+          "predictedPopulation": 28209.5,
           "actualPopulation": 28048,
-          "populationError": 161.3,
+          "populationError": 161.5,
           "populationAbsPctError": 0.6,
-          "predictedBirths": 248.1,
+          "predictedBirths": 248.3,
           "actualBirths": 245,
-          "birthsError": 3.1,
+          "birthsError": 3.3,
           "predictedDeaths": 277.8,
           "actualDeaths": 322,
           "deathsError": -44.2,
@@ -486,13 +486,13 @@
         },
         {
           "year": 2023,
-          "predictedPopulation": 28250.7,
+          "predictedPopulation": 28251,
           "actualPopulation": 27943,
-          "populationError": 307.7,
+          "populationError": 308,
           "populationAbsPctError": 1.1,
-          "predictedBirths": 244.2,
+          "predictedBirths": 244.3,
           "actualBirths": 224,
-          "birthsError": 20.2,
+          "birthsError": 20.3,
           "predictedDeaths": 281.7,
           "actualDeaths": 349,
           "deathsError": -67.3,
@@ -502,9 +502,9 @@
         },
         {
           "year": 2024,
-          "predictedPopulation": 28287.7,
+          "predictedPopulation": 28288,
           "actualPopulation": 28049,
-          "populationError": 238.7,
+          "populationError": 239,
           "populationAbsPctError": 0.9,
           "predictedBirths": 244.4,
           "actualBirths": 230,
@@ -522,13 +522,13 @@
       "6": [
         {
           "year": 2022,
-          "predictedPopulation": 173651.5,
+          "predictedPopulation": 173657.1,
           "actualPopulation": 173294,
-          "populationError": 357.5,
+          "populationError": 363.1,
           "populationAbsPctError": 0.2,
-          "predictedBirths": 1553.8,
+          "predictedBirths": 1559.3,
           "actualBirths": 1481,
-          "birthsError": 72.8,
+          "birthsError": 78.3,
           "predictedDeaths": 1652.3,
           "actualDeaths": 1878,
           "deathsError": -225.7,
@@ -538,13 +538,13 @@
         },
         {
           "year": 2023,
-          "predictedPopulation": 174123.9,
+          "predictedPopulation": 174134.1,
           "actualPopulation": 172969,
-          "populationError": 1154.9,
+          "populationError": 1165.1,
           "populationAbsPctError": 0.7,
-          "predictedBirths": 1531.3,
+          "predictedBirths": 1536,
           "actualBirths": 1417,
-          "birthsError": 114.3,
+          "birthsError": 119,
           "predictedDeaths": 1681.9,
           "actualDeaths": 1950,
           "deathsError": -268.1,
@@ -554,16 +554,16 @@
         },
         {
           "year": 2024,
-          "predictedPopulation": 174557.8,
+          "predictedPopulation": 174572.5,
           "actualPopulation": 173306,
-          "populationError": 1251.8,
+          "populationError": 1266.5,
           "populationAbsPctError": 0.7,
-          "predictedBirths": 1524.3,
+          "predictedBirths": 1528.8,
           "actualBirths": 1373,
-          "birthsError": 151.3,
-          "predictedDeaths": 1713.3,
+          "birthsError": 155.8,
+          "predictedDeaths": 1713.4,
           "actualDeaths": 1865,
-          "deathsError": -151.7,
+          "deathsError": -151.6,
           "predictedNetMigration": 623,
           "actualNetMigration": 838,
           "netMigrationError": -215
@@ -572,13 +572,13 @@
       "10": [
         {
           "year": 2022,
-          "predictedPopulation": 173642.9,
+          "predictedPopulation": 173646.2,
           "actualPopulation": 173294,
-          "populationError": 348.9,
+          "populationError": 352.2,
           "populationAbsPctError": 0.2,
-          "predictedBirths": 1535.9,
+          "predictedBirths": 1539.2,
           "actualBirths": 1481,
-          "birthsError": 54.9,
+          "birthsError": 58.2,
           "predictedDeaths": 1640.1,
           "actualDeaths": 1878,
           "deathsError": -237.9,
@@ -588,13 +588,13 @@
         },
         {
           "year": 2023,
-          "predictedPopulation": 174107.4,
+          "predictedPopulation": 174113.3,
           "actualPopulation": 172969,
-          "populationError": 1138.4,
+          "populationError": 1144.3,
           "populationAbsPctError": 0.7,
-          "predictedBirths": 1515,
+          "predictedBirths": 1517.7,
           "actualBirths": 1417,
-          "birthsError": 98,
+          "birthsError": 100.7,
           "predictedDeaths": 1670.8,
           "actualDeaths": 1950,
           "deathsError": -279.2,
@@ -604,13 +604,13 @@
         },
         {
           "year": 2024,
-          "predictedPopulation": 174537.1,
+          "predictedPopulation": 174545.5,
           "actualPopulation": 173306,
-          "populationError": 1231.1,
+          "populationError": 1239.5,
           "populationAbsPctError": 0.7,
-          "predictedBirths": 1510.1,
+          "predictedBirths": 1512.5,
           "actualBirths": 1373,
-          "birthsError": 137.1,
+          "birthsError": 139.5,
           "predictedDeaths": 1700.6,
           "actualDeaths": 1865,
           "deathsError": -164.4,
@@ -627,12 +627,12 @@
         {
           "year": 2022,
           "age": 0,
-          "predictedPopulation": 121.5,
+          "predictedPopulation": 122,
           "actualPopulation": 130,
-          "error": -8.5,
-          "absError": 8.5,
-          "pctError": -6.5,
-          "absPctError": 6.5
+          "error": -8,
+          "absError": 8,
+          "pctError": -6.1,
+          "absPctError": 6.1
         },
         {
           "year": 2022,
@@ -1637,22 +1637,22 @@
         {
           "year": 2023,
           "age": 0,
-          "predictedPopulation": 119.6,
+          "predictedPopulation": 119.9,
           "actualPopulation": 112,
-          "error": 7.6,
-          "absError": 7.6,
-          "pctError": 6.8,
-          "absPctError": 6.8
+          "error": 7.9,
+          "absError": 7.9,
+          "pctError": 7.1,
+          "absPctError": 7.1
         },
         {
           "year": 2023,
           "age": 1,
-          "predictedPopulation": 124.7,
+          "predictedPopulation": 125.2,
           "actualPopulation": 131,
-          "error": -6.3,
-          "absError": 6.3,
-          "pctError": -4.8,
-          "absPctError": 4.8
+          "error": -5.8,
+          "absError": 5.8,
+          "pctError": -4.4,
+          "absPctError": 4.4
         },
         {
           "year": 2023,
@@ -2647,32 +2647,32 @@
         {
           "year": 2024,
           "age": 0,
-          "predictedPopulation": 118.7,
+          "predictedPopulation": 119.1,
           "actualPopulation": 118,
-          "error": 0.7,
-          "absError": 0.7,
-          "pctError": 0.6,
-          "absPctError": 0.6
+          "error": 1.1,
+          "absError": 1.1,
+          "pctError": 0.9,
+          "absPctError": 0.9
         },
         {
           "year": 2024,
           "age": 1,
-          "predictedPopulation": 122.8,
+          "predictedPopulation": 123.2,
           "actualPopulation": 118,
-          "error": 4.8,
-          "absError": 4.8,
-          "pctError": 4.1,
-          "absPctError": 4.1
+          "error": 5.2,
+          "absError": 5.2,
+          "pctError": 4.4,
+          "absPctError": 4.4
         },
         {
           "year": 2024,
           "age": 2,
-          "predictedPopulation": 125.4,
+          "predictedPopulation": 125.9,
           "actualPopulation": 130,
-          "error": -4.6,
-          "absError": 4.6,
-          "pctError": -3.6,
-          "absPctError": 3.6
+          "error": -4.1,
+          "absError": 4.1,
+          "pctError": -3.2,
+          "absPctError": 3.2
         },
         {
           "year": 2024,
@@ -3659,12 +3659,12 @@
         {
           "year": 2022,
           "age": 0,
-          "predictedPopulation": 120.7,
+          "predictedPopulation": 120.3,
           "actualPopulation": 130,
-          "error": -9.3,
-          "absError": 9.3,
-          "pctError": -7.2,
-          "absPctError": 7.2
+          "error": -9.7,
+          "absError": 9.7,
+          "pctError": -7.4,
+          "absPctError": 7.4
         },
         {
           "year": 2022,
@@ -4669,22 +4669,22 @@
         {
           "year": 2023,
           "age": 0,
-          "predictedPopulation": 118.7,
+          "predictedPopulation": 118.3,
           "actualPopulation": 112,
-          "error": 6.7,
-          "absError": 6.7,
-          "pctError": 6,
-          "absPctError": 6
+          "error": 6.3,
+          "absError": 6.3,
+          "pctError": 5.6,
+          "absPctError": 5.6
         },
         {
           "year": 2023,
           "age": 1,
-          "predictedPopulation": 122.7,
+          "predictedPopulation": 122.4,
           "actualPopulation": 131,
-          "error": -8.3,
-          "absError": 8.3,
-          "pctError": -6.3,
-          "absPctError": 6.3
+          "error": -8.6,
+          "absError": 8.6,
+          "pctError": -6.6,
+          "absPctError": 6.6
         },
         {
           "year": 2023,
@@ -5679,32 +5679,32 @@
         {
           "year": 2024,
           "age": 0,
-          "predictedPopulation": 118.3,
+          "predictedPopulation": 117.9,
           "actualPopulation": 118,
-          "error": 0.3,
-          "absError": 0.3,
-          "pctError": 0.3,
-          "absPctError": 0.3
+          "error": -0.1,
+          "absError": 0.1,
+          "pctError": -0.1,
+          "absPctError": 0.1
         },
         {
           "year": 2024,
           "age": 1,
-          "predictedPopulation": 120.8,
+          "predictedPopulation": 120.4,
           "actualPopulation": 118,
-          "error": 2.8,
-          "absError": 2.8,
-          "pctError": 2.4,
-          "absPctError": 2.4
+          "error": 2.4,
+          "absError": 2.4,
+          "pctError": 2,
+          "absPctError": 2
         },
         {
           "year": 2024,
           "age": 2,
-          "predictedPopulation": 124,
+          "predictedPopulation": 123.6,
           "actualPopulation": 130,
-          "error": -6,
-          "absError": 6,
-          "pctError": -4.6,
-          "absPctError": 4.6
+          "error": -6.4,
+          "absError": 6.4,
+          "pctError": -4.9,
+          "absPctError": 4.9
         },
         {
           "year": 2024,
@@ -6693,12 +6693,12 @@
         {
           "year": 2022,
           "age": 0,
-          "predictedPopulation": 72.5,
+          "predictedPopulation": 72.7,
           "actualPopulation": 73,
-          "error": -0.5,
-          "absError": 0.5,
-          "pctError": -0.7,
-          "absPctError": 0.7
+          "error": -0.3,
+          "absError": 0.3,
+          "pctError": -0.5,
+          "absPctError": 0.5
         },
         {
           "year": 2022,
@@ -7703,22 +7703,22 @@
         {
           "year": 2023,
           "age": 0,
-          "predictedPopulation": 72,
+          "predictedPopulation": 72.1,
           "actualPopulation": 63,
-          "error": 9,
-          "absError": 9,
-          "pctError": 14.3,
-          "absPctError": 14.3
+          "error": 9.1,
+          "absError": 9.1,
+          "pctError": 14.5,
+          "absPctError": 14.5
         },
         {
           "year": 2023,
           "age": 1,
-          "predictedPopulation": 74.4,
+          "predictedPopulation": 74.6,
           "actualPopulation": 71,
-          "error": 3.4,
-          "absError": 3.4,
-          "pctError": 4.7,
-          "absPctError": 4.7
+          "error": 3.6,
+          "absError": 3.6,
+          "pctError": 5,
+          "absPctError": 5
         },
         {
           "year": 2023,
@@ -8713,32 +8713,32 @@
         {
           "year": 2024,
           "age": 0,
-          "predictedPopulation": 71.6,
+          "predictedPopulation": 71.8,
           "actualPopulation": 70,
-          "error": 1.6,
-          "absError": 1.6,
-          "pctError": 2.3,
-          "absPctError": 2.3
+          "error": 1.8,
+          "absError": 1.8,
+          "pctError": 2.5,
+          "absPctError": 2.5
         },
         {
           "year": 2024,
           "age": 1,
-          "predictedPopulation": 73.9,
+          "predictedPopulation": 74,
           "actualPopulation": 70,
-          "error": 3.9,
-          "absError": 3.9,
-          "pctError": 5.6,
-          "absPctError": 5.6
+          "error": 4,
+          "absError": 4,
+          "pctError": 5.7,
+          "absPctError": 5.7
         },
         {
           "year": 2024,
           "age": 2,
-          "predictedPopulation": 77.2,
+          "predictedPopulation": 77.4,
           "actualPopulation": 75,
-          "error": 2.2,
-          "absError": 2.2,
-          "pctError": 2.9,
-          "absPctError": 2.9
+          "error": 2.4,
+          "absError": 2.4,
+          "pctError": 3.2,
+          "absPctError": 3.2
         },
         {
           "year": 2024,
@@ -10739,16 +10739,16 @@
           "actualPopulation": 63,
           "error": 6.7,
           "absError": 6.7,
-          "pctError": 10.7,
-          "absPctError": 10.7
+          "pctError": 10.6,
+          "absPctError": 10.6
         },
         {
           "year": 2023,
           "age": 1,
-          "predictedPopulation": 71.9,
+          "predictedPopulation": 72,
           "actualPopulation": 71,
-          "error": 0.9,
-          "absError": 0.9,
+          "error": 1,
+          "absError": 1,
           "pctError": 1.3,
           "absPctError": 1.3
         },
@@ -11745,22 +11745,22 @@
         {
           "year": 2024,
           "age": 0,
-          "predictedPopulation": 69.5,
+          "predictedPopulation": 69.6,
           "actualPopulation": 70,
-          "error": -0.5,
-          "absError": 0.5,
-          "pctError": -0.7,
-          "absPctError": 0.7
+          "error": -0.4,
+          "absError": 0.4,
+          "pctError": -0.6,
+          "absPctError": 0.6
         },
         {
           "year": 2024,
           "age": 1,
-          "predictedPopulation": 71.4,
+          "predictedPopulation": 71.3,
           "actualPopulation": 70,
-          "error": 1.4,
-          "absError": 1.4,
-          "pctError": 2,
-          "absPctError": 2
+          "error": 1.3,
+          "absError": 1.3,
+          "pctError": 1.9,
+          "absPctError": 1.9
         },
         {
           "year": 2024,
@@ -12759,12 +12759,12 @@
         {
           "year": 2022,
           "age": 0,
-          "predictedPopulation": 719.3,
+          "predictedPopulation": 723.1,
           "actualPopulation": 658,
-          "error": 61.3,
-          "absError": 61.3,
-          "pctError": 9.3,
-          "absPctError": 9.3
+          "error": 65.1,
+          "absError": 65.1,
+          "pctError": 9.9,
+          "absPctError": 9.9
         },
         {
           "year": 2022,
@@ -13769,22 +13769,22 @@
         {
           "year": 2023,
           "age": 0,
-          "predictedPopulation": 712.4,
+          "predictedPopulation": 715.8,
           "actualPopulation": 651,
-          "error": 61.4,
-          "absError": 61.4,
-          "pctError": 9.4,
-          "absPctError": 9.4
+          "error": 64.8,
+          "absError": 64.8,
+          "pctError": 10,
+          "absPctError": 10
         },
         {
           "year": 2023,
           "age": 1,
-          "predictedPopulation": 730.3,
+          "predictedPopulation": 734,
           "actualPopulation": 658,
-          "error": 72.3,
-          "absError": 72.3,
-          "pctError": 11,
-          "absPctError": 11
+          "error": 76,
+          "absError": 76,
+          "pctError": 11.6,
+          "absPctError": 11.6
         },
         {
           "year": 2023,
@@ -14779,32 +14779,32 @@
         {
           "year": 2024,
           "age": 0,
-          "predictedPopulation": 711.1,
+          "predictedPopulation": 714.4,
           "actualPopulation": 622,
-          "error": 89.1,
-          "absError": 89.1,
-          "pctError": 14.3,
-          "absPctError": 14.3
+          "error": 92.4,
+          "absError": 92.4,
+          "pctError": 14.9,
+          "absPctError": 14.9
         },
         {
           "year": 2024,
           "age": 1,
-          "predictedPopulation": 723.4,
+          "predictedPopulation": 726.8,
           "actualPopulation": 666,
-          "error": 57.4,
-          "absError": 57.4,
-          "pctError": 8.6,
-          "absPctError": 8.6
+          "error": 60.8,
+          "absError": 60.8,
+          "pctError": 9.1,
+          "absPctError": 9.1
         },
         {
           "year": 2024,
           "age": 2,
-          "predictedPopulation": 743.4,
+          "predictedPopulation": 747.1,
           "actualPopulation": 660,
-          "error": 83.4,
-          "absError": 83.4,
-          "pctError": 12.6,
-          "absPctError": 12.6
+          "error": 87.1,
+          "absError": 87.1,
+          "pctError": 13.2,
+          "absPctError": 13.2
         },
         {
           "year": 2024,
@@ -15791,12 +15791,12 @@
         {
           "year": 2022,
           "age": 0,
-          "predictedPopulation": 715.8,
+          "predictedPopulation": 719,
           "actualPopulation": 658,
-          "error": 57.8,
-          "absError": 57.8,
-          "pctError": 8.8,
-          "absPctError": 8.8
+          "error": 61,
+          "absError": 61,
+          "pctError": 9.3,
+          "absPctError": 9.3
         },
         {
           "year": 2022,
@@ -16801,22 +16801,22 @@
         {
           "year": 2023,
           "age": 0,
-          "predictedPopulation": 710.2,
+          "predictedPopulation": 713.1,
           "actualPopulation": 651,
-          "error": 59.2,
-          "absError": 59.2,
-          "pctError": 9.1,
-          "absPctError": 9.1
+          "error": 62.1,
+          "absError": 62.1,
+          "pctError": 9.5,
+          "absPctError": 9.5
         },
         {
           "year": 2023,
           "age": 1,
-          "predictedPopulation": 724.8,
+          "predictedPopulation": 728,
           "actualPopulation": 658,
-          "error": 66.8,
-          "absError": 66.8,
-          "pctError": 10.2,
-          "absPctError": 10.2
+          "error": 70,
+          "absError": 70,
+          "pctError": 10.6,
+          "absPctError": 10.6
         },
         {
           "year": 2023,
@@ -17811,32 +17811,32 @@
         {
           "year": 2024,
           "age": 0,
-          "predictedPopulation": 710.7,
+          "predictedPopulation": 713.4,
           "actualPopulation": 622,
-          "error": 88.7,
-          "absError": 88.7,
-          "pctError": 14.3,
-          "absPctError": 14.3
+          "error": 91.4,
+          "absError": 91.4,
+          "pctError": 14.7,
+          "absPctError": 14.7
         },
         {
           "year": 2024,
           "age": 1,
-          "predictedPopulation": 719.3,
+          "predictedPopulation": 722.2,
           "actualPopulation": 666,
-          "error": 53.3,
-          "absError": 53.3,
-          "pctError": 8,
-          "absPctError": 8
+          "error": 56.2,
+          "absError": 56.2,
+          "pctError": 8.4,
+          "absPctError": 8.4
         },
         {
           "year": 2024,
           "age": 2,
-          "predictedPopulation": 732.6,
+          "predictedPopulation": 735.8,
           "actualPopulation": 660,
-          "error": 72.6,
-          "absError": 72.6,
-          "pctError": 11,
-          "absPctError": 11
+          "error": 75.8,
+          "absError": 75.8,
+          "pctError": 11.5,
+          "absPctError": 11.5
         },
         {
           "year": 2024,
@@ -18825,12 +18825,12 @@
         {
           "year": 2022,
           "age": 0,
-          "predictedPopulation": 394.4,
+          "predictedPopulation": 395,
           "actualPopulation": 385,
-          "error": 9.4,
-          "absError": 9.4,
-          "pctError": 2.4,
-          "absPctError": 2.4
+          "error": 10,
+          "absError": 10,
+          "pctError": 2.6,
+          "absPctError": 2.6
         },
         {
           "year": 2022,
@@ -19835,22 +19835,22 @@
         {
           "year": 2023,
           "age": 0,
-          "predictedPopulation": 386.2,
+          "predictedPopulation": 386.7,
           "actualPopulation": 381,
-          "error": 5.2,
-          "absError": 5.2,
-          "pctError": 1.4,
-          "absPctError": 1.4
+          "error": 5.7,
+          "absError": 5.7,
+          "pctError": 1.5,
+          "absPctError": 1.5
         },
         {
           "year": 2023,
           "age": 1,
-          "predictedPopulation": 402.4,
+          "predictedPopulation": 403,
           "actualPopulation": 392,
-          "error": 10.4,
-          "absError": 10.4,
-          "pctError": 2.6,
-          "absPctError": 2.6
+          "error": 11,
+          "absError": 11,
+          "pctError": 2.8,
+          "absPctError": 2.8
         },
         {
           "year": 2023,
@@ -20845,32 +20845,32 @@
         {
           "year": 2024,
           "age": 0,
-          "predictedPopulation": 381.9,
+          "predictedPopulation": 382.2,
           "actualPopulation": 342,
-          "error": 39.9,
-          "absError": 39.9,
-          "pctError": 11.7,
-          "absPctError": 11.7
+          "error": 40.2,
+          "absError": 40.2,
+          "pctError": 11.8,
+          "absPctError": 11.8
         },
         {
           "year": 2024,
           "age": 1,
-          "predictedPopulation": 394.3,
+          "predictedPopulation": 394.7,
           "actualPopulation": 391,
-          "error": 3.3,
-          "absError": 3.3,
-          "pctError": 0.8,
-          "absPctError": 0.8
+          "error": 3.7,
+          "absError": 3.7,
+          "pctError": 0.9,
+          "absPctError": 0.9
         },
         {
           "year": 2024,
           "age": 2,
-          "predictedPopulation": 412.7,
+          "predictedPopulation": 413.3,
           "actualPopulation": 406,
-          "error": 6.7,
-          "absError": 6.7,
-          "pctError": 1.7,
-          "absPctError": 1.7
+          "error": 7.3,
+          "absError": 7.3,
+          "pctError": 1.8,
+          "absPctError": 1.8
         },
         {
           "year": 2024,
@@ -21857,12 +21857,12 @@
         {
           "year": 2022,
           "age": 0,
-          "predictedPopulation": 391.6,
+          "predictedPopulation": 391.8,
           "actualPopulation": 385,
-          "error": 6.6,
-          "absError": 6.6,
-          "pctError": 1.7,
-          "absPctError": 1.7
+          "error": 6.8,
+          "absError": 6.8,
+          "pctError": 1.8,
+          "absPctError": 1.8
         },
         {
           "year": 2022,
@@ -22867,22 +22867,22 @@
         {
           "year": 2023,
           "age": 0,
-          "predictedPopulation": 382.8,
+          "predictedPopulation": 382.9,
           "actualPopulation": 381,
-          "error": 1.8,
-          "absError": 1.8,
+          "error": 1.9,
+          "absError": 1.9,
           "pctError": 0.5,
           "absPctError": 0.5
         },
         {
           "year": 2023,
           "age": 1,
-          "predictedPopulation": 398.4,
+          "predictedPopulation": 398.6,
           "actualPopulation": 392,
-          "error": 6.4,
-          "absError": 6.4,
-          "pctError": 1.6,
-          "absPctError": 1.6
+          "error": 6.6,
+          "absError": 6.6,
+          "pctError": 1.7,
+          "absPctError": 1.7
         },
         {
           "year": 2023,
@@ -23897,10 +23897,10 @@
         {
           "year": 2024,
           "age": 2,
-          "predictedPopulation": 408,
+          "predictedPopulation": 408.2,
           "actualPopulation": 406,
-          "error": 2,
-          "absError": 2,
+          "error": 2.2,
+          "absError": 2.2,
           "pctError": 0.5,
           "absPctError": 0.5
         },
@@ -24891,12 +24891,12 @@
         {
           "year": 2022,
           "age": 0,
-          "predictedPopulation": 255.9,
+          "predictedPopulation": 256.4,
           "actualPopulation": 248,
-          "error": 7.9,
-          "absError": 7.9,
-          "pctError": 3.2,
-          "absPctError": 3.2
+          "error": 8.4,
+          "absError": 8.4,
+          "pctError": 3.4,
+          "absPctError": 3.4
         },
         {
           "year": 2022,
@@ -25901,22 +25901,22 @@
         {
           "year": 2023,
           "age": 0,
-          "predictedPopulation": 250.9,
+          "predictedPopulation": 251.2,
           "actualPopulation": 224,
-          "error": 26.9,
-          "absError": 26.9,
-          "pctError": 12,
-          "absPctError": 12
+          "error": 27.2,
+          "absError": 27.2,
+          "pctError": 12.2,
+          "absPctError": 12.2
         },
         {
           "year": 2023,
           "age": 1,
-          "predictedPopulation": 261.9,
+          "predictedPopulation": 262.4,
           "actualPopulation": 253,
-          "error": 8.9,
-          "absError": 8.9,
-          "pctError": 3.5,
-          "absPctError": 3.5
+          "error": 9.4,
+          "absError": 9.4,
+          "pctError": 3.7,
+          "absPctError": 3.7
         },
         {
           "year": 2023,
@@ -26911,32 +26911,32 @@
         {
           "year": 2024,
           "age": 0,
-          "predictedPopulation": 250.8,
+          "predictedPopulation": 251.1,
           "actualPopulation": 230,
-          "error": 20.8,
-          "absError": 20.8,
-          "pctError": 9,
-          "absPctError": 9
+          "error": 21.1,
+          "absError": 21.1,
+          "pctError": 9.2,
+          "absPctError": 9.2
         },
         {
           "year": 2024,
           "age": 1,
-          "predictedPopulation": 256.9,
+          "predictedPopulation": 257.2,
           "actualPopulation": 225,
-          "error": 31.9,
-          "absError": 31.9,
-          "pctError": 14.2,
-          "absPctError": 14.2
+          "error": 32.2,
+          "absError": 32.2,
+          "pctError": 14.3,
+          "absPctError": 14.3
         },
         {
           "year": 2024,
           "age": 2,
-          "predictedPopulation": 264.8,
+          "predictedPopulation": 265.3,
           "actualPopulation": 258,
-          "error": 6.8,
-          "absError": 6.8,
-          "pctError": 2.6,
-          "absPctError": 2.6
+          "error": 7.3,
+          "absError": 7.3,
+          "pctError": 2.8,
+          "absPctError": 2.8
         },
         {
           "year": 2024,
@@ -27923,12 +27923,12 @@
         {
           "year": 2022,
           "age": 0,
-          "predictedPopulation": 248.2,
+          "predictedPopulation": 248.4,
           "actualPopulation": 248,
-          "error": 0.2,
-          "absError": 0.2,
-          "pctError": 0.1,
-          "absPctError": 0.1
+          "error": 0.4,
+          "absError": 0.4,
+          "pctError": 0.2,
+          "absPctError": 0.2
         },
         {
           "year": 2022,
@@ -28933,22 +28933,22 @@
         {
           "year": 2023,
           "age": 0,
-          "predictedPopulation": 244.3,
+          "predictedPopulation": 244.4,
           "actualPopulation": 224,
-          "error": 20.3,
-          "absError": 20.3,
-          "pctError": 9,
-          "absPctError": 9
+          "error": 20.4,
+          "absError": 20.4,
+          "pctError": 9.1,
+          "absPctError": 9.1
         },
         {
           "year": 2023,
           "age": 1,
-          "predictedPopulation": 253.3,
+          "predictedPopulation": 253.5,
           "actualPopulation": 253,
-          "error": 0.3,
-          "absError": 0.3,
-          "pctError": 0.1,
-          "absPctError": 0.1
+          "error": 0.5,
+          "absError": 0.5,
+          "pctError": 0.2,
+          "absPctError": 0.2
         },
         {
           "year": 2023,
@@ -29957,18 +29957,18 @@
           "actualPopulation": 225,
           "error": 24.4,
           "absError": 24.4,
-          "pctError": 10.8,
-          "absPctError": 10.8
+          "pctError": 10.9,
+          "absPctError": 10.9
         },
         {
           "year": 2024,
           "age": 2,
-          "predictedPopulation": 255.6,
+          "predictedPopulation": 255.8,
           "actualPopulation": 258,
-          "error": -2.4,
-          "absError": 2.4,
-          "pctError": -0.9,
-          "absPctError": 0.9
+          "error": -2.2,
+          "absError": 2.2,
+          "pctError": -0.8,
+          "absPctError": 0.8
         },
         {
           "year": 2024,
@@ -30957,12 +30957,12 @@
         {
           "year": 2022,
           "age": 0,
-          "predictedPopulation": 1563.6,
+          "predictedPopulation": 1569.2,
           "actualPopulation": 1494,
-          "error": 69.6,
-          "absError": 69.6,
-          "pctError": 4.7,
-          "absPctError": 4.7
+          "error": 75.2,
+          "absError": 75.2,
+          "pctError": 5,
+          "absPctError": 5
         },
         {
           "year": 2022,
@@ -31967,22 +31967,22 @@
         {
           "year": 2023,
           "age": 0,
-          "predictedPopulation": 1541.1,
+          "predictedPopulation": 1545.8,
           "actualPopulation": 1431,
-          "error": 110.1,
-          "absError": 110.1,
-          "pctError": 7.7,
-          "absPctError": 7.7
+          "error": 114.8,
+          "absError": 114.8,
+          "pctError": 8,
+          "absPctError": 8
         },
         {
           "year": 2023,
           "age": 1,
-          "predictedPopulation": 1593.7,
+          "predictedPopulation": 1599.2,
           "actualPopulation": 1505,
-          "error": 88.7,
-          "absError": 88.7,
-          "pctError": 5.9,
-          "absPctError": 5.9
+          "error": 94.2,
+          "absError": 94.2,
+          "pctError": 6.3,
+          "absPctError": 6.3
         },
         {
           "year": 2023,
@@ -32977,32 +32977,32 @@
         {
           "year": 2024,
           "age": 0,
-          "predictedPopulation": 1534.1,
+          "predictedPopulation": 1538.6,
           "actualPopulation": 1382,
-          "error": 152.1,
-          "absError": 152.1,
-          "pctError": 11,
-          "absPctError": 11
+          "error": 156.6,
+          "absError": 156.6,
+          "pctError": 11.3,
+          "absPctError": 11.3
         },
         {
           "year": 2024,
           "age": 1,
-          "predictedPopulation": 1571.3,
+          "predictedPopulation": 1575.9,
           "actualPopulation": 1470,
-          "error": 101.3,
-          "absError": 101.3,
-          "pctError": 6.9,
-          "absPctError": 6.9
+          "error": 105.9,
+          "absError": 105.9,
+          "pctError": 7.2,
+          "absPctError": 7.2
         },
         {
           "year": 2024,
           "age": 2,
-          "predictedPopulation": 1623.5,
+          "predictedPopulation": 1629,
           "actualPopulation": 1529,
-          "error": 94.5,
-          "absError": 94.5,
-          "pctError": 6.2,
-          "absPctError": 6.2
+          "error": 100,
+          "absError": 100,
+          "pctError": 6.5,
+          "absPctError": 6.5
         },
         {
           "year": 2024,
@@ -33989,12 +33989,12 @@
         {
           "year": 2022,
           "age": 0,
-          "predictedPopulation": 1546.6,
+          "predictedPopulation": 1549.9,
           "actualPopulation": 1494,
-          "error": 52.6,
-          "absError": 52.6,
-          "pctError": 3.5,
-          "absPctError": 3.5
+          "error": 55.9,
+          "absError": 55.9,
+          "pctError": 3.7,
+          "absPctError": 3.7
         },
         {
           "year": 2022,
@@ -34999,22 +34999,22 @@
         {
           "year": 2023,
           "age": 0,
-          "predictedPopulation": 1525.7,
+          "predictedPopulation": 1528.4,
           "actualPopulation": 1431,
-          "error": 94.7,
-          "absError": 94.7,
-          "pctError": 6.6,
-          "absPctError": 6.6
+          "error": 97.4,
+          "absError": 97.4,
+          "pctError": 6.8,
+          "absPctError": 6.8
         },
         {
           "year": 2023,
           "age": 1,
-          "predictedPopulation": 1571.2,
+          "predictedPopulation": 1574.5,
           "actualPopulation": 1505,
-          "error": 66.2,
-          "absError": 66.2,
-          "pctError": 4.4,
-          "absPctError": 4.4
+          "error": 69.5,
+          "absError": 69.5,
+          "pctError": 4.6,
+          "absPctError": 4.6
         },
         {
           "year": 2023,
@@ -36009,32 +36009,32 @@
         {
           "year": 2024,
           "age": 0,
-          "predictedPopulation": 1520.8,
+          "predictedPopulation": 1523.2,
           "actualPopulation": 1382,
-          "error": 138.8,
-          "absError": 138.8,
-          "pctError": 10,
-          "absPctError": 10
+          "error": 141.2,
+          "absError": 141.2,
+          "pctError": 10.2,
+          "absPctError": 10.2
         },
         {
           "year": 2024,
           "age": 1,
-          "predictedPopulation": 1550.5,
+          "predictedPopulation": 1553.1,
           "actualPopulation": 1470,
-          "error": 80.5,
-          "absError": 80.5,
-          "pctError": 5.5,
-          "absPctError": 5.5
+          "error": 83.1,
+          "absError": 83.1,
+          "pctError": 5.7,
+          "absPctError": 5.7
         },
         {
           "year": 2024,
           "age": 2,
-          "predictedPopulation": 1594.5,
+          "predictedPopulation": 1597.8,
           "actualPopulation": 1529,
-          "error": 65.5,
-          "absError": 65.5,
-          "pctError": 4.3,
-          "absPctError": 4.3
+          "error": 68.8,
+          "absError": 68.8,
+          "pctError": 4.5,
+          "absPctError": 4.5
         },
         {
           "year": 2024,
@@ -37023,22 +37023,22 @@
     "2514": {
       "6": {
         "populationMAPE": 0.5,
-        "populationMAE": 74,
-        "birthsMAE": 6.1,
+        "populationMAE": 74.5,
+        "birthsMAE": 6,
         "deathsMAE": 29.8,
         "netMigrationMAE": 62.6,
-        "populationError2024": 124.7,
+        "populationError2024": 125.9,
         "populationAbsPctError2024": 0.8,
         "ageMAE2024": 4.4,
         "ageMAPE2024": 5.9
       },
       "10": {
         "populationMAPE": 0.5,
-        "populationMAE": 71.2,
-        "birthsMAE": 6.5,
+        "populationMAE": 70.7,
+        "birthsMAE": 6.6,
         "deathsMAE": 31.3,
         "netMigrationMAE": 61.8,
-        "populationError2024": 118.6,
+        "populationError2024": 117.4,
         "populationAbsPctError2024": 0.8,
         "ageMAE2024": 4.3,
         "ageMAPE2024": 5.8
@@ -37047,22 +37047,22 @@
     "2560": {
       "6": {
         "populationMAPE": 1.8,
-        "populationMAE": 138.9,
+        "populationMAE": 139.3,
         "birthsMAE": 5.1,
         "deathsMAE": 12.5,
         "netMigrationMAE": 61.6,
-        "populationError2024": 162.6,
+        "populationError2024": 163.2,
         "populationAbsPctError2024": 2.1,
         "ageMAE2024": 4,
         "ageMAPE2024": 7.5
       },
       "10": {
         "populationMAPE": 1.9,
-        "populationMAE": 149.3,
+        "populationMAE": 149.4,
         "birthsMAE": 4.6,
         "deathsMAE": 13.3,
         "netMigrationMAE": 63.8,
-        "populationError2024": 178.3,
+        "populationError2024": 178.4,
         "populationAbsPctError2024": 2.3,
         "ageMAE2024": 3.9,
         "ageMAPE2024": 7.3
@@ -37071,46 +37071,46 @@
     "2580": {
       "6": {
         "populationMAPE": 0.4,
-        "populationMAE": 334.8,
-        "birthsMAE": 72.6,
+        "populationMAE": 341.9,
+        "birthsMAE": 76.1,
         "deathsMAE": 110.4,
         "netMigrationMAE": 87,
-        "populationError2024": 525.1,
+        "populationError2024": 535.5,
         "populationAbsPctError2024": 0.7,
-        "ageMAE2024": 17.8,
-        "ageMAPE2024": 4.5
+        "ageMAE2024": 17.9,
+        "ageMAPE2024": 4.6
       },
       "10": {
         "populationMAPE": 0.4,
-        "populationMAE": 283.6,
-        "birthsMAE": 69.1,
+        "populationMAE": 289.7,
+        "birthsMAE": 72,
         "deathsMAE": 109.9,
         "netMigrationMAE": 93.9,
-        "populationError2024": 450.4,
+        "populationError2024": 459.3,
         "populationAbsPctError2024": 0.6,
-        "ageMAE2024": 15.7,
+        "ageMAE2024": 15.8,
         "ageMAPE2024": 4.3
       }
     },
     "2581": {
       "6": {
         "populationMAPE": 0.5,
-        "populationMAE": 194.4,
-        "birthsMAE": 21,
+        "populationMAE": 195.4,
+        "birthsMAE": 21.4,
         "deathsMAE": 15.7,
         "netMigrationMAE": 80.3,
-        "populationError2024": 245.1,
+        "populationError2024": 246.5,
         "populationAbsPctError2024": 0.6,
         "ageMAE2024": 8.3,
         "ageMAPE2024": 3.7
       },
       "10": {
         "populationMAPE": 0.5,
-        "populationMAE": 195,
-        "birthsMAE": 16.2,
+        "populationMAE": 195.2,
+        "birthsMAE": 16.3,
         "deathsMAE": 23.3,
         "netMigrationMAE": 79.4,
-        "populationError2024": 245.1,
+        "populationError2024": 245.3,
         "populationAbsPctError2024": 0.6,
         "ageMAE2024": 8.5,
         "ageMAPE2024": 3.7
@@ -37119,22 +37119,22 @@
     "2582": {
       "6": {
         "populationMAPE": 0.7,
-        "populationMAE": 206.8,
-        "birthsMAE": 16.9,
+        "populationMAE": 207.6,
+        "birthsMAE": 17.3,
         "deathsMAE": 46.7,
         "netMigrationMAE": 101.5,
-        "populationError2024": 194.3,
+        "populationError2024": 195.4,
         "populationAbsPctError2024": 0.7,
         "ageMAE2024": 6.4,
         "ageMAPE2024": 5.2
       },
       "10": {
         "populationMAPE": 0.9,
-        "populationMAE": 235.9,
-        "birthsMAE": 12.6,
+        "populationMAE": 236.2,
+        "birthsMAE": 12.7,
         "deathsMAE": 49.4,
         "netMigrationMAE": 107,
-        "populationError2024": 238.7,
+        "populationError2024": 239,
         "populationAbsPctError2024": 0.9,
         "ageMAE2024": 6.7,
         "ageMAPE2024": 5.3
@@ -37143,24 +37143,24 @@
     "FA_LULEA": {
       "6": {
         "populationMAPE": 0.5,
-        "populationMAE": 921.4,
-        "birthsMAE": 112.8,
-        "deathsMAE": 215.2,
+        "populationMAE": 931.6,
+        "birthsMAE": 117.7,
+        "deathsMAE": 215.1,
         "netMigrationMAE": 279,
-        "populationError2024": 1251.8,
+        "populationError2024": 1266.5,
         "populationAbsPctError2024": 0.7,
-        "ageMAE2024": 25.8,
+        "ageMAE2024": 26,
         "ageMAPE2024": 3.6
       },
       "10": {
         "populationMAPE": 0.5,
-        "populationMAE": 906.1,
-        "birthsMAE": 96.7,
+        "populationMAE": 912,
+        "birthsMAE": 99.5,
         "deathsMAE": 227.2,
         "netMigrationMAE": 278.1,
-        "populationError2024": 1231.1,
+        "populationError2024": 1239.5,
         "populationAbsPctError2024": 0.7,
-        "ageMAE2024": 23.2,
+        "ageMAE2024": 23.3,
         "ageMAPE2024": 3.5
       }
     }
@@ -37175,9 +37175,9 @@
           "6": [
             {
               "year": 2022,
-              "predictedPopulation": 15733.5,
+              "predictedPopulation": 15734,
               "actualPopulation": 15729,
-              "populationError": 4.5,
+              "populationError": 5,
               "populationAbsPctError": 0,
               "predictedNetMigration": 49.3,
               "actualNetMigration": 73,
@@ -37191,9 +37191,9 @@
             },
             {
               "year": 2023,
-              "predictedPopulation": 15695,
+              "predictedPopulation": 15695.8,
               "actualPopulation": 15547,
-              "populationError": 148,
+              "populationError": 148.8,
               "populationAbsPctError": 1,
               "predictedNetMigration": 49,
               "actualNetMigration": -53,
@@ -37207,27 +37207,27 @@
             },
             {
               "year": 2024,
-              "predictedPopulation": 15656.7,
+              "predictedPopulation": 15657.8,
               "actualPopulation": 15391,
-              "populationError": 265.7,
+              "populationError": 266.8,
               "populationAbsPctError": 1.7,
-              "predictedNetMigration": 50.7,
+              "predictedNetMigration": 50.6,
               "actualNetMigration": -58,
-              "netMigrationError": 108.7,
+              "netMigrationError": 108.6,
               "predictedGrossInMigration": 652,
               "actualGrossInMigration": 590,
               "grossInMigrationError": 62,
-              "predictedGrossOutMigration": 601.3,
+              "predictedGrossOutMigration": 601.4,
               "actualGrossOutMigration": 648,
-              "grossOutMigrationError": -46.7
+              "grossOutMigrationError": -46.6
             }
           ],
           "10": [
             {
               "year": 2022,
-              "predictedPopulation": 15736.7,
+              "predictedPopulation": 15736.3,
               "actualPopulation": 15729,
-              "populationError": 7.7,
+              "populationError": 7.3,
               "populationAbsPctError": 0,
               "predictedNetMigration": 52.4,
               "actualNetMigration": 73,
@@ -37241,9 +37241,9 @@
             },
             {
               "year": 2023,
-              "predictedPopulation": 15701.4,
+              "predictedPopulation": 15700.7,
               "actualPopulation": 15547,
-              "populationError": 154.4,
+              "populationError": 153.7,
               "populationAbsPctError": 1,
               "predictedNetMigration": 52.1,
               "actualNetMigration": -53,
@@ -37257,9 +37257,9 @@
             },
             {
               "year": 2024,
-              "predictedPopulation": 15666.3,
+              "predictedPopulation": 15665.2,
               "actualPopulation": 15391,
-              "populationError": 275.3,
+              "populationError": 274.2,
               "populationAbsPctError": 1.8,
               "predictedNetMigration": 53.5,
               "actualNetMigration": -58,
@@ -37277,25 +37277,25 @@
           "6": [
             {
               "year": 2022,
-              "predictedPopulation": 8012.6,
+              "predictedPopulation": 8012.7,
               "actualPopulation": 7911,
-              "populationError": 101.6,
+              "populationError": 101.7,
               "populationAbsPctError": 1.3,
-              "predictedNetMigration": 26.3,
+              "predictedNetMigration": 26.2,
               "actualNetMigration": -61,
-              "netMigrationError": 87.3,
+              "netMigrationError": 87.2,
               "predictedGrossInMigration": 392,
               "actualGrossInMigration": 369,
               "grossInMigrationError": 23,
-              "predictedGrossOutMigration": 365.7,
+              "predictedGrossOutMigration": 365.8,
               "actualGrossOutMigration": 430,
-              "grossOutMigrationError": -64.3
+              "grossOutMigrationError": -64.2
             },
             {
               "year": 2023,
-              "predictedPopulation": 8012.9,
+              "predictedPopulation": 8013.2,
               "actualPopulation": 7783,
-              "populationError": 229.9,
+              "populationError": 230.2,
               "populationAbsPctError": 3,
               "predictedNetMigration": 23.9,
               "actualNetMigration": -98,
@@ -37309,9 +37309,9 @@
             },
             {
               "year": 2024,
-              "predictedPopulation": 8011.3,
+              "predictedPopulation": 8011.7,
               "actualPopulation": 7774,
-              "populationError": 237.3,
+              "populationError": 237.7,
               "populationAbsPctError": 3.1,
               "predictedNetMigration": 22.5,
               "actualNetMigration": 26,
@@ -37327,9 +37327,9 @@
           "10": [
             {
               "year": 2022,
-              "predictedPopulation": 8017.5,
+              "predictedPopulation": 8017.6,
               "actualPopulation": 7911,
-              "populationError": 106.5,
+              "populationError": 106.6,
               "populationAbsPctError": 1.3,
               "predictedNetMigration": 32.7,
               "actualNetMigration": -61,
@@ -37379,101 +37379,101 @@
           "6": [
             {
               "year": 2022,
-              "predictedPopulation": 79516.9,
+              "predictedPopulation": 79520.5,
               "actualPopulation": 79244,
-              "populationError": 272.9,
+              "populationError": 276.5,
               "populationAbsPctError": 0.3,
-              "predictedNetMigration": 579.9,
+              "predictedNetMigration": 579.7,
               "actualNetMigration": 424,
-              "netMigrationError": 155.9,
+              "netMigrationError": 155.7,
               "predictedGrossInMigration": 4034.7,
               "actualGrossInMigration": 4020,
               "grossInMigrationError": 14.7,
-              "predictedGrossOutMigration": 3454.8,
+              "predictedGrossOutMigration": 3455,
               "actualGrossOutMigration": 3596,
-              "grossOutMigrationError": -141.2
+              "grossOutMigrationError": -141
             },
             {
               "year": 2023,
-              "predictedPopulation": 80112,
+              "predictedPopulation": 80118.7,
               "actualPopulation": 79352,
-              "populationError": 760,
+              "populationError": 766.7,
               "populationAbsPctError": 1,
-              "predictedNetMigration": 541.1,
+              "predictedNetMigration": 540.7,
               "actualNetMigration": 234,
-              "netMigrationError": 307.1,
+              "netMigrationError": 306.7,
               "predictedGrossInMigration": 4034.7,
               "actualGrossInMigration": 3788,
               "grossInMigrationError": 246.7,
-              "predictedGrossOutMigration": 3493.5,
+              "predictedGrossOutMigration": 3493.9,
               "actualGrossOutMigration": 3554,
-              "grossOutMigrationError": -60.5
+              "grossOutMigrationError": -60.1
             },
             {
               "year": 2024,
-              "predictedPopulation": 80657.2,
+              "predictedPopulation": 80666.9,
               "actualPopulation": 79645,
-              "populationError": 1012.2,
+              "populationError": 1021.9,
               "populationAbsPctError": 1.3,
-              "predictedNetMigration": 501.8,
+              "predictedNetMigration": 501.3,
               "actualNetMigration": 455,
-              "netMigrationError": 46.8,
+              "netMigrationError": 46.3,
               "predictedGrossInMigration": 4034.7,
               "actualGrossInMigration": 4121,
               "grossInMigrationError": -86.3,
-              "predictedGrossOutMigration": 3532.9,
+              "predictedGrossOutMigration": 3533.4,
               "actualGrossOutMigration": 3666,
-              "grossOutMigrationError": -133.1
+              "grossOutMigrationError": -132.6
             }
           ],
           "10": [
             {
               "year": 2022,
-              "predictedPopulation": 79473.7,
+              "predictedPopulation": 79476.7,
               "actualPopulation": 79244,
-              "populationError": 229.7,
+              "populationError": 232.7,
               "populationAbsPctError": 0.3,
-              "predictedNetMigration": 542.2,
+              "predictedNetMigration": 542,
               "actualNetMigration": 424,
-              "netMigrationError": 118.2,
+              "netMigrationError": 118,
               "predictedGrossInMigration": 3942.6,
               "actualGrossInMigration": 4020,
               "grossInMigrationError": -77.4,
-              "predictedGrossOutMigration": 3400.4,
+              "predictedGrossOutMigration": 3400.6,
               "actualGrossOutMigration": 3596,
-              "grossOutMigrationError": -195.6
+              "grossOutMigrationError": -195.4
             },
             {
               "year": 2023,
-              "predictedPopulation": 80026.5,
+              "predictedPopulation": 80032.3,
               "actualPopulation": 79352,
-              "populationError": 674.5,
+              "populationError": 680.3,
               "populationAbsPctError": 0.9,
-              "predictedNetMigration": 505.5,
+              "predictedNetMigration": 505.2,
               "actualNetMigration": 234,
-              "netMigrationError": 271.5,
+              "netMigrationError": 271.2,
               "predictedGrossInMigration": 3942.6,
               "actualGrossInMigration": 3788,
               "grossInMigrationError": 154.6,
-              "predictedGrossOutMigration": 3437.1,
+              "predictedGrossOutMigration": 3437.4,
               "actualGrossOutMigration": 3554,
-              "grossOutMigrationError": -116.9
+              "grossOutMigrationError": -116.6
             },
             {
               "year": 2024,
-              "predictedPopulation": 80533.4,
+              "predictedPopulation": 80541.8,
               "actualPopulation": 79645,
-              "populationError": 888.4,
+              "populationError": 896.8,
               "populationAbsPctError": 1.1,
-              "predictedNetMigration": 468,
+              "predictedNetMigration": 467.6,
               "actualNetMigration": 455,
-              "netMigrationError": 13,
+              "netMigrationError": 12.6,
               "predictedGrossInMigration": 3942.6,
               "actualGrossInMigration": 4121,
               "grossInMigrationError": -178.4,
-              "predictedGrossOutMigration": 3474.6,
+              "predictedGrossOutMigration": 3475,
               "actualGrossOutMigration": 3666,
-              "grossOutMigrationError": -191.4
+              "grossOutMigrationError": -191
             }
           ]
         },
@@ -37481,9 +37481,9 @@
           "6": [
             {
               "year": 2022,
-              "predictedPopulation": 42559.8,
+              "predictedPopulation": 42560.4,
               "actualPopulation": 42362,
-              "populationError": 197.8,
+              "populationError": 198.4,
               "populationAbsPctError": 0.5,
               "predictedNetMigration": 271.6,
               "actualNetMigration": 91,
@@ -37497,25 +37497,25 @@
             },
             {
               "year": 2023,
-              "predictedPopulation": 42773.6,
+              "predictedPopulation": 42774.7,
               "actualPopulation": 42344,
-              "populationError": 429.6,
+              "populationError": 430.7,
               "populationAbsPctError": 1,
-              "predictedNetMigration": 261.9,
+              "predictedNetMigration": 261.8,
               "actualNetMigration": 52,
-              "netMigrationError": 209.9,
+              "netMigrationError": 209.8,
               "predictedGrossInMigration": 1674.5,
               "actualGrossInMigration": 1395,
               "grossInMigrationError": 279.5,
-              "predictedGrossOutMigration": 1412.6,
+              "predictedGrossOutMigration": 1412.7,
               "actualGrossOutMigration": 1343,
-              "grossOutMigrationError": 69.6
+              "grossOutMigrationError": 69.7
             },
             {
               "year": 2024,
-              "predictedPopulation": 42972.8,
+              "predictedPopulation": 42974.2,
               "actualPopulation": 42447,
-              "populationError": 525.8,
+              "populationError": 527.2,
               "populationAbsPctError": 1.2,
               "predictedNetMigration": 255.2,
               "actualNetMigration": 211,
@@ -37531,9 +37531,9 @@
           "10": [
             {
               "year": 2022,
-              "predictedPopulation": 42573,
+              "predictedPopulation": 42573.1,
               "actualPopulation": 42362,
-              "populationError": 211,
+              "populationError": 211.1,
               "populationAbsPctError": 0.5,
               "predictedNetMigration": 281.1,
               "actualNetMigration": 91,
@@ -37547,9 +37547,9 @@
             },
             {
               "year": 2023,
-              "predictedPopulation": 42794,
+              "predictedPopulation": 42794.3,
               "actualPopulation": 42344,
-              "populationError": 450,
+              "populationError": 450.3,
               "populationAbsPctError": 1.1,
               "predictedNetMigration": 266.3,
               "actualNetMigration": 52,
@@ -37563,9 +37563,9 @@
             },
             {
               "year": 2024,
-              "predictedPopulation": 42995,
+              "predictedPopulation": 42995.3,
               "actualPopulation": 42447,
-              "populationError": 548,
+              "populationError": 548.3,
               "populationAbsPctError": 1.3,
               "predictedNetMigration": 255.8,
               "actualNetMigration": 211,
@@ -37583,75 +37583,75 @@
           "6": [
             {
               "year": 2022,
-              "predictedPopulation": 28267.4,
+              "predictedPopulation": 28267.9,
               "actualPopulation": 28048,
-              "populationError": 219.4,
+              "populationError": 219.9,
               "populationAbsPctError": 0.8,
-              "predictedNetMigration": 134.7,
+              "predictedNetMigration": 134.6,
               "actualNetMigration": -47,
-              "netMigrationError": 181.7,
+              "netMigrationError": 181.6,
               "predictedGrossInMigration": 1439.5,
               "actualGrossInMigration": 1301,
               "grossInMigrationError": 138.5,
-              "predictedGrossOutMigration": 1304.8,
+              "predictedGrossOutMigration": 1304.9,
               "actualGrossOutMigration": 1348,
-              "grossOutMigrationError": -43.2
+              "grossOutMigrationError": -43.1
             },
             {
               "year": 2023,
-              "predictedPopulation": 28362.2,
+              "predictedPopulation": 28362.9,
               "actualPopulation": 27943,
-              "populationError": 419.2,
+              "populationError": 419.9,
               "populationAbsPctError": 1.5,
-              "predictedNetMigration": 128.6,
+              "predictedNetMigration": 128.5,
               "actualNetMigration": 9,
-              "netMigrationError": 119.6,
+              "netMigrationError": 119.5,
               "predictedGrossInMigration": 1439.5,
               "actualGrossInMigration": 1356,
               "grossInMigrationError": 83.5,
-              "predictedGrossOutMigration": 1310.9,
+              "predictedGrossOutMigration": 1311,
               "actualGrossOutMigration": 1347,
-              "grossOutMigrationError": -36.1
+              "grossOutMigrationError": -36
             },
             {
               "year": 2024,
-              "predictedPopulation": 28452.4,
+              "predictedPopulation": 28453.4,
               "actualPopulation": 28049,
-              "populationError": 403.4,
+              "populationError": 404.4,
               "populationAbsPctError": 1.4,
-              "predictedNetMigration": 127.1,
+              "predictedNetMigration": 127,
               "actualNetMigration": 204,
-              "netMigrationError": -76.9,
+              "netMigrationError": -77,
               "predictedGrossInMigration": 1439.5,
               "actualGrossInMigration": 1516,
               "grossInMigrationError": -76.5,
-              "predictedGrossOutMigration": 1312.4,
+              "predictedGrossOutMigration": 1312.5,
               "actualGrossOutMigration": 1312,
-              "grossOutMigrationError": 0.4
+              "grossOutMigrationError": 0.5
             }
           ],
           "10": [
             {
               "year": 2022,
-              "predictedPopulation": 28284.6,
+              "predictedPopulation": 28284.7,
               "actualPopulation": 28048,
-              "populationError": 236.6,
+              "populationError": 236.7,
               "populationAbsPctError": 0.8,
-              "predictedNetMigration": 154.3,
+              "predictedNetMigration": 154.2,
               "actualNetMigration": -47,
-              "netMigrationError": 201.3,
+              "netMigrationError": 201.2,
               "predictedGrossInMigration": 1494.5,
               "actualGrossInMigration": 1301,
               "grossInMigrationError": 193.5,
-              "predictedGrossOutMigration": 1340.2,
+              "predictedGrossOutMigration": 1340.3,
               "actualGrossOutMigration": 1348,
-              "grossOutMigrationError": -7.8
+              "grossOutMigrationError": -7.7
             },
             {
               "year": 2023,
-              "predictedPopulation": 28391.8,
+              "predictedPopulation": 28392.1,
               "actualPopulation": 27943,
-              "populationError": 448.8,
+              "populationError": 449.1,
               "populationAbsPctError": 1.6,
               "predictedNetMigration": 143.1,
               "actualNetMigration": 9,
@@ -37665,19 +37665,19 @@
             },
             {
               "year": 2024,
-              "predictedPopulation": 28491.9,
+              "predictedPopulation": 28492.2,
               "actualPopulation": 28049,
-              "populationError": 442.9,
+              "populationError": 443.2,
               "populationAbsPctError": 1.6,
-              "predictedNetMigration": 138.4,
+              "predictedNetMigration": 138.3,
               "actualNetMigration": 204,
-              "netMigrationError": -65.6,
+              "netMigrationError": -65.7,
               "predictedGrossInMigration": 1494.5,
               "actualGrossInMigration": 1516,
               "grossInMigrationError": -21.5,
-              "predictedGrossOutMigration": 1356.1,
+              "predictedGrossOutMigration": 1356.2,
               "actualGrossOutMigration": 1312,
-              "grossOutMigrationError": 44.1
+              "grossOutMigrationError": 44.2
             }
           ]
         },
@@ -37685,13 +37685,13 @@
           "6": [
             {
               "year": 2022,
-              "predictedPopulation": 174090.3,
+              "predictedPopulation": 174095.5,
               "actualPopulation": 173294,
-              "populationError": 796.3,
+              "populationError": 801.5,
               "populationAbsPctError": 0.5,
-              "predictedNetMigration": 1061.7,
+              "predictedNetMigration": 1061.4,
               "actualNetMigration": 480,
-              "netMigrationError": 581.7,
+              "netMigrationError": 581.4,
               "predictedGrossInMigration": null,
               "actualGrossInMigration": null,
               "grossInMigrationError": null,
@@ -37701,13 +37701,13 @@
             },
             {
               "year": 2023,
-              "predictedPopulation": 174955.8,
+              "predictedPopulation": 174965.3,
               "actualPopulation": 172969,
-              "populationError": 1986.8,
-              "populationAbsPctError": 1.1,
-              "predictedNetMigration": 1004.5,
+              "populationError": 1996.3,
+              "populationAbsPctError": 1.2,
+              "predictedNetMigration": 1003.9,
               "actualNetMigration": 144,
-              "netMigrationError": 860.5,
+              "netMigrationError": 859.9,
               "predictedGrossInMigration": null,
               "actualGrossInMigration": null,
               "grossInMigrationError": null,
@@ -37717,13 +37717,13 @@
             },
             {
               "year": 2024,
-              "predictedPopulation": 175750.4,
+              "predictedPopulation": 175764,
               "actualPopulation": 173306,
-              "populationError": 2444.4,
+              "populationError": 2458,
               "populationAbsPctError": 1.4,
-              "predictedNetMigration": 957.3,
+              "predictedNetMigration": 956.6,
               "actualNetMigration": 838,
-              "netMigrationError": 119.3,
+              "netMigrationError": 118.6,
               "predictedGrossInMigration": null,
               "actualGrossInMigration": null,
               "grossInMigrationError": null,
@@ -37735,13 +37735,13 @@
           "10": [
             {
               "year": 2022,
-              "predictedPopulation": 174085.4,
+              "predictedPopulation": 174088.5,
               "actualPopulation": 173294,
-              "populationError": 791.4,
+              "populationError": 794.5,
               "populationAbsPctError": 0.5,
-              "predictedNetMigration": 1062.7,
+              "predictedNetMigration": 1062.5,
               "actualNetMigration": 480,
-              "netMigrationError": 582.7,
+              "netMigrationError": 582.5,
               "predictedGrossInMigration": null,
               "actualGrossInMigration": null,
               "grossInMigrationError": null,
@@ -37751,13 +37751,13 @@
             },
             {
               "year": 2023,
-              "predictedPopulation": 174936.1,
+              "predictedPopulation": 174941.7,
               "actualPopulation": 172969,
-              "populationError": 1967.1,
+              "populationError": 1972.7,
               "populationAbsPctError": 1.1,
-              "predictedNetMigration": 997.1,
+              "predictedNetMigration": 996.8,
               "actualNetMigration": 144,
-              "netMigrationError": 853.1,
+              "netMigrationError": 852.8,
               "predictedGrossInMigration": null,
               "actualGrossInMigration": null,
               "grossInMigrationError": null,
@@ -37767,13 +37767,13 @@
             },
             {
               "year": 2024,
-              "predictedPopulation": 175712.1,
+              "predictedPopulation": 175720.1,
               "actualPopulation": 173306,
-              "populationError": 2406.1,
+              "populationError": 2414.1,
               "populationAbsPctError": 1.4,
-              "predictedNetMigration": 944.7,
+              "predictedNetMigration": 944.2,
               "actualNetMigration": 838,
-              "netMigrationError": 106.7,
+              "netMigrationError": 106.2,
               "predictedGrossInMigration": null,
               "actualGrossInMigration": null,
               "grossInMigrationError": null,
@@ -37788,22 +37788,22 @@
         "2514": {
           "6": {
             "populationMAPE": 0.9,
-            "populationMAE": 139.4,
+            "populationMAE": 140.2,
             "netMigrationMAE": 78.1,
             "grossInMigrationMAE": 42,
             "grossOutMigrationMAE": 36.1,
-            "populationError2024": 265.7,
+            "populationError2024": 266.8,
             "populationAbsPctError2024": 1.7,
             "populationMAPEDeltaVsNet": 0.4,
             "netMigrationMAEDeltaVsNet": 15.5
           },
           "10": {
             "populationMAPE": 0.9,
-            "populationMAE": 145.8,
+            "populationMAE": 145.1,
             "netMigrationMAE": 79.1,
             "grossInMigrationMAE": 31.7,
             "grossOutMigrationMAE": 58.8,
-            "populationError2024": 275.3,
+            "populationError2024": 274.2,
             "populationAbsPctError2024": 1.8,
             "populationMAPEDeltaVsNet": 0.4,
             "netMigrationMAEDeltaVsNet": 17.3
@@ -37812,18 +37812,18 @@
         "2560": {
           "6": {
             "populationMAPE": 2.5,
-            "populationMAE": 189.6,
+            "populationMAE": 189.9,
             "netMigrationMAE": 70.9,
             "grossInMigrationMAE": 21.7,
             "grossOutMigrationMAE": 57.9,
-            "populationError2024": 237.3,
+            "populationError2024": 237.7,
             "populationAbsPctError2024": 3.1,
             "populationMAPEDeltaVsNet": 0.7,
             "netMigrationMAEDeltaVsNet": 9.3
           },
           "10": {
             "populationMAPE": 2.5,
-            "populationMAE": 199.1,
+            "populationMAE": 199.2,
             "netMigrationMAE": 74.9,
             "grossInMigrationMAE": 13.4,
             "grossOutMigrationMAE": 62.7,
@@ -37836,46 +37836,46 @@
         "2580": {
           "6": {
             "populationMAPE": 0.9,
-            "populationMAE": 681.7,
-            "netMigrationMAE": 169.9,
+            "populationMAE": 688.4,
+            "netMigrationMAE": 169.6,
             "grossInMigrationMAE": 115.9,
-            "grossOutMigrationMAE": 111.6,
-            "populationError2024": 1012.2,
+            "grossOutMigrationMAE": 111.2,
+            "populationError2024": 1021.9,
             "populationAbsPctError2024": 1.3,
             "populationMAPEDeltaVsNet": 0.5,
-            "netMigrationMAEDeltaVsNet": 82.9
+            "netMigrationMAEDeltaVsNet": 82.6
           },
           "10": {
             "populationMAPE": 0.8,
-            "populationMAE": 597.5,
-            "netMigrationMAE": 134.2,
+            "populationMAE": 603.3,
+            "netMigrationMAE": 133.9,
             "grossInMigrationMAE": 136.8,
-            "grossOutMigrationMAE": 168,
-            "populationError2024": 888.4,
+            "grossOutMigrationMAE": 167.7,
+            "populationError2024": 896.8,
             "populationAbsPctError2024": 1.1,
             "populationMAPEDeltaVsNet": 0.4,
-            "netMigrationMAEDeltaVsNet": 40.3
+            "netMigrationMAEDeltaVsNet": 40
           }
         },
         "2581": {
           "6": {
             "populationMAPE": 0.9,
-            "populationMAE": 384.4,
+            "populationMAE": 385.4,
             "netMigrationMAE": 144.9,
             "grossInMigrationMAE": 220.5,
             "grossOutMigrationMAE": 75.6,
-            "populationError2024": 525.8,
+            "populationError2024": 527.2,
             "populationAbsPctError2024": 1.2,
             "populationMAPEDeltaVsNet": 0.4,
             "netMigrationMAEDeltaVsNet": 64.6
           },
           "10": {
             "populationMAPE": 1,
-            "populationMAE": 403,
+            "populationMAE": 403.2,
             "netMigrationMAE": 149.7,
             "grossInMigrationMAE": 161.5,
             "grossOutMigrationMAE": 12.8,
-            "populationError2024": 548,
+            "populationError2024": 548.3,
             "populationAbsPctError2024": 1.3,
             "populationMAPEDeltaVsNet": 0.5,
             "netMigrationMAEDeltaVsNet": 70.3
@@ -37884,22 +37884,22 @@
         "2582": {
           "6": {
             "populationMAPE": 1.2,
-            "populationMAE": 347.3,
-            "netMigrationMAE": 126.1,
+            "populationMAE": 348.1,
+            "netMigrationMAE": 126,
             "grossInMigrationMAE": 99.5,
-            "grossOutMigrationMAE": 26.6,
-            "populationError2024": 403.4,
+            "grossOutMigrationMAE": 26.5,
+            "populationError2024": 404.4,
             "populationAbsPctError2024": 1.4,
             "populationMAPEDeltaVsNet": 0.5,
-            "netMigrationMAEDeltaVsNet": 24.6
+            "netMigrationMAEDeltaVsNet": 24.5
           },
           "10": {
             "populationMAPE": 1.3,
-            "populationMAE": 376.1,
+            "populationMAE": 376.3,
             "netMigrationMAE": 133.7,
             "grossInMigrationMAE": 117.8,
             "grossOutMigrationMAE": 18.8,
-            "populationError2024": 442.9,
+            "populationError2024": 443.2,
             "populationAbsPctError2024": 1.6,
             "populationMAPEDeltaVsNet": 0.4,
             "netMigrationMAEDeltaVsNet": 26.7
@@ -37908,25 +37908,25 @@
         "FA_LULEA": {
           "6": {
             "populationMAPE": 1,
-            "populationMAE": 1742.5,
-            "netMigrationMAE": 520.5,
+            "populationMAE": 1751.9,
+            "netMigrationMAE": 520,
             "grossInMigrationMAE": null,
             "grossOutMigrationMAE": null,
-            "populationError2024": 2444.4,
+            "populationError2024": 2458,
             "populationAbsPctError2024": 1.4,
             "populationMAPEDeltaVsNet": 0.5,
-            "netMigrationMAEDeltaVsNet": 241.5
+            "netMigrationMAEDeltaVsNet": 241
           },
           "10": {
             "populationMAPE": 1,
-            "populationMAE": 1721.5,
-            "netMigrationMAE": 514.2,
+            "populationMAE": 1727.1,
+            "netMigrationMAE": 513.8,
             "grossInMigrationMAE": null,
             "grossOutMigrationMAE": null,
-            "populationError2024": 2406.1,
+            "populationError2024": 2414.1,
             "populationAbsPctError2024": 1.4,
             "populationMAPEDeltaVsNet": 0.5,
-            "netMigrationMAEDeltaVsNet": 236.1
+            "netMigrationMAEDeltaVsNet": 235.7
           }
         }
       }

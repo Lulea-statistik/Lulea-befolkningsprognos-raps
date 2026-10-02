@@ -23,6 +23,16 @@
       "matches": [],
       "selected": null
     },
+    "mean_population_event_age_pre2025": {
+      "query": "Medelfolkmängd ålder under året region civilstånd ålder kön 2006 2024",
+      "matches": [],
+      "selected": null
+    },
+    "mean_population_event_age_2025": {
+      "query": "Medelfolkmängd ålder under året region civilstånd ålder kön 2025",
+      "matches": [],
+      "selected": null
+    },
     "migration_pre2025": {
       "query": "Flyttningar efter region ålder och kön 1997 2024",
       "matches": [],
