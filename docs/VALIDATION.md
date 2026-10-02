@@ -90,6 +90,18 @@ The validation report stores, for Luleå municipality and additive Luleå FA wit
 
 This comparison is a forward assumption sensitivity, not a historical score and not a reason to calibrate toward SCB's regional projection.
 
+## Migration-window sensitivity
+
+The production baseline keeps the selected global calibration window, with 10 years as default. A separate sensitivity isolates **net migration only** by holding fertility and mortality at the 10-year baseline while applying 6-, 10- or 19-year net-migration age/sex profiles.
+
+The report stores for Luleå and additive Luleå FA:
+- end population in 2050,
+- cumulative and annual-mean net migration,
+- induced changes in births and deaths from the changed age/sex population path,
+- difference versus the 10-year migration baseline.
+
+A second diagnostic compares each pre-2025 migration profile with observed 2025 net migration. Because the profiles are estimated only through 2024, 2025 is a post-calibration observation; however, it is CKM data and is used only as a diagnostic, not for selecting or retuning the default window.
+
 ## Rolling-origin validation
 
 A second validation layer uses four historical forecast origins: **2018, 2019, 2020 and 2021**. For each origin:
