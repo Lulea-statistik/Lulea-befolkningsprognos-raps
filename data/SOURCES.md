@@ -25,6 +25,16 @@ API v2 erbjuder bl.a. `GET /tables`, `GET /tables/{id}/metadata`, `GET/POST /tab
 - 2514 Kalix
 - FA_LULEA = summan av ovanstående i V1.
 
+### Externa valideringsgeografier
+
+För generaliserbarhetstest används dessutom fasta FA15-regioner, endast i historisk validering:
+
+- FA16 Trollhättan-Vänersborg: 1427 Sotenäs, 1430 Munkedal, 1439 Färgelanda, 1444 Grästorp, 1461 Mellerud, 1484 Lysekil, 1485 Uddevalla, 1487 Vänersborg, 1488 Trollhättan.
+- FA36 Gävle: 0319 Älvkarleby, 2101 Ockelbo, 2104 Hofors, 2180 Gävle, 2181 Sandviken.
+- FA42 Sundsvall: 2260 Ånge, 2262 Timrå, 2280 Härnösand, 2281 Sundsvall.
+
+Medlemskapen kommer från Tillväxtverkets FA15-indelning och ligger låsta i `data/reference_fa_regions.json`. Historiska SCB-uttag 2006–2024 inkluderar dessa kommuner, medan produktionsprognosen fortfarande är avgränsad till Luleå FA.
+
 ## CKM
 
 Från 2025 lagras `method=CKM`. För varje cell kan ett maximalt relativt perturbationsmått beräknas som `3/value*100` när CKM-perturbationen är ±3. För risker används låg/bas/hög-scenario genom att variera både händelser och exponering med ±3.
