@@ -76,7 +76,7 @@ const report = {
     summary: {}
   },
   eventAgeTimingDiagnostic: {
-    note: 'Fixed source-definition diagnostic. Compares legacy V1 timing with an event-age aligned cohort step. Primary evaluation horizon is n+1, secondary is n+2, and n+3 is supplementary robustness only. Production default remains legacy until the short-horizon diagnostic is reviewed.',
+    note: 'Historical comparison of legacy V1 timing against the production event-age aligned cohort step. Primary evaluation horizon is n+1, secondary is n+2, and n+3 is supplementary robustness only.',
     summary: {}
   }
 };
@@ -134,6 +134,7 @@ for (const geo of geos) {
         mortMult: 1,
         migMult: 1,
         window,
+        cohortTimingMode: 'event_age_aligned',
         scenarios: {housing: [], workplaces: [], overlapPct: 0},
         includeDetail: false
       });
@@ -316,8 +317,8 @@ for (const geo of geos) {
     const byOrigin = {};
 
     for (const entry of origins) {
-      const legacy = report.results[geo][entry.origin][window] || [];
-      legacyRows.push(...legacy);
+      const aligned = report.results[geo][entry.origin][window] || [];
+      alignedRows.push(...aligned);
 
       const pred = M.simulate(entry.model, {
         geo,
@@ -326,17 +327,17 @@ for (const geo of geos) {
         mortMult: 1,
         migMult: 1,
         window,
-        cohortTimingMode: 'event_age_aligned',
+        cohortTimingMode: 'legacy_start_age',
         scenarios: {housing: [], workplaces: [], overlapPct: 0},
         includeDetail: false
       });
 
-      const altRows = [];
+      const legacy = [];
       for (const p of pred) {
         if (+p.year <= +entry.origin) continue;
         const a = byActual(entry.actual, geo, p.year);
         if (!a) continue;
-        altRows.push({
+        legacy.push({
           year: +p.year,
           horizon: +p.year - +entry.origin,
           populationError: p.population - a.population,
@@ -346,15 +347,15 @@ for (const geo of geos) {
           netMigrationError: p.netMigration - a.netMigration
         });
       }
-      alignedRows.push(...altRows);
+      legacyRows.push(...legacy);
 
       byOrigin[entry.origin] = {
         legacyDeathsMeanError: round1(mean(legacy.map(x => x.deathsError))),
-        alignedDeathsMeanError: round1(mean(altRows.map(x => x.deathsError))),
+        alignedDeathsMeanError: round1(mean(aligned.map(x => x.deathsError))),
         legacyBirthsMeanError: round1(mean(legacy.map(x => x.birthsError))),
-        alignedBirthsMeanError: round1(mean(altRows.map(x => x.birthsError))),
-        legacyPopulationEndError: legacy.at(-1)?.populationError ?? null,
-        alignedPopulationEndError: round1(altRows.at(-1)?.populationError)
+        alignedBirthsMeanError: round1(mean(aligned.map(x => x.birthsError))),
+        legacyPopulationEndError: round1(legacy.at(-1)?.populationError),
+        alignedPopulationEndError: aligned.at(-1)?.populationError ?? null
       };
     }
 
