@@ -1160,8 +1160,8 @@ def main():
     required = [
         "population_2025.csv", HISTORICAL_BIRTH_YEAR_EXPOSURE_FILE,
         HISTORICAL_EVENT_AGE_EXPOSURE_FILE,
-        "migration_pre2025.csv", "births_pre2025.csv",
-        "deaths_pre2025.csv"
+        "migration_pre2025.csv", "migration_birth_region_pre2025.csv",
+        "births_pre2025.csv", "deaths_pre2025.csv"
     ]
     missing = [p for p in required if not (RAW / p).exists()]
     if missing:
