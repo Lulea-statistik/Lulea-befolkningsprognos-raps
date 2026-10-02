@@ -56,12 +56,16 @@ jobs:
       - name: Test external FA reference configuration
         run: python tests/test_reference_fa_config.py
 
+      - name: Test component-flow holdout configuration
+        run: python tests/test_component_flow_holdout_config.py
+
       - name: Validate JavaScript syntax
         run: |
           node --check js/model.js
           node --check js/app.js
           node --check scripts/run_reference_fa_backtest.js
           node --check scripts/run_rolling_backtest.js
+          node --check scripts/run_component_flow_holdout.js
 
       - name: Run model tests
         run: node tests/test_model.js
