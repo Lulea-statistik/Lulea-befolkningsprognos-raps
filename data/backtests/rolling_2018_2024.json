@@ -3537,28 +3537,28 @@
           "nationalOnlyPopulationMeanError": 89,
           "byOrigin": {
             "2018": {
-              "localGeneralMortalityFactor": 1.2,
+              "localGeneralMortalityFactor": 1.184,
               "localizedDeathsMeanError": -18.7,
               "nationalOnlyDeathsMeanError": -42.6,
               "localizedPopulationEndError": 129.2,
               "nationalOnlyPopulationEndError": 200.8
             },
             "2019": {
-              "localGeneralMortalityFactor": 1.2,
+              "localGeneralMortalityFactor": 1.18,
               "localizedDeathsMeanError": -29.4,
               "nationalOnlyDeathsMeanError": -54.1,
               "localizedPopulationEndError": -46.3,
               "nationalOnlyPopulationEndError": 27.9
             },
             "2020": {
-              "localGeneralMortalityFactor": 1.2,
+              "localGeneralMortalityFactor": 1.167,
               "localizedDeathsMeanError": -38.9,
               "nationalOnlyDeathsMeanError": -64.4,
               "localizedPopulationEndError": 57.6,
               "nationalOnlyPopulationEndError": 133.9
             },
             "2021": {
-              "localGeneralMortalityFactor": 1.2,
+              "localGeneralMortalityFactor": 1.156,
               "localizedDeathsMeanError": -29.8,
               "nationalOnlyDeathsMeanError": -55.6,
               "localizedPopulationEndError": 125.9,
@@ -3578,28 +3578,28 @@
           "nationalOnlyPopulationMeanError": 44,
           "byOrigin": {
             "2018": {
-              "localGeneralMortalityFactor": 1.2,
+              "localGeneralMortalityFactor": 1.163,
               "localizedDeathsMeanError": -22.2,
               "nationalOnlyDeathsMeanError": -42.6,
               "localizedPopulationEndError": 11.4,
               "nationalOnlyPopulationEndError": 72.7
             },
             "2019": {
-              "localGeneralMortalityFactor": 1.2,
+              "localGeneralMortalityFactor": 1.16,
               "localizedDeathsMeanError": -33.4,
               "nationalOnlyDeathsMeanError": -54,
               "localizedPopulationEndError": -118,
               "nationalOnlyPopulationEndError": -56
             },
             "2020": {
-              "localGeneralMortalityFactor": 1.2,
+              "localGeneralMortalityFactor": 1.161,
               "localizedDeathsMeanError": -41.8,
               "nationalOnlyDeathsMeanError": -64.2,
               "localizedPopulationEndError": 19.4,
               "nationalOnlyPopulationEndError": 86.8
             },
             "2021": {
-              "localGeneralMortalityFactor": 1.2,
+              "localGeneralMortalityFactor": 1.161,
               "localizedDeathsMeanError": -31.3,
               "nationalOnlyDeathsMeanError": -55.5,
               "localizedPopulationEndError": 117.4,
@@ -3621,28 +3621,28 @@
           "nationalOnlyPopulationMeanError": 126.4,
           "byOrigin": {
             "2018": {
-              "localGeneralMortalityFactor": 1.1,
+              "localGeneralMortalityFactor": 1.097,
               "localizedDeathsMeanError": -8.6,
               "nationalOnlyDeathsMeanError": -15.9,
               "localizedPopulationEndError": 133.4,
               "nationalOnlyPopulationEndError": 155.3
             },
             "2019": {
-              "localGeneralMortalityFactor": 1.1,
+              "localGeneralMortalityFactor": 1.12,
               "localizedDeathsMeanError": -10.6,
               "nationalOnlyDeathsMeanError": -19.5,
               "localizedPopulationEndError": 137.7,
               "nationalOnlyPopulationEndError": 164.3
             },
             "2020": {
-              "localGeneralMortalityFactor": 1.1,
+              "localGeneralMortalityFactor": 1.116,
               "localizedDeathsMeanError": -13.3,
               "nationalOnlyDeathsMeanError": -21.7,
               "localizedPopulationEndError": 248.5,
               "nationalOnlyPopulationEndError": 273.8
             },
             "2021": {
-              "localGeneralMortalityFactor": 1.1,
+              "localGeneralMortalityFactor": 1.111,
               "localizedDeathsMeanError": -12.5,
               "nationalOnlyDeathsMeanError": -20.8,
               "localizedPopulationEndError": 163.2,
@@ -3662,28 +3662,28 @@
           "nationalOnlyPopulationMeanError": 106.1,
           "byOrigin": {
             "2018": {
-              "localGeneralMortalityFactor": 1.1,
+              "localGeneralMortalityFactor": 1.077,
               "localizedDeathsMeanError": -10.3,
               "nationalOnlyDeathsMeanError": -16,
               "localizedPopulationEndError": 69.6,
               "nationalOnlyPopulationEndError": 86.6
             },
             "2019": {
-              "localGeneralMortalityFactor": 1.1,
+              "localGeneralMortalityFactor": 1.113,
               "localizedDeathsMeanError": -11.3,
               "nationalOnlyDeathsMeanError": -19.6,
               "localizedPopulationEndError": 98.5,
               "nationalOnlyPopulationEndError": 123.2
             },
             "2020": {
-              "localGeneralMortalityFactor": 1.1,
+              "localGeneralMortalityFactor": 1.11,
               "localizedDeathsMeanError": -13.9,
               "nationalOnlyDeathsMeanError": -21.8,
               "localizedPopulationEndError": 224.5,
               "nationalOnlyPopulationEndError": 248.2
             },
             "2021": {
-              "localGeneralMortalityFactor": 1.1,
+              "localGeneralMortalityFactor": 1.103,
               "localizedDeathsMeanError": -13.3,
               "nationalOnlyDeathsMeanError": -20.9,
               "localizedPopulationEndError": 178.4,
@@ -3705,28 +3705,28 @@
           "nationalOnlyPopulationMeanError": 345.1,
           "byOrigin": {
             "2018": {
-              "localGeneralMortalityFactor": 1,
+              "localGeneralMortalityFactor": 1.024,
               "localizedDeathsMeanError": -81.9,
               "nationalOnlyDeathsMeanError": -91.2,
               "localizedPopulationEndError": 591.8,
               "nationalOnlyPopulationEndError": 619.5
             },
             "2019": {
-              "localGeneralMortalityFactor": 1,
+              "localGeneralMortalityFactor": 1.029,
               "localizedDeathsMeanError": -90.4,
               "nationalOnlyDeathsMeanError": -103.5,
               "localizedPopulationEndError": 336.4,
               "nationalOnlyPopulationEndError": 375.6
             },
             "2020": {
-              "localGeneralMortalityFactor": 1,
+              "localGeneralMortalityFactor": 1.018,
               "localizedDeathsMeanError": -119.7,
               "nationalOnlyDeathsMeanError": -126.9,
               "localizedPopulationEndError": 601.7,
               "nationalOnlyPopulationEndError": 623.4
             },
             "2021": {
-              "localGeneralMortalityFactor": 1,
+              "localGeneralMortalityFactor": 1.024,
               "localizedDeathsMeanError": -110.4,
               "nationalOnlyDeathsMeanError": -124.2,
               "localizedPopulationEndError": 535.5,
@@ -3746,28 +3746,28 @@
           "nationalOnlyPopulationMeanError": 281.2,
           "byOrigin": {
             "2018": {
-              "localGeneralMortalityFactor": 1,
+              "localGeneralMortalityFactor": 1.018,
               "localizedDeathsMeanError": -88.8,
               "nationalOnlyDeathsMeanError": -90.9,
               "localizedPopulationEndError": 435.3,
               "nationalOnlyPopulationEndError": 441.7
             },
             "2019": {
-              "localGeneralMortalityFactor": 1,
+              "localGeneralMortalityFactor": 1.029,
               "localizedDeathsMeanError": -93.8,
               "nationalOnlyDeathsMeanError": -103.3,
               "localizedPopulationEndError": 211.3,
               "nationalOnlyPopulationEndError": 239.8
             },
             "2020": {
-              "localGeneralMortalityFactor": 1,
+              "localGeneralMortalityFactor": 1.031,
               "localizedDeathsMeanError": -114.7,
               "nationalOnlyDeathsMeanError": -126.7,
               "localizedPopulationEndError": 594.1,
               "nationalOnlyPopulationEndError": 630.3
             },
             "2021": {
-              "localGeneralMortalityFactor": 1,
+              "localGeneralMortalityFactor": 1.032,
               "localizedDeathsMeanError": -109.9,
               "nationalOnlyDeathsMeanError": -124,
               "localizedPopulationEndError": 459.3,
@@ -3789,28 +3789,28 @@
           "nationalOnlyPopulationMeanError": 361.7,
           "byOrigin": {
             "2018": {
-              "localGeneralMortalityFactor": 1.2,
+              "localGeneralMortalityFactor": 1.158,
               "localizedDeathsMeanError": -52.3,
               "nationalOnlyDeathsMeanError": -100.9,
               "localizedPopulationEndError": 406.6,
               "nationalOnlyPopulationEndError": 552.4
             },
             "2019": {
-              "localGeneralMortalityFactor": 1.2,
+              "localGeneralMortalityFactor": 1.175,
               "localizedDeathsMeanError": -29.6,
               "nationalOnlyDeathsMeanError": -82.5,
               "localizedPopulationEndError": 519.2,
               "nationalOnlyPopulationEndError": 678
             },
             "2020": {
-              "localGeneralMortalityFactor": 1.2,
+              "localGeneralMortalityFactor": 1.168,
               "localizedDeathsMeanError": -35.5,
               "nationalOnlyDeathsMeanError": -87.7,
               "localizedPopulationEndError": 336.6,
               "nationalOnlyPopulationEndError": 493.2
             },
             "2021": {
-              "localGeneralMortalityFactor": 1.2,
+              "localGeneralMortalityFactor": 1.169,
               "localizedDeathsMeanError": -15.7,
               "nationalOnlyDeathsMeanError": -71.6,
               "localizedPopulationEndError": 246.5,
@@ -3830,28 +3830,28 @@
           "nationalOnlyPopulationMeanError": 305.6,
           "byOrigin": {
             "2018": {
-              "localGeneralMortalityFactor": 1.1,
+              "localGeneralMortalityFactor": 1.142,
               "localizedDeathsMeanError": -58.8,
               "nationalOnlyDeathsMeanError": -100.6,
               "localizedPopulationEndError": 226.6,
               "nationalOnlyPopulationEndError": 352
             },
             "2019": {
-              "localGeneralMortalityFactor": 1.2,
+              "localGeneralMortalityFactor": 1.157,
               "localizedDeathsMeanError": -35.9,
               "nationalOnlyDeathsMeanError": -82.3,
               "localizedPopulationEndError": 426,
               "nationalOnlyPopulationEndError": 565.3
             },
             "2020": {
-              "localGeneralMortalityFactor": 1.2,
+              "localGeneralMortalityFactor": 1.159,
               "localizedDeathsMeanError": -40.9,
               "nationalOnlyDeathsMeanError": -87.5,
               "localizedPopulationEndError": 350.4,
               "nationalOnlyPopulationEndError": 490.1
             },
             "2021": {
-              "localGeneralMortalityFactor": 1.2,
+              "localGeneralMortalityFactor": 1.154,
               "localizedDeathsMeanError": -23.3,
               "nationalOnlyDeathsMeanError": -71.6,
               "localizedPopulationEndError": 245.3,
@@ -3873,28 +3873,28 @@
           "nationalOnlyPopulationMeanError": 152.5,
           "byOrigin": {
             "2018": {
-              "localGeneralMortalityFactor": 1,
+              "localGeneralMortalityFactor": 1.018,
               "localizedDeathsMeanError": -51.5,
               "nationalOnlyDeathsMeanError": -52.6,
               "localizedPopulationEndError": 191.3,
               "nationalOnlyPopulationEndError": 194.8
             },
             "2019": {
-              "localGeneralMortalityFactor": 1,
+              "localGeneralMortalityFactor": 1.021,
               "localizedDeathsMeanError": -51.3,
               "nationalOnlyDeathsMeanError": -54.3,
               "localizedPopulationEndError": 198.1,
               "nationalOnlyPopulationEndError": 207.2
             },
             "2020": {
-              "localGeneralMortalityFactor": 1,
+              "localGeneralMortalityFactor": 1.045,
               "localizedDeathsMeanError": -54.1,
               "nationalOnlyDeathsMeanError": -64.6,
               "localizedPopulationEndError": 235,
               "nationalOnlyPopulationEndError": 266.3
             },
             "2021": {
-              "localGeneralMortalityFactor": 1,
+              "localGeneralMortalityFactor": 1.043,
               "localizedDeathsMeanError": -46.7,
               "nationalOnlyDeathsMeanError": -57.9,
               "localizedPopulationEndError": 195.4,
@@ -3914,28 +3914,28 @@
           "nationalOnlyPopulationMeanError": 181.5,
           "byOrigin": {
             "2018": {
-              "localGeneralMortalityFactor": 1,
+              "localGeneralMortalityFactor": 1.031,
               "localizedDeathsMeanError": -45.7,
               "nationalOnlyDeathsMeanError": -52.7,
               "localizedPopulationEndError": 121.4,
               "nationalOnlyPopulationEndError": 142.4
             },
             "2019": {
-              "localGeneralMortalityFactor": 1,
+              "localGeneralMortalityFactor": 1.027,
               "localizedDeathsMeanError": -48.6,
               "nationalOnlyDeathsMeanError": -54.3,
               "localizedPopulationEndError": 291.2,
               "nationalOnlyPopulationEndError": 308.3
             },
             "2020": {
-              "localGeneralMortalityFactor": 1,
+              "localGeneralMortalityFactor": 1.036,
               "localizedDeathsMeanError": -56.9,
               "nationalOnlyDeathsMeanError": -64.7,
               "localizedPopulationEndError": 333.2,
               "nationalOnlyPopulationEndError": 356.7
             },
             "2021": {
-              "localGeneralMortalityFactor": 1,
+              "localGeneralMortalityFactor": 1.039,
               "localizedDeathsMeanError": -49.4,
               "nationalOnlyDeathsMeanError": -58.1,
               "localizedPopulationEndError": 239,
@@ -3957,28 +3957,28 @@
           "nationalOnlyPopulationMeanError": 1074.8,
           "byOrigin": {
             "2018": {
-              "localGeneralMortalityFactor": 0,
+              "localGeneralMortalityFactor": null,
               "localizedDeathsMeanError": -213,
               "nationalOnlyDeathsMeanError": -303.2,
               "localizedPopulationEndError": 1452.3,
               "nationalOnlyPopulationEndError": 1722.8
             },
             "2019": {
-              "localGeneralMortalityFactor": 0,
+              "localGeneralMortalityFactor": null,
               "localizedDeathsMeanError": -211.3,
               "nationalOnlyDeathsMeanError": -314,
               "localizedPopulationEndError": 1145,
               "nationalOnlyPopulationEndError": 1453
             },
             "2020": {
-              "localGeneralMortalityFactor": 0,
+              "localGeneralMortalityFactor": null,
               "localizedDeathsMeanError": -261.6,
               "nationalOnlyDeathsMeanError": -365.2,
               "localizedPopulationEndError": 1479.4,
               "nationalOnlyPopulationEndError": 1790.5
             },
             "2021": {
-              "localGeneralMortalityFactor": 0,
+              "localGeneralMortalityFactor": null,
               "localizedDeathsMeanError": -215.1,
               "nationalOnlyDeathsMeanError": -330.1,
               "localizedPopulationEndError": 1266.5,
@@ -3998,32 +3998,673 @@
           "nationalOnlyPopulationMeanError": 918.4,
           "byOrigin": {
             "2018": {
-              "localGeneralMortalityFactor": 0,
+              "localGeneralMortalityFactor": null,
               "localizedDeathsMeanError": -225.7,
               "nationalOnlyDeathsMeanError": -302.7,
               "localizedPopulationEndError": 864.4,
               "nationalOnlyPopulationEndError": 1095.4
             },
             "2019": {
-              "localGeneralMortalityFactor": 0,
+              "localGeneralMortalityFactor": null,
               "localizedDeathsMeanError": -223,
               "nationalOnlyDeathsMeanError": -313.6,
               "localizedPopulationEndError": 908.9,
               "nationalOnlyPopulationEndError": 1180.7
             },
             "2020": {
-              "localGeneralMortalityFactor": 0,
+              "localGeneralMortalityFactor": null,
               "localizedDeathsMeanError": -268.2,
               "nationalOnlyDeathsMeanError": -365,
               "localizedPopulationEndError": 1521.6,
               "nationalOnlyPopulationEndError": 1812.2
             },
             "2021": {
-              "localGeneralMortalityFactor": 0,
+              "localGeneralMortalityFactor": null,
               "localizedDeathsMeanError": -227.2,
               "nationalOnlyDeathsMeanError": -329.9,
               "localizedPopulationEndError": 1239.5,
               "nationalOnlyPopulationEndError": 1547.9
+            }
+          }
+        }
+      }
+    }
+  },
+  "eventAgeTimingDiagnostic": {
+    "note": "Fixed source-definition diagnostic. Compares legacy V1 timing with an event-age aligned cohort step: age the 31-December stock first, calculate fertility on forecast-year maternal ages, add newborns, then apply mortality by forecast-year age including age 0. Production default remains legacy until the diagnostic is reviewed.",
+    "summary": {
+      "2514": {
+        "6": {
+          "observations": 12,
+          "legacyPopulationMAPE": 0.4,
+          "alignedPopulationMAPE": 0.4,
+          "legacyPopulationMAE": 67.9,
+          "alignedPopulationMAE": 61.7,
+          "legacyPopulationMeanError": 38.1,
+          "alignedPopulationMeanError": -11.2,
+          "legacyBirthsMAE": 7.9,
+          "alignedBirthsMAE": 7.8,
+          "legacyBirthsMeanError": -0.4,
+          "alignedBirthsMeanError": -1.4,
+          "legacyDeathsMAE": 29.2,
+          "alignedDeathsMAE": 11.3,
+          "legacyDeathsMeanError": -29.2,
+          "alignedDeathsMeanError": -6.2,
+          "netMigrationMAE": 50.3,
+          "byOrigin": {
+            "2018": {
+              "legacyDeathsMeanError": -18.7,
+              "alignedDeathsMeanError": 4.4,
+              "legacyBirthsMeanError": -5.6,
+              "alignedBirthsMeanError": -5.6,
+              "legacyPopulationEndError": 129.2,
+              "alignedPopulationEndError": 60.1
+            },
+            "2019": {
+              "legacyDeathsMeanError": -29.4,
+              "alignedDeathsMeanError": -6.3,
+              "legacyBirthsMeanError": -2,
+              "alignedBirthsMeanError": -3,
+              "legacyPopulationEndError": -46.3,
+              "alignedPopulationEndError": -118.7
+            },
+            "2020": {
+              "legacyDeathsMeanError": -38.9,
+              "alignedDeathsMeanError": -16.2,
+              "legacyBirthsMeanError": 6.3,
+              "alignedBirthsMeanError": 4.9,
+              "legacyPopulationEndError": 57.6,
+              "alignedPopulationEndError": -14.5
+            },
+            "2021": {
+              "legacyDeathsMeanError": -29.8,
+              "alignedDeathsMeanError": -6.8,
+              "legacyBirthsMeanError": -0.1,
+              "alignedBirthsMeanError": -1.8,
+              "legacyPopulationEndError": 125.9,
+              "alignedPopulationEndError": 51.9
+            }
+          }
+        },
+        "10": {
+          "observations": 12,
+          "legacyPopulationMAPE": 0.4,
+          "alignedPopulationMAPE": 0.4,
+          "legacyPopulationMAE": 57.9,
+          "alignedPopulationMAE": 69,
+          "legacyPopulationMeanError": -0.8,
+          "alignedPopulationMeanError": -49.9,
+          "legacyBirthsMAE": 9.1,
+          "alignedBirthsMAE": 9.4,
+          "legacyBirthsMeanError": -5.2,
+          "alignedBirthsMeanError": -6.3,
+          "legacyDeathsMAE": 32.2,
+          "alignedDeathsMAE": 13.5,
+          "legacyDeathsMeanError": -32.2,
+          "alignedDeathsMeanError": -9.3,
+          "netMigrationMAE": 57.8,
+          "byOrigin": {
+            "2018": {
+              "legacyDeathsMeanError": -22.2,
+              "alignedDeathsMeanError": 0.5,
+              "legacyBirthsMeanError": -11.5,
+              "alignedBirthsMeanError": -11.9,
+              "legacyPopulationEndError": 11.4,
+              "alignedPopulationEndError": -57.8
+            },
+            "2019": {
+              "legacyDeathsMeanError": -33.4,
+              "alignedDeathsMeanError": -10.5,
+              "legacyBirthsMeanError": -7.3,
+              "alignedBirthsMeanError": -8.6,
+              "legacyPopulationEndError": -118,
+              "alignedPopulationEndError": -190.5
+            },
+            "2020": {
+              "legacyDeathsMeanError": -41.8,
+              "alignedDeathsMeanError": -19.2,
+              "legacyBirthsMeanError": 0.3,
+              "alignedBirthsMeanError": -1.1,
+              "legacyPopulationEndError": 19.4,
+              "alignedPopulationEndError": -52.5
+            },
+            "2021": {
+              "legacyDeathsMeanError": -31.3,
+              "alignedDeathsMeanError": -8.1,
+              "legacyBirthsMeanError": -2.2,
+              "alignedBirthsMeanError": -3.7,
+              "legacyPopulationEndError": 117.4,
+              "alignedPopulationEndError": 43.2
+            }
+          }
+        }
+      },
+      "2560": {
+        "6": {
+          "observations": 12,
+          "legacyPopulationMAPE": 1.4,
+          "alignedPopulationMAPE": 1.1,
+          "legacyPopulationMAE": 109.6,
+          "alignedPopulationMAE": 88.1,
+          "legacyPopulationMeanError": 109.6,
+          "alignedPopulationMeanError": 87.2,
+          "legacyBirthsMAE": 6.8,
+          "alignedBirthsMAE": 6.6,
+          "legacyBirthsMeanError": 2.5,
+          "alignedBirthsMeanError": 2.1,
+          "legacyDeathsMAE": 11.3,
+          "alignedDeathsMAE": 7.7,
+          "legacyDeathsMeanError": -11.3,
+          "alignedDeathsMeanError": -0.8,
+          "netMigrationMAE": 52.6,
+          "byOrigin": {
+            "2018": {
+              "legacyDeathsMeanError": -8.6,
+              "alignedDeathsMeanError": 1.8,
+              "legacyBirthsMeanError": -1.5,
+              "alignedBirthsMeanError": -1.6,
+              "legacyPopulationEndError": 133.4,
+              "alignedPopulationEndError": 101.6
+            },
+            "2019": {
+              "legacyDeathsMeanError": -10.6,
+              "alignedDeathsMeanError": -0.1,
+              "legacyBirthsMeanError": 5.9,
+              "alignedBirthsMeanError": 5.6,
+              "legacyPopulationEndError": 137.7,
+              "alignedPopulationEndError": 105.1
+            },
+            "2020": {
+              "legacyDeathsMeanError": -13.3,
+              "alignedDeathsMeanError": -2.9,
+              "legacyBirthsMeanError": 2.7,
+              "alignedBirthsMeanError": 2.3,
+              "legacyPopulationEndError": 248.5,
+              "alignedPopulationEndError": 215.9
+            },
+            "2021": {
+              "legacyDeathsMeanError": -12.5,
+              "alignedDeathsMeanError": -1.9,
+              "legacyBirthsMeanError": 3,
+              "alignedBirthsMeanError": 2,
+              "legacyPopulationEndError": 163.2,
+              "alignedPopulationEndError": 128.4
+            }
+          }
+        },
+        "10": {
+          "observations": 12,
+          "legacyPopulationMAPE": 1.2,
+          "alignedPopulationMAPE": 0.9,
+          "legacyPopulationMAE": 92.3,
+          "alignedPopulationMAE": 72.6,
+          "legacyPopulationMeanError": 91.1,
+          "alignedPopulationMeanError": 68.9,
+          "legacyBirthsMAE": 6.6,
+          "alignedBirthsMAE": 6.7,
+          "legacyBirthsMeanError": 1,
+          "alignedBirthsMeanError": 0.5,
+          "legacyDeathsMAE": 12.2,
+          "alignedDeathsMAE": 7.6,
+          "legacyDeathsMeanError": -12.2,
+          "alignedDeathsMeanError": -1.8,
+          "netMigrationMAE": 48.7,
+          "byOrigin": {
+            "2018": {
+              "legacyDeathsMeanError": -10.3,
+              "alignedDeathsMeanError": 0,
+              "legacyBirthsMeanError": -1.3,
+              "alignedBirthsMeanError": -1.4,
+              "legacyPopulationEndError": 69.6,
+              "alignedPopulationEndError": 38.2
+            },
+            "2019": {
+              "legacyDeathsMeanError": -11.3,
+              "alignedDeathsMeanError": -0.8,
+              "legacyBirthsMeanError": 4,
+              "alignedBirthsMeanError": 3.6,
+              "legacyPopulationEndError": 98.5,
+              "alignedPopulationEndError": 66
+            },
+            "2020": {
+              "legacyDeathsMeanError": -13.9,
+              "alignedDeathsMeanError": -3.5,
+              "legacyBirthsMeanError": 0.5,
+              "alignedBirthsMeanError": 0.1,
+              "legacyPopulationEndError": 224.5,
+              "alignedPopulationEndError": 192.3
+            },
+            "2021": {
+              "legacyDeathsMeanError": -13.3,
+              "alignedDeathsMeanError": -2.8,
+              "legacyBirthsMeanError": 0.6,
+              "alignedBirthsMeanError": -0.3,
+              "legacyPopulationEndError": 178.4,
+              "alignedPopulationEndError": 144
+            }
+          }
+        }
+      },
+      "2580": {
+        "6": {
+          "observations": 12,
+          "legacyPopulationMAPE": 0.4,
+          "alignedPopulationMAPE": 0.2,
+          "legacyPopulationMAE": 322.9,
+          "alignedPopulationMAE": 182.1,
+          "legacyPopulationMeanError": 322.9,
+          "alignedPopulationMeanError": 178.2,
+          "legacyBirthsMAE": 60.6,
+          "alignedBirthsMAE": 62.5,
+          "legacyBirthsMeanError": 54.4,
+          "alignedBirthsMeanError": 57,
+          "legacyDeathsMAE": 100.6,
+          "alignedDeathsMAE": 32.1,
+          "legacyDeathsMeanError": -100.6,
+          "alignedDeathsMeanError": -26.4,
+          "netMigrationMAE": 113.4,
+          "byOrigin": {
+            "2018": {
+              "legacyDeathsMeanError": -81.9,
+              "alignedDeathsMeanError": -8.9,
+              "legacyBirthsMeanError": 31.7,
+              "alignedBirthsMeanError": 38.9,
+              "legacyPopulationEndError": 591.8,
+              "alignedPopulationEndError": 394.4
+            },
+            "2019": {
+              "legacyDeathsMeanError": -90.4,
+              "alignedDeathsMeanError": -15.7,
+              "legacyBirthsMeanError": 58.7,
+              "alignedBirthsMeanError": 61.8,
+              "legacyPopulationEndError": 336.4,
+              "alignedPopulationEndError": 121.4
+            },
+            "2020": {
+              "legacyDeathsMeanError": -119.7,
+              "alignedDeathsMeanError": -46.1,
+              "legacyBirthsMeanError": 51.2,
+              "alignedBirthsMeanError": 52.4,
+              "legacyPopulationEndError": 601.7,
+              "alignedPopulationEndError": 384.6
+            },
+            "2021": {
+              "legacyDeathsMeanError": -110.4,
+              "alignedDeathsMeanError": -34.7,
+              "legacyBirthsMeanError": 76.1,
+              "alignedBirthsMeanError": 74.9,
+              "legacyPopulationEndError": 535.5,
+              "alignedPopulationEndError": 304.7
+            }
+          }
+        },
+        "10": {
+          "observations": 12,
+          "legacyPopulationMAPE": 0.3,
+          "alignedPopulationMAPE": 0.2,
+          "legacyPopulationMAE": 261.6,
+          "alignedPopulationMAE": 133.5,
+          "legacyPopulationMeanError": 261.6,
+          "alignedPopulationMeanError": 116.3,
+          "legacyBirthsMAE": 61.5,
+          "alignedBirthsMAE": 63.2,
+          "legacyBirthsMeanError": 56.2,
+          "alignedBirthsMeanError": 58.5,
+          "legacyDeathsMAE": 101.8,
+          "alignedDeathsMAE": 31.1,
+          "legacyDeathsMeanError": -101.8,
+          "alignedDeathsMeanError": -27.4,
+          "netMigrationMAE": 113.5,
+          "byOrigin": {
+            "2018": {
+              "legacyDeathsMeanError": -88.8,
+              "alignedDeathsMeanError": -16.3,
+              "legacyBirthsMeanError": 35,
+              "alignedBirthsMeanError": 42,
+              "legacyPopulationEndError": 435.3,
+              "alignedPopulationEndError": 238.9
+            },
+            "2019": {
+              "legacyDeathsMeanError": -93.8,
+              "alignedDeathsMeanError": -18.9,
+              "legacyBirthsMeanError": 59.8,
+              "alignedBirthsMeanError": 62.7,
+              "legacyPopulationEndError": 211.3,
+              "alignedPopulationEndError": -4.8
+            },
+            "2020": {
+              "legacyDeathsMeanError": -114.7,
+              "alignedDeathsMeanError": -40.9,
+              "legacyBirthsMeanError": 57.8,
+              "alignedBirthsMeanError": 59,
+              "legacyPopulationEndError": 594.1,
+              "alignedPopulationEndError": 376.4
+            },
+            "2021": {
+              "legacyDeathsMeanError": -109.9,
+              "alignedDeathsMeanError": -33.6,
+              "legacyBirthsMeanError": 72,
+              "alignedBirthsMeanError": 70.5,
+              "legacyPopulationEndError": 459.3,
+              "alignedPopulationEndError": 225.8
+            }
+          }
+        }
+      },
+      "2581": {
+        "6": {
+          "observations": 12,
+          "legacyPopulationMAPE": 0.6,
+          "alignedPopulationMAPE": 0.3,
+          "legacyPopulationMAE": 255,
+          "alignedPopulationMAE": 146.8,
+          "legacyPopulationMeanError": 255,
+          "alignedPopulationMeanError": 145,
+          "legacyBirthsMAE": 24.1,
+          "alignedBirthsMAE": 20.9,
+          "legacyBirthsMeanError": 13.4,
+          "alignedBirthsMeanError": 7.6,
+          "legacyDeathsMAE": 34.3,
+          "alignedDeathsMAE": 21,
+          "legacyDeathsMeanError": -33.3,
+          "alignedDeathsMeanError": 15.4,
+          "netMigrationMAE": 97.7,
+          "byOrigin": {
+            "2018": {
+              "legacyDeathsMeanError": -52.3,
+              "alignedDeathsMeanError": -4.4,
+              "legacyBirthsMeanError": -0.7,
+              "alignedBirthsMeanError": -3.2,
+              "legacyPopulationEndError": 406.6,
+              "alignedPopulationEndError": 255.6
+            },
+            "2019": {
+              "legacyDeathsMeanError": -29.6,
+              "alignedDeathsMeanError": 19.4,
+              "legacyBirthsMeanError": 22.6,
+              "alignedBirthsMeanError": 17.4,
+              "legacyPopulationEndError": 519.2,
+              "alignedPopulationEndError": 356.4
+            },
+            "2020": {
+              "legacyDeathsMeanError": -35.5,
+              "alignedDeathsMeanError": 12.7,
+              "legacyBirthsMeanError": 10.2,
+              "alignedBirthsMeanError": 3.2,
+              "legacyPopulationEndError": 336.6,
+              "alignedPopulationEndError": 171.1
+            },
+            "2021": {
+              "legacyDeathsMeanError": -15.7,
+              "alignedDeathsMeanError": 33.9,
+              "legacyBirthsMeanError": 21.4,
+              "alignedBirthsMeanError": 13.1,
+              "legacyPopulationEndError": 246.5,
+              "alignedPopulationEndError": 72.7
+            }
+          }
+        },
+        "10": {
+          "observations": 12,
+          "legacyPopulationMAPE": 0.5,
+          "alignedPopulationMAPE": 0.3,
+          "legacyPopulationMAE": 214.9,
+          "alignedPopulationMAE": 115.3,
+          "legacyPopulationMeanError": 212.2,
+          "alignedPopulationMeanError": 103.9,
+          "legacyBirthsMAE": 23.4,
+          "alignedBirthsMAE": 20.2,
+          "legacyBirthsMeanError": 6.4,
+          "alignedBirthsMeanError": 0.8,
+          "legacyDeathsMAE": 39.7,
+          "alignedDeathsMAE": 18.4,
+          "legacyDeathsMeanError": -39.7,
+          "alignedDeathsMeanError": 8.2,
+          "netMigrationMAE": 83.7,
+          "byOrigin": {
+            "2018": {
+              "legacyDeathsMeanError": -58.8,
+              "alignedDeathsMeanError": -11.5,
+              "legacyBirthsMeanError": -15.6,
+              "alignedBirthsMeanError": -18.1,
+              "legacyPopulationEndError": 226.6,
+              "alignedPopulationEndError": 77.3
+            },
+            "2019": {
+              "legacyDeathsMeanError": -35.9,
+              "alignedDeathsMeanError": 12.3,
+              "legacyBirthsMeanError": 17.1,
+              "alignedBirthsMeanError": 12.2,
+              "legacyPopulationEndError": 426,
+              "alignedPopulationEndError": 266.7
+            },
+            "2020": {
+              "legacyDeathsMeanError": -40.9,
+              "alignedDeathsMeanError": 6.6,
+              "legacyBirthsMeanError": 7.7,
+              "alignedBirthsMeanError": 1.2,
+              "legacyPopulationEndError": 350.4,
+              "alignedPopulationEndError": 188.4
+            },
+            "2021": {
+              "legacyDeathsMeanError": -23.3,
+              "alignedDeathsMeanError": 25.6,
+              "legacyBirthsMeanError": 16.3,
+              "alignedBirthsMeanError": 8,
+              "legacyPopulationEndError": 245.3,
+              "alignedPopulationEndError": 73.7
+            }
+          }
+        }
+      },
+      "2582": {
+        "6": {
+          "observations": 12,
+          "legacyPopulationMAPE": 0.5,
+          "alignedPopulationMAPE": 0.3,
+          "legacyPopulationMAE": 148.4,
+          "alignedPopulationMAE": 92.3,
+          "legacyPopulationMeanError": 139.1,
+          "alignedPopulationMeanError": 71.3,
+          "legacyBirthsMAE": 18.1,
+          "alignedBirthsMAE": 16,
+          "legacyBirthsMeanError": 14.7,
+          "alignedBirthsMeanError": 12.1,
+          "legacyDeathsMAE": 50.9,
+          "alignedDeathsMAE": 20,
+          "legacyDeathsMeanError": -50.9,
+          "alignedDeathsMeanError": -20,
+          "netMigrationMAE": 65,
+          "byOrigin": {
+            "2018": {
+              "legacyDeathsMeanError": -51.5,
+              "alignedDeathsMeanError": -21.2,
+              "legacyBirthsMeanError": 3.6,
+              "alignedBirthsMeanError": 2,
+              "legacyPopulationEndError": 191.3,
+              "alignedPopulationEndError": 95.6
+            },
+            "2019": {
+              "legacyDeathsMeanError": -51.3,
+              "alignedDeathsMeanError": -20.6,
+              "legacyBirthsMeanError": 20.4,
+              "alignedBirthsMeanError": 17.9,
+              "legacyPopulationEndError": 198.1,
+              "alignedPopulationEndError": 98.5
+            },
+            "2020": {
+              "legacyDeathsMeanError": -54.1,
+              "alignedDeathsMeanError": -23.1,
+              "legacyBirthsMeanError": 17.4,
+              "alignedBirthsMeanError": 14.9,
+              "legacyPopulationEndError": 235,
+              "alignedPopulationEndError": 134.4
+            },
+            "2021": {
+              "legacyDeathsMeanError": -46.7,
+              "alignedDeathsMeanError": -15.1,
+              "legacyBirthsMeanError": 17.3,
+              "alignedBirthsMeanError": 13.6,
+              "legacyPopulationEndError": 195.4,
+              "alignedPopulationEndError": 89.6
+            }
+          }
+        },
+        "10": {
+          "observations": 12,
+          "legacyPopulationMAPE": 0.6,
+          "alignedPopulationMAPE": 0.4,
+          "legacyPopulationMAE": 170.3,
+          "alignedPopulationMAE": 108.4,
+          "legacyPopulationMeanError": 166.4,
+          "alignedPopulationMeanError": 98.7,
+          "legacyBirthsMAE": 14.7,
+          "alignedBirthsMAE": 12.8,
+          "legacyBirthsMeanError": 9.3,
+          "alignedBirthsMeanError": 7,
+          "legacyDeathsMAE": 50.1,
+          "alignedDeathsMAE": 19.1,
+          "legacyDeathsMeanError": -50.1,
+          "alignedDeathsMeanError": -19.1,
+          "netMigrationMAE": 71.7,
+          "byOrigin": {
+            "2018": {
+              "legacyDeathsMeanError": -45.7,
+              "alignedDeathsMeanError": -14.8,
+              "legacyBirthsMeanError": -1.4,
+              "alignedBirthsMeanError": -2.8,
+              "legacyPopulationEndError": 121.4,
+              "alignedPopulationEndError": 24.5
+            },
+            "2019": {
+              "legacyDeathsMeanError": -48.6,
+              "alignedDeathsMeanError": -17.6,
+              "legacyBirthsMeanError": 15.3,
+              "alignedBirthsMeanError": 13.2,
+              "legacyPopulationEndError": 291.2,
+              "alignedPopulationEndError": 191.7
+            },
+            "2020": {
+              "legacyDeathsMeanError": -56.9,
+              "alignedDeathsMeanError": -26.2,
+              "legacyBirthsMeanError": 10.5,
+              "alignedBirthsMeanError": 8.2,
+              "legacyPopulationEndError": 333.2,
+              "alignedPopulationEndError": 234.4
+            },
+            "2021": {
+              "legacyDeathsMeanError": -49.4,
+              "alignedDeathsMeanError": -17.8,
+              "legacyBirthsMeanError": 12.7,
+              "alignedBirthsMeanError": 9.3,
+              "legacyPopulationEndError": 239,
+              "alignedPopulationEndError": 134.1
+            }
+          }
+        }
+      },
+      "FA_LULEA": {
+        "6": {
+          "observations": 12,
+          "legacyPopulationMAPE": 0.5,
+          "alignedPopulationMAPE": 0.3,
+          "legacyPopulationMAE": 864.7,
+          "alignedPopulationMAE": 473,
+          "legacyPopulationMeanError": 864.7,
+          "alignedPopulationMeanError": 470.5,
+          "legacyBirthsMAE": 104.5,
+          "alignedBirthsMAE": 96.4,
+          "legacyBirthsMeanError": 84.6,
+          "alignedBirthsMeanError": 77.4,
+          "legacyDeathsMAE": 225.3,
+          "alignedDeathsMAE": 45.7,
+          "legacyDeathsMeanError": -225.3,
+          "alignedDeathsMeanError": -38,
+          "netMigrationMAE": 248.9,
+          "byOrigin": {
+            "2018": {
+              "legacyDeathsMeanError": -213,
+              "alignedDeathsMeanError": -28.3,
+              "legacyBirthsMeanError": 27.4,
+              "alignedBirthsMeanError": 30.5,
+              "legacyPopulationEndError": 1452.3,
+              "alignedPopulationEndError": 907.4
+            },
+            "2019": {
+              "legacyDeathsMeanError": -211.3,
+              "alignedDeathsMeanError": -23.3,
+              "legacyBirthsMeanError": 105.7,
+              "alignedBirthsMeanError": 99.7,
+              "legacyPopulationEndError": 1145,
+              "alignedPopulationEndError": 562.8
+            },
+            "2020": {
+              "legacyDeathsMeanError": -261.6,
+              "alignedDeathsMeanError": -75.6,
+              "legacyBirthsMeanError": 87.8,
+              "alignedBirthsMeanError": 77.8,
+              "legacyPopulationEndError": 1479.4,
+              "alignedPopulationEndError": 891.5
+            },
+            "2021": {
+              "legacyDeathsMeanError": -215.1,
+              "alignedDeathsMeanError": -24.7,
+              "legacyBirthsMeanError": 117.7,
+              "alignedBirthsMeanError": 101.8,
+              "legacyPopulationEndError": 1266.5,
+              "alignedPopulationEndError": 647.3
+            }
+          }
+        },
+        "10": {
+          "observations": 12,
+          "legacyPopulationMAPE": 0.4,
+          "alignedPopulationMAPE": 0.2,
+          "legacyPopulationMAE": 730.4,
+          "alignedPopulationMAE": 337.9,
+          "legacyPopulationMeanError": 730.4,
+          "alignedPopulationMeanError": 337.8,
+          "legacyBirthsMAE": 94.2,
+          "alignedBirthsMAE": 86.7,
+          "legacyBirthsMeanError": 67.6,
+          "alignedBirthsMeanError": 60.5,
+          "legacyDeathsMAE": 236,
+          "alignedDeathsMAE": 51.9,
+          "legacyDeathsMeanError": -236,
+          "alignedDeathsMeanError": -49.4,
+          "netMigrationMAE": 188.2,
+          "byOrigin": {
+            "2018": {
+              "legacyDeathsMeanError": -225.7,
+              "alignedDeathsMeanError": -42.2,
+              "legacyBirthsMeanError": 5.4,
+              "alignedBirthsMeanError": 7.8,
+              "legacyPopulationEndError": 864.4,
+              "alignedPopulationEndError": 321.1
+            },
+            "2019": {
+              "legacyDeathsMeanError": -223,
+              "alignedDeathsMeanError": -35.5,
+              "legacyBirthsMeanError": 88.8,
+              "alignedBirthsMeanError": 83.1,
+              "legacyPopulationEndError": 908.9,
+              "alignedPopulationEndError": 329.2
+            },
+            "2020": {
+              "legacyDeathsMeanError": -268.2,
+              "alignedDeathsMeanError": -83.3,
+              "legacyBirthsMeanError": 76.8,
+              "alignedBirthsMeanError": 67.5,
+              "legacyPopulationEndError": 1521.6,
+              "alignedPopulationEndError": 938.9
+            },
+            "2021": {
+              "legacyDeathsMeanError": -227.2,
+              "alignedDeathsMeanError": -36.7,
+              "legacyBirthsMeanError": 99.5,
+              "alignedBirthsMeanError": 83.7,
+              "legacyPopulationEndError": 1239.5,
+              "alignedPopulationEndError": 621
             }
           }
         }
