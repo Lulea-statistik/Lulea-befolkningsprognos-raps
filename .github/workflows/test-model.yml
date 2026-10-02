@@ -59,6 +59,9 @@ jobs:
       - name: Test component-flow holdout configuration
         run: python tests/test_component_flow_holdout_config.py
 
+      - name: Test SCB consistency support configuration
+        run: python tests/test_scb_consistency_config.py
+
       - name: Validate JavaScript syntax
         run: |
           node --check js/model.js

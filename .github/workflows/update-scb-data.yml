@@ -53,6 +53,9 @@ jobs:
       - name: Test component-flow holdout configuration
         run: python tests/test_component_flow_holdout_config.py
 
+      - name: Test SCB consistency support configuration
+        run: python tests/test_scb_consistency_config.py
+
       - name: Discover current SCB PxWeb tables
         run: python scripts/scb_v2_client.py --out data/scb_discovery.json
 
@@ -114,6 +117,9 @@ jobs:
 
       - name: Compare model with SCB regional benchmark
         run: node scripts/compare_scb_benchmark.js
+
+      - name: Build SCB municipality-county consistency diagnostic
+        run: python scripts/build_scb_consistency_diagnostic.py
 
       - name: Commit changed SCB and model data
         shell: bash

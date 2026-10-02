@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "support_geographies_locked_before_consistency_results",
+  "purpose": "Support the SCB-style hierarchical consistency layer without changing the production migration model or consuming new holdouts.",
+  "county": {
+    "code": "25",
+    "name": "Norrbottens län"
+  },
+  "municipalities": {
+    "2505": "Arvidsjaurs kommun",
+    "2506": "Arjeplogs kommun",
+    "2510": "Jokkmokks kommun",
+    "2513": "Överkalix kommun",
+    "2514": "Kalix kommun",
+    "2518": "Övertorneå kommun",
+    "2521": "Pajala kommun",
+    "2523": "Gällivare kommun",
+    "2560": "Älvsbyns kommun",
+    "2580": "Luleå kommun",
+    "2581": "Piteå kommun",
+    "2582": "Bodens kommun",
+    "2583": "Haparanda kommun",
+    "2584": "Kiruna kommun"
+  },
+  "method": {
+    "sameCountyLeg": "Municipal same-county inflows will be consistency-adjusted against same-county outflows across all Norrbotten municipalities.",
+    "otherCountyLeg": "Municipal other-Sweden flows will be reconciled to a Norrbotten county-level migration model before any external holdout evaluation.",
+    "internationalLeg": "Municipal immigration/emigration will later be reconciled through county and national totals.",
+    "recursive": true
+  },
+  "governance": "These geographies are support data only. They are not independent validation municipalities and must not be counted as holdout evidence."
+}
