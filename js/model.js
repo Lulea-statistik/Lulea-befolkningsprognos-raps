@@ -561,7 +561,7 @@
     const imigMult=options.imigMult==null?migMult:n(options.imigMult);
     const umigMult=options.umigMult==null?migMult:n(options.umigMult);
     const window=+(options.window || data.calibration?.defaultYears || 10);
-    const migrationWindows=(data.diagnostics?.migrationCalibrationWindows||[2,4,6,10]).map(Number);
+    const migrationWindows=(data.diagnostics?.migrationCalibrationWindows||[2,3,4,6,10]).map(Number);
     const migrationWindow=+(
       options.migrationWindow ||
       (migrationWindows.includes(window) ? window : (data.parameters?.defaultMigrationWindow || 10))
