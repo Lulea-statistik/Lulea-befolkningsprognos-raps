@@ -14,7 +14,7 @@ cfg = json.loads(
 )
 
 assert cfg["scheme"] == "FA15"
-assert tuple(refbuild.MIGRATION_WINDOWS) == (2, 4, 6, 10)
+assert tuple(refbuild.MIGRATION_WINDOWS) == (2, 3, 4, 6, 10)
 regions = cfg["regions"]
 
 expected = {
