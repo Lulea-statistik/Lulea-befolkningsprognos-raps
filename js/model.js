@@ -407,7 +407,11 @@
     const imigMult=options.imigMult==null?migMult:n(options.imigMult);
     const umigMult=options.umigMult==null?migMult:n(options.umigMult);
     const window=+(options.window || data.calibration?.defaultYears || 10);
-    const migrationWindow=+(options.migrationWindow || window);
+    const migrationWindows=(data.diagnostics?.migrationCalibrationWindows||[2,4,6,10]).map(Number);
+    const migrationWindow=+(
+      options.migrationWindow ||
+      (migrationWindows.includes(window) ? window : (data.parameters?.defaultMigrationWindow || 10))
+    );
     const rows=data.populationBase.filter(r=>r.geo===geo && +r.year===baseYear);
     if(!rows.length) throw new Error(`Saknar startbefolkning för ${geo}, ${baseYear}.`);
     if(migrationMode==="gross_flow"){
