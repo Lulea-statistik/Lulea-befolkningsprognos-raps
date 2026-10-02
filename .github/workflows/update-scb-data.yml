@@ -50,6 +50,9 @@ jobs:
       - name: Test external FA reference configuration
         run: python tests/test_reference_fa_config.py
 
+      - name: Test component-flow holdout configuration
+        run: python tests/test_component_flow_holdout_config.py
+
       - name: Discover current SCB PxWeb tables
         run: python scripts/scb_v2_client.py --out data/scb_discovery.json
 
@@ -71,6 +74,7 @@ jobs:
           node --check js/app.js
           node --check scripts/run_rolling_backtest.js
           node --check scripts/run_reference_fa_backtest.js
+          node --check scripts/run_component_flow_holdout.js
 
       - name: Run model tests
         run: node tests/test_model.js
@@ -98,6 +102,12 @@ jobs:
 
       - name: Build external migration-component validation
         run: python scripts/build_migration_component_validation.py
+
+      - name: Build locked component-flow holdout inputs
+        run: python scripts/build_component_flow_holdout.py
+
+      - name: Run locked component-flow holdout validation
+        run: node scripts/run_component_flow_holdout.js
 
       - name: Normalize SCB regional benchmark
         run: python scripts/prepare_scb_benchmark.py
