@@ -2136,7 +2136,7 @@ def main():
     )
     if migration_recency_config.get("status") != "development_candidate_locked_before_full_cohort_results":
         raise RuntimeError("Unexpected migration recency candidate status.")
-    migration_recency_out_hazards = migration_recency_out_hazards(
+    migration_recency_out_rows = migration_recency_out_hazards(
         migration_legs_pre2025, birth_year_exposure, migration_recency_config
     )
 
@@ -2332,7 +2332,7 @@ def main():
         "grossInMigration": gross_inmigration_profiles(inflow),
         "migrationComponentInflow": migration_component_inflow,
         "migrationComponentOutHazards": migration_component_out_hazards,
-        "migrationRecencyOutHazards": migration_recency_out_hazards,
+        "migrationRecencyOutHazards": migration_recency_out_rows,
         "scbRiskDomesticInLevels": scb_risk_internal_in_levels,
         "scbRiskDomesticInDistribution": scb_risk_internal_in_distribution,
         "scbRiskOutMigration": scb_risk_out,
