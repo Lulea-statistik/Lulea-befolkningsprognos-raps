@@ -10,6 +10,7 @@ API v2 erbjuder bl.a. `GET /tables`, `GET /tables/{id}/metadata`, `GET/POST /tab
 
 - Folkmängd t.o.m. 2024 + `BefolkningCKM` 2025+.
 - Medelfolkmängd efter födelseår t.o.m. 2024 + `MedelfolkFodarCKM` 2025+.
+- Medelfolkmängd efter ålder under året t.o.m. 2024 + CKM-variant 2025+; används för fruktsamhet när moderns ålder avser ålder vid födelsen.
 - Flyttningar 1997–2024 + `Flyttningar97CKM` 2025+.
 - Födda historiskt + `FoddaKCKM` 2025+.
 - Döda historiskt + CKM-variant från 2025 när exakt tabell-id är verifierat.
