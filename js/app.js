@@ -504,11 +504,15 @@
     const deaths=r.reduce((s,x)=>s+Number(x.deaths||0),0);
     const mig=r.reduce((s,x)=>s+Number(x.netMigration||0),0);
     const scenario=r.reduce((s,x)=>s+Number(x.scenarioEffect||0),0);
+    const jobDomestic=r.reduce((s,x)=>s+Number(x.scenarioDetail?.jobExternalDomestic||0),0);
+    const jobInternational=r.reduce((s,x)=>s+Number(x.scenarioDetail?.jobExternalInternational||0),0);
     $("balanceSummary").innerHTML=`
       <div class="kv"><span>Födda, ack.</span><strong>+${fmt.format(births)}</strong></div>
       <div class="kv"><span>Döda, ack.</span><strong>−${fmt.format(deaths)}</strong></div>
       <div class="kv"><span>Nettoflyttning, ack.</span><strong>${mig>=0?"+":""}${fmt.format(mig)}</strong></div>
-      <div class="kv"><span>Scenarioeffekt, ack.</span><strong>${scenario>=0?"+":""}${fmt.format(scenario)}</strong></div>`;
+      <div class="kv"><span>Scenarioeffekt, ack.</span><strong>${scenario>=0?"+":""}${fmt.format(scenario)}</strong></div>
+      ${jobDomestic||jobInternational?`<div class="kv"><span>Jobbscenario, extern från Sverige</span><strong>+${fmt.format(jobDomestic)}</strong></div>
+      <div class="kv"><span>Jobbscenario, internationell</span><strong>+${fmt.format(jobInternational)}</strong></div>`:""}`;
   }
 
   function renderDetailedAgeAnalysis(){
