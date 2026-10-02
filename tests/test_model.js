@@ -340,4 +340,32 @@ try{
 }catch(e){missingScenarioFailed=/Saknar fruktsamhetsscenario/.test(String(e.message));}
 assert(missingScenarioFailed,'unknown fertility scenario fails explicitly');
 
-console.log('OK: model core, scenarios, additive FA, gross-flow migration, fertility paths and production event-age timing tests passed');
+
+const migrationWindowData={
+  meta:{baseYear:2025},
+  calibration:{defaultYears:10},
+  parameters:{sexRatioMaleAtBirth:0.5},
+  geographies:[{code:'2580'}],
+  populationBase:[
+    {geo:'2580',year:2025,sex:'K',age:30,value:1000}
+  ],
+  fertilityRates:[],
+  mortalityRisks:[],
+  netMigration:[
+    {geo:'2580',window:6,year:'BASE',sex:'K',age:31,value:100},
+    {geo:'2580',window:10,year:'BASE',sex:'K',age:31,value:20},
+    {geo:'2580',window:19,year:'BASE',sex:'K',age:31,value:-10}
+  ]
+};
+const migrationDefault=M.simulate(migrationWindowData,{
+  geo:'2580',endYear:2026,window:10,fertMult:1,mortMult:1,migMult:1,scenarios:{}
+})[1];
+const migrationRecent=M.simulate(migrationWindowData,{
+  geo:'2580',endYear:2026,window:10,migrationWindow:6,
+  fertMult:1,mortMult:1,migMult:1,scenarios:{}
+})[1];
+assert(Math.abs(migrationDefault.netMigration-20)<1e-9,'default migration window follows global calibration window');
+assert(Math.abs(migrationRecent.netMigration-100)<1e-9,'migration window can vary independently');
+assert(migrationRecent.migrationWindow===6,'migration window is exposed in simulation results');
+
+console.log('OK: model core, scenarios, additive FA, gross-flow migration, fertility paths, migration sensitivity and production event-age timing tests passed');
