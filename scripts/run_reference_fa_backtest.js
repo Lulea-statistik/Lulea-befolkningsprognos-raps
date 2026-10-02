@@ -30,6 +30,21 @@ function actualRow(actual, geo, year) {
   return actual.rows.find(r => r.geo === geo && +r.year === +year);
 }
 function scoreRows(rows) {
+  const byHorizon = {};
+  for (let horizon=1; horizon<=manifest.horizonYears; horizon++) {
+    const hRows = rows.filter(r=>r.horizon===horizon);
+    byHorizon[horizon] = {
+      observations:hRows.length,
+      populationMAPE:round1(mean(hRows.map(r=>r.populationAbsPctError))),
+      populationMAE:round1(mean(hRows.map(r=>Math.abs(r.populationError)))),
+      populationMeanError:round1(mean(hRows.map(r=>r.populationError))),
+      birthsMAE:round1(mean(hRows.map(r=>Math.abs(r.birthsError)))),
+      birthsMeanError:round1(mean(hRows.map(r=>r.birthsError))),
+      deathsMAE:round1(mean(hRows.map(r=>Math.abs(r.deathsError)))),
+      deathsMeanError:round1(mean(hRows.map(r=>r.deathsError))),
+      netMigrationMAE:round1(mean(hRows.map(r=>Math.abs(r.netMigrationError))))
+    };
+  }
   return {
     observations: rows.length,
     populationMAPE: round1(mean(rows.map(r=>r.populationAbsPctError))),
@@ -40,10 +55,10 @@ function scoreRows(rows) {
     deathsMAE: round1(mean(rows.map(r=>Math.abs(r.deathsError)))),
     deathsMeanError: round1(mean(rows.map(r=>r.deathsError))),
     netMigrationMAE: round1(mean(rows.map(r=>Math.abs(r.netMigrationError)))),
-    threeYearMAPE: round1(mean(
-      rows.filter(r=>r.horizon===manifest.horizonYears)
-        .map(r=>r.populationAbsPctError)
-    ))
+    oneYear:byHorizon[1],
+    twoYear:byHorizon[2],
+    threeYear:byHorizon[3],
+    byHorizon
   };
 }
 function runGeo(model, actual, geo, window, timingMode) {
@@ -84,6 +99,12 @@ const report = {
   governance:manifest.governance,
   windows:manifest.windows,
   horizonYears:manifest.horizonYears,
+  evaluationPriority:{
+    primary:"n+1",
+    secondary:"n+2",
+    robustnessOnly:"n+3",
+    note:"Short-horizon accuracy is the main decision basis; pooled 1-3 year metrics are retained only as supplementary robustness diagnostics."
+  },
   regions:{}
 };
 
@@ -137,6 +158,40 @@ for (const region of manifest.regions) {
       legacy:legacyScore,
       aligned:alignedScore,
       deltaAlignedMinusLegacy:{
+        oneYear:{
+          populationMAPE:round1(
+            alignedScore.oneYear.populationMAPE-legacyScore.oneYear.populationMAPE
+          ),
+          populationMAE:round1(
+            alignedScore.oneYear.populationMAE-legacyScore.oneYear.populationMAE
+          ),
+          deathsMAE:round1(
+            alignedScore.oneYear.deathsMAE-legacyScore.oneYear.deathsMAE
+          ),
+          deathsMeanError:round1(
+            alignedScore.oneYear.deathsMeanError-legacyScore.oneYear.deathsMeanError
+          ),
+          birthsMAE:round1(
+            alignedScore.oneYear.birthsMAE-legacyScore.oneYear.birthsMAE
+          )
+        },
+        twoYear:{
+          populationMAPE:round1(
+            alignedScore.twoYear.populationMAPE-legacyScore.twoYear.populationMAPE
+          ),
+          populationMAE:round1(
+            alignedScore.twoYear.populationMAE-legacyScore.twoYear.populationMAE
+          ),
+          deathsMAE:round1(
+            alignedScore.twoYear.deathsMAE-legacyScore.twoYear.deathsMAE
+          ),
+          deathsMeanError:round1(
+            alignedScore.twoYear.deathsMeanError-legacyScore.twoYear.deathsMeanError
+          ),
+          birthsMAE:round1(
+            alignedScore.twoYear.birthsMAE-legacyScore.twoYear.birthsMAE
+          )
+        },
         populationMAPE:round1(
           alignedScore.populationMAPE-legacyScore.populationMAPE
         ),
@@ -199,8 +254,9 @@ for (const [code,region] of Object.entries(report.regions)) {
     const s=region.summary[window];
     console.log(
       `${code} ${region.name} window=${window}: `+
-      `MAPE legacy=${s.legacy.populationMAPE}% aligned=${s.aligned.populationMAPE}% | `+
-      `deaths MAE legacy=${s.legacy.deathsMAE} aligned=${s.aligned.deathsMAE}`
+      `1y MAPE legacy=${s.legacy.oneYear.populationMAPE}% aligned=${s.aligned.oneYear.populationMAPE}% | `+
+      `1y deaths MAE legacy=${s.legacy.oneYear.deathsMAE} aligned=${s.aligned.oneYear.deathsMAE} | `+
+      `2y MAPE legacy=${s.legacy.twoYear.populationMAPE}% aligned=${s.aligned.twoYear.populationMAPE}%`
     );
   }
 }

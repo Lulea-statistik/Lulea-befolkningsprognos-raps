@@ -76,7 +76,7 @@ const report = {
     summary: {}
   },
   eventAgeTimingDiagnostic: {
-    note: 'Fixed source-definition diagnostic. Compares legacy V1 timing with an event-age aligned cohort step: age the 31-December stock first, calculate fertility on forecast-year maternal ages, add newborns, then apply mortality by forecast-year age including age 0. Production default remains legacy until the diagnostic is reviewed.',
+    note: 'Fixed source-definition diagnostic. Compares legacy V1 timing with an event-age aligned cohort step. Primary evaluation horizon is n+1, secondary is n+2, and n+3 is supplementary robustness only. Production default remains legacy until the short-horizon diagnostic is reviewed.',
     summary: {}
   }
 };
@@ -358,6 +358,36 @@ for (const geo of geos) {
       };
     }
 
+    const timingByHorizon = {};
+    for (let horizon=1; horizon<=manifest.horizonYears; horizon++) {
+      const legacyH = legacyRows.filter(r=>r.horizon===horizon);
+      const alignedH = alignedRows.filter(r=>r.horizon===horizon);
+      timingByHorizon[horizon] = {
+        legacy:{
+          observations:legacyH.length,
+          populationMAPE:round1(mean(legacyH.map(x=>x.populationAbsPctError))),
+          populationMAE:round1(mean(legacyH.map(x=>Math.abs(x.populationError)))),
+          populationMeanError:round1(mean(legacyH.map(x=>x.populationError))),
+          birthsMAE:round1(mean(legacyH.map(x=>Math.abs(x.birthsError)))),
+          birthsMeanError:round1(mean(legacyH.map(x=>x.birthsError))),
+          deathsMAE:round1(mean(legacyH.map(x=>Math.abs(x.deathsError)))),
+          deathsMeanError:round1(mean(legacyH.map(x=>x.deathsError))),
+          netMigrationMAE:round1(mean(legacyH.map(x=>Math.abs(x.netMigrationError))))
+        },
+        aligned:{
+          observations:alignedH.length,
+          populationMAPE:round1(mean(alignedH.map(x=>x.populationAbsPctError))),
+          populationMAE:round1(mean(alignedH.map(x=>Math.abs(x.populationError)))),
+          populationMeanError:round1(mean(alignedH.map(x=>x.populationError))),
+          birthsMAE:round1(mean(alignedH.map(x=>Math.abs(x.birthsError)))),
+          birthsMeanError:round1(mean(alignedH.map(x=>x.birthsError))),
+          deathsMAE:round1(mean(alignedH.map(x=>Math.abs(x.deathsError)))),
+          deathsMeanError:round1(mean(alignedH.map(x=>x.deathsError))),
+          netMigrationMAE:round1(mean(alignedH.map(x=>Math.abs(x.netMigrationError))))
+        }
+      };
+    }
+
     report.eventAgeTimingDiagnostic.summary[geo][window] = {
       observations: legacyRows.length,
       legacyPopulationMAPE: round1(mean(legacyRows.map(x => x.populationAbsPctError))),
@@ -375,6 +405,10 @@ for (const geo of geos) {
       legacyDeathsMeanError: round1(mean(legacyRows.map(x => x.deathsError))),
       alignedDeathsMeanError: round1(mean(alignedRows.map(x => x.deathsError))),
       netMigrationMAE: round1(mean(alignedRows.map(x => Math.abs(x.netMigrationError)))),
+      oneYear:timingByHorizon[1],
+      twoYear:timingByHorizon[2],
+      threeYear:timingByHorizon[3],
+      byHorizon:timingByHorizon,
       byOrigin
     };
   }

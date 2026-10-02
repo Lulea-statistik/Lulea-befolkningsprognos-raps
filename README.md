@@ -89,6 +89,7 @@ Modellen ska inte konstrueras om för att passa ett känt historiskt utfall. Bac
 - jämför befolkning, födda, döda och nettoflyttning,
 - redovisar bland annat MAE och MAPE.
 Därutöver byggs en rolling-origin-validering med startår 2018, 2019, 2020 och 2021. Varje körning använder endast lokal information som fanns tillgänglig vid respektive origin och SCB:s nationella prognosvintage från samma år, med tre års prognoshorisont. Testfönstren överlappar och ska därför tolkas som robusthetskontroll snarare än helt oberoende experiment.
+Huvudbedömningen görs på **n+1**, n+2 används sekundärt och n+3 endast som kompletterande robusthetsmått. Det minskar risken att metodbedömningen domineras av senare händelser som inte var observerbara vid prognosstarten.
 Rolling-rapporten innehåller dessutom en nationell vintage-diagnostik som jämför SCB:s då publicerade prognos för födda och döda med senare faktiskt utfall för Riket. Därmed kan fel i den nationella framtidsprofilen skiljas från fel som uppstår när profilen lokaliseras till kommunerna.
 
 Som extern robusthetskontroll körs samma rolling-origin-metod även på tre fördefinierade FA15-referensregioner: **FA16 Trollhättan-Vänersborg**, **FA36 Gävle** och **FA42 Sundsvall**. Regionerna används endast för validering och får inga regionspecifika parameterjusteringar. Trollhättan-Vänersborg behålls med FA15-medlemskap även om regionen inte längre finns separat i FA25.
