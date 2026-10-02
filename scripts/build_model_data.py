@@ -852,7 +852,7 @@ def migration_2025_diagnostics(netmig_2025, migration_rows):
             predicted = sum(
                 float(r.get("value") or 0.0)
                 for r in migration_rows
-                if r["geo"] == geo and +r["window"] == window
+                if r["geo"] == geo and int(r["window"]) == window
             )
             by_window[str(window)] = {
                 "predictedAnnualNetMigration": predicted,
