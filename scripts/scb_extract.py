@@ -560,6 +560,11 @@ SPECS = {
 def main():
     cfg = json.loads(CONFIG.read_text(encoding="utf-8"))
     OUT.mkdir(parents=True, exist_ok=True)
+    manifest_path = OUT / "manifest.json"
+    previous_manifest = (
+        json.loads(manifest_path.read_text(encoding="utf-8"))
+        if manifest_path.exists() else {"files": {}}
+    )
     manifest = {"schema_version":"0.1.0","files":{}}
 
     for key, spec in SPECS.items():
@@ -568,6 +573,15 @@ def main():
         path = OUT / f"{key}.csv"
         if spec.get("frozen") and path.exists():
             print(f"Reusing frozen {key} from {path.relative_to(ROOT)}", file=sys.stderr)
+            previous = (previous_manifest.get("files") or {}).get(key)
+            if previous:
+                manifest["files"][key] = previous
+            else:
+                manifest["files"][key] = {
+                    "table_id": table_id,
+                    "path": str(path.relative_to(ROOT)),
+                    "frozen_reused_without_metadata": True,
+                }
             continue
         print(f"Downloading {key} from {table_id}", file=sys.stderr)
         md = metadata(table_id)
@@ -594,11 +608,11 @@ def main():
         print(f"  {len(rows)-1} rows -> {path.relative_to(ROOT)}", file=sys.stderr)
         time.sleep(0.4)
 
-    (OUT / "manifest.json").write_text(
+    manifest_path.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
-    print(OUT / "manifest.json")
+    print(manifest_path)
 
 if __name__ == "__main__":
     main()
