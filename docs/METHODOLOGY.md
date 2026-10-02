@@ -8,6 +8,17 @@ Luleå FA definieras i V1 som summan av kommunerna 2580 Luleå, 2582 Boden, 2581
 
 För varje kön och ettårsålder beräknas först dödsfall, därefter åldras överlevande ett år. Nyfödda läggs till i ålder 0 och exogen nettoflyttning läggs till per ålder och kön.
 
+### Bestånd och exponering/medelfolkmängd
+
+Modellen skiljer uttryckligen mellan **folkmängd som bestånd** och **medelfolkmängd som exponering**.
+
+- Folkmängd 31 december används för basbefolkning, redovisade befolkningsnivåer och befolkningsdiagram.
+- SCB TAB2818, medelfolkmängd efter födelseår, används som nämnare för händelser där åldern avser uppnådd ålder vid årets slut. Det gäller i modellen dödsfall från TAB959 och flyttningar från TAB1212.
+- SCB TAB2819, medelfolkmängd efter ålder under året, används för fruktsamhet eftersom TAB1264 klassificerar modern efter hennes ålder vid barnets födelse.
+- Medelfolkmängd används också som exponeringssignal i fading när den bakomliggande händelserisken skattas.
+
+Det är därför inte korrekt att använda samma 31-decemberbestånd som nämnare för alla händelser. Nämnaren ska följa händelsens åldersdefinition.
+
 ### Dödlighet
 
 Basform för observerad risk:
@@ -20,7 +31,7 @@ Där `D` är döda och `P` är relevant medelfolkmängd. Framtida riskprofil utg
 
 `frukty_local(a,t) = frukty_SE(a,t) * K_fert_local`
 
-`K_fert_local` ska beräknas åldersstandardiserat genom att jämföra observerade lokala födda med det antal som skulle förväntas om lokal kvinnlig befolkning hade rikets åldersspecifika fruktsamhetstal.
+`K_fert_local` ska beräknas åldersstandardiserat genom att jämföra observerade lokala födda med det antal som skulle förväntas om lokal kvinnlig befolkning hade rikets åldersspecifika fruktsamhetstal. Historisk exponering för kvinnor 15–49 år hämtas från TAB2819 (ålder under året), eftersom moderns ålder i födelsetabellen avser ålder vid själva födelsen.
 
 ### Utflyttningsrisk
 
