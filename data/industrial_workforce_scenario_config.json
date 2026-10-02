@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "scenario_structure_locked_before_calibration",
+  "baselineExcluded": true,
+  "purpose": "Represent large workplace establishments separately from the demographic baseline, including recruitment from abroad.",
+  "principles": {
+    "jobsDoNotEqualResidents": true,
+    "commutingObservedSeparately": true,
+    "externalWorkersMoveOnlyByExplicitAssumption": true,
+    "internationalRecruitmentIsExplicitScenarioInput": true,
+    "householdCompanionsAreSeparateFromWorkers": true,
+    "internalMovesWithinFAAreZeroSumAtFALevel": true
+  },
+  "fields": {
+    "internationalRecruitmentSharePct": {
+      "description": "Share of job-driven external movers recruited from abroad rather than from elsewhere in Sweden.",
+      "default": 0,
+      "range": [0, 100],
+      "note": "No transferable percentage is assumed from Skelleftea; scenario value must be explicit."
+    }
+  },
+  "evidence": [
+    {
+      "place": "Boden",
+      "source": "Boden municipality",
+      "url": "https://www.boden.se/samhalle-och-utveckling/samhallsutveckling/bodenxt/bodenxt-nyheter/2025-05-23-5-miljoner-ton-gront-stal---och-tusentals-nya-bodensare",
+      "note": "Stegra recruitment is described as drawing workers from Sweden and other parts of the world; around 1500 plant jobs initially and around 2000 longer term."
+    },
+    {
+      "place": "Boden",
+      "source": "Stegra",
+      "url": "https://stegra.com/sv/career",
+      "note": "Stegra explicitly recruits talent globally for the Boden operation."
+    },
+    {
+      "place": "Skelleftea",
+      "source": "Skelleftea municipality",
+      "url": "https://skelleftea.se/platsen/naringsliv/naringsliv/stories/2024-10-31-meet--match-skelleftea",
+      "note": "Observed industrial expansion produced a substantial group of third-country workers; useful as evidence that large northern industrial projects can materially change migration composition."
+    }
+  ],
+  "governance": "Skelleftea is evidence for scenario structure, not a direct parameter transfer to Boden."
+}
