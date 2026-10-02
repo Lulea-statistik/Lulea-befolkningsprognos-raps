@@ -96,6 +96,9 @@ jobs:
       - name: Run external FA reference validation
         run: node scripts/run_reference_fa_backtest.js
 
+      - name: Build external migration-component validation
+        run: python scripts/build_migration_component_validation.py
+
       - name: Normalize SCB regional benchmark
         run: python scripts/prepare_scb_benchmark.py
 
