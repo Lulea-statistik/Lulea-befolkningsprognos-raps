@@ -7,12 +7,14 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import scb_extract as extract
+import build_reference_fa_backtest as refbuild
 
 cfg = json.loads(
     (ROOT / "data" / "reference_fa_regions.json").read_text(encoding="utf-8")
 )
 
 assert cfg["scheme"] == "FA15"
+assert tuple(refbuild.MIGRATION_WINDOWS) == (2, 4, 6, 10)
 regions = cfg["regions"]
 
 expected = {
