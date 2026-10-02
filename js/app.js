@@ -14,6 +14,32 @@
   const fmt1=new Intl.NumberFormat("sv-SE",{maximumFractionDigits:1});
   const pct=new Intl.NumberFormat("sv-SE",{maximumFractionDigits:1});
 
+  function niceNumericTicks(min,max,target=6){
+    min=Number(min);max=Number(max);
+    if(!Number.isFinite(min)||!Number.isFinite(max)) return [];
+    if(max<min)[min,max]=[max,min];
+    if(Math.abs(max-min)<1e-12) return [min];
+    const raw=(max-min)/Math.max(1,target-1);
+    const power=Math.pow(10,Math.floor(Math.log10(raw)));
+    const norm=raw/power;
+    const factor=norm<=1?1:norm<=2?2:norm<=2.5?2.5:norm<=5?5:10;
+    const step=factor*power;
+    const vals=[min];
+    let v=Math.ceil((min+1e-10)/step)*step;
+    for(let guard=0;v<max-1e-9 && guard<100;guard++,v+=step){
+      vals.push(Math.abs(v-Math.round(v))<1e-9?Math.round(v):Number(v.toFixed(6)));
+    }
+    vals.push(max);
+    return vals.filter((v,i,a)=>i===0||Math.abs(v-a[i-1])>1e-9);
+  }
+
+  function numericXAxisMarkup(min,max,x,y,target=6,formatter=v=>String(v)){
+    return niceNumericTicks(min,max,target).map(v=>`
+      <line x1="${x(v)}" y1="${y-5}" x2="${x(v)}" y2="${y}" class="gridline"/>
+      <text x="${x(v)}" y="${y+16}" text-anchor="middle" class="axisText">${formatter(v)}</text>
+    `).join("");
+  }
+
   const defaultHousing=[{
     active:false,year:2030,municipality:"2580",dwellingType:"småhus",
     tenure:"äganderätt",size:"5+",dwellings:1000,completionPct:100,
@@ -569,7 +595,7 @@
     const globalWindow=+$("window").value;
     const w=$("migrationWindow")?.value
       ? +$("migrationWindow").value
-      : ([2,4,6,10].includes(globalWindow) ? globalWindow : 10);
+      : ([2,3,4,6,10].includes(globalWindow) ? globalWindow : 10);
     const rows=(data.diagnostics?.migrationByAge||[])
       .filter(r=>r.geo===geo && +r.window===w)
       .sort((a,b)=>+a.age-+b.age);
@@ -689,7 +715,13 @@
       return;
     }
     const diag=data.diagnostics?.migrationAgeSmoothing;
-    const rows=(diag?.rows||[]).filter(r=>r.geo===geo && r.leg==="all");
+    const compact=data.diagnostics?.migrationAgeSmoothingCompact;
+    const compactRows=(
+      compact?.geo===geo && Array.isArray(compact?.allAgeDirectionRows)
+    ) ? compact.allAgeDirectionRows : [];
+    const rows=compactRows.length
+      ? compactRows
+      : (diag?.rows||[]).filter(r=>r.geo===geo && r.leg==="all");
     if(!rows.length){
       chart.innerHTML="";
       el.innerHTML="<p class='hint'>Adaptiv åldersmjukning genereras i nästa workflow-körning.</p>";
@@ -759,7 +791,7 @@
     const globalWindow=+$("window").value;
     const selectedWindow=$("migrationWindow")?.value
       ? +$("migrationWindow").value
-      : ([2,4,6,10].includes(globalWindow) ? globalWindow : 10);
+      : ([2,3,4,6,10].includes(globalWindow) ? globalWindow : 10);
     const rows=diag.summaries.filter(r=>+r.window===selectedWindow);
     el.innerHTML=`
       <p class="hint">Åldersmönster i faktisk flyttstatistik. 19–20 år redovisas som tydlig inflyttningsålder, 24–25 år som tydlig utflyttningsålder och 19–25 år som bred kontrollgrupp.</p>
@@ -794,7 +826,7 @@
     const globalWindow=+$("window").value;
     const w=$("migrationWindow")?.value
       ? +$("migrationWindow").value
-      : ([2,4,6,10].includes(globalWindow) ? globalWindow : 10);
+      : ([2,3,4,6,10].includes(globalWindow) ? globalWindow : 10);
     const rows=d.summaries.filter(r=>r.geo==="2580" && +r.window===w);
     const y2025=(d.observed2025||[]).filter(r=>r.geo==="2580");
     el.innerHTML=`
@@ -841,9 +873,11 @@
       return points?`<polyline points="${points}" class="${s.cls}"/>`:"";
     }).join("");
     const legends=series.map((s,i)=>`<text x="${p+i*155}" y="20" class="chartLegend">${s.name}</text>`).join("");
-    svg.innerHTML=`${grid}${lines}${legends}
-      <text x="${p}" y="${H-10}" class="axisText">${xmin}</text>
-      <text x="${W-p-30}" y="${H-10}" class="axisText">${xmax===100?"100+":xmax}</text>`;
+    const xTicks=numericXAxisMarkup(
+      xmin,xmax,x,H-p,6,
+      v=>xmax===100&&v===100?"100+":String(Math.round(v))
+    );
+    svg.innerHTML=`${grid}${lines}${legends}${xTicks}`;
 
     bindIndexedHover(svg,xValues,(i)=>{
       const age=xValues[i]===100?"100+":xValues[i];
@@ -1416,11 +1450,13 @@
       return `<line x1="${p}" y1="${yy}" x2="${W-p}" y2="${yy}" class="gridline"/><text x="8" y="${yy+4}" class="axisText">${fmt.format(val)}</text>`;
     }).join("");
     const baseLine=baseRows.length?`<polyline points="${basePts}" class="baselineLine"/>`:"";
+    const firstYear=+rows[0].year,lastYear=+rows.at(-1).year;
+    const xYear=year=>p+(year-firstYear)*(W-2*p)/Math.max(1,lastYear-firstYear);
+    const xTicks=numericXAxisMarkup(firstYear,lastYear,xYear,H-p,6,v=>String(Math.round(v)));
     svg.innerHTML=`${grid}${baseLine}<polyline points="${scenarioPts}" class="populationLine"/>
       <text x="${p}" y="20" class="legendScenario">Vald prognos</text>
       <text x="${p+110}" y="20" class="legendBaseline">Bas utan bostads-/jobbscenario</text>
-      <text x="${p}" y="${H-12}" class="axisText">${rows[0].year}</text>
-      <text x="${W-p-30}" y="${H-12}" class="axisText">${rows.at(-1).year}</text>`;
+      ${xTicks}`;
     bindIndexedHover(svg,rows.map(r=>r.year),(i)=>{
       const r=rows[i],b=baseRows[i];
       return `<strong>År ${r.year}</strong>
@@ -1443,9 +1479,16 @@
     const x=i=>p+i*(W-2*p)/Math.max(1,rows.length-1),y=v=>H-p-(v-min)*(H-2*p)/span;
     const zero=y(0);
     const lines=series.map(s=>`<polyline points="${rows.map((r,i)=>`${x(i)},${y(Number(r[s.key]||0))}`).join(" ")}" class="${s.cls}"/>`).join("");
-    svg.innerHTML=`<line x1="${p}" y1="${zero}" x2="${W-p}" y2="${zero}" class="gridline"/>${lines}
+    const yGrid=[0,.25,.5,.75,1].map(t=>{
+      const yy=p+t*(H-2*p),val=max-t*span;
+      return `<line x1="${p}" y1="${yy}" x2="${W-p}" y2="${yy}" class="gridline"/><text x="8" y="${yy+4}" class="axisText">${fmt1.format(val)}</text>`;
+    }).join("");
+    const firstYear=+rows[0].year,lastYear=+rows.at(-1).year;
+    const xYear=year=>p+(year-firstYear)*(W-2*p)/Math.max(1,lastYear-firstYear);
+    const xTicks=numericXAxisMarkup(firstYear,lastYear,xYear,H-p,6,v=>String(Math.round(v)));
+    svg.innerHTML=`${yGrid}<line x1="${p}" y1="${zero}" x2="${W-p}" y2="${zero}" class="gridline"/>${lines}
       <text x="${p}" y="20" class="legendBirths">Födda</text><text x="${p+90}" y="20" class="legendDeaths">Döda</text><text x="${p+165}" y="20" class="legendMigration">Nettoflyttning</text>
-      <text x="${p}" y="${H-10}" class="axisText">${rows[0].year}</text><text x="${W-p-30}" y="${H-10}" class="axisText">${rows.at(-1).year}</text>`;
+      ${xTicks}`;
     bindIndexedHover(svg,rows.map(r=>r.year),(i)=>{
       const r=rows[i];
       return `<strong>År ${r.year}</strong>
