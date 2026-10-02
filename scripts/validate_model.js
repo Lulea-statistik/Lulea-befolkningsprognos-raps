@@ -9,8 +9,8 @@ global.window = {};
 vm.runInThisContext(fs.readFileSync(path.join(ROOT, 'js', 'model.js'), 'utf8'));
 const M = window.RAPSModel;
 
-const WINDOWS = [6, 10, 19];
-const MIGRATION_WINDOWS = (data.diagnostics?.migrationCalibrationWindows || [2,4,6,10]).map(Number);
+const WINDOWS = [3, 6, 10];
+const MIGRATION_WINDOWS = (data.diagnostics?.migrationCalibrationWindows || [2,3,4,6,10]).map(Number);
 const TARGET_GEOS = ['2580', '2582', '2581', '2560', '2514', 'FA_LULEA'];
 const END_YEAR = 2050;
 
