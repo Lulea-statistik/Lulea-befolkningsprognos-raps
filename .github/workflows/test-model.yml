@@ -8,6 +8,7 @@ on:
       - "scripts/**"
       - "tests/**"
       - ".github/workflows/test-model.yml"
+      - "data/model_maturity_policy.json"
   pull_request:
     paths:
       - "js/**"
@@ -75,6 +76,9 @@ jobs:
 
       - name: Run model tests
         run: node tests/test_model.js
+
+      - name: Build model maturity report
+        run: python scripts/build_model_maturity.py
 
       - name: Build and score historical migration candidate
         run: |
