@@ -4,7 +4,7 @@
     "population_pre2025": {
       "table_id": "TAB638",
       "path": "data/raw/population_pre2025.csv",
-      "rows_including_header": 22625,
+      "rows_including_header": 30705,
       "selection": {
         "Region": [
           "2580",
@@ -34,7 +34,17 @@
           "2281",
           "2380",
           "2480",
-          "2482"
+          "2482",
+          "25",
+          "2505",
+          "2506",
+          "2510",
+          "2513",
+          "2518",
+          "2521",
+          "2523",
+          "2583",
+          "2584"
         ],
         "Civilstand": [
           "OG",
@@ -683,14 +693,24 @@
     "population_2025": {
       "table_id": "TAB5557",
       "path": "data/raw/population_2025.csv",
-      "rows_including_header": 1011,
+      "rows_including_header": 3031,
       "selection": {
         "Region": [
           "2580",
           "2582",
           "2581",
           "2560",
-          "2514"
+          "2514",
+          "25",
+          "2505",
+          "2506",
+          "2510",
+          "2513",
+          "2518",
+          "2521",
+          "2523",
+          "2583",
+          "2584"
         ],
         "Civilstand": [
           "SC"
@@ -1299,7 +1319,7 @@
     "population_birth_region_pre2025": {
       "table_id": "TAB4823",
       "path": "data/raw/population_birth_region_pre2025.csv",
-      "rows_including_header": 11717,
+      "rows_including_header": 15757,
       "selection": {
         "Region": [
           "2580",
@@ -1330,6 +1350,16 @@
           "2380",
           "2480",
           "2482",
+          "25",
+          "2505",
+          "2506",
+          "2510",
+          "2513",
+          "2518",
+          "2521",
+          "2523",
+          "2583",
+          "2584",
           "00"
         ],
         "Alder": [
@@ -2578,7 +2608,7 @@
     "mean_population_pre2025": {
       "table_id": "TAB2818",
       "path": "data/raw/mean_population_pre2025.csv",
-      "rows_including_header": 5859,
+      "rows_including_header": 7879,
       "selection": {
         "Region": [
           "2580",
@@ -2609,6 +2639,16 @@
           "2380",
           "2480",
           "2482",
+          "25",
+          "2505",
+          "2506",
+          "2510",
+          "2513",
+          "2518",
+          "2521",
+          "2523",
+          "2583",
+          "2584",
           "00"
         ],
         "Alder": [
@@ -5062,7 +5102,7 @@
     "migration_pre2025": {
       "table_id": "TAB1212",
       "path": "data/raw/migration_pre2025.csv",
-      "rows_including_header": 5657,
+      "rows_including_header": 7677,
       "selection": {
         "Region": [
           "2580",
@@ -5092,7 +5132,17 @@
           "2281",
           "2380",
           "2480",
-          "2482"
+          "2482",
+          "25",
+          "2505",
+          "2506",
+          "2510",
+          "2513",
+          "2518",
+          "2521",
+          "2523",
+          "2583",
+          "2584"
         ],
         "Alder": [
           "0",
@@ -6354,7 +6404,7 @@
     "births_pre2025": {
       "table_id": "TAB1264",
       "path": "data/raw/births_pre2025.csv",
-      "rows_including_header": 2031,
+      "rows_including_header": 2731,
       "selection": {
         "Region": [
           "2580",
@@ -6385,6 +6435,16 @@
           "2380",
           "2480",
           "2482",
+          "25",
+          "2505",
+          "2506",
+          "2510",
+          "2513",
+          "2518",
+          "2521",
+          "2523",
+          "2583",
+          "2584",
           "00"
         ],
         "AlderModer": [
@@ -7345,7 +7405,7 @@
     "deaths_pre2025": {
       "table_id": "TAB959",
       "path": "data/raw/deaths_pre2025.csv",
-      "rows_including_header": 5859,
+      "rows_including_header": 7879,
       "selection": {
         "Region": [
           "2580",
@@ -7376,6 +7436,16 @@
           "2380",
           "2480",
           "2482",
+          "25",
+          "2505",
+          "2506",
+          "2510",
+          "2513",
+          "2518",
+          "2521",
+          "2523",
+          "2583",
+          "2584",
           "00"
         ],
         "Alder": [
@@ -8613,7 +8683,7 @@
     "migration_birth_region_pre2025": {
       "table_id": "TAB4693",
       "path": "data/raw/migration_birth_region_pre2025.csv",
-      "rows_including_header": 11717,
+      "rows_including_header": 15757,
       "selection": {
         "Region": [
           "2580",
@@ -8644,6 +8714,16 @@
           "2380",
           "2480",
           "2482",
+          "25",
+          "2505",
+          "2506",
+          "2510",
+          "2513",
+          "2518",
+          "2521",
+          "2523",
+          "2583",
+          "2584",
           "00"
         ],
         "Alder": [
@@ -14272,14 +14352,24 @@
     "regional_forecast_benchmark": {
       "table_id": "TAB6008",
       "path": "data/raw/regional_forecast_benchmark.csv",
-      "rows_including_header": 1011,
+      "rows_including_header": 3031,
       "selection": {
         "Region": [
           "2580",
           "2582",
           "2581",
           "2560",
-          "2514"
+          "2514",
+          "25",
+          "2505",
+          "2506",
+          "2510",
+          "2513",
+          "2518",
+          "2521",
+          "2523",
+          "2583",
+          "2584"
         ],
         "InrikesUtrikes": [
           "83"
@@ -14918,14 +15008,24 @@
     "regional_flows_benchmark": {
       "table_id": "TAB698",
       "path": "data/raw/regional_flows_benchmark.csv",
-      "rows_including_header": 1011,
+      "rows_including_header": 3031,
       "selection": {
         "Region": [
           "2580",
           "2582",
           "2581",
           "2560",
-          "2514"
+          "2514",
+          "25",
+          "2505",
+          "2506",
+          "2510",
+          "2513",
+          "2518",
+          "2521",
+          "2523",
+          "2583",
+          "2584"
         ],
         "Kon": [
           "1",
