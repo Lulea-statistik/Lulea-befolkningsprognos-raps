@@ -92,7 +92,7 @@ This comparison is a forward assumption sensitivity, not a historical score and 
 
 ## Migration-window sensitivity
 
-The production baseline keeps the selected global calibration window, with 10 years as default. A separate sensitivity isolates **net migration only** by holding fertility and mortality at the 10-year baseline while applying 2-, 4-, 6-, 10- or 19-year net-migration age/sex profiles.
+The production baseline keeps the selected global calibration window, with 10 years as default. A separate sensitivity isolates **net migration only** by holding fertility and mortality at the 10-year baseline while applying 2-, 4-, 6- or 10-year net-migration age/sex profiles.
 
 The report stores for Luleå and additive Luleå FA:
 - end population in 2050,
@@ -106,7 +106,13 @@ A second diagnostic compares each pre-2025 migration profile with observed 2025 
 
 The rolling-origin migration comparison fixes fertility and mortality at the 10-year specification and varies only net migration across **2, 4, 6 and 10 years**. The primary comparison is n+1 net-migration MAE and population error; n+2 is secondary. The same short-window comparison is also generated at FA-total level for the three external FA15 reference regions.
 
-A 19-year migration window is excluded from these historical origins because the required pre-origin series would start before the available comparable 2006 data. It remains available only in the current-period sensitivity and the 2025 post-calibration diagnostic. If it shows no practical value there, it should be removed from the migration selector rather than retained by convention.
+A 19-year migration window is no longer an active migration option after #36. It could not be evaluated on the same rolling-origin basis and it did not improve the fresh 2025 diagnostic. Fruktsamhet and mortality retain 19-year calibration as a separate stability check.
+
+### Geographic migration-leg validation
+
+For Luleå municipality, SCB TAB4693/TAB6657 are split into three geographic legs: same-county (other Norrbotten), other Swedish counties, and international. Each leg is evaluated separately for **inflow, outflow and net flow**. Historical-mean predictions are built using only data available at origins 2018–2021 and scored at n+1 and n+2 for 2/4/6/10-year windows.
+
+This component test is descriptive and does not yet replace the production net-migration engine. Its purpose is to determine whether different migration processes justify different calibration horizons before implementing a component-specific IMIG/UMIG structure.
 
 ## Rolling-origin validation
 
