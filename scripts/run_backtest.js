@@ -43,12 +43,16 @@ const report = {
   windows: WINDOWS,
   results: {},
   ageErrors: {},
+  cohortErrors: {},
+  migrationLegAgeErrors: {},
   summary: {}
 };
 
 for (const geo of geos) {
   report.results[geo] = {};
   report.ageErrors[geo] = {};
+  report.cohortErrors[geo] = {};
+  report.migrationLegAgeErrors[geo] = {};
   report.summary[geo] = {};
   for (const window of WINDOWS) {
     const pred = M.simulate(input, {
@@ -107,6 +111,32 @@ for (const geo of geos) {
       }
     }
     report.ageErrors[geo][window] = ageRows;
+
+    const cohortRows = ageRows.map(r=>({
+      ...r,
+      cohort:+r.year-+r.age
+    }));
+    report.cohortErrors[geo][window] = cohortRows;
+
+    if(geo==="2580"){
+      report.migrationLegAgeErrors[geo][window] =
+        (actual.migrationLegAgeBacktestLulea||[])
+          .filter(r=>+r.window===+window)
+          .map(r=>({
+            ...r,
+            predictedInflow:round1(r.predictedInflow),
+            actualInflow:round1(r.actualInflow),
+            inflowError:round1(r.inflowError),
+            predictedOutflow:round1(r.predictedOutflow),
+            actualOutflow:round1(r.actualOutflow),
+            outflowError:round1(r.outflowError),
+            predictedNetMigration:round1(r.predictedNetMigration),
+            actualNetMigration:round1(r.actualNetMigration),
+            netMigrationError:round1(r.netMigrationError)
+          }));
+    } else {
+      report.migrationLegAgeErrors[geo][window] = [];
+    }
 
     report.summary[geo][window] = {
       populationMAPE: round1(mean(rows.map(r=>r.populationAbsPctError))),
