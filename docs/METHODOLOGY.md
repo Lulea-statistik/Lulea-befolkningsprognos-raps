@@ -57,6 +57,10 @@ Dessa bruttoflöden skapas inte för FA genom summering av kommunerna, eftersom 
 
 Basscenariot använder fortfarande exogena nettoflyttningsprofiler. `urisk` och bruttoinflyttningen är därför i denna version modellbyggande diagnostik tills IMIG/UMIG och `ifl` aktiveras.
 
+Nettoflyttningens kalibreringsfönster kan analyseras separat från fruktsamhet och dödlighet. Produktionsbasen följer det globala kalibreringsfönstret (10 år som standard), men en migration-only känslighet kan hålla fruktsamhet/dödlighet på 10 år och byta endast nettoflyttningen mellan 6, 10 och 19 år. Detta är en antagandekänslighet, inte en automatisk metodväljare.
+
+Observerat netto 2025 används dessutom som en separat post-kalibreringsdiagnostik eftersom migrationsprofilerna byggs på data till och med 2024. År 2025 ligger efter CKM-metodbrottet och används därför inte för att trimma profil eller fönster.
+
 ### Utbildningsbyte
 
 `qutb` är i V1 en identitetsmatris. Det betyder att utbildningsgrupp inte förändras av modellen. Strukturen finns kvar så att riktiga övergångssannolikheter senare kan ersätta identitetsmatrisen utan att motorn byggs om.
