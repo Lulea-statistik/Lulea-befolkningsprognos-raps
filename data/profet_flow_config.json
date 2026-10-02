@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "method_locked_from_public_profet_and_scb_sources_before_new_results",
+  "productionDefault": false,
+  "purpose": "Transparent Profet-like baseline candidate. Planned housing and industrial establishments are excluded from the baseline and handled as explicit scenarios.",
+  "sources": [
+    {
+      "publisher": "SCB",
+      "title": "Den framtida befolkningen i Sveriges län och kommuner 2024-2040",
+      "url": "https://www.scb.se/contentassets/8bf29ebdf4f744259ae62c97425818b3/be0401_2024i40_br_be51br2403.pdf"
+    },
+    {
+      "publisher": "Region Uppsala",
+      "title": "Metodbeskrivning: Befolkningsprognos för Uppsala län och länets kommuner 2024-2050",
+      "url": "https://regionuppsala.se/contentassets/1790bba8c3f9458ab220211858bf8b03/metodbeskrivning-region-uppsala-befolkningsprognos-2024--2050-tga.pdf"
+    },
+    {
+      "publisher": "SCB",
+      "title": "Profet",
+      "url": "https://www.scb.se/vara-tjanster/bestall-data-och-statistik/regionala-statistikprodukter/befolkningsprognoser/profet/"
+    }
+  ],
+  "baselinePrinciple": {
+    "futurePlannedHousing": false,
+    "futureIndustrialEstablishments": false,
+    "futurePoliticalOrLocalTargets": false,
+    "note": "Baseline follows observed demographic patterns. Structural projects are represented only in separate scenarios."
+  },
+  "demography": {
+    "fertility": {"localLevelWindow": 9, "nationalFuturePath": true},
+    "mortality": {"localLevelWindow": 10, "nationalFuturePath": true},
+    "domesticInMigration": {
+      "riskWindow": 6,
+      "riskPopulation": "rest_of_sweden",
+      "ageSexDistributionWindow": 9,
+      "splitWithinAndOutsideCounty": true
+    },
+    "domesticOutMigration": {
+      "riskWindow": 6,
+      "ageSexDistributionWindow": 9,
+      "splitWithinAndOutsideCounty": true
+    },
+    "internationalInMigration": {
+      "municipalityShareOfNationalWindow": 5,
+      "ageSexDistributionWindow": 9,
+      "nationalFutureImmigration": true
+    },
+    "internationalOutMigration": {
+      "riskWindow": 9
+    }
+  },
+  "dimensions": {
+    "age": "single_year",
+    "sex": true,
+    "birthStatus": {
+      "requiredForFullProfetLikeImplementation": true,
+      "categories": ["sweden_born", "foreign_born"],
+      "currentModelStatus": "not_yet_active_in_population_state"
+    }
+  },
+  "consistencyAdjustment": {
+    "requiredForFullProfetLikeImplementation": true,
+    "municipalitiesToCounty": true,
+    "countiesToNational": true,
+    "currentModelStatus": "diagnostic_support_data_exists_not_yet_production"
+  },
+  "governance": "Do not tune age-specific parameters from the known 1999 cohort. Validate each incremental Profet-like addition in rolling-origin before external holdouts."
+}
