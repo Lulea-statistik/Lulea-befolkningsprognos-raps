@@ -462,6 +462,19 @@
           <div id="backtestAgeErrorTable"></div>
         </article>
 
+        <div class="grid2">
+          <article class="panel">
+            <h2>Kohortdiagnostik</h2>
+            <p class="hint">Följer samma födelsekohort genom backteståren. Tabellen prioriterar kohorter där felet växer över tid.</p>
+            <div id="backtestCohortTable"></div>
+          </article>
+          <article class="panel">
+            <h2>Flyttfel per ben och ålder</h2>
+            <p class="hint">Luleå: out-of-sample jämförelse mot observerad in-, ut- och nettoflyttning för Övriga Norrbotten, Övriga Sverige och Utlandet. Visar åldern med störst absolut befolkningsfel 2024.</p>
+            <div id="backtestMigrationLegAgeTable"></div>
+          </article>
+        </div>
+
         <article class="panel">
           <h2>Valideringsprincip</h2>
           <p>Backtest och benchmark används för att bedöma modellen, inte för att i efterhand ändra antaganden så att historiska utfall passas bättre. Parametrar för fading och metodval ska vara dokumenterade och fastställda före utvärderingen.</p>
