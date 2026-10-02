@@ -23,8 +23,8 @@
     "2584": "Kiruna kommun"
   },
   "method": {
-    "sameCountyLeg": "Municipal same-county inflows will be consistency-adjusted against same-county outflows across all Norrbotten municipalities.",
-    "otherCountyLeg": "Municipal other-Sweden flows will be reconciled to a Norrbotten county-level migration model before any external holdout evaluation.",
+    "sameCountyLeg": "For Lulea, use only Lulea <-> other Norrbotten flows. Moves solely between other Norrbotten municipalities (for example Kiruna <-> Haparanda) must not affect Lulea's risk, profile or consistency factor.",
+    "otherCountyLeg": "Lulea <-> other Swedish counties may use Norrbotten county context for hierarchical consistency, but internal moves among other Norrbotten municipalities must not enter the Lulea leg.",
     "internationalLeg": "Municipal immigration/emigration will later be reconciled through county and national totals.",
     "recursive": true
   },

@@ -210,4 +210,43 @@ assert abs(intl_out_risk["value"] - 0.05) < 1e-12
 assert abs(intl_in_profile["municipalityShare"] - 0.05) < 1e-12
 assert abs(intl_in_profile["ageSexShare"] - 1.0) < 1e-12
 
-print("OK: municipal urisk, component inputs and locked SCB-style migration risks are valid")
+# Adaptive smoothing should reduce an isolated unstable local age spike while
+# preserving a stable structural deviation. Sweden is the prior and adjacent
+# ages only smooth the local residual from that prior.
+smooth_legs = {}
+years = list(range(2016, 2025))
+for year in years:
+    # National county in-migration profile: equal ages 18,19,20 and 55,56,57.
+    for age in (18, 19, 20, 55, 56, 57):
+        smooth_legs[(mod.RIKET_CODE, year, "K", age, "county", "in")] = 100.0
+
+    # Stable local young-adult structure: age 19 consistently elevated.
+    smooth_legs[("2580", year, "K", 18, "county", "in")] = 10.0
+    smooth_legs[("2580", year, "K", 19, "county", "in")] = 30.0
+    smooth_legs[("2580", year, "K", 20, "county", "in")] = 10.0
+
+    # Ages 55/57 stable, age 56 has a one-year spike only.
+    smooth_legs[("2580", year, "K", 55, "county", "in")] = 10.0
+    smooth_legs[("2580", year, "K", 56, "county", "in")] = (
+        60.0 if year == 2020 else 10.0
+    )
+    smooth_legs[("2580", year, "K", 57, "county", "in")] = 10.0
+
+smooth_diag = mod.adaptive_migration_age_smoothing(smooth_legs, scb_cfg)
+smooth_rows = smooth_diag["rows"]
+unstable_56 = next(
+    r for r in smooth_rows
+    if r["geo"] == "2580" and r["leg"] == "county"
+    and r["direction"] == "in" and r["sex"] == "K" and r["age"] == 56
+)
+stable_19 = next(
+    r for r in smooth_rows
+    if r["geo"] == "2580" and r["leg"] == "county"
+    and r["direction"] == "in" and r["sex"] == "K" and r["age"] == 19
+)
+assert unstable_56["smoothedMeanPersons"] < unstable_56["rawMeanPersons"]
+assert unstable_56["persistenceWeight"] < stable_19["persistenceWeight"]
+assert stable_19["directLocalWeight"] > unstable_56["directLocalWeight"]
+assert smooth_diag["status"] == "diagnostic_only_not_active_in_forecast"
+
+print("OK: municipal urisk, component inputs, SCB-style risks and adaptive age smoothing are valid")

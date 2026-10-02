@@ -667,6 +667,257 @@ def fertility_profiles(births, exposure):
                 })
     return result, factors
 
+def adaptive_migration_age_smoothing(pre2025, config):
+    """Diagnostic adaptive smoothing of municipality age/sex migration profiles.
+
+    The method deliberately smooths the *local deviation from Sweden* rather
+    than smoothing the raw curve directly. This protects genuine national age
+    discontinuities (for example young-adult peaks) while reducing isolated
+    municipality spikes that are weakly supported or unstable over time.
+
+    For each municipality, migration leg and direction:
+      - national age/sex share is the prior;
+      - information weight rises with observed local events;
+      - persistence weight rises when the local-minus-national residual is
+        stable across calibration years;
+      - unstable residuals borrow from adjacent ages of the same sex.
+
+    This is diagnostic only. It must beat the raw profile in rolling-origin
+    validation before it can be used by the forecast engine.
+    """
+    smoothing = config.get("ageProfileSmoothing") or {}
+    window = int(smoothing.get("profileWindow", 9))
+    prior_events = max(0.0, float(smoothing.get("priorEvents", 20)))
+    radius = max(1, int(smoothing.get("neighborRadius", 1)))
+    years = list(window_years(window))
+
+    def event_value(geo, year, sex, age, leg, direction):
+        if leg == "all":
+            return sum(
+                pre2025.get((geo, year, sex, age, one_leg, direction), 0.0)
+                for one_leg in MIGRATION_LEG_LABELS
+            )
+        return pre2025.get((geo, year, sex, age, leg, direction), 0.0)
+
+    result = []
+    for geo in MUNICIPALITIES:
+        for leg in (*MIGRATION_LEG_LABELS.keys(), "all"):
+            leg_label = (
+                "Alla flyttben"
+                if leg == "all"
+                else MIGRATION_LEG_LABELS[leg]
+            )
+            for direction in ("in", "out"):
+                local_year_totals = {}
+                national_year_totals = {}
+                for year in years:
+                    local_year_totals[year] = sum(
+                        event_value(geo, year, sex, age, leg, direction)
+                        for sex in ("K", "M")
+                        for age in range(101)
+                    )
+                    national_year_totals[year] = sum(
+                        event_value(RIKET_CODE, year, sex, age, leg, direction)
+                        for sex in ("K", "M")
+                        for age in range(101)
+                    )
+
+                local_total = sum(local_year_totals.values())
+                national_total = sum(national_year_totals.values())
+                national_available = national_total > 0
+                annual_local_mean = (
+                    local_total / float(window)
+                    if window > 0
+                    else 0.0
+                )
+
+                cells = {}
+                for sex in ("K", "M"):
+                    for age in range(101):
+                        local_events = sum(
+                            event_value(geo, y, sex, age, leg, direction)
+                            for y in years
+                        )
+                        national_events = sum(
+                            event_value(RIKET_CODE, y, sex, age, leg, direction)
+                            for y in years
+                        )
+                        raw_share = (
+                            0.0 if local_total <= 0
+                            else local_events / local_total
+                        )
+                        national_share = (
+                            raw_share
+                            if national_total <= 0
+                            else national_events / national_total
+                        )
+
+                        residuals = []
+                        for y in years:
+                            lt = local_year_totals[y]
+                            nt = national_year_totals[y]
+                            if lt <= 0:
+                                continue
+                            local_share_y = (
+                                event_value(
+                                    geo, y, sex, age, leg, direction
+                                ) / lt
+                            )
+                            if nt > 0:
+                                national_share_y = (
+                                    event_value(
+                                        RIKET_CODE, y, sex, age,
+                                        leg, direction
+                                    ) / nt
+                                )
+                            else:
+                                national_share_y = national_share
+                            residuals.append(
+                                local_share_y - national_share_y
+                            )
+
+                        mean_residual = (
+                            statistics.fmean(residuals)
+                            if residuals else 0.0
+                        )
+                        sd_residual = (
+                            statistics.pstdev(residuals)
+                            if len(residuals) > 1 else 0.0
+                        )
+                        signal = abs(mean_residual)
+                        persistence = (
+                            0.0
+                            if signal + sd_residual <= 1e-15
+                            else signal / (signal + sd_residual)
+                        )
+                        information = (
+                            1.0
+                            if prior_events <= 0
+                            else local_events / (
+                                local_events + prior_events
+                            )
+                        )
+                        cells[(sex, age)] = {
+                            "localEvents": local_events,
+                            "rawShare": raw_share,
+                            "nationalShare": national_share,
+                            "residual": raw_share - national_share,
+                            "meanAnnualResidual": mean_residual,
+                            "sdAnnualResidual": sd_residual,
+                            "informationWeight": information,
+                            "persistenceWeight": persistence,
+                        }
+
+                candidates = {}
+                for sex in ("K", "M"):
+                    for age in range(101):
+                        cell = cells[(sex, age)]
+                        neighbor_residuals = []
+                        for delta in range(-radius, radius + 1):
+                            if delta == 0:
+                                continue
+                            other_age = age + delta
+                            if 0 <= other_age <= 100:
+                                neighbor_residuals.append(
+                                    cells[(sex, other_age)]["residual"]
+                                )
+                        neighbor_residual = (
+                            statistics.fmean(neighbor_residuals)
+                            if neighbor_residuals
+                            else 0.0
+                        )
+                        info = cell["informationWeight"]
+                        persist = cell["persistenceWeight"]
+                        adjusted_residual = info * (
+                            persist * cell["residual"]
+                            + (1.0 - persist) * neighbor_residual
+                        )
+                        candidate = max(
+                            0.0,
+                            cell["nationalShare"]
+                            + adjusted_residual,
+                        )
+                        candidates[(sex, age)] = candidate
+                        cell["neighborResidual"] = neighbor_residual
+                        cell["directLocalWeight"] = info * persist
+                        cell["neighborLocalWeight"] = info * (1.0 - persist)
+                        cell["nationalWeight"] = 1.0 - info
+
+                candidate_total = sum(candidates.values())
+                for sex in ("K", "M"):
+                    for age in range(101):
+                        cell = cells[(sex, age)]
+                        smooth_share = (
+                            cell["rawShare"]
+                            if candidate_total <= 0
+                            else candidates[(sex, age)] / candidate_total
+                        )
+                        raw_persons = (
+                            annual_local_mean * cell["rawShare"]
+                        )
+                        smooth_persons = (
+                            annual_local_mean * smooth_share
+                        )
+                        result.append({
+                            "geo": geo,
+                            "window": window,
+                            "leg": leg,
+                            "label": leg_label,
+                            "direction": direction,
+                            "sex": sex,
+                            "age": age,
+                            "nationalAvailable": national_available,
+                            "localEvents": cell["localEvents"],
+                            "rawShare": cell["rawShare"],
+                            "nationalShare": cell["nationalShare"],
+                            "smoothedShare": smooth_share,
+                            "rawMeanPersons": raw_persons,
+                            "smoothedMeanPersons": smooth_persons,
+                            "smoothingDifferencePersons": (
+                                smooth_persons - raw_persons
+                            ),
+                            "meanAnnualResidual": cell[
+                                "meanAnnualResidual"
+                            ],
+                            "sdAnnualResidual": cell[
+                                "sdAnnualResidual"
+                            ],
+                            "informationWeight": cell[
+                                "informationWeight"
+                            ],
+                            "persistenceWeight": cell[
+                                "persistenceWeight"
+                            ],
+                            "directLocalWeight": cell[
+                                "directLocalWeight"
+                            ],
+                            "neighborLocalWeight": cell[
+                                "neighborLocalWeight"
+                            ],
+                            "nationalWeight": cell[
+                                "nationalWeight"
+                            ],
+                            "neighborResidual": cell[
+                                "neighborResidual"
+                            ],
+                            "status": (
+                                "diagnostic_only_not_active_in_forecast"
+                            ),
+                        })
+
+    return {
+        "status": "diagnostic_only_not_active_in_forecast",
+        "window": window,
+        "priorEvents": prior_events,
+        "neighborRadius": radius,
+        "method": smoothing.get("method"),
+        "structuralBreakProtection": smoothing.get(
+            "structuralBreakProtection"
+        ),
+        "rows": result,
+    }
+
+
 def migration_age_diagnostics(inflow, outflow, netmig):
     """Age-specific historical migration variation and practical sensitivity.
 
@@ -1849,6 +2100,9 @@ def main():
                 "municipal moves cancel in the net."
             ),
             "migrationByAge": migration_age_diagnostics(inflow, outflow, netmig),
+            "migrationAgeSmoothing": adaptive_migration_age_smoothing(
+                migration_legs_pre2025, scb_risk_config
+            ),
             "youngAdultMigration": young_adult_migration_diagnostics(inflow, outflow, netmig),
             "migrationLegs": migration_leg_diagnostics(
                 migration_legs_pre2025, migration_legs_2025
