@@ -147,6 +147,31 @@ def national_assumption_rows_from_counts(
     return result
 
 
+def national_only_fertility_rows(future_fert, start_year, end_year):
+    """Build a no-localization fertility alternative for diagnostics only.
+
+    Every forecast geography receives the same SCB national age-specific
+    fertility rate for each forecast year. Rows are duplicated across the
+    3/6/10 calibration windows so the ordinary model engine can be reused.
+    """
+    result = []
+    geos = [*b.MUNICIPALITIES, b.FA_CODE]
+    for geo in geos:
+        for window in WINDOWS:
+            for (year, age), rate in future_fert.items():
+                if year < start_year or year > end_year:
+                    continue
+                result.append({
+                    "geo": geo,
+                    "window": window,
+                    "year": year,
+                    "age": age,
+                    "value": max(0.0, float(rate or 0.0)),
+                    "source": "SCB national forecast fertility; no local multiplier",
+                })
+    return result
+
+
 def national_only_mortality_rows(future_mort, start_year, end_year):
     """Build a no-localization mortality alternative for diagnostics only.
 
@@ -235,6 +260,11 @@ def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deat
             start_year=origin + 1,
         )
 
+        fertility_rates_national_only = national_only_fertility_rows(
+            future_fert,
+            start_year=origin + 1,
+            end_year=end_year,
+        )
         mortality_risks_national_only = national_only_mortality_rows(
             future_mort,
             start_year=origin + 1,
@@ -287,6 +317,7 @@ def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deat
             },
             "populationBase": base_population(pop, origin),
             "fertilityRates": fertility_rates,
+            "fertilityRatesNationalOnly": fertility_rates_national_only,
             "mortalityRisks": mortality_risks,
             "mortalityRisksNationalOnly": mortality_risks_national_only,
             "netMigration": b.migration_profiles(netmig),
