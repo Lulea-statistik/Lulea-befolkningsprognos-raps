@@ -551,7 +551,10 @@
 
   function renderMigrationAnalysis(){
     const geo=$("geo").value;
-    const w=$("migrationWindow")?.value ? +$("migrationWindow").value : +$("window").value;
+    const globalWindow=+$("window").value;
+    const w=$("migrationWindow")?.value
+      ? +$("migrationWindow").value
+      : ([2,4,6,10].includes(globalWindow) ? globalWindow : 10);
     const rows=(data.diagnostics?.migrationByAge||[])
       .filter(r=>r.geo===geo && +r.window===w)
       .sort((a,b)=>+a.age-+b.age);
@@ -670,7 +673,10 @@
       el.innerHTML="<p class='hint'>19–25-årsdiagnostik genereras i nästa workflow-körning.</p>";
       return;
     }
-    const selectedWindow=$("migrationWindow")?.value ? +$("migrationWindow").value : +$("window").value;
+    const globalWindow=+$("window").value;
+    const selectedWindow=$("migrationWindow")?.value
+      ? +$("migrationWindow").value
+      : ([2,4,6,10].includes(globalWindow) ? globalWindow : 10);
     const rows=diag.summaries.filter(r=>+r.window===selectedWindow);
     el.innerHTML=`
       <p class="hint">Åldersmönster i faktisk flyttstatistik. 19–20 år redovisas som tydlig inflyttningsålder, 24–25 år som tydlig utflyttningsålder och 19–25 år som bred kontrollgrupp.</p>
@@ -702,7 +708,10 @@
       el.innerHTML="<p class='hint'>Tre-bensdiagnostik genereras i nästa workflow-körning.</p>";
       return;
     }
-    const w=$("migrationWindow")?.value ? +$("migrationWindow").value : +$("window").value;
+    const globalWindow=+$("window").value;
+    const w=$("migrationWindow")?.value
+      ? +$("migrationWindow").value
+      : ([2,4,6,10].includes(globalWindow) ? globalWindow : 10);
     const rows=d.summaries.filter(r=>r.geo==="2580" && +r.window===w);
     const y2025=(d.observed2025||[]).filter(r=>r.geo==="2580");
     el.innerHTML=`
