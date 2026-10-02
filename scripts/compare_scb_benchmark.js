@@ -5,6 +5,10 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'model_data.json'), 'utf8'));
 const scb = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'benchmarks', 'scb_regional_projection_normalized.json'), 'utf8'));
+const validationPath = path.join(ROOT, 'data', 'model_validation.json');
+const validation = fs.existsSync(validationPath)
+  ? JSON.parse(fs.readFileSync(validationPath, 'utf8'))
+  : null;
 
 global.window = {};
 vm.runInThisContext(fs.readFileSync(path.join(ROOT, 'js', 'model.js'), 'utf8'));
@@ -38,7 +42,11 @@ for (const geo of GEOS) {
   const actualBase = getActualBase(geo);
   const scbBase = getScb(geo, data.meta.baseYear);
   for (const window of WINDOWS) {
-    const forecast = M.simulate(data,{
+    const cached = validation?.forecasts?.[geo]?.[window]?.populationCheckpoints || null;
+    const needsFallback = !cached || CHECK_YEARS.some(year =>
+      !Number.isFinite(Number(cached[year]))
+    );
+    const forecast = needsFallback ? M.simulate(data,{
       geo,
       endYear: 2050,
       fertMult: 1,
@@ -46,10 +54,13 @@ for (const geo of GEOS) {
       migMult: 1,
       window,
       scenarios:{housing:[],workplaces:[],overlapPct:0}
-    });
+    }) : null;
     const rows = [];
     for (const year of CHECK_YEARS) {
-      const modelPop = forecast.find(r=>+r.year===year)?.population ?? null;
+      const cachedPop = cached ? Number(cached[year]) : NaN;
+      const modelPop = Number.isFinite(cachedPop)
+        ? cachedPop
+        : (forecast?.find(r=>+r.year===year)?.population ?? null);
       const rawScb = getScb(geo, year);
       const rebasedScb = (rawScb!=null && scbBase) ? actualBase*(rawScb/scbBase) : null;
       rows.push({
@@ -75,6 +86,10 @@ fs.writeFileSync(
   'utf8'
 );
 console.log('Wrote data/benchmarks/scb_model_comparison.json/js');
+console.log(
+  validation ? 'Used cached validation population checkpoints when available.'
+             : 'Validation cache unavailable; simulated benchmark forecasts.'
+);
 for (const geo of GEOS) {
   const r = out.results[geo][10].find(x=>x.year===2050);
   console.log(`${geo} 10-year 2050: model=${r.modelPopulation}, SCB=${r.scbPopulation}, rebased SCB=${r.scbRebasedToActual2025}`);
