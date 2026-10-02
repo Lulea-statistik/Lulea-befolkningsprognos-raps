@@ -53,10 +53,14 @@ jobs:
       - name: Test rolling-origin configuration
         run: python tests/test_rolling_backtest_config.py
 
+      - name: Test external FA reference configuration
+        run: python tests/test_reference_fa_config.py
+
       - name: Validate JavaScript syntax
         run: |
           node --check js/model.js
           node --check js/app.js
+          node --check scripts/run_reference_fa_backtest.js
           node --check scripts/run_rolling_backtest.js
 
       - name: Run model tests
