@@ -8,6 +8,7 @@ primary backtest because of the CKM method break.
 from __future__ import annotations
 
 import json
+import statistics
 from collections import defaultdict
 from pathlib import Path
 
@@ -107,6 +108,75 @@ def age_actuals(pop):
                 })
     return result
 
+def migration_leg_age_backtest(pre2025):
+    """Out-of-sample age/leg migration diagnostic for Lulea.
+
+    For each backtest window, use only detailed migration-leg years available
+    through 2021. Compare that historical age-specific mean with observed
+    2022-2024 flows. This is diagnostic only and does not alter the forecast.
+    """
+    geo = "2580"
+    available_years = sorted({
+        year
+        for (g, year, _sex, _age, _leg, _direction), value in pre2025.items()
+        if g == geo and year <= BACKTEST_BASE_YEAR and value > 0
+    })
+    result = []
+    for window in BACKTEST_WINDOWS:
+        calibration_years = available_years[-window:]
+        if not calibration_years:
+            continue
+        for year in range(BACKTEST_BASE_YEAR + 1, BACKTEST_END_YEAR + 1):
+            for age in range(101):
+                for leg, label in b.MIGRATION_LEG_LABELS.items():
+                    values = {}
+                    for direction in ("in", "out", "net"):
+                        historical = [
+                            sum(
+                                pre2025.get(
+                                    (geo, y, sex, age, leg, direction), 0.0
+                                )
+                                for sex in ("K", "M")
+                            )
+                            for y in calibration_years
+                        ]
+                        predicted = (
+                            statistics.fmean(historical) if historical else 0.0
+                        )
+                        actual = sum(
+                            pre2025.get(
+                                (geo, year, sex, age, leg, direction), 0.0
+                            )
+                            for sex in ("K", "M")
+                        )
+                        values[direction] = (predicted, actual)
+
+                    pred_in, act_in = values["in"]
+                    pred_out, act_out = values["out"]
+                    pred_net, act_net = values["net"]
+                    result.append({
+                        "geo": geo,
+                        "window": window,
+                        "year": year,
+                        "age": age,
+                        "cohort": year - age,
+                        "leg": leg,
+                        "label": label,
+                        "calibrationStartYear": calibration_years[0],
+                        "calibrationEndYear": calibration_years[-1],
+                        "calibrationYears": len(calibration_years),
+                        "predictedInflow": pred_in,
+                        "actualInflow": act_in,
+                        "inflowError": pred_in - act_in,
+                        "predictedOutflow": pred_out,
+                        "actualOutflow": act_out,
+                        "outflowError": pred_out - act_out,
+                        "predictedNetMigration": pred_net,
+                        "actualNetMigration": act_net,
+                        "netMigrationError": pred_net - act_net,
+                    })
+    return result
+
 def main():
     # Reuse the production calibration logic but change the historical cutoff.
     original_end = b.CALIBRATION_END
@@ -136,6 +206,10 @@ def main():
         )
         netmig = b.aggregate_fa_age_sex(
             b.load_wide_age_sex("migration_pre2025.csv", b.NET_MIG_CODES)
+        )
+        migration_legs = b.load_migration_legs(
+            "migration_birth_region_pre2025.csv",
+            b.MIGRATION_LEG_CODES_PRE2025,
         )
 
         fertility_rates, fertility_factors = b.fertility_profiles(births, fertility_exposure)
@@ -206,6 +280,9 @@ def main():
             "source": "SCB historical population, births, deaths and migration tables",
             "rows": annual_actuals(pop, births, deaths, netmig, inflow, outflow),
             "ageRows": age_actuals(pop),
+            "migrationLegAgeBacktestLulea": migration_leg_age_backtest(
+                migration_legs
+            ),
         }
 
         (OUTDIR / "model_2022_input.json").write_text(
