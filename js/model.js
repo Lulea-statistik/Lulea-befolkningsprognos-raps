@@ -165,6 +165,14 @@
       idx,`${geo}|${leg}|${sex}|${+age}|${+window}`
     );
   }
+  function getMigrationRecencyOutRow(rows,geo,leg,sex,age){
+    const idx=indexRows(
+      rows,"migrationRecencyOut",
+      r=>`${r.geo}|${r.leg}|${r.sex}|${+r.age}`
+    );
+    return firstMatch(idx,`${geo}|${leg}|${sex}|${+age}`);
+  }
+
   function componentWindows(data){
     const cfg=data.parameters?.migrationComponentWindows||{};
     return {
@@ -555,7 +563,7 @@
         throw new Error(`Saknar bruttoflyttningsunderlag för ${geo}, ${window} år.`);
       }
     }
-    if(migrationMode==="component_flow"){
+    if(migrationMode==="component_flow" || migrationMode==="component_recency"){
       const cw=componentWindows(data);
       const legs=["county","rest_sweden","international"];
       const missing=legs.filter(leg=>
@@ -564,6 +572,15 @@
       );
       if(missing.length){
         throw new Error(`Saknar komponentflyttningsunderlag för ${geo}: ${missing.join(", ")}.`);
+      }
+      if(migrationMode==="component_recency"){
+        const adaptiveLeg=data.parameters?.migrationRecencyCandidate?.candidate?.adaptiveLeg||"rest_sweden";
+        const hasRecency=(data.migrationRecencyOutHazards||[]).some(
+          r=>r.geo===geo&&r.leg===adaptiveLeg
+        );
+        if(!hasRecency){
+          throw new Error(`Saknar adaptivt utflyttningsunderlag för ${geo}, ${adaptiveLeg}.`);
+        }
       }
     }
     if(migrationMode==="scb_risk_flow"){
@@ -601,8 +618,8 @@
       year:baseYear,
       population:[...pop.values()].reduce((s,v)=>s+v,0),
       births:0,deaths:0,netMigration:0,
-      grossInMigration:(migrationMode==="gross_flow"||migrationMode==="component_flow"||migrationMode==="scb_risk_flow")?0:null,
-      grossOutMigration:(migrationMode==="gross_flow"||migrationMode==="component_flow"||migrationMode==="scb_risk_flow")?0:null,
+      grossInMigration:(migrationMode==="gross_flow"||migrationMode==="component_flow"||migrationMode==="component_recency"||migrationMode==="scb_risk_flow")?0:null,
+      grossOutMigration:(migrationMode==="gross_flow"||migrationMode==="component_flow"||migrationMode==="component_recency"||migrationMode==="scb_risk_flow")?0:null,
       migrationMode,
       migrationWindow,
       cohortTimingMode,
@@ -717,9 +734,10 @@
             survivors.set(k,Math.max(0,p-outgoing+incoming));
           }
         }
-      }else if(migrationMode==="component_flow"){
+      }else if(migrationMode==="component_flow" || migrationMode==="component_recency"){
         const cw=componentWindows(data);
         const legs=["county","rest_sweden","international"];
+        const adaptiveLeg=data.parameters?.migrationRecencyCandidate?.candidate?.adaptiveLeg||"rest_sweden";
         for(const sex of ["K","M"]){
           for(let age=0;age<=MAX_AGE;age++){
             const k=key(sex,age);
@@ -730,9 +748,14 @@
               const inRow=getMigrationComponentRow(
                 data.migrationComponentInflow,geo,leg,sex,age,cw[leg].in
               );
-              const outRow=getMigrationComponentRow(
+              let outRow=getMigrationComponentRow(
                 data.migrationComponentOutHazards,geo,leg,sex,age,cw[leg].out
               );
+              if(migrationMode==="component_recency" && leg===adaptiveLeg){
+                outRow=getMigrationRecencyOutRow(
+                  data.migrationRecencyOutHazards,geo,leg,sex,age
+                )||outRow;
+              }
               incoming+=Math.max(0,n(inRow?.value))*imigMult;
               totalHazard+=Math.max(0,n(outRow?.value))*umigMult;
             }
@@ -835,8 +858,8 @@
       pop=survivors;
       results.push({
         year,population:total,births,deaths,netMigration,
-        grossInMigration:(migrationMode==="gross_flow"||migrationMode==="component_flow"||migrationMode==="scb_risk_flow")?grossInMigration:null,
-        grossOutMigration:(migrationMode==="gross_flow"||migrationMode==="component_flow"||migrationMode==="scb_risk_flow")?grossOutMigration:null,
+        grossInMigration:(migrationMode==="gross_flow"||migrationMode==="component_flow"||migrationMode==="component_recency"||migrationMode==="scb_risk_flow")?grossInMigration:null,
+        grossOutMigration:(migrationMode==="gross_flow"||migrationMode==="component_flow"||migrationMode==="component_recency"||migrationMode==="scb_risk_flow")?grossOutMigration:null,
         migrationMode,
         migrationWindow,
         cohortTimingMode,
