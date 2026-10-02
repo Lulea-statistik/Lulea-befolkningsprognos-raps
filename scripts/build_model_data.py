@@ -908,7 +908,7 @@ def migration_2025_diagnostics(netmig_2025, migration_rows):
     """Fresh post-calibration comparison of 2025 net migration.
 
     Historical profiles end in 2024. The 2025 CKM observation is therefore not
-    used to fit the 6/10/19-year profile and is retained as a one-year
+    used to fit the 2/4/6/10/19-year profiles and is retained as a one-year
     diagnostic only. Aggregate CKM perturbation is not assumed to be +/-3.
     """
     result = []
@@ -920,7 +920,7 @@ def migration_2025_diagnostics(netmig_2025, migration_rows):
             if g == geo and year == 2025
         )
         by_window = {}
-        for window in WINDOWS:
+        for window in MIGRATION_WINDOWS:
             predicted = sum(
                 float(r.get("value") or 0.0)
                 for r in migration_rows
