@@ -41,6 +41,9 @@ jobs:
       - name: Test migration risk profiles
         run: python tests/test_migration_risk.py
 
+      - name: Test exposure denominator sources
+        run: python tests/test_exposure_sources.py
+
       - name: Test rolling-origin configuration
         run: python tests/test_rolling_backtest_config.py
 
