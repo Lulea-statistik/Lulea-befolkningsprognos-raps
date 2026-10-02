@@ -173,7 +173,7 @@ def national_only_mortality_rows(future_mort, start_year, end_year):
     return result
 
 
-def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deaths, births, inflow, outflow, netmig, migration_legs, component_cfg):
+def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deaths, births, inflow, outflow, netmig, migration_legs, component_cfg, scb_risk_cfg):
     original_end = b.CALIBRATION_END
     original_windows = b.WINDOWS
     original_migration_windows = b.MIGRATION_WINDOWS
@@ -192,6 +192,13 @@ def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deat
         component_inflow, component_out_hazards = b.migration_component_profiles(
             migration_legs, birth_year_exposure
         )
+        (
+            scb_risk_internal_in,
+            scb_risk_out,
+            scb_risk_international_in,
+        ) = b.scb_risk_migration_profiles(
+            migration_legs, birth_year_exposure, scb_risk_cfg
+        )
 
         detail_key = cfg["detail_key"]
         births_key = cfg["births_key"]
@@ -203,6 +210,13 @@ def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deat
             detail_file,
             detail_key,
             births_file,
+        )
+        (
+            scb_national_immigration,
+            scb_national_migration_exposure,
+        ) = b.load_forecast_migration_context(
+            detail_file,
+            detail_key,
         )
         if not future_fert or not future_mort:
             raise RuntimeError(
@@ -261,6 +275,9 @@ def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deat
                 "migrationComponentStatus": "development_candidate_not_production_default",
                 "migrationComponentProductionDefault": False,
                 "migrationComponentWindows": component_cfg["legs"],
+                "scbRiskMigrationStatus": "development_candidate_not_production_default",
+                "scbRiskMigrationProductionDefault": False,
+                "scbRiskMigrationConfig": scb_risk_cfg,
             },
             "populationBase": base_population(pop, origin),
             "fertilityRates": fertility_rates,
@@ -269,6 +286,21 @@ def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deat
             "netMigration": b.migration_profiles(netmig),
             "migrationComponentInflow": component_inflow,
             "migrationComponentOutHazards": component_out_hazards,
+            "scbRiskInternalInMigration": scb_risk_internal_in,
+            "scbRiskOutMigration": scb_risk_out,
+            "scbRiskInternationalInMigration": scb_risk_international_in,
+            "scbRiskNationalMeanPopulation": [
+                {"year": year, "sex": sex, "age": age, "value": value}
+                for (year, sex, age), value in sorted(
+                    scb_national_migration_exposure.items()
+                )
+                if origin < year <= end_year
+            ],
+            "scbRiskNationalImmigration": [
+                {"year": year, "value": value}
+                for year, value in sorted(scb_national_immigration.items())
+                if origin < year <= end_year
+            ],
             "diagnostics": {
                 "relativeFactors": {
                     "fertility": fertility_factors,
@@ -343,16 +375,20 @@ def main():
     migration_legs = b.load_migration_legs(
         "migration_birth_region_pre2025.csv",
         b.MIGRATION_LEG_CODES_PRE2025,
-        allowed_geos=b.MUNICIPALITIES,
+        allowed_geos=set(b.MUNICIPALITIES) | {b.RIKET_CODE},
     )
     component_cfg = json.loads(
         (ROOT / "data" / "migration_component_windows.json").read_text(encoding="utf-8")
+    )
+    scb_risk_cfg = json.loads(
+        (ROOT / "data" / "scb_risk_migration_config.json").read_text(encoding="utf-8")
     )
 
     entries = [
         build_origin(
             origin, cfg, pop, birth_year_exposure, fertility_exposure,
-            deaths, births, inflow, outflow, netmig, migration_legs, component_cfg
+            deaths, births, inflow, outflow, netmig, migration_legs,
+            component_cfg, scb_risk_cfg
         )
         for origin, cfg in ORIGINS.items()
     ]
@@ -371,6 +407,12 @@ def main():
             "selectionSample": "Lulea municipality component results used to choose windows after #37",
             "independentHoldout": False,
             "note": "This rolling comparison is a development diagnostic, not independent confirmation."
+        },
+        "scbRiskFlowCandidate": {
+            "config": "data/scb_risk_migration_config.json",
+            "methodBasis": "Published SCB regional projection method; locked before this candidate is evaluated.",
+            "independentHoldout": False,
+            "note": "Lulea rolling-origin results are development diagnostics. Previously viewed municipalities are not independent confirmation."
         },
         "horizonYears": HORIZON_YEARS,
         "overlapNote": (

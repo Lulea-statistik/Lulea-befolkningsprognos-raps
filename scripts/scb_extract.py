@@ -483,6 +483,14 @@ def download_csv(table_id: str, selection: dict[str, list[str]]) -> str:
 SPECS = {
     "population_pre2025": {"start":2006,"end":2024,"content_terms":["Folkmängd"],"include_reference_geos":True},
     "population_2025": {"start":2025,"end":2025,"content_terms":["Folkmängd"]},
+    "population_birth_region_pre2025": {
+        "start":2006,"end":2024,"include_riket":True,
+        "include_reference_geos":True,"all_birth_regions":True
+    },
+    "population_birth_region_2025": {
+        "start":2025,"end":2025,"include_riket":True,
+        "include_reference_geos":True,"all_birth_regions":True
+    },
     "mean_population_pre2025": {"start":2006,"end":2024,"include_riket":True,"include_reference_geos":True},
     "mean_population_2025": {"start":2025,"end":2025},
     "mean_population_event_age_pre2025": {"start":2006,"end":2024,"include_riket":True,"include_reference_geos":True},
@@ -493,7 +501,7 @@ SPECS = {
     "births_2025": {"start":2025,"end":2025},
     "deaths_pre2025": {"start":2006,"end":2024,"include_riket":True,"include_reference_geos":True},
     "deaths_2025": {"start":2025,"end":2025},
-    "migration_birth_region_pre2025": {"start":2006,"end":2024,"all_birth_regions":True,"include_reference_geos":True},
+    "migration_birth_region_pre2025": {"start":2006,"end":2024,"all_birth_regions":True,"include_reference_geos":True,"include_riket":True},
     "migration_birth_region_2025": {"start":2025,"end":2025,"all_birth_regions":True},
     "raps_fertility_forecast": {"start":2024,"end":2050,"all_birth_regions":True},
     "raps_mortality_forecast": {"start":2024,"end":2050,"all_birth_regions":True},

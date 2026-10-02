@@ -93,6 +93,7 @@ MIGRATION_LEG_LABELS = {
     "international": "Utlandet",
 }
 MIGRATION_COMPONENT_CONFIG = ROOT / "data" / "migration_component_windows.json"
+SCB_RISK_MIGRATION_CONFIG = ROOT / "data" / "scb_risk_migration_config.json"
 
 def sniff(path: Path):
     text = path.read_text(encoding="utf-8")
@@ -194,6 +195,39 @@ def load_forecast_detail(filename: str, file_key: str):
             elif code == mean_code:
                 exposure[(year, sex, age)] += num(r[col])
     return deaths, exposure
+
+def load_forecast_migration_context(filename: str, file_key: str):
+    """Load national immigration totals and mean population by age/sex.
+
+    SCB national projection detail tables contain Inflyttade and
+    Medelfolkmängd by birth region, sex and age. Summing birth regions gives
+    the national immigration volume and national age/sex risk population
+    needed by the regional-style migration candidate.
+    """
+    path = RAW / filename
+    immigration = defaultdict(float)
+    exposure = defaultdict(float)
+    if not path.exists():
+        return immigration, exposure
+    in_code = content_code_for(file_key, "inflyttade")
+    mean_code = content_code_for(file_key, "medelfolkmängd")
+    if not in_code or not mean_code:
+        raise RuntimeError(
+            f"Could not identify Inflyttade/Medelfolkmängd content codes for {file_key}."
+        )
+    for r in rows(path):
+        age = age_value(r.get("Alder", ""))
+        sex = SEX_MAP.get(r.get("Kon", ""))
+        if age is None or not sex:
+            continue
+        for col, code, year in value_columns(r.keys(), {in_code, mean_code}):
+            value = num(r[col])
+            if code == in_code:
+                immigration[year] += value
+            elif code == mean_code:
+                exposure[(year, sex, age)] += value
+    return immigration, exposure
+
 
 def national_future_profiles(detail_filename: str, detail_key: str, births_filename: str):
     birth_counts = load_forecast_birth_counts(births_filename)
@@ -1140,6 +1174,223 @@ def migration_component_profiles(pre2025, exposure):
     return inflow_rows, out_hazard_rows
 
 
+def scb_risk_migration_profiles(pre2025, exposure, config):
+    """Build a development candidate based on SCB's regional migration method.
+
+    Domestic in-migration is represented as a municipality-specific age/sex
+    risk with the rest of Sweden as risk population. Domestic out-migration
+    and emigration are age/sex risks against the municipality's own exposure.
+    Immigration is represented by the municipality's historical share of
+    national immigration and a municipality-specific age/sex distribution.
+
+    The method and windows are read from a configuration locked before
+    validation. These rows are development inputs and do not change the
+    production migration baseline.
+    """
+    internal_in = []
+    out_risks = []
+    international_in = []
+
+    domestic_in_window = int(config["methodBasis"]["internalInMigrationWindow"])
+    domestic_out_window = int(config["methodBasis"]["internalOutMigrationWindow"])
+    intl_share_window = int(config["methodBasis"]["internationalInMunicipalityShareWindow"])
+    intl_age_window = int(config["methodBasis"]["inMigrationAgeSexDistributionWindow"])
+    intl_out_window = int(config["methodBasis"]["internationalOutMigrationWindow"])
+
+    # Domestic flows: separate county / rest-of-Sweden legs.
+    for geo in MUNICIPALITIES:
+        for leg in ("county", "rest_sweden"):
+            in_years = set(window_years(domestic_in_window))
+            out_years = set(window_years(domestic_out_window))
+            for sex in ("K", "M"):
+                for age in range(101):
+                    incoming = sum(
+                        pre2025.get((geo, y, sex, age, leg, "in"), 0.0)
+                        for y in in_years
+                    )
+                    local_in_exposure = sum(
+                        exposure.get((geo, y, sex, age), 0.0)
+                        for y in in_years
+                    )
+                    national_in_exposure = sum(
+                        exposure.get((RIKET_CODE, y, sex, age), 0.0)
+                        for y in in_years
+                    )
+                    rest_exposure = max(0.0, national_in_exposure - local_in_exposure)
+                    in_risk = 0.0 if rest_exposure <= 0 else incoming / rest_exposure
+                    internal_in.append({
+                        "geo": geo,
+                        "leg": leg,
+                        "sex": sex,
+                        "age": age,
+                        "window": domestic_in_window,
+                        "value": max(0.0, in_risk),
+                        "events": incoming,
+                        "riskExposure": rest_exposure,
+                        "riskPopulation": "rest_of_sweden",
+                        "method": "SCB-style domestic in-migration risk",
+                    })
+
+                    outgoing = sum(
+                        pre2025.get((geo, y, sex, age, leg, "out"), 0.0)
+                        for y in out_years
+                    )
+                    local_out_exposure = sum(
+                        exposure.get((geo, y, sex, age), 0.0)
+                        for y in out_years
+                    )
+                    out_risk = 0.0 if local_out_exposure <= 0 else outgoing / local_out_exposure
+                    out_risks.append({
+                        "geo": geo,
+                        "leg": leg,
+                        "sex": sex,
+                        "age": age,
+                        "window": domestic_out_window,
+                        "value": max(0.0, min(1.0, out_risk)),
+                        "rawRisk": max(0.0, out_risk),
+                        "events": outgoing,
+                        "riskExposure": local_out_exposure,
+                        "riskPopulation": "municipality",
+                        "method": "SCB-style domestic out-migration risk",
+                    })
+
+        # International in-migration: municipality share of national
+        # immigration x municipality-specific age/sex distribution.
+        share_years = set(window_years(intl_share_window))
+        age_years = set(window_years(intl_age_window))
+        local_share_events = sum(
+            pre2025.get((geo, y, sex, age, "international", "in"), 0.0)
+            for y in share_years for sex in ("K", "M") for age in range(101)
+        )
+        national_share_events = sum(
+            pre2025.get((RIKET_CODE, y, sex, age, "international", "in"), 0.0)
+            for y in share_years for sex in ("K", "M") for age in range(101)
+        )
+        municipality_share = (
+            0.0 if national_share_events <= 0
+            else local_share_events / national_share_events
+        )
+        local_age_total = sum(
+            pre2025.get((geo, y, sex, age, "international", "in"), 0.0)
+            for y in age_years for sex in ("K", "M") for age in range(101)
+        )
+        for sex in ("K", "M"):
+            for age in range(101):
+                cell_events = sum(
+                    pre2025.get((geo, y, sex, age, "international", "in"), 0.0)
+                    for y in age_years
+                )
+                age_sex_share = (
+                    0.0 if local_age_total <= 0
+                    else cell_events / local_age_total
+                )
+                international_in.append({
+                    "geo": geo,
+                    "sex": sex,
+                    "age": age,
+                    "municipalityShare": max(0.0, municipality_share),
+                    "municipalityShareWindow": intl_share_window,
+                    "ageSexShare": max(0.0, age_sex_share),
+                    "ageSexWindow": intl_age_window,
+                    "localShareEvents": local_share_events,
+                    "nationalShareEvents": national_share_events,
+                    "cellEvents": cell_events,
+                    "localAgeSexEvents": local_age_total,
+                    "method": "SCB-style national immigration share x local age/sex distribution",
+                })
+
+        # International out-migration: municipality age/sex risk.
+        out_years = set(window_years(intl_out_window))
+        for sex in ("K", "M"):
+            for age in range(101):
+                outgoing = sum(
+                    pre2025.get((geo, y, sex, age, "international", "out"), 0.0)
+                    for y in out_years
+                )
+                local_exposure = sum(
+                    exposure.get((geo, y, sex, age), 0.0)
+                    for y in out_years
+                )
+                out_risk = 0.0 if local_exposure <= 0 else outgoing / local_exposure
+                out_risks.append({
+                    "geo": geo,
+                    "leg": "international",
+                    "sex": sex,
+                    "age": age,
+                    "window": intl_out_window,
+                    "value": max(0.0, min(1.0, out_risk)),
+                    "rawRisk": max(0.0, out_risk),
+                    "events": outgoing,
+                    "riskExposure": local_exposure,
+                    "riskPopulation": "municipality",
+                    "method": "SCB-style emigration risk",
+                })
+
+    return internal_in, out_risks, international_in
+
+
+def birth_status_codes(file_key: str):
+    info = manifest().get("files", {}).get(file_key, {})
+    labels_map = (
+        info.get("dimension_value_labels", {}).get("Fodelseregion", {})
+    )
+    result = {}
+    for code, label in labels_map.items():
+        text = str(label).strip().lower()
+        if "utrikes" in text:
+            result["foreign_born"] = code
+        elif "inrikes" in text or "född i sverige" in text or "födda i sverige" in text:
+            result["sweden_born"] = code
+    return result
+
+
+def load_population_birth_status(filename: str, file_key: str, allowed_geos=None):
+    """Population stock by Swedish/foreign born, age and sex."""
+    path = RAW / filename
+    if not path.exists():
+        return defaultdict(float)
+    code_map = birth_status_codes(file_key)
+    reverse = {v: k for k, v in code_map.items()}
+    out = defaultdict(float)
+    geos = _allowed_geographies(allowed_geos)
+    for r in rows(path):
+        geo = r.get("Region")
+        sex = SEX_MAP.get(r.get("Kon", ""))
+        age = age_value(r.get("Alder", ""))
+        status = reverse.get(str(r.get("Fodelseregion", "")).strip())
+        if geo not in geos or not sex or age is None or not status:
+            continue
+        for col, _, year in value_columns(r.keys()):
+            out[(geo, year, sex, age, status)] += num(r[col])
+    return out
+
+
+def birth_status_diagnostic(pop_birth_status, year=2024):
+    """Expose population composition without activating it in the engine."""
+    result = []
+    for geo in MUNICIPALITIES:
+        for sex in ("K", "M"):
+            for age in range(101):
+                sw = pop_birth_status.get(
+                    (geo, year, sex, age, "sweden_born"), 0.0
+                )
+                foreign = pop_birth_status.get(
+                    (geo, year, sex, age, "foreign_born"), 0.0
+                )
+                total = sw + foreign
+                result.append({
+                    "geo": geo,
+                    "year": year,
+                    "sex": sex,
+                    "age": age,
+                    "swedenBorn": sw,
+                    "foreignBorn": foreign,
+                    "foreignBornShare": None if total <= 0 else foreign / total,
+                    "status": "diagnostic_only_not_used_by_forecast_engine",
+                })
+    return result
+
+
 def migration_profiles(netmig):
     result = []
     geos = list(MUNICIPALITIES) + [FA_CODE]
@@ -1222,7 +1473,8 @@ def main():
         "population_2025.csv", HISTORICAL_BIRTH_YEAR_EXPOSURE_FILE,
         HISTORICAL_EVENT_AGE_EXPOSURE_FILE,
         "migration_pre2025.csv", "migration_birth_region_pre2025.csv",
-        "births_pre2025.csv", "deaths_pre2025.csv"
+        "births_pre2025.csv", "deaths_pre2025.csv",
+        "population_birth_region_pre2025.csv"
     ]
     missing = [p for p in required if not (RAW / p).exists()]
     if missing:
@@ -1256,7 +1508,12 @@ def main():
     migration_legs_pre2025 = load_migration_legs(
         "migration_birth_region_pre2025.csv",
         MIGRATION_LEG_CODES_PRE2025,
-        allowed_geos=MUNICIPALITIES,
+        allowed_geos=set(MUNICIPALITIES) | {RIKET_CODE},
+    )
+    population_birth_status = load_population_birth_status(
+        "population_birth_region_pre2025.csv",
+        "population_birth_region_pre2025",
+        allowed_geos=set(MUNICIPALITIES) | {RIKET_CODE},
     )
 
     deaths_2025 = {}
@@ -1287,10 +1544,30 @@ def main():
     if migration_component_config.get("status") != "development_candidate_locked_before_external_component_results":
         raise RuntimeError("Unexpected migration component candidate status.")
 
+    scb_risk_config = json.loads(
+        SCB_RISK_MIGRATION_CONFIG.read_text(encoding="utf-8")
+    )
+    if scb_risk_config.get("status") != "method_locked_from_published_scb_regional_method_before_validation":
+        raise RuntimeError("Unexpected SCB risk migration candidate status.")
+    (
+        scb_risk_internal_in,
+        scb_risk_out,
+        scb_risk_international_in,
+    ) = scb_risk_migration_profiles(
+        migration_legs_pre2025, birth_year_exposure, scb_risk_config
+    )
+
     future_fert, future_mort = national_future_profiles(
         "raps_national_detail_2024.csv",
         "raps_national_detail_2024",
         "raps_births_2024.csv",
+    )
+    (
+        scb_national_immigration,
+        scb_national_migration_exposure,
+    ) = load_forecast_migration_context(
+        "raps_national_detail_2024.csv",
+        "raps_national_detail_2024",
     )
     historical_fertility_rows = list(fertility_rates)
     fertility_scenario_rates = []
@@ -1349,7 +1626,7 @@ def main():
 
     model = {
         "meta": {
-            "schemaVersion": "0.14.0",
+            "schemaVersion": "0.15.0",
             "generatedBy": "scripts/build_model_data.py",
             "dataReady": True,
             "baseYear": 2025,
@@ -1422,6 +1699,14 @@ def main():
                 "outflow hazards. Selected leg hazards are summed per age/sex cell and converted "
                 "once with 1-exp(-sum(hazard))."
             ),
+            "scbRiskMigrationStatus": "development_candidate_not_production_default",
+            "scbRiskMigrationProductionDefault": False,
+            "scbRiskMigrationConfig": scb_risk_config,
+            "scbRiskMigrationMethod": (
+                "Domestic in-migration risk x rest-of-Sweden population; domestic out-migration "
+                "and emigration risk x municipal population; immigration = municipality historical "
+                "share of national immigration x municipality age/sex distribution."
+            ),
             "scenarioMigrationProfileMethod": (
                 "Workplace scenarios support a worker hybrid profile based on SCB TAB3205 "
                 "employment age/sex shares, disaggregated to one-year ages with observed "
@@ -1443,6 +1728,19 @@ def main():
         "grossInMigration": gross_inmigration_profiles(inflow),
         "migrationComponentInflow": migration_component_inflow,
         "migrationComponentOutHazards": migration_component_out_hazards,
+        "scbRiskInternalInMigration": scb_risk_internal_in,
+        "scbRiskOutMigration": scb_risk_out,
+        "scbRiskInternationalInMigration": scb_risk_international_in,
+        "scbRiskNationalMeanPopulation": [
+            {"year": year, "sex": sex, "age": age, "value": value}
+            for (year, sex, age), value in sorted(scb_national_migration_exposure.items())
+            if year >= 2026
+        ],
+        "scbRiskNationalImmigration": [
+            {"year": year, "value": value}
+            for year, value in sorted(scb_national_immigration.items())
+            if year >= 2026
+        ],
         "scenarioMigrationProfiles": scenario_migration_profiles(inflow),
         "diagnostics": {
             "ckm": ckm_diagnostics(base, deaths_2025, netmig_2025),
@@ -1477,6 +1775,11 @@ def main():
             "migrationLegs": migration_leg_diagnostics(
                 migration_legs_pre2025, migration_legs_2025
             ),
+            "migrationBirthStatus": {
+                "status": "diagnostic_only",
+                "source": "SCB population by Swedish/foreign born; not active in forecast engine",
+                "population2024": birth_status_diagnostic(population_birth_status, 2024),
+            },
             "migrationUncertaintyNote": (
                 "Historical standard deviations and percentage sensitivities are diagnostics, "
                 "not statistical confidence intervals. Gross inflow/outflow are not shown for FA "

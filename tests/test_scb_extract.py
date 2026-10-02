@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import json
 import sys
 from pathlib import Path
 
@@ -45,4 +46,14 @@ for key in ("national_forecast_detail","national_forecast_births"):
     if not s.SPECS[key].get("all_birth_regions"):
         raise AssertionError(f"{key} must include all birth regions")
 
-print(f"OK: long PxWeb query split into {len(parts)} URL-safe batches")
+sources=json.loads((ROOT/"data"/"scb_sources.json").read_text(encoding="utf-8"))
+assert sources["tables"]["population_birth_region_pre2025"]["id"]=="TAB4823"
+assert sources["tables"]["population_birth_region_2025"]["id"]=="TAB6645"
+for key in ("population_birth_region_pre2025","population_birth_region_2025"):
+    assert key in s.SPECS
+    assert s.SPECS[key].get("all_birth_regions") is True
+    assert s.SPECS[key].get("include_riket") is True
+    assert s.SPECS[key].get("include_reference_geos") is True
+assert s.SPECS["migration_birth_region_pre2025"].get("include_riket") is True
+
+print(f"OK: long PxWeb query split into {len(parts)} URL-safe batches and SCB risk inputs are configured")
