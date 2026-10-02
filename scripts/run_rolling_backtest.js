@@ -52,6 +52,7 @@ if (!origins.length) {
 
 const geos = origins[0].model.geographies.map(g => g.code);
 const windows = manifest.windows.map(Number);
+const migrationWindows = (manifest.migrationWindows || [6,10]).map(Number);
 
 const report = {
   schemaVersion: '0.1.0',
@@ -77,6 +78,11 @@ const report = {
   },
   eventAgeTimingDiagnostic: {
     note: 'Historical comparison of legacy V1 timing against the production event-age aligned cohort step. Primary evaluation horizon is n+1, secondary is n+2, and n+3 is supplementary robustness only.',
+    summary: {}
+  },
+  migrationWindowDiagnostic: {
+    note: 'Migration-only comparison: fertility and mortality are fixed to the 10-year calibration while net migration uses 2, 4, 6 or 10 years. n+1 is primary and n+2 secondary.',
+    windows: migrationWindows,
     summary: {}
   }
 };
@@ -415,6 +421,79 @@ for (const geo of geos) {
   }
 }
 
+for (const geo of geos) {
+  report.migrationWindowDiagnostic.summary[geo] = {};
+  for (const migrationWindow of migrationWindows) {
+    const rows = [];
+    const byOrigin = {};
+
+    for (const entry of origins) {
+      const pred = M.simulate(entry.model, {
+        geo,
+        endYear: entry.endYear,
+        fertMult: 1,
+        mortMult: 1,
+        migMult: 1,
+        window: 10,
+        migrationWindow,
+        cohortTimingMode: 'event_age_aligned',
+        scenarios: {housing: [], workplaces: [], overlapPct: 0},
+        includeDetail: false
+      });
+
+      const originRows = [];
+      for (const p of pred) {
+        if (+p.year <= +entry.origin) continue;
+        const a = byActual(entry.actual, geo, p.year);
+        if (!a) continue;
+        originRows.push({
+          year:+p.year,
+          horizon:+p.year-+entry.origin,
+          populationError:p.population-a.population,
+          populationAbsPctError:ape(p.population,a.population),
+          netMigrationError:p.netMigration-a.netMigration,
+          predictedNetMigration:p.netMigration,
+          actualNetMigration:a.netMigration
+        });
+      }
+      rows.push(...originRows);
+      byOrigin[entry.origin]=originRows.map(r=>({
+        year:r.year,horizon:r.horizon,
+        predictedNetMigration:round1(r.predictedNetMigration),
+        actualNetMigration:round1(r.actualNetMigration),
+        netMigrationError:round1(r.netMigrationError),
+        populationError:round1(r.populationError)
+      }));
+    }
+
+    const byHorizon={};
+    for(let horizon=1;horizon<=manifest.horizonYears;horizon++){
+      const h=rows.filter(r=>r.horizon===horizon);
+      byHorizon[horizon]={
+        observations:h.length,
+        populationMAPE:round1(mean(h.map(r=>r.populationAbsPctError))),
+        populationMAE:round1(mean(h.map(r=>Math.abs(r.populationError)))),
+        populationMeanError:round1(mean(h.map(r=>r.populationError))),
+        netMigrationMAE:round1(mean(h.map(r=>Math.abs(r.netMigrationError)))),
+        netMigrationMeanError:round1(mean(h.map(r=>r.netMigrationError)))
+      };
+    }
+
+    report.migrationWindowDiagnostic.summary[geo][migrationWindow]={
+      observations:rows.length,
+      populationMAPE:round1(mean(rows.map(r=>r.populationAbsPctError))),
+      populationMAE:round1(mean(rows.map(r=>Math.abs(r.populationError)))),
+      netMigrationMAE:round1(mean(rows.map(r=>Math.abs(r.netMigrationError)))),
+      netMigrationMeanError:round1(mean(rows.map(r=>r.netMigrationError))),
+      oneYear:byHorizon[1],
+      twoYear:byHorizon[2],
+      threeYear:byHorizon[3],
+      byHorizon,
+      byOrigin
+    };
+  }
+}
+
 const outJson = path.join(
   ROOT, 'data', 'backtests', 'rolling_2018_2024.json'
 );
@@ -471,6 +550,16 @@ for (const geo of ['2580', 'FA_LULEA']) {
       `${geo} window=${window}: timing deaths mean error legacy=${s.legacyDeathsMeanError} | ` +
       `aligned=${s.alignedDeathsMeanError} | population MAPE legacy=${s.legacyPopulationMAPE}% | ` +
       `aligned=${s.alignedPopulationMAPE}%`
+    );
+  }
+}
+
+for (const geo of ['2580','FA_LULEA']) {
+  for (const migrationWindow of migrationWindows) {
+    const s=report.migrationWindowDiagnostic.summary[geo][migrationWindow];
+    console.log(
+      `${geo} migrationWindow=${migrationWindow}: n+1 migration MAE=${s.oneYear.netMigrationMAE} | `+
+      `n+1 population MAPE=${s.oneYear.populationMAPE}% | n+2 migration MAE=${s.twoYear.netMigrationMAE}`
     );
   }
 }
