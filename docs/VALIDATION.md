@@ -96,6 +96,14 @@ The generated report is `data/backtests/rolling_2018_2024.json/js`. Intermediate
 
 Because the forecast windows overlap in calendar time, pooled rolling-origin errors are a robustness diagnostic rather than four statistically independent experiments. The report therefore also preserves origin-specific and forecast-horizon-specific errors.
 
+### Horizon priority
+
+Forecast quality is judged primarily at **n+1**, with **n+2** as a secondary horizon. **n+3** is retained as a robustness diagnostic rather than a primary decision metric.
+
+The reason is methodological rather than performance-driven: as the horizon lengthens, a larger share of forecast error can arise from demographic, economic, migration, housing and establishment shocks that were not observable at the forecast origin. The model input remains vintage-correct at all horizons, but short horizons provide the cleanest test of the cohort-component mechanics and source definitions.
+
+For method comparisons, the report therefore exposes population MAPE/MAE, births error, deaths MAE/bias and migration MAE separately for n+1 and n+2. Pooled 1–3 year metrics remain supplementary.
+
 ### National forecast-vintage diagnostic
 
 The rolling-origin report also compares each historical SCB national forecast vintage directly with the later realized Sweden totals for births and deaths. This check is performed **before** local municipal calibration.
@@ -125,7 +133,7 @@ The reference geography uses the **FA15** classification because the selected re
 
 The memberships are kept fixed across all validation years. They are not redefined from annual commuting flows. Trollhättan-Vänersborg is intentionally retained as an FA15 multicore stress test even though it is no longer a separate FA25 region.
 
-The external report compares the legacy V1 cohort timing with the pre-defined event-age aligned timing candidate at both FA total and member-municipality level. The key decision metrics are population MAPE/MAE, births MAE, deaths MAE/mean error and three-year population MAPE. This test is confirmatory: results may support or reject the timing change, but thresholds or region membership must not be altered after observing the scores.
+The external report compares the legacy V1 cohort timing with the pre-defined event-age aligned timing candidate at both FA total and member-municipality level. The primary decision metrics are the **n+1** population MAPE/MAE, births MAE, deaths MAE/mean error and migration MAE; the same **n+2** metrics are secondary. The n+3 and pooled 1–3 year results are supplementary robustness diagnostics. This test is confirmatory: region membership and model parameters must not be altered after observing the scores.
 
 Generated output: `data/backtests/reference_fa_rolling.json/js`.
 
