@@ -95,6 +95,7 @@ MIGRATION_LEG_LABELS = {
 }
 MIGRATION_COMPONENT_CONFIG = ROOT / "data" / "migration_component_windows.json"
 SCB_RISK_MIGRATION_CONFIG = ROOT / "data" / "scb_risk_migration_config.json"
+MIGRATION_RECENCY_CANDIDATE_CONFIG = ROOT / "data" / "migration_recency_candidate.json"
 
 def sniff(path: Path):
     text = path.read_text(encoding="utf-8")
@@ -1612,6 +1613,79 @@ def migration_component_profiles(pre2025, exposure):
     return inflow_rows, out_hazard_rows
 
 
+def migration_recency_out_hazards(pre2025, exposure, config):
+    """Adaptive rest-of-Sweden out-migration hazards for a diagnostic candidate.
+
+    The rule is locked in data/migration_recency_candidate.json. It is applied
+    identically to every municipality, sex and one-year age; there are no
+    age-specific overrides.
+    """
+    candidate = config["candidate"]
+    leg = candidate["adaptiveLeg"]
+    long_window = int(candidate["longWindow"])
+    recent_window = int(candidate["recentWindow"])
+    prior = float(candidate["priorAnnualEvents"])
+    long_years = list(window_years(long_window))
+    recent_years = list(window_years(recent_window))
+    rows_out = []
+
+    for geo in MUNICIPALITIES:
+        for sex in ("K", "M"):
+            for age in range(101):
+                annual_hazards = []
+                annual_events = []
+                for year in long_years:
+                    events = pre2025.get((geo, year, sex, age, leg, "out"), 0.0)
+                    pop = exposure.get((geo, year, sex, age), 0.0)
+                    annual_events.append(events)
+                    annual_hazards.append(0.0 if pop <= 0 else events / pop)
+
+                long_events = sum(annual_events)
+                long_pop = sum(
+                    exposure.get((geo, year, sex, age), 0.0)
+                    for year in long_years
+                )
+                recent_events = sum(
+                    pre2025.get((geo, year, sex, age, leg, "out"), 0.0)
+                    for year in recent_years
+                )
+                recent_pop = sum(
+                    exposure.get((geo, year, sex, age), 0.0)
+                    for year in recent_years
+                )
+                long_hazard = 0.0 if long_pop <= 0 else long_events / long_pop
+                recent_hazard = 0.0 if recent_pop <= 0 else recent_events / recent_pop
+                delta = recent_hazard - long_hazard
+                sd = statistics.pstdev(annual_hazards) if len(annual_hazards) > 1 else 0.0
+                if abs(delta) <= 1e-15:
+                    shift_strength = 0.0
+                elif sd <= 1e-15:
+                    shift_strength = 1.0
+                else:
+                    shift_strength = abs(delta) / (abs(delta) + sd)
+                mean_events = statistics.fmean(annual_events) if annual_events else 0.0
+                information = (
+                    0.0 if mean_events <= 0
+                    else mean_events / (mean_events + prior)
+                )
+                weight = max(0.0, min(1.0, shift_strength * information))
+                value = long_hazard + weight * delta
+                rows_out.append({
+                    "geo": geo,
+                    "leg": leg,
+                    "sex": sex,
+                    "age": age,
+                    "value": value,
+                    "longHazard": long_hazard,
+                    "recentHazard": recent_hazard,
+                    "adaptiveWeight": weight,
+                    "annualHazardSd": sd,
+                    "annualMeanEvents": mean_events,
+                    "method": "adaptive recency hazard; locked rest_sweden outflow candidate",
+                })
+    return rows_out
+
+
 def scb_risk_migration_profiles(pre2025, exposure, config):
     """Build a development candidate based on SCB's regional migration method.
 
@@ -2057,6 +2131,15 @@ def main():
     if migration_component_config.get("status") != "development_candidate_locked_before_external_component_results":
         raise RuntimeError("Unexpected migration component candidate status.")
 
+    migration_recency_config = json.loads(
+        MIGRATION_RECENCY_CANDIDATE_CONFIG.read_text(encoding="utf-8")
+    )
+    if migration_recency_config.get("status") != "development_candidate_locked_before_full_cohort_results":
+        raise RuntimeError("Unexpected migration recency candidate status.")
+    migration_recency_out_hazards = migration_recency_out_hazards(
+        migration_legs_pre2025, birth_year_exposure, migration_recency_config
+    )
+
     scb_risk_config = json.loads(
         SCB_RISK_MIGRATION_CONFIG.read_text(encoding="utf-8")
     )
@@ -2212,6 +2295,8 @@ def main():
             "migrationComponentStatus": "development_candidate_not_production_default",
             "migrationComponentProductionDefault": False,
             "migrationComponentWindows": migration_component_config["legs"],
+            "migrationRecencyCandidateStatus": "development_candidate_not_production_default",
+            "migrationRecencyCandidate": migration_recency_config,
             "migrationComponentMethod": (
                 "Three geographic legs with historical mean inflow and population-responsive "
                 "outflow hazards. Selected leg hazards are summed per age/sex cell and converted "
@@ -2247,6 +2332,7 @@ def main():
         "grossInMigration": gross_inmigration_profiles(inflow),
         "migrationComponentInflow": migration_component_inflow,
         "migrationComponentOutHazards": migration_component_out_hazards,
+        "migrationRecencyOutHazards": migration_recency_out_hazards,
         "scbRiskDomesticInLevels": scb_risk_internal_in_levels,
         "scbRiskDomesticInDistribution": scb_risk_internal_in_distribution,
         "scbRiskOutMigration": scb_risk_out,
