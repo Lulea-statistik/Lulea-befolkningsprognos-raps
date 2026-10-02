@@ -321,9 +321,13 @@ const scbRiskFlowData={
   fertilityRates:[],
   mortalityRisks:[],
   netMigration:[],
-  scbRiskInternalInMigration:[
-    {geo:'2580',leg:'county',sex:'K',age:31,value:0.01},
-    {geo:'2580',leg:'rest_sweden',sex:'K',age:31,value:0.02}
+  scbRiskDomesticInLevels:[
+    {geo:'2580',leg:'county',value:0.01},
+    {geo:'2580',leg:'rest_sweden',value:0.02}
+  ],
+  scbRiskDomesticInDistribution:[
+    {geo:'2580',leg:'county',sex:'K',age:31,share:1},
+    {geo:'2580',leg:'rest_sweden',sex:'K',age:31,share:1}
   ],
   scbRiskOutMigration:[
     {geo:'2580',leg:'county',sex:'K',age:31,value:0.02},
@@ -344,7 +348,7 @@ const scbRiskFlow=M.simulate(scbRiskFlowData,{
   geo:'2580',endYear:2026,fertMult:1,mortMult:1,migMult:1,window:10,
   migrationMode:'scb_risk_flow',scenarios:{},includeDetail:true
 })[1];
-assert(Math.abs(scbRiskFlow.grossInMigration-310)<1e-9,'SCB risk flow applies domestic in-risks to rest-of-Sweden population and adds national immigration share');
+assert(Math.abs(scbRiskFlow.grossInMigration-310)<1e-9,'SCB risk flow applies total domestic in-risks and then the age-sex distributions');
 assert(Math.abs(scbRiskFlow.grossOutMigration-100)<1e-9,'SCB risk flow applies summed direct out-migration risks to municipal population');
 assert(Math.abs(scbRiskFlow.netMigration-210)<1e-9,'SCB risk flow derives net migration from calculated gross flows');
 assert(Math.abs(scbRiskFlow.population-1210)<1e-9,'SCB risk flow updates population consistently');

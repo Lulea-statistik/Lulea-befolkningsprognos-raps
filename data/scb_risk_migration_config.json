@@ -7,6 +7,7 @@
     "principle": "Use migration risks/probabilities rather than fixed gross counts; retain municipality-specific age/sex patterns.",
     "internalInMigrationRiskPopulation": "rest_of_sweden",
     "internalInMigrationWindow": 6,
+    "internalInAgeSexDistributionWindow": 9,
     "internalOutMigrationWindow": 6,
     "internationalInMunicipalityShareWindow": 5,
     "inMigrationAgeSexDistributionWindow": 9,
@@ -14,15 +15,17 @@
   },
   "legs": {
     "county": {
-      "inMethod": "municipality age/sex in-migration risk applied to population in the rest of Sweden",
+      "inMethod": "municipality total in-migration risk applied to population in the rest of Sweden, then distributed by municipality-specific age/sex profile",
       "outMethod": "municipality age/sex out-migration risk applied to current municipal population",
       "inWindow": 6,
+      "ageSexDistributionWindow": 9,
       "outWindow": 6
     },
     "rest_sweden": {
-      "inMethod": "municipality age/sex in-migration risk applied to population in the rest of Sweden",
+      "inMethod": "municipality total in-migration risk applied to population in the rest of Sweden, then distributed by municipality-specific age/sex profile",
       "outMethod": "municipality age/sex out-migration risk applied to current municipal population",
       "inWindow": 6,
+      "ageSexDistributionWindow": 9,
       "outWindow": 6
     },
     "international": {
