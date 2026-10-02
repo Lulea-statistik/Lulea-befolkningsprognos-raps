@@ -4326,6 +4326,11 @@
         "cumulativeDeaths": 5473.4,
         "cumulativeNetMigration": -470.8,
         "cumulativeScenarioEffect": 0,
+        "populationCheckpoints": {
+          "2030": 14497.2,
+          "2040": 12998.5,
+          "2050": 11512
+        },
         "differenceVs10YearEnd": -681.6,
         "differenceVs10YearEndPct": -5.6
       },
@@ -4338,6 +4343,11 @@
         "cumulativeDeaths": 5509.7,
         "cumulativeNetMigration": 25,
         "cumulativeScenarioEffect": 0,
+        "populationCheckpoints": {
+          "2030": 14599.5,
+          "2040": 13362.4,
+          "2050": 12193.6
+        },
         "differenceVs10YearEnd": 0,
         "differenceVs10YearEndPct": 0
       },
@@ -4350,6 +4360,11 @@
         "cumulativeDeaths": 5442.8,
         "cumulativeNetMigration": 25,
         "cumulativeScenarioEffect": 0,
+        "populationCheckpoints": {
+          "2030": 14607.1,
+          "2040": 13345.8,
+          "2050": 12124.8
+        },
         "differenceVs10YearEnd": -68.8,
         "differenceVs10YearEndPct": -0.6
       }
@@ -4364,6 +4379,11 @@
         "cumulativeDeaths": 2528.7,
         "cumulativeNetMigration": -758.3,
         "cumulativeScenarioEffect": 0,
+        "populationCheckpoints": {
+          "2030": 7477.9,
+          "2040": 6714.1,
+          "2050": 5939.3
+        },
         "differenceVs10YearEnd": -572.5,
         "differenceVs10YearEndPct": -8.8
       },
@@ -4376,6 +4396,11 @@
         "cumulativeDeaths": 2514.5,
         "cumulativeNetMigration": -215,
         "cumulativeScenarioEffect": 0,
+        "populationCheckpoints": {
+          "2030": 7581.9,
+          "2040": 7036,
+          "2050": 6511.8
+        },
         "differenceVs10YearEnd": 0,
         "differenceVs10YearEndPct": 0
       },
@@ -4388,6 +4413,11 @@
         "cumulativeDeaths": 2490.9,
         "cumulativeNetMigration": -215,
         "cumulativeScenarioEffect": 0,
+        "populationCheckpoints": {
+          "2030": 7577.9,
+          "2040": 7010,
+          "2050": 6456.8
+        },
         "differenceVs10YearEnd": -55,
         "differenceVs10YearEndPct": -0.8
       }
@@ -4402,6 +4432,11 @@
         "cumulativeDeaths": 21564.1,
         "cumulativeNetMigration": 8037.5,
         "cumulativeScenarioEffect": 0,
+        "populationCheckpoints": {
+          "2030": 81265,
+          "2040": 83297.2,
+          "2050": 85475.7
+        },
         "differenceVs10YearEnd": -258,
         "differenceVs10YearEndPct": -0.3
       },
@@ -4414,6 +4449,11 @@
         "cumulativeDeaths": 21373.1,
         "cumulativeNetMigration": 8662.5,
         "cumulativeScenarioEffect": 0,
+        "populationCheckpoints": {
+          "2030": 81407.6,
+          "2040": 83577,
+          "2050": 85733.7
+        },
         "differenceVs10YearEnd": 0,
         "differenceVs10YearEndPct": 0
       },
@@ -4426,6 +4466,11 @@
         "cumulativeDeaths": 21261.8,
         "cumulativeNetMigration": 8662.5,
         "cumulativeScenarioEffect": 0,
+        "populationCheckpoints": {
+          "2030": 81495.9,
+          "2040": 83805.6,
+          "2050": 86064.1
+        },
         "differenceVs10YearEnd": 330.4,
         "differenceVs10YearEndPct": 0.4
       }
@@ -4440,6 +4485,11 @@
         "cumulativeDeaths": 12818.4,
         "cumulativeNetMigration": 2825,
         "cumulativeScenarioEffect": 0,
+        "populationCheckpoints": {
+          "2030": 41961.6,
+          "2040": 41229.3,
+          "2050": 40678.9
+        },
         "differenceVs10YearEnd": -400.2,
         "differenceVs10YearEndPct": -1
       },
@@ -4452,6 +4502,11 @@
         "cumulativeDeaths": 12972.1,
         "cumulativeNetMigration": 3677.5,
         "cumulativeScenarioEffect": 0,
+        "populationCheckpoints": {
+          "2030": 42045.8,
+          "2040": 41449.3,
+          "2050": 41079.1
+        },
         "differenceVs10YearEnd": 0,
         "differenceVs10YearEndPct": 0
       },
@@ -4464,6 +4519,11 @@
         "cumulativeDeaths": 12890.8,
         "cumulativeNetMigration": 3677.5,
         "cumulativeScenarioEffect": 0,
+        "populationCheckpoints": {
+          "2030": 42035.3,
+          "2040": 41383.9,
+          "2050": 40936
+        },
         "differenceVs10YearEnd": -143.1,
         "differenceVs10YearEndPct": -0.3
       }
@@ -4478,6 +4538,11 @@
         "cumulativeDeaths": 8729.6,
         "cumulativeNetMigration": 1541.7,
         "cumulativeScenarioEffect": 0,
+        "populationCheckpoints": {
+          "2030": 28368.7,
+          "2040": 27626.8,
+          "2050": 26929.9
+        },
         "differenceVs10YearEnd": 142.5,
         "differenceVs10YearEndPct": 0.5
       },
@@ -4490,6 +4555,11 @@
         "cumulativeDeaths": 8688.9,
         "cumulativeNetMigration": 1485,
         "cumulativeScenarioEffect": 0,
+        "populationCheckpoints": {
+          "2030": 28373.7,
+          "2040": 27580.1,
+          "2050": 26787.4
+        },
         "differenceVs10YearEnd": 0,
         "differenceVs10YearEndPct": 0
       },
@@ -4502,6 +4572,11 @@
         "cumulativeDeaths": 8676.4,
         "cumulativeNetMigration": 1485,
         "cumulativeScenarioEffect": 0,
+        "populationCheckpoints": {
+          "2030": 28329.8,
+          "2040": 27445.2,
+          "2050": 26556.8
+        },
         "differenceVs10YearEnd": -230.6,
         "differenceVs10YearEndPct": -0.9
       }
@@ -4516,6 +4591,11 @@
         "cumulativeDeaths": 51114.1,
         "cumulativeNetMigration": 11175,
         "cumulativeScenarioEffect": 0,
+        "populationCheckpoints": {
+          "2030": 173570.5,
+          "2040": 171865.9,
+          "2050": 170535.7
+        },
         "differenceVs10YearEnd": -1769.8,
         "differenceVs10YearEndPct": -1
       },
@@ -4528,6 +4608,11 @@
         "cumulativeDeaths": 51058.4,
         "cumulativeNetMigration": 13635,
         "cumulativeScenarioEffect": 0,
+        "populationCheckpoints": {
+          "2030": 174008.4,
+          "2040": 173004.7,
+          "2050": 172305.5
+        },
         "differenceVs10YearEnd": 0,
         "differenceVs10YearEndPct": 0
       },
@@ -4540,6 +4625,11 @@
         "cumulativeDeaths": 50762.8,
         "cumulativeNetMigration": 13635,
         "cumulativeScenarioEffect": 0,
+        "populationCheckpoints": {
+          "2030": 174045.9,
+          "2040": 172990.6,
+          "2050": 172138.5
+        },
         "differenceVs10YearEnd": -167,
         "differenceVs10YearEndPct": -0.1
       }
