@@ -20,6 +20,7 @@ OUTDIR.mkdir(parents=True, exist_ok=True)
 BACKTEST_BASE_YEAR = 2021
 BACKTEST_END_YEAR = 2024
 BACKTEST_WINDOWS = (6, 10)
+BACKTEST_MIGRATION_WINDOWS = (2, 4, 6, 10)
 
 def historical_population():
     raw = b.aggregate_fa_age_sex(
