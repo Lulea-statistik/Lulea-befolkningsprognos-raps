@@ -496,6 +496,8 @@ SPECS = {
     "raps_mortality_forecast": {"start":2024,"end":2050,"all_birth_regions":True},
     "raps_national_detail_2024": {"start":2024,"end":2050,"all_birth_regions":True,"all_ages":True},
     "raps_births_2024": {"start":2024,"end":2050,"all_birth_regions":True,"all_maternal_ages":True},
+    "national_forecast_detail": {"start":2026,"end":2050,"all_birth_regions":True,"all_ages":True},
+    "national_forecast_births": {"start":2026,"end":2050,"all_birth_regions":True,"all_maternal_ages":True},
     "backtest_national_detail_2018": {"start":2018,"end":2021,"all_birth_regions":True,"all_ages":True},
     "backtest_births_2018": {"start":2018,"end":2021,"all_birth_regions":True,"all_maternal_ages":True},
     "backtest_national_detail_2019": {"start":2019,"end":2022,"all_birth_regions":True,"all_ages":True},
