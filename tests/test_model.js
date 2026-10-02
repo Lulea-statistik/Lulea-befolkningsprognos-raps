@@ -49,6 +49,7 @@ const commutingScenario={
     },
     moveSharePct:50,
     personsPerJob:2,
+    internationalRecruitmentSharePct:40,
     internalSharePct:20,
     phaseYears:1
   }],
@@ -56,6 +57,9 @@ const commutingScenario={
 };
 const faJobs=M.scenarioEffect(demoData,{scenarios:commutingScenario},2030,'FA_LULEA');
 assert(Math.abs(faJobs.jobExternal-20)<1e-9,'observed commuting external job effect');
+assert(Math.abs(faJobs.jobExternalInternational-8)<1e-9,'international job-driven effect is tracked separately');
+assert(Math.abs(faJobs.jobExternalDomestic-12)<1e-9,'domestic job-driven effect is tracked separately');
+assert(Math.abs(faJobs.jobExternalInternational+faJobs.jobExternalDomestic-faJobs.jobExternal)<1e-9,'job-driven source split preserves total effect');
 assert(Math.abs(faJobs.jobInternalNet)<1e-9,'FA internal commuting moves net to zero');
 const municipalJobs=['2580','2582','2581','2560','2514']
   .map(g=>M.scenarioEffect(demoData,{scenarios:commutingScenario},2030,g));
