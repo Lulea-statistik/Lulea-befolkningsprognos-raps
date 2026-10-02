@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "development_diagnostic_locked_before_results",
+  "productionDefault": false,
+  "selectionIndependent": false,
+  "purpose": "Test whether a general adaptive recency rule improves migration calibration without age-specific overrides.",
+  "method": {
+    "longWindow": 10,
+    "recentWindow": 3,
+    "priorAnnualEvents": 20,
+    "formula": {
+      "shiftStrength": "abs(recent-long) / (abs(recent-long) + historical annual SD)",
+      "informationStrength": "mean annual events / (mean annual events + priorAnnualEvents)",
+      "recentWeight": "shiftStrength * informationStrength",
+      "estimate": "long + recentWeight * (recent-long)"
+    },
+    "inflow": "Blend long and recent annual event means.",
+    "outflow": "Blend long and recent exposure-weighted hazards; convert to diagnostic event counts using target-year exposure only to isolate calibration quality.",
+    "noManualAgeOverrides": true,
+    "noProtectedAges": true
+  },
+  "baseline": {
+    "source": "data/migration_component_windows.json",
+    "description": "Locked component-flow windows already selected before external holdout results."
+  },
+  "evaluation": {
+    "developmentOrigins": [2015, 2016, 2017, 2018, 2019, 2020],
+    "laterDiagnosticOrigins": [2021, 2022],
+    "horizons": [1, 2],
+    "knownCohortCase": {
+      "cohort": 1999,
+      "origins": [2021, 2022, 2023],
+      "note": "Descriptive only; this cohort motivated the diagnostic and must not be used to tune the rule."
+    }
+  },
+  "governance": "Do not activate in production based on the known 1999 cohort. Require broad improvement across origins/ages and no material degradation in independent/external validation."
+}
