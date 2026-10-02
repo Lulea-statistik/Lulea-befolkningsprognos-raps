@@ -1,5 +1,5 @@
 {
-  "schema_version": "0.14.0",
+  "schema_version": "0.15.0",
   "note": "Production baseline uses the Raps-reference SCB 2024 demographic scenario. SCB 2026 national detail and births are downloaded as a fertility-only sensitivity path; they do not replace the baseline automatically.",
   "tables": {
     "population_pre2025": {
@@ -106,6 +106,21 @@
       "id": "TAB698",
       "period": "2024-2070",
       "purpose": "SCB regional births, deaths and migration benchmark"
+    },
+    "regional_flows_benchmark_2020": {
+      "id": "TAB693",
+      "period": "2020-2070",
+      "purpose": "Frozen SCB regional forecast vintage 2020; external historical benchmark only"
+    },
+    "regional_flows_benchmark_2021": {
+      "id": "TAB5996",
+      "period": "2021-2070",
+      "purpose": "Frozen SCB regional forecast vintage 2021; external historical benchmark only"
+    },
+    "regional_flows_benchmark_2022": {
+      "id": "TAB6299",
+      "period": "2022-2070",
+      "purpose": "Frozen SCB regional forecast vintage 2022; external historical benchmark only"
     },
     "national_forecast_detail": {
       "id": "TAB5958",
