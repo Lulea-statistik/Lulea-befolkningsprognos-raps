@@ -46,4 +46,47 @@ assert regions["FA16_TRH"]["fa15Number"] == 16
 assert regions["FA36_GAV"]["fa15Number"] == 36
 assert regions["FA42_SUN"]["fa15Number"] == 42
 
+
+# build_region_origin mutates build_model_data globals temporarily. Verify that
+# both demographic and migration window state are restored even if the build
+# aborts before writing any work files.
+original_municipalities = refbuild.b.MUNICIPALITIES
+original_fa_code = refbuild.b.FA_CODE
+original_end = refbuild.b.CALIBRATION_END
+original_windows = refbuild.b.WINDOWS
+original_migration_windows = refbuild.b.MIGRATION_WINDOWS
+original_fertility_profiles = refbuild.b.fertility_profiles
+
+def fail_fertility(*args, **kwargs):
+    raise RuntimeError("intentional state-restore test")
+
+refbuild.b.fertility_profiles = fail_fertility
+try:
+    try:
+        refbuild.build_region_origin(
+            "TEST_FA",
+            {"name": "Test", "members": {"2580": "Luleå"}},
+            2021,
+            {"detail_key": "unused", "births_key": "unused"},
+            {
+                "population": {},
+                "birth_year_exposure": {},
+                "event_age_exposure": {},
+                "deaths": {},
+                "births": {},
+                "netmig": {},
+            },
+        )
+        raise AssertionError("Expected intentional failure")
+    except RuntimeError as exc:
+        assert "intentional state-restore test" in str(exc)
+finally:
+    refbuild.b.fertility_profiles = original_fertility_profiles
+
+assert refbuild.b.MUNICIPALITIES is original_municipalities
+assert refbuild.b.FA_CODE == original_fa_code
+assert refbuild.b.CALIBRATION_END == original_end
+assert refbuild.b.WINDOWS == original_windows
+assert refbuild.b.MIGRATION_WINDOWS == original_migration_windows
+
 print("OK: FA15 reference regions and SCB extraction scope are fixed and valid")
