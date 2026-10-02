@@ -1270,6 +1270,8 @@
 
     renderBacktestTable(geo,bw);
     renderBacktestAgeError(geo,bw);
+    renderBacktestCohortTable(geo,bw);
+    renderBacktestMigrationLegAgeTable(geo,bw);
     renderScbBenchmarkTable(geo,selected);
   }
 
@@ -1305,6 +1307,72 @@
         <td>${r.pctError==null?"–":(r.pctError>=0?"+":"")+pct.format(r.pctError)+" %"}</td>
       </tr>`).join("")}
       </tbody></table></div>`;
+  }
+
+  function renderBacktestCohortTable(geo,w){
+    const rows=w?(backtest?.cohortErrors?.[geo]?.[w]||[]):[];
+    const el=$("backtestCohortTable");
+    if(!el) return;
+    if(!rows.length){
+      el.innerHTML="<p class='hint'>Kohortdiagnostik genereras i nästa workflow-körning.</p>";
+      return;
+    }
+    const grouped=new Map();
+    for(const r of rows){
+      const cohort=+r.cohort;
+      if(!grouped.has(cohort)) grouped.set(cohort,[]);
+      grouped.get(cohort).push(r);
+    }
+    const series=[...grouped.entries()].map(([cohort,vals])=>{
+      const x=[...vals].sort((a,b)=>+a.year-+b.year);
+      const first=x[0], last=x[x.length-1];
+      const growth=Math.abs(Number(last?.error||0))-Math.abs(Number(first?.error||0));
+      const maxAbs=Math.max(...x.map(r=>Math.abs(Number(r.error||0))));
+      return {cohort,rows:x,growth,maxAbs};
+    }).filter(x=>x.rows.length>=2)
+      .sort((a,b)=>b.growth-a.growth || b.maxAbs-a.maxAbs)
+      .slice(0,10);
+
+    el.innerHTML=`<div class="tableWrap analysisTableWrap"><table class="miniTable">
+      <thead><tr><th>Födelseår</th><th>Förlopp</th><th>Fel växer med</th><th>Största |fel|</th></tr></thead>
+      <tbody>${series.map(x=>`<tr>
+        <td>${x.cohort}</td>
+        <td>${x.rows.map(r=>`${r.age} år ${r.year}: ${r.error>=0?"+":""}${fmt1.format(r.error)} (${r.pctError>=0?"+":""}${pct.format(r.pctError)} %)`).join(" → ")}</td>
+        <td>${x.growth>=0?"+":""}${fmt1.format(x.growth)}</td>
+        <td>${fmt1.format(x.maxAbs)}</td>
+      </tr>`).join("")}</tbody></table></div>`;
+  }
+
+  function renderBacktestMigrationLegAgeTable(geo,w){
+    const el=$("backtestMigrationLegAgeTable");
+    if(!el) return;
+    if(geo!=="2580"){
+      el.innerHTML="<p class='hint'>Den detaljerade tre-bensdiagnostiken visas för Luleå kommun.</p>";
+      return;
+    }
+    const ageRows=w?(backtest?.ageErrors?.[geo]?.[w]||[]).filter(r=>+r.year===2024):[];
+    const legRows=w?(backtest?.migrationLegAgeErrors?.[geo]?.[w]||[]):[];
+    if(!ageRows.length || !legRows.length){
+      el.innerHTML="<p class='hint'>Flyttdiagnostik per ben genereras i nästa workflow-körning.</p>";
+      return;
+    }
+    const worst=[...ageRows].sort((a,b)=>Math.abs(Number(b.error||0))-Math.abs(Number(a.error||0)))[0];
+    const age=+worst.age;
+    const rows=legRows.filter(r=>+r.year===2024 && +r.age===age);
+    el.innerHTML=`
+      <p class="hint">Ålder <strong>${age}</strong> år har störst absolut befolkningsfel 2024: ${worst.error>=0?"+":""}${fmt1.format(worst.error)} personer.</p>
+      <div class="tableWrap analysisTableWrap"><table class="miniTable">
+        <thead><tr><th>Flyttben</th><th>In prognos</th><th>In utfall</th><th>In fel</th><th>Ut prognos</th><th>Ut utfall</th><th>Ut fel</th><th>Netto fel</th></tr></thead>
+        <tbody>${rows.map(r=>`<tr>
+          <td>${r.label}</td>
+          <td>${fmt1.format(r.predictedInflow)}</td>
+          <td>${fmt1.format(r.actualInflow)}</td>
+          <td>${r.inflowError>=0?"+":""}${fmt1.format(r.inflowError)}</td>
+          <td>${fmt1.format(r.predictedOutflow)}</td>
+          <td>${fmt1.format(r.actualOutflow)}</td>
+          <td>${r.outflowError>=0?"+":""}${fmt1.format(r.outflowError)}</td>
+          <td>${r.netMigrationError>=0?"+":""}${fmt1.format(r.netMigrationError)}</td>
+        </tr>`).join("")}</tbody></table></div>`;
   }
 
   function renderScbBenchmarkTable(geo,w){
