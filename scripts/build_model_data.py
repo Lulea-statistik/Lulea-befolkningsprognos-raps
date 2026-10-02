@@ -1344,6 +1344,7 @@ def main():
             "relativeToNationalMethod": "General age-standardized municipality/FA ratio to Sweden",
             "futureNationalProfileMode": future_profile_mode,
             "defaultFertilityScenario": "raps2024",
+            "defaultMigrationWindow": 10,
             "scenarioMigrationProfileMethod": (
                 "Workplace scenarios support a worker hybrid profile based on SCB TAB3205 "
                 "employment age/sex shares, disaggregated to one-year ages with observed "
