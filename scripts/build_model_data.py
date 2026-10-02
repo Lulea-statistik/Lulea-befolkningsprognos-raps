@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw"
 OUT_JSON = ROOT / "data" / "model_data.json"
 OUT_JS = ROOT / "data" / "model_data.js"
-SMOOTHING_DIAGNOSTIC_JSON = ROOT / "data" / "backtests" / "migration_age_smoothing.json"
+SMOOTHING_DIAGNOSTIC_JSON = ROOT / "data" / "backtests" / "migration_age_smoothing.json"\nSMOOTHING_DIAGNOSTIC_JS = ROOT / "data" / "backtests" / "migration_age_smoothing.js"
 
 MUNICIPALITIES = {
     "2580": "Luleå kommun",
@@ -2409,12 +2409,21 @@ def main():
         encoding="utf-8",
     )
     SMOOTHING_DIAGNOSTIC_JSON.parent.mkdir(parents=True, exist_ok=True)
+    compact_smoothing = compact_migration_smoothing_diagnostic(
+        migration_age_smoothing
+    )
     SMOOTHING_DIAGNOSTIC_JSON.write_text(
         json.dumps(
-            compact_migration_smoothing_diagnostic(migration_age_smoothing),
+            compact_smoothing,
             ensure_ascii=False,
             indent=2,
         ) + "\n",
+        encoding="utf-8",
+    )
+    SMOOTHING_DIAGNOSTIC_JS.write_text(
+        "window.MIGRATION_SMOOTHING_DIAGNOSTIC = "
+        + json.dumps(compact_smoothing, ensure_ascii=False, separators=(",", ":"))
+        + ";\n",
         encoding="utf-8",
     )
 
