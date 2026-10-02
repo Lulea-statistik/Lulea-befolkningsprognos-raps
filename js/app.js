@@ -24,6 +24,7 @@
     active:false,year:2034,municipality:"2580",jobs:1000,
     allocationMode:"commuting",ageProfileMode:"worker_household",
     realizationPct:60,moveSharePct:25,personsPerJob:1.7,
+    internationalRecruitmentSharePct:0,
     hostResidencePct:60,internalSharePct:10,phaseYears:4
   }];
 
@@ -140,6 +141,7 @@
       active:true,year:2034,municipality:"2580",jobs:1000,
       allocationMode:"commuting",ageProfileMode:"worker_household",
       realizationPct:60,moveSharePct:25,personsPerJob:1.7,
+      internationalRecruitmentSharePct:0,
       hostResidencePct:60,internalSharePct:10,phaseYears:4
     };
   }
@@ -187,6 +189,7 @@
       <td><input data-k="realizationPct" type="number" value="${s.realizationPct}" min="0" max="100"></td>
       <td><input data-k="moveSharePct" type="number" value="${s.moveSharePct}" min="0" max="100"></td>
       <td><input data-k="personsPerJob" type="number" value="${s.personsPerJob}" min="0" step="0.1"></td>
+      <td><input data-k="internationalRecruitmentSharePct" type="number" value="${Number(s.internationalRecruitmentSharePct||0)}" min="0" max="100"></td>
       <td><input data-k="hostResidencePct" type="number" value="${s.hostResidencePct}" min="0" max="100"></td>
       <td><input data-k="internalSharePct" type="number" value="${s.internalSharePct}" min="0" max="100"></td>
       <td><input data-k="phaseYears" type="number" value="${s.phaseYears}" min="1" max="20"></td>
@@ -277,6 +280,12 @@
       const host=Number(shares[s.municipality]||0);
       const other=faCodes.filter(code=>code!==s.municipality).reduce((sum,code)=>sum+Number(shares[code]||0),0);
       const outside=Number(shares.OUTSIDE_FA||0);
+      const internationalShare=Math.max(0,Math.min(100,Number(s.internationalRecruitmentSharePct||0)));
+      const realizedJobs=Number(s.jobs||0)*Number(s.realizationPct||0)/100;
+      const movingJobs=realizedJobs*outside/100*Math.max(0,Math.min(100,Number(s.moveSharePct||0)))/100;
+      const movingPersons=movingJobs*Math.max(0,Number(s.personsPerJob||0));
+      const internationalPersons=movingPersons*internationalShare/100;
+      const domesticPersons=movingPersons-internationalPersons;
       const profileLabel=s.ageProfileMode==="worker_household"
         ?"arbetstagare enligt arbetsmarknadsprofil + medföljande hushåll"
         :s.ageProfileMode==="observed_inflow"
@@ -288,6 +297,8 @@
         <strong>Rad ${i+1}: observerad pendling ${cs.year} för ${names[s.municipality]||s.municipality}.</strong>
         Samma kommun ${pct.format(host)} %, övriga FA ${pct.format(other)} %, utanför FA ${pct.format(outside)} %.
         Av jobben utanför FA antas ${pct.format(Number(s.moveSharePct||0))} % flytta till FA.
+        Av denna externa jobbdrivna inflyttning anges ${pct.format(internationalShare)} % som internationell rekrytering
+        (ca ${fmt.format(internationalPersons)} personer) och ca ${fmt.format(domesticPersons)} personer från övriga Sverige.
         Åldersprofil: ${profileLabel}.
       </div>`;
     }).join("") || "<p class='hint'>Ingen aktiv arbetsplatsrad.</p>";
