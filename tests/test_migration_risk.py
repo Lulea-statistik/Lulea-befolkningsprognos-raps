@@ -112,4 +112,42 @@ if raw_leg_path.exists():
         assert outflow_2024 >= 0
         assert abs((inflow_2024 - outflow_2024) - net_2024) < 1e-9
 
-print("OK: municipal urisk and gross in-migration profiles are valid and FA gross flows are excluded")
+# Three-leg component inputs retain separate inflows and population-responsive
+# outflow hazards for the locked candidate engine.
+component_legs = {}
+component_exposure = {}
+for year in mod.window_years(10):
+    component_exposure[("2580", year, "K", 30)] = 1000.0
+    for leg, incoming, outgoing in (
+        ("county", 20.0, 10.0),
+        ("rest_sweden", 30.0, 20.0),
+        ("international", 10.0, 5.0),
+    ):
+        component_legs[("2580", year, "K", 30, leg, "in")] = incoming
+        component_legs[("2580", year, "K", 30, leg, "out")] = outgoing
+
+component_in, component_out = mod.migration_component_profiles(
+    component_legs, component_exposure
+)
+county_in_6 = next(
+    r for r in component_in
+    if r["geo"] == "2580" and r["leg"] == "county"
+    and r["window"] == 6 and r["sex"] == "K" and r["age"] == 30
+)
+rest_out_4 = next(
+    r for r in component_out
+    if r["geo"] == "2580" and r["leg"] == "rest_sweden"
+    and r["window"] == 4 and r["sex"] == "K" and r["age"] == 30
+)
+international_out_2 = next(
+    r for r in component_out
+    if r["geo"] == "2580" and r["leg"] == "international"
+    and r["window"] == 2 and r["sex"] == "K" and r["age"] == 30
+)
+assert abs(county_in_6["value"] - 20.0) < 1e-12
+assert abs(rest_out_4["value"] - 0.02) < 1e-12
+assert abs(international_out_2["value"] - 0.005) < 1e-12
+assert all(r["geo"] != mod.FA_CODE for r in component_in)
+assert all(r["geo"] != mod.FA_CODE for r in component_out)
+
+print("OK: municipal urisk, gross inflow and three-leg component migration inputs are valid")
