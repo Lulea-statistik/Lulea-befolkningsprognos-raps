@@ -458,9 +458,11 @@ const migrationWindowData={
   fertilityRates:[],
   mortalityRisks:[],
   netMigration:[
+    {geo:'2580',window:3,year:'BASE',sex:'K',age:31,value:140},
     {geo:'2580',window:6,year:'BASE',sex:'K',age:31,value:100},
     {geo:'2580',window:10,year:'BASE',sex:'K',age:31,value:20}
-  ]
+  ],
+  diagnostics:{migrationCalibrationWindows:[2,3,4,6,10]}
 };
 const migrationDefault=M.simulate(migrationWindowData,{
   geo:'2580',endYear:2026,window:10,fertMult:1,mortMult:1,migMult:1,scenarios:{}
@@ -473,10 +475,10 @@ assert(Math.abs(migrationDefault.netMigration-20)<1e-9,'default migration window
 assert(Math.abs(migrationRecent.netMigration-100)<1e-9,'migration window can vary independently');
 assert(migrationRecent.migrationWindow===6,'migration window is exposed in simulation results');
 
-const migrationGlobal19=M.simulate(migrationWindowData,{
-  geo:'2580',endYear:2026,window:19,fertMult:1,mortMult:1,migMult:1,scenarios:{}
+const migrationGlobal3=M.simulate(migrationWindowData,{
+  geo:'2580',endYear:2026,window:3,fertMult:1,mortMult:1,migMult:1,scenarios:{}
 })[1];
-assert(Math.abs(migrationGlobal19.netMigration-20)<1e-9,'global 19-year demographic window falls back to 10-year migration');
-assert(migrationGlobal19.migrationWindow===10,'fallback migration window is exposed');
+assert(Math.abs(migrationGlobal3.netMigration-140)<1e-9,'global 3-year demographic window uses 3-year migration');
+assert(migrationGlobal3.migrationWindow===3,'3-year migration window is exposed');
 
 console.log('OK: model core, scenarios, additive FA, gross-flow/component/SCB-risk migration, fertility paths, migration sensitivity and production event-age timing tests passed');
