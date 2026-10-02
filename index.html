@@ -243,9 +243,12 @@
             <label>Personer per inflyttat jobb
               <input id="labourPersonsPerMover" type="number" min="0" max="10" step="0.1" value="1.5" />
             </label>
+            <label>Internationell rekrytering av externa %
+              <input id="labourInternationalSharePct" type="number" min="0" max="100" step="1" value="0" />
+            </label>
           </div>
           <button id="labourToScenario" class="secondary">Lägg till som prognosscenario</button>
-          <p class="hint">Pendlingsmatrisen används som fördelningsnyckel för var jobbinnehavare bor. Den är inte samma sak som en flyttmatris. Flyttantagandet för personer bosatta utanför FA anges separat.</p>
+          <p class="hint">Pendlingsmatrisen används som fördelningsnyckel för var jobbinnehavare bor. Den är inte samma sak som en flyttmatris. Flyttantagandet för personer bosatta utanför FA anges separat. Internationell rekrytering är ett explicit scenarioantagande och påverkar inte baslinjens normala flyttmönster.</p>
         </article>
 
         <div class="cards">
