@@ -92,6 +92,7 @@ MIGRATION_LEG_LABELS = {
     "rest_sweden": "Övriga Sverige",
     "international": "Utlandet",
 }
+MIGRATION_COMPONENT_CONFIG = ROOT / "data" / "migration_component_windows.json"
 
 def sniff(path: Path):
     text = path.read_text(encoding="utf-8")
@@ -1085,6 +1086,60 @@ def gross_inmigration_profiles(inflow):
                     })
     return result
 
+def migration_component_profiles(pre2025, exposure):
+    """Build age/sex component inputs for a separate three-leg migration engine.
+
+    In-migration is stored as the historical annual mean for each leg/window.
+    Out-migration is stored as a hazard (events / exposure), not as three
+    independently applied probabilities. The simulation combines the selected
+    leg hazards first and converts their sum to one total out-migration risk.
+    This guarantees that component outflows cannot remove more people than are
+    present in an age/sex cell.
+    """
+    inflow_rows = []
+    out_hazard_rows = []
+    for window in MIGRATION_WINDOWS:
+        yrs = set(window_years(window))
+        for geo in MUNICIPALITIES:
+            for leg in MIGRATION_LEG_LABELS:
+                for sex in ("K", "M"):
+                    for age in range(101):
+                        incoming = sum(
+                            pre2025.get((geo, y, sex, age, leg, "in"), 0.0)
+                            for y in yrs
+                        )
+                        outgoing = sum(
+                            pre2025.get((geo, y, sex, age, leg, "out"), 0.0)
+                            for y in yrs
+                        )
+                        pop = sum(
+                            exposure.get((geo, y, sex, age), 0.0)
+                            for y in yrs
+                        )
+                        inflow_rows.append({
+                            "geo": geo,
+                            "leg": leg,
+                            "window": window,
+                            "sex": sex,
+                            "age": age,
+                            "value": incoming / float(window),
+                            "totalObserved": incoming,
+                            "method": "historical annual mean by geographic migration leg",
+                        })
+                        out_hazard_rows.append({
+                            "geo": geo,
+                            "leg": leg,
+                            "window": window,
+                            "sex": sex,
+                            "age": age,
+                            "value": 0.0 if pop <= 0 else outgoing / pop,
+                            "events": outgoing,
+                            "exposure": pop,
+                            "method": "leg-specific hazard U/P; selected leg hazards are combined before risk conversion",
+                        })
+    return inflow_rows, out_hazard_rows
+
+
 def migration_profiles(netmig):
     result = []
     geos = list(MUNICIPALITIES) + [FA_CODE]
@@ -1223,6 +1278,14 @@ def main():
     fertility_rates, fertility_factors = fertility_profiles(births, fertility_exposure)
     mortality_risks, mortality_factors = mortality_profiles(deaths, birth_year_exposure)
     net_migration_profiles = migration_profiles(netmig)
+    migration_component_inflow, migration_component_out_hazards = (
+        migration_component_profiles(migration_legs_pre2025, birth_year_exposure)
+    )
+    migration_component_config = json.loads(
+        MIGRATION_COMPONENT_CONFIG.read_text(encoding="utf-8")
+    )
+    if migration_component_config.get("status") != "development_candidate_locked_before_external_component_results":
+        raise RuntimeError("Unexpected migration component candidate status.")
 
     future_fert, future_mort = national_future_profiles(
         "raps_national_detail_2024.csv",
@@ -1286,7 +1349,7 @@ def main():
 
     model = {
         "meta": {
-            "schemaVersion": "0.13.0",
+            "schemaVersion": "0.14.0",
             "generatedBy": "scripts/build_model_data.py",
             "dataReady": True,
             "baseYear": 2025,
@@ -1319,9 +1382,9 @@ def main():
                 "SCB 2026 is stored as a fertility-only sensitivity path using the same local calibration. "
                 "Cohorts are aged to forecast-year/event age before fertility and mortality are applied. "
                 "Newborns are included before age-0 mortality. Small age cells fade toward the national age profile. "
-                "Historical municipal "
-                "urisk and gross inflow profiles are stored as migration-building inputs, while "
-                "the published V1 baseline still uses locally calibrated net migration."
+                "Historical municipal urisk and gross inflow profiles are stored as migration-building inputs. "
+                "A separate three-leg component-flow candidate is also generated with population-responsive "
+                "out-migration hazards, while the published baseline still uses locally calibrated net migration."
             ),
         },
         "geographies": [
@@ -1351,6 +1414,14 @@ def main():
             "futureNationalProfileMode": future_profile_mode,
             "defaultFertilityScenario": "raps2024",
             "defaultMigrationWindow": 10,
+            "migrationComponentStatus": "development_candidate_not_production_default",
+            "migrationComponentProductionDefault": False,
+            "migrationComponentWindows": migration_component_config["legs"],
+            "migrationComponentMethod": (
+                "Three geographic legs with historical mean inflow and population-responsive "
+                "outflow hazards. Selected leg hazards are summed per age/sex cell and converted "
+                "once with 1-exp(-sum(hazard))."
+            ),
             "scenarioMigrationProfileMethod": (
                 "Workplace scenarios support a worker hybrid profile based on SCB TAB3205 "
                 "employment age/sex shares, disaggregated to one-year ages with observed "
@@ -1370,6 +1441,8 @@ def main():
         "netMigration": net_migration_profiles,
         "outMigrationRisks": outmigration_risk_profiles(outflow, birth_year_exposure),
         "grossInMigration": gross_inmigration_profiles(inflow),
+        "migrationComponentInflow": migration_component_inflow,
+        "migrationComponentOutHazards": migration_component_out_hazards,
         "scenarioMigrationProfiles": scenario_migration_profiles(inflow),
         "diagnostics": {
             "ckm": ckm_diagnostics(base, deaths_2025, netmig_2025),
