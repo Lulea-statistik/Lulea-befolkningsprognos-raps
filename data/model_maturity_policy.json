@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "0.1.0",
+  "title": "Mognadsmodell för befolkningsprognosen",
+  "levels": {
+    "1": {
+      "name": "Diagnostik",
+      "definition": "Metoden eller faktorn kan beräknas och granskas men påverkar inte produktionsprognosen."
+    },
+    "2": {
+      "name": "Utvecklingskandidat",
+      "definition": "Metoden är förhandslåst före resultatutvärdering och testas i vintage-korrekt backtest."
+    },
+    "3": {
+      "name": "Validerad kandidat",
+      "definition": "Metoden har klarat relevanta rolling-origin-kontroller och är reproducerbar, men saknar minst en produktionsgrind eller oberoende kontroll."
+    },
+    "4": {
+      "name": "Produktionsläge",
+      "definition": "Metoden är aktiv standard eller godkänd produktionskomponent, reproducerbar och har klarat sina förhandsdefinierade valideringsgrindar."
+    }
+  },
+  "principles": [
+    "Ingen komponent får höjas efter manuell trimning mot samma utfall som används för att godkänna den.",
+    "Kända problemfall, exempelvis 1999-kohorten, får användas diagnostiskt men inte ensamma som uppflyttningsgrund.",
+    "En avslutad kandidat behåller sin uppnådda mognadsnivå men får inte påverka produktionen.",
+    "Scenarier bedöms separat från baslinjen; produktionsmoget scenario betyder reproducerbar och transparent scenariomekanik, inte att scenariot ingår i basprognosen."
+  ],
+  "components": {
+    "event_age_timing": {
+      "label": "Kohortmotor och händelseålderstiming",
+      "targetLevel": 4,
+      "requiredGate": "Event-age-aligned ska ge lägre population-MAE och dödsfalls-MAE än legacy i samtliga huvudfönster 3/6/10."
+    },
+    "fertility_localization": {
+      "label": "Fruktsamhet: nationell framtidsprofil × lokal nivå",
+      "targetLevel": 4,
+      "requiredGate": "Vintage-korrekt rolling-origin ska jämföra lokal kalibrering mot nationell-only och visa robust förbättring utan åldersspecifik eftertrimning."
+    },
+    "mortality_localization": {
+      "label": "Dödlighet: nationell framtidsprofil × lokal nivå",
+      "targetLevel": 4,
+      "requiredGate": "Lokaliserad dödlighet ska ge lägre dödsfalls-MAE än nationell-only i samtliga huvudfönster 3/6/10."
+    },
+    "net_migration_10y": {
+      "label": "Nettoflyttning: 10-årig produktionsbaslinje",
+      "targetLevel": 4,
+      "requiredGate": "Vintage-korrekt rolling-origin, stabil produktionsimplementation och ingen validerad ersättare som passerar förhandslåsta produktionsgrindar."
+    },
+    "calibration_windows": {
+      "label": "Kalibreringsfönster 3/6/10",
+      "targetLevel": 4,
+      "requiredGate": "Samtliga fönster ska byggas, valideras och vara konsistenta i modell, backtest och UI; 10 år är produktionsstandard."
+    },
+    "component_flow": {
+      "label": "Tre-bens component-flow",
+      "targetLevel": 4,
+      "requiredGate": "Måste slå net10 i förhandslåsta externa holdouts och rolling-origin."
+    },
+    "migration_recency": {
+      "label": "Adaptiv recency för migration",
+      "targetLevel": 4,
+      "requiredGate": "Måste förbättra full kohortmodell, inte bara isolerad flyttdiagnostik."
+    },
+    "migration_age_smoothing": {
+      "label": "Adaptiv åldersmjukning för migration",
+      "targetLevel": 4,
+      "requiredGate": "Måste förbättra rolling-origin brett utan att förstöra strukturella ettårsåldersmönster."
+    },
+    "scb_risk_flow": {
+      "label": "SCB-lik riskbaserad migration",
+      "targetLevel": 4,
+      "requiredGate": "Full metodimplementation ska förbättra rolling-origin och därefter klara ny oberoende extern validering."
+    },
+    "profet_flow": {
+      "label": "Profet-lik baslinje",
+      "targetLevel": 4,
+      "requiredGate": "Ålder/kön, födelsestatus och konsistensjustering ska implementeras stegvis och klara vintage-korrekt validering samt jämförelse mot officiella SCB-vintager."
+    },
+    "birth_status": {
+      "label": "Inrikes/utrikes född som modellstatus",
+      "targetLevel": 4,
+      "requiredGate": "Populationstillståndet ska vara aktivt i kohortmotorn och förbättra eller minst bevara valideringskvalitet med dokumenterad demografisk logik."
+    },
+    "consistency_adjustment": {
+      "label": "Konsistensjustering kommun → län → riket",
+      "targetLevel": 4,
+      "requiredGate": "Justeringsalgoritmen ska bevara totalsummor, vara reproducerbar och valideras mot historiska SCB-vintager."
+    },
+    "industrial_workforce_scenario": {
+      "label": "Industridrivet arbetskraftsscenario",
+      "targetLevel": 4,
+      "requiredGate": "Scenarioeffekter ska vara transparent separerade från baslinjen, källfördelning Sverige/utland explicit och parametrar dokumenterade eller scenariostyrda."
+    }
+  }
+}
