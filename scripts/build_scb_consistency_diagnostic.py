@@ -1,20 +1,19 @@
 #!/usr/bin/env python3
-"""Diagnose the SCB municipality-to-county consistency identities.
+"""Diagnose SCB municipality-to-county consistency identities.
 
-This is a diagnostic only. It does not alter the production forecast.
-For a county, summing municipal domestic in/out flows includes moves between
-municipalities inside the county, while county-level domestic flows include
-only moves across the county boundary. Therefore:
+Diagnostic only; this does not alter the production forecast.
+
+TAB698 is a wide PxWeb extract: content code and year are encoded in each value
+column name, for example 000004LH 2026. Municipal domestic flows include moves
+within the county, while county domestic flows include only moves across the
+county boundary. Therefore:
 
     sum municipal domestic in - county domestic in
   = sum municipal domestic out - county domestic out
 
-Both quantities represent within-county moves counted once at the destination
-or origin municipality respectively.
-
-The same regional projection also requires municipal immigration/emigration to
-sum to the county totals. These identities are used to design the later
-hierarchical consistency layer without tuning to Lulea forecast errors.
+Both sides represent within-county moves counted once. Municipal immigration
+and emigration should likewise reconcile to the county totals after SCB's
+hierarchical consistency adjustment.
 """
 from __future__ import annotations
 
@@ -48,35 +47,77 @@ def num(value):
         return 0.0
 
 
+def wide_flow_columns(fieldnames, wanted_codes):
+    """Return (column, content-code, year) for wide TAB698 value columns."""
+    wanted = set(wanted_codes)
+    result = []
+    for header in fieldnames or []:
+        m = re.match(r"^(\S+)\s+(20\d{2})$", str(header or "").strip())
+        if not m:
+            continue
+        code, year = m.group(1), int(m.group(2))
+        if code in wanted:
+            result.append((header, code, year))
+    return result
+
+
+def aggregate_wide_flows(source_rows, fieldnames, allowed_geos, wanted_codes):
+    """Aggregate age/sex rows to geography x flow-code x year totals."""
+    columns = wide_flow_columns(fieldnames, wanted_codes)
+    if not columns:
+        raise RuntimeError(
+            "No TAB698 flow columns found. Expected headers such as "
+            "'000004LH 2026'."
+        )
+    totals = defaultdict(float)
+    allowed = set(allowed_geos)
+    for row in source_rows:
+        geo = str(row.get("Region", "")).strip()
+        if geo not in allowed:
+            continue
+        for col, code, year in columns:
+            totals[(geo, code, year)] += num(row.get(col))
+    return totals, sorted({year for _, _, year in columns})
+
+
 def main():
     cfg = json.loads(CONFIG.read_text(encoding="utf-8"))
     if cfg.get("status") != "support_geographies_locked_before_consistency_results":
-        raise RuntimeError("Consistency support geographies must be locked before diagnostics.")
+        raise RuntimeError(
+            "Consistency support geographies must be locked before diagnostics."
+        )
 
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     info = manifest["files"]["regional_flows_benchmark"]
     labels = info.get("content_labels", {})
-    code_by_label = {str(v).strip().lower(): k for k, v in labels.items()}
+    code_by_label = {
+        str(v).strip().lower(): k for k, v in labels.items()
+    }
 
     wanted = {
-        "domesticIn": next((k for label,k in code_by_label.items() if "inrikes inflyttning" in label), None),
-        "domesticOut": next((k for label,k in code_by_label.items() if "inrikes utflyttning" in label), None),
-        "immigration": next((k for label,k in code_by_label.items() if label == "invandring"), None),
-        "emigration": next((k for label,k in code_by_label.items() if label == "utvandring"), None),
+        "domesticIn": next(
+            (k for label, k in code_by_label.items()
+             if "inrikes inflyttning" in label),
+            None,
+        ),
+        "domesticOut": next(
+            (k for label, k in code_by_label.items()
+             if "inrikes utflyttning" in label),
+            None,
+        ),
+        "immigration": next(
+            (k for label, k in code_by_label.items()
+             if label == "invandring"),
+            None,
+        ),
+        "emigration": next(
+            (k for label, k in code_by_label.items()
+             if label == "utvandring"),
+            None,
+        ),
     }
     if any(v is None for v in wanted.values()):
         raise RuntimeError(f"Missing regional flow content codes: {wanted}")
-
-    text = RAW.read_text(encoding="utf-8")
-    reader = csv.DictReader(text.splitlines(), dialect=sniff(text))
-    fields = reader.fieldnames or []
-    years = []
-    for h in fields:
-        m = re.search(r"(20\d{2})$", h or "")
-        if m:
-            years.append((h, int(m.group(1))))
-    if not years:
-        raise RuntimeError("No forecast years found in regional flow benchmark.")
 
     county = cfg["county"]["code"]
     municipalities = set(cfg["municipalities"])
@@ -84,34 +125,43 @@ def main():
     missing = ({county} | municipalities) - available
     if missing:
         raise RuntimeError(
-            "Regional flow benchmark is missing consistency geographies: " +
-            ", ".join(sorted(missing))
+            "Regional flow benchmark is missing consistency geographies: "
+            + ", ".join(sorted(missing))
         )
 
-    totals = defaultdict(float)
+    text = RAW.read_text(encoding="utf-8")
+    reader = csv.DictReader(text.splitlines(), dialect=sniff(text))
+    source_rows = list(reader)
+    fields = reader.fieldnames or []
     allowed = municipalities | {county}
-    for row in reader:
-        geo = row.get("Region")
-        if geo not in allowed:
-            continue
-        content = row.get("ContentsCode")
-        if content not in set(wanted.values()):
-            continue
-        for col, year in years:
-            totals[(geo, content, year)] += num(row.get(col))
+    totals, years = aggregate_wide_flows(
+        source_rows, fields, allowed, wanted.values()
+    )
 
     rows = []
-    for _, year in years:
-        mun_in = sum(totals[(g, wanted["domesticIn"], year)] for g in municipalities)
-        mun_out = sum(totals[(g, wanted["domesticOut"], year)] for g in municipalities)
+    for year in years:
+        mun_in = sum(
+            totals[(g, wanted["domesticIn"], year)]
+            for g in municipalities
+        )
+        mun_out = sum(
+            totals[(g, wanted["domesticOut"], year)]
+            for g in municipalities
+        )
         county_in = totals[(county, wanted["domesticIn"], year)]
         county_out = totals[(county, wanted["domesticOut"], year)]
         within_from_in = mun_in - county_in
         within_from_out = mun_out - county_out
 
-        mun_imm = sum(totals[(g, wanted["immigration"], year)] for g in municipalities)
+        mun_imm = sum(
+            totals[(g, wanted["immigration"], year)]
+            for g in municipalities
+        )
         county_imm = totals[(county, wanted["immigration"], year)]
-        mun_emi = sum(totals[(g, wanted["emigration"], year)] for g in municipalities)
+        mun_emi = sum(
+            totals[(g, wanted["emigration"], year)]
+            for g in municipalities
+        )
         county_emi = totals[(county, wanted["emigration"], year)]
 
         rows.append({
@@ -131,16 +181,25 @@ def main():
             "emigrationDifference": mun_emi - county_emi,
         })
 
+    if not rows or not any(
+        r["municipalDomesticIn"] > 0 or r["municipalDomesticOut"] > 0
+        for r in rows
+    ):
+        raise RuntimeError(
+            "TAB698 consistency diagnostic produced no non-zero domestic flows."
+        )
+
     OUT.parent.mkdir(parents=True, exist_ok=True)
     out = {
-        "schemaVersion": "0.1.0",
+        "schemaVersion": "0.2.0",
         "status": "diagnostic_only",
         "source": "SCB TAB698 regional population projection flows",
+        "sourceFormat": "wide content-code x year columns",
         "county": cfg["county"],
         "municipalities": cfg["municipalities"],
         "method": (
-            "Checks municipality-to-county accounting identities that the later "
-            "SCB-style hierarchical consistency layer must reproduce."
+            "Checks municipality-to-county accounting identities that the "
+            "later SCB-style hierarchical consistency layer must reproduce."
         ),
         "rows": rows,
         "maxAbsoluteWithinCountyDifference": max(
@@ -154,7 +213,10 @@ def main():
         ),
         "productionDefaultChanged": False,
     }
-    OUT.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    OUT.write_text(
+        json.dumps(out, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
     print(f"Wrote {OUT.relative_to(ROOT)}")
     print(
         "Max abs differences: "

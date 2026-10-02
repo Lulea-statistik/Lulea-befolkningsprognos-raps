@@ -56,6 +56,9 @@ jobs:
       - name: Test SCB consistency support configuration
         run: python tests/test_scb_consistency_config.py
 
+      - name: Test SCB consistency wide parser
+        run: python tests/test_scb_consistency_parser.py
+
       - name: Discover current SCB PxWeb tables
         run: python scripts/scb_v2_client.py --out data/scb_discovery.json
 

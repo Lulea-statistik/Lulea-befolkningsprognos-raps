@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw"
 OUT_JSON = ROOT / "data" / "model_data.json"
 OUT_JS = ROOT / "data" / "model_data.js"
+SMOOTHING_DIAGNOSTIC_JSON = ROOT / "data" / "backtests" / "migration_age_smoothing.json"
 
 MUNICIPALITIES = {
     "2580": "Luleå kommun",
@@ -915,6 +916,77 @@ def adaptive_migration_age_smoothing(pre2025, config):
             "structuralBreakProtection"
         ),
         "rows": result,
+    }
+
+
+def compact_migration_smoothing_diagnostic(diag, geo="2580"):
+    """Small audit file for the adaptive migration-age smoothing diagnostic."""
+    rows = [
+        r for r in (diag.get("rows") or [])
+        if r.get("geo") == geo and r.get("leg") == "all"
+    ]
+    grouped = []
+    for direction in ("in", "out"):
+        for age in range(101):
+            rr = [
+                r for r in rows
+                if r.get("direction") == direction and int(r.get("age", -1)) == age
+            ]
+            if not rr:
+                continue
+            local_events = sum(float(r.get("localEvents") or 0.0) for r in rr)
+            weight_den = local_events if local_events > 0 else float(len(rr))
+
+            def weighted(field):
+                if not rr:
+                    return 0.0
+                if local_events > 0:
+                    return sum(
+                        float(r.get(field) or 0.0) * float(r.get("localEvents") or 0.0)
+                        for r in rr
+                    ) / weight_den
+                return sum(float(r.get(field) or 0.0) for r in rr) / weight_den
+
+            raw = sum(float(r.get("rawMeanPersons") or 0.0) for r in rr)
+            smooth = sum(float(r.get("smoothedMeanPersons") or 0.0) for r in rr)
+            grouped.append({
+                "direction": direction,
+                "age": age,
+                "rawMeanPersons": raw,
+                "smoothedMeanPersons": smooth,
+                "differencePersons": smooth - raw,
+                "absoluteDifferencePersons": abs(smooth - raw),
+                "localEvents": local_events,
+                "directLocalWeight": weighted("directLocalWeight"),
+                "neighborLocalWeight": weighted("neighborLocalWeight"),
+                "nationalWeight": weighted("nationalWeight"),
+                "persistenceWeight": weighted("persistenceWeight"),
+                "informationWeight": weighted("informationWeight"),
+            })
+
+    largest = sorted(
+        grouped,
+        key=lambda r: r["absoluteDifferencePersons"],
+        reverse=True,
+    )[:20]
+    ages_of_interest = set([18, 19, 20, 24, 25, 55, 56, 57, 63, 64, 65, 66, 67])
+    selected = [
+        r for r in grouped
+        if r["age"] in ages_of_interest
+    ]
+    return {
+        "schemaVersion": "0.1.0",
+        "status": diag.get("status"),
+        "geo": geo,
+        "window": diag.get("window"),
+        "priorEvents": diag.get("priorEvents"),
+        "neighborRadius": diag.get("neighborRadius"),
+        "method": diag.get("method"),
+        "structuralBreakProtection": diag.get("structuralBreakProtection"),
+        "largestChanges": largest,
+        "agesOfInterest": selected,
+        "allAgeDirectionRows": grouped,
+        "productionDefaultChanged": False,
     }
 
 
@@ -1951,6 +2023,10 @@ def main():
         ),
     ])
 
+    migration_age_smoothing = adaptive_migration_age_smoothing(
+        migration_legs_pre2025, scb_risk_config
+    )
+
     model = {
         "meta": {
             "schemaVersion": "0.15.0",
@@ -2100,9 +2176,7 @@ def main():
                 "municipal moves cancel in the net."
             ),
             "migrationByAge": migration_age_diagnostics(inflow, outflow, netmig),
-            "migrationAgeSmoothing": adaptive_migration_age_smoothing(
-                migration_legs_pre2025, scb_risk_config
-            ),
+            "migrationAgeSmoothing": migration_age_smoothing,
             "youngAdultMigration": young_adult_migration_diagnostics(inflow, outflow, netmig),
             "migrationLegs": migration_leg_diagnostics(
                 migration_legs_pre2025, migration_legs_2025
@@ -2130,8 +2204,18 @@ def main():
         ";\n",
         encoding="utf-8",
     )
+    SMOOTHING_DIAGNOSTIC_JSON.parent.mkdir(parents=True, exist_ok=True)
+    SMOOTHING_DIAGNOSTIC_JSON.write_text(
+        json.dumps(
+            compact_migration_smoothing_diagnostic(migration_age_smoothing),
+            ensure_ascii=False,
+            indent=2,
+        ) + "\n",
+        encoding="utf-8",
+    )
 
     print(f"Wrote {OUT_JSON.relative_to(ROOT)}")
+    print(f"Wrote {SMOOTHING_DIAGNOSTIC_JSON.relative_to(ROOT)}")
     print(f"Wrote {OUT_JS.relative_to(ROOT)}")
     print(f"Observed male birth share 2015-2024: {male_birth_share:.6f}")
     for window in WINDOWS:
