@@ -48,7 +48,7 @@
       }
       run();
     }));
-    ["labourWorkplace","labourScenarioYear","labourAddedJobs","labourExternalMovePct","labourPersonsPerMover"].forEach(id=>{
+    ["labourWorkplace","labourScenarioYear","labourAddedJobs","labourExternalMovePct","labourPersonsPerMover","labourInternationalSharePct"].forEach(id=>{
       if($(id)) $(id).addEventListener("change",renderLabourAnalysis);
     });
     if($("labourToScenario")) $("labourToScenario").addEventListener("click",addLabourScenarioToForecast);
@@ -886,6 +886,7 @@
     row.realizationPct=100;
     row.moveSharePct=Math.max(0,Math.min(100,+$("labourExternalMovePct").value||0));
     row.personsPerJob=Math.max(0,+$("labourPersonsPerMover").value||0);
+    row.internationalRecruitmentSharePct=Math.max(0,Math.min(100,+$("labourInternationalSharePct").value||0));
     row.internalSharePct=10;
     defaultWorkplaces.push(row);
     renderScenarioTables();
@@ -1042,15 +1043,20 @@
     const outside=allocations.find(r=>r.residence===labour.outsideGroup.code);
     const movePct=Math.max(0,Math.min(100,+$("labourExternalMovePct").value||0))/100;
     const personsPerJob=Math.max(0,+$("labourPersonsPerMover").value||0);
+    const internationalShare=Math.max(0,Math.min(100,+$("labourInternationalSharePct").value||0))/100;
     const outsideJobs=outside?.jobs||0;
     const movingJobs=outsideJobs*movePct;
     const populationEffect=movingJobs*personsPerJob;
+    const internationalEffect=populationEffect*internationalShare;
+    const domesticEffect=populationEffect-internationalEffect;
     $("labourPopulationEffect").innerHTML=`
       <div class="policyGrid">
         <div><span>Nya jobb till boende utanför FA</span><strong>${fmt1.format(outsideJobs)}</strong></div>
         <div><span>Antas flytta till FA</span><strong>${fmt1.format(movingJobs)}</strong></div>
         <div><span>Personer per inflyttat jobb</span><strong>${fmt1.format(personsPerJob)}</strong></div>
         <div><span>Potentiell extra befolkning</span><strong>+${fmt1.format(populationEffect)}</strong></div>
+        <div><span>Varav från övriga Sverige</span><strong>+${fmt1.format(domesticEffect)}</strong></div>
+        <div><span>Varav internationell rekrytering</span><strong>+${fmt1.format(internationalEffect)}</strong></div>
       </div>
       <p class="hint">${labour.meta.qualityNote||""}</p>`;
   }
