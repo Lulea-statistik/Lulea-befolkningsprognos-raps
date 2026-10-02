@@ -10,7 +10,7 @@ global.window = {};
 vm.runInThisContext(fs.readFileSync(path.join(ROOT, 'js', 'model.js'), 'utf8'));
 const M = window.RAPSModel;
 
-const WINDOWS = [6, 10];
+const WINDOWS = [3, 6, 10];
 const geos = input.geographies.map(g => g.code);
 
 function byActual(geo, year) {
