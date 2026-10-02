@@ -125,6 +125,9 @@ jobs:
       - name: Build external migration-component validation
         run: python scripts/build_migration_component_validation.py
 
+      - name: Build adaptive migration recency diagnostic
+        run: python scripts/build_migration_recency_diagnostic.py
+
       - name: Build locked component-flow holdout inputs
         run: python scripts/build_component_flow_holdout.py
 
