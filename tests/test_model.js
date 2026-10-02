@@ -261,6 +261,55 @@ assert(Math.abs(grossMode.netMigration+50)<1e-9,'gross-flow candidate derives ne
 assert(Math.abs(grossMode.population-950)<1e-9,'gross-flow candidate updates population from gross inflow and outflow');
 
 
+const componentFlowData={
+  meta:{baseYear:2025},
+  calibration:{defaultYears:10},
+  geographies:[{code:'2580'}],
+  parameters:{
+    sexRatioMaleAtBirth:0.5,
+    migrationComponentWindows:{
+      county:{inflowWindow:6,outflowWindow:6},
+      rest_sweden:{inflowWindow:10,outflowWindow:4},
+      international:{inflowWindow:10,outflowWindow:2}
+    }
+  },
+  populationBase:[
+    {geo:'2580',year:2025,sex:'K',age:30,value:1000}
+  ],
+  fertilityRates:[],
+  mortalityRisks:[],
+  netMigration:[],
+  migrationComponentInflow:[
+    {geo:'2580',leg:'county',window:6,sex:'K',age:31,value:20},
+    {geo:'2580',leg:'rest_sweden',window:10,sex:'K',age:31,value:30},
+    {geo:'2580',leg:'international',window:10,sex:'K',age:31,value:10}
+  ],
+  migrationComponentOutHazards:[
+    {geo:'2580',leg:'county',window:6,sex:'K',age:31,value:0.02},
+    {geo:'2580',leg:'rest_sweden',window:4,sex:'K',age:31,value:0.03},
+    {geo:'2580',leg:'international',window:2,sex:'K',age:31,value:0.05}
+  ]
+};
+const componentFlow=M.simulate(componentFlowData,{
+  geo:'2580',endYear:2026,fertMult:1,mortMult:1,migMult:1,window:10,
+  migrationMode:'component_flow',scenarios:{},includeDetail:true
+})[1];
+const expectedComponentOut=1000*(1-Math.exp(-0.10));
+assert(Math.abs(componentFlow.grossInMigration-60)<1e-9,'component flow sums selected inflow legs');
+assert(Math.abs(componentFlow.grossOutMigration-expectedComponentOut)<1e-9,'component flow combines selected outflow hazards before risk conversion');
+assert(Math.abs(componentFlow.netMigration-(60-expectedComponentOut))<1e-9,'component flow derives net migration from three legs');
+assert(Math.abs(componentFlow.population-(1000+60-expectedComponentOut))<1e-9,'component flow updates population consistently');
+assert(componentFlow.migrationMode==='component_flow','component flow mode is exposed in results');
+
+let missingComponentFailed=false;
+try{
+  M.simulate({...componentFlowData,migrationComponentInflow:componentFlowData.migrationComponentInflow.slice(1)},{
+    geo:'2580',endYear:2026,window:10,migrationMode:'component_flow',scenarios:{}
+  });
+}catch(e){missingComponentFailed=/Saknar komponentflyttningsunderlag/.test(String(e.message));}
+assert(missingComponentFailed,'component flow fails explicitly when a geographic leg is missing');
+
+
 const timingData={
   meta:{baseYear:2025},
   calibration:{defaultYears:10},
