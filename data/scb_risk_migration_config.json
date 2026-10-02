@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "method_locked_from_published_scb_regional_method_before_validation",
+  "productionDefault": false,
+  "methodBasis": {
+    "source": "SCB Regionala befolkningsframskrivningar 2024-2070, Statistikens framstallning",
+    "principle": "Use migration risks/probabilities rather than fixed gross counts; retain municipality-specific age/sex patterns.",
+    "internalInMigrationRiskPopulation": "rest_of_sweden",
+    "internalInMigrationWindow": 6,
+    "internalOutMigrationWindow": 6,
+    "internationalInMunicipalityShareWindow": 5,
+    "inMigrationAgeSexDistributionWindow": 9,
+    "internationalOutMigrationWindow": 9
+  },
+  "legs": {
+    "county": {
+      "inMethod": "municipality age/sex in-migration risk applied to population in the rest of Sweden",
+      "outMethod": "municipality age/sex out-migration risk applied to current municipal population",
+      "inWindow": 6,
+      "outWindow": 6
+    },
+    "rest_sweden": {
+      "inMethod": "municipality age/sex in-migration risk applied to population in the rest of Sweden",
+      "outMethod": "municipality age/sex out-migration risk applied to current municipal population",
+      "inWindow": 6,
+      "outWindow": 6
+    },
+    "international": {
+      "inMethod": "municipality share of national immigration times municipality-specific age/sex distribution",
+      "shareWindow": 5,
+      "ageSexWindow": 9,
+      "outMethod": "municipality age/sex emigration risk applied to current municipal population",
+      "outWindow": 9
+    }
+  },
+  "birthStatus": {
+    "status": "diagnostic_candidate",
+    "categories": ["sweden_born", "foreign_born"],
+    "reason": "SCB regional projections stratify population and migration assumptions by Swedish/foreign born. The first risk-flow engine remains age/sex based; birth-status-specific deviations are prepared for a later incremental validation rather than introduced simultaneously.",
+    "sourcePopulationPre2025": "TAB4823",
+    "sourcePopulation2025": "TAB6645",
+    "sourceMigrationPre2025": "TAB4693"
+  },
+  "governance": "This configuration is fixed from published SCB methodology before evaluating the new risk-flow candidate. Results from previously consumed holdouts may be used for development diagnostics but not as independent confirmation."
+}
