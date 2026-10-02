@@ -540,6 +540,9 @@ SPECS = {
     "backtest_births_2021": {"start":2021,"end":2024,"all_birth_regions":True,"all_maternal_ages":True},
     "regional_forecast_benchmark": {"start":2024,"end":2050,"include_consistency_geos":True},
     "regional_flows_benchmark": {"start":2024,"end":2050,"include_consistency_geos":True},
+    "regional_flows_benchmark_2020": {"start":2020,"end":2024,"frozen":True},
+    "regional_flows_benchmark_2021": {"start":2021,"end":2024,"frozen":True},
+    "regional_flows_benchmark_2022": {"start":2022,"end":2024,"frozen":True},
     "commuting_flows": {"start":2020,"end":2024,"commuting":True},
     "employment_age_profile": {
         "start":2022,"end":2024,
@@ -562,6 +565,10 @@ def main():
     for key, spec in SPECS.items():
         table = cfg["tables"][key]
         table_id = table["id"]
+        path = OUT / f"{key}.csv"
+        if spec.get("frozen") and path.exists():
+            print(f"Reusing frozen {key} from {path.relative_to(ROOT)}", file=sys.stderr)
+            continue
         print(f"Downloading {key} from {table_id}", file=sys.stderr)
         md = metadata(table_id)
         selection = build_selection(md, spec)
@@ -570,7 +577,6 @@ def main():
         csv_text = download_csv(table_id, selection)
         if not csv_text.strip():
             raise RuntimeError(f"Empty response for {key} / {table_id}")
-        path = OUT / f"{key}.csv"
         path.write_text(csv_text, encoding="utf-8")
         # Basic validation: at least header + one data row.
         rows = list(csv.reader(io.StringIO(csv_text)))
