@@ -84,6 +84,13 @@ const report = {
     note: 'Migration-only comparison: fertility and mortality are fixed to the 10-year calibration while net migration uses 2, 4, 6 or 10 years. n+1 is primary and n+2 secondary.',
     windows: migrationWindows,
     summary: {}
+  },
+  componentFlowDiagnostic: {
+    note: 'Development diagnostic only. Compares the locked three-leg component_flow engine with the existing 10-year exogenous net-migration baseline inside the full cohort model. The component windows were selected using Lulea development data, so this is not independent holdout evidence.',
+    independentHoldout: false,
+    candidate: manifest.componentFlowCandidate || null,
+    summary: {},
+    results: {}
   }
 };
 
@@ -494,6 +501,103 @@ for (const geo of geos) {
   }
 }
 
+for (const geo of geos) {
+  const allRows=[];
+  const byOrigin={};
+  report.componentFlowDiagnostic.results[geo]={};
+
+  for (const entry of origins) {
+    const pred=M.simulate(entry.model,{
+      geo,
+      endYear:entry.endYear,
+      fertMult:1,
+      mortMult:1,
+      migMult:1,
+      window:10,
+      migrationMode:'component_flow',
+      cohortTimingMode:'event_age_aligned',
+      scenarios:{housing:[],workplaces:[],overlapPct:0},
+      includeDetail:false
+    });
+    const baselineRows=report.results[geo][entry.origin][10]||[];
+    const rows=[];
+
+    for(const p of pred){
+      if(+p.year<=+entry.origin) continue;
+      const a=byActual(entry.actual,geo,p.year);
+      if(!a) continue;
+      const base=baselineRows.find(r=>+r.year===+p.year);
+      const row={
+        year:+p.year,
+        horizon:+p.year-+entry.origin,
+        componentPopulationError:p.population-a.population,
+        componentPopulationAbsPctError:ape(p.population,a.population),
+        baselinePopulationError:base?base.populationError:null,
+        componentNetMigrationError:p.netMigration-a.netMigration,
+        baselineNetMigrationError:base?base.netMigrationError:null,
+        predictedGrossInMigration:p.grossInMigration,
+        actualGrossInMigration:geo==='FA_LULEA'?null:a.grossInMigration,
+        predictedGrossOutMigration:p.grossOutMigration,
+        actualGrossOutMigration:geo==='FA_LULEA'?null:a.grossOutMigration,
+        predictedNetMigration:p.netMigration,
+        actualNetMigration:a.netMigration
+      };
+      if(geo!=='FA_LULEA'){
+        row.grossInMigrationError=p.grossInMigration-a.grossInMigration;
+        row.grossOutMigrationError=p.grossOutMigration-a.grossOutMigration;
+      }
+      rows.push(row);
+      allRows.push(row);
+    }
+
+    byOrigin[entry.origin]=rows.map(r=>({
+      year:r.year,
+      horizon:r.horizon,
+      componentPopulationError:round1(r.componentPopulationError),
+      baselinePopulationError:round1(r.baselinePopulationError),
+      predictedGrossInMigration:round1(r.predictedGrossInMigration),
+      actualGrossInMigration:round1(r.actualGrossInMigration),
+      predictedGrossOutMigration:round1(r.predictedGrossOutMigration),
+      actualGrossOutMigration:round1(r.actualGrossOutMigration),
+      predictedNetMigration:round1(r.predictedNetMigration),
+      actualNetMigration:round1(r.actualNetMigration),
+      componentNetMigrationError:round1(r.componentNetMigrationError),
+      baselineNetMigrationError:round1(r.baselineNetMigrationError)
+    }));
+    report.componentFlowDiagnostic.results[geo][entry.origin]=byOrigin[entry.origin];
+  }
+
+  const byHorizon={};
+  for(let horizon=1;horizon<=manifest.horizonYears;horizon++){
+    const h=allRows.filter(r=>r.horizon===horizon);
+    byHorizon[horizon]={
+      observations:h.length,
+      component:{
+        populationMAE:round1(mean(h.map(r=>Math.abs(r.componentPopulationError)))),
+        populationMAPE:round1(mean(h.map(r=>r.componentPopulationAbsPctError))),
+        populationMeanError:round1(mean(h.map(r=>r.componentPopulationError))),
+        netMigrationMAE:round1(mean(h.map(r=>Math.abs(r.componentNetMigrationError)))),
+        netMigrationMeanError:round1(mean(h.map(r=>r.componentNetMigrationError))),
+        grossInMigrationMAE:geo==='FA_LULEA'?null:round1(mean(h.map(r=>Math.abs(r.grossInMigrationError)))),
+        grossOutMigrationMAE:geo==='FA_LULEA'?null:round1(mean(h.map(r=>Math.abs(r.grossOutMigrationError))))
+      },
+      net10Baseline:{
+        populationMAE:round1(mean(h.map(r=>Math.abs(r.baselinePopulationError)))),
+        netMigrationMAE:round1(mean(h.map(r=>Math.abs(r.baselineNetMigrationError))))
+      }
+    };
+  }
+
+  report.componentFlowDiagnostic.summary[geo]={
+    observations:allRows.length,
+    oneYear:byHorizon[1],
+    twoYear:byHorizon[2],
+    threeYear:byHorizon[3],
+    byHorizon,
+    byOrigin
+  };
+}
+
 const outJson = path.join(
   ROOT, 'data', 'backtests', 'rolling_2018_2024.json'
 );
@@ -562,4 +666,13 @@ for (const geo of ['2580','FA_LULEA']) {
       `n+1 population MAPE=${s.oneYear.populationMAPE}% | n+2 migration MAE=${s.twoYear.netMigrationMAE}`
     );
   }
+}
+
+for (const geo of ['2580','FA_LULEA']) {
+  const s=report.componentFlowDiagnostic.summary[geo];
+  console.log(
+    `${geo} component_flow: n+1 migration MAE=${s.oneYear.component.netMigrationMAE} vs net10=${s.oneYear.net10Baseline.netMigrationMAE} | `+
+    `n+1 population MAE=${s.oneYear.component.populationMAE} vs net10=${s.oneYear.net10Baseline.populationMAE} | `+
+    `n+2 migration MAE=${s.twoYear.component.netMigrationMAE} vs net10=${s.twoYear.net10Baseline.netMigrationMAE}`
+  );
 }

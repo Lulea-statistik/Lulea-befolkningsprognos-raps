@@ -23,17 +23,20 @@ BASE = "https://statistikdatabasen.scb.se/api/v2"
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "data" / "scb_sources.json"
 REFERENCE_FA_CONFIG = ROOT / "data" / "reference_fa_regions.json"
+COMPONENT_HOLDOUT_CONFIG = ROOT / "data" / "component_flow_holdout_municipalities.json"
 OUT = ROOT / "data" / "raw"
 
 MUNICIPALITIES = ["2580", "2582", "2581", "2560", "2514"]
 
 def reference_validation_municipalities():
-    if not REFERENCE_FA_CONFIG.exists():
-        return []
-    cfg = json.loads(REFERENCE_FA_CONFIG.read_text(encoding="utf-8"))
     codes = set()
-    for region in (cfg.get("regions") or {}).values():
-        codes.update((region.get("members") or {}).keys())
+    if REFERENCE_FA_CONFIG.exists():
+        cfg = json.loads(REFERENCE_FA_CONFIG.read_text(encoding="utf-8"))
+        for region in (cfg.get("regions") or {}).values():
+            codes.update((region.get("members") or {}).keys())
+    if COMPONENT_HOLDOUT_CONFIG.exists():
+        cfg = json.loads(COMPONENT_HOLDOUT_CONFIG.read_text(encoding="utf-8"))
+        codes.update((cfg.get("municipalities") or {}).keys())
     return sorted(codes)
 
 REFERENCE_VALIDATION_MUNICIPALITIES = reference_validation_municipalities()

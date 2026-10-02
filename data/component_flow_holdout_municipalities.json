@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "locked_before_component_flow_holdout_results",
+  "lockedAfterRun": 39,
+  "selectionPrinciple": "Pre-declared municipality holdouts selected for structural diversity before their component-flow forecast results are inspected.",
+  "productionDecisionRule": {
+    "primaryHorizon": 1,
+    "secondaryHorizon": 2,
+    "pooledN1NetMigrationMAE": "component_flow <= net_10y",
+    "pooledN1PopulationMAE": "component_flow <= 1.05 * net_10y",
+    "pooledN2NetMigrationMAE": "component_flow <= 1.05 * net_10y",
+    "pooledN2PopulationMAE": "component_flow <= 1.05 * net_10y",
+    "municipalityRobustness": "At most one holdout municipality may have component-flow n+1 net-migration MAE more than 10% worse than net_10y.",
+    "note": "Passing this gate is necessary but not sufficient for production promotion. No parameter or window may be retuned after viewing these holdout results and then re-evaluated on the same municipalities as independent evidence."
+  },
+  "municipalities": {
+    "2480": {
+      "name": "Umeå",
+      "rationale": "Northern regional and university centre; tests a strong young-adult migration structure without using Luleå data."
+    },
+    "2482": {
+      "name": "Skellefteå",
+      "rationale": "Northern industrial stress test with major structural change; tests robustness to non-stationary migration."
+    },
+    "2380": {
+      "name": "Östersund",
+      "rationale": "Northern regional centre with a smaller population base than Luleå."
+    },
+    "1780": {
+      "name": "Karlstad",
+      "rationale": "Regional university centre outside northern Sweden; tests geographic transferability."
+    },
+    "0780": {
+      "name": "Växjö",
+      "rationale": "Regional university centre in southern Sweden; adds a structurally different external holdout."
+    }
+  },
+  "previousExternalReferencesExcludedFromIndependentUse": [
+    "FA16 Trollhättan-Vänersborg",
+    "FA36 Gävle",
+    "FA42 Sundsvall"
+  ]
+}

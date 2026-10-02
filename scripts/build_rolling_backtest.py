@@ -66,7 +66,7 @@ def base_population(pop, year):
     return result
 
 
-def annual_actuals(pop, births, deaths, netmig, origin, end_year):
+def annual_actuals(pop, births, deaths, inflow, outflow, netmig, origin, end_year):
     result = []
     for geo in list(b.MUNICIPALITIES) + [b.FA_CODE]:
         for year in range(origin + 1, end_year + 1):
@@ -84,6 +84,14 @@ def annual_actuals(pop, births, deaths, netmig, origin, end_year):
                 ),
                 "deaths": sum(
                     deaths.get((geo, year, sex, age), 0.0)
+                    for sex in ("K", "M") for age in range(101)
+                ),
+                "grossInMigration": sum(
+                    inflow.get((geo, year, sex, age), 0.0)
+                    for sex in ("K", "M") for age in range(101)
+                ),
+                "grossOutMigration": sum(
+                    outflow.get((geo, year, sex, age), 0.0)
                     for sex in ("K", "M") for age in range(101)
                 ),
                 "netMigration": sum(
@@ -165,7 +173,7 @@ def national_only_mortality_rows(future_mort, start_year, end_year):
     return result
 
 
-def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deaths, births, netmig):
+def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deaths, births, inflow, outflow, netmig, migration_legs, component_cfg):
     original_end = b.CALIBRATION_END
     original_windows = b.WINDOWS
     original_migration_windows = b.MIGRATION_WINDOWS
@@ -180,6 +188,9 @@ def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deat
         )
         mortality_risks, mortality_factors = b.mortality_profiles(
             deaths, birth_year_exposure
+        )
+        component_inflow, component_out_hazards = b.migration_component_profiles(
+            migration_legs, birth_year_exposure
         )
 
         detail_key = cfg["detail_key"]
@@ -247,12 +258,17 @@ def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deat
                 "qutbMode": "identity",
                 "endogenousInMigration": False,
                 "endogenousOutMigration": False,
+                "migrationComponentStatus": "development_candidate_not_production_default",
+                "migrationComponentProductionDefault": False,
+                "migrationComponentWindows": component_cfg["legs"],
             },
             "populationBase": base_population(pop, origin),
             "fertilityRates": fertility_rates,
             "mortalityRisks": mortality_risks,
             "mortalityRisksNationalOnly": mortality_risks_national_only,
             "netMigration": b.migration_profiles(netmig),
+            "migrationComponentInflow": component_inflow,
+            "migrationComponentOutHazards": component_out_hazards,
             "diagnostics": {
                 "relativeFactors": {
                     "fertility": fertility_factors,
@@ -264,7 +280,7 @@ def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deat
             "origin": origin,
             "endYear": end_year,
             "rows": annual_actuals(
-                pop, births, deaths, netmig, origin, end_year
+                pop, births, deaths, inflow, outflow, netmig, origin, end_year
             ),
             "nationalAssumptionRows": national_assumption_rows_from_counts(
                 origin,
@@ -315,14 +331,28 @@ def main():
     births = b.aggregate_fa_births(
         b.load_births("births_pre2025.csv")
     )
+    inflow = b.aggregate_fa_age_sex(
+        b.load_wide_age_sex("migration_pre2025.csv", b.IN_MIG_CODES)
+    )
+    outflow = b.aggregate_fa_age_sex(
+        b.load_wide_age_sex("migration_pre2025.csv", b.OUT_MIG_CODES)
+    )
     netmig = b.aggregate_fa_age_sex(
         b.load_wide_age_sex("migration_pre2025.csv", b.NET_MIG_CODES)
+    )
+    migration_legs = b.load_migration_legs(
+        "migration_birth_region_pre2025.csv",
+        b.MIGRATION_LEG_CODES_PRE2025,
+        allowed_geos=b.MUNICIPALITIES,
+    )
+    component_cfg = json.loads(
+        (ROOT / "data" / "migration_component_windows.json").read_text(encoding="utf-8")
     )
 
     entries = [
         build_origin(
             origin, cfg, pop, birth_year_exposure, fertility_exposure,
-            deaths, births, netmig
+            deaths, births, inflow, outflow, netmig, migration_legs, component_cfg
         )
         for origin, cfg in ORIGINS.items()
     ]
@@ -336,6 +366,12 @@ def main():
         "origins": entries,
         "windows": list(WINDOWS),
         "migrationWindows": list(MIGRATION_WINDOWS),
+        "componentFlowCandidate": {
+            "config": "data/migration_component_windows.json",
+            "selectionSample": "Lulea municipality component results used to choose windows after #37",
+            "independentHoldout": False,
+            "note": "This rolling comparison is a development diagnostic, not independent confirmation."
+        },
         "horizonYears": HORIZON_YEARS,
         "overlapNote": (
             "Forecast windows overlap in calendar time and must not be treated "

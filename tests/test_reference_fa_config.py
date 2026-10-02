@@ -29,7 +29,11 @@ for code, members in expected.items():
     assert set(regions[code]["members"]) == members
 
 all_expected = set().union(*expected.values())
-assert set(extract.REFERENCE_VALIDATION_MUNICIPALITIES) == all_expected
+holdout_cfg = json.loads(
+    (ROOT / "data" / "component_flow_holdout_municipalities.json").read_text(encoding="utf-8")
+)
+holdout_expected = set(holdout_cfg["municipalities"])
+assert set(extract.REFERENCE_VALIDATION_MUNICIPALITIES) == all_expected | holdout_expected
 
 for key in (
     "population_pre2025",
@@ -102,4 +106,4 @@ assert migration_cfg["legs"]["international"]["inflowWindow"] == 10
 assert migration_cfg["legs"]["international"]["outflowWindow"] == 2
 assert extract.SPECS["migration_birth_region_pre2025"].get("include_reference_geos") is True
 
-print("OK: FA15 reference regions and SCB extraction scope are fixed and valid")
+print("OK: FA15 reference regions plus locked component-flow holdouts are in SCB extraction scope")
