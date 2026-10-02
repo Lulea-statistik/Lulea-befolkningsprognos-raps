@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "development_candidate_locked_before_full_cohort_results",
+  "productionDefault": false,
+  "selectionBasis": "Lulea migration_recency_diagnostic from Update SCB data #53; selected from broad development/later diagnostics, not from the known 1999 cohort.",
+  "candidate": {
+    "baseEngine": "component_flow",
+    "adaptiveLeg": "rest_sweden",
+    "adaptiveDirection": "out",
+    "longWindow": 10,
+    "recentWindow": 3,
+    "priorAnnualEvents": 20,
+    "formula": "long hazard + weight * (recent hazard - long hazard)",
+    "weight": "abs(recent-long)/(abs(recent-long)+annual hazard SD) * mean annual events/(mean annual events+priorAnnualEvents)"
+  },
+  "rationale": {
+    "developmentTotalMaeImprovementPct": 4.6,
+    "developmentAgeSexSaeImprovementPct": 6.7,
+    "laterDiagnosticTotalMaeImprovementPct": 33.7,
+    "laterDiagnosticAgeSexSaeImprovementPct": 8.8,
+    "note": "Other legs/directions were not consistently improved. The full broad recency rule is rejected."
+  },
+  "evaluationPlan": {
+    "stage1": "Vintage-correct Lulea full cohort rolling-origin comparison against locked component_flow and net10.",
+    "stage2": "Only if stage1 is promising, lock new external municipalities before fetching/inspecting their results.",
+    "knownCohort1999": "Descriptive only; must not be used for tuning or pass/fail."
+  },
+  "governance": "This candidate is selected after Lulea development diagnostics and is not independent evidence. Do not reuse previously viewed component-flow holdouts as independent confirmation."
+}
