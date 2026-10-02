@@ -699,30 +699,30 @@
       const smoothIn=aggregate("in","smoothedMeanPersons",age);
       const rawOut=aggregate("out","rawMeanPersons",age);
       const smoothOut=aggregate("out","smoothedMeanPersons",age);
-      const direct=ageRows.length
-        ? ageRows.reduce((s,r)=>s+Number(r.directLocalWeight||0),0)/ageRows.length
+      const retention=ageRows.length
+        ? ageRows.reduce((s,r)=>s+Number(r.localRetentionWeight ?? r.directLocalWeight ?? 0),0)/ageRows.length
         : 0;
-      const national=ageRows.length
-        ? ageRows.reduce((s,r)=>s+Number(r.nationalWeight||0),0)/ageRows.length
+      const smoothing=ageRows.length
+        ? ageRows.reduce((s,r)=>s+Number(r.smoothingWeight ?? r.neighborLocalWeight ?? 0),0)/ageRows.length
         : 0;
       return {
-        age,rawIn,smoothIn,rawOut,smoothOut,direct,national,
+        age,rawIn,smoothIn,rawOut,smoothOut,retention,smoothing,
         change:Math.abs(smoothIn-rawIn)+Math.abs(smoothOut-rawOut)
       };
     }).sort((a,b)=>b.change-a.change).slice(0,12);
 
     el.innerHTML=`
-      <p class="hint">Metoden mjukar den lokala avvikelsen från Riket, inte själva riksprofilen. Därför kan exempelvis en verklig 19-årstopp eller pensionsrelaterad brytpunkt ligga kvar om den är nationell eller återkommer stabilt i Luleå. Lokal direktvikt minskar när cellen har få händelser eller stor historisk instabilitet.</p>
+      <p class="hint">Metoden jämnar bara isolerad lokal taggighet utöver den ålderskurvatur som också syns i Riket. En cell behålls nära rå Luleåprofil om den har många årliga händelser eller återkommer stabilt över tid. Tydlig utjämning sker först när båda stöden är svaga.</p>
       <table class="miniTable">
-        <thead><tr><th>Ålder</th><th>Rå in</th><th>Adaptiv in</th><th>Rå ut</th><th>Adaptiv ut</th><th>Direkt lokal vikt</th><th>Riksvikt</th></tr></thead>
+        <thead><tr><th>Ålder</th><th>Rå in</th><th>Adaptiv in</th><th>Rå ut</th><th>Adaptiv ut</th><th>Lokal retention</th><th>Utjämningsvikt</th></tr></thead>
         <tbody>${byAge.map(r=>`<tr>
           <td>${r.age===100?"100+":r.age}</td>
           <td>${fmt1.format(r.rawIn)}</td>
           <td>${fmt1.format(r.smoothIn)}</td>
           <td>${fmt1.format(r.rawOut)}</td>
           <td>${fmt1.format(r.smoothOut)}</td>
-          <td>${pct.format(r.direct*100)} %</td>
-          <td>${pct.format(r.national*100)} %</td>
+          <td>${pct.format(r.retention*100)} %</td>
+          <td>${pct.format(r.smoothing*100)} %</td>
         </tr>`).join("")}</tbody>
       </table>
       <p class="hint">Status: diagnostik. Ingen utjämnad åldersprofil används ännu av produktionsprognosen.</p>`;

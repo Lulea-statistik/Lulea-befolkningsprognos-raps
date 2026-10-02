@@ -210,9 +210,9 @@ assert abs(intl_out_risk["value"] - 0.05) < 1e-12
 assert abs(intl_in_profile["municipalityShare"] - 0.05) < 1e-12
 assert abs(intl_in_profile["ageSexShare"] - 1.0) < 1e-12
 
-# Adaptive smoothing should reduce an isolated unstable local age spike while
-# preserving a stable structural deviation. Sweden is the prior and adjacent
-# ages only smooth the local residual from that prior.
+# Selective smoothing should reduce an isolated unstable local age spike while
+# preserving a stable, information-rich structural deviation. Sweden provides
+# age curvature; strong information OR persistence protects the local cell.
 smooth_legs = {}
 years = list(range(2016, 2025))
 for year in years:
@@ -246,7 +246,9 @@ stable_19 = next(
 )
 assert unstable_56["smoothedMeanPersons"] < unstable_56["rawMeanPersons"]
 assert unstable_56["persistenceWeight"] < stable_19["persistenceWeight"]
-assert stable_19["directLocalWeight"] > unstable_56["directLocalWeight"]
+assert stable_19["informationWeight"] > unstable_56["informationWeight"]
+assert stable_19["localRetentionWeight"] > unstable_56["localRetentionWeight"]
+assert stable_19["smoothingWeight"] < unstable_56["smoothingWeight"]
 assert smooth_diag["status"] == "diagnostic_only_not_active_in_forecast"
 compact_smooth = mod.compact_migration_smoothing_diagnostic(smooth_diag)
 assert compact_smooth["geo"] == "2580"
