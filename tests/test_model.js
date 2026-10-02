@@ -260,4 +260,40 @@ assert(Math.abs(grossMode.grossOutMigration-100)<1e-9,'gross-flow candidate appl
 assert(Math.abs(grossMode.netMigration+50)<1e-9,'gross-flow candidate derives net migration from gross flows');
 assert(Math.abs(grossMode.population-950)<1e-9,'gross-flow candidate updates population from gross inflow and outflow');
 
-console.log('OK: model core, scenarios, additive FA and gross-flow migration candidate tests passed');
+
+const timingData={
+  meta:{baseYear:2025},
+  calibration:{defaultYears:10},
+  geographies:[{code:'2580'}],
+  parameters:{sexRatioMaleAtBirth:0.5},
+  populationBase:[
+    {geo:'2580',year:2025,sex:'K',age:79,value:100},
+    {geo:'2580',year:2025,sex:'K',age:30,value:100}
+  ],
+  mortalityRisks:[
+    {geo:'2580',window:10,year:2026,sex:'K',age:79,value:0.10},
+    {geo:'2580',window:10,year:2026,sex:'K',age:80,value:0.20},
+    {geo:'2580',window:10,year:2026,sex:'K',age:0,value:0.20},
+    {geo:'2580',window:10,year:2026,sex:'M',age:0,value:0.20}
+  ],
+  fertilityRates:[
+    {geo:'2580',window:10,year:2026,age:31,value:0.10}
+  ],
+  netMigration:[]
+};
+const legacyTiming=M.simulate(timingData,{
+  geo:'2580',endYear:2026,fertMult:1,mortMult:1,migMult:1,window:10,
+  scenarios:{},includeDetail:true
+})[1];
+const alignedTiming=M.simulate(timingData,{
+  geo:'2580',endYear:2026,fertMult:1,mortMult:1,migMult:1,window:10,
+  cohortTimingMode:'event_age_aligned',scenarios:{},includeDetail:true
+})[1];
+assert(Math.abs(legacyTiming.deaths-10)<1e-9,'legacy timing applies start-age mortality before ageing');
+assert(Math.abs(legacyTiming.births)<1e-9,'legacy timing uses maternal start age');
+assert(Math.abs(alignedTiming.births-10)<1e-9,'event-age timing uses maternal age in forecast year');
+assert(Math.abs(alignedTiming.deaths-22)<1e-9,'event-age timing uses age-80 risk and includes newborn deaths');
+assert(Math.abs(alignedTiming.population-188)<1e-9,'event-age timing preserves cohort accounting after births and deaths');
+assert(alignedTiming.cohortTimingMode==='event_age_aligned','timing mode is exposed in results');
+
+console.log('OK: model core, scenarios, additive FA, gross-flow migration and event-age timing candidate tests passed');

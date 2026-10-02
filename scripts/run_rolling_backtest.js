@@ -19,6 +19,10 @@ function round1(x) {
     ? Math.round(Number(x) * 10) / 10
     : null;
 }
+function round3(x) {
+  if (x == null || !Number.isFinite(Number(x))) return null;
+  return Math.round(Number(x) * 1000) / 1000;
+}
 function mean(values) {
   const x = values.filter(Number.isFinite);
   return x.length ? x.reduce((s, v) => s + v, 0) / x.length : null;
@@ -69,6 +73,10 @@ const report = {
   },
   mortalityLocalizationDiagnostic: {
     note: 'Diagnostic only: compares current localized mortality with the same SCB national age/sex mortality profile applied without any local multiplier. It does not change the production baseline.',
+    summary: {}
+  },
+  eventAgeTimingDiagnostic: {
+    note: 'Fixed source-definition diagnostic. Compares legacy V1 timing with an event-age aligned cohort step: age the 31-December stock first, calculate fertility on forecast-year maternal ages, add newborns, then apply mortality by forecast-year age including age 0. Production default remains legacy until the diagnostic is reviewed.',
     summary: {}
   }
 };
@@ -276,7 +284,7 @@ for (const geo of geos) {
           )?.applied ?? null;
 
       byOrigin[entry.origin] = {
-        localGeneralMortalityFactor: round1(localFactor),
+        localGeneralMortalityFactor: round3(localFactor),
         localizedDeathsMeanError: round1(mean(localized.map(x => x.deathsError))),
         nationalOnlyDeathsMeanError: round1(mean(altRows.map(x => x.deathsError))),
         localizedPopulationEndError: localized.at(-1)?.populationError ?? null,
@@ -294,6 +302,79 @@ for (const geo of geos) {
       localizedPopulationMeanError: round1(mean(currentRows.map(x => x.populationError))),
       nationalOnlyPopulationMAPE: round1(mean(nationalRows.map(x => x.populationAbsPctError))),
       nationalOnlyPopulationMeanError: round1(mean(nationalRows.map(x => x.populationError))),
+      byOrigin
+    };
+  }
+}
+
+
+for (const geo of geos) {
+  report.eventAgeTimingDiagnostic.summary[geo] = {};
+  for (const window of windows) {
+    const legacyRows = [];
+    const alignedRows = [];
+    const byOrigin = {};
+
+    for (const entry of origins) {
+      const legacy = report.results[geo][entry.origin][window] || [];
+      legacyRows.push(...legacy);
+
+      const pred = M.simulate(entry.model, {
+        geo,
+        endYear: entry.endYear,
+        fertMult: 1,
+        mortMult: 1,
+        migMult: 1,
+        window,
+        cohortTimingMode: 'event_age_aligned',
+        scenarios: {housing: [], workplaces: [], overlapPct: 0},
+        includeDetail: false
+      });
+
+      const altRows = [];
+      for (const p of pred) {
+        if (+p.year <= +entry.origin) continue;
+        const a = byActual(entry.actual, geo, p.year);
+        if (!a) continue;
+        altRows.push({
+          year: +p.year,
+          horizon: +p.year - +entry.origin,
+          populationError: p.population - a.population,
+          populationAbsPctError: ape(p.population, a.population),
+          birthsError: p.births - a.births,
+          deathsError: p.deaths - a.deaths,
+          netMigrationError: p.netMigration - a.netMigration
+        });
+      }
+      alignedRows.push(...altRows);
+
+      byOrigin[entry.origin] = {
+        legacyDeathsMeanError: round1(mean(legacy.map(x => x.deathsError))),
+        alignedDeathsMeanError: round1(mean(altRows.map(x => x.deathsError))),
+        legacyBirthsMeanError: round1(mean(legacy.map(x => x.birthsError))),
+        alignedBirthsMeanError: round1(mean(altRows.map(x => x.birthsError))),
+        legacyPopulationEndError: legacy.at(-1)?.populationError ?? null,
+        alignedPopulationEndError: round1(altRows.at(-1)?.populationError)
+      };
+    }
+
+    report.eventAgeTimingDiagnostic.summary[geo][window] = {
+      observations: legacyRows.length,
+      legacyPopulationMAPE: round1(mean(legacyRows.map(x => x.populationAbsPctError))),
+      alignedPopulationMAPE: round1(mean(alignedRows.map(x => x.populationAbsPctError))),
+      legacyPopulationMAE: round1(mean(legacyRows.map(x => Math.abs(x.populationError)))),
+      alignedPopulationMAE: round1(mean(alignedRows.map(x => Math.abs(x.populationError)))),
+      legacyPopulationMeanError: round1(mean(legacyRows.map(x => x.populationError))),
+      alignedPopulationMeanError: round1(mean(alignedRows.map(x => x.populationError))),
+      legacyBirthsMAE: round1(mean(legacyRows.map(x => Math.abs(x.birthsError)))),
+      alignedBirthsMAE: round1(mean(alignedRows.map(x => Math.abs(x.birthsError)))),
+      legacyBirthsMeanError: round1(mean(legacyRows.map(x => x.birthsError))),
+      alignedBirthsMeanError: round1(mean(alignedRows.map(x => x.birthsError))),
+      legacyDeathsMAE: round1(mean(legacyRows.map(x => Math.abs(x.deathsError)))),
+      alignedDeathsMAE: round1(mean(alignedRows.map(x => Math.abs(x.deathsError)))),
+      legacyDeathsMeanError: round1(mean(legacyRows.map(x => x.deathsError))),
+      alignedDeathsMeanError: round1(mean(alignedRows.map(x => x.deathsError))),
+      netMigrationMAE: round1(mean(alignedRows.map(x => Math.abs(x.netMigrationError)))),
       byOrigin
     };
   }
@@ -344,6 +425,17 @@ for (const geo of ['2580', 'FA_LULEA']) {
       `national-only=${s.nationalOnlyDeathsMeanError} | ` +
       `population MAPE localized=${s.localizedPopulationMAPE}% | ` +
       `national-only=${s.nationalOnlyPopulationMAPE}%`
+    );
+  }
+}
+
+for (const geo of ['2580', 'FA_LULEA']) {
+  for (const window of windows) {
+    const s = report.eventAgeTimingDiagnostic.summary[geo][window];
+    console.log(
+      `${geo} window=${window}: timing deaths mean error legacy=${s.legacyDeathsMeanError} | ` +
+      `aligned=${s.alignedDeathsMeanError} | population MAPE legacy=${s.legacyPopulationMAPE}% | ` +
+      `aligned=${s.alignedPopulationMAPE}%`
     );
   }
 }
