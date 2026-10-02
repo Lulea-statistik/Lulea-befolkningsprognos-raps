@@ -23,6 +23,7 @@ WORKDIR = OUTDIR / "reference_fa_work"
 WORKDIR.mkdir(parents=True, exist_ok=True)
 
 WINDOWS = (6, 10)
+MIGRATION_WINDOWS = (2, 4, 6, 10)
 HORIZON_YEARS = 3
 
 
@@ -115,6 +116,7 @@ def build_region_origin(region_code, region, origin, origin_cfg, raw):
         b.FA_CODE = region_code
         b.CALIBRATION_END = origin
         b.WINDOWS = WINDOWS
+        b.MIGRATION_WINDOWS = MIGRATION_WINDOWS
 
         pop = b.aggregate_group_age_sex(
             restrict_age_sex(raw["population"], members),
@@ -262,6 +264,7 @@ def build_region_origin(region_code, region, origin, origin_cfg, raw):
         b.FA_CODE = original_fa_code
         b.CALIBRATION_END = original_end
         b.WINDOWS = original_windows
+        b.MIGRATION_WINDOWS = original_migration_windows
 
 
 def main():
@@ -327,6 +330,7 @@ def main():
             "calibration windows and demographic equations as Lulea."
         ),
         "windows": list(WINDOWS),
+        "migrationWindows": list(MIGRATION_WINDOWS),
         "horizonYears": HORIZON_YEARS,
         "regions": region_entries,
         "governance": (
