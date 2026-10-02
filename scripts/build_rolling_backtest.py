@@ -173,7 +173,7 @@ def national_only_mortality_rows(future_mort, start_year, end_year):
     return result
 
 
-def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deaths, births, inflow, outflow, netmig, migration_legs, component_cfg, scb_risk_cfg):
+def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deaths, births, inflow, outflow, netmig, migration_legs, component_cfg, scb_risk_cfg, recency_cfg):
     original_end = b.CALIBRATION_END
     original_windows = b.WINDOWS
     original_migration_windows = b.MIGRATION_WINDOWS
@@ -191,6 +191,9 @@ def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deat
         )
         component_inflow, component_out_hazards = b.migration_component_profiles(
             migration_legs, birth_year_exposure
+        )
+        recency_out_hazards = b.migration_recency_out_hazards(
+            migration_legs, birth_year_exposure, recency_cfg
         )
         (
             scb_risk_internal_in_levels,
@@ -276,6 +279,8 @@ def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deat
                 "migrationComponentStatus": "development_candidate_not_production_default",
                 "migrationComponentProductionDefault": False,
                 "migrationComponentWindows": component_cfg["legs"],
+                "migrationRecencyCandidateStatus": "development_candidate_not_production_default",
+                "migrationRecencyCandidate": recency_cfg,
                 "scbRiskMigrationStatus": "development_candidate_not_production_default",
                 "scbRiskMigrationProductionDefault": False,
                 "scbRiskMigrationConfig": scb_risk_cfg,
@@ -287,6 +292,7 @@ def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deat
             "netMigration": b.migration_profiles(netmig),
             "migrationComponentInflow": component_inflow,
             "migrationComponentOutHazards": component_out_hazards,
+            "migrationRecencyOutHazards": recency_out_hazards,
             "scbRiskDomesticInLevels": scb_risk_internal_in_levels,
             "scbRiskDomesticInDistribution": scb_risk_internal_in_distribution,
             "scbRiskOutMigration": scb_risk_out,
@@ -385,12 +391,17 @@ def main():
     scb_risk_cfg = json.loads(
         (ROOT / "data" / "scb_risk_migration_config.json").read_text(encoding="utf-8")
     )
+    recency_cfg = json.loads(
+        (ROOT / "data" / "migration_recency_candidate.json").read_text(encoding="utf-8")
+    )
+    if recency_cfg.get("status") != "development_candidate_locked_before_full_cohort_results":
+        raise RuntimeError("Unexpected migration recency candidate status.")
 
     entries = [
         build_origin(
             origin, cfg, pop, birth_year_exposure, fertility_exposure,
             deaths, births, inflow, outflow, netmig, migration_legs,
-            component_cfg, scb_risk_cfg
+            component_cfg, scb_risk_cfg, recency_cfg
         )
         for origin, cfg in ORIGINS.items()
     ]
@@ -409,6 +420,14 @@ def main():
             "selectionSample": "Lulea municipality component results used to choose windows after #37",
             "independentHoldout": False,
             "note": "This rolling comparison is a development diagnostic, not independent confirmation."
+        },
+        "migrationRecencyCandidate": {
+            "config": "data/migration_recency_candidate.json",
+            "baseEngine": "component_flow",
+            "adaptiveLeg": "rest_sweden",
+            "adaptiveDirection": "out",
+            "independentHoldout": False,
+            "note": "Selected from Lulea migration diagnostics after #53; full cohort rolling-origin is stage 1."
         },
         "scbRiskFlowCandidate": {
             "config": "data/scb_risk_migration_config.json",
