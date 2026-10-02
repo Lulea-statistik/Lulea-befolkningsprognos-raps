@@ -861,11 +861,11 @@ def main():
 
     model = {
         "meta": {
-            "schemaVersion": "0.8.0",
+            "schemaVersion": "0.9.0",
             "generatedBy": "scripts/build_model_data.py",
             "dataReady": True,
             "baseYear": 2025,
-            "projectionAssumptionVersion": "scb2024-national-trend-local-ratio-v1",
+            "projectionAssumptionVersion": "scb2024-national-trend-local-ratio-v2-event-age",
             "methodBreakYear": 2025,
             "methodBreak": "SCB Cell Key Method (CKM)",
             "calibrationEndYear": CALIBRATION_END,
@@ -891,7 +891,9 @@ def main():
             "note": (
                 "Fertility and mortality use annual SCB 2024 national forecast profiles "
                 "multiplied by locally calibrated municipality/FA relative shapes. "
-                "Small age cells fade toward the national age profile. Historical municipal "
+                "Cohorts are aged to forecast-year/event age before fertility and mortality are applied. "
+                "Newborns are included before age-0 mortality. Small age cells fade toward the national age profile. "
+                "Historical municipal "
                 "urisk and gross inflow profiles are stored as migration-building inputs, while "
                 "the published V1 baseline still uses locally calibrated net migration."
             ),
@@ -909,6 +911,7 @@ def main():
             "ckmCellDelta": 3,
         },
         "parameters": {
+            "cohortTimingMode": "event_age_aligned",
             "qutbMode": "identity",
             "endogenousInMigration": False,
             "endogenousOutMigration": False,

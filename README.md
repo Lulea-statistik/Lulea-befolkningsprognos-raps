@@ -45,6 +45,7 @@ Geografi, kalibreringsfönster och slutår är globala filter och gäller på al
 - Basår 2025, prognos normalt till 2050.
 - Fruktsamhet och dödlighet följer SCB 2024:s nationella framtidstrender och lokaliseras mot kommun/FA.
 - Händelserisker använder medelfolkmängd som exponering med matchad åldersdefinition: TAB2818 för dödlighet/flyttning (ålder vid årets slut) och TAB2819 för fruktsamhet (moderns ålder vid födelsen). Folkmängd 31 december används fortfarande för bestånd och redovisade befolkningsnivåer.
+- Kohorttimingen är event-age-aligned: 31-decemberbeståndet åldras först till prognosårets ålder, födda beräknas på prognosårets mödrar, nyfödda läggs till och dödlighet appliceras därefter på prognosårets ålder inklusive ålder 0. Legacy V1-timing finns endast kvar i valideringen.
 - Lokal nivå skattas som observerat/förväntat mot rikets åldersprofil.
 - Där officiella Raps-parametrar saknas används en outcome-oberoende fading per ålderscell.
 - Fading använder två outcome-oberoende informationssignaler: genomsnittlig årlig cellpopulation och förväntat antal händelser. Populationssignalen går från 0 % vid <=20 till 100 % vid >=100; händelsesignalen går från 0 % vid <=1 förväntad händelse till 100 % vid >=20. Den slutliga lokala vikten är produkten av de två.
@@ -93,6 +94,8 @@ Huvudbedömningen görs på **n+1**, n+2 används sekundärt och n+3 endast som 
 Rolling-rapporten innehåller dessutom en nationell vintage-diagnostik som jämför SCB:s då publicerade prognos för födda och döda med senare faktiskt utfall för Riket. Därmed kan fel i den nationella framtidsprofilen skiljas från fel som uppstår när profilen lokaliseras till kommunerna.
 
 Som extern robusthetskontroll körs samma rolling-origin-metod även på tre fördefinierade FA15-referensregioner: **FA16 Trollhättan-Vänersborg**, **FA36 Gävle** och **FA42 Sundsvall**. Regionerna används endast för validering och får inga regionspecifika parameterjusteringar. Trollhättan-Vänersborg behålls med FA15-medlemskap även om regionen inte längre finns separat i FA25.
+
+Den fördefinierade n+1-valideringen stödde event-age-timingen: dödsfalls-MAE förbättrades i samtliga 23 medlemskommuner i Luleå och referensregionerna, medan population MAE förbättrades i 19 av 23 och på FA-totalnivå i alla fyra testade regioner. Därför är event-age-aligned timing produktionsstandard från schema 0.9.0.
 
 SCB TAB6008 används som en separat alternativ metodbenchmark och visas även omankrad till faktisk befolkning 2025.
 
