@@ -22,6 +22,16 @@
       "period": "2025",
       "purpose": "exposure population, CKM"
     },
+    "mean_population_event_age_pre2025": {
+      "id": "TAB2819",
+      "period": "2006-2024",
+      "purpose": "historical exposure population by age during the year; denominator for fertility by mother's age at birth"
+    },
+    "mean_population_event_age_2025": {
+      "id": "TAB6759",
+      "period": "2025",
+      "purpose": "event-age exposure population for fertility diagnostics, CKM"
+    },
     "migration_pre2025": {
       "id": "TAB1212",
       "period": "1997-2024",
