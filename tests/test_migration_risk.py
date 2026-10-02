@@ -171,17 +171,20 @@ for year in range(2016, 2025):
     risk_legs[("2580", year, "K", 30, "international", "out")] = 50.0
     risk_legs[(mod.RIKET_CODE, year, "K", 30, "international", "in")] = 2000.0
 
-risk_in, risk_out, risk_intl = mod.scb_risk_migration_profiles(
+risk_levels, risk_dist, risk_out, risk_intl = mod.scb_risk_migration_profiles(
     risk_legs, risk_exposure, scb_cfg
 )
 county_in_risk = next(
-    r for r in risk_in
+    r for r in risk_levels
     if r["geo"] == "2580" and r["leg"] == "county"
-    and r["sex"] == "K" and r["age"] == 30
 )
 rest_in_risk = next(
-    r for r in risk_in
+    r for r in risk_levels
     if r["geo"] == "2580" and r["leg"] == "rest_sweden"
+)
+county_in_dist = next(
+    r for r in risk_dist
+    if r["geo"] == "2580" and r["leg"] == "county"
     and r["sex"] == "K" and r["age"] == 30
 )
 county_out_risk = next(
@@ -200,6 +203,8 @@ intl_in_profile = next(
 )
 assert abs(county_in_risk["value"] - 0.01) < 1e-12
 assert abs(rest_in_risk["value"] - 0.02) < 1e-12
+assert abs(county_in_dist["share"] - 1.0) < 1e-12
+assert county_in_dist["window"] == 9
 assert abs(county_out_risk["value"] - 0.02) < 1e-12
 assert abs(intl_out_risk["value"] - 0.05) < 1e-12
 assert abs(intl_in_profile["municipalityShare"] - 0.05) < 1e-12
