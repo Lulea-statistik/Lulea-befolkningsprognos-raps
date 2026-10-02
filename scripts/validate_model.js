@@ -60,7 +60,13 @@ for (const geo of TARGET_GEOS) {
       cumulativeBirths: round1(sum(rows.slice(1), r => r.births)),
       cumulativeDeaths: round1(sum(rows.slice(1), r => r.deaths)),
       cumulativeNetMigration: round1(sum(rows.slice(1), r => r.netMigration)),
-      cumulativeScenarioEffect: round1(sum(rows.slice(1), r => r.scenarioEffect || 0))
+      cumulativeScenarioEffect: round1(sum(rows.slice(1), r => r.scenarioEffect || 0)),
+      populationCheckpoints: Object.fromEntries(
+        [2030,2040,2050].map(year => [
+          year,
+          round1(rows.find(r => +r.year === year)?.population ?? NaN)
+        ])
+      )
     };
   }
   const base10 = forecasts[geo][10].endPopulation;
