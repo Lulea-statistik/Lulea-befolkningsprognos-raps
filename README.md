@@ -12,7 +12,7 @@ Gränssnittet är uppdelat i nio rapportsidor:
 4. **Flyttanalys** – inflyttning, utflyttning, netto, historisk variation och praktisk 5 %-känslighet i 1-årsåldrar.
 5. **Arbetsmarknad & pendling** – jobbutveckling, bostads-/arbetsställekommun, pendlingsmatris och scenariofördelning av nya jobb.
 6. **Hushåll & bostad** – hushållsbildning, personer per hushåll, SCB-standardvärden per bostadstyp, bostadsbestånd och indikativ ny bostadsefterfrågan.
-7. **Scenario & justering** – val mellan Raps/SCB 2024 och SCB 2026 fruktsamhetsbana, separat 6/10/19-årigt nettoflyttningsfönster, generella demografiska multiplikatorer, bostadsbyggande och arbetsplatsetableringar.
+7. **Scenario & justering** – val mellan Raps/SCB 2024 och SCB 2026 fruktsamhetsbana, separat 2/4/6/10/19-årigt nettoflyttningsfönster, generella demografiska multiplikatorer, bostadsbyggande och arbetsplatsetableringar.
 8. **Validering** – historisk 2022–2024-backtest, fel per 1-årsålder och jämförelse mot SCB:s regionala framskrivning.
 9. **Metod & data** – källor, CKM-status, Raps-anpassning och fading-policy.
 
@@ -51,8 +51,8 @@ Geografi, kalibreringsfönster och slutår är globala filter och gäller på al
 - Där officiella Raps-parametrar saknas används en outcome-oberoende fading per ålderscell.
 - Fading använder två outcome-oberoende informationssignaler: genomsnittlig årlig cellpopulation och förväntat antal händelser. Populationssignalen går från 0 % vid <=20 till 100 % vid >=100; händelsesignalen går från 0 % vid <=1 förväntad händelse till 100 % vid >=20. Den slutliga lokala vikten är produkten av de två.
 - Fadinggränserna är fastställda före benchmarkutvärderingen och får inte trimmas mot känt utfall.
-- `urisk`: historisk kommunal utflyttningsrisk lagras nu per kön/ettårsålder och 6/10/19-årsfönster. Historisk bruttoinflyttning lagras parallellt. Basscenariot använder fortfarande exogen nettoflyttning tills IMIG/UMIG/`ifl` aktiveras.
-- Nettoflyttningens 6/10/19-årsfönster kan varieras separat från fruktsamhet/dödlighet för en ren känslighetsanalys. Observerat 2025-netto sparas som post-2024 diagnostik men används inte för efterhandskalibrering.
+- `urisk`: historisk kommunal utflyttningsrisk lagras nu per kön/ettårsålder och 2/4/6/10/19-årsfönster. Historisk bruttoinflyttning lagras parallellt. Basscenariot använder fortfarande exogen nettoflyttning tills IMIG/UMIG/`ifl` aktiveras.
+- Nettoflyttningens 2/4/6/10/19-årsfönster kan varieras separat från fruktsamhet/dödlighet för en ren känslighetsanalys. Rolling-origin-testet jämför 2/4/6/10 år på n+1 och n+2; 19 år behålls bara som långminnes-kontroll tills dess praktiska värde är visat. Observerat 2025-netto sparas som post-2024 diagnostik men används inte för efterhandskalibrering.
 - `qutb`: identitetsmatris tills övergångstal läggs in.
 - Kalibreringsfönster 6, 10 (standard) och 19 år.
 - CKM-metodbrottet 2025 flaggas separat.
@@ -129,7 +129,7 @@ Workflow **Update SCB data** kan köras manuellt och månadsvis. Det:
 
 SCB TAB3205 används för ålder/kön bland sysselsatta efter arbetsställekommun. Dashboarden visar ett 2022–2024-genomsnitt i SCB:s tre ömsesidigt uteslutande breda åldersgrupper **15–24, 25–54 och 55–74**.
 
-Jämförelsen visade att Luleås observerade inflyttning är starkt studentpåverkad: 38,4 % av 0–64-inflyttningen ligger i 18–24 år, medan bara cirka 11,2 % av de sysselsatta på arbetsställen i Luleå ligger i 15–24 år. Därför används arbetsmarknadsprofilen i standardscenariot för jobbinnehavaren, medan medföljande hushåll hanteras separat. Förändringen bygger på mer relevant källdata och inte på att optimera prognosutfallet.
+Jämförelsen visade att Luleås observerade inflyttning är starkt studentpåverkad: 38,4 % av 0–64-inflyttningen ligger i 18–24 år, medan bara cirka 11,2 % av de sysselsatta på arbetsställen i Luleå ligger i 15–24 år. Flyttanalysen har därför också en studentåldersproxy som följer 19–20, 18–24 och 23–27 år separat. Åldersgrupperna är diagnostik och får inte etiketteras som faktiska studenter utan extern studentdata. Därför används arbetsmarknadsprofilen i standardscenariot för jobbinnehavaren, medan medföljande hushåll hanteras separat. Förändringen bygger på mer relevant källdata och inte på att optimera prognosutfallet.
 
 
 ## Hushåll och bostadsefterfrågan

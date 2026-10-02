@@ -367,6 +367,7 @@
     renderAnalysis();
     renderDetailedAgeAnalysis();
     renderMigrationAnalysis();
+    renderStudentMigrationDiagnostic();
     renderLabourAnalysis();
     renderHousingAnalysis();
     renderValidation();
@@ -548,7 +549,8 @@
   }
 
   function renderMigrationAnalysis(){
-    const geo=$("geo").value, w=+$("window").value;
+    const geo=$("geo").value;
+    const w=$("migrationWindow")?.value ? +$("migrationWindow").value : +$("window").value;
     const rows=(data.diagnostics?.migrationByAge||[])
       .filter(r=>r.geo===geo && +r.window===w)
       .sort((a,b)=>+a.age-+b.age);
@@ -560,6 +562,7 @@
       $("migrationPriority").innerHTML="<p class='hint'>Flyttdiagnostik genereras i nästa workflow-körning.</p>";
       $("migrationAgeChart").innerHTML="";
       $("migrationVariationChart").innerHTML="";
+      if($("studentMigrationDiagnostic")) $("studentMigrationDiagnostic").innerHTML="<p class='hint'>Studentåldersdiagnostik genereras i nästa workflow-körning.</p>";
       return;
     }
 
@@ -650,6 +653,38 @@
       {name:"5 %-effekt netto",values:rows.map(r=>Number(r.sensitivity5PctNetPersons||0)),cls:"lineSensitivity"}
     ];
     drawAgeLineChart("migrationVariationChart",ages,variationSeries,{yMin:0,xLabel:"Ålder",valueDigits:1});
+  }
+
+  function renderStudentMigrationDiagnostic(){
+    const el=$("studentMigrationDiagnostic");
+    if(!el) return;
+    const geo=$("geo").value;
+    const diag=data.diagnostics?.studentAgeMigration;
+    if(geo!=="2580"){
+      el.innerHTML="<p class='hint'>Studentåldersproxyn visas för Luleå kommun. Ålder används inte som bevis på studentstatus.</p>";
+      return;
+    }
+    if(!diag?.summaries?.length){
+      el.innerHTML="<p class='hint'>Studentåldersdiagnostik genereras i nästa workflow-körning.</p>";
+      return;
+    }
+    const selectedWindow=$("migrationWindow")?.value ? +$("migrationWindow").value : +$("window").value;
+    const rows=diag.summaries.filter(r=>+r.window===selectedWindow);
+    el.innerHTML=`
+      <p class="hint">Åldersbaserad proxy – inte faktisk studentstatus. 19–20 år används för möjlig studentinflyttning och 23–27 år som kontroll för möjlig senare utflyttning.</p>
+      <table class="miniTable">
+        <thead><tr><th>Proxygrupp</th><th>Fönster</th><th>Inflyttning/år</th><th>Utflyttning/år</th><th>Netto/år</th><th>SD netto</th><th>Netto 2024</th></tr></thead>
+        <tbody>${rows.map(r=>`<tr>
+          <td>${r.label}</td>
+          <td>${r.window} år</td>
+          <td>${fmt1.format(r.meanInflow||0)}</td>
+          <td>${fmt1.format(r.meanOutflow||0)}</td>
+          <td>${(r.meanNetMigration||0)>=0?"+":""}${fmt1.format(r.meanNetMigration||0)}</td>
+          <td>${fmt1.format(r.sdNetMigration||0)}</td>
+          <td>${r.latestYearNetMigration==null?"–":((r.latestYearNetMigration>=0?"+":"")+fmt1.format(r.latestYearNetMigration))}</td>
+        </tr>`).join("")}</tbody>
+      </table>
+      <p class="hint">${diag.interpretation||""}</p>`;
   }
 
   function drawAgeLineChart(svgId,xValues,series,options={}){

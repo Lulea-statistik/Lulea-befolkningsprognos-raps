@@ -61,7 +61,7 @@ function scoreRows(rows) {
     byHorizon
   };
 }
-function runGeo(model, actual, geo, window, timingMode) {
+function runGeo(model, actual, geo, window, timingMode, migrationWindow=null) {
   const pred = M.simulate(model, {
     geo,
     endYear: actual.endYear,
@@ -69,6 +69,7 @@ function runGeo(model, actual, geo, window, timingMode) {
     mortMult: 1,
     migMult: 1,
     window,
+    ...(migrationWindow==null?{}:{migrationWindow}),
     cohortTimingMode: timingMode,
     scenarios: {housing: [], workplaces: [], overlapPct: 0},
     includeDetail: false
@@ -98,6 +99,7 @@ const report = {
   method:manifest.method,
   governance:manifest.governance,
   windows:manifest.windows,
+  migrationWindows:manifest.migrationWindows||[6,10],
   horizonYears:manifest.horizonYears,
   evaluationPriority:{
     primary:"n+1",
@@ -126,7 +128,8 @@ for (const region of manifest.regions) {
     members:region.members,
     summary:{},
     byOrigin:{},
-    memberSummary:{}
+    memberSummary:{},
+    migrationWindowSummary:{}
   };
 
   for (const window of manifest.windows.map(Number)) {
@@ -211,6 +214,23 @@ for (const region of manifest.regions) {
     };
   }
 
+  for (const migrationWindow of (manifest.migrationWindows||[6,10]).map(Number)) {
+    const rows=[];
+    const byOrigin={};
+    for (const entry of loaded) {
+      const rr=runGeo(
+        entry.model,entry.actual,region.code,10,
+        'event_age_aligned',migrationWindow
+      );
+      rows.push(...rr);
+      byOrigin[entry.origin]=scoreRows(rr);
+    }
+    regionOut.migrationWindowSummary[migrationWindow]={
+      ...scoreRows(rows),
+      byOrigin
+    };
+  }
+
   for (const member of Object.keys(region.members)) {
     regionOut.memberSummary[member] = {};
     for (const window of manifest.windows.map(Number)) {
@@ -250,6 +270,15 @@ fs.writeFileSync(
 
 console.log('Wrote data/backtests/reference_fa_rolling.json/js');
 for (const [code,region] of Object.entries(report.regions)) {
+  for (const migrationWindow of report.migrationWindows) {
+    const m=region.migrationWindowSummary[migrationWindow];
+    console.log(
+      `${code} ${region.name} migrationWindow=${migrationWindow}: `+
+      `n+1 migration MAE=${m.oneYear.netMigrationMAE} | `+
+      `n+1 population MAPE=${m.oneYear.populationMAPE}% | `+
+      `n+2 migration MAE=${m.twoYear.netMigrationMAE}`
+    );
+  }
   for (const window of report.windows) {
     const s=region.summary[window];
     console.log(

@@ -23,6 +23,7 @@ WORKDIR = OUTDIR / "rolling_work"
 WORKDIR.mkdir(parents=True, exist_ok=True)
 
 WINDOWS = (6, 10)
+MIGRATION_WINDOWS = (2, 4, 6, 10)
 HORIZON_YEARS = 3
 ORIGINS = {
     2018: {
@@ -167,10 +168,12 @@ def national_only_mortality_rows(future_mort, start_year, end_year):
 def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deaths, births, netmig):
     original_end = b.CALIBRATION_END
     original_windows = b.WINDOWS
+    original_migration_windows = b.MIGRATION_WINDOWS
     end_year = origin + HORIZON_YEARS
     try:
         b.CALIBRATION_END = origin
         b.WINDOWS = WINDOWS
+        b.MIGRATION_WINDOWS = MIGRATION_WINDOWS
 
         fertility_rates, fertility_factors = b.fertility_profiles(
             births, fertility_exposure
@@ -295,6 +298,7 @@ def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deat
     finally:
         b.CALIBRATION_END = original_end
         b.WINDOWS = original_windows
+        b.MIGRATION_WINDOWS = original_migration_windows
 
 
 def main():
@@ -331,6 +335,7 @@ def main():
         ),
         "origins": entries,
         "windows": list(WINDOWS),
+        "migrationWindows": list(MIGRATION_WINDOWS),
         "horizonYears": HORIZON_YEARS,
         "overlapNote": (
             "Forecast windows overlap in calendar time and must not be treated "
