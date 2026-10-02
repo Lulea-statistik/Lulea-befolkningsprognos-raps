@@ -181,8 +181,8 @@ const faAdditiveData={
     {geo:'FA_LULEA',year:2025,sex:'K',age:30,value:999}
   ],
   fertilityRates:[
-    ...['2580','2582','2581','2560','2514'].map((geo,i)=>({geo,window:10,age:30,value:0.01*(i+1)})),
-    {geo:'FA_LULEA',window:10,age:30,value:0.99}
+    ...['2580','2582','2581','2560','2514'].map((geo,i)=>({geo,window:10,age:31,value:0.01*(i+1)})),
+    {geo:'FA_LULEA',window:10,age:31,value:0.99}
   ],
   mortalityRisks:[],
   netMigration:[]
