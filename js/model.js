@@ -94,6 +94,27 @@
     };
   }
 
+  function getScbRiskRow(rows,geo,leg,sex,age){
+    return (rows||[]).find(x=>
+      x.geo===geo && x.leg===leg && x.sex===sex && +x.age===+age
+    )||null;
+  }
+  function getScbInternationalInRow(rows,geo,sex,age){
+    return (rows||[]).find(x=>
+      x.geo===geo && x.sex===sex && +x.age===+age
+    )||null;
+  }
+  function getScbNationalPopulation(rows,year,sex,age){
+    const r=(rows||[]).find(x=>
+      +x.year===+year && x.sex===sex && +x.age===+age
+    );
+    return r?Math.max(0,n(r.value)):0;
+  }
+  function getScbNationalImmigration(rows,year){
+    const r=(rows||[]).find(x=>+x.year===+year);
+    return r?Math.max(0,n(r.value)):0;
+  }
+
   function baseMunicipalityWeights(data){
     const members=(data.geographies.find(g=>g.code==="FA_LULEA")||{}).members||[];
     const totals={};
@@ -447,6 +468,23 @@
         throw new Error(`Saknar komponentflyttningsunderlag för ${geo}: ${missing.join(", ")}.`);
       }
     }
+    if(migrationMode==="scb_risk_flow"){
+      const domesticLegs=["county","rest_sweden"];
+      const missingIn=domesticLegs.filter(leg=>
+        !(data.scbRiskInternalInMigration||[]).some(r=>r.geo===geo&&r.leg===leg)
+      );
+      const missingOut=["county","rest_sweden","international"].filter(leg=>
+        !(data.scbRiskOutMigration||[]).some(r=>r.geo===geo&&r.leg===leg)
+      );
+      const hasIntlIn=(data.scbRiskInternationalInMigration||[]).some(r=>r.geo===geo);
+      const hasNationalPop=(data.scbRiskNationalMeanPopulation||[]).length>0;
+      const hasNationalImmigration=(data.scbRiskNationalImmigration||[]).length>0;
+      if(missingIn.length||missingOut.length||!hasIntlIn||!hasNationalPop||!hasNationalImmigration){
+        throw new Error(
+          `Saknar SCB-riskflyttningsunderlag för ${geo}.`
+        );
+      }
+    }
     let pop=indexed(rows,geo);
     const snapshot=()=>{
       if(!options.includeDetail) return undefined;
@@ -462,8 +500,8 @@
       year:baseYear,
       population:[...pop.values()].reduce((s,v)=>s+v,0),
       births:0,deaths:0,netMigration:0,
-      grossInMigration:(migrationMode==="gross_flow"||migrationMode==="component_flow")?0:null,
-      grossOutMigration:(migrationMode==="gross_flow"||migrationMode==="component_flow")?0:null,
+      grossInMigration:(migrationMode==="gross_flow"||migrationMode==="component_flow"||migrationMode==="scb_risk_flow")?0:null,
+      grossOutMigration:(migrationMode==="gross_flow"||migrationMode==="component_flow"||migrationMode==="scb_risk_flow")?0:null,
       migrationMode,
       migrationWindow,
       cohortTimingMode,
@@ -605,6 +643,55 @@
             survivors.set(k,Math.max(0,p-outgoing+incoming));
           }
         }
+      }else if(migrationMode==="scb_risk_flow"){
+        const nationalImmigration=getScbNationalImmigration(
+          data.scbRiskNationalImmigration,year
+        );
+        for(const sex of ["K","M"]){
+          for(let age=0;age<=MAX_AGE;age++){
+            const k=key(sex,age);
+            const p=n(survivors.get(k));
+            const nationalPop=getScbNationalPopulation(
+              data.scbRiskNationalMeanPopulation,year,sex,age
+            );
+            const restPopulation=Math.max(0,nationalPop-p);
+
+            let domesticIncoming=0;
+            let totalOutRisk=0;
+            for(const leg of ["county","rest_sweden"]){
+              const inRow=getScbRiskRow(
+                data.scbRiskInternalInMigration,geo,leg,sex,age
+              );
+              const outRow=getScbRiskRow(
+                data.scbRiskOutMigration,geo,leg,sex,age
+              );
+              domesticIncoming+=Math.max(0,n(inRow?.value))*restPopulation;
+              totalOutRisk+=Math.max(0,n(outRow?.value));
+            }
+
+            const intlIn=getScbInternationalInRow(
+              data.scbRiskInternationalInMigration,geo,sex,age
+            );
+            const internationalIncoming=
+              nationalImmigration*
+              Math.max(0,n(intlIn?.municipalityShare))*
+              Math.max(0,n(intlIn?.ageSexShare));
+
+            const intlOut=getScbRiskRow(
+              data.scbRiskOutMigration,geo,"international",sex,age
+            );
+            totalOutRisk+=Math.max(0,n(intlOut?.value));
+
+            const incoming=(domesticIncoming+internationalIncoming)*imigMult;
+            const outRisk=clamp(totalOutRisk*umigMult,0,1);
+            const outgoing=Math.min(p,p*outRisk);
+
+            grossInMigration+=incoming;
+            grossOutMigration+=outgoing;
+            netMigration+=incoming-outgoing;
+            survivors.set(k,Math.max(0,p-outgoing+incoming));
+          }
+        }
       }else{
         for(const sex of ["K","M"]){
           for(let age=0;age<=MAX_AGE;age++){
@@ -632,8 +719,8 @@
       pop=survivors;
       results.push({
         year,population:total,births,deaths,netMigration,
-        grossInMigration:(migrationMode==="gross_flow"||migrationMode==="component_flow")?grossInMigration:null,
-        grossOutMigration:(migrationMode==="gross_flow"||migrationMode==="component_flow")?grossOutMigration:null,
+        grossInMigration:(migrationMode==="gross_flow"||migrationMode==="component_flow"||migrationMode==="scb_risk_flow")?grossInMigration:null,
+        grossOutMigration:(migrationMode==="gross_flow"||migrationMode==="component_flow"||migrationMode==="scb_risk_flow")?grossOutMigration:null,
         migrationMode,
         migrationWindow,
         cohortTimingMode,
