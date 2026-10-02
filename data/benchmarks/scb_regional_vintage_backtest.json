@@ -1,0 +1,937 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "external_historical_benchmark",
+  "note": "Official SCB regional forecast vintages are compared with realized population only; they are not model inputs.",
+  "availableVintages": [
+    2020,
+    2021,
+    2022
+  ],
+  "missingFrozenSources": [],
+  "vintages": {
+    "2020": {
+      "sourceTable": "TAB693",
+      "sourceFile": "data/raw/regional_flows_benchmark_2020.csv",
+      "rows": [
+        {
+          "geo": "2580",
+          "year": 2021,
+          "horizon": 1,
+          "predictedPopulation": 78661.0,
+          "actualPopulation": 78867.0,
+          "error": -206.0,
+          "absPctError": 0.2611992341537018
+        },
+        {
+          "geo": "2582",
+          "year": 2021,
+          "horizon": 1,
+          "predictedPopulation": 27838.0,
+          "actualPopulation": 28160.0,
+          "error": -322.0,
+          "absPctError": 1.1434659090909092
+        },
+        {
+          "geo": "2581",
+          "year": 2021,
+          "horizon": 1,
+          "predictedPopulation": 41974.0,
+          "actualPopulation": 42323.0,
+          "error": -349.0,
+          "absPctError": 0.8246107317534201
+        },
+        {
+          "geo": "2560",
+          "year": 2021,
+          "horizon": 1,
+          "predictedPopulation": 7947.0,
+          "actualPopulation": 8009.0,
+          "error": -62.0,
+          "absPctError": 0.7741291047571482
+        },
+        {
+          "geo": "2514",
+          "year": 2021,
+          "horizon": 1,
+          "predictedPopulation": 15567.0,
+          "actualPopulation": 15768.0,
+          "error": -201.0,
+          "absPctError": 1.2747336377473364
+        },
+        {
+          "geo": "FA_LULEA",
+          "year": 2021,
+          "horizon": 1,
+          "predictedPopulation": 171987.0,
+          "actualPopulation": 173127.0,
+          "error": -1140.0,
+          "absPctError": 0.6584761475679703
+        },
+        {
+          "geo": "2580",
+          "year": 2022,
+          "horizon": 2,
+          "predictedPopulation": 78915.0,
+          "actualPopulation": 79244.0,
+          "error": -329.0,
+          "absPctError": 0.41517338852152846
+        },
+        {
+          "geo": "2582",
+          "year": 2022,
+          "horizon": 2,
+          "predictedPopulation": 27705.0,
+          "actualPopulation": 28048.0,
+          "error": -343.0,
+          "absPctError": 1.2229035938391328
+        },
+        {
+          "geo": "2581",
+          "year": 2022,
+          "horizon": 2,
+          "predictedPopulation": 41785.0,
+          "actualPopulation": 42362.0,
+          "error": -577.0,
+          "absPctError": 1.3620697795193806
+        },
+        {
+          "geo": "2560",
+          "year": 2022,
+          "horizon": 2,
+          "predictedPopulation": 7886.0,
+          "actualPopulation": 7911.0,
+          "error": -25.0,
+          "absPctError": 0.3160156743774491
+        },
+        {
+          "geo": "2514",
+          "year": 2022,
+          "horizon": 2,
+          "predictedPopulation": 15403.0,
+          "actualPopulation": 15729.0,
+          "error": -326.0,
+          "absPctError": 2.0726047428317123
+        },
+        {
+          "geo": "FA_LULEA",
+          "year": 2022,
+          "horizon": 2,
+          "predictedPopulation": 171694.0,
+          "actualPopulation": 173294.0,
+          "error": -1600.0,
+          "absPctError": 0.9232864380763327
+        },
+        {
+          "geo": "2580",
+          "year": 2023,
+          "horizon": 3,
+          "predictedPopulation": 79133.0,
+          "actualPopulation": 79352.0,
+          "error": -219.0,
+          "absPctError": 0.27598548240750076
+        },
+        {
+          "geo": "2582",
+          "year": 2023,
+          "horizon": 3,
+          "predictedPopulation": 27577.0,
+          "actualPopulation": 27943.0,
+          "error": -366.0,
+          "absPctError": 1.3098092545539133
+        },
+        {
+          "geo": "2581",
+          "year": 2023,
+          "horizon": 3,
+          "predictedPopulation": 41629.0,
+          "actualPopulation": 42344.0,
+          "error": -715.0,
+          "absPctError": 1.6885509163045531
+        },
+        {
+          "geo": "2560",
+          "year": 2023,
+          "horizon": 3,
+          "predictedPopulation": 7823.0,
+          "actualPopulation": 7783.0,
+          "error": 40.0,
+          "absPctError": 0.5139406398560966
+        },
+        {
+          "geo": "2514",
+          "year": 2023,
+          "horizon": 3,
+          "predictedPopulation": 15239.0,
+          "actualPopulation": 15547.0,
+          "error": -308.0,
+          "absPctError": 1.9810895992796038
+        },
+        {
+          "geo": "FA_LULEA",
+          "year": 2023,
+          "horizon": 3,
+          "predictedPopulation": 171401.0,
+          "actualPopulation": 172969.0,
+          "error": -1568.0,
+          "absPctError": 0.9065208216501223
+        },
+        {
+          "geo": "2580",
+          "year": 2024,
+          "horizon": 4,
+          "predictedPopulation": 79358.0,
+          "actualPopulation": 79645.0,
+          "error": -287.0,
+          "absPctError": 0.3603490489045138
+        },
+        {
+          "geo": "2582",
+          "year": 2024,
+          "horizon": 4,
+          "predictedPopulation": 27454.0,
+          "actualPopulation": 28049.0,
+          "error": -595.0,
+          "absPctError": 2.1212877464437234
+        },
+        {
+          "geo": "2581",
+          "year": 2024,
+          "horizon": 4,
+          "predictedPopulation": 41466.0,
+          "actualPopulation": 42447.0,
+          "error": -981.0,
+          "absPctError": 2.3111173934553677
+        },
+        {
+          "geo": "2560",
+          "year": 2024,
+          "horizon": 4,
+          "predictedPopulation": 7772.0,
+          "actualPopulation": 7774.0,
+          "error": -2.0,
+          "absPctError": 0.025726781579624387
+        },
+        {
+          "geo": "2514",
+          "year": 2024,
+          "horizon": 4,
+          "predictedPopulation": 15090.0,
+          "actualPopulation": 15391.0,
+          "error": -301.0,
+          "absPctError": 1.955688389318433
+        },
+        {
+          "geo": "FA_LULEA",
+          "year": 2024,
+          "horizon": 4,
+          "predictedPopulation": 171140.0,
+          "actualPopulation": 173306.0,
+          "error": -2166.0,
+          "absPctError": 1.2498124704280291
+        }
+      ],
+      "summary": {
+        "2580": {
+          "observations": 4,
+          "MAE": 260.25,
+          "MAPE": 0.3281767884968112,
+          "meanError": -260.25,
+          "byHorizon": {
+            "1": {
+              "observations": 1,
+              "MAE": 206.0,
+              "MAPE": 0.2611992341537018
+            },
+            "2": {
+              "observations": 1,
+              "MAE": 329.0,
+              "MAPE": 0.41517338852152846
+            },
+            "3": {
+              "observations": 1,
+              "MAE": 219.0,
+              "MAPE": 0.27598548240750076
+            },
+            "4": {
+              "observations": 1,
+              "MAE": 287.0,
+              "MAPE": 0.3603490489045138
+            }
+          }
+        },
+        "2582": {
+          "observations": 4,
+          "MAE": 406.5,
+          "MAPE": 1.4493666259819196,
+          "meanError": -406.5,
+          "byHorizon": {
+            "1": {
+              "observations": 1,
+              "MAE": 322.0,
+              "MAPE": 1.1434659090909092
+            },
+            "2": {
+              "observations": 1,
+              "MAE": 343.0,
+              "MAPE": 1.2229035938391328
+            },
+            "3": {
+              "observations": 1,
+              "MAE": 366.0,
+              "MAPE": 1.3098092545539133
+            },
+            "4": {
+              "observations": 1,
+              "MAE": 595.0,
+              "MAPE": 2.1212877464437234
+            }
+          }
+        },
+        "2581": {
+          "observations": 4,
+          "MAE": 655.5,
+          "MAPE": 1.5465872052581804,
+          "meanError": -655.5,
+          "byHorizon": {
+            "1": {
+              "observations": 1,
+              "MAE": 349.0,
+              "MAPE": 0.8246107317534201
+            },
+            "2": {
+              "observations": 1,
+              "MAE": 577.0,
+              "MAPE": 1.3620697795193806
+            },
+            "3": {
+              "observations": 1,
+              "MAE": 715.0,
+              "MAPE": 1.6885509163045531
+            },
+            "4": {
+              "observations": 1,
+              "MAE": 981.0,
+              "MAPE": 2.3111173934553677
+            }
+          }
+        },
+        "2560": {
+          "observations": 4,
+          "MAE": 32.25,
+          "MAPE": 0.4074530501425796,
+          "meanError": -12.25,
+          "byHorizon": {
+            "1": {
+              "observations": 1,
+              "MAE": 62.0,
+              "MAPE": 0.7741291047571482
+            },
+            "2": {
+              "observations": 1,
+              "MAE": 25.0,
+              "MAPE": 0.3160156743774491
+            },
+            "3": {
+              "observations": 1,
+              "MAE": 40.0,
+              "MAPE": 0.5139406398560966
+            },
+            "4": {
+              "observations": 1,
+              "MAE": 2.0,
+              "MAPE": 0.025726781579624387
+            }
+          }
+        },
+        "2514": {
+          "observations": 4,
+          "MAE": 284.0,
+          "MAPE": 1.8210290922942713,
+          "meanError": -284.0,
+          "byHorizon": {
+            "1": {
+              "observations": 1,
+              "MAE": 201.0,
+              "MAPE": 1.2747336377473364
+            },
+            "2": {
+              "observations": 1,
+              "MAE": 326.0,
+              "MAPE": 2.0726047428317123
+            },
+            "3": {
+              "observations": 1,
+              "MAE": 308.0,
+              "MAPE": 1.9810895992796038
+            },
+            "4": {
+              "observations": 1,
+              "MAE": 301.0,
+              "MAPE": 1.955688389318433
+            }
+          }
+        },
+        "FA_LULEA": {
+          "observations": 4,
+          "MAE": 1618.5,
+          "MAPE": 0.9345239694306136,
+          "meanError": -1618.5,
+          "byHorizon": {
+            "1": {
+              "observations": 1,
+              "MAE": 1140.0,
+              "MAPE": 0.6584761475679703
+            },
+            "2": {
+              "observations": 1,
+              "MAE": 1600.0,
+              "MAPE": 0.9232864380763327
+            },
+            "3": {
+              "observations": 1,
+              "MAE": 1568.0,
+              "MAPE": 0.9065208216501223
+            },
+            "4": {
+              "observations": 1,
+              "MAE": 2166.0,
+              "MAPE": 1.2498124704280291
+            }
+          }
+        }
+      }
+    },
+    "2021": {
+      "sourceTable": "TAB5996",
+      "sourceFile": "data/raw/regional_flows_benchmark_2021.csv",
+      "rows": [
+        {
+          "geo": "2580",
+          "year": 2022,
+          "horizon": 1,
+          "predictedPopulation": 78812.0,
+          "actualPopulation": 79244.0,
+          "error": -432.0,
+          "absPctError": 0.5451516834082075
+        },
+        {
+          "geo": "2582",
+          "year": 2022,
+          "horizon": 1,
+          "predictedPopulation": 27487.0,
+          "actualPopulation": 28048.0,
+          "error": -561.0,
+          "absPctError": 2.0001426126640047
+        },
+        {
+          "geo": "2581",
+          "year": 2022,
+          "horizon": 1,
+          "predictedPopulation": 42230.0,
+          "actualPopulation": 42362.0,
+          "error": -132.0,
+          "absPctError": 0.3116000188848496
+        },
+        {
+          "geo": "2560",
+          "year": 2022,
+          "horizon": 1,
+          "predictedPopulation": 7860.0,
+          "actualPopulation": 7911.0,
+          "error": -51.0,
+          "absPctError": 0.6446719757299962
+        },
+        {
+          "geo": "2514",
+          "year": 2022,
+          "horizon": 1,
+          "predictedPopulation": 15578.0,
+          "actualPopulation": 15729.0,
+          "error": -151.0,
+          "absPctError": 0.9600101722932164
+        },
+        {
+          "geo": "FA_LULEA",
+          "year": 2022,
+          "horizon": 1,
+          "predictedPopulation": 171967.0,
+          "actualPopulation": 173294.0,
+          "error": -1327.0,
+          "absPctError": 0.7657506895795584
+        },
+        {
+          "geo": "2580",
+          "year": 2023,
+          "horizon": 2,
+          "predictedPopulation": 78934.0,
+          "actualPopulation": 79352.0,
+          "error": -418.0,
+          "absPctError": 0.5267668111704809
+        },
+        {
+          "geo": "2582",
+          "year": 2023,
+          "horizon": 2,
+          "predictedPopulation": 27260.0,
+          "actualPopulation": 27943.0,
+          "error": -683.0,
+          "absPctError": 2.4442615324052537
+        },
+        {
+          "geo": "2581",
+          "year": 2023,
+          "horizon": 2,
+          "predictedPopulation": 42231.0,
+          "actualPopulation": 42344.0,
+          "error": -113.0,
+          "absPctError": 0.266861893066314
+        },
+        {
+          "geo": "2560",
+          "year": 2023,
+          "horizon": 2,
+          "predictedPopulation": 7779.0,
+          "actualPopulation": 7783.0,
+          "error": -4.0,
+          "absPctError": 0.05139406398560966
+        },
+        {
+          "geo": "2514",
+          "year": 2023,
+          "horizon": 2,
+          "predictedPopulation": 15453.0,
+          "actualPopulation": 15547.0,
+          "error": -94.0,
+          "absPctError": 0.6046182543255934
+        },
+        {
+          "geo": "FA_LULEA",
+          "year": 2023,
+          "horizon": 2,
+          "predictedPopulation": 171657.0,
+          "actualPopulation": 172969.0,
+          "error": -1312.0,
+          "absPctError": 0.7585174221970411
+        },
+        {
+          "geo": "2580",
+          "year": 2024,
+          "horizon": 3,
+          "predictedPopulation": 78998.0,
+          "actualPopulation": 79645.0,
+          "error": -647.0,
+          "absPctError": 0.8123548245338691
+        },
+        {
+          "geo": "2582",
+          "year": 2024,
+          "horizon": 3,
+          "predictedPopulation": 27066.0,
+          "actualPopulation": 28049.0,
+          "error": -983.0,
+          "absPctError": 3.5045812684944204
+        },
+        {
+          "geo": "2581",
+          "year": 2024,
+          "horizon": 3,
+          "predictedPopulation": 42234.0,
+          "actualPopulation": 42447.0,
+          "error": -213.0,
+          "absPctError": 0.5018022475086579
+        },
+        {
+          "geo": "2560",
+          "year": 2024,
+          "horizon": 3,
+          "predictedPopulation": 7712.0,
+          "actualPopulation": 7774.0,
+          "error": -62.0,
+          "absPctError": 0.797530228968356
+        },
+        {
+          "geo": "2514",
+          "year": 2024,
+          "horizon": 3,
+          "predictedPopulation": 15347.0,
+          "actualPopulation": 15391.0,
+          "error": -44.0,
+          "absPctError": 0.2858813592359171
+        },
+        {
+          "geo": "FA_LULEA",
+          "year": 2024,
+          "horizon": 3,
+          "predictedPopulation": 171357.0,
+          "actualPopulation": 173306.0,
+          "error": -1949.0,
+          "absPctError": 1.124600417758185
+        }
+      ],
+      "summary": {
+        "2580": {
+          "observations": 3,
+          "MAE": 499.0,
+          "MAPE": 0.6280911063708525,
+          "meanError": -499.0,
+          "byHorizon": {
+            "1": {
+              "observations": 1,
+              "MAE": 432.0,
+              "MAPE": 0.5451516834082075
+            },
+            "2": {
+              "observations": 1,
+              "MAE": 418.0,
+              "MAPE": 0.5267668111704809
+            },
+            "3": {
+              "observations": 1,
+              "MAE": 647.0,
+              "MAPE": 0.8123548245338691
+            }
+          }
+        },
+        "2582": {
+          "observations": 3,
+          "MAE": 742.3333333333334,
+          "MAPE": 2.649661804521226,
+          "meanError": -742.3333333333334,
+          "byHorizon": {
+            "1": {
+              "observations": 1,
+              "MAE": 561.0,
+              "MAPE": 2.0001426126640047
+            },
+            "2": {
+              "observations": 1,
+              "MAE": 683.0,
+              "MAPE": 2.4442615324052537
+            },
+            "3": {
+              "observations": 1,
+              "MAE": 983.0,
+              "MAPE": 3.5045812684944204
+            }
+          }
+        },
+        "2581": {
+          "observations": 3,
+          "MAE": 152.66666666666666,
+          "MAPE": 0.3600880531532738,
+          "meanError": -152.66666666666666,
+          "byHorizon": {
+            "1": {
+              "observations": 1,
+              "MAE": 132.0,
+              "MAPE": 0.3116000188848496
+            },
+            "2": {
+              "observations": 1,
+              "MAE": 113.0,
+              "MAPE": 0.266861893066314
+            },
+            "3": {
+              "observations": 1,
+              "MAE": 213.0,
+              "MAPE": 0.5018022475086579
+            }
+          }
+        },
+        "2560": {
+          "observations": 3,
+          "MAE": 39.0,
+          "MAPE": 0.49786542289465396,
+          "meanError": -39.0,
+          "byHorizon": {
+            "1": {
+              "observations": 1,
+              "MAE": 51.0,
+              "MAPE": 0.6446719757299962
+            },
+            "2": {
+              "observations": 1,
+              "MAE": 4.0,
+              "MAPE": 0.05139406398560966
+            },
+            "3": {
+              "observations": 1,
+              "MAE": 62.0,
+              "MAPE": 0.797530228968356
+            }
+          }
+        },
+        "2514": {
+          "observations": 3,
+          "MAE": 96.33333333333333,
+          "MAPE": 0.616836595284909,
+          "meanError": -96.33333333333333,
+          "byHorizon": {
+            "1": {
+              "observations": 1,
+              "MAE": 151.0,
+              "MAPE": 0.9600101722932164
+            },
+            "2": {
+              "observations": 1,
+              "MAE": 94.0,
+              "MAPE": 0.6046182543255934
+            },
+            "3": {
+              "observations": 1,
+              "MAE": 44.0,
+              "MAPE": 0.2858813592359171
+            }
+          }
+        },
+        "FA_LULEA": {
+          "observations": 3,
+          "MAE": 1529.3333333333333,
+          "MAPE": 0.8829561765115947,
+          "meanError": -1529.3333333333333,
+          "byHorizon": {
+            "1": {
+              "observations": 1,
+              "MAE": 1327.0,
+              "MAPE": 0.7657506895795584
+            },
+            "2": {
+              "observations": 1,
+              "MAE": 1312.0,
+              "MAPE": 0.7585174221970411
+            },
+            "3": {
+              "observations": 1,
+              "MAE": 1949.0,
+              "MAPE": 1.124600417758185
+            }
+          }
+        }
+      }
+    },
+    "2022": {
+      "sourceTable": "TAB6299",
+      "sourceFile": "data/raw/regional_flows_benchmark_2022.csv",
+      "rows": [
+        {
+          "geo": "2580",
+          "year": 2023,
+          "horizon": 1,
+          "predictedPopulation": 79320.39779999996,
+          "actualPopulation": 79352.0,
+          "error": -31.602200000037556,
+          "absPctError": 0.0398253352152908
+        },
+        {
+          "geo": "2582",
+          "year": 2023,
+          "horizon": 1,
+          "predictedPopulation": 27724.294600000023,
+          "actualPopulation": 27943.0,
+          "error": -218.7053999999771,
+          "absPctError": 0.7826840353576104
+        },
+        {
+          "geo": "2581",
+          "year": 2023,
+          "horizon": 1,
+          "predictedPopulation": 42288.1301,
+          "actualPopulation": 42344.0,
+          "error": -55.86989999999787,
+          "absPctError": 0.13194289627809813
+        },
+        {
+          "geo": "2560",
+          "year": 2023,
+          "horizon": 1,
+          "predictedPopulation": 7858.783699999998,
+          "actualPopulation": 7783.0,
+          "error": 75.78369999999813,
+          "absPctError": 0.9737080817165378
+        },
+        {
+          "geo": "2514",
+          "year": 2023,
+          "horizon": 1,
+          "predictedPopulation": 15527.471799999998,
+          "actualPopulation": 15547.0,
+          "error": -19.52820000000247,
+          "absPctError": 0.12560751270343135
+        },
+        {
+          "geo": "FA_LULEA",
+          "year": 2023,
+          "horizon": 1,
+          "predictedPopulation": 172719.07799999998,
+          "actualPopulation": 172969.0,
+          "error": -249.9220000000205,
+          "absPctError": 0.1444894749926406
+        },
+        {
+          "geo": "2580",
+          "year": 2024,
+          "horizon": 2,
+          "predictedPopulation": 79493.5548000001,
+          "actualPopulation": 79645.0,
+          "error": -151.44519999990007,
+          "absPctError": 0.1901502919202713
+        },
+        {
+          "geo": "2582",
+          "year": 2024,
+          "horizon": 2,
+          "predictedPopulation": 27563.254400000013,
+          "actualPopulation": 28049.0,
+          "error": -485.74559999998746,
+          "absPctError": 1.7317751078469374
+        },
+        {
+          "geo": "2581",
+          "year": 2024,
+          "horizon": 2,
+          "predictedPopulation": 42255.95209999998,
+          "actualPopulation": 42447.0,
+          "error": -191.04790000001958,
+          "absPctError": 0.4500857539991509
+        },
+        {
+          "geo": "2560",
+          "year": 2024,
+          "horizon": 2,
+          "predictedPopulation": 7789.331400000001,
+          "actualPopulation": 7774.0,
+          "error": 15.33140000000094,
+          "absPctError": 0.19721378955493876
+        },
+        {
+          "geo": "2514",
+          "year": 2024,
+          "horizon": 2,
+          "predictedPopulation": 15409.444000000001,
+          "actualPopulation": 15391.0,
+          "error": 18.444000000001324,
+          "absPctError": 0.11983626794880985
+        },
+        {
+          "geo": "FA_LULEA",
+          "year": 2024,
+          "horizon": 2,
+          "predictedPopulation": 172511.53670000008,
+          "actualPopulation": 173306.0,
+          "error": -794.4632999999158,
+          "absPctError": 0.4584165002942286
+        }
+      ],
+      "summary": {
+        "2580": {
+          "observations": 2,
+          "MAE": 91.52369999996881,
+          "MAPE": 0.11498781356778105,
+          "meanError": -91.52369999996881,
+          "byHorizon": {
+            "1": {
+              "observations": 1,
+              "MAE": 31.602200000037556,
+              "MAPE": 0.0398253352152908
+            },
+            "2": {
+              "observations": 1,
+              "MAE": 151.44519999990007,
+              "MAPE": 0.1901502919202713
+            }
+          }
+        },
+        "2582": {
+          "observations": 2,
+          "MAE": 352.2254999999823,
+          "MAPE": 1.2572295716022739,
+          "meanError": -352.2254999999823,
+          "byHorizon": {
+            "1": {
+              "observations": 1,
+              "MAE": 218.7053999999771,
+              "MAPE": 0.7826840353576104
+            },
+            "2": {
+              "observations": 1,
+              "MAE": 485.74559999998746,
+              "MAPE": 1.7317751078469374
+            }
+          }
+        },
+        "2581": {
+          "observations": 2,
+          "MAE": 123.45890000000873,
+          "MAPE": 0.2910143251386245,
+          "meanError": -123.45890000000873,
+          "byHorizon": {
+            "1": {
+              "observations": 1,
+              "MAE": 55.86989999999787,
+              "MAPE": 0.13194289627809813
+            },
+            "2": {
+              "observations": 1,
+              "MAE": 191.04790000001958,
+              "MAPE": 0.4500857539991509
+            }
+          }
+        },
+        "2560": {
+          "observations": 2,
+          "MAE": 45.55754999999954,
+          "MAPE": 0.5854609356357383,
+          "meanError": 45.55754999999954,
+          "byHorizon": {
+            "1": {
+              "observations": 1,
+              "MAE": 75.78369999999813,
+              "MAPE": 0.9737080817165378
+            },
+            "2": {
+              "observations": 1,
+              "MAE": 15.33140000000094,
+              "MAPE": 0.19721378955493876
+            }
+          }
+        },
+        "2514": {
+          "observations": 2,
+          "MAE": 18.986100000001898,
+          "MAPE": 0.1227218903261206,
+          "meanError": -0.5421000000005733,
+          "byHorizon": {
+            "1": {
+              "observations": 1,
+              "MAE": 19.52820000000247,
+              "MAPE": 0.12560751270343135
+            },
+            "2": {
+              "observations": 1,
+              "MAE": 18.444000000001324,
+              "MAPE": 0.11983626794880985
+            }
+          }
+        },
+        "FA_LULEA": {
+          "observations": 2,
+          "MAE": 522.1926499999681,
+          "MAPE": 0.3014529876434346,
+          "meanError": -522.1926499999681,
+          "byHorizon": {
+            "1": {
+              "observations": 1,
+              "MAE": 249.9220000000205,
+              "MAPE": 0.1444894749926406
+            },
+            "2": {
+              "observations": 1,
+              "MAE": 794.4632999999158,
+              "MAPE": 0.4584165002942286
+            }
+          }
+        }
+      }
+    }
+  }
+}

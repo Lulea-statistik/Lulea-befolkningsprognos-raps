@@ -28,6 +28,7 @@
     }
   ],
   "windows": [
+    3,
     6,
     10
   ],
@@ -36,6 +37,59 @@
   "results": {
     "2514": {
       "2018": {
+        "3": [
+          {
+            "year": 2019,
+            "horizon": 1,
+            "predictedPopulation": 15992.7,
+            "actualPopulation": 15886,
+            "populationError": 106.7,
+            "populationAbsPctError": 0.7,
+            "predictedBirths": 129.7,
+            "actualBirths": 141,
+            "birthsError": -11.3,
+            "predictedDeaths": 227.4,
+            "actualDeaths": 206,
+            "deathsError": 21.4,
+            "predictedNetMigration": 32.3,
+            "actualNetMigration": -111,
+            "netMigrationError": 143.3
+          },
+          {
+            "year": 2020,
+            "horizon": 2,
+            "predictedPopulation": 15929.9,
+            "actualPopulation": 15812,
+            "populationError": 117.9,
+            "populationAbsPctError": 0.7,
+            "predictedBirths": 133.4,
+            "actualBirths": 147,
+            "birthsError": -13.6,
+            "predictedDeaths": 228.4,
+            "actualDeaths": 226,
+            "deathsError": 2.4,
+            "predictedNetMigration": 32.3,
+            "actualNetMigration": 2,
+            "netMigrationError": 30.3
+          },
+          {
+            "year": 2021,
+            "horizon": 3,
+            "predictedPopulation": 15868.4,
+            "actualPopulation": 15768,
+            "populationError": 100.4,
+            "populationAbsPctError": 0.6,
+            "predictedBirths": 135.5,
+            "actualBirths": 135,
+            "birthsError": 0.5,
+            "predictedDeaths": 229.4,
+            "actualDeaths": 229,
+            "deathsError": 0.4,
+            "predictedNetMigration": 32.3,
+            "actualNetMigration": 34,
+            "netMigrationError": -1.7
+          }
+        ],
         "6": [
           {
             "year": 2019,
@@ -144,6 +198,59 @@
         ]
       },
       "2019": {
+        "3": [
+          {
+            "year": 2020,
+            "horizon": 1,
+            "predictedPopulation": 15763.2,
+            "actualPopulation": 15812,
+            "populationError": -48.8,
+            "populationAbsPctError": 0.3,
+            "predictedBirths": 136.5,
+            "actualBirths": 147,
+            "birthsError": -10.5,
+            "predictedDeaths": 229.6,
+            "actualDeaths": 226,
+            "deathsError": 3.6,
+            "predictedNetMigration": -29.7,
+            "actualNetMigration": 2,
+            "netMigrationError": -31.7
+          },
+          {
+            "year": 2021,
+            "horizon": 2,
+            "predictedPopulation": 15639.7,
+            "actualPopulation": 15768,
+            "populationError": -128.3,
+            "populationAbsPctError": 0.8,
+            "predictedBirths": 136.6,
+            "actualBirths": 135,
+            "birthsError": 1.6,
+            "predictedDeaths": 230.5,
+            "actualDeaths": 229,
+            "deathsError": 1.5,
+            "predictedNetMigration": -29.7,
+            "actualNetMigration": 34,
+            "netMigrationError": -63.7
+          },
+          {
+            "year": 2022,
+            "horizon": 3,
+            "predictedPopulation": 15515.2,
+            "actualPopulation": 15729,
+            "populationError": -213.8,
+            "populationAbsPctError": 1.4,
+            "predictedBirths": 136.7,
+            "actualBirths": 127,
+            "birthsError": 9.7,
+            "predictedDeaths": 231.6,
+            "actualDeaths": 246,
+            "deathsError": -14.4,
+            "predictedNetMigration": -29.7,
+            "actualNetMigration": 73,
+            "netMigrationError": -102.7
+          }
+        ],
         "6": [
           {
             "year": 2020,
@@ -252,6 +359,59 @@
         ]
       },
       "2020": {
+        "3": [
+          {
+            "year": 2021,
+            "horizon": 1,
+            "predictedPopulation": 15683.4,
+            "actualPopulation": 15768,
+            "populationError": -84.6,
+            "populationAbsPctError": 0.5,
+            "predictedBirths": 130.6,
+            "actualBirths": 135,
+            "birthsError": -4.4,
+            "predictedDeaths": 219.5,
+            "actualDeaths": 229,
+            "deathsError": -9.5,
+            "predictedNetMigration": -39.7,
+            "actualNetMigration": 34,
+            "netMigrationError": -73.7
+          },
+          {
+            "year": 2022,
+            "horizon": 2,
+            "predictedPopulation": 15553.4,
+            "actualPopulation": 15729,
+            "populationError": -175.6,
+            "populationAbsPctError": 1.1,
+            "predictedBirths": 130.4,
+            "actualBirths": 127,
+            "birthsError": 3.4,
+            "predictedDeaths": 220.7,
+            "actualDeaths": 246,
+            "deathsError": -25.3,
+            "predictedNetMigration": -39.7,
+            "actualNetMigration": 73,
+            "netMigrationError": -112.7
+          },
+          {
+            "year": 2023,
+            "horizon": 3,
+            "predictedPopulation": 15422.4,
+            "actualPopulation": 15547,
+            "populationError": -124.6,
+            "populationAbsPctError": 0.8,
+            "predictedBirths": 130.2,
+            "actualBirths": 110,
+            "birthsError": 20.2,
+            "predictedDeaths": 221.6,
+            "actualDeaths": 247,
+            "deathsError": -25.4,
+            "predictedNetMigration": -39.7,
+            "actualNetMigration": -53,
+            "netMigrationError": 13.3
+          }
+        ],
         "6": [
           {
             "year": 2021,
@@ -360,6 +520,59 @@
         ]
       },
       "2021": {
+        "3": [
+          {
+            "year": 2022,
+            "horizon": 1,
+            "predictedPopulation": 15641.4,
+            "actualPopulation": 15729,
+            "populationError": -87.6,
+            "populationAbsPctError": 0.6,
+            "predictedBirths": 120.8,
+            "actualBirths": 127,
+            "birthsError": -6.2,
+            "predictedDeaths": 222.5,
+            "actualDeaths": 246,
+            "deathsError": -23.5,
+            "predictedNetMigration": -25,
+            "actualNetMigration": 73,
+            "netMigrationError": -98
+          },
+          {
+            "year": 2023,
+            "horizon": 2,
+            "predictedPopulation": 15511.6,
+            "actualPopulation": 15547,
+            "populationError": -35.4,
+            "populationAbsPctError": 0.2,
+            "predictedBirths": 117.7,
+            "actualBirths": 110,
+            "birthsError": 7.7,
+            "predictedDeaths": 222.4,
+            "actualDeaths": 247,
+            "deathsError": -24.6,
+            "predictedNetMigration": -25,
+            "actualNetMigration": -53,
+            "netMigrationError": 28
+          },
+          {
+            "year": 2024,
+            "horizon": 3,
+            "predictedPopulation": 15380,
+            "actualPopulation": 15391,
+            "populationError": -11,
+            "populationAbsPctError": 0.1,
+            "predictedBirths": 116.1,
+            "actualBirths": 121,
+            "birthsError": -4.9,
+            "predictedDeaths": 222.7,
+            "actualDeaths": 216,
+            "deathsError": 6.7,
+            "predictedNetMigration": -25,
+            "actualNetMigration": -58,
+            "netMigrationError": 33
+          }
+        ],
         "6": [
           {
             "year": 2022,
@@ -470,6 +683,59 @@
     },
     "2560": {
       "2018": {
+        "3": [
+          {
+            "year": 2019,
+            "horizon": 1,
+            "predictedPopulation": 8122.8,
+            "actualPopulation": 8066,
+            "populationError": 56.8,
+            "populationAbsPctError": 0.7,
+            "predictedBirths": 76.7,
+            "actualBirths": 85,
+            "birthsError": -8.3,
+            "predictedDeaths": 109.9,
+            "actualDeaths": 112,
+            "deathsError": -2.1,
+            "predictedNetMigration": 16,
+            "actualNetMigration": -49,
+            "netMigrationError": 65
+          },
+          {
+            "year": 2020,
+            "horizon": 2,
+            "predictedPopulation": 8108.2,
+            "actualPopulation": 8054,
+            "populationError": 54.2,
+            "populationAbsPctError": 0.7,
+            "predictedBirths": 78.7,
+            "actualBirths": 63,
+            "birthsError": 15.7,
+            "predictedDeaths": 109.3,
+            "actualDeaths": 96,
+            "deathsError": 13.3,
+            "predictedNetMigration": 16,
+            "actualNetMigration": 22,
+            "netMigrationError": -6
+          },
+          {
+            "year": 2021,
+            "horizon": 3,
+            "predictedPopulation": 8095.4,
+            "actualPopulation": 8009,
+            "populationError": 86.4,
+            "populationAbsPctError": 1.1,
+            "predictedBirths": 79.9,
+            "actualBirths": 79,
+            "birthsError": 0.9,
+            "predictedDeaths": 108.7,
+            "actualDeaths": 103,
+            "deathsError": 5.7,
+            "predictedNetMigration": 16,
+            "actualNetMigration": -22,
+            "netMigrationError": 38
+          }
+        ],
         "6": [
           {
             "year": 2019,
@@ -578,6 +844,59 @@
         ]
       },
       "2019": {
+        "3": [
+          {
+            "year": 2020,
+            "horizon": 1,
+            "predictedPopulation": 8021.1,
+            "actualPopulation": 8054,
+            "populationError": -32.9,
+            "populationAbsPctError": 0.4,
+            "predictedBirths": 77.7,
+            "actualBirths": 63,
+            "birthsError": 14.7,
+            "predictedDeaths": 111.3,
+            "actualDeaths": 96,
+            "deathsError": 15.3,
+            "predictedNetMigration": -11.3,
+            "actualNetMigration": 22,
+            "netMigrationError": -33.3
+          },
+          {
+            "year": 2021,
+            "horizon": 2,
+            "predictedPopulation": 7977.5,
+            "actualPopulation": 8009,
+            "populationError": -31.5,
+            "populationAbsPctError": 0.4,
+            "predictedBirths": 78.4,
+            "actualBirths": 79,
+            "birthsError": -0.6,
+            "predictedDeaths": 110.6,
+            "actualDeaths": 103,
+            "deathsError": 7.6,
+            "predictedNetMigration": -11.3,
+            "actualNetMigration": -22,
+            "netMigrationError": 10.7
+          },
+          {
+            "year": 2022,
+            "horizon": 3,
+            "predictedPopulation": 7935.2,
+            "actualPopulation": 7911,
+            "populationError": 24.2,
+            "populationAbsPctError": 0.3,
+            "predictedBirths": 78.8,
+            "actualBirths": 75,
+            "birthsError": 3.8,
+            "predictedDeaths": 109.8,
+            "actualDeaths": 120,
+            "deathsError": -10.2,
+            "predictedNetMigration": -11.3,
+            "actualNetMigration": -61,
+            "netMigrationError": 49.7
+          }
+        ],
         "6": [
           {
             "year": 2020,
@@ -686,6 +1005,59 @@
         ]
       },
       "2020": {
+        "3": [
+          {
+            "year": 2021,
+            "horizon": 1,
+            "predictedPopulation": 7982.8,
+            "actualPopulation": 8009,
+            "populationError": -26.2,
+            "populationAbsPctError": 0.3,
+            "predictedBirths": 73.4,
+            "actualBirths": 79,
+            "birthsError": -5.6,
+            "predictedDeaths": 104.3,
+            "actualDeaths": 103,
+            "deathsError": 1.3,
+            "predictedNetMigration": -40.3,
+            "actualNetMigration": -22,
+            "netMigrationError": -18.3
+          },
+          {
+            "year": 2022,
+            "horizon": 2,
+            "predictedPopulation": 7911.2,
+            "actualPopulation": 7911,
+            "populationError": 0.2,
+            "populationAbsPctError": 0,
+            "predictedBirths": 73.2,
+            "actualBirths": 75,
+            "birthsError": -1.8,
+            "predictedDeaths": 104.5,
+            "actualDeaths": 120,
+            "deathsError": -15.5,
+            "predictedNetMigration": -40.3,
+            "actualNetMigration": -61,
+            "netMigrationError": 20.7
+          },
+          {
+            "year": 2023,
+            "horizon": 3,
+            "predictedPopulation": 7839.1,
+            "actualPopulation": 7783,
+            "populationError": 56.1,
+            "populationAbsPctError": 0.7,
+            "predictedBirths": 72.7,
+            "actualBirths": 61,
+            "birthsError": 11.7,
+            "predictedDeaths": 104.5,
+            "actualDeaths": 97,
+            "deathsError": 7.5,
+            "predictedNetMigration": -40.3,
+            "actualNetMigration": -98,
+            "netMigrationError": 57.7
+          }
+        ],
         "6": [
           {
             "year": 2021,
@@ -794,6 +1166,59 @@
         ]
       },
       "2021": {
+        "3": [
+          {
+            "year": 2022,
+            "horizon": 1,
+            "predictedPopulation": 7961.7,
+            "actualPopulation": 7911,
+            "populationError": 50.7,
+            "populationAbsPctError": 0.6,
+            "predictedBirths": 72.4,
+            "actualBirths": 75,
+            "birthsError": -2.6,
+            "predictedDeaths": 103.4,
+            "actualDeaths": 120,
+            "deathsError": -16.6,
+            "predictedNetMigration": -16.3,
+            "actualNetMigration": -61,
+            "netMigrationError": 44.7
+          },
+          {
+            "year": 2023,
+            "horizon": 2,
+            "predictedPopulation": 7912.9,
+            "actualPopulation": 7783,
+            "populationError": 129.9,
+            "populationAbsPctError": 1.7,
+            "predictedBirths": 71.1,
+            "actualBirths": 61,
+            "birthsError": 10.1,
+            "predictedDeaths": 103.5,
+            "actualDeaths": 97,
+            "deathsError": 6.5,
+            "predictedNetMigration": -16.3,
+            "actualNetMigration": -98,
+            "netMigrationError": 81.7
+          },
+          {
+            "year": 2024,
+            "horizon": 3,
+            "predictedPopulation": 7863.7,
+            "actualPopulation": 7774,
+            "populationError": 89.7,
+            "populationAbsPctError": 1.2,
+            "predictedBirths": 70.7,
+            "actualBirths": 69,
+            "birthsError": 1.7,
+            "predictedDeaths": 103.6,
+            "actualDeaths": 106,
+            "deathsError": -2.4,
+            "predictedNetMigration": -16.3,
+            "actualNetMigration": 26,
+            "netMigrationError": -42.3
+          }
+        ],
         "6": [
           {
             "year": 2022,
@@ -904,6 +1329,59 @@
     },
     "2580": {
       "2018": {
+        "3": [
+          {
+            "year": 2019,
+            "horizon": 1,
+            "predictedPopulation": 78403.8,
+            "actualPopulation": 78105,
+            "populationError": 298.8,
+            "populationAbsPctError": 0.4,
+            "predictedBirths": 786.4,
+            "actualBirths": 762,
+            "birthsError": 24.4,
+            "predictedDeaths": 710.6,
+            "actualDeaths": 686,
+            "deathsError": 24.6,
+            "predictedNetMigration": 496,
+            "actualNetMigration": 181,
+            "netMigrationError": 315
+          },
+          {
+            "year": 2020,
+            "horizon": 2,
+            "predictedPopulation": 78983.4,
+            "actualPopulation": 78549,
+            "populationError": 434.4,
+            "populationAbsPctError": 0.6,
+            "predictedBirths": 801.3,
+            "actualBirths": 757,
+            "birthsError": 44.3,
+            "predictedDeaths": 717.7,
+            "actualDeaths": 774,
+            "deathsError": -56.3,
+            "predictedNetMigration": 496,
+            "actualNetMigration": 437,
+            "netMigrationError": 59
+          },
+          {
+            "year": 2021,
+            "horizon": 3,
+            "predictedPopulation": 79562.2,
+            "actualPopulation": 78867,
+            "populationError": 695.2,
+            "populationAbsPctError": 0.9,
+            "predictedBirths": 811.8,
+            "actualBirths": 785,
+            "birthsError": 26.8,
+            "predictedDeaths": 729.1,
+            "actualDeaths": 733,
+            "deathsError": -3.9,
+            "predictedNetMigration": 496,
+            "actualNetMigration": 198,
+            "netMigrationError": 298
+          }
+        ],
         "6": [
           {
             "year": 2019,
@@ -1012,6 +1490,59 @@
         ]
       },
       "2019": {
+        "3": [
+          {
+            "year": 2020,
+            "horizon": 1,
+            "predictedPopulation": 78532,
+            "actualPopulation": 78549,
+            "populationError": -17,
+            "populationAbsPctError": 0,
+            "predictedBirths": 779.4,
+            "actualBirths": 757,
+            "birthsError": 22.4,
+            "predictedDeaths": 727.3,
+            "actualDeaths": 774,
+            "deathsError": -46.7,
+            "predictedNetMigration": 375,
+            "actualNetMigration": 437,
+            "netMigrationError": -62
+          },
+          {
+            "year": 2021,
+            "horizon": 2,
+            "predictedPopulation": 78956,
+            "actualPopulation": 78867,
+            "populationError": 89,
+            "populationAbsPctError": 0.1,
+            "predictedBirths": 786,
+            "actualBirths": 785,
+            "birthsError": 1,
+            "predictedDeaths": 737.1,
+            "actualDeaths": 733,
+            "deathsError": 4.1,
+            "predictedNetMigration": 375,
+            "actualNetMigration": 198,
+            "netMigrationError": 177
+          },
+          {
+            "year": 2022,
+            "horizon": 3,
+            "predictedPopulation": 79374.5,
+            "actualPopulation": 79244,
+            "populationError": 130.5,
+            "populationAbsPctError": 0.2,
+            "predictedBirths": 789.8,
+            "actualBirths": 660,
+            "birthsError": 129.8,
+            "predictedDeaths": 746.4,
+            "actualDeaths": 758,
+            "deathsError": -11.6,
+            "predictedNetMigration": 375,
+            "actualNetMigration": 424,
+            "netMigrationError": -49
+          }
+        ],
         "6": [
           {
             "year": 2020,
@@ -1120,6 +1651,59 @@
         ]
       },
       "2020": {
+        "3": [
+          {
+            "year": 2021,
+            "horizon": 1,
+            "predictedPopulation": 78908.4,
+            "actualPopulation": 78867,
+            "populationError": 41.4,
+            "populationAbsPctError": 0.1,
+            "predictedBirths": 760.5,
+            "actualBirths": 785,
+            "birthsError": -24.5,
+            "predictedDeaths": 701.7,
+            "actualDeaths": 733,
+            "deathsError": -31.3,
+            "predictedNetMigration": 300.7,
+            "actualNetMigration": 198,
+            "netMigrationError": 102.7
+          },
+          {
+            "year": 2022,
+            "horizon": 2,
+            "predictedPopulation": 79256.2,
+            "actualPopulation": 79244,
+            "populationError": 12.2,
+            "populationAbsPctError": 0,
+            "predictedBirths": 759.3,
+            "actualBirths": 660,
+            "birthsError": 99.3,
+            "predictedDeaths": 712.2,
+            "actualDeaths": 758,
+            "deathsError": -45.8,
+            "predictedNetMigration": 300.7,
+            "actualNetMigration": 424,
+            "netMigrationError": -123.3
+          },
+          {
+            "year": 2023,
+            "horizon": 3,
+            "predictedPopulation": 79589.7,
+            "actualPopulation": 79352,
+            "populationError": 237.7,
+            "populationAbsPctError": 0.3,
+            "predictedBirths": 758.5,
+            "actualBirths": 655,
+            "birthsError": 103.5,
+            "predictedDeaths": 725.7,
+            "actualDeaths": 794,
+            "deathsError": -68.3,
+            "predictedNetMigration": 300.7,
+            "actualNetMigration": 234,
+            "netMigrationError": 66.7
+          }
+        ],
         "6": [
           {
             "year": 2021,
@@ -1228,6 +1812,59 @@
         ]
       },
       "2021": {
+        "3": [
+          {
+            "year": 2022,
+            "horizon": 1,
+            "predictedPopulation": 79141.1,
+            "actualPopulation": 79244,
+            "populationError": -102.9,
+            "populationAbsPctError": 0.1,
+            "predictedBirths": 739.2,
+            "actualBirths": 660,
+            "birthsError": 79.2,
+            "predictedDeaths": 737.1,
+            "actualDeaths": 758,
+            "deathsError": -20.9,
+            "predictedNetMigration": 272,
+            "actualNetMigration": 424,
+            "netMigrationError": -152
+          },
+          {
+            "year": 2023,
+            "horizon": 2,
+            "predictedPopulation": 79394.3,
+            "actualPopulation": 79352,
+            "populationError": 42.3,
+            "populationAbsPctError": 0.1,
+            "predictedBirths": 726.8,
+            "actualBirths": 655,
+            "birthsError": 71.8,
+            "predictedDeaths": 745.7,
+            "actualDeaths": 794,
+            "deathsError": -48.3,
+            "predictedNetMigration": 272,
+            "actualNetMigration": 234,
+            "netMigrationError": 38
+          },
+          {
+            "year": 2024,
+            "horizon": 3,
+            "predictedPopulation": 79633.5,
+            "actualPopulation": 79645,
+            "populationError": -11.5,
+            "populationAbsPctError": 0,
+            "predictedBirths": 722.4,
+            "actualBirths": 613,
+            "birthsError": 109.4,
+            "predictedDeaths": 755.1,
+            "actualDeaths": 774,
+            "deathsError": -18.9,
+            "predictedNetMigration": 272,
+            "actualNetMigration": 455,
+            "netMigrationError": -183
+          }
+        ],
         "6": [
           {
             "year": 2022,
@@ -1338,6 +1975,59 @@
     },
     "2581": {
       "2018": {
+        "3": [
+          {
+            "year": 2019,
+            "horizon": 1,
+            "predictedPopulation": 42290.8,
+            "actualPopulation": 42281,
+            "populationError": 9.8,
+            "populationAbsPctError": 0,
+            "predictedBirths": 413,
+            "actualBirths": 436,
+            "birthsError": -23,
+            "predictedDeaths": 476.2,
+            "actualDeaths": 478,
+            "deathsError": -1.8,
+            "predictedNetMigration": 238,
+            "actualNetMigration": 193,
+            "netMigrationError": 45
+          },
+          {
+            "year": 2020,
+            "horizon": 2,
+            "predictedPopulation": 42466,
+            "actualPopulation": 42226,
+            "populationError": 240,
+            "populationAbsPctError": 0.6,
+            "predictedBirths": 417.4,
+            "actualBirths": 401,
+            "birthsError": 16.4,
+            "predictedDeaths": 480.2,
+            "actualDeaths": 481,
+            "deathsError": -0.8,
+            "predictedNetMigration": 238,
+            "actualNetMigration": 21,
+            "netMigrationError": 217
+          },
+          {
+            "year": 2021,
+            "horizon": 3,
+            "predictedPopulation": 42638.4,
+            "actualPopulation": 42323,
+            "populationError": 315.4,
+            "populationAbsPctError": 0.7,
+            "predictedBirths": 419,
+            "actualBirths": 435,
+            "birthsError": -16,
+            "predictedDeaths": 484.6,
+            "actualDeaths": 467,
+            "deathsError": 17.6,
+            "predictedNetMigration": 238,
+            "actualNetMigration": 110,
+            "netMigrationError": 128
+          }
+        ],
         "6": [
           {
             "year": 2019,
@@ -1446,6 +2136,59 @@
         ]
       },
       "2019": {
+        "3": [
+          {
+            "year": 2020,
+            "horizon": 1,
+            "predictedPopulation": 42401.4,
+            "actualPopulation": 42226,
+            "populationError": 175.4,
+            "populationAbsPctError": 0.4,
+            "predictedBirths": 427.4,
+            "actualBirths": 401,
+            "birthsError": 26.4,
+            "predictedDeaths": 479.6,
+            "actualDeaths": 481,
+            "deathsError": -1.4,
+            "predictedNetMigration": 172.7,
+            "actualNetMigration": 21,
+            "netMigrationError": 151.7
+          },
+          {
+            "year": 2021,
+            "horizon": 2,
+            "predictedPopulation": 42519.2,
+            "actualPopulation": 42323,
+            "populationError": 196.2,
+            "populationAbsPctError": 0.5,
+            "predictedBirths": 428.9,
+            "actualBirths": 435,
+            "birthsError": -6.1,
+            "predictedDeaths": 483.8,
+            "actualDeaths": 467,
+            "deathsError": 16.8,
+            "predictedNetMigration": 172.7,
+            "actualNetMigration": 110,
+            "netMigrationError": 62.7
+          },
+          {
+            "year": 2022,
+            "horizon": 3,
+            "predictedPopulation": 42630.8,
+            "actualPopulation": 42362,
+            "populationError": 268.8,
+            "populationAbsPctError": 0.6,
+            "predictedBirths": 427.5,
+            "actualBirths": 374,
+            "birthsError": 53.5,
+            "predictedDeaths": 488.6,
+            "actualDeaths": 432,
+            "deathsError": 56.6,
+            "predictedNetMigration": 172.7,
+            "actualNetMigration": 91,
+            "netMigrationError": 81.7
+          }
+        ],
         "6": [
           {
             "year": 2020,
@@ -1554,6 +2297,59 @@
         ]
       },
       "2020": {
+        "3": [
+          {
+            "year": 2021,
+            "horizon": 1,
+            "predictedPopulation": 42248.4,
+            "actualPopulation": 42323,
+            "populationError": -74.6,
+            "populationAbsPctError": 0.2,
+            "predictedBirths": 403.2,
+            "actualBirths": 435,
+            "birthsError": -31.8,
+            "predictedDeaths": 461.8,
+            "actualDeaths": 467,
+            "deathsError": -5.2,
+            "predictedNetMigration": 81,
+            "actualNetMigration": 110,
+            "netMigrationError": -29
+          },
+          {
+            "year": 2022,
+            "horizon": 2,
+            "predictedPopulation": 42262.5,
+            "actualPopulation": 42362,
+            "populationError": -99.5,
+            "populationAbsPctError": 0.2,
+            "predictedBirths": 399.2,
+            "actualBirths": 374,
+            "birthsError": 25.2,
+            "predictedDeaths": 466.1,
+            "actualDeaths": 432,
+            "deathsError": 34.1,
+            "predictedNetMigration": 81,
+            "actualNetMigration": 91,
+            "netMigrationError": -10
+          },
+          {
+            "year": 2023,
+            "horizon": 3,
+            "predictedPopulation": 42270.2,
+            "actualPopulation": 42344,
+            "populationError": -73.8,
+            "populationAbsPctError": 0.2,
+            "predictedBirths": 396.6,
+            "actualBirths": 367,
+            "birthsError": 29.6,
+            "predictedDeaths": 469.8,
+            "actualDeaths": 463,
+            "deathsError": 6.8,
+            "predictedNetMigration": 81,
+            "actualNetMigration": 52,
+            "netMigrationError": 29
+          }
+        ],
         "6": [
           {
             "year": 2021,
@@ -1662,6 +2458,59 @@
         ]
       },
       "2021": {
+        "3": [
+          {
+            "year": 2022,
+            "horizon": 1,
+            "predictedPopulation": 42350.5,
+            "actualPopulation": 42362,
+            "populationError": -11.5,
+            "populationAbsPctError": 0,
+            "predictedBirths": 395.5,
+            "actualBirths": 374,
+            "birthsError": 21.5,
+            "predictedDeaths": 476,
+            "actualDeaths": 432,
+            "deathsError": 44,
+            "predictedNetMigration": 108,
+            "actualNetMigration": 91,
+            "netMigrationError": 17
+          },
+          {
+            "year": 2023,
+            "horizon": 2,
+            "predictedPopulation": 42366.4,
+            "actualPopulation": 42344,
+            "populationError": 22.4,
+            "populationAbsPctError": 0.1,
+            "predictedBirths": 386.9,
+            "actualBirths": 367,
+            "birthsError": 19.9,
+            "predictedDeaths": 479,
+            "actualDeaths": 463,
+            "deathsError": 16,
+            "predictedNetMigration": 108,
+            "actualNetMigration": 52,
+            "netMigrationError": 56
+          },
+          {
+            "year": 2024,
+            "horizon": 3,
+            "predictedPopulation": 42373,
+            "actualPopulation": 42447,
+            "populationError": -74,
+            "populationAbsPctError": 0.2,
+            "predictedBirths": 381.5,
+            "actualBirths": 340,
+            "birthsError": 41.5,
+            "predictedDeaths": 482.9,
+            "actualDeaths": 446,
+            "deathsError": 36.9,
+            "predictedNetMigration": 108,
+            "actualNetMigration": 211,
+            "netMigrationError": -103
+          }
+        ],
         "6": [
           {
             "year": 2022,
@@ -1772,6 +2621,59 @@
     },
     "2582": {
       "2018": {
+        "3": [
+          {
+            "year": 2019,
+            "horizon": 1,
+            "predictedPopulation": 28089.3,
+            "actualPopulation": 28080,
+            "populationError": 9.3,
+            "populationAbsPctError": 0,
+            "predictedBirths": 268.6,
+            "actualBirths": 283,
+            "birthsError": -14.4,
+            "predictedDeaths": 300.3,
+            "actualDeaths": 312,
+            "deathsError": -11.7,
+            "predictedNetMigration": 57,
+            "actualNetMigration": 40,
+            "netMigrationError": 17
+          },
+          {
+            "year": 2020,
+            "horizon": 2,
+            "predictedPopulation": 28115.3,
+            "actualPopulation": 28060,
+            "populationError": 55.3,
+            "populationAbsPctError": 0.2,
+            "predictedBirths": 271.9,
+            "actualBirths": 258,
+            "birthsError": 13.9,
+            "predictedDeaths": 302.8,
+            "actualDeaths": 342,
+            "deathsError": -39.2,
+            "predictedNetMigration": 57,
+            "actualNetMigration": 53,
+            "netMigrationError": 4
+          },
+          {
+            "year": 2021,
+            "horizon": 3,
+            "predictedPopulation": 28138.5,
+            "actualPopulation": 28160,
+            "populationError": -21.5,
+            "populationAbsPctError": 0.1,
+            "predictedBirths": 272.4,
+            "actualBirths": 271,
+            "birthsError": 1.4,
+            "predictedDeaths": 306.3,
+            "actualDeaths": 324,
+            "deathsError": -17.7,
+            "predictedNetMigration": 57,
+            "actualNetMigration": 111,
+            "netMigrationError": -54
+          }
+        ],
         "6": [
           {
             "year": 2019,
@@ -1880,6 +2782,59 @@
         ]
       },
       "2019": {
+        "3": [
+          {
+            "year": 2020,
+            "horizon": 1,
+            "predictedPopulation": 28069,
+            "actualPopulation": 28060,
+            "populationError": 9,
+            "populationAbsPctError": 0,
+            "predictedBirths": 271.1,
+            "actualBirths": 258,
+            "birthsError": 13.1,
+            "predictedDeaths": 314.1,
+            "actualDeaths": 342,
+            "deathsError": -27.9,
+            "predictedNetMigration": 32,
+            "actualNetMigration": 53,
+            "netMigrationError": -21
+          },
+          {
+            "year": 2021,
+            "horizon": 2,
+            "predictedPopulation": 28059.5,
+            "actualPopulation": 28160,
+            "populationError": -100.5,
+            "populationAbsPctError": 0.4,
+            "predictedBirths": 274.5,
+            "actualBirths": 271,
+            "birthsError": 3.5,
+            "predictedDeaths": 316,
+            "actualDeaths": 324,
+            "deathsError": -8,
+            "predictedNetMigration": 32,
+            "actualNetMigration": 111,
+            "netMigrationError": -79
+          },
+          {
+            "year": 2022,
+            "horizon": 3,
+            "predictedPopulation": 28048.2,
+            "actualPopulation": 28048,
+            "populationError": 0.2,
+            "populationAbsPctError": 0,
+            "predictedBirths": 273.8,
+            "actualBirths": 245,
+            "birthsError": 28.8,
+            "predictedDeaths": 317,
+            "actualDeaths": 322,
+            "deathsError": -5,
+            "predictedNetMigration": 32,
+            "actualNetMigration": -47,
+            "netMigrationError": 79
+          }
+        ],
         "6": [
           {
             "year": 2020,
@@ -1988,6 +2943,59 @@
         ]
       },
       "2020": {
+        "3": [
+          {
+            "year": 2021,
+            "horizon": 1,
+            "predictedPopulation": 28012.2,
+            "actualPopulation": 28160,
+            "populationError": -147.8,
+            "populationAbsPctError": 0.5,
+            "predictedBirths": 262.1,
+            "actualBirths": 271,
+            "birthsError": -8.9,
+            "predictedDeaths": 307.8,
+            "actualDeaths": 324,
+            "deathsError": -16.2,
+            "predictedNetMigration": -2,
+            "actualNetMigration": 111,
+            "netMigrationError": -113
+          },
+          {
+            "year": 2022,
+            "horizon": 2,
+            "predictedPopulation": 27958.4,
+            "actualPopulation": 28048,
+            "populationError": -89.6,
+            "populationAbsPctError": 0.3,
+            "predictedBirths": 256.7,
+            "actualBirths": 245,
+            "birthsError": 11.7,
+            "predictedDeaths": 308.6,
+            "actualDeaths": 322,
+            "deathsError": -13.4,
+            "predictedNetMigration": -2,
+            "actualNetMigration": -47,
+            "netMigrationError": 45
+          },
+          {
+            "year": 2023,
+            "horizon": 3,
+            "predictedPopulation": 27901.8,
+            "actualPopulation": 27943,
+            "populationError": -41.2,
+            "populationAbsPctError": 0.1,
+            "predictedBirths": 256.9,
+            "actualBirths": 224,
+            "birthsError": 32.9,
+            "predictedDeaths": 311.5,
+            "actualDeaths": 349,
+            "deathsError": -37.5,
+            "predictedNetMigration": -2,
+            "actualNetMigration": 9,
+            "netMigrationError": -11
+          }
+        ],
         "6": [
           {
             "year": 2021,
@@ -2096,6 +3104,59 @@
         ]
       },
       "2021": {
+        "3": [
+          {
+            "year": 2022,
+            "horizon": 1,
+            "predictedPopulation": 28157,
+            "actualPopulation": 28048,
+            "populationError": 109,
+            "populationAbsPctError": 0.4,
+            "predictedBirths": 256,
+            "actualBirths": 245,
+            "birthsError": 11,
+            "predictedDeaths": 327,
+            "actualDeaths": 322,
+            "deathsError": 5,
+            "predictedNetMigration": 68,
+            "actualNetMigration": -47,
+            "netMigrationError": 115
+          },
+          {
+            "year": 2023,
+            "horizon": 2,
+            "predictedPopulation": 28150.3,
+            "actualPopulation": 27943,
+            "populationError": 207.3,
+            "populationAbsPctError": 0.7,
+            "predictedBirths": 253.3,
+            "actualBirths": 224,
+            "birthsError": 29.3,
+            "predictedDeaths": 328,
+            "actualDeaths": 349,
+            "deathsError": -21,
+            "predictedNetMigration": 68,
+            "actualNetMigration": 9,
+            "netMigrationError": 59
+          },
+          {
+            "year": 2024,
+            "horizon": 3,
+            "predictedPopulation": 28139.8,
+            "actualPopulation": 28049,
+            "populationError": 90.8,
+            "populationAbsPctError": 0.3,
+            "predictedBirths": 250.6,
+            "actualBirths": 230,
+            "birthsError": 20.6,
+            "predictedDeaths": 329.1,
+            "actualDeaths": 323,
+            "deathsError": 6.1,
+            "predictedNetMigration": 68,
+            "actualNetMigration": 204,
+            "netMigrationError": -136
+          }
+        ],
         "6": [
           {
             "year": 2022,
@@ -2206,6 +3267,59 @@
     },
     "FA_LULEA": {
       "2018": {
+        "3": [
+          {
+            "year": 2019,
+            "horizon": 1,
+            "predictedPopulation": 172899.3,
+            "actualPopulation": 172418,
+            "populationError": 481.3,
+            "populationAbsPctError": 0.3,
+            "predictedBirths": 1674.4,
+            "actualBirths": 1707,
+            "birthsError": -32.6,
+            "predictedDeaths": 1824.4,
+            "actualDeaths": 1794,
+            "deathsError": 30.4,
+            "predictedNetMigration": 839.3,
+            "actualNetMigration": 254,
+            "netMigrationError": 585.3
+          },
+          {
+            "year": 2020,
+            "horizon": 2,
+            "predictedPopulation": 173602.9,
+            "actualPopulation": 172701,
+            "populationError": 901.9,
+            "populationAbsPctError": 0.5,
+            "predictedBirths": 1702.6,
+            "actualBirths": 1626,
+            "birthsError": 76.6,
+            "predictedDeaths": 1838.4,
+            "actualDeaths": 1919,
+            "deathsError": -80.6,
+            "predictedNetMigration": 839.3,
+            "actualNetMigration": 535,
+            "netMigrationError": 304.3
+          },
+          {
+            "year": 2021,
+            "horizon": 3,
+            "predictedPopulation": 174302.7,
+            "actualPopulation": 173127,
+            "populationError": 1175.7,
+            "populationAbsPctError": 0.7,
+            "predictedBirths": 1718.6,
+            "actualBirths": 1705,
+            "birthsError": 13.6,
+            "predictedDeaths": 1858.1,
+            "actualDeaths": 1856,
+            "deathsError": 2.1,
+            "predictedNetMigration": 839.3,
+            "actualNetMigration": 431,
+            "netMigrationError": 408.3
+          }
+        ],
         "6": [
           {
             "year": 2019,
@@ -2314,6 +3428,59 @@
         ]
       },
       "2019": {
+        "3": [
+          {
+            "year": 2020,
+            "horizon": 1,
+            "predictedPopulation": 172786.8,
+            "actualPopulation": 172701,
+            "populationError": 85.8,
+            "populationAbsPctError": 0,
+            "predictedBirths": 1692.1,
+            "actualBirths": 1626,
+            "birthsError": 66.1,
+            "predictedDeaths": 1862,
+            "actualDeaths": 1919,
+            "deathsError": -57,
+            "predictedNetMigration": 538.7,
+            "actualNetMigration": 535,
+            "netMigrationError": 3.7
+          },
+          {
+            "year": 2021,
+            "horizon": 2,
+            "predictedPopulation": 173151.9,
+            "actualPopulation": 173127,
+            "populationError": 24.9,
+            "populationAbsPctError": 0,
+            "predictedBirths": 1704.4,
+            "actualBirths": 1705,
+            "birthsError": -0.6,
+            "predictedDeaths": 1878,
+            "actualDeaths": 1856,
+            "deathsError": 22,
+            "predictedNetMigration": 538.7,
+            "actualNetMigration": 431,
+            "netMigrationError": 107.7
+          },
+          {
+            "year": 2022,
+            "horizon": 3,
+            "predictedPopulation": 173503.9,
+            "actualPopulation": 173294,
+            "populationError": 209.9,
+            "populationAbsPctError": 0.1,
+            "predictedBirths": 1706.6,
+            "actualBirths": 1481,
+            "birthsError": 225.6,
+            "predictedDeaths": 1893.3,
+            "actualDeaths": 1878,
+            "deathsError": 15.3,
+            "predictedNetMigration": 538.7,
+            "actualNetMigration": 480,
+            "netMigrationError": 58.7
+          }
+        ],
         "6": [
           {
             "year": 2020,
@@ -2422,6 +3589,59 @@
         ]
       },
       "2020": {
+        "3": [
+          {
+            "year": 2021,
+            "horizon": 1,
+            "predictedPopulation": 172835.2,
+            "actualPopulation": 173127,
+            "populationError": -291.8,
+            "populationAbsPctError": 0.2,
+            "predictedBirths": 1629.8,
+            "actualBirths": 1705,
+            "birthsError": -75.2,
+            "predictedDeaths": 1795.2,
+            "actualDeaths": 1856,
+            "deathsError": -60.8,
+            "predictedNetMigration": 299.7,
+            "actualNetMigration": 431,
+            "netMigrationError": -131.3
+          },
+          {
+            "year": 2022,
+            "horizon": 2,
+            "predictedPopulation": 172941.6,
+            "actualPopulation": 173294,
+            "populationError": -352.4,
+            "populationAbsPctError": 0.2,
+            "predictedBirths": 1618.8,
+            "actualBirths": 1481,
+            "birthsError": 137.8,
+            "predictedDeaths": 1812.1,
+            "actualDeaths": 1878,
+            "deathsError": -65.9,
+            "predictedNetMigration": 299.7,
+            "actualNetMigration": 480,
+            "netMigrationError": -180.3
+          },
+          {
+            "year": 2023,
+            "horizon": 3,
+            "predictedPopulation": 173023.1,
+            "actualPopulation": 172969,
+            "populationError": 54.1,
+            "populationAbsPctError": 0,
+            "predictedBirths": 1615,
+            "actualBirths": 1417,
+            "birthsError": 198,
+            "predictedDeaths": 1833.1,
+            "actualDeaths": 1950,
+            "deathsError": -116.9,
+            "predictedNetMigration": 299.7,
+            "actualNetMigration": 144,
+            "netMigrationError": 155.7
+          }
+        ],
         "6": [
           {
             "year": 2021,
@@ -2530,6 +3750,59 @@
         ]
       },
       "2021": {
+        "3": [
+          {
+            "year": 2022,
+            "horizon": 1,
+            "predictedPopulation": 173251.7,
+            "actualPopulation": 173294,
+            "populationError": -42.3,
+            "populationAbsPctError": 0,
+            "predictedBirths": 1583.9,
+            "actualBirths": 1481,
+            "birthsError": 102.9,
+            "predictedDeaths": 1865.9,
+            "actualDeaths": 1878,
+            "deathsError": -12.1,
+            "predictedNetMigration": 406.7,
+            "actualNetMigration": 480,
+            "netMigrationError": -73.3
+          },
+          {
+            "year": 2023,
+            "horizon": 2,
+            "predictedPopulation": 173335.5,
+            "actualPopulation": 172969,
+            "populationError": 366.5,
+            "populationAbsPctError": 0.2,
+            "predictedBirths": 1555.8,
+            "actualBirths": 1417,
+            "birthsError": 138.8,
+            "predictedDeaths": 1878.6,
+            "actualDeaths": 1950,
+            "deathsError": -71.4,
+            "predictedNetMigration": 406.7,
+            "actualNetMigration": 144,
+            "netMigrationError": 262.7
+          },
+          {
+            "year": 2024,
+            "horizon": 3,
+            "predictedPopulation": 173390,
+            "actualPopulation": 173306,
+            "populationError": 84,
+            "populationAbsPctError": 0,
+            "predictedBirths": 1541.2,
+            "actualBirths": 1373,
+            "birthsError": 168.2,
+            "predictedDeaths": 1893.4,
+            "actualDeaths": 1865,
+            "deathsError": 28.4,
+            "predictedNetMigration": 406.7,
+            "actualNetMigration": 838,
+            "netMigrationError": -431.3
+          }
+        ],
         "6": [
           {
             "year": 2022,
@@ -2641,6 +3914,63 @@
   },
   "summary": {
     "2514": {
+      "3": {
+        "observations": 12,
+        "origins": 4,
+        "populationMAPE": 0.6,
+        "populationMAE": 102.9,
+        "populationMeanError": -48.7,
+        "birthsMAE": 7.8,
+        "deathsMAE": 13.2,
+        "netMigrationMAE": 61,
+        "threeYearMAPE": 0.7,
+        "byHorizon": {
+          "1": {
+            "observations": 4,
+            "populationMAPE": 0.5,
+            "populationMAE": 81.9,
+            "populationMeanError": -28.6
+          },
+          "2": {
+            "observations": 4,
+            "populationMAPE": 0.7,
+            "populationMAE": 114.3,
+            "populationMeanError": -55.3
+          },
+          "3": {
+            "observations": 4,
+            "populationMAPE": 0.7,
+            "populationMAE": 112.5,
+            "populationMeanError": -62.2
+          }
+        },
+        "originEndErrors": [
+          {
+            "origin": 2018,
+            "endYear": 2021,
+            "error": 100.4,
+            "absPctError": 0.6
+          },
+          {
+            "origin": 2019,
+            "endYear": 2022,
+            "error": -213.8,
+            "absPctError": 1.4
+          },
+          {
+            "origin": 2020,
+            "endYear": 2023,
+            "error": -124.6,
+            "absPctError": 0.8
+          },
+          {
+            "origin": 2021,
+            "endYear": 2024,
+            "error": -11,
+            "absPctError": 0.1
+          }
+        ]
+      },
       "6": {
         "observations": 12,
         "origins": 4,
@@ -2757,6 +4087,63 @@
       }
     },
     "2560": {
+      "3": {
+        "observations": 12,
+        "origins": 4,
+        "populationMAPE": 0.7,
+        "populationMAE": 53.2,
+        "populationMeanError": 38.1,
+        "birthsMAE": 6.5,
+        "deathsMAE": 8.7,
+        "netMigrationMAE": 39,
+        "threeYearMAPE": 0.8,
+        "byHorizon": {
+          "1": {
+            "observations": 4,
+            "populationMAPE": 0.5,
+            "populationMAE": 41.7,
+            "populationMeanError": 12.1
+          },
+          "2": {
+            "observations": 4,
+            "populationMAPE": 0.7,
+            "populationMAE": 54,
+            "populationMeanError": 38.2
+          },
+          "3": {
+            "observations": 4,
+            "populationMAPE": 0.8,
+            "populationMAE": 64.1,
+            "populationMeanError": 64.1
+          }
+        },
+        "originEndErrors": [
+          {
+            "origin": 2018,
+            "endYear": 2021,
+            "error": 86.4,
+            "absPctError": 1.1
+          },
+          {
+            "origin": 2019,
+            "endYear": 2022,
+            "error": 24.2,
+            "absPctError": 0.3
+          },
+          {
+            "origin": 2020,
+            "endYear": 2023,
+            "error": 56.1,
+            "absPctError": 0.7
+          },
+          {
+            "origin": 2021,
+            "endYear": 2024,
+            "error": 89.7,
+            "absPctError": 1.2
+          }
+        ]
+      },
       "6": {
         "observations": 12,
         "origins": 4,
@@ -2873,6 +4260,63 @@
       }
     },
     "2580": {
+      "3": {
+        "observations": 12,
+        "origins": 4,
+        "populationMAPE": 0.2,
+        "populationMAE": 176.1,
+        "populationMeanError": 154.2,
+        "birthsMAE": 61.4,
+        "deathsMAE": 31.7,
+        "netMigrationMAE": 135.5,
+        "threeYearMAPE": 0.4,
+        "byHorizon": {
+          "1": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 115,
+            "populationMeanError": 55.1
+          },
+          "2": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 144.5,
+            "populationMeanError": 144.5
+          },
+          "3": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 268.7,
+            "populationMeanError": 263
+          }
+        },
+        "originEndErrors": [
+          {
+            "origin": 2018,
+            "endYear": 2021,
+            "error": 695.2,
+            "absPctError": 0.9
+          },
+          {
+            "origin": 2019,
+            "endYear": 2022,
+            "error": 130.5,
+            "absPctError": 0.2
+          },
+          {
+            "origin": 2020,
+            "endYear": 2023,
+            "error": 237.7,
+            "absPctError": 0.3
+          },
+          {
+            "origin": 2021,
+            "endYear": 2024,
+            "error": -11.5,
+            "absPctError": 0
+          }
+        ]
+      },
       "6": {
         "observations": 12,
         "origins": 4,
@@ -2989,6 +4433,63 @@
       }
     },
     "2581": {
+      "3": {
+        "observations": 12,
+        "origins": 4,
+        "populationMAPE": 0.3,
+        "populationMAE": 130.1,
+        "populationMeanError": 74.6,
+        "birthsMAE": 25.9,
+        "deathsMAE": 19.8,
+        "netMigrationMAE": 77.5,
+        "threeYearMAPE": 0.4,
+        "byHorizon": {
+          "1": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 67.8,
+            "populationMeanError": 24.8
+          },
+          "2": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 139.5,
+            "populationMeanError": 89.8
+          },
+          "3": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 183,
+            "populationMeanError": 109.1
+          }
+        },
+        "originEndErrors": [
+          {
+            "origin": 2018,
+            "endYear": 2021,
+            "error": 315.4,
+            "absPctError": 0.7
+          },
+          {
+            "origin": 2019,
+            "endYear": 2022,
+            "error": 268.8,
+            "absPctError": 0.6
+          },
+          {
+            "origin": 2020,
+            "endYear": 2023,
+            "error": -73.8,
+            "absPctError": 0.2
+          },
+          {
+            "origin": 2021,
+            "endYear": 2024,
+            "error": -74,
+            "absPctError": 0.2
+          }
+        ]
+      },
       "6": {
         "observations": 12,
         "origins": 4,
@@ -3105,6 +4606,63 @@
       }
     },
     "2582": {
+      "3": {
+        "observations": 12,
+        "origins": 4,
+        "populationMAPE": 0.3,
+        "populationMAE": 73.5,
+        "populationMeanError": 6.7,
+        "birthsMAE": 15.8,
+        "deathsMAE": 17.4,
+        "netMigrationMAE": 61.1,
+        "threeYearMAPE": 0.1,
+        "byHorizon": {
+          "1": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 68.8,
+            "populationMeanError": -5.1
+          },
+          "2": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 113.2,
+            "populationMeanError": 18.1
+          },
+          "3": {
+            "observations": 4,
+            "populationMAPE": 0.1,
+            "populationMAE": 38.4,
+            "populationMeanError": 7.1
+          }
+        },
+        "originEndErrors": [
+          {
+            "origin": 2018,
+            "endYear": 2021,
+            "error": -21.5,
+            "absPctError": 0.1
+          },
+          {
+            "origin": 2019,
+            "endYear": 2022,
+            "error": 0.2,
+            "absPctError": 0
+          },
+          {
+            "origin": 2020,
+            "endYear": 2023,
+            "error": -41.2,
+            "absPctError": 0.1
+          },
+          {
+            "origin": 2021,
+            "endYear": 2024,
+            "error": 90.8,
+            "absPctError": 0.3
+          }
+        ]
+      },
       "6": {
         "observations": 12,
         "origins": 4,
@@ -3221,6 +4779,63 @@
       }
     },
     "FA_LULEA": {
+      "3": {
+        "observations": 12,
+        "origins": 4,
+        "populationMAPE": 0.2,
+        "populationMAE": 339.2,
+        "populationMeanError": 224.8,
+        "birthsMAE": 103,
+        "deathsMAE": 46.9,
+        "netMigrationMAE": 225.2,
+        "threeYearMAPE": 0.2,
+        "byHorizon": {
+          "1": {
+            "observations": 4,
+            "populationMAPE": 0.1,
+            "populationMAE": 225.3,
+            "populationMeanError": 58.3
+          },
+          "2": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 411.4,
+            "populationMeanError": 235.2
+          },
+          "3": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 380.9,
+            "populationMeanError": 380.9
+          }
+        },
+        "originEndErrors": [
+          {
+            "origin": 2018,
+            "endYear": 2021,
+            "error": 1175.7,
+            "absPctError": 0.7
+          },
+          {
+            "origin": 2019,
+            "endYear": 2022,
+            "error": 209.9,
+            "absPctError": 0.1
+          },
+          {
+            "origin": 2020,
+            "endYear": 2023,
+            "error": 54.1,
+            "absPctError": 0
+          },
+          {
+            "origin": 2021,
+            "endYear": 2024,
+            "error": 84,
+            "absPctError": 0
+          }
+        ]
+      },
       "6": {
         "observations": 12,
         "origins": 4,
@@ -3525,6 +5140,47 @@
     "note": "Diagnostic only: compares current localized mortality with the same SCB national age/sex mortality profile applied without any local multiplier. It does not change the production baseline.",
     "summary": {
       "2514": {
+        "3": {
+          "observations": 12,
+          "localizedDeathsMAE": 13.2,
+          "localizedDeathsMeanError": -7.2,
+          "nationalOnlyDeathsMAE": 33.9,
+          "nationalOnlyDeathsMeanError": -33.9,
+          "localizedPopulationMAPE": 0.6,
+          "localizedPopulationMeanError": -48.7,
+          "nationalOnlyPopulationMAPE": 0.6,
+          "nationalOnlyPopulationMeanError": 6.2,
+          "byOrigin": {
+            "2018": {
+              "localGeneralMortalityFactor": 1.19,
+              "localizedDeathsMeanError": 8.1,
+              "nationalOnlyDeathsMeanError": -22.6,
+              "localizedPopulationEndError": 100.4,
+              "nationalOnlyPopulationEndError": 192.3
+            },
+            "2019": {
+              "localGeneralMortalityFactor": 1.182,
+              "localizedDeathsMeanError": -3.1,
+              "nationalOnlyDeathsMeanError": -33.6,
+              "localizedPopulationEndError": -213.8,
+              "nationalOnlyPopulationEndError": -122.4
+            },
+            "2020": {
+              "localGeneralMortalityFactor": 1.14,
+              "localizedDeathsMeanError": -20.1,
+              "nationalOnlyDeathsMeanError": -44.3,
+              "localizedPopulationEndError": -124.6,
+              "nationalOnlyPopulationEndError": -51.9
+            },
+            "2021": {
+              "localGeneralMortalityFactor": 1.124,
+              "localizedDeathsMeanError": -13.8,
+              "nationalOnlyDeathsMeanError": -35.1,
+              "localizedPopulationEndError": -11,
+              "nationalOnlyPopulationEndError": 53
+            }
+          }
+        },
         "6": {
           "observations": 12,
           "localizedDeathsMAE": 11.3,
@@ -3609,6 +5265,47 @@
         }
       },
       "2560": {
+        "3": {
+          "observations": 12,
+          "localizedDeathsMAE": 8.7,
+          "localizedDeathsMeanError": 0.9,
+          "nationalOnlyDeathsMAE": 10,
+          "nationalOnlyDeathsMeanError": -9.7,
+          "localizedPopulationMAPE": 0.7,
+          "localizedPopulationMeanError": 38.1,
+          "nationalOnlyPopulationMAPE": 0.8,
+          "nationalOnlyPopulationMeanError": 59.9,
+          "byOrigin": {
+            "2018": {
+              "localGeneralMortalityFactor": 1.141,
+              "localizedDeathsMeanError": 5.6,
+              "nationalOnlyDeathsMeanError": -6,
+              "localizedPopulationEndError": 86.4,
+              "nationalOnlyPopulationEndError": 121.4
+            },
+            "2019": {
+              "localGeneralMortalityFactor": 1.173,
+              "localizedDeathsMeanError": 4.2,
+              "nationalOnlyDeathsMeanError": -9.8,
+              "localizedPopulationEndError": 24.2,
+              "nationalOnlyPopulationEndError": 66.4
+            },
+            "2020": {
+              "localGeneralMortalityFactor": 1.122,
+              "localizedDeathsMeanError": -2.2,
+              "nationalOnlyDeathsMeanError": -12,
+              "localizedPopulationEndError": 56.1,
+              "nationalOnlyPopulationEndError": 85.4
+            },
+            "2021": {
+              "localGeneralMortalityFactor": 1.081,
+              "localizedDeathsMeanError": -4.2,
+              "nationalOnlyDeathsMeanError": -10.8,
+              "localizedPopulationEndError": 89.7,
+              "nationalOnlyPopulationEndError": 109.6
+            }
+          }
+        },
         "6": {
           "observations": 12,
           "localizedDeathsMAE": 7.7,
@@ -3693,6 +5390,47 @@
         }
       },
       "2580": {
+        "3": {
+          "observations": 12,
+          "localizedDeathsMAE": 31.7,
+          "localizedDeathsMeanError": -26.9,
+          "nationalOnlyDeathsMAE": 41.7,
+          "nationalOnlyDeathsMeanError": -39.3,
+          "localizedPopulationMAPE": 0.2,
+          "localizedPopulationMeanError": 154.2,
+          "nationalOnlyPopulationMAPE": 0.2,
+          "nationalOnlyPopulationMeanError": 179.5,
+          "byOrigin": {
+            "2018": {
+              "localGeneralMortalityFactor": 1.017,
+              "localizedDeathsMeanError": -11.9,
+              "nationalOnlyDeathsMeanError": -20.4,
+              "localizedPopulationEndError": 695.2,
+              "nationalOnlyPopulationEndError": 720.7
+            },
+            "2019": {
+              "localGeneralMortalityFactor": 1.026,
+              "localizedDeathsMeanError": -18.1,
+              "nationalOnlyDeathsMeanError": -30.6,
+              "localizedPopulationEndError": 130.5,
+              "nationalOnlyPopulationEndError": 168
+            },
+            "2020": {
+              "localGeneralMortalityFactor": 1.017,
+              "localizedDeathsMeanError": -48.5,
+              "nationalOnlyDeathsMeanError": -55.2,
+              "localizedPopulationEndError": 237.7,
+              "nationalOnlyPopulationEndError": 257.9
+            },
+            "2021": {
+              "localGeneralMortalityFactor": 1.032,
+              "localizedDeathsMeanError": -29.4,
+              "nationalOnlyDeathsMeanError": -51,
+              "localizedPopulationEndError": -11.5,
+              "nationalOnlyPopulationEndError": 53.5
+            }
+          }
+        },
         "6": {
           "observations": 12,
           "localizedDeathsMAE": 32.1,
@@ -3777,6 +5515,47 @@
         }
       },
       "2581": {
+        "3": {
+          "observations": 12,
+          "localizedDeathsMAE": 19.8,
+          "localizedDeathsMeanError": 18.3,
+          "nationalOnlyDeathsMAE": 43.6,
+          "nationalOnlyDeathsMeanError": -43.6,
+          "localizedPopulationMAPE": 0.3,
+          "localizedPopulationMeanError": 74.6,
+          "nationalOnlyPopulationMAPE": 0.5,
+          "nationalOnlyPopulationMeanError": 201.6,
+          "byOrigin": {
+            "2018": {
+              "localGeneralMortalityFactor": 1.17,
+              "localizedDeathsMeanError": 5,
+              "nationalOnlyDeathsMeanError": -58.5,
+              "localizedPopulationEndError": 315.4,
+              "nationalOnlyPopulationEndError": 505.9
+            },
+            "2019": {
+              "localGeneralMortalityFactor": 1.19,
+              "localizedDeathsMeanError": 24,
+              "nationalOnlyDeathsMeanError": -40.1,
+              "localizedPopulationEndError": 268.8,
+              "nationalOnlyPopulationEndError": 461.2
+            },
+            "2020": {
+              "localGeneralMortalityFactor": 1.179,
+              "localizedDeathsMeanError": 11.9,
+              "nationalOnlyDeathsMeanError": -46.5,
+              "localizedPopulationEndError": -73.8,
+              "nationalOnlyPopulationEndError": 101.4
+            },
+            "2021": {
+              "localGeneralMortalityFactor": 1.167,
+              "localizedDeathsMeanError": 32.3,
+              "nationalOnlyDeathsMeanError": -29.3,
+              "localizedPopulationEndError": -74,
+              "nationalOnlyPopulationEndError": 110.7
+            }
+          }
+        },
         "6": {
           "observations": 12,
           "localizedDeathsMAE": 21,
@@ -3861,6 +5640,47 @@
         }
       },
       "2582": {
+        "3": {
+          "observations": 12,
+          "localizedDeathsMAE": 17.4,
+          "localizedDeathsMeanError": -15.5,
+          "nationalOnlyDeathsMAE": 27.1,
+          "nationalOnlyDeathsMeanError": -27.1,
+          "localizedPopulationMAPE": 0.3,
+          "localizedPopulationMeanError": 6.7,
+          "nationalOnlyPopulationMAPE": 0.3,
+          "nationalOnlyPopulationMeanError": 30.5,
+          "byOrigin": {
+            "2018": {
+              "localGeneralMortalityFactor": 1.003,
+              "localizedDeathsMeanError": -22.9,
+              "nationalOnlyDeathsMeanError": -22.3,
+              "localizedPopulationEndError": -21.5,
+              "nationalOnlyPopulationEndError": -23.3
+            },
+            "2019": {
+              "localGeneralMortalityFactor": 1.046,
+              "localizedDeathsMeanError": -13.6,
+              "nationalOnlyDeathsMeanError": -24,
+              "localizedPopulationEndError": 0.2,
+              "nationalOnlyPopulationEndError": 31.2
+            },
+            "2020": {
+              "localGeneralMortalityFactor": 1.046,
+              "localizedDeathsMeanError": -22.4,
+              "nationalOnlyDeathsMeanError": -34.8,
+              "localizedPopulationEndError": -41.2,
+              "nationalOnlyPopulationEndError": -3.8
+            },
+            "2021": {
+              "localGeneralMortalityFactor": 1.083,
+              "localizedDeathsMeanError": -3.3,
+              "nationalOnlyDeathsMeanError": -27.3,
+              "localizedPopulationEndError": 90.8,
+              "nationalOnlyPopulationEndError": 162.7
+            }
+          }
+        },
         "6": {
           "observations": 12,
           "localizedDeathsMAE": 20,
@@ -3945,6 +5765,47 @@
         }
       },
       "FA_LULEA": {
+        "3": {
+          "observations": 12,
+          "localizedDeathsMAE": 46.9,
+          "localizedDeathsMeanError": -30.5,
+          "nationalOnlyDeathsMAE": 153.5,
+          "nationalOnlyDeathsMeanError": -153.5,
+          "localizedPopulationMAPE": 0.2,
+          "localizedPopulationMeanError": 224.8,
+          "nationalOnlyPopulationMAPE": 0.3,
+          "nationalOnlyPopulationMeanError": 477.7,
+          "byOrigin": {
+            "2018": {
+              "localGeneralMortalityFactor": null,
+              "localizedDeathsMeanError": -16,
+              "nationalOnlyDeathsMeanError": -129.7,
+              "localizedPopulationEndError": 1175.7,
+              "nationalOnlyPopulationEndError": 1516.9
+            },
+            "2019": {
+              "localGeneralMortalityFactor": null,
+              "localizedDeathsMeanError": -6.6,
+              "nationalOnlyDeathsMeanError": -138.1,
+              "localizedPopulationEndError": 209.9,
+              "nationalOnlyPopulationEndError": 604.4
+            },
+            "2020": {
+              "localGeneralMortalityFactor": null,
+              "localizedDeathsMeanError": -81.2,
+              "nationalOnlyDeathsMeanError": -192.8,
+              "localizedPopulationEndError": 54.1,
+              "nationalOnlyPopulationEndError": 389
+            },
+            "2021": {
+              "localGeneralMortalityFactor": null,
+              "localizedDeathsMeanError": -18.4,
+              "nationalOnlyDeathsMeanError": -153.5,
+              "localizedPopulationEndError": 84,
+              "nationalOnlyPopulationEndError": 489.5
+            }
+          }
+        },
         "6": {
           "observations": 12,
           "localizedDeathsMAE": 45.7,
@@ -4034,6 +5895,204 @@
     "note": "Historical comparison of legacy V1 timing against the production event-age aligned cohort step. Primary evaluation horizon is n+1, secondary is n+2, and n+3 is supplementary robustness only.",
     "summary": {
       "2514": {
+        "3": {
+          "observations": 12,
+          "legacyPopulationMAPE": 0.6,
+          "alignedPopulationMAPE": 0.6,
+          "legacyPopulationMAE": 90.5,
+          "alignedPopulationMAE": 102.9,
+          "legacyPopulationMeanError": 0,
+          "alignedPopulationMeanError": -48.7,
+          "legacyBirthsMAE": 8.3,
+          "alignedBirthsMAE": 7.8,
+          "legacyBirthsMeanError": 0.4,
+          "alignedBirthsMeanError": -0.7,
+          "legacyDeathsMAE": 30,
+          "alignedDeathsMAE": 13.2,
+          "legacyDeathsMeanError": -30,
+          "alignedDeathsMeanError": -7.2,
+          "netMigrationMAE": 61,
+          "oneYear": {
+            "legacy": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 69,
+              "populationMeanError": -3,
+              "birthsMAE": 7.4,
+              "birthsMeanError": -7.4,
+              "deathsMAE": 26.8,
+              "deathsMeanError": -26.8,
+              "netMigrationMAE": 86.7
+            },
+            "aligned": {
+              "observations": 4,
+              "populationMAPE": 0.5,
+              "populationMAE": 81.9,
+              "populationMeanError": -28.6,
+              "birthsMAE": 8.1,
+              "birthsMeanError": -8.1,
+              "deathsMAE": 14.5,
+              "deathsMeanError": -2,
+              "netMigrationMAE": 86.7
+            }
+          },
+          "twoYear": {
+            "legacy": {
+              "observations": 4,
+              "populationMAPE": 0.6,
+              "populationMAE": 96.3,
+              "populationMeanError": -6.2,
+              "birthsMAE": 7.9,
+              "birthsMeanError": 0.8,
+              "deathsMAE": 34.1,
+              "deathsMeanError": -34.1,
+              "netMigrationMAE": 58.7
+            },
+            "aligned": {
+              "observations": 4,
+              "populationMAPE": 0.7,
+              "populationMAE": 114.3,
+              "populationMeanError": -55.3,
+              "birthsMAE": 6.6,
+              "birthsMeanError": -0.2,
+              "deathsMAE": 13.5,
+              "deathsMeanError": -11.5,
+              "netMigrationMAE": 58.7
+            }
+          },
+          "threeYear": {
+            "legacy": {
+              "observations": 4,
+              "populationMAPE": 0.7,
+              "populationMAE": 106.2,
+              "populationMeanError": 9.3,
+              "birthsMAE": 9.5,
+              "birthsMeanError": 7.9,
+              "deathsMAE": 29,
+              "deathsMeanError": -29,
+              "netMigrationMAE": 37.7
+            },
+            "aligned": {
+              "observations": 4,
+              "populationMAPE": 0.7,
+              "populationMAE": 112.5,
+              "populationMeanError": -62.2,
+              "birthsMAE": 8.8,
+              "birthsMeanError": 6.4,
+              "deathsMAE": 11.7,
+              "deathsMeanError": -8.2,
+              "netMigrationMAE": 37.7
+            }
+          },
+          "byHorizon": {
+            "1": {
+              "legacy": {
+                "observations": 4,
+                "populationMAPE": 0.4,
+                "populationMAE": 69,
+                "populationMeanError": -3,
+                "birthsMAE": 7.4,
+                "birthsMeanError": -7.4,
+                "deathsMAE": 26.8,
+                "deathsMeanError": -26.8,
+                "netMigrationMAE": 86.7
+              },
+              "aligned": {
+                "observations": 4,
+                "populationMAPE": 0.5,
+                "populationMAE": 81.9,
+                "populationMeanError": -28.6,
+                "birthsMAE": 8.1,
+                "birthsMeanError": -8.1,
+                "deathsMAE": 14.5,
+                "deathsMeanError": -2,
+                "netMigrationMAE": 86.7
+              }
+            },
+            "2": {
+              "legacy": {
+                "observations": 4,
+                "populationMAPE": 0.6,
+                "populationMAE": 96.3,
+                "populationMeanError": -6.2,
+                "birthsMAE": 7.9,
+                "birthsMeanError": 0.8,
+                "deathsMAE": 34.1,
+                "deathsMeanError": -34.1,
+                "netMigrationMAE": 58.7
+              },
+              "aligned": {
+                "observations": 4,
+                "populationMAPE": 0.7,
+                "populationMAE": 114.3,
+                "populationMeanError": -55.3,
+                "birthsMAE": 6.6,
+                "birthsMeanError": -0.2,
+                "deathsMAE": 13.5,
+                "deathsMeanError": -11.5,
+                "netMigrationMAE": 58.7
+              }
+            },
+            "3": {
+              "legacy": {
+                "observations": 4,
+                "populationMAPE": 0.7,
+                "populationMAE": 106.2,
+                "populationMeanError": 9.3,
+                "birthsMAE": 9.5,
+                "birthsMeanError": 7.9,
+                "deathsMAE": 29,
+                "deathsMeanError": -29,
+                "netMigrationMAE": 37.7
+              },
+              "aligned": {
+                "observations": 4,
+                "populationMAPE": 0.7,
+                "populationMAE": 112.5,
+                "populationMeanError": -62.2,
+                "birthsMAE": 8.8,
+                "birthsMeanError": 6.4,
+                "deathsMAE": 11.7,
+                "deathsMeanError": -8.2,
+                "netMigrationMAE": 37.7
+              }
+            }
+          },
+          "byOrigin": {
+            "2018": {
+              "legacyDeathsMeanError": -14.9,
+              "alignedDeathsMeanError": 8.1,
+              "legacyBirthsMeanError": -7.9,
+              "alignedBirthsMeanError": -8.1,
+              "legacyPopulationEndError": 169.9,
+              "alignedPopulationEndError": 100.4
+            },
+            "2019": {
+              "legacyDeathsMeanError": -26.3,
+              "alignedDeathsMeanError": -3.1,
+              "legacyBirthsMeanError": 1.6,
+              "alignedBirthsMeanError": 0.3,
+              "legacyPopulationEndError": -140.5,
+              "alignedPopulationEndError": -213.8
+            },
+            "2020": {
+              "legacyDeathsMeanError": -42.5,
+              "alignedDeathsMeanError": -20.1,
+              "legacyBirthsMeanError": 7.7,
+              "alignedBirthsMeanError": 6.4,
+              "legacyPopulationEndError": -53.4,
+              "alignedPopulationEndError": -124.6
+            },
+            "2021": {
+              "legacyDeathsMeanError": -36.2,
+              "alignedDeathsMeanError": -13.8,
+              "legacyBirthsMeanError": 0.4,
+              "alignedBirthsMeanError": -1.1,
+              "legacyPopulationEndError": 61,
+              "alignedPopulationEndError": -11
+            }
+          }
+        },
         "6": {
           "observations": 12,
           "legacyPopulationMAPE": 0.4,
@@ -4432,6 +6491,204 @@
         }
       },
       "2560": {
+        "3": {
+          "observations": 12,
+          "legacyPopulationMAPE": 0.9,
+          "alignedPopulationMAPE": 0.7,
+          "legacyPopulationMAE": 68,
+          "alignedPopulationMAE": 53.2,
+          "legacyPopulationMeanError": 60.8,
+          "alignedPopulationMeanError": 38.1,
+          "legacyBirthsMAE": 6.6,
+          "alignedBirthsMAE": 6.5,
+          "legacyBirthsMeanError": 3.7,
+          "alignedBirthsMeanError": 3.3,
+          "legacyDeathsMAE": 10.7,
+          "alignedDeathsMAE": 8.7,
+          "legacyDeathsMeanError": -9.8,
+          "alignedDeathsMeanError": 0.9,
+          "netMigrationMAE": 39,
+          "oneYear": {
+            "legacy": {
+              "observations": 4,
+              "populationMAPE": 0.5,
+              "populationMAE": 41.7,
+              "populationMeanError": 24.1,
+              "birthsMAE": 7.5,
+              "birthsMeanError": -0.2,
+              "deathsMAE": 13.9,
+              "deathsMeanError": -12.3,
+              "netMigrationMAE": 40.3
+            },
+            "aligned": {
+              "observations": 4,
+              "populationMAPE": 0.5,
+              "populationMAE": 41.7,
+              "populationMeanError": 12.1,
+              "birthsMAE": 7.8,
+              "birthsMeanError": -0.5,
+              "deathsMAE": 8.8,
+              "deathsMeanError": -0.5,
+              "netMigrationMAE": 40.3
+            }
+          },
+          "twoYear": {
+            "legacy": {
+              "observations": 4,
+              "populationMAPE": 0.8,
+              "populationMAE": 65.2,
+              "populationMeanError": 61.1,
+              "birthsMAE": 7.2,
+              "birthsMeanError": 6.1,
+              "deathsMAE": 8.9,
+              "deathsMeanError": -7.6,
+              "netMigrationMAE": 29.7
+            },
+            "aligned": {
+              "observations": 4,
+              "populationMAPE": 0.7,
+              "populationMAE": 54,
+              "populationMeanError": 38.2,
+              "birthsMAE": 7.1,
+              "birthsMeanError": 5.9,
+              "deathsMAE": 10.7,
+              "deathsMeanError": 3,
+              "netMigrationMAE": 29.8
+            }
+          },
+          "threeYear": {
+            "legacy": {
+              "observations": 4,
+              "populationMAPE": 1.2,
+              "populationMAE": 97.2,
+              "populationMeanError": 97.2,
+              "birthsMAE": 5.2,
+              "birthsMeanError": 5.2,
+              "deathsMAE": 9.4,
+              "deathsMeanError": -9.4,
+              "netMigrationMAE": 46.9
+            },
+            "aligned": {
+              "observations": 4,
+              "populationMAPE": 0.8,
+              "populationMAE": 64.1,
+              "populationMeanError": 64.1,
+              "birthsMAE": 4.5,
+              "birthsMeanError": 4.5,
+              "deathsMAE": 6.5,
+              "deathsMeanError": 0.2,
+              "netMigrationMAE": 46.9
+            }
+          },
+          "byHorizon": {
+            "1": {
+              "legacy": {
+                "observations": 4,
+                "populationMAPE": 0.5,
+                "populationMAE": 41.7,
+                "populationMeanError": 24.1,
+                "birthsMAE": 7.5,
+                "birthsMeanError": -0.2,
+                "deathsMAE": 13.9,
+                "deathsMeanError": -12.3,
+                "netMigrationMAE": 40.3
+              },
+              "aligned": {
+                "observations": 4,
+                "populationMAPE": 0.5,
+                "populationMAE": 41.7,
+                "populationMeanError": 12.1,
+                "birthsMAE": 7.8,
+                "birthsMeanError": -0.5,
+                "deathsMAE": 8.8,
+                "deathsMeanError": -0.5,
+                "netMigrationMAE": 40.3
+              }
+            },
+            "2": {
+              "legacy": {
+                "observations": 4,
+                "populationMAPE": 0.8,
+                "populationMAE": 65.2,
+                "populationMeanError": 61.1,
+                "birthsMAE": 7.2,
+                "birthsMeanError": 6.1,
+                "deathsMAE": 8.9,
+                "deathsMeanError": -7.6,
+                "netMigrationMAE": 29.7
+              },
+              "aligned": {
+                "observations": 4,
+                "populationMAPE": 0.7,
+                "populationMAE": 54,
+                "populationMeanError": 38.2,
+                "birthsMAE": 7.1,
+                "birthsMeanError": 5.9,
+                "deathsMAE": 10.7,
+                "deathsMeanError": 3,
+                "netMigrationMAE": 29.8
+              }
+            },
+            "3": {
+              "legacy": {
+                "observations": 4,
+                "populationMAPE": 1.2,
+                "populationMAE": 97.2,
+                "populationMeanError": 97.2,
+                "birthsMAE": 5.2,
+                "birthsMeanError": 5.2,
+                "deathsMAE": 9.4,
+                "deathsMeanError": -9.4,
+                "netMigrationMAE": 46.9
+              },
+              "aligned": {
+                "observations": 4,
+                "populationMAPE": 0.8,
+                "populationMAE": 64.1,
+                "populationMeanError": 64.1,
+                "birthsMAE": 4.5,
+                "birthsMeanError": 4.5,
+                "deathsMAE": 6.5,
+                "deathsMeanError": 0.2,
+                "netMigrationMAE": 46.9
+              }
+            }
+          },
+          "byOrigin": {
+            "2018": {
+              "legacyDeathsMeanError": -5.2,
+              "alignedDeathsMeanError": 5.6,
+              "legacyBirthsMeanError": 2.8,
+              "alignedBirthsMeanError": 2.8,
+              "legacyPopulationEndError": 118.9,
+              "alignedPopulationEndError": 86.4
+            },
+            "2019": {
+              "legacyDeathsMeanError": -6.7,
+              "alignedDeathsMeanError": 4.2,
+              "legacyBirthsMeanError": 6.2,
+              "alignedBirthsMeanError": 6,
+              "legacyPopulationEndError": 57.5,
+              "alignedPopulationEndError": 24.2
+            },
+            "2020": {
+              "legacyDeathsMeanError": -12.7,
+              "alignedDeathsMeanError": -2.2,
+              "legacyBirthsMeanError": 1.8,
+              "alignedBirthsMeanError": 1.4,
+              "legacyPopulationEndError": 88.5,
+              "alignedPopulationEndError": 56.1
+            },
+            "2021": {
+              "legacyDeathsMeanError": -14.6,
+              "alignedDeathsMeanError": -4.2,
+              "legacyBirthsMeanError": 4,
+              "alignedBirthsMeanError": 3.1,
+              "legacyPopulationEndError": 123.7,
+              "alignedPopulationEndError": 89.7
+            }
+          }
+        },
         "6": {
           "observations": 12,
           "legacyPopulationMAPE": 1.4,
@@ -4830,6 +7087,204 @@
         }
       },
       "2580": {
+        "3": {
+          "observations": 12,
+          "legacyPopulationMAPE": 0.4,
+          "alignedPopulationMAPE": 0.2,
+          "legacyPopulationMAE": 302.6,
+          "alignedPopulationMAE": 176.1,
+          "legacyPopulationMeanError": 298.8,
+          "alignedPopulationMeanError": 154.2,
+          "legacyBirthsMAE": 60.1,
+          "alignedBirthsMAE": 61.4,
+          "legacyBirthsMeanError": 55,
+          "alignedBirthsMeanError": 57.3,
+          "legacyDeathsMAE": 100.9,
+          "alignedDeathsMAE": 31.7,
+          "legacyDeathsMeanError": -100.9,
+          "alignedDeathsMeanError": -26.9,
+          "netMigrationMAE": 135.5,
+          "oneYear": {
+            "legacy": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 140.6,
+              "populationMeanError": 129.1,
+              "birthsMAE": 34.4,
+              "birthsMeanError": 20.1,
+              "deathsMAE": 97.8,
+              "deathsMeanError": -97.8,
+              "netMigrationMAE": 157.9
+            },
+            "aligned": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 115,
+              "populationMeanError": 55.1,
+              "birthsMAE": 37.6,
+              "birthsMeanError": 25.4,
+              "deathsMAE": 30.9,
+              "deathsMeanError": -18.6,
+              "netMigrationMAE": 157.9
+            }
+          },
+          "twoYear": {
+            "legacy": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 289.2,
+              "populationMeanError": 289.2,
+              "birthsMAE": 52.9,
+              "birthsMeanError": 52,
+              "deathsMAE": 109.5,
+              "deathsMeanError": -109.5,
+              "netMigrationMAE": 99.3
+            },
+            "aligned": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 144.5,
+              "populationMeanError": 144.5,
+              "birthsMAE": 54.1,
+              "birthsMeanError": 54.1,
+              "deathsMAE": 38.6,
+              "deathsMeanError": -36.6,
+              "netMigrationMAE": 99.3
+            }
+          },
+          "threeYear": {
+            "legacy": {
+              "observations": 4,
+              "populationMAPE": 0.6,
+              "populationMAE": 478,
+              "populationMeanError": 478,
+              "birthsMAE": 93,
+              "birthsMeanError": 93,
+              "deathsMAE": 95.4,
+              "deathsMeanError": -95.4,
+              "netMigrationMAE": 149.2
+            },
+            "aligned": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 268.7,
+              "populationMeanError": 263,
+              "birthsMAE": 92.4,
+              "birthsMeanError": 92.4,
+              "deathsMAE": 25.7,
+              "deathsMeanError": -25.7,
+              "netMigrationMAE": 149.2
+            }
+          },
+          "byHorizon": {
+            "1": {
+              "legacy": {
+                "observations": 4,
+                "populationMAPE": 0.2,
+                "populationMAE": 140.6,
+                "populationMeanError": 129.1,
+                "birthsMAE": 34.4,
+                "birthsMeanError": 20.1,
+                "deathsMAE": 97.8,
+                "deathsMeanError": -97.8,
+                "netMigrationMAE": 157.9
+              },
+              "aligned": {
+                "observations": 4,
+                "populationMAPE": 0.2,
+                "populationMAE": 115,
+                "populationMeanError": 55.1,
+                "birthsMAE": 37.6,
+                "birthsMeanError": 25.4,
+                "deathsMAE": 30.9,
+                "deathsMeanError": -18.6,
+                "netMigrationMAE": 157.9
+              }
+            },
+            "2": {
+              "legacy": {
+                "observations": 4,
+                "populationMAPE": 0.4,
+                "populationMAE": 289.2,
+                "populationMeanError": 289.2,
+                "birthsMAE": 52.9,
+                "birthsMeanError": 52,
+                "deathsMAE": 109.5,
+                "deathsMeanError": -109.5,
+                "netMigrationMAE": 99.3
+              },
+              "aligned": {
+                "observations": 4,
+                "populationMAPE": 0.2,
+                "populationMAE": 144.5,
+                "populationMeanError": 144.5,
+                "birthsMAE": 54.1,
+                "birthsMeanError": 54.1,
+                "deathsMAE": 38.6,
+                "deathsMeanError": -36.6,
+                "netMigrationMAE": 99.3
+              }
+            },
+            "3": {
+              "legacy": {
+                "observations": 4,
+                "populationMAPE": 0.6,
+                "populationMAE": 478,
+                "populationMeanError": 478,
+                "birthsMAE": 93,
+                "birthsMeanError": 93,
+                "deathsMAE": 95.4,
+                "deathsMeanError": -95.4,
+                "netMigrationMAE": 149.2
+              },
+              "aligned": {
+                "observations": 4,
+                "populationMAPE": 0.4,
+                "populationMAE": 268.7,
+                "populationMeanError": 263,
+                "birthsMAE": 92.4,
+                "birthsMeanError": 92.4,
+                "deathsMAE": 25.7,
+                "deathsMeanError": -25.7,
+                "netMigrationMAE": 149.2
+              }
+            }
+          },
+          "byOrigin": {
+            "2018": {
+              "legacyDeathsMeanError": -84.7,
+              "alignedDeathsMeanError": -11.9,
+              "legacyBirthsMeanError": 25.2,
+              "alignedBirthsMeanError": 31.8,
+              "legacyPopulationEndError": 893.8,
+              "alignedPopulationEndError": 695.2
+            },
+            "2019": {
+              "legacyDeathsMeanError": -92,
+              "alignedDeathsMeanError": -18.1,
+              "legacyBirthsMeanError": 48.3,
+              "alignedBirthsMeanError": 51.1,
+              "legacyPopulationEndError": 344,
+              "alignedPopulationEndError": 130.5
+            },
+            "2020": {
+              "legacyDeathsMeanError": -121.6,
+              "alignedDeathsMeanError": -48.5,
+              "legacyBirthsMeanError": 58.1,
+              "alignedBirthsMeanError": 59.4,
+              "legacyPopulationEndError": 453.2,
+              "alignedPopulationEndError": 237.7
+            },
+            "2021": {
+              "legacyDeathsMeanError": -105.3,
+              "alignedDeathsMeanError": -29.4,
+              "legacyBirthsMeanError": 88.4,
+              "alignedBirthsMeanError": 86.8,
+              "legacyPopulationEndError": 221.2,
+              "alignedPopulationEndError": -11.5
+            }
+          }
+        },
         "6": {
           "observations": 12,
           "legacyPopulationMAPE": 0.4,
@@ -5228,6 +7683,204 @@
         }
       },
       "2581": {
+        "3": {
+          "observations": 12,
+          "legacyPopulationMAPE": 0.4,
+          "alignedPopulationMAPE": 0.3,
+          "legacyPopulationMAE": 187.6,
+          "alignedPopulationMAE": 130.1,
+          "legacyPopulationMeanError": 184.6,
+          "alignedPopulationMeanError": 74.6,
+          "legacyBirthsMAE": 29.5,
+          "alignedBirthsMAE": 25.9,
+          "legacyBirthsMeanError": 19.3,
+          "alignedBirthsMeanError": 13.1,
+          "legacyDeathsMAE": 31.8,
+          "alignedDeathsMAE": 19.8,
+          "legacyDeathsMeanError": -30,
+          "alignedDeathsMeanError": 18.3,
+          "netMigrationMAE": 77.5,
+          "oneYear": {
+            "legacy": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 90.1,
+              "populationMeanError": 80.9,
+              "birthsMAE": 27.4,
+              "birthsMeanError": 2.2,
+              "deathsMAE": 43.3,
+              "deathsMeanError": -43.3,
+              "netMigrationMAE": 60.7
+            },
+            "aligned": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 67.8,
+              "populationMeanError": 24.8,
+              "birthsMAE": 25.7,
+              "birthsMeanError": -1.7,
+              "deathsMAE": 13.1,
+              "deathsMeanError": 8.9,
+              "netMigrationMAE": 60.7
+            }
+          },
+          "twoYear": {
+            "legacy": {
+              "observations": 4,
+              "populationMAPE": 0.5,
+              "populationMAE": 200.3,
+              "populationMeanError": 200.3,
+              "birthsMAE": 20.3,
+              "birthsMeanError": 20.2,
+              "deathsMAE": 31.5,
+              "deathsMeanError": -31.5,
+              "netMigrationMAE": 86.4
+            },
+            "aligned": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 139.5,
+              "populationMeanError": 89.8,
+              "birthsMAE": 16.9,
+              "birthsMeanError": 13.9,
+              "deathsMAE": 16.9,
+              "deathsMeanError": 16.5,
+              "netMigrationMAE": 86.4
+            }
+          },
+          "threeYear": {
+            "legacy": {
+              "observations": 4,
+              "populationMAPE": 0.6,
+              "populationMAE": 272.5,
+              "populationMeanError": 272.5,
+              "birthsMAE": 40.8,
+              "birthsMeanError": 35.4,
+              "deathsMAE": 20.7,
+              "deathsMeanError": -15.1,
+              "netMigrationMAE": 85.4
+            },
+            "aligned": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 183,
+              "populationMeanError": 109.1,
+              "birthsMAE": 35.2,
+              "birthsMeanError": 27.2,
+              "deathsMAE": 29.5,
+              "deathsMeanError": 29.5,
+              "netMigrationMAE": 85.4
+            }
+          },
+          "byHorizon": {
+            "1": {
+              "legacy": {
+                "observations": 4,
+                "populationMAPE": 0.2,
+                "populationMAE": 90.1,
+                "populationMeanError": 80.9,
+                "birthsMAE": 27.4,
+                "birthsMeanError": 2.2,
+                "deathsMAE": 43.3,
+                "deathsMeanError": -43.3,
+                "netMigrationMAE": 60.7
+              },
+              "aligned": {
+                "observations": 4,
+                "populationMAPE": 0.2,
+                "populationMAE": 67.8,
+                "populationMeanError": 24.8,
+                "birthsMAE": 25.7,
+                "birthsMeanError": -1.7,
+                "deathsMAE": 13.1,
+                "deathsMeanError": 8.9,
+                "netMigrationMAE": 60.7
+              }
+            },
+            "2": {
+              "legacy": {
+                "observations": 4,
+                "populationMAPE": 0.5,
+                "populationMAE": 200.3,
+                "populationMeanError": 200.3,
+                "birthsMAE": 20.3,
+                "birthsMeanError": 20.2,
+                "deathsMAE": 31.5,
+                "deathsMeanError": -31.5,
+                "netMigrationMAE": 86.4
+              },
+              "aligned": {
+                "observations": 4,
+                "populationMAPE": 0.4,
+                "populationMAE": 139.5,
+                "populationMeanError": 89.8,
+                "birthsMAE": 16.9,
+                "birthsMeanError": 13.9,
+                "deathsMAE": 16.9,
+                "deathsMeanError": 16.5,
+                "netMigrationMAE": 86.4
+              }
+            },
+            "3": {
+              "legacy": {
+                "observations": 4,
+                "populationMAPE": 0.6,
+                "populationMAE": 272.5,
+                "populationMeanError": 272.5,
+                "birthsMAE": 40.8,
+                "birthsMeanError": 35.4,
+                "deathsMAE": 20.7,
+                "deathsMeanError": -15.1,
+                "netMigrationMAE": 85.4
+              },
+              "aligned": {
+                "observations": 4,
+                "populationMAPE": 0.4,
+                "populationMAE": 183,
+                "populationMeanError": 109.1,
+                "birthsMAE": 35.2,
+                "birthsMeanError": 27.2,
+                "deathsMAE": 29.5,
+                "deathsMeanError": 29.5,
+                "netMigrationMAE": 85.4
+              }
+            }
+          },
+          "byOrigin": {
+            "2018": {
+              "legacyDeathsMeanError": -43.2,
+              "alignedDeathsMeanError": 5,
+              "legacyBirthsMeanError": -4.8,
+              "alignedBirthsMeanError": -7.5,
+              "legacyPopulationEndError": 468.4,
+              "alignedPopulationEndError": 315.4
+            },
+            "2019": {
+              "legacyDeathsMeanError": -24.8,
+              "alignedDeathsMeanError": 24,
+              "legacyBirthsMeanError": 30.5,
+              "alignedBirthsMeanError": 24.6,
+              "legacyPopulationEndError": 432.9,
+              "alignedPopulationEndError": 268.8
+            },
+            "2020": {
+              "legacyDeathsMeanError": -35.6,
+              "alignedDeathsMeanError": 11.9,
+              "legacyBirthsMeanError": 14.9,
+              "alignedBirthsMeanError": 7.7,
+              "legacyPopulationEndError": 90.5,
+              "alignedPopulationEndError": -73.8
+            },
+            "2021": {
+              "legacyDeathsMeanError": -16.3,
+              "alignedDeathsMeanError": 32.3,
+              "legacyBirthsMeanError": 36.4,
+              "alignedBirthsMeanError": 27.6,
+              "legacyPopulationEndError": 98.2,
+              "alignedPopulationEndError": -74
+            }
+          }
+        },
         "6": {
           "observations": 12,
           "legacyPopulationMAPE": 0.6,
@@ -5626,6 +8279,204 @@
         }
       },
       "2582": {
+        "3": {
+          "observations": 12,
+          "legacyPopulationMAPE": 0.4,
+          "alignedPopulationMAPE": 0.3,
+          "legacyPopulationMAE": 103.2,
+          "alignedPopulationMAE": 73.5,
+          "legacyPopulationMeanError": 75.5,
+          "alignedPopulationMeanError": 6.7,
+          "legacyBirthsMAE": 18.1,
+          "alignedBirthsMAE": 15.8,
+          "legacyBirthsMeanError": 14.5,
+          "alignedBirthsMeanError": 11.9,
+          "legacyDeathsMAE": 46.8,
+          "alignedDeathsMAE": 17.4,
+          "legacyDeathsMeanError": -46.8,
+          "alignedDeathsMeanError": -15.5,
+          "netMigrationMAE": 61.1,
+          "oneYear": {
+            "legacy": {
+              "observations": 4,
+              "populationMAPE": 0.3,
+              "populationMAE": 87.1,
+              "populationMeanError": 30.5,
+              "birthsMAE": 12.8,
+              "birthsMeanError": 1.9,
+              "deathsMAE": 46.5,
+              "deathsMeanError": -46.5,
+              "netMigrationMAE": 66.5
+            },
+            "aligned": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 68.8,
+              "populationMeanError": -5.1,
+              "birthsMAE": 11.9,
+              "birthsMeanError": 0.2,
+              "deathsMAE": 15.2,
+              "deathsMeanError": -12.7,
+              "netMigrationMAE": 66.5
+            }
+          },
+          "twoYear": {
+            "legacy": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 113.6,
+              "populationMeanError": 87.1,
+              "birthsMAE": 17,
+              "birthsMeanError": 17,
+              "deathsMAE": 51.4,
+              "deathsMeanError": -51.4,
+              "netMigrationMAE": 46.8
+            },
+            "aligned": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 113.2,
+              "populationMeanError": 18.1,
+              "birthsMAE": 14.6,
+              "birthsMeanError": 14.6,
+              "deathsMAE": 20.4,
+              "deathsMeanError": -20.4,
+              "netMigrationMAE": 46.8
+            }
+          },
+          "threeYear": {
+            "legacy": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 108.7,
+              "populationMeanError": 108.7,
+              "birthsMAE": 24.6,
+              "birthsMeanError": 24.6,
+              "deathsMAE": 42.5,
+              "deathsMeanError": -42.5,
+              "netMigrationMAE": 70
+            },
+            "aligned": {
+              "observations": 4,
+              "populationMAPE": 0.1,
+              "populationMAE": 38.4,
+              "populationMeanError": 7.1,
+              "birthsMAE": 20.9,
+              "birthsMeanError": 20.9,
+              "deathsMAE": 16.6,
+              "deathsMeanError": -13.5,
+              "netMigrationMAE": 70
+            }
+          },
+          "byHorizon": {
+            "1": {
+              "legacy": {
+                "observations": 4,
+                "populationMAPE": 0.3,
+                "populationMAE": 87.1,
+                "populationMeanError": 30.5,
+                "birthsMAE": 12.8,
+                "birthsMeanError": 1.9,
+                "deathsMAE": 46.5,
+                "deathsMeanError": -46.5,
+                "netMigrationMAE": 66.5
+              },
+              "aligned": {
+                "observations": 4,
+                "populationMAPE": 0.2,
+                "populationMAE": 68.8,
+                "populationMeanError": -5.1,
+                "birthsMAE": 11.9,
+                "birthsMeanError": 0.2,
+                "deathsMAE": 15.2,
+                "deathsMeanError": -12.7,
+                "netMigrationMAE": 66.5
+              }
+            },
+            "2": {
+              "legacy": {
+                "observations": 4,
+                "populationMAPE": 0.4,
+                "populationMAE": 113.6,
+                "populationMeanError": 87.1,
+                "birthsMAE": 17,
+                "birthsMeanError": 17,
+                "deathsMAE": 51.4,
+                "deathsMeanError": -51.4,
+                "netMigrationMAE": 46.8
+              },
+              "aligned": {
+                "observations": 4,
+                "populationMAPE": 0.4,
+                "populationMAE": 113.2,
+                "populationMeanError": 18.1,
+                "birthsMAE": 14.6,
+                "birthsMeanError": 14.6,
+                "deathsMAE": 20.4,
+                "deathsMeanError": -20.4,
+                "netMigrationMAE": 46.8
+              }
+            },
+            "3": {
+              "legacy": {
+                "observations": 4,
+                "populationMAPE": 0.4,
+                "populationMAE": 108.7,
+                "populationMeanError": 108.7,
+                "birthsMAE": 24.6,
+                "birthsMeanError": 24.6,
+                "deathsMAE": 42.5,
+                "deathsMeanError": -42.5,
+                "netMigrationMAE": 70
+              },
+              "aligned": {
+                "observations": 4,
+                "populationMAPE": 0.1,
+                "populationMAE": 38.4,
+                "populationMeanError": 7.1,
+                "birthsMAE": 20.9,
+                "birthsMeanError": 20.9,
+                "deathsMAE": 16.6,
+                "deathsMeanError": -13.5,
+                "netMigrationMAE": 70
+              }
+            }
+          },
+          "byOrigin": {
+            "2018": {
+              "legacyDeathsMeanError": -52.9,
+              "alignedDeathsMeanError": -22.9,
+              "legacyBirthsMeanError": 2.4,
+              "alignedBirthsMeanError": 0.3,
+              "legacyPopulationEndError": 74.8,
+              "alignedPopulationEndError": -21.5
+            },
+            "2019": {
+              "legacyDeathsMeanError": -44.9,
+              "alignedDeathsMeanError": -13.6,
+              "legacyBirthsMeanError": 17.7,
+              "alignedBirthsMeanError": 15.1,
+              "legacyPopulationEndError": 101.7,
+              "alignedPopulationEndError": 0.2
+            },
+            "2020": {
+              "legacyDeathsMeanError": -53.4,
+              "alignedDeathsMeanError": -22.4,
+              "legacyBirthsMeanError": 14,
+              "alignedBirthsMeanError": 11.9,
+              "legacyPopulationEndError": 58.3,
+              "alignedPopulationEndError": -41.2
+            },
+            "2021": {
+              "legacyDeathsMeanError": -36,
+              "alignedDeathsMeanError": -3.3,
+              "legacyBirthsMeanError": 24.1,
+              "alignedBirthsMeanError": 20.3,
+              "legacyPopulationEndError": 200.2,
+              "alignedPopulationEndError": 90.8
+            }
+          }
+        },
         "6": {
           "observations": 12,
           "legacyPopulationMAPE": 0.5,
@@ -6024,6 +8875,204 @@
         }
       },
       "FA_LULEA": {
+        "3": {
+          "observations": 12,
+          "legacyPopulationMAPE": 0.4,
+          "alignedPopulationMAPE": 0.2,
+          "legacyPopulationMAE": 634.6,
+          "alignedPopulationMAE": 339.2,
+          "legacyPopulationMeanError": 619.6,
+          "alignedPopulationMeanError": 224.8,
+          "legacyBirthsMAE": 112,
+          "alignedBirthsMAE": 103,
+          "legacyBirthsMeanError": 93,
+          "alignedBirthsMeanError": 84.9,
+          "legacyDeathsMAE": 217.4,
+          "alignedDeathsMAE": 46.9,
+          "legacyDeathsMeanError": -217.4,
+          "alignedDeathsMeanError": -30.5,
+          "netMigrationMAE": 225.2,
+          "oneYear": {
+            "legacy": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 306.4,
+              "populationMeanError": 261.5,
+              "birthsMAE": 73.7,
+              "birthsMeanError": 16.6,
+              "deathsMAE": 226.8,
+              "deathsMeanError": -226.8,
+              "netMigrationMAE": 198.4
+            },
+            "aligned": {
+              "observations": 4,
+              "populationMAPE": 0.1,
+              "populationMAE": 225.3,
+              "populationMeanError": 58.3,
+              "birthsMAE": 69.2,
+              "birthsMeanError": 15.3,
+              "deathsMAE": 40.1,
+              "deathsMeanError": -24.9,
+              "netMigrationMAE": 198.4
+            }
+          },
+          "twoYear": {
+            "legacy": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 631.6,
+              "populationMeanError": 631.6,
+              "birthsMAE": 96.2,
+              "birthsMeanError": 96.2,
+              "deathsMAE": 234,
+              "deathsMeanError": -234,
+              "netMigrationMAE": 213.7
+            },
+            "aligned": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 411.4,
+              "populationMeanError": 235.2,
+              "birthsMAE": 88.5,
+              "birthsMeanError": 88.2,
+              "deathsMAE": 60,
+              "deathsMeanError": -49,
+              "netMigrationMAE": 213.8
+            }
+          },
+          "threeYear": {
+            "legacy": {
+              "observations": 4,
+              "populationMAPE": 0.6,
+              "populationMAE": 965.7,
+              "populationMeanError": 965.7,
+              "birthsMAE": 166.1,
+              "birthsMeanError": 166.1,
+              "deathsMAE": 191.5,
+              "deathsMeanError": -191.5,
+              "netMigrationMAE": 263.5
+            },
+            "aligned": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 380.9,
+              "populationMeanError": 380.9,
+              "birthsMAE": 151.4,
+              "birthsMeanError": 151.4,
+              "deathsMAE": 40.7,
+              "deathsMeanError": -17.8,
+              "netMigrationMAE": 263.5
+            }
+          },
+          "byHorizon": {
+            "1": {
+              "legacy": {
+                "observations": 4,
+                "populationMAPE": 0.2,
+                "populationMAE": 306.4,
+                "populationMeanError": 261.5,
+                "birthsMAE": 73.7,
+                "birthsMeanError": 16.6,
+                "deathsMAE": 226.8,
+                "deathsMeanError": -226.8,
+                "netMigrationMAE": 198.4
+              },
+              "aligned": {
+                "observations": 4,
+                "populationMAPE": 0.1,
+                "populationMAE": 225.3,
+                "populationMeanError": 58.3,
+                "birthsMAE": 69.2,
+                "birthsMeanError": 15.3,
+                "deathsMAE": 40.1,
+                "deathsMeanError": -24.9,
+                "netMigrationMAE": 198.4
+              }
+            },
+            "2": {
+              "legacy": {
+                "observations": 4,
+                "populationMAPE": 0.4,
+                "populationMAE": 631.6,
+                "populationMeanError": 631.6,
+                "birthsMAE": 96.2,
+                "birthsMeanError": 96.2,
+                "deathsMAE": 234,
+                "deathsMeanError": -234,
+                "netMigrationMAE": 213.7
+              },
+              "aligned": {
+                "observations": 4,
+                "populationMAPE": 0.2,
+                "populationMAE": 411.4,
+                "populationMeanError": 235.2,
+                "birthsMAE": 88.5,
+                "birthsMeanError": 88.2,
+                "deathsMAE": 60,
+                "deathsMeanError": -49,
+                "netMigrationMAE": 213.8
+              }
+            },
+            "3": {
+              "legacy": {
+                "observations": 4,
+                "populationMAPE": 0.6,
+                "populationMAE": 965.7,
+                "populationMeanError": 965.7,
+                "birthsMAE": 166.1,
+                "birthsMeanError": 166.1,
+                "deathsMAE": 191.5,
+                "deathsMeanError": -191.5,
+                "netMigrationMAE": 263.5
+              },
+              "aligned": {
+                "observations": 4,
+                "populationMAPE": 0.2,
+                "populationMAE": 380.9,
+                "populationMeanError": 380.9,
+                "birthsMAE": 151.4,
+                "birthsMeanError": 151.4,
+                "deathsMAE": 40.7,
+                "deathsMeanError": -17.8,
+                "netMigrationMAE": 263.5
+              }
+            }
+          },
+          "byOrigin": {
+            "2018": {
+              "legacyDeathsMeanError": -200.9,
+              "alignedDeathsMeanError": -16,
+              "legacyBirthsMeanError": 17.7,
+              "alignedBirthsMeanError": 19.2,
+              "legacyPopulationEndError": 1725.9,
+              "alignedPopulationEndError": 1175.7
+            },
+            "2019": {
+              "legacyDeathsMeanError": -194.6,
+              "alignedDeathsMeanError": -6.6,
+              "legacyBirthsMeanError": 104.3,
+              "alignedBirthsMeanError": 97,
+              "legacyPopulationEndError": 795.7,
+              "alignedPopulationEndError": 209.9
+            },
+            "2020": {
+              "legacyDeathsMeanError": -265.8,
+              "alignedDeathsMeanError": -81.2,
+              "legacyBirthsMeanError": 96.5,
+              "alignedBirthsMeanError": 86.9,
+              "legacyPopulationEndError": 637,
+              "alignedPopulationEndError": 54.1
+            },
+            "2021": {
+              "legacyDeathsMeanError": -208.4,
+              "alignedDeathsMeanError": -18.4,
+              "legacyBirthsMeanError": 153.3,
+              "alignedBirthsMeanError": 136.6,
+              "legacyPopulationEndError": 704.3,
+              "alignedPopulationEndError": 84
+            }
+          }
+        },
         "6": {
           "observations": 12,
           "legacyPopulationMAPE": 0.5,
@@ -6427,6 +9476,7 @@
     "note": "Migration-only comparison: fertility and mortality are fixed to the 10-year calibration while net migration uses 2, 4, 6 or 10 years. n+1 is primary and n+2 secondary.",
     "windows": [
       2,
+      3,
       4,
       6,
       10
@@ -6592,6 +9642,169 @@
                 "actualNetMigration": -58,
                 "netMigrationError": 76,
                 "populationError": 93.7
+              }
+            ]
+          }
+        },
+        "3": {
+          "observations": 12,
+          "populationMAPE": 0.7,
+          "populationMAE": 114.9,
+          "netMigrationMAE": 61,
+          "netMigrationMeanError": -19.7,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.6,
+            "populationMAE": 88.3,
+            "populationMeanError": -31.7,
+            "netMigrationMAE": 86.7,
+            "netMigrationMeanError": -15
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.8,
+            "populationMAE": 126.4,
+            "populationMeanError": -61.9,
+            "netMigrationMAE": 58.7,
+            "netMigrationMeanError": -29.5
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.8,
+            "populationMAE": 130.1,
+            "populationMeanError": -72.4,
+            "netMigrationMAE": 37.7,
+            "netMigrationMeanError": -14.5
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.6,
+              "populationMAE": 88.3,
+              "populationMeanError": -31.7,
+              "netMigrationMAE": 86.7,
+              "netMigrationMeanError": -15
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.8,
+              "populationMAE": 126.4,
+              "populationMeanError": -61.9,
+              "netMigrationMAE": 58.7,
+              "netMigrationMeanError": -29.5
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.8,
+              "populationMAE": 130.1,
+              "populationMeanError": -72.4,
+              "netMigrationMAE": 37.7,
+              "netMigrationMeanError": -14.5
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 32.3,
+                "actualNetMigration": -111,
+                "netMigrationError": 143.3,
+                "populationError": 113.2
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 32.3,
+                "actualNetMigration": 2,
+                "netMigrationError": 30.3,
+                "populationError": 128.9
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 32.3,
+                "actualNetMigration": 34,
+                "netMigrationError": -1.7,
+                "populationError": 115.3
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": -29.7,
+                "actualNetMigration": 2,
+                "netMigrationError": -31.7,
+                "populationError": -50.4
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": -29.7,
+                "actualNetMigration": 34,
+                "netMigrationError": -63.7,
+                "populationError": -131.5
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": -29.7,
+                "actualNetMigration": 73,
+                "netMigrationError": -102.7,
+                "populationError": -219
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": -39.7,
+                "actualNetMigration": 34,
+                "netMigrationError": -73.7,
+                "populationError": -92.5
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": -39.7,
+                "actualNetMigration": 73,
+                "netMigrationError": -112.7,
+                "populationError": -191.6
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": -39.7,
+                "actualNetMigration": -53,
+                "netMigrationError": 13.3,
+                "populationError": -148.5
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": -25,
+                "actualNetMigration": 73,
+                "netMigrationError": -98,
+                "populationError": -97.1
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": -25,
+                "actualNetMigration": -53,
+                "netMigrationError": 28,
+                "populationError": -53.5
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": -25,
+                "actualNetMigration": -58,
+                "netMigrationError": 33,
+                "populationError": -37.6
               }
             ]
           }
@@ -7250,6 +10463,169 @@
             ]
           }
         },
+        "3": {
+          "observations": 12,
+          "populationMAPE": 0.7,
+          "populationMAE": 51.5,
+          "netMigrationMAE": 39,
+          "netMigrationMeanError": 22.3,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.5,
+            "populationMAE": 40.4,
+            "populationMeanError": 12,
+            "netMigrationMAE": 40.3,
+            "netMigrationMeanError": 14.5
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.7,
+            "populationMAE": 51.5,
+            "populationMeanError": 37.6,
+            "netMigrationMAE": 29.7,
+            "netMigrationMeanError": 26.7
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.8,
+            "populationMAE": 62.7,
+            "populationMeanError": 62.7,
+            "netMigrationMAE": 46.9,
+            "netMigrationMeanError": 25.7
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.5,
+              "populationMAE": 40.4,
+              "populationMeanError": 12,
+              "netMigrationMAE": 40.3,
+              "netMigrationMeanError": 14.5
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.7,
+              "populationMAE": 51.5,
+              "populationMeanError": 37.6,
+              "netMigrationMAE": 29.7,
+              "netMigrationMeanError": 26.7
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.8,
+              "populationMAE": 62.7,
+              "populationMeanError": 62.7,
+              "netMigrationMAE": 46.9,
+              "netMigrationMeanError": 25.7
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 16,
+                "actualNetMigration": -49,
+                "netMigrationError": 65,
+                "populationError": 59.5
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 16,
+                "actualNetMigration": 22,
+                "netMigrationError": -6,
+                "populationError": 58.4
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 16,
+                "actualNetMigration": -22,
+                "netMigrationError": 38,
+                "populationError": 91.5
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": -11.3,
+                "actualNetMigration": 22,
+                "netMigrationError": -33.3,
+                "populationError": -30
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": -11.3,
+                "actualNetMigration": -22,
+                "netMigrationError": 10.7,
+                "populationError": -26.3
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": -11.3,
+                "actualNetMigration": -61,
+                "netMigrationError": 49.7,
+                "populationError": 31
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": -40.3,
+                "actualNetMigration": -22,
+                "netMigrationError": -18.3,
+                "populationError": -26.8
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": -40.3,
+                "actualNetMigration": -61,
+                "netMigrationError": 20.7,
+                "populationError": -1.4
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": -40.3,
+                "actualNetMigration": -98,
+                "netMigrationError": 57.7,
+                "populationError": 53.6
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": -16.3,
+                "actualNetMigration": -61,
+                "netMigrationError": 44.7,
+                "populationError": 45.4
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": -16.3,
+                "actualNetMigration": -98,
+                "netMigrationError": 81.7,
+                "populationError": 119.7
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": -16.3,
+                "actualNetMigration": 26,
+                "netMigrationError": -42.3,
+                "populationError": 74.6
+              }
+            ]
+          }
+        },
         "4": {
           "observations": 12,
           "populationMAPE": 0.8,
@@ -7900,6 +11276,169 @@
                 "actualNetMigration": 455,
                 "netMigrationError": -137.5,
                 "populationError": 94.9
+              }
+            ]
+          }
+        },
+        "3": {
+          "observations": 12,
+          "populationMAPE": 0.2,
+          "populationMAE": 185.1,
+          "netMigrationMAE": 135.5,
+          "netMigrationMeanError": 40.6,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 117.8,
+            "populationMeanError": 54,
+            "netMigrationMAE": 157.9,
+            "netMigrationMeanError": 50.9
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 148.7,
+            "populationMeanError": 142.5,
+            "netMigrationMAE": 99.3,
+            "netMigrationMeanError": 37.7
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 288.7,
+            "populationMeanError": 261.6,
+            "netMigrationMAE": 149.2,
+            "netMigrationMeanError": 33.2
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 117.8,
+              "populationMeanError": 54,
+              "netMigrationMAE": 157.9,
+              "netMigrationMeanError": 50.9
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 148.7,
+              "populationMeanError": 142.5,
+              "netMigrationMAE": 99.3,
+              "netMigrationMeanError": 37.7
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 288.7,
+              "populationMeanError": 261.6,
+              "netMigrationMAE": 149.2,
+              "netMigrationMeanError": 33.2
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 496,
+                "actualNetMigration": 181,
+                "netMigrationError": 315,
+                "populationError": 313.8
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 496,
+                "actualNetMigration": 437,
+                "netMigrationError": 59,
+                "populationError": 463.2
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 496,
+                "actualNetMigration": 198,
+                "netMigrationError": 298,
+                "populationError": 741.6
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 375,
+                "actualNetMigration": 437,
+                "netMigrationError": -62,
+                "populationError": -9.3
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 375,
+                "actualNetMigration": 198,
+                "netMigrationError": 177,
+                "populationError": 106.3
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 375,
+                "actualNetMigration": 424,
+                "netMigrationError": -49,
+                "populationError": 156.5
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 300.7,
+                "actualNetMigration": 198,
+                "netMigrationError": 102.7,
+                "populationError": 29.8
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 300.7,
+                "actualNetMigration": 424,
+                "netMigrationError": -123.3,
+                "populationError": -12.4
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 300.7,
+                "actualNetMigration": 234,
+                "netMigrationError": 66.7,
+                "populationError": 202.5
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 272,
+                "actualNetMigration": 424,
+                "netMigrationError": -152,
+                "populationError": -118.2
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 272,
+                "actualNetMigration": 234,
+                "netMigrationError": 38,
+                "populationError": 13
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 272,
+                "actualNetMigration": 455,
+                "netMigrationError": -183,
+                "populationError": -54.1
               }
             ]
           }
@@ -8558,6 +12097,169 @@
             ]
           }
         },
+        "3": {
+          "observations": 12,
+          "populationMAPE": 0.3,
+          "populationMAE": 135,
+          "netMigrationMAE": 77.5,
+          "netMigrationMeanError": 53.8,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 71.8,
+            "populationMeanError": 24.3,
+            "netMigrationMAE": 60.7,
+            "netMigrationMeanError": 46.2
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.3,
+            "populationMAE": 137,
+            "populationMeanError": 88.6,
+            "netMigrationMAE": 86.4,
+            "netMigrationMeanError": 81.4
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.5,
+            "populationMAE": 196.2,
+            "populationMeanError": 107,
+            "netMigrationMAE": 85.4,
+            "netMigrationMeanError": 33.9
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 71.8,
+              "populationMeanError": 24.3,
+              "netMigrationMAE": 60.7,
+              "netMigrationMeanError": 46.2
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.3,
+              "populationMAE": 137,
+              "populationMeanError": 88.6,
+              "netMigrationMAE": 86.4,
+              "netMigrationMeanError": 81.4
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.5,
+              "populationMAE": 196.2,
+              "populationMeanError": 107,
+              "netMigrationMAE": 85.4,
+              "netMigrationMeanError": 33.9
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 238,
+                "actualNetMigration": 193,
+                "netMigrationError": 45,
+                "populationError": 17.3
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 238,
+                "actualNetMigration": 21,
+                "netMigrationError": 217,
+                "populationError": 254.7
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 238,
+                "actualNetMigration": 110,
+                "netMigrationError": 128,
+                "populationError": 336.2
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 172.7,
+                "actualNetMigration": 21,
+                "netMigrationError": 151.7,
+                "populationError": 174.9
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 172.7,
+                "actualNetMigration": 110,
+                "netMigrationError": 62.7,
+                "populationError": 195.9
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 172.7,
+                "actualNetMigration": 91,
+                "netMigrationError": 81.7,
+                "populationError": 270.2
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 81,
+                "actualNetMigration": 110,
+                "netMigrationError": -29,
+                "populationError": -73.2
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 81,
+                "actualNetMigration": 91,
+                "netMigrationError": -10,
+                "populationError": -96.9
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 81,
+                "actualNetMigration": 52,
+                "netMigrationError": 29,
+                "populationError": -70.5
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 108,
+                "actualNetMigration": 91,
+                "netMigrationError": 17,
+                "populationError": -21.9
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 108,
+                "actualNetMigration": 52,
+                "netMigrationError": 56,
+                "populationError": 0.5
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 108,
+                "actualNetMigration": 211,
+                "netMigrationError": -103,
+                "populationError": -107.9
+              }
+            ]
+          }
+        },
         "4": {
           "observations": 12,
           "populationMAPE": 0.3,
@@ -9212,6 +12914,169 @@
             ]
           }
         },
+        "3": {
+          "observations": 12,
+          "populationMAPE": 0.3,
+          "populationMAE": 77,
+          "netMigrationMAE": 61.1,
+          "netMigrationMeanError": -7.9,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 69.6,
+            "populationMeanError": -7.6,
+            "netMigrationMAE": 66.5,
+            "netMigrationMeanError": -0.5
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 108.5,
+            "populationMeanError": 13,
+            "netMigrationMAE": 46.8,
+            "netMigrationMeanError": 7.2
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 53,
+            "populationMeanError": -0.8,
+            "netMigrationMAE": 70,
+            "netMigrationMeanError": -30.5
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 69.6,
+              "populationMeanError": -7.6,
+              "netMigrationMAE": 66.5,
+              "netMigrationMeanError": -0.5
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 108.5,
+              "populationMeanError": 13,
+              "netMigrationMAE": 46.8,
+              "netMigrationMeanError": 7.2
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 53,
+              "populationMeanError": -0.8,
+              "netMigrationMAE": 70,
+              "netMigrationMeanError": -30.5
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 57,
+                "actualNetMigration": 40,
+                "netMigrationError": 17,
+                "populationError": -4.7
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 57,
+                "actualNetMigration": 53,
+                "netMigrationError": 4,
+                "populationError": 28.6
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 57,
+                "actualNetMigration": 111,
+                "netMigrationError": -54,
+                "populationError": -59.3
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 32,
+                "actualNetMigration": 53,
+                "netMigrationError": -21,
+                "populationError": 10.6
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 32,
+                "actualNetMigration": 111,
+                "netMigrationError": -79,
+                "populationError": -97.5
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 32,
+                "actualNetMigration": -47,
+                "netMigrationError": 79,
+                "populationError": 5
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": -2,
+                "actualNetMigration": 111,
+                "netMigrationError": -113,
+                "populationError": -149.7
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": -2,
+                "actualNetMigration": -47,
+                "netMigrationError": 45,
+                "populationError": -93.5
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": -2,
+                "actualNetMigration": 9,
+                "netMigrationError": -11,
+                "populationError": -48.4
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 68,
+                "actualNetMigration": -47,
+                "netMigrationError": 115,
+                "populationError": 113.4
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 68,
+                "actualNetMigration": 9,
+                "netMigrationError": 59,
+                "populationError": 214.4
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 68,
+                "actualNetMigration": 204,
+                "netMigrationError": -136,
+                "populationError": 99.4
+              }
+            ]
+          }
+        },
         "4": {
           "observations": 12,
           "populationMAPE": 0.2,
@@ -9862,6 +13727,169 @@
                 "actualNetMigration": 838,
                 "netMigrationError": -355,
                 "populationError": 214.5
+              }
+            ]
+          }
+        },
+        "3": {
+          "observations": 12,
+          "populationMAPE": 0.2,
+          "populationMAE": 346.9,
+          "netMigrationMAE": 225.2,
+          "netMigrationMeanError": 89.2,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.1,
+            "populationMAE": 246.5,
+            "populationMeanError": 51,
+            "netMigrationMAE": 198.4,
+            "netMigrationMeanError": 96.1
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 417.6,
+            "populationMeanError": 219.8,
+            "netMigrationMAE": 213.7,
+            "netMigrationMeanError": 123.6
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 0.2,
+            "populationMAE": 376.5,
+            "populationMeanError": 358,
+            "netMigrationMAE": 263.5,
+            "netMigrationMeanError": 47.8
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.1,
+              "populationMAE": 246.5,
+              "populationMeanError": 51,
+              "netMigrationMAE": 198.4,
+              "netMigrationMeanError": 96.1
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 417.6,
+              "populationMeanError": 219.8,
+              "netMigrationMAE": 213.7,
+              "netMigrationMeanError": 123.6
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 0.2,
+              "populationMAE": 376.5,
+              "populationMeanError": 358,
+              "netMigrationMAE": 263.5,
+              "netMigrationMeanError": 47.8
+            }
+          },
+          "byOrigin": {
+            "2018": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "predictedNetMigration": 839.3,
+                "actualNetMigration": 254,
+                "netMigrationError": 585.3,
+                "populationError": 499
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "predictedNetMigration": 839.3,
+                "actualNetMigration": 535,
+                "netMigrationError": 304.3,
+                "populationError": 933.8
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "predictedNetMigration": 839.3,
+                "actualNetMigration": 431,
+                "netMigrationError": 408.3,
+                "populationError": 1225.3
+              }
+            ],
+            "2019": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "predictedNetMigration": 538.7,
+                "actualNetMigration": 535,
+                "netMigrationError": 3.7,
+                "populationError": 95.9
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "predictedNetMigration": 538.7,
+                "actualNetMigration": 431,
+                "netMigrationError": 107.7,
+                "populationError": 46.9
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "predictedNetMigration": 538.7,
+                "actualNetMigration": 480,
+                "netMigrationError": 58.7,
+                "populationError": 243.8
+              }
+            ],
+            "2020": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "predictedNetMigration": 299.7,
+                "actualNetMigration": 431,
+                "netMigrationError": -131.3,
+                "populationError": -312.6
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "predictedNetMigration": 299.7,
+                "actualNetMigration": 480,
+                "netMigrationError": -180.3,
+                "populationError": -395.7
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "predictedNetMigration": 299.7,
+                "actualNetMigration": 144,
+                "netMigrationError": 155.7,
+                "populationError": -11.3
+              }
+            ],
+            "2021": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "predictedNetMigration": 406.7,
+                "actualNetMigration": 480,
+                "netMigrationError": -73.3,
+                "populationError": -78.4
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "predictedNetMigration": 406.7,
+                "actualNetMigration": 144,
+                "netMigrationError": 262.7,
+                "populationError": 294.1
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "predictedNetMigration": 406.7,
+                "actualNetMigration": 838,
+                "netMigrationError": -431.3,
+                "populationError": -25.6
               }
             ]
           }
