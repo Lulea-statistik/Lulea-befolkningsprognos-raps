@@ -397,6 +397,13 @@
     const fertMult=n(options.fertMult||1), mortMult=n(options.mortMult||1), migMult=n(options.migMult||1);
     const migrationMode=options.migrationMode||"net";
     const cohortTimingMode=options.cohortTimingMode||data.parameters?.cohortTimingMode||"event_age_aligned";
+    const fertilityScenario=options.fertilityScenario||data.parameters?.defaultFertilityScenario||"raps2024";
+    const fertilityRows=fertilityScenario==="raps2024"
+      ? (data.fertilityRates||[])
+      : (data.fertilityScenarioRates||[]).filter(r=>r.scenario===fertilityScenario);
+    if(fertilityScenario!=="raps2024" && !fertilityRows.length){
+      throw new Error(`Saknar fruktsamhetsscenario ${fertilityScenario}.`);
+    }
     const imigMult=options.imigMult==null?migMult:n(options.imigMult);
     const umigMult=options.umigMult==null?migMult:n(options.umigMult);
     const window=+(options.window || data.calibration?.defaultYears || 10);
@@ -428,6 +435,7 @@
       grossOutMigration:migrationMode==="gross_flow"?0:null,
       migrationMode,
       cohortTimingMode,
+      fertilityScenario,
       scenarioEffect:0,change:0,
       populationByAgeSex:snapshot()
     }];
@@ -459,7 +467,7 @@
           const women=n(eventAgePopulation.get(key("K",age)));
           const f=Math.max(
             0,
-            getFert(data.fertilityRates,geo,year,age,window)*fertMult
+            getFert(fertilityRows,geo,year,age,window)*fertMult
           );
           births += women*f;
         }
@@ -509,7 +517,7 @@
           const women=n(pop.get(key("K",age)));
           const f=Math.max(
             0,
-            getFert(data.fertilityRates,geo,year,age,window)*fertMult
+            getFert(fertilityRows,geo,year,age,window)*fertMult
           );
           births += women*f;
         }
@@ -569,6 +577,7 @@
         grossOutMigration:migrationMode==="gross_flow"?grossOutMigration:null,
         migrationMode,
         cohortTimingMode,
+        fertilityScenario,
         scenarioEffect:sfx.total,scenarioDetail:sfx,change:total-prev,
         populationByAgeSex:snapshot()
       });
