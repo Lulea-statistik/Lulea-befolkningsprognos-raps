@@ -302,4 +302,42 @@ assert(alignedTiming.cohortTimingMode==='event_age_aligned','timing mode is expo
 assert(defaultTiming.cohortTimingMode==='event_age_aligned','event-age timing is the production default');
 assert(Math.abs(defaultTiming.population-alignedTiming.population)<1e-9,'default timing matches event-age aligned result');
 
-console.log('OK: model core, scenarios, additive FA, gross-flow migration and production event-age timing tests passed');
+
+const fertilityPathData={
+  meta:{baseYear:2025},
+  calibration:{defaultYears:10},
+  parameters:{sexRatioMaleAtBirth:0.5,defaultFertilityScenario:'raps2024'},
+  geographies:[{code:'2580'}],
+  populationBase:[
+    {geo:'2580',year:2025,sex:'K',age:30,value:1000}
+  ],
+  fertilityRates:[
+    {geo:'2580',window:10,year:2026,age:31,value:0.05}
+  ],
+  fertilityScenarioRates:[
+    {scenario:'scb2026',geo:'2580',window:10,year:2026,age:31,value:0.06}
+  ],
+  mortalityRisks:[],
+  netMigration:[]
+};
+const baseFertPath=M.simulate(fertilityPathData,{
+  geo:'2580',endYear:2026,window:10,fertMult:1,mortMult:1,migMult:1,scenarios:{}
+})[1];
+const latestFertPath=M.simulate(fertilityPathData,{
+  geo:'2580',endYear:2026,window:10,fertilityScenario:'scb2026',
+  fertMult:1,mortMult:1,migMult:1,scenarios:{}
+})[1];
+assert(Math.abs(baseFertPath.births-50)<1e-9,'baseline fertility path remains Raps/SCB 2024');
+assert(Math.abs(latestFertPath.births-60)<1e-9,'named SCB 2026 fertility path is selectable');
+assert(baseFertPath.fertilityScenario==='raps2024','baseline fertility scenario id is exposed');
+assert(latestFertPath.fertilityScenario==='scb2026','alternative fertility scenario id is exposed');
+let missingScenarioFailed=false;
+try{
+  M.simulate(fertilityPathData,{
+    geo:'2580',endYear:2026,window:10,fertilityScenario:'missing',
+    fertMult:1,mortMult:1,migMult:1,scenarios:{}
+  });
+}catch(e){missingScenarioFailed=/Saknar fruktsamhetsscenario/.test(String(e.message));}
+assert(missingScenarioFailed,'unknown fertility scenario fails explicitly');
+
+console.log('OK: model core, scenarios, additive FA, gross-flow migration, fertility paths and production event-age timing tests passed');
