@@ -193,7 +193,8 @@ def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deat
             migration_legs, birth_year_exposure
         )
         (
-            scb_risk_internal_in,
+            scb_risk_internal_in_levels,
+            scb_risk_internal_in_distribution,
             scb_risk_out,
             scb_risk_international_in,
         ) = b.scb_risk_migration_profiles(
@@ -286,7 +287,8 @@ def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deat
             "netMigration": b.migration_profiles(netmig),
             "migrationComponentInflow": component_inflow,
             "migrationComponentOutHazards": component_out_hazards,
-            "scbRiskInternalInMigration": scb_risk_internal_in,
+            "scbRiskDomesticInLevels": scb_risk_internal_in_levels,
+            "scbRiskDomesticInDistribution": scb_risk_internal_in_distribution,
             "scbRiskOutMigration": scb_risk_out,
             "scbRiskInternationalInMigration": scb_risk_international_in,
             "scbRiskNationalMeanPopulation": [
