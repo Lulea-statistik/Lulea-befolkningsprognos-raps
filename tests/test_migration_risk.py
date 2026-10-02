@@ -33,7 +33,7 @@ zero = next(r for r in urisk if r["geo"] == "2580" and r["window"] == 6 and r["s
 assert zero["value"] == 0.0
 
 
-assert tuple(mod.MIGRATION_WINDOWS) == (2, 4, 6, 10)
+assert tuple(mod.MIGRATION_WINDOWS) == (2, 3, 4, 6, 10)
 
 # Short-window profiles must use the most recent years without changing the
 # denominator of other demographic components.
@@ -94,7 +94,7 @@ county_2 = next(
 assert abs(county_2["meanInflow"] - 106.5) < 1e-12
 assert abs(county_2["meanOutflow"] - 80.0) < 1e-12
 assert abs(county_2["meanNetMigration"] - 26.5) < 1e-12
-assert all(r["window"] in (2,4,6,10) for r in leg_diag["windowBacktestLulea"])
+assert all(r["window"] in (2,3,4,6,10) for r in leg_diag["windowBacktestLulea"])
 
 
 raw_leg_path = ROOT / "data" / "raw" / "migration_birth_region_pre2025.csv"
