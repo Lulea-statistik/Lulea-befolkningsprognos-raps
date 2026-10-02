@@ -6,7 +6,17 @@ Luleå FA definieras i V1 som summan av kommunerna 2580 Luleå, 2582 Boden, 2581
 
 ## Årssteg
 
-För varje kön och ettårsålder beräknas först dödsfall, därefter åldras överlevande ett år. Nyfödda läggs till i ålder 0 och exogen nettoflyttning läggs till per ålder och kön.
+Produktionsmodellen använder **event-age-aligned** kohorttiming. Utgångspunkten är befolkningen den 31 december år n. För prognosåret n+1:
+
+1. kohorterna åldras ett år till den ålder som gäller vid slutet av prognosåret,
+2. födda beräknas från kvinnor i deras ålder under prognosåret,
+3. nyfödda läggs till i ålder 0,
+4. dödlighet appliceras på prognosårets ålder, inklusive ålder 0,
+5. nettoflyttning och scenarieeffekter appliceras på prognosårets åldersstruktur.
+
+Detta gör åldersindexeringen konsekvent med SCB:s källor: döds- och flytthändelser efter födelseår/ålder vid årets slut samt fruktsamhet efter moderns ålder vid födelsen.
+
+Den äldre V1-sekvensen, där dödlighet applicerades på föregående årsskiftes ålder före åldring, finns kvar endast som valideringsjämförelse och används inte i produktionsprognosen.
 
 ### Bestånd och exponering/medelfolkmängd
 
