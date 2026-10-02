@@ -248,5 +248,9 @@ assert unstable_56["smoothedMeanPersons"] < unstable_56["rawMeanPersons"]
 assert unstable_56["persistenceWeight"] < stable_19["persistenceWeight"]
 assert stable_19["directLocalWeight"] > unstable_56["directLocalWeight"]
 assert smooth_diag["status"] == "diagnostic_only_not_active_in_forecast"
+compact_smooth = mod.compact_migration_smoothing_diagnostic(smooth_diag)
+assert compact_smooth["geo"] == "2580"
+assert any(r["age"] == 56 and r["direction"] == "in" for r in compact_smooth["agesOfInterest"])
+assert compact_smooth["largestChanges"]
 
 print("OK: municipal urisk, component inputs, SCB-style risks and adaptive age smoothing are valid")
