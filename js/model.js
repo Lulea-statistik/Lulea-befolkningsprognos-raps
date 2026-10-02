@@ -42,48 +42,128 @@
   function byWindow(row,window){
     return row.window==null || +row.window===+window;
   }
+
+  // Model parameter arrays are large and are queried thousands of times per
+  // simulation. Cache compact lookup indexes per source array so forecast
+  // results remain identical to Array.find semantics while avoiding repeated
+  // full-array scans.
+  const ARRAY_INDEX_CACHE=new WeakMap();
+  const EMPTY_INDEX=new Map();
+  function yearKey(value){
+    if(value==null) return "@null";
+    if(value==="BASE") return "BASE";
+    const x=Number(value);
+    return Number.isFinite(x)?String(x):String(value);
+  }
+  function indexRows(rows,name,keyFn){
+    if(!Array.isArray(rows)) return EMPTY_INDEX;
+    let cache=ARRAY_INDEX_CACHE.get(rows);
+    if(!cache){
+      cache=new Map();
+      ARRAY_INDEX_CACHE.set(rows,cache);
+    }
+    if(cache.has(name)) return cache.get(name);
+    const idx=new Map();
+    for(const row of rows){
+      const k=keyFn(row);
+      if(k==null) continue;
+      const list=idx.get(k);
+      if(list) list.push(row);
+      else idx.set(k,[row]);
+    }
+    cache.set(name,idx);
+    return idx;
+  }
+  function firstMatch(idx,key,predicate=null){
+    const rows=idx.get(key)||[];
+    if(!predicate) return rows[0]||null;
+    return rows.find(predicate)||null;
+  }
+
   function getRate(rows,geo,year,sex,age,window,field="value"){
-    const exact=rows.find(r=>r.geo===geo && +r.year===+year && r.sex===sex && +r.age===+age && byWindow(r,window));
+    const idx=indexRows(
+      rows,"rate",
+      r=>`${r.geo}|${yearKey(r.year)}|${r.sex}|${+r.age}`
+    );
+    const suffix=`|${sex}|${+age}`;
+    const exact=firstMatch(
+      idx,`${geo}|${yearKey(year)}${suffix}`,r=>byWindow(r,window)
+    );
     if(exact) return n(exact[field]);
-    const profile=rows.find(r=>r.geo===geo && r.year==null && r.sex===sex && +r.age===+age && byWindow(r,window));
+    const profile=firstMatch(
+      idx,`${geo}|@null${suffix}`,r=>byWindow(r,window)
+    );
     if(profile) return n(profile[field]);
-    const nat=rows.find(r=>r.geo==="SE" && +r.year===+year && r.sex===sex && +r.age===+age && byWindow(r,window));
+    const nat=firstMatch(
+      idx,`SE|${yearKey(year)}${suffix}`,r=>byWindow(r,window)
+    );
     return nat?n(nat[field]):0;
   }
   function getFert(rows,geo,year,age,window){
-    const exact=rows.find(r=>r.geo===geo && +r.year===+year && +r.age===+age && byWindow(r,window));
+    const idx=indexRows(
+      rows,"fert",
+      r=>`${r.geo}|${yearKey(r.year)}|${+r.age}`
+    );
+    const suffix=`|${+age}`;
+    const exact=firstMatch(
+      idx,`${geo}|${yearKey(year)}${suffix}`,r=>byWindow(r,window)
+    );
     if(exact) return n(exact.value);
-    const profile=rows.find(r=>r.geo===geo && r.year==null && +r.age===+age && byWindow(r,window));
+    const profile=firstMatch(
+      idx,`${geo}|@null${suffix}`,r=>byWindow(r,window)
+    );
     if(profile) return n(profile.value);
-    const nat=rows.find(r=>r.geo==="SE" && +r.year===+year && +r.age===+age && byWindow(r,window));
+    const nat=firstMatch(
+      idx,`SE|${yearKey(year)}${suffix}`,r=>byWindow(r,window)
+    );
     return nat?n(nat.value):0;
   }
   function getNetMig(rows,geo,year,sex,age,window){
-    const exact=rows.find(r=>r.geo===geo && +r.year===+year && r.sex===sex && +r.age===+age && byWindow(r,window));
+    const idx=indexRows(
+      rows,"netMig",
+      r=>`${r.geo}|${yearKey(r.year)}|${r.sex}|${+r.age}`
+    );
+    const suffix=`|${sex}|${+age}`;
+    const exact=firstMatch(
+      idx,`${geo}|${yearKey(year)}${suffix}`,r=>byWindow(r,window)
+    );
     if(exact) return n(exact.value);
-    const profile=rows.find(r=>r.geo===geo && r.year==="BASE" && r.sex===sex && +r.age===+age && byWindow(r,window));
+    const profile=firstMatch(
+      idx,`${geo}|BASE${suffix}`,r=>byWindow(r,window)
+    );
     return profile?n(profile.value):0;
   }
 
   function getOutMigrationRisk(rows,geo,sex,age,window){
-    const r=(rows||[]).find(x=>
-      x.geo===geo && x.sex===sex && +x.age===+age && byWindow(x,window)
+    const idx=indexRows(
+      rows,"outRisk",
+      r=>`${r.geo}|${r.sex}|${+r.age}`
+    );
+    const r=firstMatch(
+      idx,`${geo}|${sex}|${+age}`,x=>byWindow(x,window)
     );
     return r?clamp(n(r.value),0,1):0;
   }
   function getGrossInMigration(rows,geo,sex,age,window){
-    const r=(rows||[]).find(x=>
-      x.geo===geo && x.sex===sex && +x.age===+age &&
-      (x.year==="BASE" || x.year==null) && byWindow(x,window)
+    const idx=indexRows(
+      rows,"grossIn",
+      r=>`${r.geo}|${r.sex}|${+r.age}`
+    );
+    const r=firstMatch(
+      idx,`${geo}|${sex}|${+age}`,
+      x=>(x.year==="BASE" || x.year==null) && byWindow(x,window)
     );
     return r?Math.max(0,n(r.value)):0;
   }
 
   function getMigrationComponentRow(rows,geo,leg,sex,age,window){
-    return (rows||[]).find(x=>
-      x.geo===geo && x.leg===leg && x.sex===sex &&
-      +x.age===+age && +x.window===+window
-    )||null;
+    const idx=indexRows(
+      rows,"migrationComponent",
+      r=>`${r.geo}|${r.leg}|${r.sex}|${+r.age}|${+r.window}`
+    );
+    return firstMatch(
+      idx,`${geo}|${leg}|${sex}|${+age}|${+window}`
+    );
   }
   function componentWindows(data){
     const cfg=data.parameters?.migrationComponentWindows||{};
@@ -95,31 +175,41 @@
   }
 
   function getScbRiskRow(rows,geo,leg,sex,age){
-    return (rows||[]).find(x=>
-      x.geo===geo && x.leg===leg && x.sex===sex && +x.age===+age
-    )||null;
+    const idx=indexRows(
+      rows,"scbRisk",
+      r=>`${r.geo}|${r.leg}|${r.sex}|${+r.age}`
+    );
+    return firstMatch(idx,`${geo}|${leg}|${sex}|${+age}`);
   }
   function getScbDomesticInLevel(rows,geo,leg){
-    return (rows||[]).find(x=>x.geo===geo && x.leg===leg)||null;
+    const idx=indexRows(rows,"scbDomesticLevel",r=>`${r.geo}|${r.leg}`);
+    return firstMatch(idx,`${geo}|${leg}`);
   }
   function getScbDomesticInDistribution(rows,geo,leg,sex,age){
-    return (rows||[]).find(x=>
-      x.geo===geo && x.leg===leg && x.sex===sex && +x.age===+age
-    )||null;
+    const idx=indexRows(
+      rows,"scbDomesticDistribution",
+      r=>`${r.geo}|${r.leg}|${r.sex}|${+r.age}`
+    );
+    return firstMatch(idx,`${geo}|${leg}|${sex}|${+age}`);
   }
   function getScbInternationalInRow(rows,geo,sex,age){
-    return (rows||[]).find(x=>
-      x.geo===geo && x.sex===sex && +x.age===+age
-    )||null;
+    const idx=indexRows(
+      rows,"scbInternationalIn",
+      r=>`${r.geo}|${r.sex}|${+r.age}`
+    );
+    return firstMatch(idx,`${geo}|${sex}|${+age}`);
   }
   function getScbNationalPopulation(rows,year,sex,age){
-    const r=(rows||[]).find(x=>
-      +x.year===+year && x.sex===sex && +x.age===+age
+    const idx=indexRows(
+      rows,"scbNationalPopulation",
+      r=>`${yearKey(r.year)}|${r.sex}|${+r.age}`
     );
+    const r=firstMatch(idx,`${yearKey(year)}|${sex}|${+age}`);
     return r?Math.max(0,n(r.value)):0;
   }
   function getScbNationalImmigration(rows,year){
-    const r=(rows||[]).find(x=>+x.year===+year);
+    const idx=indexRows(rows,"scbNationalImmigration",r=>yearKey(r.year));
+    const r=firstMatch(idx,yearKey(year));
     return r?Math.max(0,n(r.value)):0;
   }
 
