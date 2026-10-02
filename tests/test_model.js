@@ -283,11 +283,15 @@ const timingData={
 };
 const legacyTiming=M.simulate(timingData,{
   geo:'2580',endYear:2026,fertMult:1,mortMult:1,migMult:1,window:10,
-  scenarios:{},includeDetail:true
+  cohortTimingMode:'legacy_start_age',scenarios:{},includeDetail:true
 })[1];
 const alignedTiming=M.simulate(timingData,{
   geo:'2580',endYear:2026,fertMult:1,mortMult:1,migMult:1,window:10,
   cohortTimingMode:'event_age_aligned',scenarios:{},includeDetail:true
+})[1];
+const defaultTiming=M.simulate(timingData,{
+  geo:'2580',endYear:2026,fertMult:1,mortMult:1,migMult:1,window:10,
+  scenarios:{},includeDetail:true
 })[1];
 assert(Math.abs(legacyTiming.deaths-10)<1e-9,'legacy timing applies start-age mortality before ageing');
 assert(Math.abs(legacyTiming.births)<1e-9,'legacy timing uses maternal start age');
@@ -295,5 +299,7 @@ assert(Math.abs(alignedTiming.births-10)<1e-9,'event-age timing uses maternal ag
 assert(Math.abs(alignedTiming.deaths-22)<1e-9,'event-age timing uses age-80 risk and includes newborn deaths');
 assert(Math.abs(alignedTiming.population-188)<1e-9,'event-age timing preserves cohort accounting after births and deaths');
 assert(alignedTiming.cohortTimingMode==='event_age_aligned','timing mode is exposed in results');
+assert(defaultTiming.cohortTimingMode==='event_age_aligned','event-age timing is the production default');
+assert(Math.abs(defaultTiming.population-alignedTiming.population)<1e-9,'default timing matches event-age aligned result');
 
-console.log('OK: model core, scenarios, additive FA, gross-flow migration and event-age timing candidate tests passed');
+console.log('OK: model core, scenarios, additive FA, gross-flow migration and production event-age timing tests passed');
