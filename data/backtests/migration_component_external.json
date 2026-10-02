@@ -1,0 +1,2111 @@
+{
+  "schemaVersion": "0.1.0",
+  "governance": {
+    "candidateConfig": "data/migration_component_windows.json",
+    "candidateLockedBeforeExternalResults": true,
+    "luleaUsedForSelection": true,
+    "externalMunicipalitiesUsedForSelection": false,
+    "productionDefaultChanged": false,
+    "note": "External results are confirmatory only. Do not retune the six component windows after viewing this report and then reuse the same external municipalities as independent validation."
+  },
+  "origins": [
+    2018,
+    2019,
+    2020,
+    2021
+  ],
+  "horizons": [
+    1,
+    2
+  ],
+  "candidateWindows": {
+    "county": {
+      "label": "Övriga länskommuner",
+      "luleaLabel": "Övriga Norrbotten",
+      "inflowWindow": 6,
+      "outflowWindow": 6,
+      "rationale": "6 years had the lowest n+1 MAE for both inflow and outflow in Lulea; n+2 remained competitive."
+    },
+    "rest_sweden": {
+      "label": "Övriga Sverige",
+      "inflowWindow": 10,
+      "outflowWindow": 4,
+      "rationale": "10 years minimized n+1 inflow MAE; 4 years marginally minimized n+1 outflow MAE."
+    },
+    "international": {
+      "label": "Utlandet",
+      "inflowWindow": 10,
+      "outflowWindow": 2,
+      "rationale": "10 years minimized international inflow MAE at n+1 and n+2; 2 years clearly minimized emigration MAE at both horizons."
+    }
+  },
+  "luleaDevelopmentCheck": {
+    "1": {
+      "candidate": {
+        "observations": 4,
+        "MAE": 125.9,
+        "meanError": -23.1
+      },
+      "uniform10": {
+        "observations": 4,
+        "MAE": 121.4,
+        "meanError": 31.2
+      },
+      "candidateImprovedCases": 2,
+      "tiedCases": 0,
+      "totalCases": 4
+    },
+    "2": {
+      "candidate": {
+        "observations": 4,
+        "MAE": 101.9,
+        "meanError": -36.4
+      },
+      "uniform10": {
+        "observations": 4,
+        "MAE": 106.4,
+        "meanError": 18.0
+      },
+      "candidateImprovedCases": 2,
+      "tiedCases": 0,
+      "totalCases": 4
+    }
+  },
+  "externalPooled": {
+    "1": {
+      "candidate": {
+        "observations": 72,
+        "MAE": 107.1,
+        "meanError": 77.1
+      },
+      "uniform10": {
+        "observations": 72,
+        "MAE": 109.0,
+        "meanError": 85.5
+      },
+      "candidateImprovedCases": 36,
+      "tiedCases": 0,
+      "totalCases": 72
+    },
+    "2": {
+      "candidate": {
+        "observations": 72,
+        "MAE": 144.0,
+        "meanError": 125.2
+      },
+      "uniform10": {
+        "observations": 72,
+        "MAE": 148.9,
+        "meanError": 133.6
+      },
+      "candidateImprovedCases": 34,
+      "tiedCases": 0,
+      "totalCases": 72
+    }
+  },
+  "externalByReferenceRegion": {
+    "FA16_TRH": {
+      "name": "Trollhättan-Vänersborg",
+      "municipalities": [
+        "1427",
+        "1430",
+        "1439",
+        "1444",
+        "1461",
+        "1484",
+        "1485",
+        "1487",
+        "1488"
+      ],
+      "summary": {
+        "1": {
+          "candidate": {
+            "observations": 36,
+            "MAE": 94.4,
+            "meanError": 74.9
+          },
+          "uniform10": {
+            "observations": 36,
+            "MAE": 100.5,
+            "meanError": 80.8
+          },
+          "candidateImprovedCases": 22,
+          "tiedCases": 0,
+          "totalCases": 36
+        },
+        "2": {
+          "candidate": {
+            "observations": 36,
+            "MAE": 134.5,
+            "meanError": 116.1
+          },
+          "uniform10": {
+            "observations": 36,
+            "MAE": 139.2,
+            "meanError": 122.0
+          },
+          "candidateImprovedCases": 21,
+          "tiedCases": 0,
+          "totalCases": 36
+        }
+      }
+    },
+    "FA36_GAV": {
+      "name": "Gävle",
+      "municipalities": [
+        "2101",
+        "2104",
+        "2180",
+        "2181",
+        "0319"
+      ],
+      "summary": {
+        "1": {
+          "candidate": {
+            "observations": 20,
+            "MAE": 115.3,
+            "meanError": 80.6
+          },
+          "uniform10": {
+            "observations": 20,
+            "MAE": 126.5,
+            "meanError": 94.5
+          },
+          "candidateImprovedCases": 8,
+          "tiedCases": 0,
+          "totalCases": 20
+        },
+        "2": {
+          "candidate": {
+            "observations": 20,
+            "MAE": 167.5,
+            "meanError": 144.6
+          },
+          "uniform10": {
+            "observations": 20,
+            "MAE": 175.4,
+            "meanError": 158.5
+          },
+          "candidateImprovedCases": 7,
+          "tiedCases": 0,
+          "totalCases": 20
+        }
+      }
+    },
+    "FA42_SUN": {
+      "name": "Sundsvall",
+      "municipalities": [
+        "2260",
+        "2262",
+        "2280",
+        "2281"
+      ],
+      "summary": {
+        "1": {
+          "candidate": {
+            "observations": 16,
+            "MAE": 125.6,
+            "meanError": 77.7
+          },
+          "uniform10": {
+            "observations": 16,
+            "MAE": 106.1,
+            "meanError": 84.8
+          },
+          "candidateImprovedCases": 6,
+          "tiedCases": 0,
+          "totalCases": 16
+        },
+        "2": {
+          "candidate": {
+            "observations": 16,
+            "MAE": 136.2,
+            "meanError": 121.4
+          },
+          "uniform10": {
+            "observations": 16,
+            "MAE": 137.4,
+            "meanError": 128.5
+          },
+          "candidateImprovedCases": 6,
+          "tiedCases": 0,
+          "totalCases": 16
+        }
+      }
+    }
+  },
+  "externalDirectionalSummary": {
+    "county": {
+      "in": {
+        "1": {
+          "selectedWindow": 6,
+          "candidate": {
+            "observations": 72,
+            "MAE": 52.5,
+            "meanError": -34.4
+          },
+          "uniform10": {
+            "observations": 72,
+            "MAE": 72.4,
+            "meanError": -64.2
+          },
+          "candidateImprovedCases": 53,
+          "totalCases": 72
+        },
+        "2": {
+          "selectedWindow": 6,
+          "candidate": {
+            "observations": 72,
+            "MAE": 59.9,
+            "meanError": -22.5
+          },
+          "uniform10": {
+            "observations": 72,
+            "MAE": 74.4,
+            "meanError": -52.3
+          },
+          "candidateImprovedCases": 47,
+          "totalCases": 72
+        }
+      },
+      "out": {
+        "1": {
+          "selectedWindow": 6,
+          "candidate": {
+            "observations": 72,
+            "MAE": 51.5,
+            "meanError": -27.6
+          },
+          "uniform10": {
+            "observations": 72,
+            "MAE": 70.1,
+            "meanError": -61.4
+          },
+          "candidateImprovedCases": 49,
+          "totalCases": 72
+        },
+        "2": {
+          "selectedWindow": 6,
+          "candidate": {
+            "observations": 72,
+            "MAE": 62.5,
+            "meanError": -26.0
+          },
+          "uniform10": {
+            "observations": 72,
+            "MAE": 75.6,
+            "meanError": -59.7
+          },
+          "candidateImprovedCases": 43,
+          "totalCases": 72
+        }
+      }
+    },
+    "rest_sweden": {
+      "in": {
+        "1": {
+          "selectedWindow": 10,
+          "candidate": {
+            "observations": 72,
+            "MAE": 36.1,
+            "meanError": -15.7
+          },
+          "uniform10": {
+            "observations": 72,
+            "MAE": 36.1,
+            "meanError": -15.7
+          },
+          "candidateImprovedCases": 0,
+          "totalCases": 72
+        },
+        "2": {
+          "selectedWindow": 10,
+          "candidate": {
+            "observations": 72,
+            "MAE": 36.2,
+            "meanError": -11.9
+          },
+          "uniform10": {
+            "observations": 72,
+            "MAE": 36.2,
+            "meanError": -11.9
+          },
+          "candidateImprovedCases": 0,
+          "totalCases": 72
+        }
+      },
+      "out": {
+        "1": {
+          "selectedWindow": 4,
+          "candidate": {
+            "observations": 72,
+            "MAE": 54.1,
+            "meanError": 13.5
+          },
+          "uniform10": {
+            "observations": 72,
+            "MAE": 46.0,
+            "meanError": -1.8
+          },
+          "candidateImprovedCases": 28,
+          "totalCases": 72
+        },
+        "2": {
+          "selectedWindow": 4,
+          "candidate": {
+            "observations": 72,
+            "MAE": 53.5,
+            "meanError": 8.8
+          },
+          "uniform10": {
+            "observations": 72,
+            "MAE": 49.2,
+            "meanError": -6.5
+          },
+          "candidateImprovedCases": 35,
+          "totalCases": 72
+        }
+      }
+    },
+    "international": {
+      "in": {
+        "1": {
+          "selectedWindow": 10,
+          "candidate": {
+            "observations": 72,
+            "MAE": 106.6,
+            "meanError": 105.8
+          },
+          "uniform10": {
+            "observations": 72,
+            "MAE": 106.6,
+            "meanError": 105.8
+          },
+          "candidateImprovedCases": 0,
+          "totalCases": 72
+        },
+        "2": {
+          "selectedWindow": 10,
+          "candidate": {
+            "observations": 72,
+            "MAE": 117.7,
+            "meanError": 117.4
+          },
+          "uniform10": {
+            "observations": 72,
+            "MAE": 117.7,
+            "meanError": 117.4
+          },
+          "candidateImprovedCases": 0,
+          "totalCases": 72
+        }
+      },
+      "out": {
+        "1": {
+          "selectedWindow": 2,
+          "candidate": {
+            "observations": 72,
+            "MAE": 12.2,
+            "meanError": -7.3
+          },
+          "uniform10": {
+            "observations": 72,
+            "MAE": 15.1,
+            "meanError": 3.6
+          },
+          "candidateImprovedCases": 39,
+          "totalCases": 72
+        },
+        "2": {
+          "selectedWindow": 2,
+          "candidate": {
+            "observations": 72,
+            "MAE": 27.7,
+            "meanError": -25.0
+          },
+          "uniform10": {
+            "observations": 72,
+            "MAE": 25.6,
+            "meanError": -14.1
+          },
+          "candidateImprovedCases": 34,
+          "totalCases": 72
+        }
+      }
+    }
+  },
+  "records": [
+    {
+      "geo": "2580",
+      "origin": 2018,
+      "horizon": 1,
+      "year": 2019,
+      "actualNetMigration": 181.0,
+      "candidateNetMigration": 266.73333333333335,
+      "uniform10NetMigration": 329.2999999999998,
+      "candidateError": 85.73333333333335,
+      "uniform10Error": 148.29999999999978
+    },
+    {
+      "geo": "2580",
+      "origin": 2018,
+      "horizon": 2,
+      "year": 2020,
+      "actualNetMigration": 437.0,
+      "candidateNetMigration": 266.73333333333335,
+      "uniform10NetMigration": 329.2999999999998,
+      "candidateError": -170.26666666666665,
+      "uniform10Error": -107.70000000000022
+    },
+    {
+      "geo": "2580",
+      "origin": 2019,
+      "horizon": 1,
+      "year": 2020,
+      "actualNetMigration": 437.0,
+      "candidateNetMigration": 259.2833333333333,
+      "uniform10NetMigration": 317.4999999999997,
+      "candidateError": -177.7166666666667,
+      "uniform10Error": -119.50000000000028
+    },
+    {
+      "geo": "2580",
+      "origin": 2019,
+      "horizon": 2,
+      "year": 2021,
+      "actualNetMigration": 198.0,
+      "candidateNetMigration": 259.2833333333333,
+      "uniform10NetMigration": 317.4999999999997,
+      "candidateError": 61.2833333333333,
+      "uniform10Error": 119.49999999999972
+    },
+    {
+      "geo": "2580",
+      "origin": 2020,
+      "horizon": 1,
+      "year": 2021,
+      "actualNetMigration": 198.0,
+      "candidateNetMigration": 317.73333333333335,
+      "uniform10NetMigration": 354.8999999999998,
+      "candidateError": 119.73333333333335,
+      "uniform10Error": 156.8999999999998
+    },
+    {
+      "geo": "2580",
+      "origin": 2020,
+      "horizon": 2,
+      "year": 2022,
+      "actualNetMigration": 424.0,
+      "candidateNetMigration": 317.73333333333335,
+      "uniform10NetMigration": 354.8999999999998,
+      "candidateError": -106.26666666666665,
+      "uniform10Error": -69.1000000000002
+    },
+    {
+      "geo": "2580",
+      "origin": 2021,
+      "horizon": 1,
+      "year": 2022,
+      "actualNetMigration": 424.0,
+      "candidateNetMigration": 303.71666666666647,
+      "uniform10NetMigration": 363.20000000000016,
+      "candidateError": -120.28333333333353,
+      "uniform10Error": -60.79999999999984
+    },
+    {
+      "geo": "2580",
+      "origin": 2021,
+      "horizon": 2,
+      "year": 2023,
+      "actualNetMigration": 234.0,
+      "candidateNetMigration": 303.71666666666647,
+      "uniform10NetMigration": 363.20000000000016,
+      "candidateError": 69.71666666666647,
+      "uniform10Error": 129.20000000000016
+    },
+    {
+      "geo": "0319",
+      "origin": 2018,
+      "horizon": 1,
+      "year": 2019,
+      "actualNetMigration": 76.0,
+      "candidateNetMigration": 21.51666666666665,
+      "uniform10NetMigration": 42.70000000000002,
+      "candidateError": -54.48333333333335,
+      "uniform10Error": -33.29999999999998
+    },
+    {
+      "geo": "0319",
+      "origin": 2018,
+      "horizon": 2,
+      "year": 2020,
+      "actualNetMigration": 70.0,
+      "candidateNetMigration": 21.51666666666665,
+      "uniform10NetMigration": 42.70000000000002,
+      "candidateError": -48.48333333333335,
+      "uniform10Error": -27.299999999999983
+    },
+    {
+      "geo": "0319",
+      "origin": 2019,
+      "horizon": 1,
+      "year": 2020,
+      "actualNetMigration": 70.0,
+      "candidateNetMigration": 23.233333333333306,
+      "uniform10NetMigration": 49.0,
+      "candidateError": -46.766666666666694,
+      "uniform10Error": -21.0
+    },
+    {
+      "geo": "0319",
+      "origin": 2019,
+      "horizon": 2,
+      "year": 2021,
+      "actualNetMigration": 110.0,
+      "candidateNetMigration": 23.233333333333306,
+      "uniform10NetMigration": 49.0,
+      "candidateError": -86.7666666666667,
+      "uniform10Error": -61.0
+    },
+    {
+      "geo": "0319",
+      "origin": 2020,
+      "horizon": 1,
+      "year": 2021,
+      "actualNetMigration": 110.0,
+      "candidateNetMigration": 30.799999999999983,
+      "uniform10NetMigration": 52.89999999999998,
+      "candidateError": -79.20000000000002,
+      "uniform10Error": -57.10000000000002
+    },
+    {
+      "geo": "0319",
+      "origin": 2020,
+      "horizon": 2,
+      "year": 2022,
+      "actualNetMigration": 26.0,
+      "candidateNetMigration": 30.799999999999983,
+      "uniform10NetMigration": 52.89999999999998,
+      "candidateError": 4.799999999999983,
+      "uniform10Error": 26.899999999999977
+    },
+    {
+      "geo": "0319",
+      "origin": 2021,
+      "horizon": 1,
+      "year": 2022,
+      "actualNetMigration": 26.0,
+      "candidateNetMigration": 66.28333333333335,
+      "uniform10NetMigration": 64.50000000000004,
+      "candidateError": 40.283333333333346,
+      "uniform10Error": 38.50000000000004
+    },
+    {
+      "geo": "0319",
+      "origin": 2021,
+      "horizon": 2,
+      "year": 2023,
+      "actualNetMigration": -27.0,
+      "candidateNetMigration": 66.28333333333335,
+      "uniform10NetMigration": 64.50000000000004,
+      "candidateError": 93.28333333333335,
+      "uniform10Error": 91.50000000000004
+    },
+    {
+      "geo": "1427",
+      "origin": 2018,
+      "horizon": 1,
+      "year": 2019,
+      "actualNetMigration": 98.0,
+      "candidateNetMigration": 60.766666666666694,
+      "uniform10NetMigration": 53.599999999999994,
+      "candidateError": -37.233333333333306,
+      "uniform10Error": -44.400000000000006
+    },
+    {
+      "geo": "1427",
+      "origin": 2018,
+      "horizon": 2,
+      "year": 2020,
+      "actualNetMigration": 101.0,
+      "candidateNetMigration": 60.766666666666694,
+      "uniform10NetMigration": 53.599999999999994,
+      "candidateError": -40.233333333333306,
+      "uniform10Error": -47.400000000000006
+    },
+    {
+      "geo": "1427",
+      "origin": 2019,
+      "horizon": 1,
+      "year": 2020,
+      "actualNetMigration": 101.0,
+      "candidateNetMigration": 63.98333333333332,
+      "uniform10NetMigration": 62.00000000000005,
+      "candidateError": -37.01666666666668,
+      "uniform10Error": -38.99999999999995
+    },
+    {
+      "geo": "1427",
+      "origin": 2019,
+      "horizon": 2,
+      "year": 2021,
+      "actualNetMigration": 92.0,
+      "candidateNetMigration": 63.98333333333332,
+      "uniform10NetMigration": 62.00000000000005,
+      "candidateError": -28.01666666666668,
+      "uniform10Error": -29.99999999999995
+    },
+    {
+      "geo": "1427",
+      "origin": 2020,
+      "horizon": 1,
+      "year": 2021,
+      "actualNetMigration": 92.0,
+      "candidateNetMigration": 82.26666666666662,
+      "uniform10NetMigration": 71.89999999999998,
+      "candidateError": -9.733333333333377,
+      "uniform10Error": -20.100000000000023
+    },
+    {
+      "geo": "1427",
+      "origin": 2020,
+      "horizon": 2,
+      "year": 2022,
+      "actualNetMigration": 113.0,
+      "candidateNetMigration": 82.26666666666662,
+      "uniform10NetMigration": 71.89999999999998,
+      "candidateError": -30.733333333333377,
+      "uniform10Error": -41.10000000000002
+    },
+    {
+      "geo": "1427",
+      "origin": 2021,
+      "horizon": 1,
+      "year": 2022,
+      "actualNetMigration": 113.0,
+      "candidateNetMigration": 77.15,
+      "uniform10NetMigration": 78.40000000000002,
+      "candidateError": -35.849999999999994,
+      "uniform10Error": -34.59999999999998
+    },
+    {
+      "geo": "1427",
+      "origin": 2021,
+      "horizon": 2,
+      "year": 2023,
+      "actualNetMigration": -12.0,
+      "candidateNetMigration": 77.15,
+      "uniform10NetMigration": 78.40000000000002,
+      "candidateError": 89.15,
+      "uniform10Error": 90.40000000000002
+    },
+    {
+      "geo": "1430",
+      "origin": 2018,
+      "horizon": 1,
+      "year": 2019,
+      "actualNetMigration": 30.0,
+      "candidateNetMigration": 23.716666666666683,
+      "uniform10NetMigration": 35.7,
+      "candidateError": -6.283333333333317,
+      "uniform10Error": 5.700000000000003
+    },
+    {
+      "geo": "1430",
+      "origin": 2018,
+      "horizon": 2,
+      "year": 2020,
+      "actualNetMigration": 99.0,
+      "candidateNetMigration": 23.716666666666683,
+      "uniform10NetMigration": 35.7,
+      "candidateError": -75.28333333333332,
+      "uniform10Error": -63.3
+    },
+    {
+      "geo": "1430",
+      "origin": 2019,
+      "horizon": 1,
+      "year": 2020,
+      "actualNetMigration": 99.0,
+      "candidateNetMigration": 39.73333333333338,
+      "uniform10NetMigration": 37.8,
+      "candidateError": -59.26666666666662,
+      "uniform10Error": -61.2
+    },
+    {
+      "geo": "1430",
+      "origin": 2019,
+      "horizon": 2,
+      "year": 2021,
+      "actualNetMigration": 8.0,
+      "candidateNetMigration": 39.73333333333338,
+      "uniform10NetMigration": 37.8,
+      "candidateError": 31.733333333333377,
+      "uniform10Error": 29.799999999999997
+    },
+    {
+      "geo": "1430",
+      "origin": 2020,
+      "horizon": 1,
+      "year": 2021,
+      "actualNetMigration": 8.0,
+      "candidateNetMigration": 62.69999999999999,
+      "uniform10NetMigration": 50.999999999999986,
+      "candidateError": 54.69999999999999,
+      "uniform10Error": 42.999999999999986
+    },
+    {
+      "geo": "1430",
+      "origin": 2020,
+      "horizon": 2,
+      "year": 2022,
+      "actualNetMigration": 26.0,
+      "candidateNetMigration": 62.69999999999999,
+      "uniform10NetMigration": 50.999999999999986,
+      "candidateError": 36.69999999999999,
+      "uniform10Error": 24.999999999999986
+    },
+    {
+      "geo": "1430",
+      "origin": 2021,
+      "horizon": 1,
+      "year": 2022,
+      "actualNetMigration": 26.0,
+      "candidateNetMigration": 78.83333333333337,
+      "uniform10NetMigration": 46.30000000000001,
+      "candidateError": 52.83333333333337,
+      "uniform10Error": 20.30000000000001
+    },
+    {
+      "geo": "1430",
+      "origin": 2021,
+      "horizon": 2,
+      "year": 2023,
+      "actualNetMigration": -26.0,
+      "candidateNetMigration": 78.83333333333337,
+      "uniform10NetMigration": 46.30000000000001,
+      "candidateError": 104.83333333333337,
+      "uniform10Error": 72.30000000000001
+    },
+    {
+      "geo": "1439",
+      "origin": 2018,
+      "horizon": 1,
+      "year": 2019,
+      "actualNetMigration": 56.0,
+      "candidateNetMigration": 11.25,
+      "uniform10NetMigration": 1.1000000000000156,
+      "candidateError": -44.75,
+      "uniform10Error": -54.899999999999984
+    },
+    {
+      "geo": "1439",
+      "origin": 2018,
+      "horizon": 2,
+      "year": 2020,
+      "actualNetMigration": 40.0,
+      "candidateNetMigration": 11.25,
+      "uniform10NetMigration": 1.1000000000000156,
+      "candidateError": -28.75,
+      "uniform10Error": -38.899999999999984
+    },
+    {
+      "geo": "1439",
+      "origin": 2019,
+      "horizon": 1,
+      "year": 2020,
+      "actualNetMigration": 40.0,
+      "candidateNetMigration": 26.08333333333337,
+      "uniform10NetMigration": 9.799999999999997,
+      "candidateError": -13.916666666666629,
+      "uniform10Error": -30.200000000000003
+    },
+    {
+      "geo": "1439",
+      "origin": 2019,
+      "horizon": 2,
+      "year": 2021,
+      "actualNetMigration": -47.0,
+      "candidateNetMigration": 26.08333333333337,
+      "uniform10NetMigration": 9.799999999999997,
+      "candidateError": 73.08333333333337,
+      "uniform10Error": 56.8
+    },
+    {
+      "geo": "1439",
+      "origin": 2020,
+      "horizon": 1,
+      "year": 2021,
+      "actualNetMigration": -47.0,
+      "candidateNetMigration": 38.150000000000006,
+      "uniform10NetMigration": 15.600000000000001,
+      "candidateError": 85.15,
+      "uniform10Error": 62.6
+    },
+    {
+      "geo": "1439",
+      "origin": 2020,
+      "horizon": 2,
+      "year": 2022,
+      "actualNetMigration": -61.0,
+      "candidateNetMigration": 38.150000000000006,
+      "uniform10NetMigration": 15.600000000000001,
+      "candidateError": 99.15,
+      "uniform10Error": 76.6
+    },
+    {
+      "geo": "1439",
+      "origin": 2021,
+      "horizon": 1,
+      "year": 2022,
+      "actualNetMigration": -61.0,
+      "candidateNetMigration": 32.099999999999994,
+      "uniform10NetMigration": 13.199999999999974,
+      "candidateError": 93.1,
+      "uniform10Error": 74.19999999999997
+    },
+    {
+      "geo": "1439",
+      "origin": 2021,
+      "horizon": 2,
+      "year": 2023,
+      "actualNetMigration": -39.0,
+      "candidateNetMigration": 32.099999999999994,
+      "uniform10NetMigration": 13.199999999999974,
+      "candidateError": 71.1,
+      "uniform10Error": 52.199999999999974
+    },
+    {
+      "geo": "1444",
+      "origin": 2018,
+      "horizon": 1,
+      "year": 2019,
+      "actualNetMigration": -8.0,
+      "candidateNetMigration": 23.183333333333312,
+      "uniform10NetMigration": -0.30000000000001137,
+      "candidateError": 31.183333333333312,
+      "uniform10Error": 7.699999999999989
+    },
+    {
+      "geo": "1444",
+      "origin": 2018,
+      "horizon": 2,
+      "year": 2020,
+      "actualNetMigration": 14.0,
+      "candidateNetMigration": 23.183333333333312,
+      "uniform10NetMigration": -0.30000000000001137,
+      "candidateError": 9.183333333333312,
+      "uniform10Error": -14.300000000000011
+    },
+    {
+      "geo": "1444",
+      "origin": 2019,
+      "horizon": 1,
+      "year": 2020,
+      "actualNetMigration": 14.0,
+      "candidateNetMigration": 21.533333333333346,
+      "uniform10NetMigration": -2.199999999999985,
+      "candidateError": 7.533333333333346,
+      "uniform10Error": -16.199999999999985
+    },
+    {
+      "geo": "1444",
+      "origin": 2019,
+      "horizon": 2,
+      "year": 2021,
+      "actualNetMigration": 53.0,
+      "candidateNetMigration": 21.533333333333346,
+      "uniform10NetMigration": -2.199999999999985,
+      "candidateError": -31.466666666666654,
+      "uniform10Error": -55.19999999999999
+    },
+    {
+      "geo": "1444",
+      "origin": 2020,
+      "horizon": 1,
+      "year": 2021,
+      "actualNetMigration": 53.0,
+      "candidateNetMigration": 25.18333333333334,
+      "uniform10NetMigration": 6.20000000000001,
+      "candidateError": -27.81666666666666,
+      "uniform10Error": -46.79999999999999
+    },
+    {
+      "geo": "1444",
+      "origin": 2020,
+      "horizon": 2,
+      "year": 2022,
+      "actualNetMigration": -58.0,
+      "candidateNetMigration": 25.18333333333334,
+      "uniform10NetMigration": 6.20000000000001,
+      "candidateError": 83.18333333333334,
+      "uniform10Error": 64.20000000000002
+    },
+    {
+      "geo": "1444",
+      "origin": 2021,
+      "horizon": 1,
+      "year": 2022,
+      "actualNetMigration": -58.0,
+      "candidateNetMigration": 36.2,
+      "uniform10NetMigration": 20.30000000000001,
+      "candidateError": 94.2,
+      "uniform10Error": 78.30000000000001
+    },
+    {
+      "geo": "1444",
+      "origin": 2021,
+      "horizon": 2,
+      "year": 2023,
+      "actualNetMigration": -47.0,
+      "candidateNetMigration": 36.2,
+      "uniform10NetMigration": 20.30000000000001,
+      "candidateError": 83.2,
+      "uniform10Error": 67.30000000000001
+    },
+    {
+      "geo": "1461",
+      "origin": 2018,
+      "horizon": 1,
+      "year": 2019,
+      "actualNetMigration": -3.0,
+      "candidateNetMigration": 16.666666666666686,
+      "uniform10NetMigration": 27.5,
+      "candidateError": 19.666666666666686,
+      "uniform10Error": 30.5
+    },
+    {
+      "geo": "1461",
+      "origin": 2018,
+      "horizon": 2,
+      "year": 2020,
+      "actualNetMigration": 48.0,
+      "candidateNetMigration": 16.666666666666686,
+      "uniform10NetMigration": 27.5,
+      "candidateError": -31.333333333333314,
+      "uniform10Error": -20.5
+    },
+    {
+      "geo": "1461",
+      "origin": 2019,
+      "horizon": 1,
+      "year": 2020,
+      "actualNetMigration": 48.0,
+      "candidateNetMigration": 19.21666666666664,
+      "uniform10NetMigration": 40.49999999999996,
+      "candidateError": -28.78333333333336,
+      "uniform10Error": -7.500000000000043
+    },
+    {
+      "geo": "1461",
+      "origin": 2019,
+      "horizon": 2,
+      "year": 2021,
+      "actualNetMigration": 1.0,
+      "candidateNetMigration": 19.21666666666664,
+      "uniform10NetMigration": 40.49999999999996,
+      "candidateError": 18.21666666666664,
+      "uniform10Error": 39.49999999999996
+    },
+    {
+      "geo": "1461",
+      "origin": 2020,
+      "horizon": 1,
+      "year": 2021,
+      "actualNetMigration": 1.0,
+      "candidateNetMigration": 28.066666666666634,
+      "uniform10NetMigration": 48.39999999999998,
+      "candidateError": 27.066666666666634,
+      "uniform10Error": 47.39999999999998
+    },
+    {
+      "geo": "1461",
+      "origin": 2020,
+      "horizon": 2,
+      "year": 2022,
+      "actualNetMigration": 21.0,
+      "candidateNetMigration": 28.066666666666634,
+      "uniform10NetMigration": 48.39999999999998,
+      "candidateError": 7.0666666666666345,
+      "uniform10Error": 27.399999999999977
+    },
+    {
+      "geo": "1461",
+      "origin": 2021,
+      "horizon": 1,
+      "year": 2022,
+      "actualNetMigration": 21.0,
+      "candidateNetMigration": 40.500000000000014,
+      "uniform10NetMigration": 55.39999999999999,
+      "candidateError": 19.500000000000014,
+      "uniform10Error": 34.39999999999999
+    },
+    {
+      "geo": "1461",
+      "origin": 2021,
+      "horizon": 2,
+      "year": 2023,
+      "actualNetMigration": -33.0,
+      "candidateNetMigration": 40.500000000000014,
+      "uniform10NetMigration": 55.39999999999999,
+      "candidateError": 73.50000000000001,
+      "uniform10Error": 88.39999999999999
+    },
+    {
+      "geo": "1484",
+      "origin": 2018,
+      "horizon": 1,
+      "year": 2019,
+      "actualNetMigration": 12.0,
+      "candidateNetMigration": 71.26666666666665,
+      "uniform10NetMigration": 59.50000000000007,
+      "candidateError": 59.26666666666665,
+      "uniform10Error": 47.50000000000007
+    },
+    {
+      "geo": "1484",
+      "origin": 2018,
+      "horizon": 2,
+      "year": 2020,
+      "actualNetMigration": -109.0,
+      "candidateNetMigration": 71.26666666666665,
+      "uniform10NetMigration": 59.50000000000007,
+      "candidateError": 180.26666666666665,
+      "uniform10Error": 168.50000000000006
+    },
+    {
+      "geo": "1484",
+      "origin": 2019,
+      "horizon": 1,
+      "year": 2020,
+      "actualNetMigration": -109.0,
+      "candidateNetMigration": 52.816666666666634,
+      "uniform10NetMigration": 64.09999999999998,
+      "candidateError": 161.81666666666663,
+      "uniform10Error": 173.09999999999997
+    },
+    {
+      "geo": "1484",
+      "origin": 2019,
+      "horizon": 2,
+      "year": 2021,
+      "actualNetMigration": -36.0,
+      "candidateNetMigration": 52.816666666666634,
+      "uniform10NetMigration": 64.09999999999998,
+      "candidateError": 88.81666666666663,
+      "uniform10Error": 100.09999999999998
+    },
+    {
+      "geo": "1484",
+      "origin": 2020,
+      "horizon": 1,
+      "year": 2021,
+      "actualNetMigration": -36.0,
+      "candidateNetMigration": 39.73333333333332,
+      "uniform10NetMigration": 49.29999999999998,
+      "candidateError": 75.73333333333332,
+      "uniform10Error": 85.29999999999998
+    },
+    {
+      "geo": "1484",
+      "origin": 2020,
+      "horizon": 2,
+      "year": 2022,
+      "actualNetMigration": 25.0,
+      "candidateNetMigration": 39.73333333333332,
+      "uniform10NetMigration": 49.29999999999998,
+      "candidateError": 14.73333333333332,
+      "uniform10Error": 24.299999999999983
+    },
+    {
+      "geo": "1484",
+      "origin": 2021,
+      "horizon": 1,
+      "year": 2022,
+      "actualNetMigration": 25.0,
+      "candidateNetMigration": 33.31666666666669,
+      "uniform10NetMigration": 49.10000000000004,
+      "candidateError": 8.316666666666691,
+      "uniform10Error": 24.100000000000037
+    },
+    {
+      "geo": "1484",
+      "origin": 2021,
+      "horizon": 2,
+      "year": 2023,
+      "actualNetMigration": -110.0,
+      "candidateNetMigration": 33.31666666666669,
+      "uniform10NetMigration": 49.10000000000004,
+      "candidateError": 143.3166666666667,
+      "uniform10Error": 159.10000000000002
+    },
+    {
+      "geo": "1485",
+      "origin": 2018,
+      "horizon": 1,
+      "year": 2019,
+      "actualNetMigration": 333.0,
+      "candidateNetMigration": 446.91666666666646,
+      "uniform10NetMigration": 420.79999999999995,
+      "candidateError": 113.91666666666646,
+      "uniform10Error": 87.79999999999995
+    },
+    {
+      "geo": "1485",
+      "origin": 2018,
+      "horizon": 2,
+      "year": 2020,
+      "actualNetMigration": -4.0,
+      "candidateNetMigration": 446.91666666666646,
+      "uniform10NetMigration": 420.79999999999995,
+      "candidateError": 450.91666666666646,
+      "uniform10Error": 424.79999999999995
+    },
+    {
+      "geo": "1485",
+      "origin": 2019,
+      "horizon": 1,
+      "year": 2020,
+      "actualNetMigration": -4.0,
+      "candidateNetMigration": 462.00000000000006,
+      "uniform10NetMigration": 422.60000000000014,
+      "candidateError": 466.00000000000006,
+      "uniform10Error": 426.60000000000014
+    },
+    {
+      "geo": "1485",
+      "origin": 2019,
+      "horizon": 2,
+      "year": 2021,
+      "actualNetMigration": 234.0,
+      "candidateNetMigration": 462.00000000000006,
+      "uniform10NetMigration": 422.60000000000014,
+      "candidateError": 228.00000000000006,
+      "uniform10Error": 188.60000000000014
+    },
+    {
+      "geo": "1485",
+      "origin": 2020,
+      "horizon": 1,
+      "year": 2021,
+      "actualNetMigration": 234.0,
+      "candidateNetMigration": 392.28333333333325,
+      "uniform10NetMigration": 400.59999999999985,
+      "candidateError": 158.28333333333325,
+      "uniform10Error": 166.59999999999985
+    },
+    {
+      "geo": "1485",
+      "origin": 2020,
+      "horizon": 2,
+      "year": 2022,
+      "actualNetMigration": 100.0,
+      "candidateNetMigration": 392.28333333333325,
+      "uniform10NetMigration": 400.59999999999985,
+      "candidateError": 292.28333333333325,
+      "uniform10Error": 300.59999999999985
+    },
+    {
+      "geo": "1485",
+      "origin": 2021,
+      "horizon": 1,
+      "year": 2022,
+      "actualNetMigration": 100.0,
+      "candidateNetMigration": 340.61666666666645,
+      "uniform10NetMigration": 407.1,
+      "candidateError": 240.61666666666645,
+      "uniform10Error": 307.1
+    },
+    {
+      "geo": "1485",
+      "origin": 2021,
+      "horizon": 2,
+      "year": 2023,
+      "actualNetMigration": -190.0,
+      "candidateNetMigration": 340.61666666666645,
+      "uniform10NetMigration": 407.1,
+      "candidateError": 530.6166666666664,
+      "uniform10Error": 597.1
+    },
+    {
+      "geo": "1487",
+      "origin": 2018,
+      "horizon": 1,
+      "year": 2019,
+      "actualNetMigration": 130.0,
+      "candidateNetMigration": 181.0,
+      "uniform10NetMigration": 236.99999999999983,
+      "candidateError": 51.0,
+      "uniform10Error": 106.99999999999983
+    },
+    {
+      "geo": "1487",
+      "origin": 2018,
+      "horizon": 2,
+      "year": 2020,
+      "actualNetMigration": 5.0,
+      "candidateNetMigration": 181.0,
+      "uniform10NetMigration": 236.99999999999983,
+      "candidateError": 176.0,
+      "uniform10Error": 231.99999999999983
+    },
+    {
+      "geo": "1487",
+      "origin": 2019,
+      "horizon": 1,
+      "year": 2020,
+      "actualNetMigration": 5.0,
+      "candidateNetMigration": 178.98333333333352,
+      "uniform10NetMigration": 262.5,
+      "candidateError": 173.98333333333352,
+      "uniform10Error": 257.5
+    },
+    {
+      "geo": "1487",
+      "origin": 2019,
+      "horizon": 2,
+      "year": 2021,
+      "actualNetMigration": 24.0,
+      "candidateNetMigration": 178.98333333333352,
+      "uniform10NetMigration": 262.5,
+      "candidateError": 154.98333333333352,
+      "uniform10Error": 238.5
+    },
+    {
+      "geo": "1487",
+      "origin": 2020,
+      "horizon": 1,
+      "year": 2021,
+      "actualNetMigration": 24.0,
+      "candidateNetMigration": 195.2166666666668,
+      "uniform10NetMigration": 263.8,
+      "candidateError": 171.2166666666668,
+      "uniform10Error": 239.8
+    },
+    {
+      "geo": "1487",
+      "origin": 2020,
+      "horizon": 2,
+      "year": 2022,
+      "actualNetMigration": 260.0,
+      "candidateNetMigration": 195.2166666666668,
+      "uniform10NetMigration": 263.8,
+      "candidateError": -64.78333333333319,
+      "uniform10Error": 3.8000000000000114
+    },
+    {
+      "geo": "1487",
+      "origin": 2021,
+      "horizon": 1,
+      "year": 2022,
+      "actualNetMigration": 260.0,
+      "candidateNetMigration": 210.35000000000002,
+      "uniform10NetMigration": 259.2,
+      "candidateError": -49.64999999999998,
+      "uniform10Error": -0.8000000000000114
+    },
+    {
+      "geo": "1487",
+      "origin": 2021,
+      "horizon": 2,
+      "year": 2023,
+      "actualNetMigration": 110.0,
+      "candidateNetMigration": 210.35000000000002,
+      "uniform10NetMigration": 259.2,
+      "candidateError": 100.35000000000002,
+      "uniform10Error": 149.2
+    },
+    {
+      "geo": "1488",
+      "origin": 2018,
+      "horizon": 1,
+      "year": 2019,
+      "actualNetMigration": 257.0,
+      "candidateNetMigration": 262.1333333333333,
+      "uniform10NetMigration": 298.0000000000002,
+      "candidateError": 5.133333333333326,
+      "uniform10Error": 41.00000000000023
+    },
+    {
+      "geo": "1488",
+      "origin": 2018,
+      "horizon": 2,
+      "year": 2020,
+      "actualNetMigration": 121.0,
+      "candidateNetMigration": 262.1333333333333,
+      "uniform10NetMigration": 298.0000000000002,
+      "candidateError": 141.13333333333333,
+      "uniform10Error": 177.00000000000023
+    },
+    {
+      "geo": "1488",
+      "origin": 2019,
+      "horizon": 1,
+      "year": 2020,
+      "actualNetMigration": 121.0,
+      "candidateNetMigration": 284.71666666666647,
+      "uniform10NetMigration": 288.2999999999999,
+      "candidateError": 163.71666666666647,
+      "uniform10Error": 167.2999999999999
+    },
+    {
+      "geo": "1488",
+      "origin": 2019,
+      "horizon": 2,
+      "year": 2021,
+      "actualNetMigration": -235.0,
+      "candidateNetMigration": 284.71666666666647,
+      "uniform10NetMigration": 288.2999999999999,
+      "candidateError": 519.7166666666665,
+      "uniform10Error": 523.3
+    },
+    {
+      "geo": "1488",
+      "origin": 2020,
+      "horizon": 1,
+      "year": 2021,
+      "actualNetMigration": -235.0,
+      "candidateNetMigration": 273.5999999999999,
+      "uniform10NetMigration": 271.8,
+      "candidateError": 508.5999999999999,
+      "uniform10Error": 506.8
+    },
+    {
+      "geo": "1488",
+      "origin": 2020,
+      "horizon": 2,
+      "year": 2022,
+      "actualNetMigration": 18.0,
+      "candidateNetMigration": 273.5999999999999,
+      "uniform10NetMigration": 271.8,
+      "candidateError": 255.5999999999999,
+      "uniform10Error": 253.8
+    },
+    {
+      "geo": "1488",
+      "origin": 2021,
+      "horizon": 1,
+      "year": 2022,
+      "actualNetMigration": 18.0,
+      "candidateNetMigration": 223.11666666666656,
+      "uniform10NetMigration": 239.60000000000002,
+      "candidateError": 205.11666666666656,
+      "uniform10Error": 221.60000000000002
+    },
+    {
+      "geo": "1488",
+      "origin": 2021,
+      "horizon": 2,
+      "year": 2023,
+      "actualNetMigration": -232.0,
+      "candidateNetMigration": 223.11666666666656,
+      "uniform10NetMigration": 239.60000000000002,
+      "candidateError": 455.11666666666656,
+      "uniform10Error": 471.6
+    },
+    {
+      "geo": "2101",
+      "origin": 2018,
+      "horizon": 1,
+      "year": 2019,
+      "actualNetMigration": 16.0,
+      "candidateNetMigration": 21.349999999999994,
+      "uniform10NetMigration": 21.0,
+      "candidateError": 5.349999999999994,
+      "uniform10Error": 5.0
+    },
+    {
+      "geo": "2101",
+      "origin": 2018,
+      "horizon": 2,
+      "year": 2020,
+      "actualNetMigration": -5.0,
+      "candidateNetMigration": 21.349999999999994,
+      "uniform10NetMigration": 21.0,
+      "candidateError": 26.349999999999994,
+      "uniform10Error": 26.0
+    },
+    {
+      "geo": "2101",
+      "origin": 2019,
+      "horizon": 1,
+      "year": 2020,
+      "actualNetMigration": -5.0,
+      "candidateNetMigration": 31.566666666666656,
+      "uniform10NetMigration": 23.19999999999998,
+      "candidateError": 36.566666666666656,
+      "uniform10Error": 28.19999999999998
+    },
+    {
+      "geo": "2101",
+      "origin": 2019,
+      "horizon": 2,
+      "year": 2021,
+      "actualNetMigration": -22.0,
+      "candidateNetMigration": 31.566666666666656,
+      "uniform10NetMigration": 23.19999999999998,
+      "candidateError": 53.566666666666656,
+      "uniform10Error": 45.19999999999998
+    },
+    {
+      "geo": "2101",
+      "origin": 2020,
+      "horizon": 1,
+      "year": 2021,
+      "actualNetMigration": -22.0,
+      "candidateNetMigration": 32.466666666666676,
+      "uniform10NetMigration": 22.19999999999999,
+      "candidateError": 54.466666666666676,
+      "uniform10Error": 44.19999999999999
+    },
+    {
+      "geo": "2101",
+      "origin": 2020,
+      "horizon": 2,
+      "year": 2022,
+      "actualNetMigration": -7.0,
+      "candidateNetMigration": 32.466666666666676,
+      "uniform10NetMigration": 22.19999999999999,
+      "candidateError": 39.466666666666676,
+      "uniform10Error": 29.19999999999999
+    },
+    {
+      "geo": "2101",
+      "origin": 2021,
+      "horizon": 1,
+      "year": 2022,
+      "actualNetMigration": -7.0,
+      "candidateNetMigration": 26.30000000000001,
+      "uniform10NetMigration": 19.000000000000014,
+      "candidateError": 33.30000000000001,
+      "uniform10Error": 26.000000000000014
+    },
+    {
+      "geo": "2101",
+      "origin": 2021,
+      "horizon": 2,
+      "year": 2023,
+      "actualNetMigration": -34.0,
+      "candidateNetMigration": 26.30000000000001,
+      "uniform10NetMigration": 19.000000000000014,
+      "candidateError": 60.30000000000001,
+      "uniform10Error": 53.000000000000014
+    },
+    {
+      "geo": "2104",
+      "origin": 2018,
+      "horizon": 1,
+      "year": 2019,
+      "actualNetMigration": 31.0,
+      "candidateNetMigration": 6.749999999999986,
+      "uniform10NetMigration": 17.199999999999974,
+      "candidateError": -24.250000000000014,
+      "uniform10Error": -13.800000000000026
+    },
+    {
+      "geo": "2104",
+      "origin": 2018,
+      "horizon": 2,
+      "year": 2020,
+      "actualNetMigration": 39.0,
+      "candidateNetMigration": 6.749999999999986,
+      "uniform10NetMigration": 17.199999999999974,
+      "candidateError": -32.250000000000014,
+      "uniform10Error": -21.800000000000026
+    },
+    {
+      "geo": "2104",
+      "origin": 2019,
+      "horizon": 1,
+      "year": 2020,
+      "actualNetMigration": 39.0,
+      "candidateNetMigration": 14.649999999999991,
+      "uniform10NetMigration": 17.49999999999997,
+      "candidateError": -24.35000000000001,
+      "uniform10Error": -21.50000000000003
+    },
+    {
+      "geo": "2104",
+      "origin": 2019,
+      "horizon": 2,
+      "year": 2021,
+      "actualNetMigration": 76.0,
+      "candidateNetMigration": 14.649999999999991,
+      "uniform10NetMigration": 17.49999999999997,
+      "candidateError": -61.35000000000001,
+      "uniform10Error": -58.50000000000003
+    },
+    {
+      "geo": "2104",
+      "origin": 2020,
+      "horizon": 1,
+      "year": 2021,
+      "actualNetMigration": 76.0,
+      "candidateNetMigration": 41.85000000000001,
+      "uniform10NetMigration": 28.50000000000003,
+      "candidateError": -34.14999999999999,
+      "uniform10Error": -47.49999999999997
+    },
+    {
+      "geo": "2104",
+      "origin": 2020,
+      "horizon": 2,
+      "year": 2022,
+      "actualNetMigration": -49.0,
+      "candidateNetMigration": 41.85000000000001,
+      "uniform10NetMigration": 28.50000000000003,
+      "candidateError": 90.85000000000001,
+      "uniform10Error": 77.50000000000003
+    },
+    {
+      "geo": "2104",
+      "origin": 2021,
+      "horizon": 1,
+      "year": 2022,
+      "actualNetMigration": -49.0,
+      "candidateNetMigration": 72.19999999999999,
+      "uniform10NetMigration": 47.19999999999999,
+      "candidateError": 121.19999999999999,
+      "uniform10Error": 96.19999999999999
+    },
+    {
+      "geo": "2104",
+      "origin": 2021,
+      "horizon": 2,
+      "year": 2023,
+      "actualNetMigration": -55.0,
+      "candidateNetMigration": 72.19999999999999,
+      "uniform10NetMigration": 47.19999999999999,
+      "candidateError": 127.19999999999999,
+      "uniform10Error": 102.19999999999999
+    },
+    {
+      "geo": "2180",
+      "origin": 2018,
+      "horizon": 1,
+      "year": 2019,
+      "actualNetMigration": 735.0,
+      "candidateNetMigration": 651.0666666666668,
+      "uniform10NetMigration": 609.0000000000005,
+      "candidateError": -83.93333333333317,
+      "uniform10Error": -125.99999999999955
+    },
+    {
+      "geo": "2180",
+      "origin": 2018,
+      "horizon": 2,
+      "year": 2020,
+      "actualNetMigration": 383.0,
+      "candidateNetMigration": 651.0666666666668,
+      "uniform10NetMigration": 609.0000000000005,
+      "candidateError": 268.06666666666683,
+      "uniform10Error": 226.00000000000045
+    },
+    {
+      "geo": "2180",
+      "origin": 2019,
+      "horizon": 1,
+      "year": 2020,
+      "actualNetMigration": 383.0,
+      "candidateNetMigration": 618.7,
+      "uniform10NetMigration": 614.7000000000002,
+      "candidateError": 235.70000000000005,
+      "uniform10Error": 231.70000000000016
+    },
+    {
+      "geo": "2180",
+      "origin": 2019,
+      "horizon": 2,
+      "year": 2021,
+      "actualNetMigration": 64.0,
+      "candidateNetMigration": 618.7,
+      "uniform10NetMigration": 614.7000000000002,
+      "candidateError": 554.7,
+      "uniform10Error": 550.7000000000002
+    },
+    {
+      "geo": "2180",
+      "origin": 2020,
+      "horizon": 1,
+      "year": 2021,
+      "actualNetMigration": 64.0,
+      "candidateNetMigration": 567.2333333333333,
+      "uniform10NetMigration": 597.9000000000002,
+      "candidateError": 503.23333333333335,
+      "uniform10Error": 533.9000000000002
+    },
+    {
+      "geo": "2180",
+      "origin": 2020,
+      "horizon": 2,
+      "year": 2022,
+      "actualNetMigration": 335.0,
+      "candidateNetMigration": 567.2333333333333,
+      "uniform10NetMigration": 597.9000000000002,
+      "candidateError": 232.23333333333335,
+      "uniform10Error": 262.9000000000002
+    },
+    {
+      "geo": "2180",
+      "origin": 2021,
+      "horizon": 1,
+      "year": 2022,
+      "actualNetMigration": 335.0,
+      "candidateNetMigration": 483.75,
+      "uniform10NetMigration": 579.1999999999996,
+      "candidateError": 148.75,
+      "uniform10Error": 244.1999999999996
+    },
+    {
+      "geo": "2180",
+      "origin": 2021,
+      "horizon": 2,
+      "year": 2023,
+      "actualNetMigration": 90.0,
+      "candidateNetMigration": 483.75,
+      "uniform10NetMigration": 579.1999999999996,
+      "candidateError": 393.75,
+      "uniform10Error": 489.1999999999996
+    },
+    {
+      "geo": "2181",
+      "origin": 2018,
+      "horizon": 1,
+      "year": 2019,
+      "actualNetMigration": 59.0,
+      "candidateNetMigration": 215.46666666666664,
+      "uniform10NetMigration": 296.5,
+      "candidateError": 156.46666666666664,
+      "uniform10Error": 237.5
+    },
+    {
+      "geo": "2181",
+      "origin": 2018,
+      "horizon": 2,
+      "year": 2020,
+      "actualNetMigration": 114.0,
+      "candidateNetMigration": 215.46666666666664,
+      "uniform10NetMigration": 296.5,
+      "candidateError": 101.46666666666664,
+      "uniform10Error": 182.5
+    },
+    {
+      "geo": "2181",
+      "origin": 2019,
+      "horizon": 1,
+      "year": 2020,
+      "actualNetMigration": 114.0,
+      "candidateNetMigration": 233.25,
+      "uniform10NetMigration": 281.7,
+      "candidateError": 119.25,
+      "uniform10Error": 167.7
+    },
+    {
+      "geo": "2181",
+      "origin": 2019,
+      "horizon": 2,
+      "year": 2021,
+      "actualNetMigration": 18.0,
+      "candidateNetMigration": 233.25,
+      "uniform10NetMigration": 281.7,
+      "candidateError": 215.25,
+      "uniform10Error": 263.7
+    },
+    {
+      "geo": "2181",
+      "origin": 2020,
+      "horizon": 1,
+      "year": 2021,
+      "actualNetMigration": 18.0,
+      "candidateNetMigration": 261.6833333333332,
+      "uniform10NetMigration": 289.3,
+      "candidateError": 243.68333333333322,
+      "uniform10Error": 271.3
+    },
+    {
+      "geo": "2181",
+      "origin": 2020,
+      "horizon": 2,
+      "year": 2022,
+      "actualNetMigration": -13.0,
+      "candidateNetMigration": 261.6833333333332,
+      "uniform10NetMigration": 289.3,
+      "candidateError": 274.6833333333332,
+      "uniform10Error": 302.3
+    },
+    {
+      "geo": "2181",
+      "origin": 2021,
+      "horizon": 1,
+      "year": 2022,
+      "actualNetMigration": -13.0,
+      "candidateNetMigration": 248.16666666666674,
+      "uniform10NetMigration": 272.7999999999999,
+      "candidateError": 261.16666666666674,
+      "uniform10Error": 285.7999999999999
+    },
+    {
+      "geo": "2181",
+      "origin": 2021,
+      "horizon": 2,
+      "year": 2023,
+      "actualNetMigration": -337.0,
+      "candidateNetMigration": 248.16666666666674,
+      "uniform10NetMigration": 272.7999999999999,
+      "candidateError": 585.1666666666667,
+      "uniform10Error": 609.8
+    },
+    {
+      "geo": "2260",
+      "origin": 2018,
+      "horizon": 1,
+      "year": 2019,
+      "actualNetMigration": -29.0,
+      "candidateNetMigration": -58.44999999999999,
+      "uniform10NetMigration": -11.0,
+      "candidateError": -29.44999999999999,
+      "uniform10Error": 18.0
+    },
+    {
+      "geo": "2260",
+      "origin": 2018,
+      "horizon": 2,
+      "year": 2020,
+      "actualNetMigration": -27.0,
+      "candidateNetMigration": -58.44999999999999,
+      "uniform10NetMigration": -11.0,
+      "candidateError": -31.44999999999999,
+      "uniform10Error": 16.0
+    },
+    {
+      "geo": "2260",
+      "origin": 2019,
+      "horizon": 1,
+      "year": 2020,
+      "actualNetMigration": -27.0,
+      "candidateNetMigration": -39.39999999999999,
+      "uniform10NetMigration": -8.200000000000017,
+      "candidateError": -12.399999999999991,
+      "uniform10Error": 18.799999999999983
+    },
+    {
+      "geo": "2260",
+      "origin": 2019,
+      "horizon": 2,
+      "year": 2021,
+      "actualNetMigration": 47.0,
+      "candidateNetMigration": -39.39999999999999,
+      "uniform10NetMigration": -8.200000000000017,
+      "candidateError": -86.39999999999999,
+      "uniform10Error": -55.20000000000002
+    },
+    {
+      "geo": "2260",
+      "origin": 2020,
+      "horizon": 1,
+      "year": 2021,
+      "actualNetMigration": 47.0,
+      "candidateNetMigration": -7.7333333333333485,
+      "uniform10NetMigration": -8.900000000000006,
+      "candidateError": -54.73333333333335,
+      "uniform10Error": -55.900000000000006
+    },
+    {
+      "geo": "2260",
+      "origin": 2020,
+      "horizon": 2,
+      "year": 2022,
+      "actualNetMigration": -27.0,
+      "candidateNetMigration": -7.7333333333333485,
+      "uniform10NetMigration": -8.900000000000006,
+      "candidateError": 19.26666666666665,
+      "uniform10Error": 18.099999999999994
+    },
+    {
+      "geo": "2260",
+      "origin": 2021,
+      "horizon": 1,
+      "year": 2022,
+      "actualNetMigration": -27.0,
+      "candidateNetMigration": 61.01666666666665,
+      "uniform10NetMigration": 9.199999999999989,
+      "candidateError": 88.01666666666665,
+      "uniform10Error": 36.19999999999999
+    },
+    {
+      "geo": "2260",
+      "origin": 2021,
+      "horizon": 2,
+      "year": 2023,
+      "actualNetMigration": 25.0,
+      "candidateNetMigration": 61.01666666666665,
+      "uniform10NetMigration": 9.199999999999989,
+      "candidateError": 36.01666666666665,
+      "uniform10Error": -15.800000000000011
+    },
+    {
+      "geo": "2262",
+      "origin": 2018,
+      "horizon": 1,
+      "year": 2019,
+      "actualNetMigration": -67.0,
+      "candidateNetMigration": 52.53333333333339,
+      "uniform10NetMigration": 44.400000000000034,
+      "candidateError": 119.53333333333339,
+      "uniform10Error": 111.40000000000003
+    },
+    {
+      "geo": "2262",
+      "origin": 2018,
+      "horizon": 2,
+      "year": 2020,
+      "actualNetMigration": 20.0,
+      "candidateNetMigration": 52.53333333333339,
+      "uniform10NetMigration": 44.400000000000034,
+      "candidateError": 32.53333333333339,
+      "uniform10Error": 24.400000000000034
+    },
+    {
+      "geo": "2262",
+      "origin": 2019,
+      "horizon": 1,
+      "year": 2020,
+      "actualNetMigration": 20.0,
+      "candidateNetMigration": 38.116666666666646,
+      "uniform10NetMigration": 41.70000000000002,
+      "candidateError": 18.116666666666646,
+      "uniform10Error": 21.700000000000017
+    },
+    {
+      "geo": "2262",
+      "origin": 2019,
+      "horizon": 2,
+      "year": 2021,
+      "actualNetMigration": 7.0,
+      "candidateNetMigration": 38.116666666666646,
+      "uniform10NetMigration": 41.70000000000002,
+      "candidateError": 31.116666666666646,
+      "uniform10Error": 34.70000000000002
+    },
+    {
+      "geo": "2262",
+      "origin": 2020,
+      "horizon": 1,
+      "year": 2021,
+      "actualNetMigration": 7.0,
+      "candidateNetMigration": 71.36666666666673,
+      "uniform10NetMigration": 33.000000000000085,
+      "candidateError": 64.36666666666673,
+      "uniform10Error": 26.000000000000085
+    },
+    {
+      "geo": "2262",
+      "origin": 2020,
+      "horizon": 2,
+      "year": 2022,
+      "actualNetMigration": -84.0,
+      "candidateNetMigration": 71.36666666666673,
+      "uniform10NetMigration": 33.000000000000085,
+      "candidateError": 155.36666666666673,
+      "uniform10Error": 117.00000000000009
+    },
+    {
+      "geo": "2262",
+      "origin": 2021,
+      "horizon": 1,
+      "year": 2022,
+      "actualNetMigration": -84.0,
+      "candidateNetMigration": 71.25,
+      "uniform10NetMigration": 30.600000000000023,
+      "candidateError": 155.25,
+      "uniform10Error": 114.60000000000002
+    },
+    {
+      "geo": "2262",
+      "origin": 2021,
+      "horizon": 2,
+      "year": 2023,
+      "actualNetMigration": -163.0,
+      "candidateNetMigration": 71.25,
+      "uniform10NetMigration": 30.600000000000023,
+      "candidateError": 234.25,
+      "uniform10Error": 193.60000000000002
+    },
+    {
+      "geo": "2280",
+      "origin": 2018,
+      "horizon": 1,
+      "year": 2019,
+      "actualNetMigration": 79.0,
+      "candidateNetMigration": -17.73333333333335,
+      "uniform10NetMigration": 101.19999999999987,
+      "candidateError": -96.73333333333335,
+      "uniform10Error": 22.199999999999875
+    },
+    {
+      "geo": "2280",
+      "origin": 2018,
+      "horizon": 2,
+      "year": 2020,
+      "actualNetMigration": -18.0,
+      "candidateNetMigration": -17.73333333333335,
+      "uniform10NetMigration": 101.19999999999987,
+      "candidateError": 0.2666666666666515,
+      "uniform10Error": 119.19999999999987
+    },
+    {
+      "geo": "2280",
+      "origin": 2019,
+      "horizon": 1,
+      "year": 2020,
+      "actualNetMigration": -18.0,
+      "candidateNetMigration": 25.450000000000045,
+      "uniform10NetMigration": 102.80000000000007,
+      "candidateError": 43.450000000000045,
+      "uniform10Error": 120.80000000000007
+    },
+    {
+      "geo": "2280",
+      "origin": 2019,
+      "horizon": 2,
+      "year": 2021,
+      "actualNetMigration": -51.0,
+      "candidateNetMigration": 25.450000000000045,
+      "uniform10NetMigration": 102.80000000000007,
+      "candidateError": 76.45000000000005,
+      "uniform10Error": 153.80000000000007
+    },
+    {
+      "geo": "2280",
+      "origin": 2020,
+      "horizon": 1,
+      "year": 2021,
+      "actualNetMigration": -51.0,
+      "candidateNetMigration": 80.63333333333344,
+      "uniform10NetMigration": 104.30000000000007,
+      "candidateError": 131.63333333333344,
+      "uniform10Error": 155.30000000000007
+    },
+    {
+      "geo": "2280",
+      "origin": 2020,
+      "horizon": 2,
+      "year": 2022,
+      "actualNetMigration": -37.0,
+      "candidateNetMigration": 80.63333333333344,
+      "uniform10NetMigration": 104.30000000000007,
+      "candidateError": 117.63333333333344,
+      "uniform10Error": 141.30000000000007
+    },
+    {
+      "geo": "2280",
+      "origin": 2021,
+      "horizon": 1,
+      "year": 2022,
+      "actualNetMigration": -37.0,
+      "candidateNetMigration": 135.31666666666666,
+      "uniform10NetMigration": 102.39999999999992,
+      "candidateError": 172.31666666666666,
+      "uniform10Error": 139.39999999999992
+    },
+    {
+      "geo": "2280",
+      "origin": 2021,
+      "horizon": 2,
+      "year": 2023,
+      "actualNetMigration": -97.0,
+      "candidateNetMigration": 135.31666666666666,
+      "uniform10NetMigration": 102.39999999999992,
+      "candidateError": 232.31666666666666,
+      "uniform10Error": 199.39999999999992
+    },
+    {
+      "geo": "2281",
+      "origin": 2018,
+      "horizon": 1,
+      "year": 2019,
+      "actualNetMigration": 451.0,
+      "candidateNetMigration": 261.54999999999995,
+      "uniform10NetMigration": 336.39999999999986,
+      "candidateError": -189.45000000000005,
+      "uniform10Error": -114.60000000000014
+    },
+    {
+      "geo": "2281",
+      "origin": 2018,
+      "horizon": 2,
+      "year": 2020,
+      "actualNetMigration": 135.0,
+      "candidateNetMigration": 261.54999999999995,
+      "uniform10NetMigration": 336.39999999999986,
+      "candidateError": 126.54999999999995,
+      "uniform10Error": 201.39999999999986
+    },
+    {
+      "geo": "2281",
+      "origin": 2019,
+      "horizon": 1,
+      "year": 2020,
+      "actualNetMigration": 135.0,
+      "candidateNetMigration": 327.79999999999984,
+      "uniform10NetMigration": 331.1,
+      "candidateError": 192.79999999999984,
+      "uniform10Error": 196.10000000000002
+    },
+    {
+      "geo": "2281",
+      "origin": 2019,
+      "horizon": 2,
+      "year": 2021,
+      "actualNetMigration": -91.0,
+      "candidateNetMigration": 327.79999999999984,
+      "uniform10NetMigration": 331.1,
+      "candidateError": 418.79999999999984,
+      "uniform10Error": 422.1
+    },
+    {
+      "geo": "2281",
+      "origin": 2020,
+      "horizon": 1,
+      "year": 2021,
+      "actualNetMigration": -91.0,
+      "candidateNetMigration": 376.4333333333334,
+      "uniform10NetMigration": 326.29999999999995,
+      "candidateError": 467.4333333333334,
+      "uniform10Error": 417.29999999999995
+    },
+    {
+      "geo": "2281",
+      "origin": 2020,
+      "horizon": 2,
+      "year": 2022,
+      "actualNetMigration": 152.0,
+      "candidateNetMigration": 376.4333333333334,
+      "uniform10NetMigration": 326.29999999999995,
+      "candidateError": 224.4333333333334,
+      "uniform10Error": 174.29999999999995
+    },
+    {
+      "geo": "2281",
+      "origin": 2021,
+      "horizon": 1,
+      "year": 2022,
+      "actualNetMigration": 152.0,
+      "candidateNetMigration": 325.61666666666645,
+      "uniform10NetMigration": 281.79999999999984,
+      "candidateError": 173.61666666666645,
+      "uniform10Error": 129.79999999999984
+    },
+    {
+      "geo": "2281",
+      "origin": 2021,
+      "horizon": 2,
+      "year": 2023,
+      "actualNetMigration": -30.0,
+      "candidateNetMigration": 325.61666666666645,
+      "uniform10NetMigration": 281.79999999999984,
+      "candidateError": 355.61666666666645,
+      "uniform10Error": 311.79999999999984
+    }
+  ]
+}

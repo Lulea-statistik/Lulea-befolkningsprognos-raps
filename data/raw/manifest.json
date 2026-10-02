@@ -7304,14 +7304,32 @@
     "migration_birth_region_pre2025": {
       "table_id": "TAB4693",
       "path": "data/raw/migration_birth_region_pre2025.csv",
-      "rows_including_header": 2021,
+      "rows_including_header": 9293,
       "selection": {
         "Region": [
           "2580",
           "2582",
           "2581",
           "2560",
-          "2514"
+          "2514",
+          "0319",
+          "1427",
+          "1430",
+          "1439",
+          "1444",
+          "1461",
+          "1484",
+          "1485",
+          "1487",
+          "1488",
+          "2101",
+          "2104",
+          "2180",
+          "2181",
+          "2260",
+          "2262",
+          "2280",
+          "2281"
         ],
         "Alder": [
           "0",
