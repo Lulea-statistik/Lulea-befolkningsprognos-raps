@@ -147,6 +147,20 @@ SCB's birth-year mean-population table is explicitly constructed for events clas
 4. apply mortality using the forecast-year age, including infant mortality at age 0;
 5. apply migration and scenarios on the resulting forecast-year age structure.
 
-This specification is defined from the source age convention and is not tuned to the validation outcome. The production baseline remains unchanged until the rolling-origin comparison has been reviewed. If adopted later, the same timing must be used consistently in production, backtests and scenarios.
+This specification was defined from the source age convention before the external FA scores were observed and was not tuned to the validation outcome.
+
+### Timing decision after short-horizon validation
+
+After the n+1/n+2 reporting rule was fixed, the event-age specification was evaluated for Luleå and the three pre-defined external FA15 reference regions. With the 10-year calibration window, n+1 deaths MAE changed as follows:
+
+- Luleå municipality: 98.3 → 28.4,
+- Luleå FA: 246.1 → 46.2,
+- FA16 Trollhättan-Vänersborg: 305.2 → 67.1,
+- FA36 Gävle: 201.7 → 51.7,
+- FA42 Sundsvall: 190.8 → 76.1.
+
+At n+1 the deaths MAE improved in all 23 member municipalities included across Luleå FA and the three reference FA regions. Population MAE improved in 19 of 23 municipalities, was effectively unchanged in one, and increased modestly in three small municipalities. At the FA-total level population accuracy improved in all four tested regions. The same broad pattern persisted at n+2.
+
+Because the timing change is both source-definition driven and externally robust at the pre-declared short horizons, **event-age-aligned timing is adopted as the production default from model schema 0.9.0**. The legacy V1 timing remains available only for historical comparison. No fading threshold, calibration window, region membership or local parameter was changed in response to these results.
 
 It also records the general local mortality factor that was available at each forecast origin. This is an attribution diagnostic, not a new default model. If national-only materially removes a persistent local deaths bias across several origins, the next methodological work should focus on the local mortality calibration/fading rule rather than modifying the national SCB trajectory. The alternative must not be selected merely because it fits these already observed years better.
