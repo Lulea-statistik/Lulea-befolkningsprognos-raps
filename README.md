@@ -12,7 +12,7 @@ Gränssnittet är uppdelat i nio rapportsidor:
 4. **Flyttanalys** – inflyttning, utflyttning, netto, historisk variation och praktisk 5 %-känslighet i 1-årsåldrar.
 5. **Arbetsmarknad & pendling** – jobbutveckling, bostads-/arbetsställekommun, pendlingsmatris och scenariofördelning av nya jobb.
 6. **Hushåll & bostad** – hushållsbildning, personer per hushåll, SCB-standardvärden per bostadstyp, bostadsbestånd och indikativ ny bostadsefterfrågan.
-7. **Scenario & justering** – val mellan Raps/SCB 2024 och SCB 2026 fruktsamhetsbana, generella demografiska multiplikatorer, bostadsbyggande och arbetsplatsetableringar.
+7. **Scenario & justering** – val mellan Raps/SCB 2024 och SCB 2026 fruktsamhetsbana, separat 6/10/19-årigt nettoflyttningsfönster, generella demografiska multiplikatorer, bostadsbyggande och arbetsplatsetableringar.
 8. **Validering** – historisk 2022–2024-backtest, fel per 1-årsålder och jämförelse mot SCB:s regionala framskrivning.
 9. **Metod & data** – källor, CKM-status, Raps-anpassning och fading-policy.
 
@@ -52,6 +52,7 @@ Geografi, kalibreringsfönster och slutår är globala filter och gäller på al
 - Fading använder två outcome-oberoende informationssignaler: genomsnittlig årlig cellpopulation och förväntat antal händelser. Populationssignalen går från 0 % vid <=20 till 100 % vid >=100; händelsesignalen går från 0 % vid <=1 förväntad händelse till 100 % vid >=20. Den slutliga lokala vikten är produkten av de två.
 - Fadinggränserna är fastställda före benchmarkutvärderingen och får inte trimmas mot känt utfall.
 - `urisk`: historisk kommunal utflyttningsrisk lagras nu per kön/ettårsålder och 6/10/19-årsfönster. Historisk bruttoinflyttning lagras parallellt. Basscenariot använder fortfarande exogen nettoflyttning tills IMIG/UMIG/`ifl` aktiveras.
+- Nettoflyttningens 6/10/19-årsfönster kan varieras separat från fruktsamhet/dödlighet för en ren känslighetsanalys. Observerat 2025-netto sparas som post-2024 diagnostik men används inte för efterhandskalibrering.
 - `qutb`: identitetsmatris tills övergångstal läggs in.
 - Kalibreringsfönster 6, 10 (standard) och 19 år.
 - CKM-metodbrottet 2025 flaggas separat.
