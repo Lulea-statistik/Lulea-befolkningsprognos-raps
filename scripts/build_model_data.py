@@ -1177,58 +1177,113 @@ def migration_component_profiles(pre2025, exposure):
 def scb_risk_migration_profiles(pre2025, exposure, config):
     """Build a development candidate based on SCB's regional migration method.
 
-    Domestic in-migration is represented as a municipality-specific age/sex
-    risk with the rest of Sweden as risk population. Domestic out-migration
-    and emigration are age/sex risks against the municipality's own exposure.
-    Immigration is represented by the municipality's historical share of
-    national immigration and a municipality-specific age/sex distribution.
+    Domestic in-migration is split into two distinct pieces, matching SCB's
+    published method more closely:
+      1) a municipality/leg total in-migration risk against the population in
+         the rest of Sweden; and
+      2) a municipality/leg age-sex distribution estimated on a longer window.
+
+    Domestic out-migration and emigration remain age/sex risks against the
+    municipality's own exposure. Immigration is represented by the
+    municipality's historical share of national immigration and a
+    municipality-specific age/sex distribution.
 
     The method and windows are read from a configuration locked before
-    validation. These rows are development inputs and do not change the
+    evaluation. These rows are development inputs and do not change the
     production migration baseline.
     """
-    internal_in = []
+    domestic_in_levels = []
+    domestic_in_distribution = []
     out_risks = []
     international_in = []
 
     domestic_in_window = int(config["methodBasis"]["internalInMigrationWindow"])
+    domestic_age_window = int(
+        config["methodBasis"]["internalInAgeSexDistributionWindow"]
+    )
     domestic_out_window = int(config["methodBasis"]["internalOutMigrationWindow"])
-    intl_share_window = int(config["methodBasis"]["internationalInMunicipalityShareWindow"])
-    intl_age_window = int(config["methodBasis"]["inMigrationAgeSexDistributionWindow"])
-    intl_out_window = int(config["methodBasis"]["internationalOutMigrationWindow"])
+    intl_share_window = int(
+        config["methodBasis"]["internationalInMunicipalityShareWindow"]
+    )
+    intl_age_window = int(
+        config["methodBasis"]["inMigrationAgeSexDistributionWindow"]
+    )
+    intl_out_window = int(
+        config["methodBasis"]["internationalOutMigrationWindow"]
+    )
 
-    # Domestic flows: separate county / rest-of-Sweden legs.
     for geo in MUNICIPALITIES:
+        # Domestic flows: same-county and other-Sweden are separate legs but
+        # use the same SCB method.
         for leg in ("county", "rest_sweden"):
             in_years = set(window_years(domestic_in_window))
+            age_years = set(window_years(domestic_age_window))
             out_years = set(window_years(domestic_out_window))
+
+            incoming_total = sum(
+                pre2025.get((geo, y, sex, age, leg, "in"), 0.0)
+                for y in in_years
+                for sex in ("K", "M")
+                for age in range(101)
+            )
+            local_total_exposure = sum(
+                exposure.get((geo, y, sex, age), 0.0)
+                for y in in_years
+                for sex in ("K", "M")
+                for age in range(101)
+            )
+            national_total_exposure = sum(
+                exposure.get((RIKET_CODE, y, sex, age), 0.0)
+                for y in in_years
+                for sex in ("K", "M")
+                for age in range(101)
+            )
+            rest_total_exposure = max(
+                0.0, national_total_exposure - local_total_exposure
+            )
+            total_in_risk = (
+                0.0
+                if rest_total_exposure <= 0
+                else incoming_total / rest_total_exposure
+            )
+            domestic_in_levels.append({
+                "geo": geo,
+                "leg": leg,
+                "window": domestic_in_window,
+                "value": max(0.0, total_in_risk),
+                "events": incoming_total,
+                "riskExposure": rest_total_exposure,
+                "riskPopulation": "rest_of_sweden_total",
+                "method": "SCB-style domestic total in-migration risk",
+            })
+
+            distribution_total = sum(
+                pre2025.get((geo, y, sex, age, leg, "in"), 0.0)
+                for y in age_years
+                for sex in ("K", "M")
+                for age in range(101)
+            )
             for sex in ("K", "M"):
                 for age in range(101):
-                    incoming = sum(
+                    cell_events = sum(
                         pre2025.get((geo, y, sex, age, leg, "in"), 0.0)
-                        for y in in_years
+                        for y in age_years
                     )
-                    local_in_exposure = sum(
-                        exposure.get((geo, y, sex, age), 0.0)
-                        for y in in_years
+                    share = (
+                        0.0
+                        if distribution_total <= 0
+                        else cell_events / distribution_total
                     )
-                    national_in_exposure = sum(
-                        exposure.get((RIKET_CODE, y, sex, age), 0.0)
-                        for y in in_years
-                    )
-                    rest_exposure = max(0.0, national_in_exposure - local_in_exposure)
-                    in_risk = 0.0 if rest_exposure <= 0 else incoming / rest_exposure
-                    internal_in.append({
+                    domestic_in_distribution.append({
                         "geo": geo,
                         "leg": leg,
                         "sex": sex,
                         "age": age,
-                        "window": domestic_in_window,
-                        "value": max(0.0, in_risk),
-                        "events": incoming,
-                        "riskExposure": rest_exposure,
-                        "riskPopulation": "rest_of_sweden",
-                        "method": "SCB-style domestic in-migration risk",
+                        "window": domestic_age_window,
+                        "share": max(0.0, share),
+                        "events": cell_events,
+                        "totalEvents": distribution_total,
+                        "method": "SCB-style domestic in-migrant age/sex distribution",
                     })
 
                     outgoing = sum(
@@ -1239,7 +1294,11 @@ def scb_risk_migration_profiles(pre2025, exposure, config):
                         exposure.get((geo, y, sex, age), 0.0)
                         for y in out_years
                     )
-                    out_risk = 0.0 if local_out_exposure <= 0 else outgoing / local_out_exposure
+                    out_risk = (
+                        0.0
+                        if local_out_exposure <= 0
+                        else outgoing / local_out_exposure
+                    )
                     out_risks.append({
                         "geo": geo,
                         "leg": leg,
@@ -1260,19 +1319,26 @@ def scb_risk_migration_profiles(pre2025, exposure, config):
         age_years = set(window_years(intl_age_window))
         local_share_events = sum(
             pre2025.get((geo, y, sex, age, "international", "in"), 0.0)
-            for y in share_years for sex in ("K", "M") for age in range(101)
+            for y in share_years
+            for sex in ("K", "M")
+            for age in range(101)
         )
         national_share_events = sum(
             pre2025.get((RIKET_CODE, y, sex, age, "international", "in"), 0.0)
-            for y in share_years for sex in ("K", "M") for age in range(101)
+            for y in share_years
+            for sex in ("K", "M")
+            for age in range(101)
         )
         municipality_share = (
-            0.0 if national_share_events <= 0
+            0.0
+            if national_share_events <= 0
             else local_share_events / national_share_events
         )
         local_age_total = sum(
             pre2025.get((geo, y, sex, age, "international", "in"), 0.0)
-            for y in age_years for sex in ("K", "M") for age in range(101)
+            for y in age_years
+            for sex in ("K", "M")
+            for age in range(101)
         )
         for sex in ("K", "M"):
             for age in range(101):
@@ -1281,7 +1347,8 @@ def scb_risk_migration_profiles(pre2025, exposure, config):
                     for y in age_years
                 )
                 age_sex_share = (
-                    0.0 if local_age_total <= 0
+                    0.0
+                    if local_age_total <= 0
                     else cell_events / local_age_total
                 )
                 international_in.append({
@@ -1311,7 +1378,11 @@ def scb_risk_migration_profiles(pre2025, exposure, config):
                     exposure.get((geo, y, sex, age), 0.0)
                     for y in out_years
                 )
-                out_risk = 0.0 if local_exposure <= 0 else outgoing / local_exposure
+                out_risk = (
+                    0.0
+                    if local_exposure <= 0
+                    else outgoing / local_exposure
+                )
                 out_risks.append({
                     "geo": geo,
                     "leg": "international",
@@ -1326,8 +1397,12 @@ def scb_risk_migration_profiles(pre2025, exposure, config):
                     "method": "SCB-style emigration risk",
                 })
 
-    return internal_in, out_risks, international_in
-
+    return (
+        domestic_in_levels,
+        domestic_in_distribution,
+        out_risks,
+        international_in,
+    )
 
 def birth_status_codes(file_key: str):
     info = manifest().get("files", {}).get(file_key, {})
@@ -1550,7 +1625,8 @@ def main():
     if scb_risk_config.get("status") != "method_locked_from_published_scb_regional_method_before_validation":
         raise RuntimeError("Unexpected SCB risk migration candidate status.")
     (
-        scb_risk_internal_in,
+        scb_risk_internal_in_levels,
+        scb_risk_internal_in_distribution,
         scb_risk_out,
         scb_risk_international_in,
     ) = scb_risk_migration_profiles(
@@ -1703,9 +1779,10 @@ def main():
             "scbRiskMigrationProductionDefault": False,
             "scbRiskMigrationConfig": scb_risk_config,
             "scbRiskMigrationMethod": (
-                "Domestic in-migration risk x rest-of-Sweden population; domestic out-migration "
-                "and emigration risk x municipal population; immigration = municipality historical "
-                "share of national immigration x municipality age/sex distribution."
+                "Domestic total in-migration risk x rest-of-Sweden population, distributed by "
+                "municipality-specific 9-year age/sex profile; domestic out-migration and emigration "
+                "risk x municipal population; immigration = municipality historical share of national "
+                "immigration x municipality age/sex distribution."
             ),
             "scenarioMigrationProfileMethod": (
                 "Workplace scenarios support a worker hybrid profile based on SCB TAB3205 "
@@ -1728,7 +1805,8 @@ def main():
         "grossInMigration": gross_inmigration_profiles(inflow),
         "migrationComponentInflow": migration_component_inflow,
         "migrationComponentOutHazards": migration_component_out_hazards,
-        "scbRiskInternalInMigration": scb_risk_internal_in,
+        "scbRiskDomesticInLevels": scb_risk_internal_in_levels,
+        "scbRiskDomesticInDistribution": scb_risk_internal_in_distribution,
         "scbRiskOutMigration": scb_risk_out,
         "scbRiskInternationalInMigration": scb_risk_international_in,
         "scbRiskNationalMeanPopulation": [
