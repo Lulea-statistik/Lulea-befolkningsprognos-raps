@@ -225,26 +225,33 @@ def load_population_2025():
                 data[(geo, sex, age)] += num(r[col])
     return data
 
-def load_wide_age_sex(filename: str, allowed_codes=None):
+def _allowed_geographies(allowed_geos=None):
+    if allowed_geos is None:
+        return set(MUNICIPALITIES) | {RIKET_CODE}
+    return set(allowed_geos)
+
+def load_wide_age_sex(filename: str, allowed_codes=None, allowed_geos=None):
     path = RAW / filename
     out = defaultdict(float)
+    geos = _allowed_geographies(allowed_geos)
     for r in rows(path):
         age = age_value(r.get("Alder", ""))
         sex = SEX_MAP.get(r.get("Kon", ""))
         geo = r.get("Region")
-        if age is None or not sex or geo not in set(MUNICIPALITIES) | {RIKET_CODE}:
+        if age is None or not sex or geo not in geos:
             continue
         for col, code, year in value_columns(r.keys(), allowed_codes):
             out[(geo, year, sex, age)] += num(r[col])
     return out
 
-def load_births(filename: str):
+def load_births(filename: str, allowed_geos=None):
     path = RAW / filename
     out = defaultdict(float)
+    geos = _allowed_geographies(allowed_geos)
     for r in rows(path):
         age = age_value(r.get("AlderModer", ""))
         geo = r.get("Region")
-        if age is None or geo not in set(MUNICIPALITIES) | {RIKET_CODE} or not (15 <= age <= 49):
+        if age is None or geo not in geos or not (15 <= age <= 49):
             continue
         # Sum boys + girls to births by mother's age.
         for col, _, year in value_columns(r.keys()):
@@ -274,21 +281,29 @@ def observed_male_birth_share(births_by_sex, years=range(2015, 2025)):
     total = male + female
     return 0.5 if total <= 0 else male / total
 
-def aggregate_fa_age_sex(source):
+def aggregate_group_age_sex(source, group_code, members):
+    member_set = set(members)
     out = defaultdict(float)
     for (geo, year, sex, age), value in source.items():
         out[(geo, year, sex, age)] += value
-        if geo in MUNICIPALITIES:
-            out[(FA_CODE, year, sex, age)] += value
+        if geo in member_set:
+            out[(group_code, year, sex, age)] += value
     return out
 
-def aggregate_fa_births(source):
+def aggregate_group_births(source, group_code, members):
+    member_set = set(members)
     out = defaultdict(float)
     for (geo, year, age), value in source.items():
         out[(geo, year, age)] += value
-        if geo in MUNICIPALITIES:
-            out[(FA_CODE, year, age)] += value
+        if geo in member_set:
+            out[(group_code, year, age)] += value
     return out
+
+def aggregate_fa_age_sex(source):
+    return aggregate_group_age_sex(source, FA_CODE, MUNICIPALITIES)
+
+def aggregate_fa_births(source):
+    return aggregate_group_births(source, FA_CODE, MUNICIPALITIES)
 
 def clip_ratio(value):
     if not math.isfinite(value):

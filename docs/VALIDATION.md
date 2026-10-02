@@ -113,6 +113,22 @@ The comparison reports deaths MAE/mean error and population MAPE/mean error for:
 - the national-only alternative.
 
 
+## External FA reference validation
+
+To test whether the method generalizes beyond Luleå, three reference regions are fixed **before** their results are inspected. The validation uses the same rolling origins (2018, 2019, 2020, 2021), the same 6- and 10-year calibration windows, the same vintage-correct SCB national assumptions, and no region-specific tuning.
+
+The reference geography uses the **FA15** classification because the selected region codes are FA15 identifiers:
+
+- FA16 Trollhättan-Vänersborg: Sotenäs, Munkedal, Färgelanda, Grästorp, Mellerud, Lysekil, Uddevalla, Vänersborg and Trollhättan.
+- FA36 Gävle: Älvkarleby, Ockelbo, Hofors, Gävle and Sandviken.
+- FA42 Sundsvall: Ånge, Timrå, Härnösand and Sundsvall.
+
+The memberships are kept fixed across all validation years. They are not redefined from annual commuting flows. Trollhättan-Vänersborg is intentionally retained as an FA15 multicore stress test even though it is no longer a separate FA25 region.
+
+The external report compares the legacy V1 cohort timing with the pre-defined event-age aligned timing candidate at both FA total and member-municipality level. The key decision metrics are population MAPE/MAE, births MAE, deaths MAE/mean error and three-year population MAPE. This test is confirmatory: results may support or reject the timing change, but thresholds or region membership must not be altered after observing the scores.
+
+Generated output: `data/backtests/reference_fa_rolling.json/js`.
+
 ### Event-age cohort-timing diagnostic
 
 SCB's birth-year mean-population table is explicitly constructed for events classified by attained age at the end of the year. The V1 engine, however, historically applied mortality to the previous 31 December age before ageing the cohort. The rolling-origin report therefore evaluates a fixed, source-definition candidate:

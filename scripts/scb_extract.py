@@ -22,9 +22,21 @@ from urllib.request import Request, urlopen
 BASE = "https://statistikdatabasen.scb.se/api/v2"
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "data" / "scb_sources.json"
+REFERENCE_FA_CONFIG = ROOT / "data" / "reference_fa_regions.json"
 OUT = ROOT / "data" / "raw"
 
 MUNICIPALITIES = ["2580", "2582", "2581", "2560", "2514"]
+
+def reference_validation_municipalities():
+    if not REFERENCE_FA_CONFIG.exists():
+        return []
+    cfg = json.loads(REFERENCE_FA_CONFIG.read_text(encoding="utf-8"))
+    codes = set()
+    for region in (cfg.get("regions") or {}).values():
+        codes.update((region.get("members") or {}).keys())
+    return sorted(codes)
+
+REFERENCE_VALIDATION_MUNICIPALITIES = reference_validation_municipalities()
 RIKET = "00"
 MODEL_AGES = [str(i) for i in range(100)]
 TOP_AGE_CODES = ["100+", "100+1"]
@@ -176,8 +188,11 @@ def build_selection(md: dict, spec: dict) -> dict[str, list[str]]:
             sel[dim_id] = [x for x in MUNICIPALITIES if x in vals]
         elif dim_id == "Region":
             wanted = list(MUNICIPALITIES)
+            if spec.get("include_reference_geos"):
+                wanted.extend(REFERENCE_VALIDATION_MUNICIPALITIES)
             if spec.get("include_riket"):
                 wanted.append(RIKET)
+            wanted = list(dict.fromkeys(wanted))
             sel[dim_id] = [x for x in wanted if x in vals]
         elif dim_id in ("Alder", "AlderModer"):
             if spec.get("all_age_groups") and dim_id == "Alder":
@@ -463,17 +478,17 @@ def download_csv(table_id: str, selection: dict[str, list[str]]) -> str:
     return merge_wide_csv_chunks(chunks)
 
 SPECS = {
-    "population_pre2025": {"start":2006,"end":2024,"content_terms":["Folkmängd"]},
+    "population_pre2025": {"start":2006,"end":2024,"content_terms":["Folkmängd"],"include_reference_geos":True},
     "population_2025": {"start":2025,"end":2025,"content_terms":["Folkmängd"]},
-    "mean_population_pre2025": {"start":2006,"end":2024,"include_riket":True},
+    "mean_population_pre2025": {"start":2006,"end":2024,"include_riket":True,"include_reference_geos":True},
     "mean_population_2025": {"start":2025,"end":2025},
-    "mean_population_event_age_pre2025": {"start":2006,"end":2024,"include_riket":True},
+    "mean_population_event_age_pre2025": {"start":2006,"end":2024,"include_riket":True,"include_reference_geos":True},
     "mean_population_event_age_2025": {"start":2025,"end":2025},
-    "migration_pre2025": {"start":2006,"end":2024},
+    "migration_pre2025": {"start":2006,"end":2024,"include_reference_geos":True},
     "migration_2025": {"start":2025,"end":2025},
-    "births_pre2025": {"start":2006,"end":2024,"include_riket":True},
+    "births_pre2025": {"start":2006,"end":2024,"include_riket":True,"include_reference_geos":True},
     "births_2025": {"start":2025,"end":2025},
-    "deaths_pre2025": {"start":2006,"end":2024,"include_riket":True},
+    "deaths_pre2025": {"start":2006,"end":2024,"include_riket":True,"include_reference_geos":True},
     "deaths_2025": {"start":2025,"end":2025},
     "migration_birth_region_pre2025": {"start":2006,"end":2024,"all_birth_regions":True},
     "migration_birth_region_2025": {"start":2025,"end":2025,"all_birth_regions":True},

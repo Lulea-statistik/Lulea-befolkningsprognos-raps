@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "0.1.0",
+  "scheme": "FA15",
+  "definitionPeriod": "2015-2025 reference classification",
+  "note": "Fixed FA15 memberships used only for external model validation. They are not relabeled as FA25. Trollhattan-Vanersborg is retained deliberately as a multicore stress-test geography even though it is not a separate FA25 region.",
+  "source": {
+    "publisher": "Tillvaxtverket",
+    "title": "FA-regioner (2015)",
+    "url": "https://tillvaxtverket.se/download/18.8fc3d8b1855c7f9043218/1672314724306/pm_2015_22_FA-regioner.pdf"
+  },
+  "regions": {
+    "FA16_TRH": {
+      "fa15Number": 16,
+      "name": "Trollhättan-Vänersborg",
+      "rationale": "Multicore reference region",
+      "members": {
+        "1427": "Sotenäs",
+        "1430": "Munkedal",
+        "1439": "Färgelanda",
+        "1444": "Grästorp",
+        "1461": "Mellerud",
+        "1484": "Lysekil",
+        "1485": "Uddevalla",
+        "1487": "Vänersborg",
+        "1488": "Trollhättan"
+      }
+    },
+    "FA36_GAV": {
+      "fa15Number": 36,
+      "name": "Gävle",
+      "rationale": "Large core with clear commuting municipalities",
+      "members": {
+        "2101": "Ockelbo",
+        "2104": "Hofors",
+        "2180": "Gävle",
+        "2181": "Sandviken",
+        "0319": "Älvkarleby"
+      }
+    },
+    "FA42_SUN": {
+      "fa15Number": 42,
+      "name": "Sundsvall",
+      "rationale": "Regional core reference with lower-growth profile",
+      "members": {
+        "2260": "Ånge",
+        "2262": "Timrå",
+        "2280": "Härnösand",
+        "2281": "Sundsvall"
+      }
+    }
+  }
+}

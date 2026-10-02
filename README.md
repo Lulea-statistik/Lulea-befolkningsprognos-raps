@@ -29,6 +29,7 @@ Geografi, kalibreringsfönster och slutår är globala filter och gäller på al
 - `data/model_data.json/js` – genererade modellindata för browser och analys.
 - `data/model_validation.json/js` – 6/10/19-årig valideringssammanställning.
 - `data/backtests/` – 2022–2024 utvecklingsbacktest samt rolling-origin-validering med SCB-vintages 2018–2021.
+- `data/reference_fa_regions.json` – låst FA15-konfiguration för externa referensregioner.
 - `data/benchmarks/` – SCB- och Tillväxtverket/Raps-benchmarks.
 - `data/raw/` – reproducerbara SCB-uttag.
 - `docs/RAPS_ALIGNMENT.md` – Raps-prioritet, fallback-fading och anti-overfitting-regel.
@@ -89,6 +90,8 @@ Modellen ska inte konstrueras om för att passa ett känt historiskt utfall. Bac
 - redovisar bland annat MAE och MAPE.
 Därutöver byggs en rolling-origin-validering med startår 2018, 2019, 2020 och 2021. Varje körning använder endast lokal information som fanns tillgänglig vid respektive origin och SCB:s nationella prognosvintage från samma år, med tre års prognoshorisont. Testfönstren överlappar och ska därför tolkas som robusthetskontroll snarare än helt oberoende experiment.
 Rolling-rapporten innehåller dessutom en nationell vintage-diagnostik som jämför SCB:s då publicerade prognos för födda och döda med senare faktiskt utfall för Riket. Därmed kan fel i den nationella framtidsprofilen skiljas från fel som uppstår när profilen lokaliseras till kommunerna.
+
+Som extern robusthetskontroll körs samma rolling-origin-metod även på tre fördefinierade FA15-referensregioner: **FA16 Trollhättan-Vänersborg**, **FA36 Gävle** och **FA42 Sundsvall**. Regionerna används endast för validering och får inga regionspecifika parameterjusteringar. Trollhättan-Vänersborg behålls med FA15-medlemskap även om regionen inte längre finns separat i FA25.
 
 SCB TAB6008 används som en separat alternativ metodbenchmark och visas även omankrad till faktisk befolkning 2025.
 

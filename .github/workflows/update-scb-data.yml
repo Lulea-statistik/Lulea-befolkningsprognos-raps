@@ -47,6 +47,9 @@ jobs:
       - name: Test rolling-origin configuration
         run: python tests/test_rolling_backtest_config.py
 
+      - name: Test external FA reference configuration
+        run: python tests/test_reference_fa_config.py
+
       - name: Discover current SCB PxWeb tables
         run: python scripts/scb_v2_client.py --out data/scb_discovery.json
 
@@ -67,6 +70,7 @@ jobs:
           node --check js/model.js
           node --check js/app.js
           node --check scripts/run_rolling_backtest.js
+          node --check scripts/run_reference_fa_backtest.js
 
       - name: Run model tests
         run: node tests/test_model.js
@@ -85,6 +89,12 @@ jobs:
 
       - name: Run and score rolling-origin validation
         run: node scripts/run_rolling_backtest.js
+
+      - name: Build external FA reference validation
+        run: python scripts/build_reference_fa_backtest.py
+
+      - name: Run external FA reference validation
+        run: node scripts/run_reference_fa_backtest.js
 
       - name: Normalize SCB regional benchmark
         run: python scripts/prepare_scb_benchmark.py
