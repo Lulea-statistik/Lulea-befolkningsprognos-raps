@@ -92,7 +92,7 @@ This comparison is a forward assumption sensitivity, not a historical score and 
 
 ## Migration-window sensitivity
 
-The production baseline keeps the selected global calibration window, with 10 years as default. A separate sensitivity isolates **net migration only** by holding fertility and mortality at the 10-year baseline while applying 6-, 10- or 19-year net-migration age/sex profiles.
+The production baseline keeps the selected global calibration window, with 10 years as default. A separate sensitivity isolates **net migration only** by holding fertility and mortality at the 10-year baseline while applying 2-, 4-, 6-, 10- or 19-year net-migration age/sex profiles.
 
 The report stores for Luleå and additive Luleå FA:
 - end population in 2050,
@@ -101,6 +101,12 @@ The report stores for Luleå and additive Luleå FA:
 - difference versus the 10-year migration baseline.
 
 A second diagnostic compares each pre-2025 migration profile with observed 2025 net migration. Because the profiles are estimated only through 2024, 2025 is a post-calibration observation; however, it is CKM data and is used only as a diagnostic, not for selecting or retuning the default window.
+
+### Short-window migration test
+
+The rolling-origin migration comparison fixes fertility and mortality at the 10-year specification and varies only net migration across **2, 4, 6 and 10 years**. The primary comparison is n+1 net-migration MAE and population error; n+2 is secondary. The same short-window comparison is also generated at FA-total level for the three external FA15 reference regions.
+
+A 19-year migration window is excluded from these historical origins because the required pre-origin series would start before the available comparable 2006 data. It remains available only in the current-period sensitivity and the 2025 post-calibration diagnostic. If it shows no practical value there, it should be removed from the migration selector rather than retained by convention.
 
 ## Rolling-origin validation
 
