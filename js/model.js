@@ -307,6 +307,7 @@
     const scenarios=options.scenarios||{};
     const {members,weights}=baseMunicipalityWeights(data);
     let housingExternal=0,housingInternalNet=0,jobExternal=0,jobInternalNet=0;
+    let jobExternalDomestic=0,jobExternalInternational=0;
     const jobExternalProfileEffects=[];
 
     for(const s of scenarios.housing||[]){
@@ -332,6 +333,7 @@
     for(const s of scenarios.workplaces||[]){
       if(!s.active) continue;
       const realizedJobs=n(s.jobs)*n(s.realizationPct)/100;
+      const internationalShare=clamp(n(s.internationalRecruitmentSharePct)/100,0,1);
       const commuting=observedCommutingShares(s,members);
 
       if(commuting){
@@ -364,6 +366,8 @@
 
         if(geo==="FA_LULEA"){
           jobExternal+=ext;
+          jobExternalInternational+=ext*internationalShare;
+          jobExternalDomestic+=ext*(1-internationalShare);
           for(const dest of members){
             const destShare=n(commuting.faResidenceShares[dest]);
             if(s.ageProfileMode==="worker_household"){
@@ -392,6 +396,8 @@
           const destShare=n(commuting.faResidenceShares[geo]);
           const geoExternal=ext*destShare;
           jobExternal+=geoExternal;
+          jobExternalInternational+=geoExternal*internationalShare;
+          jobExternalDomestic+=geoExternal*(1-internationalShare);
           if(s.ageProfileMode==="worker_household"){
             addProfileEffect(
               jobExternalProfileEffects,
@@ -432,6 +438,8 @@
         const dest=destinationShares(s.municipality,members,weights,s.hostResidencePct);
         if(geo==="FA_LULEA"){
           jobExternal+=ext;
+          jobExternalInternational+=ext*internationalShare;
+          jobExternalDomestic+=ext*(1-internationalShare);
           for(const code of members){
             const destShare=n(dest[code]);
             if(s.ageProfileMode==="worker_household"){
@@ -460,6 +468,8 @@
           const destShare=n(dest[geo]);
           const geoExternal=ext*destShare;
           jobExternal+=geoExternal;
+          jobExternalInternational+=geoExternal*internationalShare;
+          jobExternalDomestic+=geoExternal*(1-internationalShare);
           if(s.ageProfileMode==="worker_household"){
             addProfileEffect(
               jobExternalProfileEffects,
@@ -494,6 +504,8 @@
       housingExternal,
       housingInternalNet,
       jobExternal,
+      jobExternalDomestic,
+      jobExternalInternational,
       jobInternalNet,
       jobExternalProfileEffects,
       overlapDeduction:overlapBase
@@ -898,6 +910,8 @@
       housingExternal:sumField("housingExternal"),
       housingInternalNet:sumField("housingInternalNet"),
       jobExternal:sumField("jobExternal"),
+      jobExternalDomestic:sumField("jobExternalDomestic"),
+      jobExternalInternational:sumField("jobExternalInternational"),
       jobInternalNet:sumField("jobInternalNet"),
       overlapDeduction:sumField("overlapDeduction"),
       jobExternalProfileEffects:details.flatMap(d=>d.jobExternalProfileEffects||[]),
