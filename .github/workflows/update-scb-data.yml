@@ -127,6 +127,9 @@ jobs:
       - name: Run locked component-flow holdout validation
         run: node scripts/run_component_flow_holdout.js
 
+      - name: Remove transient component-flow work files
+        run: rm -rf data/backtests/component_flow_holdout_work
+
       - name: Normalize SCB regional benchmark
         run: python scripts/prepare_scb_benchmark.py
 
