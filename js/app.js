@@ -3,6 +3,7 @@
   let data=window.MODEL_DATA;
   const smoothingDiagnostic=window.MIGRATION_SMOOTHING_DIAGNOSTIC||null;
   const validation=window.MODEL_VALIDATION||null;
+  const maturity=window.MODEL_MATURITY||null;
   const backtest=window.MODEL_BACKTEST||null;
   const scbComparison=window.SCB_BENCHMARK_COMPARISON||null;
   const labour=window.LABOUR_MARKET_DATA||null;
@@ -366,7 +367,42 @@
       <div class="kv"><span>Framtidsprofil</span><strong>${data.parameters?.futureNationalProfileMode||"–"}</strong></div>
       <div class="kv"><span>Metodbrott</span><strong>${data.meta.methodBreakYear} · CKM</strong></div>
       <div class="kv"><span>CKM-diagnostik</span><strong>${ckmCount} poster</strong></div>`;
+    renderModelMaturity();
     renderFadingPolicy();
+  }
+
+  function renderModelMaturity(){
+    const el=$("modelMaturity");
+    if(!el) return;
+    if(!maturity?.components?.length){
+      el.innerHTML="<p class=\"hint\">Mognadsrapport genereras i nästa modellkörning.</p>";
+      return;
+    }
+    const levelLabel=l=>`Nivå ${l} · ${maturity.levels?.[String(l)]?.name||""}`;
+    const stateLabel=s=>({production:"Produktion",production_support:"Produktionsstöd",active_needs_final_gate:"Aktiv – sista grind saknas",development:"Utveckling",development_scenario:"Scenarioutveckling",diagnostic:"Diagnostik",rejected:"Avslutad"}[s]||s);
+    const rows=maturity.components.map(c=>{
+      const gates=(c.gates||[]).map(g=>`${g.passed?"✓":"✗"} ${g.label}`).join("<br>");
+      return `<tr>
+        <td>${c.label}</td>
+        <td>${levelLabel(c.maturityLevel)}</td>
+        <td>${stateLabel(c.lifecycle)}</td>
+        <td>${c.productionActive?"Ja":"Nej"}</td>
+        <td>${gates}</td>
+        <td>${c.nextAction||"–"}</td>
+      </tr>`;
+    }).join("");
+    const l4=maturity.summary?.productionLevel4?.length||0;
+    const rejected=maturity.summary?.rejected?.length||0;
+    el.innerHTML=`
+      <div class="policyGrid">
+        <div><span>Komponenter</span><strong>${maturity.summary?.componentCount||0}</strong></div>
+        <div><span>Nivå 4</span><strong>${l4}</strong></div>
+        <div><span>Avslutade kandidater</span><strong>${rejected}</strong></div>
+      </div>
+      <div class="analysisTableWrap"><table class="miniTable">
+        <thead><tr><th>Komponent</th><th>Mognad</th><th>Status</th><th>Aktiv</th><th>Grindar</th><th>Nästa steg</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table></div>`;
   }
 
   function renderFadingPolicy(){
