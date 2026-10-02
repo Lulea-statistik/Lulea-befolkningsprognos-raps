@@ -95,4 +95,21 @@ assert abs(county_2["meanOutflow"] - 80.0) < 1e-12
 assert abs(county_2["meanNetMigration"] - 26.5) < 1e-12
 assert all(r["window"] in (2,4,6,10) for r in leg_diag["windowBacktestLulea"])
 
+
+raw_leg_path = ROOT / "data" / "raw" / "migration_birth_region_pre2025.csv"
+if raw_leg_path.exists():
+    raw_legs = mod.load_migration_legs(
+        "migration_birth_region_pre2025.csv",
+        mod.MIGRATION_LEG_CODES_PRE2025,
+        allowed_geos={"2580"},
+    )
+    assert raw_legs
+    for leg in ("county", "rest_sweden", "international"):
+        inflow_2024 = mod._migration_leg_total(raw_legs, "2580", 2024, leg, "in")
+        outflow_2024 = mod._migration_leg_total(raw_legs, "2580", 2024, leg, "out")
+        net_2024 = mod._migration_leg_total(raw_legs, "2580", 2024, leg, "net")
+        assert inflow_2024 > 0
+        assert outflow_2024 >= 0
+        assert abs((inflow_2024 - outflow_2024) - net_2024) < 1e-9
+
 print("OK: municipal urisk and gross in-migration profiles are valid and FA gross flows are excluded")
