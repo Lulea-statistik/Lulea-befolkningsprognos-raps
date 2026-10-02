@@ -1,6 +1,7 @@
 (function(){
   "use strict";
   let data=window.MODEL_DATA;
+  const smoothingDiagnostic=window.MIGRATION_SMOOTHING_DIAGNOSTIC||null;
   const validation=window.MODEL_VALIDATION||null;
   const backtest=window.MODEL_BACKTEST||null;
   const scbComparison=window.SCB_BENCHMARK_COMPARISON||null;
@@ -56,6 +57,7 @@
 
   function setup(){
     fillGeo();
+    fillCalibrationWindows();
     fillFertilityScenario();
     fillLabourWorkplace();
     bindTabs();
@@ -148,6 +150,25 @@
         s.personsSource="SCB-standard saknas";
       }
     });
+  }
+
+  function fillCalibrationWindows(){
+    const main=$("window");
+    const defaultWindow=Number(data?.calibration?.defaultYears||10);
+    const options=(data?.calibration?.options||[defaultWindow]).map(Number).sort((a,b)=>a-b);
+    const current=Number(main?.value||defaultWindow);
+    if(main){
+      main.innerHTML=options.map(v=>`<option value="${v}">${v} år${v===defaultWindow?" (standard)":""}</option>`).join("");
+      main.value=String(options.includes(current)?current:(options.includes(defaultWindow)?defaultWindow:options.at(-1)));
+    }
+    const mig=$("migrationWindow");
+    if(mig){
+      const migCurrent=mig.value;
+      const migOptions=(data?.diagnostics?.migrationCalibrationWindows||[10]).map(Number).sort((a,b)=>a-b);
+      mig.innerHTML=`<option value="">Automatiskt (globalt ${options.join("/")})</option>`+
+        migOptions.map(v=>`<option value="${v}">${v} år</option>`).join("");
+      if(migOptions.includes(Number(migCurrent))) mig.value=migCurrent;
+    }
   }
 
   function fillGeo(){
@@ -715,7 +736,7 @@
       return;
     }
     const diag=data.diagnostics?.migrationAgeSmoothing;
-    const compact=data.diagnostics?.migrationAgeSmoothingCompact;
+    const compact=smoothingDiagnostic||data.diagnostics?.migrationAgeSmoothingCompact;
     const compactRows=(
       compact?.geo===geo && Array.isArray(compact?.allAgeDirectionRows)
     ) ? compact.allAgeDirectionRows : [];
