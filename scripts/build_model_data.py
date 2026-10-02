@@ -832,6 +832,45 @@ def add_fa_population(base):
             )
     return out
 
+def migration_2025_diagnostics(netmig_2025, migration_rows):
+    """Fresh post-calibration comparison of 2025 net migration.
+
+    Historical profiles end in 2024. The 2025 CKM observation is therefore not
+    used to fit the 6/10/19-year profile and is retained as a one-year
+    diagnostic only. Aggregate CKM perturbation is not assumed to be +/-3.
+    """
+    result = []
+    if not netmig_2025:
+        return result
+    for geo in list(MUNICIPALITIES) + [FA_CODE]:
+        actual = sum(
+            value for (g, year, sex, age), value in netmig_2025.items()
+            if g == geo and year == 2025
+        )
+        by_window = {}
+        for window in WINDOWS:
+            predicted = sum(
+                float(r.get("value") or 0.0)
+                for r in migration_rows
+                if r["geo"] == geo and int(r["window"]) == window
+            )
+            by_window[str(window)] = {
+                "predictedAnnualNetMigration": predicted,
+                "actualNetMigration2025": actual,
+                "error": predicted - actual,
+                "absoluteError": abs(predicted - actual),
+            }
+        result.append({
+            "geo": geo,
+            "year": 2025,
+            "method": "post-2024 calibration diagnostic; observed value uses SCB CKM",
+            "actualNetMigration": actual,
+            "windows": by_window,
+            "note": "2025 is not used to fit these profiles. Aggregate CKM uncertainty is not treated as +/-3."
+        })
+    return result
+
+
 def ckm_diagnostics(base, deaths_2025, netmig_2025):
     diagnostics = []
     for geo in list(MUNICIPALITIES) + [FA_CODE]:
@@ -893,6 +932,7 @@ def main():
 
     fertility_rates, fertility_factors = fertility_profiles(births, fertility_exposure)
     mortality_risks, mortality_factors = mortality_profiles(deaths, birth_year_exposure)
+    net_migration_profiles = migration_profiles(netmig)
 
     future_fert, future_mort = national_future_profiles(
         "raps_national_detail_2024.csv",
@@ -956,7 +996,7 @@ def main():
 
     model = {
         "meta": {
-            "schemaVersion": "0.10.0",
+            "schemaVersion": "0.11.0",
             "generatedBy": "scripts/build_model_data.py",
             "dataReady": True,
             "baseYear": 2025,
@@ -1036,12 +1076,15 @@ def main():
         "fertilityScenarios": fertility_scenarios,
         "fertilityScenarioNationalTFR": fertility_scenario_tfr,
         "mortalityRisks": mortality_risks,
-        "netMigration": migration_profiles(netmig),
+        "netMigration": net_migration_profiles,
         "outMigrationRisks": outmigration_risk_profiles(outflow, birth_year_exposure),
         "grossInMigration": gross_inmigration_profiles(inflow),
         "scenarioMigrationProfiles": scenario_migration_profiles(inflow),
         "diagnostics": {
             "ckm": ckm_diagnostics(base, deaths_2025, netmig_2025),
+            "migration2025Validation": migration_2025_diagnostics(
+                netmig_2025, net_migration_profiles
+            ),
             "calibrationWindows": list(WINDOWS),
             "relativeFactors": {
                 "fertility": fertility_factors,

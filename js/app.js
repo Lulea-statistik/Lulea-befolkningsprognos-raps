@@ -38,7 +38,7 @@
     $("exportBtn").addEventListener("click",exportCsv);
     $("addHousing").addEventListener("click",()=>{syncScenarioTables();defaultHousing.push(blankHousing());renderScenarioTables();});
     $("addWorkplace").addEventListener("click",()=>{syncScenarioTables();defaultWorkplaces.push(blankWorkplace());renderScenarioTables();});
-    ["fertilityScenario","fertMult","mortMult","migMult"].forEach(id=>{
+    ["fertilityScenario","migrationWindow","fertMult","mortMult","migMult"].forEach(id=>{
       if($(id)) $(id).addEventListener("change",run);
     });
     ["geo","window","endYear"].forEach(id=>$(id).addEventListener("change",()=>{
@@ -340,6 +340,7 @@
         geo:$("geo").value,
         endYear:+$("endYear").value,
         fertilityScenario:$("fertilityScenario")?.value||"raps2024",
+        migrationWindow:$("migrationWindow")?.value ? +$("migrationWindow").value : undefined,
         fertMult:+$("fertMult").value,
         mortMult:+$("mortMult").value,
         migMult:+$("migMult").value,
