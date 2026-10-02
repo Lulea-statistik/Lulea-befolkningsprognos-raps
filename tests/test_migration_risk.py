@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import importlib.util
+import json
 import math
 from pathlib import Path
 
@@ -150,4 +151,58 @@ assert abs(international_out_2["value"] - 0.005) < 1e-12
 assert all(r["geo"] != mod.FA_CODE for r in component_in)
 assert all(r["geo"] != mod.FA_CODE for r in component_out)
 
-print("OK: municipal urisk, gross inflow and three-leg component migration inputs are valid")
+# SCB-style risk candidate: domestic inflow uses the rest of Sweden as risk
+# population, outflows use municipal exposure, and international inflow uses
+# the municipality's national share plus local age/sex distribution.
+scb_cfg = json.loads(
+    (ROOT / "data" / "scb_risk_migration_config.json").read_text(encoding="utf-8")
+)
+assert scb_cfg["status"] == "method_locked_from_published_scb_regional_method_before_validation"
+risk_legs = {}
+risk_exposure = {}
+for year in range(2016, 2025):
+    risk_exposure[(mod.RIKET_CODE, year, "K", 30)] = 10000.0
+    risk_exposure[("2580", year, "K", 30)] = 1000.0
+    risk_legs[("2580", year, "K", 30, "county", "in")] = 90.0
+    risk_legs[("2580", year, "K", 30, "county", "out")] = 20.0
+    risk_legs[("2580", year, "K", 30, "rest_sweden", "in")] = 180.0
+    risk_legs[("2580", year, "K", 30, "rest_sweden", "out")] = 30.0
+    risk_legs[("2580", year, "K", 30, "international", "in")] = 100.0
+    risk_legs[("2580", year, "K", 30, "international", "out")] = 50.0
+    risk_legs[(mod.RIKET_CODE, year, "K", 30, "international", "in")] = 2000.0
+
+risk_in, risk_out, risk_intl = mod.scb_risk_migration_profiles(
+    risk_legs, risk_exposure, scb_cfg
+)
+county_in_risk = next(
+    r for r in risk_in
+    if r["geo"] == "2580" and r["leg"] == "county"
+    and r["sex"] == "K" and r["age"] == 30
+)
+rest_in_risk = next(
+    r for r in risk_in
+    if r["geo"] == "2580" and r["leg"] == "rest_sweden"
+    and r["sex"] == "K" and r["age"] == 30
+)
+county_out_risk = next(
+    r for r in risk_out
+    if r["geo"] == "2580" and r["leg"] == "county"
+    and r["sex"] == "K" and r["age"] == 30
+)
+intl_out_risk = next(
+    r for r in risk_out
+    if r["geo"] == "2580" and r["leg"] == "international"
+    and r["sex"] == "K" and r["age"] == 30
+)
+intl_in_profile = next(
+    r for r in risk_intl
+    if r["geo"] == "2580" and r["sex"] == "K" and r["age"] == 30
+)
+assert abs(county_in_risk["value"] - 0.01) < 1e-12
+assert abs(rest_in_risk["value"] - 0.02) < 1e-12
+assert abs(county_out_risk["value"] - 0.02) < 1e-12
+assert abs(intl_out_risk["value"] - 0.05) < 1e-12
+assert abs(intl_in_profile["municipalityShare"] - 0.05) < 1e-12
+assert abs(intl_in_profile["ageSexShare"] - 1.0) < 1e-12
+
+print("OK: municipal urisk, component inputs and locked SCB-style migration risks are valid")
