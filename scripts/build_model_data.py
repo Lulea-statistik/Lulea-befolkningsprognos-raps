@@ -32,7 +32,7 @@ MUNICIPALITIES = {
 FA_CODE = "FA_LULEA"
 RIKET_CODE = "00"
 WINDOWS = (6, 10, 19)
-MIGRATION_WINDOWS = (2, 4, 6, 10, 19)
+MIGRATION_WINDOWS = (2, 4, 6, 10)
 RATIO_MIN = 0.50
 RATIO_MAX = 1.50
 
@@ -52,6 +52,46 @@ SEX_MAP = {"1": "M", "2": "K", "M": "M", "K": "K"}
 IN_MIG_CODES = {"BE0101AU", "0000086B"}
 OUT_MIG_CODES = {"BE0101AV", "0000086F"}
 NET_MIG_CODES = {"BE0101AZ", "00000868"}
+
+MIGRATION_LEG_CODES_PRE2025 = {
+    "county": {
+        "in": "000001E7",
+        "out": "000001EA",
+        "net": "000001EE",
+    },
+    "rest_sweden": {
+        "in": "000001E8",
+        "out": "000001E9",
+        "net": "000001J5",
+    },
+    "international": {
+        "in": "000001EB",
+        "out": "000001EC",
+        "net": "000001J6",
+    },
+}
+MIGRATION_LEG_CODES_2025 = {
+    "county": {
+        "in": "0000087I",
+        "out": "0000087N",
+        "net": "0000087E",
+    },
+    "rest_sweden": {
+        "in": "0000087J",
+        "out": "0000087O",
+        "net": "0000087F",
+    },
+    "international": {
+        "in": "0000087K",
+        "out": "0000087P",
+        "net": "0000087H",
+    },
+}
+MIGRATION_LEG_LABELS = {
+    "county": "Övriga Norrbotten",
+    "rest_sweden": "Övriga Sverige",
+    "international": "Utlandet",
+}
 
 def sniff(path: Path):
     text = path.read_text(encoding="utf-8")
@@ -292,6 +332,38 @@ def load_wide_age_sex(filename: str, allowed_codes=None, allowed_geos=None):
         for col, code, year in value_columns(r.keys(), allowed_codes):
             out[(geo, year, sex, age)] += num(r[col])
     return out
+
+def load_migration_legs(filename: str, code_map, allowed_geos=None):
+    """Load migration split into county / rest of Sweden / international legs.
+
+    The SCB table is also split by birth region. For the geographic migration
+    legs we use only the row representing all birth regions to avoid double
+    counting Swedish-born and foreign-born subtotals.
+    """
+    path = RAW / filename
+    out = defaultdict(float)
+    geos = _allowed_geographies(allowed_geos)
+    reverse = {
+        code: (leg, direction)
+        for leg, directions in code_map.items()
+        for direction, code in directions.items()
+    }
+    for r in rows(path):
+        if r.get("Fodelseregion") not in ("samt", "SAMT", "Tot", "TOT", ""):
+            continue
+        age = age_value(r.get("Alder", ""))
+        sex = SEX_MAP.get(r.get("Kon", ""))
+        geo = r.get("Region")
+        if age is None or not sex or geo not in geos:
+            continue
+        for col, code, year in value_columns(r.keys(), set(reverse)):
+            leg_direction = reverse.get(code)
+            if not leg_direction:
+                continue
+            leg, direction = leg_direction
+            out[(geo, year, sex, age, leg, direction)] += num(r[col])
+    return out
+
 
 def load_births(filename: str, allowed_geos=None):
     path = RAW / filename
@@ -753,19 +825,18 @@ def scenario_migration_profiles(inflow):
                         })
     return result
 
-def student_age_migration_diagnostics(inflow, outflow, netmig):
-    """Lulea student-age migration proxy; age is not proof of student status.
+def young_adult_migration_diagnostics(inflow, outflow, netmig):
+    """Describe Lulea's young-adult migration pattern without assigning status.
 
-    The baseline already models every one-year age separately. This diagnostic
-    makes the recurring 19-20 entry peak and later 23-27 exit pattern visible,
-    so a future student module can be justified from observed gross flows
-    rather than inferred from total municipal net migration.
+    Age is the model variable. The 19-20 inflow peak and 24-25 outflow peak are
+    shown explicitly because they are large in Lulea, but no individual is
+    classified as a student from age alone.
     """
     geo = "2580"
     groups = (
-        ("entry_19_20", "19–20 år, studentinflyttnings-proxy", 19, 20),
-        ("student_age_18_24", "18–24 år, bred studentålders-proxy", 18, 24),
-        ("post_study_23_27", "23–27 år, möjlig examens/utflyttnings-proxy", 23, 27),
+        ("entry_19_20", "19–20 år, tydlig inflyttningsålder", 19, 20),
+        ("young_adult_19_25", "19–25 år, bred kontrollgrupp", 19, 25),
+        ("exit_24_25", "24–25 år, tydlig utflyttningsålder", 24, 25),
     )
     annual = []
     years = range(2006, CALIBRATION_END + 1)
@@ -807,21 +878,150 @@ def student_age_migration_diagnostics(inflow, outflow, netmig):
                 "meanOutflow": statistics.fmean(outs) if outs else 0.0,
                 "meanNetMigration": statistics.fmean(nets) if nets else 0.0,
                 "sdNetMigration": statistics.pstdev(nets) if len(nets) > 1 else 0.0,
+                "latestYearInflow": ins[-1] if ins else None,
+                "latestYearOutflow": outs[-1] if outs else None,
                 "latestYearNetMigration": nets[-1] if nets else None,
-                "note": "Age-based proxy only; not a direct student-status measure.",
             })
     return {
         "geo": geo,
-        "proxyOnly": True,
         "annual": annual,
         "summaries": summaries,
         "interpretation": (
-            "A stable 19-20 inflow peak can motivate a separate student-entry "
-            "component. A corresponding 23-27 outflow pattern would support "
-            "cohort-linked student exits. Do not label individuals as students "
-            "from age alone."
+            "The diagnostic describes observed age-specific flows only. "
+            "Large flows at ages 19-20 and 24-25 must remain visible in the "
+            "one-year-age migration profile regardless of their underlying cause."
         ),
     }
+
+
+def _migration_leg_total(data, geo, year, leg, direction, amin=0, amax=100):
+    return sum(
+        data.get((geo, year, sex, age, leg, direction), 0.0)
+        for sex in ("K", "M")
+        for age in range(amin, amax + 1)
+    )
+
+
+def migration_leg_diagnostics(pre2025, current2025=None):
+    """Three-leg migration diagnostics and component-specific window backtests.
+
+    Legs:
+      county        = moves to/from other municipalities in Norrbotten
+      rest_sweden   = moves to/from other Swedish counties
+      international = immigration/emigration
+
+    The rolling component test uses only migration observations available at
+    each origin. n+1 is primary, n+2 secondary.
+    """
+    geos = list(MUNICIPALITIES)
+    result = {
+        "labels": MIGRATION_LEG_LABELS,
+        "windows": list(MIGRATION_WINDOWS),
+        "summaries": [],
+        "ageProfilesLulea": [],
+        "windowBacktestLulea": [],
+        "observed2025": [],
+        "faPrinciple": (
+            "For Lulea FA, county-leg gross flows cannot be summed across member "
+            "municipalities because internal FA moves would be double-counted. "
+            "County-leg net can be summed because internal moves cancel. "
+            "Other-Sweden and international gross flows can be summed."
+        ),
+    }
+
+    for geo in geos:
+        for window in MIGRATION_WINDOWS:
+            years = list(window_years(window))
+            for leg in MIGRATION_LEG_LABELS:
+                vals = {}
+                for direction in ("in", "out", "net"):
+                    annual = [
+                        _migration_leg_total(pre2025, geo, y, leg, direction)
+                        for y in years
+                    ]
+                    vals[direction] = statistics.fmean(annual) if annual else 0.0
+                result["summaries"].append({
+                    "geo": geo,
+                    "window": window,
+                    "leg": leg,
+                    "label": MIGRATION_LEG_LABELS[leg],
+                    "meanInflow": vals["in"],
+                    "meanOutflow": vals["out"],
+                    "meanNetMigration": vals["net"],
+                })
+
+    # Lulea one-year age pattern by migration leg.
+    geo = "2580"
+    for window in MIGRATION_WINDOWS:
+        years = list(window_years(window))
+        for leg in MIGRATION_LEG_LABELS:
+            for age in range(101):
+                ins = [
+                    sum(pre2025.get((geo, y, sex, age, leg, "in"), 0.0) for sex in ("K", "M"))
+                    for y in years
+                ]
+                outs = [
+                    sum(pre2025.get((geo, y, sex, age, leg, "out"), 0.0) for sex in ("K", "M"))
+                    for y in years
+                ]
+                nets = [
+                    sum(pre2025.get((geo, y, sex, age, leg, "net"), 0.0) for sex in ("K", "M"))
+                    for y in years
+                ]
+                result["ageProfilesLulea"].append({
+                    "window": window,
+                    "leg": leg,
+                    "label": MIGRATION_LEG_LABELS[leg],
+                    "age": age,
+                    "meanInflow": statistics.fmean(ins) if ins else 0.0,
+                    "meanOutflow": statistics.fmean(outs) if outs else 0.0,
+                    "meanNetMigration": statistics.fmean(nets) if nets else 0.0,
+                })
+
+    # Vintage-correct migration-only backtest for each leg and direction.
+    for origin in (2018, 2019, 2020, 2021):
+        for window in MIGRATION_WINDOWS:
+            calibration_years = range(origin - window + 1, origin + 1)
+            for leg in MIGRATION_LEG_LABELS:
+                for direction in ("in", "out", "net"):
+                    predicted = statistics.fmean([
+                        _migration_leg_total(pre2025, geo, y, leg, direction)
+                        for y in calibration_years
+                    ])
+                    for horizon in (1, 2):
+                        actual_year = origin + horizon
+                        actual = _migration_leg_total(
+                            pre2025, geo, actual_year, leg, direction
+                        )
+                        result["windowBacktestLulea"].append({
+                            "origin": origin,
+                            "horizon": horizon,
+                            "year": actual_year,
+                            "window": window,
+                            "leg": leg,
+                            "label": MIGRATION_LEG_LABELS[leg],
+                            "direction": direction,
+                            "predicted": predicted,
+                            "actual": actual,
+                            "error": predicted - actual,
+                            "absoluteError": abs(predicted - actual),
+                        })
+
+    if current2025:
+        for geo in geos:
+            for leg in MIGRATION_LEG_LABELS:
+                result["observed2025"].append({
+                    "geo": geo,
+                    "year": 2025,
+                    "leg": leg,
+                    "label": MIGRATION_LEG_LABELS[leg],
+                    "inflow": _migration_leg_total(current2025, geo, 2025, leg, "in"),
+                    "outflow": _migration_leg_total(current2025, geo, 2025, leg, "out"),
+                    "netMigration": _migration_leg_total(current2025, geo, 2025, leg, "net"),
+                    "note": "SCB CKM 2025; diagnostic only, not calibration input.",
+                })
+    return result
+
 
 
 def outmigration_risk_profiles(outflow, exposure):
@@ -992,6 +1192,11 @@ def main():
     netmig = aggregate_fa_age_sex(
         load_wide_age_sex("migration_pre2025.csv", NET_MIG_CODES)
     )
+    migration_legs_pre2025 = load_migration_legs(
+        "migration_birth_region_pre2025.csv",
+        MIGRATION_LEG_CODES_PRE2025,
+        allowed_geos=MUNICIPALITIES,
+    )
 
     deaths_2025 = {}
     netmig_2025 = {}
@@ -1000,6 +1205,13 @@ def main():
     if (RAW / "migration_2025.csv").exists():
         netmig_2025 = aggregate_fa_age_sex(
             load_wide_age_sex("migration_2025.csv", NET_MIG_CODES)
+        )
+    migration_legs_2025 = {}
+    if (RAW / "migration_birth_region_2025.csv").exists():
+        migration_legs_2025 = load_migration_legs(
+            "migration_birth_region_2025.csv",
+            MIGRATION_LEG_CODES_2025,
+            allowed_geos=MUNICIPALITIES,
         )
 
     fertility_rates, fertility_factors = fertility_profiles(births, fertility_exposure)
@@ -1068,7 +1280,7 @@ def main():
 
     model = {
         "meta": {
-            "schemaVersion": "0.12.0",
+            "schemaVersion": "0.13.0",
             "generatedBy": "scripts/build_model_data.py",
             "dataReady": True,
             "baseYear": 2025,
@@ -1136,7 +1348,7 @@ def main():
                 "Workplace scenarios support a worker hybrid profile based on SCB TAB3205 "
                 "employment age/sex shares, disaggregated to one-year ages with observed "
                 "municipal in-migration. Household companions use a separate descriptive "
-                "proxy excluding student-heavy ages 18-24. Scenario priors are not causal estimates."
+                "proxy excluding the high-flow young-adult ages 18-24. Scenario priors are not causal estimates."
             ),
         },
         "populationBase": [
@@ -1181,7 +1393,10 @@ def main():
                 "municipal moves cancel in the net."
             ),
             "migrationByAge": migration_age_diagnostics(inflow, outflow, netmig),
-            "studentAgeMigration": student_age_migration_diagnostics(inflow, outflow, netmig),
+            "youngAdultMigration": young_adult_migration_diagnostics(inflow, outflow, netmig),
+            "migrationLegs": migration_leg_diagnostics(
+                migration_legs_pre2025, migration_legs_2025
+            ),
             "migrationUncertaintyNote": (
                 "Historical standard deviations and percentage sensitivities are diagnostics, "
                 "not statistical confidence intervals. Gross inflow/outflow are not shown for FA "
