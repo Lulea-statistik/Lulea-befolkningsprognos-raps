@@ -72,24 +72,47 @@ def main():
         "Freeze method; rerun the same gate when annual data are refreshed."
     ))
 
-    # Fertility localization is active, but the isolated comparator is not yet built.
+    # Fertility localization: promote only if the isolated comparator wins
+    # in every main window for both Luleå municipality and the FA aggregate.
     fert_rows = validation.get("relativeFactors", {}).get("fertility", [])
     fert_windows = sorted({int(r["window"]) for r in fert_rows if r.get("geo") == "2580"})
+    fert_diag = rolling.get("fertilityLocalizationDiagnostic", {}).get("summary", {})
+    fert_checks = []
+    fert_evidence = []
+    for geo in GEOS:
+        for w in WINDOWS:
+            row = fert_diag.get(geo, {}).get(w)
+            if not row:
+                fert_checks.append(False)
+                fert_evidence.append(f"{geo} w{w}: missing comparator")
+                continue
+            ok = row["localizedBirthsMAE"] < row["nationalOnlyBirthsMAE"]
+            fert_checks.append(ok)
+            fert_evidence.append(
+                f"{geo} w{w}: {row['localizedBirthsMAE']} < {row['nationalOnlyBirthsMAE']}"
+            )
+    fertility_gate = len(fert_checks) == 6 and all(fert_checks)
+    fertility_level = 4 if fertility_gate else 3
     comps.append(component(
-        policy, "fertility_localization", 3, "active_needs_final_gate", True,
+        policy, "fertility_localization", fertility_level,
+        "production" if fertility_gate else "active_needs_final_gate", True,
         [
             gate(
                 "Local fertility factors exist for all main windows",
                 fert_windows == [3, 6, 10],
                 f"Luleå windows present: {fert_windows}"
             ),
-            {**gate(
-                "Isolated rolling-origin local-vs-national fertility comparator",
-                False,
-                "Not yet implemented"
-            ), "required": True}
+            gate(
+                "Localized fertility beats national-only birth MAE in every 3/6/10 check",
+                fertility_gate,
+                "; ".join(fert_evidence)
+            )
         ],
-        "Build the same local-vs-national rolling-origin diagnostic already used for mortality."
+        (
+            "Freeze method; continue annual regression monitoring."
+            if fertility_gate
+            else "Keep active but below level 4; investigate failed windows without outcome-driven retuning."
+        )
     ))
 
     # Mortality localization.
