@@ -1,6 +1,6 @@
 {
   "generatedBy": "scripts/validate_model.js",
-  "modelSchemaVersion": "0.12.0",
+  "modelSchemaVersion": "0.13.0",
   "baseYear": 2025,
   "endYear": 2050,
   "basePopulation": {
@@ -41,6 +41,7 @@
         "fertilityProfileRows": 910,
         "fertilityRateSum": 42.1,
         "mortalityProfileRows": 5252,
+        "migrationWindowUsed": 6,
         "migrationProfileRows": 202,
         "annualNetMigrationProfileSum": -18.8
       },
@@ -48,6 +49,7 @@
         "fertilityProfileRows": 910,
         "fertilityRateSum": 42.4,
         "mortalityProfileRows": 5252,
+        "migrationWindowUsed": 10,
         "migrationProfileRows": 202,
         "annualNetMigrationProfileSum": 1
       },
@@ -55,8 +57,9 @@
         "fertilityProfileRows": 910,
         "fertilityRateSum": 40.4,
         "mortalityProfileRows": 5252,
+        "migrationWindowUsed": 10,
         "migrationProfileRows": 202,
-        "annualNetMigrationProfileSum": -27.4
+        "annualNetMigrationProfileSum": 1
       }
     },
     "2560": {
@@ -64,6 +67,7 @@
         "fertilityProfileRows": 910,
         "fertilityRateSum": 43.9,
         "mortalityProfileRows": 5252,
+        "migrationWindowUsed": 6,
         "migrationProfileRows": 202,
         "annualNetMigrationProfileSum": -30.3
       },
@@ -71,6 +75,7 @@
         "fertilityProfileRows": 910,
         "fertilityRateSum": 43.3,
         "mortalityProfileRows": 5252,
+        "migrationWindowUsed": 10,
         "migrationProfileRows": 202,
         "annualNetMigrationProfileSum": -8.6
       },
@@ -78,8 +83,9 @@
         "fertilityProfileRows": 910,
         "fertilityRateSum": 41,
         "mortalityProfileRows": 5252,
+        "migrationWindowUsed": 10,
         "migrationProfileRows": 202,
-        "annualNetMigrationProfileSum": -13.8
+        "annualNetMigrationProfileSum": -8.6
       }
     },
     "2580": {
@@ -87,6 +93,7 @@
         "fertilityProfileRows": 910,
         "fertilityRateSum": 38.6,
         "mortalityProfileRows": 5252,
+        "migrationWindowUsed": 6,
         "migrationProfileRows": 202,
         "annualNetMigrationProfileSum": 321.5
       },
@@ -94,6 +101,7 @@
         "fertilityProfileRows": 910,
         "fertilityRateSum": 38.4,
         "mortalityProfileRows": 5252,
+        "migrationWindowUsed": 10,
         "migrationProfileRows": 202,
         "annualNetMigrationProfileSum": 346.5
       },
@@ -101,8 +109,9 @@
         "fertilityProfileRows": 910,
         "fertilityRateSum": 39,
         "mortalityProfileRows": 5252,
+        "migrationWindowUsed": 10,
         "migrationProfileRows": 202,
-        "annualNetMigrationProfileSum": 280.6
+        "annualNetMigrationProfileSum": 346.5
       }
     },
     "2581": {
@@ -110,6 +119,7 @@
         "fertilityProfileRows": 910,
         "fertilityRateSum": 41,
         "mortalityProfileRows": 5252,
+        "migrationWindowUsed": 6,
         "migrationProfileRows": 202,
         "annualNetMigrationProfileSum": 113
       },
@@ -117,6 +127,7 @@
         "fertilityProfileRows": 910,
         "fertilityRateSum": 40,
         "mortalityProfileRows": 5252,
+        "migrationWindowUsed": 10,
         "migrationProfileRows": 202,
         "annualNetMigrationProfileSum": 147.1
       },
@@ -124,8 +135,9 @@
         "fertilityProfileRows": 910,
         "fertilityRateSum": 39.1,
         "mortalityProfileRows": 5252,
+        "migrationWindowUsed": 10,
         "migrationProfileRows": 202,
-        "annualNetMigrationProfileSum": 117.5
+        "annualNetMigrationProfileSum": 147.1
       }
     },
     "2582": {
@@ -133,6 +145,7 @@
         "fertilityProfileRows": 910,
         "fertilityRateSum": 41.9,
         "mortalityProfileRows": 5252,
+        "migrationWindowUsed": 6,
         "migrationProfileRows": 202,
         "annualNetMigrationProfileSum": 61.7
       },
@@ -140,6 +153,7 @@
         "fertilityProfileRows": 910,
         "fertilityRateSum": 41.4,
         "mortalityProfileRows": 5252,
+        "migrationWindowUsed": 10,
         "migrationProfileRows": 202,
         "annualNetMigrationProfileSum": 59.4
       },
@@ -147,8 +161,9 @@
         "fertilityProfileRows": 910,
         "fertilityRateSum": 39.7,
         "mortalityProfileRows": 5252,
+        "migrationWindowUsed": 10,
         "migrationProfileRows": 202,
-        "annualNetMigrationProfileSum": 40.2
+        "annualNetMigrationProfileSum": 59.4
       }
     },
     "FA_LULEA": {
@@ -156,6 +171,7 @@
         "fertilityProfileRows": 910,
         "fertilityRateSum": 40.2,
         "mortalityProfileRows": 5252,
+        "migrationWindowUsed": 6,
         "migrationProfileRows": 202,
         "annualNetMigrationProfileSum": 447
       },
@@ -163,6 +179,7 @@
         "fertilityProfileRows": 910,
         "fertilityRateSum": 39.5,
         "mortalityProfileRows": 5252,
+        "migrationWindowUsed": 10,
         "migrationProfileRows": 202,
         "annualNetMigrationProfileSum": 545.4
       },
@@ -170,8 +187,9 @@
         "fertilityProfileRows": 910,
         "fertilityRateSum": 39.1,
         "mortalityProfileRows": 5252,
+        "migrationWindowUsed": 10,
         "migrationProfileRows": 202,
-        "annualNetMigrationProfileSum": 397.1
+        "annualNetMigrationProfileSum": 545.4
       }
     }
   },
@@ -4325,15 +4343,15 @@
       },
       "19": {
         "startPopulation": 15272,
-        "endPopulation": 11161.3,
-        "change": -4110.7,
-        "changePct": -26.9,
-        "cumulativeBirths": 2035.3,
-        "cumulativeDeaths": 5460.6,
-        "cumulativeNetMigration": -685.5,
+        "endPopulation": 12124.8,
+        "change": -3147.2,
+        "changePct": -20.6,
+        "cumulativeBirths": 2270.6,
+        "cumulativeDeaths": 5442.8,
+        "cumulativeNetMigration": 25,
         "cumulativeScenarioEffect": 0,
-        "differenceVs10YearEnd": -1032.3,
-        "differenceVs10YearEndPct": -8.5
+        "differenceVs10YearEnd": -68.8,
+        "differenceVs10YearEndPct": -0.6
       }
     },
     "2560": {
@@ -4363,15 +4381,15 @@
       },
       "19": {
         "startPopulation": 7846,
-        "endPopulation": 6272.4,
-        "change": -1573.6,
-        "changePct": -20.1,
-        "cumulativeBirths": 1244.5,
-        "cumulativeDeaths": 2473.4,
-        "cumulativeNetMigration": -344.7,
+        "endPopulation": 6456.8,
+        "change": -1389.2,
+        "changePct": -17.7,
+        "cumulativeBirths": 1316.7,
+        "cumulativeDeaths": 2490.9,
+        "cumulativeNetMigration": -215,
         "cumulativeScenarioEffect": 0,
-        "differenceVs10YearEnd": -239.4,
-        "differenceVs10YearEndPct": -3.7
+        "differenceVs10YearEnd": -55,
+        "differenceVs10YearEndPct": -0.8
       }
     },
     "2580": {
@@ -4401,15 +4419,15 @@
       },
       "19": {
         "startPopulation": 80321,
-        "endPopulation": 84001.4,
-        "change": 3680.4,
-        "changePct": 4.6,
-        "cumulativeBirths": 17928.8,
-        "cumulativeDeaths": 21262.9,
-        "cumulativeNetMigration": 7014.5,
+        "endPopulation": 86064.1,
+        "change": 5743.1,
+        "changePct": 7.2,
+        "cumulativeBirths": 18342.3,
+        "cumulativeDeaths": 21261.8,
+        "cumulativeNetMigration": 8662.5,
         "cumulativeScenarioEffect": 0,
-        "differenceVs10YearEnd": -1732.3,
-        "differenceVs10YearEndPct": -2
+        "differenceVs10YearEnd": 330.4,
+        "differenceVs10YearEndPct": 0.4
       }
     },
     "2581": {
@@ -4439,15 +4457,15 @@
       },
       "19": {
         "startPopulation": 42203,
-        "endPopulation": 39956.8,
-        "change": -2246.2,
-        "changePct": -5.3,
-        "cumulativeBirths": 7796.1,
-        "cumulativeDeaths": 12980.5,
-        "cumulativeNetMigration": 2938.2,
+        "endPopulation": 40936,
+        "change": -1267,
+        "changePct": -3,
+        "cumulativeBirths": 7946.4,
+        "cumulativeDeaths": 12890.8,
+        "cumulativeNetMigration": 3677.5,
         "cumulativeScenarioEffect": 0,
-        "differenceVs10YearEnd": -1122.3,
-        "differenceVs10YearEndPct": -2.7
+        "differenceVs10YearEnd": -143.1,
+        "differenceVs10YearEndPct": -0.3
       }
     },
     "2582": {
@@ -4477,15 +4495,15 @@
       },
       "19": {
         "startPopulation": 28652,
-        "endPopulation": 25901.3,
-        "change": -2750.7,
-        "changePct": -9.6,
-        "cumulativeBirths": 4914.2,
-        "cumulativeDeaths": 8668.8,
-        "cumulativeNetMigration": 1003.9,
+        "endPopulation": 26556.8,
+        "change": -2095.2,
+        "changePct": -7.3,
+        "cumulativeBirths": 5096.2,
+        "cumulativeDeaths": 8676.4,
+        "cumulativeNetMigration": 1485,
         "cumulativeScenarioEffect": 0,
-        "differenceVs10YearEnd": -886.1,
-        "differenceVs10YearEndPct": -3.3
+        "differenceVs10YearEnd": -230.6,
+        "differenceVs10YearEndPct": -0.9
       }
     },
     "FA_LULEA": {
@@ -4515,15 +4533,15 @@
       },
       "19": {
         "startPopulation": 174294,
-        "endPopulation": 167293.2,
-        "change": -7000.8,
-        "changePct": -4,
-        "cumulativeBirths": 33919,
-        "cumulativeDeaths": 50846.1,
-        "cumulativeNetMigration": 9926.3,
+        "endPopulation": 172138.5,
+        "change": -2155.5,
+        "changePct": -1.2,
+        "cumulativeBirths": 34972.3,
+        "cumulativeDeaths": 50762.8,
+        "cumulativeNetMigration": 13635,
         "cumulativeScenarioEffect": 0,
-        "differenceVs10YearEnd": -5012.3,
-        "differenceVs10YearEndPct": -2.9
+        "differenceVs10YearEnd": -167,
+        "differenceVs10YearEndPct": -0.1
       }
     }
   },
@@ -4636,12 +4654,33 @@
   "migrationSensitivity": {
     "baseWindow": 10,
     "windows": [
+      2,
+      4,
       6,
-      10,
-      19
+      10
     ],
     "geographies": {
       "2580": {
+        "2": {
+          "endPopulation": 86081,
+          "cumulativeBirths": 18936.6,
+          "cumulativeDeaths": 21789.1,
+          "cumulativeNetMigration": 8612.5,
+          "annualMeanNetMigration": 344.5,
+          "deltaPopulationVs10Year": 347.3,
+          "deltaPopulationPctVs10Year": 0.4,
+          "deltaNetMigrationVs10Year": -50
+        },
+        "4": {
+          "endPopulation": 86301.5,
+          "cumulativeBirths": 19191.7,
+          "cumulativeDeaths": 21404.9,
+          "cumulativeNetMigration": 8193.8,
+          "annualMeanNetMigration": 327.8,
+          "deltaPopulationVs10Year": 567.8,
+          "deltaPopulationPctVs10Year": 0.7,
+          "deltaNetMigrationVs10Year": -468.7
+        },
         "6": {
           "endPopulation": 85476.8,
           "cumulativeBirths": 18535.9,
@@ -4661,19 +4700,29 @@
           "deltaPopulationVs10Year": 0,
           "deltaPopulationPctVs10Year": 0,
           "deltaNetMigrationVs10Year": 0
-        },
-        "19": {
-          "endPopulation": 83677.1,
-          "cumulativeBirths": 17716,
-          "cumulativeDeaths": 21374.4,
-          "cumulativeNetMigration": 7014.5,
-          "annualMeanNetMigration": 280.6,
-          "deltaPopulationVs10Year": -2056.6,
-          "deltaPopulationPctVs10Year": -2.4,
-          "deltaNetMigrationVs10Year": -1648
         }
       },
       "FA_LULEA": {
+        "2": {
+          "endPopulation": 171713.9,
+          "cumulativeBirths": 36420.5,
+          "cumulativeDeaths": 51285.9,
+          "cumulativeNetMigration": 12275,
+          "annualMeanNetMigration": 491,
+          "deltaPopulationVs10Year": -591.6,
+          "deltaPopulationPctVs10Year": -0.3,
+          "deltaNetMigrationVs10Year": -1360
+        },
+        "4": {
+          "endPopulation": 171453.9,
+          "cumulativeBirths": 36403.6,
+          "cumulativeDeaths": 51076.8,
+          "cumulativeNetMigration": 11831.3,
+          "annualMeanNetMigration": 473.3,
+          "deltaPopulationVs10Year": -851.6,
+          "deltaPopulationPctVs10Year": -0.5,
+          "deltaNetMigrationVs10Year": -1803.7
+        },
         "6": {
           "endPopulation": 170217.9,
           "cumulativeBirths": 35719,
@@ -4693,16 +4742,6 @@
           "deltaPopulationVs10Year": 0,
           "deltaPopulationPctVs10Year": 0,
           "deltaNetMigrationVs10Year": 0
-        },
-        "19": {
-          "endPopulation": 167440.4,
-          "cumulativeBirths": 34361.9,
-          "cumulativeDeaths": 51142,
-          "cumulativeNetMigration": 9926.3,
-          "annualMeanNetMigration": 397.1,
-          "deltaPopulationVs10Year": -4865.1,
-          "deltaPopulationPctVs10Year": -2.8,
-          "deltaNetMigrationVs10Year": -3708.7
         }
       }
     },
@@ -4736,12 +4775,6 @@
             "actualNetMigration2025": 777,
             "error": -430.5,
             "absoluteError": 430.5
-          },
-          "19": {
-            "predictedAnnualNetMigration": 280.57894736842104,
-            "actualNetMigration2025": 777,
-            "error": -496.42105263157896,
-            "absoluteError": 496.42105263157896
           }
         },
         "note": "2025 is not used to fit these profiles. Aggregate CKM uncertainty is not treated as +/-3."
@@ -4775,12 +4808,6 @@
             "actualNetMigration2025": 714,
             "error": -654.6,
             "absoluteError": 654.6
-          },
-          "19": {
-            "predictedAnnualNetMigration": 40.15789473684211,
-            "actualNetMigration2025": 714,
-            "error": -673.8421052631579,
-            "absoluteError": 673.8421052631579
           }
         },
         "note": "2025 is not used to fit these profiles. Aggregate CKM uncertainty is not treated as +/-3."
@@ -4814,12 +4841,6 @@
             "actualNetMigration2025": -52,
             "error": 199.1,
             "absoluteError": 199.1
-          },
-          "19": {
-            "predictedAnnualNetMigration": 117.52631578947368,
-            "actualNetMigration2025": -52,
-            "error": 169.5263157894737,
-            "absoluteError": 169.5263157894737
           }
         },
         "note": "2025 is not used to fit these profiles. Aggregate CKM uncertainty is not treated as +/-3."
@@ -4853,12 +4874,6 @@
             "actualNetMigration2025": 69,
             "error": -77.6,
             "absoluteError": 77.6
-          },
-          "19": {
-            "predictedAnnualNetMigration": -13.789473684210527,
-            "actualNetMigration2025": 69,
-            "error": -82.78947368421052,
-            "absoluteError": 82.78947368421052
           }
         },
         "note": "2025 is not used to fit these profiles. Aggregate CKM uncertainty is not treated as +/-3."
@@ -4892,12 +4907,6 @@
             "actualNetMigration2025": -9,
             "error": 10,
             "absoluteError": 10
-          },
-          "19": {
-            "predictedAnnualNetMigration": -27.42105263157895,
-            "actualNetMigration2025": -9,
-            "error": -18.42105263157895,
-            "absoluteError": 18.42105263157895
           }
         },
         "note": "2025 is not used to fit these profiles. Aggregate CKM uncertainty is not treated as +/-3."
@@ -4931,15 +4940,513 @@
             "actualNetMigration2025": 1499,
             "error": -953.6,
             "absoluteError": 953.6
-          },
-          "19": {
-            "predictedAnnualNetMigration": 397.05263157894734,
-            "actualNetMigration2025": 1499,
-            "error": -1101.9473684210527,
-            "absoluteError": 1101.9473684210527
           }
         },
         "note": "2025 is not used to fit these profiles. Aggregate CKM uncertainty is not treated as +/-3."
+      }
+    ]
+  },
+  "migrationLegWindowDiagnostic": {
+    "note": "Migration-only component validation for Lulea municipality. n+1 is primary and n+2 secondary. Each leg/direction is scored independently from population projection results.",
+    "labels": {
+      "county": "Övriga Norrbotten",
+      "rest_sweden": "Övriga Sverige",
+      "international": "Utlandet"
+    },
+    "windows": [
+      2,
+      4,
+      6,
+      10
+    ],
+    "summary": {
+      "county": {
+        "in": {
+          "2": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 68.5,
+              "meanError": 21.5
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 60,
+              "meanError": 35.8
+            }
+          },
+          "4": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 68.7,
+              "meanError": 39.1
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 59.2,
+              "meanError": 53.3
+            }
+          },
+          "6": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 43.2,
+              "meanError": 21.2
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 47.2,
+              "meanError": 35.4
+            }
+          },
+          "10": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 50.5,
+              "meanError": -23.1
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 46.2,
+              "meanError": -8.8
+            }
+          }
+        },
+        "out": {
+          "2": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 75.6,
+              "meanError": -14.1
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 91.1,
+              "meanError": -7.9
+            }
+          },
+          "4": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 70.8,
+              "meanError": -32.2
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 80.8,
+              "meanError": -25.9
+            }
+          },
+          "6": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 63.3,
+              "meanError": -34.8
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 68.8,
+              "meanError": -28.5
+            }
+          },
+          "10": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 64.5,
+              "meanError": -45.3
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 73.4,
+              "meanError": -39
+            }
+          }
+        },
+        "net": {
+          "2": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 143.6,
+              "meanError": 35.6
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 149.6,
+              "meanError": 43.6
+            }
+          },
+          "4": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 138.1,
+              "meanError": 71.3
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 121.1,
+              "meanError": 79.3
+            }
+          },
+          "6": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 106.4,
+              "meanError": 55.9
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 88.3,
+              "meanError": 63.9
+            }
+          },
+          "10": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 97.4,
+              "meanError": 22.2
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 90.3,
+              "meanError": 30.2
+            }
+          }
+        }
+      },
+      "rest_sweden": {
+        "in": {
+          "2": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 221.6,
+              "meanError": -35.4
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 198.6,
+              "meanError": -75.1
+            }
+          },
+          "4": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 170.5,
+              "meanError": -66.7
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 155.3,
+              "meanError": -106.5
+            }
+          },
+          "6": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 172.3,
+              "meanError": -63.3
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 140,
+              "meanError": -103
+            }
+          },
+          "10": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 157,
+              "meanError": -85.1
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 159.9,
+              "meanError": -124.8
+            }
+          }
+        },
+        "out": {
+          "2": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 69.9,
+              "meanError": 16.6
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 87.6,
+              "meanError": 78.9
+            }
+          },
+          "4": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 69.4,
+              "meanError": -4.4
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 90.5,
+              "meanError": 57.9
+            }
+          },
+          "6": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 69.7,
+              "meanError": -57.1
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 94.7,
+              "meanError": 5.1
+            }
+          },
+          "10": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 123.4,
+              "meanError": -123.4
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 122,
+              "meanError": -61.2
+            }
+          }
+        },
+        "net": {
+          "2": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 247.8,
+              "meanError": -52
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 181.8,
+              "meanError": -154
+            }
+          },
+          "4": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 194.4,
+              "meanError": -62.4
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 164.4,
+              "meanError": -164.4
+            }
+          },
+          "6": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 191.1,
+              "meanError": -6.2
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 108.2,
+              "meanError": -108.2
+            }
+          },
+          "10": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 173,
+              "meanError": 38.4
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 103.8,
+              "meanError": -63.6
+            }
+          }
+        }
+      },
+      "international": {
+        "in": {
+          "2": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 84.8,
+              "meanError": 46.3
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 93.5,
+              "meanError": 85.3
+            }
+          },
+          "4": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 86.1,
+              "meanError": 64.1
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 103.1,
+              "meanError": 103.1
+            }
+          },
+          "6": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 82.8,
+              "meanError": 40.8
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 79.8,
+              "meanError": 79.8
+            }
+          },
+          "10": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 65.3,
+              "meanError": 8.8
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 52.2,
+              "meanError": 47.8
+            }
+          }
+        },
+        "out": {
+          "2": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 7.1,
+              "meanError": 7.1
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 48.4,
+              "meanError": -34.6
+            }
+          },
+          "4": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 17.1,
+              "meanError": 16.3
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 51.9,
+              "meanError": -25.5
+            }
+          },
+          "6": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 26,
+              "meanError": 26
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 62.8,
+              "meanError": -15.8
+            }
+          },
+          "10": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 38.1,
+              "meanError": 38.1
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 67.3,
+              "meanError": -3.6
+            }
+          }
+        },
+        "net": {
+          "2": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 78.6,
+              "meanError": 39.1
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 126.1,
+              "meanError": 119.9
+            }
+          },
+          "4": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 95.6,
+              "meanError": 47.8
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 128.6,
+              "meanError": 128.6
+            }
+          },
+          "6": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 76.8,
+              "meanError": 14.8
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 97.3,
+              "meanError": 95.6
+            }
+          },
+          "10": {
+            "oneYear": {
+              "observations": 4,
+              "MAE": 66.7,
+              "meanError": -29.3
+            },
+            "twoYear": {
+              "observations": 4,
+              "MAE": 76.5,
+              "meanError": 51.4
+            }
+          }
+        }
+      }
+    },
+    "observed2025": [
+      {
+        "geo": "2580",
+        "year": 2025,
+        "leg": "county",
+        "label": "Övriga Norrbotten",
+        "inflow": 1387,
+        "outflow": 1068,
+        "netMigration": 319,
+        "note": "SCB CKM 2025; diagnostic only, not calibration input."
+      },
+      {
+        "geo": "2580",
+        "year": 2025,
+        "leg": "rest_sweden",
+        "label": "Övriga Sverige",
+        "inflow": 2190,
+        "outflow": 2205,
+        "netMigration": -15,
+        "note": "SCB CKM 2025; diagnostic only, not calibration input."
+      },
+      {
+        "geo": "2580",
+        "year": 2025,
+        "leg": "international",
+        "label": "Utlandet",
+        "inflow": 717,
+        "outflow": 303,
+        "netMigration": 414,
+        "note": "SCB CKM 2025; diagnostic only, not calibration input."
       }
     ]
   },
