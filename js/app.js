@@ -566,6 +566,8 @@
       $("migrationPriority").innerHTML="<p class='hint'>Flyttdiagnostik genereras i nästa workflow-körning.</p>";
       $("migrationAgeChart").innerHTML="";
       $("migrationVariationChart").innerHTML="";
+      if($("migrationSmoothingChart")) $("migrationSmoothingChart").innerHTML="";
+      if($("migrationSmoothingDiagnostic")) $("migrationSmoothingDiagnostic").innerHTML="<p class='hint'>Adaptiv åldersmjukning genereras i nästa workflow-körning.</p>";
       if($("youngAdultMigrationDiagnostic")) $("youngAdultMigrationDiagnostic").innerHTML="<p class='hint'>Ungdoms-/unga-vuxna-diagnostik genereras i nästa workflow-körning.</p>";
       if($("migrationLegDiagnostic")) $("migrationLegDiagnostic").innerHTML="<p class='hint'>Flyttben genereras i nästa workflow-körning.</p>";
       return;
@@ -658,6 +660,72 @@
       {name:"5 %-effekt netto",values:rows.map(r=>Number(r.sensitivity5PctNetPersons||0)),cls:"lineSensitivity"}
     ];
     drawAgeLineChart("migrationVariationChart",ages,variationSeries,{yMin:0,xLabel:"Ålder",valueDigits:1});
+    renderMigrationSmoothingDiagnostic();
+  }
+
+  function renderMigrationSmoothingDiagnostic(){
+    const chart=$("migrationSmoothingChart");
+    const el=$("migrationSmoothingDiagnostic");
+    if(!chart || !el) return;
+    const geo=$("geo").value;
+    if(geo!=="2580"){
+      chart.innerHTML="";
+      el.innerHTML="<p class='hint'>Den adaptiva utjämningsdiagnostiken visas för Luleå kommun. Övriga kommuner kan läggas till när metoden har validerats.</p>";
+      return;
+    }
+    const diag=data.diagnostics?.migrationAgeSmoothing;
+    const rows=(diag?.rows||[]).filter(r=>r.geo===geo && r.leg==="all");
+    if(!rows.length){
+      chart.innerHTML="";
+      el.innerHTML="<p class='hint'>Adaptiv åldersmjukning genereras i nästa workflow-körning.</p>";
+      return;
+    }
+
+    const ages=[...new Set(rows.map(r=>+r.age))].sort((a,b)=>a-b);
+    const aggregate=(direction,field,age)=>rows
+      .filter(r=>r.direction===direction && +r.age===age)
+      .reduce((s,r)=>s+Number(r[field]||0),0);
+
+    drawAgeLineChart("migrationSmoothingChart",ages,[
+      {name:"Inflyttning rå",values:ages.map(a=>aggregate("in","rawMeanPersons",a)),cls:"lineInflow"},
+      {name:"Inflyttning adaptiv",values:ages.map(a=>aggregate("in","smoothedMeanPersons",a)),cls:"lineSensitivity"},
+      {name:"Utflyttning rå",values:ages.map(a=>aggregate("out","rawMeanPersons",a)),cls:"lineOutflow"},
+      {name:"Utflyttning adaptiv",values:ages.map(a=>aggregate("out","smoothedMeanPersons",a)),cls:"lineVariation"}
+    ],{includeZero:true,xLabel:"Ålder",valueDigits:1});
+
+    const byAge=ages.map(age=>{
+      const ageRows=rows.filter(r=>+r.age===age);
+      const rawIn=aggregate("in","rawMeanPersons",age);
+      const smoothIn=aggregate("in","smoothedMeanPersons",age);
+      const rawOut=aggregate("out","rawMeanPersons",age);
+      const smoothOut=aggregate("out","smoothedMeanPersons",age);
+      const direct=ageRows.length
+        ? ageRows.reduce((s,r)=>s+Number(r.directLocalWeight||0),0)/ageRows.length
+        : 0;
+      const national=ageRows.length
+        ? ageRows.reduce((s,r)=>s+Number(r.nationalWeight||0),0)/ageRows.length
+        : 0;
+      return {
+        age,rawIn,smoothIn,rawOut,smoothOut,direct,national,
+        change:Math.abs(smoothIn-rawIn)+Math.abs(smoothOut-rawOut)
+      };
+    }).sort((a,b)=>b.change-a.change).slice(0,12);
+
+    el.innerHTML=`
+      <p class="hint">Metoden mjukar den lokala avvikelsen från Riket, inte själva riksprofilen. Därför kan exempelvis en verklig 19-årstopp eller pensionsrelaterad brytpunkt ligga kvar om den är nationell eller återkommer stabilt i Luleå. Lokal direktvikt minskar när cellen har få händelser eller stor historisk instabilitet.</p>
+      <table class="miniTable">
+        <thead><tr><th>Ålder</th><th>Rå in</th><th>Adaptiv in</th><th>Rå ut</th><th>Adaptiv ut</th><th>Direkt lokal vikt</th><th>Riksvikt</th></tr></thead>
+        <tbody>${byAge.map(r=>`<tr>
+          <td>${r.age===100?"100+":r.age}</td>
+          <td>${fmt1.format(r.rawIn)}</td>
+          <td>${fmt1.format(r.smoothIn)}</td>
+          <td>${fmt1.format(r.rawOut)}</td>
+          <td>${fmt1.format(r.smoothOut)}</td>
+          <td>${pct.format(r.direct*100)} %</td>
+          <td>${pct.format(r.national*100)} %</td>
+        </tr>`).join("")}</tbody>
+      </table>
+      <p class="hint">Status: diagnostik. Ingen utjämnad åldersprofil används ännu av produktionsprognosen.</p>`;
   }
 
   function renderYoungAdultMigrationDiagnostic(){
