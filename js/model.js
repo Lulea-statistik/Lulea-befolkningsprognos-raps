@@ -99,6 +99,14 @@
       x.geo===geo && x.leg===leg && x.sex===sex && +x.age===+age
     )||null;
   }
+  function getScbDomesticInLevel(rows,geo,leg){
+    return (rows||[]).find(x=>x.geo===geo && x.leg===leg)||null;
+  }
+  function getScbDomesticInDistribution(rows,geo,leg,sex,age){
+    return (rows||[]).find(x=>
+      x.geo===geo && x.leg===leg && x.sex===sex && +x.age===+age
+    )||null;
+  }
   function getScbInternationalInRow(rows,geo,sex,age){
     return (rows||[]).find(x=>
       x.geo===geo && x.sex===sex && +x.age===+age
@@ -470,8 +478,11 @@
     }
     if(migrationMode==="scb_risk_flow"){
       const domesticLegs=["county","rest_sweden"];
-      const missingIn=domesticLegs.filter(leg=>
-        !(data.scbRiskInternalInMigration||[]).some(r=>r.geo===geo&&r.leg===leg)
+      const missingLevels=domesticLegs.filter(leg=>
+        !(data.scbRiskDomesticInLevels||[]).some(r=>r.geo===geo&&r.leg===leg)
+      );
+      const missingDistributions=domesticLegs.filter(leg=>
+        !(data.scbRiskDomesticInDistribution||[]).some(r=>r.geo===geo&&r.leg===leg)
       );
       const missingOut=["county","rest_sweden","international"].filter(leg=>
         !(data.scbRiskOutMigration||[]).some(r=>r.geo===geo&&r.leg===leg)
@@ -479,7 +490,7 @@
       const hasIntlIn=(data.scbRiskInternationalInMigration||[]).some(r=>r.geo===geo);
       const hasNationalPop=(data.scbRiskNationalMeanPopulation||[]).length>0;
       const hasNationalImmigration=(data.scbRiskNationalImmigration||[]).length>0;
-      if(missingIn.length||missingOut.length||!hasIntlIn||!hasNationalPop||!hasNationalImmigration){
+      if(missingLevels.length||missingDistributions.length||missingOut.length||!hasIntlIn||!hasNationalPop||!hasNationalImmigration){
         throw new Error(
           `Saknar SCB-riskflyttningsunderlag för ${geo}.`
         );
@@ -647,25 +658,40 @@
         const nationalImmigration=getScbNationalImmigration(
           data.scbRiskNationalImmigration,year
         );
+        const nationalPopulationTotal=(data.scbRiskNationalMeanPopulation||[])
+          .filter(r=>+r.year===+year)
+          .reduce((sum,r)=>sum+Math.max(0,n(r.value)),0);
+        const municipalPopulationTotal=[...survivors.values()]
+          .reduce((sum,v)=>sum+Math.max(0,n(v)),0);
+        const restPopulationTotal=Math.max(
+          0,nationalPopulationTotal-municipalPopulationTotal
+        );
+        const domesticTotals={};
+        for(const leg of ["county","rest_sweden"]){
+          const level=getScbDomesticInLevel(
+            data.scbRiskDomesticInLevels,geo,leg
+          );
+          domesticTotals[leg]=
+            Math.max(0,n(level?.value))*restPopulationTotal;
+        }
+
         for(const sex of ["K","M"]){
           for(let age=0;age<=MAX_AGE;age++){
             const k=key(sex,age);
             const p=n(survivors.get(k));
-            const nationalPop=getScbNationalPopulation(
-              data.scbRiskNationalMeanPopulation,year,sex,age
-            );
-            const restPopulation=Math.max(0,nationalPop-p);
 
             let domesticIncoming=0;
             let totalOutRisk=0;
             for(const leg of ["county","rest_sweden"]){
-              const inRow=getScbRiskRow(
-                data.scbRiskInternalInMigration,geo,leg,sex,age
+              const distribution=getScbDomesticInDistribution(
+                data.scbRiskDomesticInDistribution,geo,leg,sex,age
               );
+              domesticIncoming+=
+                Math.max(0,n(domesticTotals[leg]))*
+                Math.max(0,n(distribution?.share));
               const outRow=getScbRiskRow(
                 data.scbRiskOutMigration,geo,leg,sex,age
               );
-              domesticIncoming+=Math.max(0,n(inRow?.value))*restPopulation;
               totalOutRisk+=Math.max(0,n(outRow?.value));
             }
 
