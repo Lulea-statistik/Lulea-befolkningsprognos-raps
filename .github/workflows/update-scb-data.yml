@@ -143,6 +143,9 @@ jobs:
       - name: Compare model with SCB regional benchmark
         run: node scripts/compare_scb_benchmark.js
 
+      - name: Build historical official SCB regional-vintage benchmark
+        run: python scripts/build_scb_regional_vintage_benchmark.py
+
       - name: Build SCB municipality-county consistency diagnostic
         run: python scripts/build_scb_consistency_diagnostic.py
 
