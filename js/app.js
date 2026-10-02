@@ -367,7 +367,8 @@
     renderAnalysis();
     renderDetailedAgeAnalysis();
     renderMigrationAnalysis();
-    renderStudentMigrationDiagnostic();
+    renderYoungAdultMigrationDiagnostic();
+    renderMigrationLegDiagnostic();
     renderLabourAnalysis();
     renderHousingAnalysis();
     renderValidation();
@@ -550,7 +551,10 @@
 
   function renderMigrationAnalysis(){
     const geo=$("geo").value;
-    const w=$("migrationWindow")?.value ? +$("migrationWindow").value : +$("window").value;
+    const globalWindow=+$("window").value;
+    const w=$("migrationWindow")?.value
+      ? +$("migrationWindow").value
+      : ([2,4,6,10].includes(globalWindow) ? globalWindow : 10);
     const rows=(data.diagnostics?.migrationByAge||[])
       .filter(r=>r.geo===geo && +r.window===w)
       .sort((a,b)=>+a.age-+b.age);
@@ -562,7 +566,8 @@
       $("migrationPriority").innerHTML="<p class='hint'>Flyttdiagnostik genereras i nästa workflow-körning.</p>";
       $("migrationAgeChart").innerHTML="";
       $("migrationVariationChart").innerHTML="";
-      if($("studentMigrationDiagnostic")) $("studentMigrationDiagnostic").innerHTML="<p class='hint'>Studentåldersdiagnostik genereras i nästa workflow-körning.</p>";
+      if($("youngAdultMigrationDiagnostic")) $("youngAdultMigrationDiagnostic").innerHTML="<p class='hint'>Ungdoms-/unga-vuxna-diagnostik genereras i nästa workflow-körning.</p>";
+      if($("migrationLegDiagnostic")) $("migrationLegDiagnostic").innerHTML="<p class='hint'>Flyttben genereras i nästa workflow-körning.</p>";
       return;
     }
 
@@ -655,23 +660,26 @@
     drawAgeLineChart("migrationVariationChart",ages,variationSeries,{yMin:0,xLabel:"Ålder",valueDigits:1});
   }
 
-  function renderStudentMigrationDiagnostic(){
-    const el=$("studentMigrationDiagnostic");
+  function renderYoungAdultMigrationDiagnostic(){
+    const el=$("youngAdultMigrationDiagnostic");
     if(!el) return;
     const geo=$("geo").value;
-    const diag=data.diagnostics?.studentAgeMigration;
+    const diag=data.diagnostics?.youngAdultMigration;
     if(geo!=="2580"){
-      el.innerHTML="<p class='hint'>Studentåldersproxyn visas för Luleå kommun. Ålder används inte som bevis på studentstatus.</p>";
+      el.innerHTML="<p class='hint'>19–25-årsdiagnostiken visas för Luleå kommun och beskriver faktiska åldersflöden, inte studentstatus.</p>";
       return;
     }
     if(!diag?.summaries?.length){
-      el.innerHTML="<p class='hint'>Studentåldersdiagnostik genereras i nästa workflow-körning.</p>";
+      el.innerHTML="<p class='hint'>19–25-årsdiagnostik genereras i nästa workflow-körning.</p>";
       return;
     }
-    const selectedWindow=$("migrationWindow")?.value ? +$("migrationWindow").value : +$("window").value;
+    const globalWindow=+$("window").value;
+    const selectedWindow=$("migrationWindow")?.value
+      ? +$("migrationWindow").value
+      : ([2,4,6,10].includes(globalWindow) ? globalWindow : 10);
     const rows=diag.summaries.filter(r=>+r.window===selectedWindow);
     el.innerHTML=`
-      <p class="hint">Åldersbaserad proxy – inte faktisk studentstatus. 19–20 år används för möjlig studentinflyttning och 23–27 år som kontroll för möjlig senare utflyttning.</p>
+      <p class="hint">Åldersmönster i faktisk flyttstatistik. 19–20 år redovisas som tydlig inflyttningsålder, 24–25 år som tydlig utflyttningsålder och 19–25 år som bred kontrollgrupp.</p>
       <table class="miniTable">
         <thead><tr><th>Proxygrupp</th><th>Fönster</th><th>Inflyttning/år</th><th>Utflyttning/år</th><th>Netto/år</th><th>SD netto</th><th>Netto 2024</th></tr></thead>
         <tbody>${rows.map(r=>`<tr>
@@ -685,6 +693,42 @@
         </tr>`).join("")}</tbody>
       </table>
       <p class="hint">${diag.interpretation||""}</p>`;
+  }
+
+  function renderMigrationLegDiagnostic(){
+    const el=$("migrationLegDiagnostic");
+    if(!el) return;
+    const geo=$("geo").value;
+    if(geo!=="2580"){
+      el.innerHTML="<p class='hint'>Tre-bensdiagnostiken visas här för Luleå kommun. För FA kräver länsbrutto särskild hantering av interna FA-flyttar.</p>";
+      return;
+    }
+    const d=data.diagnostics?.migrationLegs;
+    if(!d?.summaries?.length){
+      el.innerHTML="<p class='hint'>Tre-bensdiagnostik genereras i nästa workflow-körning.</p>";
+      return;
+    }
+    const globalWindow=+$("window").value;
+    const w=$("migrationWindow")?.value
+      ? +$("migrationWindow").value
+      : ([2,4,6,10].includes(globalWindow) ? globalWindow : 10);
+    const rows=d.summaries.filter(r=>r.geo==="2580" && +r.window===w);
+    const y2025=(d.observed2025||[]).filter(r=>r.geo==="2580");
+    el.innerHTML=`
+      <p class="hint">Tre geografiska flyttben. Varje ben kan senare få eget kalibreringsfönster om n+1/n+2-valideringen visar att det förbättrar prognosen.</p>
+      <table class="miniTable">
+        <thead><tr><th>Flyttben</th><th>Fönster</th><th>In/år</th><th>Ut/år</th><th>Netto/år</th><th>Netto 2025</th></tr></thead>
+        <tbody>${rows.map(r=>{
+          const actual=y2025.find(x=>x.leg===r.leg);
+          return `<tr>
+            <td>${r.label}</td><td>${r.window} år</td>
+            <td>${fmt1.format(r.meanInflow||0)}</td>
+            <td>${fmt1.format(r.meanOutflow||0)}</td>
+            <td>${(r.meanNetMigration||0)>=0?"+":""}${fmt1.format(r.meanNetMigration||0)}</td>
+            <td>${actual==null?"–":((actual.netMigration>=0?"+":"")+fmt1.format(actual.netMigration))}</td>
+          </tr>`;
+        }).join("")}</tbody>
+      </table>`;
   }
 
   function drawAgeLineChart(svgId,xValues,series,options={}){

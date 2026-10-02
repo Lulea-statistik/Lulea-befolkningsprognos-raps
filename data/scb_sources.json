@@ -1,5 +1,5 @@
 {
-  "schema_version": "0.10.0",
+  "schema_version": "0.13.0",
   "note": "Production baseline uses the Raps-reference SCB 2024 demographic scenario. SCB 2026 national detail and births are downloaded as a fertility-only sensitivity path; they do not replace the baseline automatically.",
   "tables": {
     "population_pre2025": {
@@ -65,12 +65,12 @@
     "migration_birth_region_pre2025": {
       "id": "TAB4693",
       "period": "2002-2024",
-      "purpose": "migration profile by birth region, region, age and sex"
+      "purpose": "migration by municipality, one-year age and sex split into same-county, other-Sweden and international in/out/net legs; birth-region totals used for geographic legs"
     },
     "migration_birth_region_2025": {
       "id": "TAB6657",
       "period": "2025",
-      "purpose": "migration profile by birth region, CKM"
+      "purpose": "2025 CKM migration split into same-county, other-Sweden and international in/out/net legs; diagnostic only"
     },
     "fertility_forecast": {
       "id": "TAB5963",

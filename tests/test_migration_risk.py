@@ -32,7 +32,7 @@ zero = next(r for r in urisk if r["geo"] == "2580" and r["window"] == 6 and r["s
 assert zero["value"] == 0.0
 
 
-assert tuple(mod.MIGRATION_WINDOWS) == (2, 4, 6, 10, 19)
+assert tuple(mod.MIGRATION_WINDOWS) == (2, 4, 6, 10)
 
 # Short-window profiles must use the most recent years without changing the
 # denominator of other demographic components.
@@ -43,32 +43,73 @@ profiles = mod.migration_profiles(netmig)
 p2 = next(r for r in profiles if r["geo"] == "2580" and r["window"] == 2 and r["sex"] == "K" and r["age"] == 19)
 assert abs(p2["value"] - 50.0) < 1e-12
 
-student_in = {
+young_in = {
     ("2580", 2023, "K", 19): 100.0,
     ("2580", 2024, "K", 19): 120.0,
     ("2580", 2023, "M", 20): 80.0,
     ("2580", 2024, "M", 20): 100.0,
 }
-student_out = {
+young_out = {
     ("2580", 2023, "K", 19): 20.0,
     ("2580", 2024, "K", 19): 30.0,
     ("2580", 2023, "M", 20): 10.0,
     ("2580", 2024, "M", 20): 20.0,
 }
-student_net = {
-    key: student_in.get(key, 0.0) - student_out.get(key, 0.0)
-    for key in set(student_in) | set(student_out)
+young_net = {
+    key: young_in.get(key, 0.0) - young_out.get(key, 0.0)
+    for key in set(young_in) | set(young_out)
 }
-student_diag = mod.student_age_migration_diagnostics(
-    student_in, student_out, student_net
+young_diag = mod.young_adult_migration_diagnostics(
+    young_in, young_out, young_net
 )
-assert student_diag["proxyOnly"] is True
-student_2 = next(
-    r for r in student_diag["summaries"]
+young_2 = next(
+    r for r in young_diag["summaries"]
     if r["group"] == "entry_19_20" and r["window"] == 2
 )
-assert abs(student_2["meanInflow"] - 200.0) < 1e-12
-assert abs(student_2["meanOutflow"] - 40.0) < 1e-12
-assert abs(student_2["meanNetMigration"] - 160.0) < 1e-12
+assert abs(young_2["meanInflow"] - 200.0) < 1e-12
+assert abs(young_2["meanOutflow"] - 40.0) < 1e-12
+assert abs(young_2["meanNetMigration"] - 160.0) < 1e-12
+assert any(r["group"] == "exit_24_25" for r in young_diag["summaries"])
+
+# Three geographic legs are held separately and can use different windows.
+leg_data = {}
+for year in range(2017, 2025):
+    leg_data[("2580", year, "K", 30, "county", "in")] = 100.0 + year - 2017
+    leg_data[("2580", year, "K", 30, "county", "out")] = 80.0
+    leg_data[("2580", year, "K", 30, "county", "net")] = 20.0 + year - 2017
+    leg_data[("2580", year, "K", 30, "rest_sweden", "in")] = 200.0
+    leg_data[("2580", year, "K", 30, "rest_sweden", "out")] = 190.0
+    leg_data[("2580", year, "K", 30, "rest_sweden", "net")] = 10.0
+    leg_data[("2580", year, "K", 30, "international", "in")] = 50.0
+    leg_data[("2580", year, "K", 30, "international", "out")] = 30.0
+    leg_data[("2580", year, "K", 30, "international", "net")] = 20.0
+
+leg_diag = mod.migration_leg_diagnostics(leg_data)
+assert set(leg_diag["labels"]) == {"county", "rest_sweden", "international"}
+county_2 = next(
+    r for r in leg_diag["summaries"]
+    if r["geo"] == "2580" and r["leg"] == "county" and r["window"] == 2
+)
+assert abs(county_2["meanInflow"] - 106.5) < 1e-12
+assert abs(county_2["meanOutflow"] - 80.0) < 1e-12
+assert abs(county_2["meanNetMigration"] - 26.5) < 1e-12
+assert all(r["window"] in (2,4,6,10) for r in leg_diag["windowBacktestLulea"])
+
+
+raw_leg_path = ROOT / "data" / "raw" / "migration_birth_region_pre2025.csv"
+if raw_leg_path.exists():
+    raw_legs = mod.load_migration_legs(
+        "migration_birth_region_pre2025.csv",
+        mod.MIGRATION_LEG_CODES_PRE2025,
+        allowed_geos={"2580"},
+    )
+    assert raw_legs
+    for leg in ("county", "rest_sweden", "international"):
+        inflow_2024 = mod._migration_leg_total(raw_legs, "2580", 2024, leg, "in")
+        outflow_2024 = mod._migration_leg_total(raw_legs, "2580", 2024, leg, "out")
+        net_2024 = mod._migration_leg_total(raw_legs, "2580", 2024, leg, "net")
+        assert inflow_2024 > 0
+        assert outflow_2024 >= 0
+        assert abs((inflow_2024 - outflow_2024) - net_2024) < 1e-9
 
 print("OK: municipal urisk and gross in-migration profiles are valid and FA gross flows are excluded")
