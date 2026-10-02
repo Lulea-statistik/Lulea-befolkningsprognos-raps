@@ -407,6 +407,7 @@
     const imigMult=options.imigMult==null?migMult:n(options.imigMult);
     const umigMult=options.umigMult==null?migMult:n(options.umigMult);
     const window=+(options.window || data.calibration?.defaultYears || 10);
+    const migrationWindow=+(options.migrationWindow || window);
     const rows=data.populationBase.filter(r=>r.geo===geo && +r.year===baseYear);
     if(!rows.length) throw new Error(`Saknar startbefolkning för ${geo}, ${baseYear}.`);
     if(migrationMode==="gross_flow"){
@@ -434,6 +435,7 @@
       grossInMigration:migrationMode==="gross_flow"?0:null,
       grossOutMigration:migrationMode==="gross_flow"?0:null,
       migrationMode,
+      migrationWindow,
       cohortTimingMode,
       fertilityScenario,
       scenarioEffect:0,change:0,
@@ -549,7 +551,7 @@
       }else{
         for(const sex of ["K","M"]){
           for(let age=0;age<=MAX_AGE;age++){
-            const mig=getNetMig(data.netMigration,geo,year,sex,age,window)*migMult;
+            const mig=getNetMig(data.netMigration,geo,year,sex,age,migrationWindow)*migMult;
             netMigration+=mig;
             survivors.set(key(sex,age),Math.max(0,n(survivors.get(key(sex,age)))+mig));
           }
@@ -576,6 +578,7 @@
         grossInMigration:migrationMode==="gross_flow"?grossInMigration:null,
         grossOutMigration:migrationMode==="gross_flow"?grossOutMigration:null,
         migrationMode,
+        migrationWindow,
         cohortTimingMode,
         fertilityScenario,
         scenarioEffect:sfx.total,scenarioDetail:sfx,change:total-prev,
