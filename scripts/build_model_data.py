@@ -21,7 +21,8 @@ ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw"
 OUT_JSON = ROOT / "data" / "model_data.json"
 OUT_JS = ROOT / "data" / "model_data.js"
-SMOOTHING_DIAGNOSTIC_JSON = ROOT / "data" / "backtests" / "migration_age_smoothing.json"\nSMOOTHING_DIAGNOSTIC_JS = ROOT / "data" / "backtests" / "migration_age_smoothing.js"
+SMOOTHING_DIAGNOSTIC_JSON = ROOT / "data" / "backtests" / "migration_age_smoothing.json"
+SMOOTHING_DIAGNOSTIC_JS = ROOT / "data" / "backtests" / "migration_age_smoothing.js"
 
 MUNICIPALITIES = {
     "2580": "Luleå kommun",
