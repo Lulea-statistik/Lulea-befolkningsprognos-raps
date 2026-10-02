@@ -112,4 +112,17 @@ The comparison reports deaths MAE/mean error and population MAPE/mean error for:
 - the production localization method,
 - the national-only alternative.
 
+
+### Event-age cohort-timing diagnostic
+
+SCB's birth-year mean-population table is explicitly constructed for events classified by attained age at the end of the year. The V1 engine, however, historically applied mortality to the previous 31 December age before ageing the cohort. The rolling-origin report therefore evaluates a fixed, source-definition candidate:
+
+1. age the previous 31 December population one year;
+2. calculate births from women at their forecast-year/event age;
+3. add newborns at age 0;
+4. apply mortality using the forecast-year age, including infant mortality at age 0;
+5. apply migration and scenarios on the resulting forecast-year age structure.
+
+This specification is defined from the source age convention and is not tuned to the validation outcome. The production baseline remains unchanged until the rolling-origin comparison has been reviewed. If adopted later, the same timing must be used consistently in production, backtests and scenarios.
+
 It also records the general local mortality factor that was available at each forecast origin. This is an attribution diagnostic, not a new default model. If national-only materially removes a persistent local deaths bias across several origins, the next methodological work should focus on the local mortality calibration/fading rule rather than modifying the national SCB trajectory. The alternative must not be selected merely because it fits these already observed years better.
