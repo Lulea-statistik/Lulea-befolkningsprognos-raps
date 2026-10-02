@@ -10,6 +10,7 @@ vm.runInThisContext(fs.readFileSync(path.join(ROOT, 'js', 'model.js'), 'utf8'));
 const M = window.RAPSModel;
 
 const WINDOWS = [6, 10, 19];
+const MIGRATION_WINDOWS = (data.diagnostics?.migrationCalibrationWindows || [2,4,6,10]).map(Number);
 const TARGET_GEOS = ['2580', '2582', '2581', '2560', '2514', 'FA_LULEA'];
 const END_YEAR = 2050;
 
@@ -112,7 +113,7 @@ for (const geo of ['2580','FA_LULEA']) {
 
 const migrationSensitivity = {
   baseWindow: 10,
-  windows: WINDOWS,
+  windows: MIGRATION_WINDOWS,
   geographies: {},
   observed2025: data.diagnostics?.migration2025Validation || []
 };
@@ -120,7 +121,7 @@ const migrationSensitivity = {
 for (const geo of ['2580','FA_LULEA']) {
   migrationSensitivity.geographies[geo] = {};
   const base = forecasts[geo][10];
-  for (const migrationWindow of WINDOWS) {
+  for (const migrationWindow of MIGRATION_WINDOWS) {
     const rows = M.simulate(data, {
       geo,
       endYear: END_YEAR,
@@ -146,6 +147,40 @@ for (const geo of ['2580','FA_LULEA']) {
       deltaPopulationPctVs10Year: pctDiff(last.population, base.endPopulation),
       deltaNetMigrationVs10Year: round1(cumulativeNetMigration - base.cumulativeNetMigration)
     };
+  }
+}
+
+const migrationLegWindowDiagnostic = {
+  note: 'Migration-only component validation for Lulea municipality. n+1 is primary and n+2 secondary. Each leg/direction is scored independently from population projection results.',
+  labels: data.diagnostics?.migrationLegs?.labels || {},
+  windows: MIGRATION_WINDOWS,
+  summary: {},
+  observed2025: (data.diagnostics?.migrationLegs?.observed2025 || []).filter(r => r.geo === '2580')
+};
+
+const migrationLegRows = data.diagnostics?.migrationLegs?.windowBacktestLulea || [];
+for (const leg of Object.keys(migrationLegWindowDiagnostic.labels)) {
+  migrationLegWindowDiagnostic.summary[leg] = {};
+  for (const direction of ['in','out','net']) {
+    migrationLegWindowDiagnostic.summary[leg][direction] = {};
+    for (const window of MIGRATION_WINDOWS) {
+      const rows = migrationLegRows.filter(r =>
+        r.leg === leg && r.direction === direction && +r.window === +window
+      );
+      const byHorizon = {};
+      for (const horizon of [1,2]) {
+        const h = rows.filter(r => +r.horizon === horizon);
+        byHorizon[horizon] = {
+          observations: h.length,
+          MAE: round1(h.length ? sum(h, r => Math.abs(r.error)) / h.length : 0),
+          meanError: round1(h.length ? sum(h, r => r.error) / h.length : 0)
+        };
+      }
+      migrationLegWindowDiagnostic.summary[leg][direction][window] = {
+        oneYear: byHorizon[1],
+        twoYear: byHorizon[2]
+      };
+    }
   }
 }
 
@@ -280,6 +315,7 @@ const report = {
   forecasts,
   fertilitySensitivity,
   migrationSensitivity,
+  migrationLegWindowDiagnostic,
   warnings
 };
 
