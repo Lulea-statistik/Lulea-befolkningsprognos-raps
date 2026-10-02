@@ -996,7 +996,7 @@ def main():
 
     model = {
         "meta": {
-            "schemaVersion": "0.10.0",
+            "schemaVersion": "0.11.0",
             "generatedBy": "scripts/build_model_data.py",
             "dataReady": True,
             "baseYear": 2025,
