@@ -310,6 +310,55 @@ try{
 assert(missingComponentFailed,'component flow fails explicitly when a geographic leg is missing');
 
 
+const scbRiskFlowData={
+  meta:{baseYear:2025},
+  calibration:{defaultYears:10},
+  geographies:[{code:'2580'}],
+  parameters:{sexRatioMaleAtBirth:0.5},
+  populationBase:[
+    {geo:'2580',year:2025,sex:'K',age:30,value:1000}
+  ],
+  fertilityRates:[],
+  mortalityRisks:[],
+  netMigration:[],
+  scbRiskInternalInMigration:[
+    {geo:'2580',leg:'county',sex:'K',age:31,value:0.01},
+    {geo:'2580',leg:'rest_sweden',sex:'K',age:31,value:0.02}
+  ],
+  scbRiskOutMigration:[
+    {geo:'2580',leg:'county',sex:'K',age:31,value:0.02},
+    {geo:'2580',leg:'rest_sweden',sex:'K',age:31,value:0.03},
+    {geo:'2580',leg:'international',sex:'K',age:31,value:0.05}
+  ],
+  scbRiskInternationalInMigration:[
+    {geo:'2580',sex:'K',age:31,municipalityShare:0.05,ageSexShare:0.20}
+  ],
+  scbRiskNationalMeanPopulation:[
+    {year:2026,sex:'K',age:31,value:11000}
+  ],
+  scbRiskNationalImmigration:[
+    {year:2026,value:1000}
+  ]
+};
+const scbRiskFlow=M.simulate(scbRiskFlowData,{
+  geo:'2580',endYear:2026,fertMult:1,mortMult:1,migMult:1,window:10,
+  migrationMode:'scb_risk_flow',scenarios:{},includeDetail:true
+})[1];
+assert(Math.abs(scbRiskFlow.grossInMigration-310)<1e-9,'SCB risk flow applies domestic in-risks to rest-of-Sweden population and adds national immigration share');
+assert(Math.abs(scbRiskFlow.grossOutMigration-100)<1e-9,'SCB risk flow applies summed direct out-migration risks to municipal population');
+assert(Math.abs(scbRiskFlow.netMigration-210)<1e-9,'SCB risk flow derives net migration from calculated gross flows');
+assert(Math.abs(scbRiskFlow.population-1210)<1e-9,'SCB risk flow updates population consistently');
+assert(scbRiskFlow.migrationMode==='scb_risk_flow','SCB risk-flow mode is exposed in results');
+
+let missingScbRiskFailed=false;
+try{
+  M.simulate({...scbRiskFlowData,scbRiskNationalImmigration:[]},{
+    geo:'2580',endYear:2026,window:10,migrationMode:'scb_risk_flow',scenarios:{}
+  });
+}catch(e){missingScbRiskFailed=/Saknar SCB-riskflyttningsunderlag/.test(String(e.message));}
+assert(missingScbRiskFailed,'SCB risk flow fails explicitly when national migration context is missing');
+
+
 const timingData={
   meta:{baseYear:2025},
   calibration:{defaultYears:10},
@@ -422,4 +471,4 @@ const migrationGlobal19=M.simulate(migrationWindowData,{
 assert(Math.abs(migrationGlobal19.netMigration-20)<1e-9,'global 19-year demographic window falls back to 10-year migration');
 assert(migrationGlobal19.migrationWindow===10,'fallback migration window is exposed');
 
-console.log('OK: model core, scenarios, additive FA, gross-flow migration, fertility paths, migration sensitivity and production event-age timing tests passed');
+console.log('OK: model core, scenarios, additive FA, gross-flow/component/SCB-risk migration, fertility paths, migration sensitivity and production event-age timing tests passed');
