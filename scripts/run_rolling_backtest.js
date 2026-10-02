@@ -52,7 +52,7 @@ if (!origins.length) {
 
 const geos = origins[0].model.geographies.map(g => g.code);
 const windows = manifest.windows.map(Number);
-const migrationWindows = (manifest.migrationWindows || [6,10]).map(Number);
+const migrationWindows = (manifest.migrationWindows || [2,3,4,6,10]).map(Number);
 
 const report = {
   schemaVersion: '0.1.0',
@@ -72,6 +72,10 @@ const report = {
     rows: [],
     summary: {}
   },
+  fertilityLocalizationDiagnostic: {
+    note: 'Diagnostic only: compares current localized fertility with the same SCB national age-specific fertility profile applied without any local multiplier. It does not change the production baseline.',
+    summary: {}
+  },
   mortalityLocalizationDiagnostic: {
     note: 'Diagnostic only: compares current localized mortality with the same SCB national age/sex mortality profile applied without any local multiplier. It does not change the production baseline.',
     summary: {}
@@ -81,7 +85,7 @@ const report = {
     summary: {}
   },
   migrationWindowDiagnostic: {
-    note: 'Migration-only comparison: fertility and mortality are fixed to the 10-year calibration while net migration uses 2, 4, 6 or 10 years. n+1 is primary and n+2 secondary.',
+    note: 'Migration-only comparison: fertility and mortality are fixed to the 10-year calibration while net migration uses 2, 3, 4, 6 or 10 years. n+1 is primary and n+2 secondary.',
     windows: migrationWindows,
     summary: {}
   },
@@ -259,6 +263,76 @@ for (const geo of geos) {
       ),
       byHorizon,
       originEndErrors
+    };
+  }
+}
+
+
+for (const geo of geos) {
+  report.fertilityLocalizationDiagnostic.summary[geo] = {};
+  for (const window of windows) {
+    const currentRows = [];
+    const nationalRows = [];
+    const byOrigin = {};
+
+    for (const entry of origins) {
+      const localized = report.results[geo][entry.origin][window] || [];
+      currentRows.push(...localized);
+
+      const nationalModel = {
+        ...entry.model,
+        fertilityRates: entry.model.fertilityRatesNationalOnly || []
+      };
+      const pred = M.simulate(nationalModel, {
+        geo,
+        endYear: entry.endYear,
+        fertMult: 1,
+        mortMult: 1,
+        migMult: 1,
+        window,
+        scenarios: {housing: [], workplaces: [], overlapPct: 0},
+        includeDetail: false
+      });
+
+      const altRows = [];
+      for (const p of pred) {
+        if (+p.year <= +entry.origin) continue;
+        const a = byActual(entry.actual, geo, p.year);
+        if (!a) continue;
+        altRows.push({
+          year: +p.year,
+          horizon: +p.year - +entry.origin,
+          populationError: p.population - a.population,
+          populationAbsPctError: ape(p.population, a.population),
+          birthsError: p.births - a.births
+        });
+      }
+      nationalRows.push(...altRows);
+
+      const localFactor = entry.model.diagnostics?.relativeFactors?.fertility?.find(
+        x => x.geo === geo && +x.window === +window
+      )?.applied ?? null;
+
+      byOrigin[entry.origin] = {
+        localGeneralFertilityFactor: round3(localFactor),
+        localizedBirthsMeanError: round1(mean(localized.map(x => x.birthsError))),
+        nationalOnlyBirthsMeanError: round1(mean(altRows.map(x => x.birthsError))),
+        localizedPopulationEndError: localized.at(-1)?.populationError ?? null,
+        nationalOnlyPopulationEndError: round1(altRows.at(-1)?.populationError)
+      };
+    }
+
+    report.fertilityLocalizationDiagnostic.summary[geo][window] = {
+      observations: currentRows.length,
+      localizedBirthsMAE: round1(mean(currentRows.map(x => Math.abs(x.birthsError)))),
+      localizedBirthsMeanError: round1(mean(currentRows.map(x => x.birthsError))),
+      nationalOnlyBirthsMAE: round1(mean(nationalRows.map(x => Math.abs(x.birthsError)))),
+      nationalOnlyBirthsMeanError: round1(mean(nationalRows.map(x => x.birthsError))),
+      localizedPopulationMAPE: round1(mean(currentRows.map(x => x.populationAbsPctError))),
+      localizedPopulationMeanError: round1(mean(currentRows.map(x => x.populationError))),
+      nationalOnlyPopulationMAPE: round1(mean(nationalRows.map(x => x.populationAbsPctError))),
+      nationalOnlyPopulationMeanError: round1(mean(nationalRows.map(x => x.populationError))),
+      byOrigin
     };
   }
 }
@@ -849,6 +923,17 @@ for (const geo of ['2580', 'FA_LULEA']) {
       `3-year MAPE=${s.threeYearMAPE}% | ` +
       `net migration MAE=${s.netMigrationMAE} | ` +
       `mean population error=${s.populationMeanError}`
+    );
+  }
+}
+
+for (const geo of ['2580', 'FA_LULEA']) {
+  for (const window of windows) {
+    const s = report.fertilityLocalizationDiagnostic.summary[geo][window];
+    console.log(
+      `${geo} window=${window}: births MAE localized=${s.localizedBirthsMAE} | ` +
+      `national-only=${s.nationalOnlyBirthsMAE} | population MAPE localized=${s.localizedPopulationMAPE}% | ` +
+      `national-only=${s.nationalOnlyPopulationMAPE}%`
     );
   }
 }
