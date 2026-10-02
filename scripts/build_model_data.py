@@ -32,6 +32,7 @@ MUNICIPALITIES = {
 FA_CODE = "FA_LULEA"
 RIKET_CODE = "00"
 WINDOWS = (6, 10, 19)
+MIGRATION_WINDOWS = (2, 4, 6, 10, 19)
 RATIO_MIN = 0.50
 RATIO_MAX = 1.50
 
@@ -563,7 +564,7 @@ def migration_age_diagnostics(inflow, outflow, netmig):
     """
     result = []
     geos = list(MUNICIPALITIES) + [FA_CODE]
-    for window in WINDOWS:
+    for window in MIGRATION_WINDOWS:
         yrs = list(window_years(window))
         for geo in geos:
             age_rows = []
@@ -752,6 +753,77 @@ def scenario_migration_profiles(inflow):
                         })
     return result
 
+def student_age_migration_diagnostics(inflow, outflow, netmig):
+    """Lulea student-age migration proxy; age is not proof of student status.
+
+    The baseline already models every one-year age separately. This diagnostic
+    makes the recurring 19-20 entry peak and later 23-27 exit pattern visible,
+    so a future student module can be justified from observed gross flows
+    rather than inferred from total municipal net migration.
+    """
+    geo = "2580"
+    groups = (
+        ("entry_19_20", "19–20 år, studentinflyttnings-proxy", 19, 20),
+        ("student_age_18_24", "18–24 år, bred studentålders-proxy", 18, 24),
+        ("post_study_23_27", "23–27 år, möjlig examens/utflyttnings-proxy", 23, 27),
+    )
+    annual = []
+    years = range(2006, CALIBRATION_END + 1)
+    for key, label, amin, amax in groups:
+        for year in years:
+            incoming = sum(
+                inflow.get((geo, year, sex, age), 0.0)
+                for sex in ("K", "M") for age in range(amin, amax + 1)
+            )
+            outgoing = sum(
+                outflow.get((geo, year, sex, age), 0.0)
+                for sex in ("K", "M") for age in range(amin, amax + 1)
+            )
+            net = sum(
+                netmig.get((geo, year, sex, age), 0.0)
+                for sex in ("K", "M") for age in range(amin, amax + 1)
+            )
+            annual.append({
+                "group": key, "label": label, "year": year,
+                "inflow": incoming, "outflow": outgoing, "netMigration": net,
+            })
+
+    summaries = []
+    for key, label, amin, amax in groups:
+        group_rows = [r for r in annual if r["group"] == key]
+        for window in MIGRATION_WINDOWS:
+            start_year = CALIBRATION_END - window + 1
+            rr = [r for r in group_rows if r["year"] >= start_year]
+            nets = [r["netMigration"] for r in rr]
+            ins = [r["inflow"] for r in rr]
+            outs = [r["outflow"] for r in rr]
+            summaries.append({
+                "group": key,
+                "label": label,
+                "ageMin": amin,
+                "ageMax": amax,
+                "window": window,
+                "meanInflow": statistics.fmean(ins) if ins else 0.0,
+                "meanOutflow": statistics.fmean(outs) if outs else 0.0,
+                "meanNetMigration": statistics.fmean(nets) if nets else 0.0,
+                "sdNetMigration": statistics.pstdev(nets) if len(nets) > 1 else 0.0,
+                "latestYearNetMigration": nets[-1] if nets else None,
+                "note": "Age-based proxy only; not a direct student-status measure.",
+            })
+    return {
+        "geo": geo,
+        "proxyOnly": True,
+        "annual": annual,
+        "summaries": summaries,
+        "interpretation": (
+            "A stable 19-20 inflow peak can motivate a separate student-entry "
+            "component. A corresponding 23-27 outflow pattern would support "
+            "cohort-linked student exits. Do not label individuals as students "
+            "from age alone."
+        ),
+    }
+
+
 def outmigration_risk_profiles(outflow, exposure):
     """Historical municipal out-migration risks (urisk) by age and sex.
 
@@ -760,7 +832,7 @@ def outmigration_risk_profiles(outflow, exposure):
     otherwise be counted as external out-migration from the FA region.
     """
     result = []
-    for window in WINDOWS:
+    for window in MIGRATION_WINDOWS:
         yrs = set(window_years(window))
         for geo in MUNICIPALITIES:
             for sex in ("K", "M"):
@@ -789,7 +861,7 @@ def gross_inmigration_profiles(inflow):
     remain descriptive in V1 and are deliberately not created for FA_LULEA.
     """
     result = []
-    for window in WINDOWS:
+    for window in MIGRATION_WINDOWS:
         yrs = set(window_years(window))
         for geo in MUNICIPALITIES:
             for sex in ("K", "M"):
@@ -810,7 +882,7 @@ def gross_inmigration_profiles(inflow):
 def migration_profiles(netmig):
     result = []
     geos = list(MUNICIPALITIES) + [FA_CODE]
-    for window in WINDOWS:
+    for window in MIGRATION_WINDOWS:
         yrs = set(window_years(window))
         denom = float(window)
         for geo in geos:
@@ -996,7 +1068,7 @@ def main():
 
     model = {
         "meta": {
-            "schemaVersion": "0.11.0",
+            "schemaVersion": "0.12.0",
             "generatedBy": "scripts/build_model_data.py",
             "dataReady": True,
             "baseYear": 2025,
@@ -1086,6 +1158,7 @@ def main():
                 netmig_2025, net_migration_profiles
             ),
             "calibrationWindows": list(WINDOWS),
+            "migrationCalibrationWindows": list(MIGRATION_WINDOWS),
             "relativeFactors": {
                 "fertility": fertility_factors,
                 "mortality": mortality_factors,
@@ -1108,6 +1181,7 @@ def main():
                 "municipal moves cancel in the net."
             ),
             "migrationByAge": migration_age_diagnostics(inflow, outflow, netmig),
+            "studentAgeMigration": student_age_migration_diagnostics(inflow, outflow, netmig),
             "migrationUncertaintyNote": (
                 "Historical standard deviations and percentage sensitivities are diagnostics, "
                 "not statistical confidence intervals. Gross inflow/outflow are not shown for FA "
