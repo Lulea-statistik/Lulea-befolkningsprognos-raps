@@ -490,7 +490,7 @@ SPECS = {
     "births_2025": {"start":2025,"end":2025},
     "deaths_pre2025": {"start":2006,"end":2024,"include_riket":True,"include_reference_geos":True},
     "deaths_2025": {"start":2025,"end":2025},
-    "migration_birth_region_pre2025": {"start":2006,"end":2024,"all_birth_regions":True},
+    "migration_birth_region_pre2025": {"start":2006,"end":2024,"all_birth_regions":True,"include_reference_geos":True},
     "migration_birth_region_2025": {"start":2025,"end":2025,"all_birth_regions":True},
     "raps_fertility_forecast": {"start":2024,"end":2050,"all_birth_regions":True},
     "raps_mortality_forecast": {"start":2024,"end":2050,"all_birth_regions":True},

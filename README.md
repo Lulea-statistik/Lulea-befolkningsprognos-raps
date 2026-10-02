@@ -30,6 +30,7 @@ Geografi, kalibreringsfönster och slutår är globala filter och gäller på al
 - `data/model_validation.json/js` – 6/10/19-årig valideringssammanställning.
 - `data/backtests/` – 2022–2024 utvecklingsbacktest samt rolling-origin-validering med SCB-vintages 2018–2021.
 - `data/reference_fa_regions.json` – låst FA15-konfiguration för externa referensregioner.
+- `data/migration_component_windows.json` – låst utvecklingskandidat för komponentvisa migrationsfönster inför extern validering.
 - `data/benchmarks/` – SCB- och Tillväxtverket/Raps-benchmarks.
 - `data/raw/` – reproducerbara SCB-uttag.
 - `docs/RAPS_ALIGNMENT.md` – Raps-prioritet, fallback-fading och anti-overfitting-regel.
@@ -120,6 +121,7 @@ Workflow **Update SCB data** kan köras manuellt och månadsvis. Det:
 
 - koppla officiella Raps-kluster/parametrar där de går att få fram,
 - förbättra IMIG/UMIG och `urisk`,
+- validera den låsta komponentkandidaten (Norrbotten 6/6, övriga Sverige 10/4, utlandet 10/2 år för in/ut) på externa referenskommuner innan någon komponentmotor kan bli produktionsstandard,
 - använda TAB1830-pendlingsmatrisen som prior för var nya jobbinnehavare bor och därefter separat skatta faktisk flyttbenägenhet,
 - vidareutveckla den jobbrelaterade ålder/kön-profilen med riktade flytt-/hushållsdata när sådana finns,
 - koppla empiriska personer-per-bostad-antaganden per bostadstyp/upplåtelseform/storlek,

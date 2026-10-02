@@ -114,6 +114,16 @@ For Luleå municipality, SCB TAB4693/TAB6657 are split into three geographic leg
 
 This component test is descriptive and does not yet replace the production net-migration engine. Its purpose is to determine whether different migration processes justify different calibration horizons before implementing a component-specific IMIG/UMIG structure.
 
+After #37, a six-parameter **development candidate** is frozen from the Luleå municipality results before external component results are generated:
+
+- same-county / other Norrbotten: inflow 6 years, outflow 6 years,
+- other Sweden: inflow 10 years, outflow 4 years,
+- international: inflow 10 years, outflow 2 years.
+
+The candidate is stored in `data/migration_component_windows.json`. It is then tested without regional retuning on the municipalities belonging to the three pre-defined FA15 reference regions. The external comparison is municipal rather than FA-gross because FA internal moves can contaminate gross-flow aggregation, particularly when an FA crosses a county boundary.
+
+The generated report `data/backtests/migration_component_external.json` compares the fixed candidate with a uniform 10-year in/out baseline at n+1 and n+2. These external municipalities were not used to choose the six candidate windows. Once the report has been viewed, those municipalities cease to be independent evidence for any further retuning of the candidate.
+
 ## Rolling-origin validation
 
 A second validation layer uses four historical forecast origins: **2018, 2019, 2020 and 2021**. For each origin:

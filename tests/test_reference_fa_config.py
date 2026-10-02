@@ -89,4 +89,17 @@ assert refbuild.b.CALIBRATION_END == original_end
 assert refbuild.b.WINDOWS == original_windows
 assert refbuild.b.MIGRATION_WINDOWS == original_migration_windows
 
+
+migration_cfg = json.loads(
+    (ROOT / "data" / "migration_component_windows.json").read_text(encoding="utf-8")
+)
+assert migration_cfg["status"] == "development_candidate_locked_before_external_component_results"
+assert migration_cfg["legs"]["county"]["inflowWindow"] == 6
+assert migration_cfg["legs"]["county"]["outflowWindow"] == 6
+assert migration_cfg["legs"]["rest_sweden"]["inflowWindow"] == 10
+assert migration_cfg["legs"]["rest_sweden"]["outflowWindow"] == 4
+assert migration_cfg["legs"]["international"]["inflowWindow"] == 10
+assert migration_cfg["legs"]["international"]["outflowWindow"] == 2
+assert extract.SPECS["migration_birth_region_pre2025"].get("include_reference_geos") is True
+
 print("OK: FA15 reference regions and SCB extraction scope are fixed and valid")
