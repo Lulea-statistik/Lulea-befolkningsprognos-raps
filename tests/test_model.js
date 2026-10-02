@@ -157,8 +157,8 @@ const windowData={
     {geo:'2580',year:2025,sex:'M',age:30,value:1000}
   ],
   fertilityRates:[
-    {geo:'2580',window:6,age:30,value:0.10},
-    {geo:'2580',window:10,age:30,value:0.05}
+    {geo:'2580',window:6,age:31,value:0.10},
+    {geo:'2580',window:10,age:31,value:0.05}
   ],
   mortalityRisks:[],
   netMigration:[]
