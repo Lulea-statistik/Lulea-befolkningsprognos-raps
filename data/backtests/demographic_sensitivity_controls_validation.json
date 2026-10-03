@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_sensitivity_controls_validated",
+  "allPassed": true,
+  "checks": {
+    "neutralControlsReproduceBaseline": true,
+    "zeroFertilityGivesZeroBirths": true,
+    "zeroMortalityGivesZeroDeaths": true,
+    "zeroMigrationGivesZeroNetMigration": true,
+    "doubleMigrationDoublesNetContribution": true,
+    "modelDefaultsRemainNeutral": true
+  },
+  "note": "Regression of user sensitivity multipliers. Passing does not make non-neutral multiplier values baseline assumptions."
+}

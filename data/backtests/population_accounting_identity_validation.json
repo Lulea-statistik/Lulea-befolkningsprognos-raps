@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_accounting_validated",
+  "allPassed": true,
+  "checks": {
+    "annualChangeIdentity": true,
+    "populationReconcilesToPriorYear": true,
+    "baselineScenarioEffectZero": true,
+    "fullTenYearHorizonCovered": true
+  },
+  "maxIdentityResidual": 2.0486368157435209e-10,
+  "maxPopulationResidual": 0,
+  "note": "Hard accounting invariant for baseline and scenario forecasts across all municipalities and Lulea FA."
+}

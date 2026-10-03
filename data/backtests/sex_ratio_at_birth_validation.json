@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_parameter_validated",
+  "allPassed": true,
+  "checks": {
+    "productionMaleShareIs0515": true,
+    "sexSharesSumToOne": true,
+    "sourceIsExplicit": true,
+    "localObservedShareDiagnosticVisible": true,
+    "totalBirthsInvariantToSexSplit": true,
+    "syntheticNewbornSplitMatchesParameter": true
+  },
+  "observedMaleBirthShareFA2015_2024": 0.5179937304075235,
+  "note": "Regression audit of the fixed Raps newborn sex split; local observed share remains diagnostic only."
+}

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_data_integrity_validated",
+  "allPassed": true,
+  "checks": {
+    "basePopulationComplete": true,
+    "basePopulationNoDuplicateKeys": true,
+    "basePopulationFiniteNonnegative": true,
+    "fertilityProfilesComplete": true,
+    "fertilityProfilesNoDuplicateKeys": true,
+    "fertilityValuesFiniteNonnegative": true,
+    "mortalityProfilesComplete": true,
+    "mortalityProfilesNoDuplicateKeys": true,
+    "mortalityValuesFiniteInUnitInterval": true,
+    "netMigrationProfilesComplete": true,
+    "netMigrationProfilesNoDuplicateKeys": true,
+    "netMigrationValuesFinite": true,
+    "faMembershipExact": true,
+    "calibrationWindowsExact": true,
+    "defaultWindowIs10": true,
+    "dataReadyFlag": true
+  },
+  "counts": {
+    "basePopulation": 1010,
+    "fertilityBaseProfiles": 525,
+    "mortalityBaseProfiles": 3030,
+    "netMigrationBaseProfiles": 3030
+  },
+  "note": "Structural completeness/uniqueness/numeric integrity gate; not a forecast-accuracy claim."
+}

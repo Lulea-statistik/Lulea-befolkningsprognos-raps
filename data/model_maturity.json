@@ -26,12 +26,12 @@
     "Scenarier bedöms separat från baslinjen; produktionsmoget scenario betyder reproducerbar och transparent scenariomekanik, inte att scenariot ingår i basprognosen."
   ],
   "summary": {
-    "componentCount": 15,
+    "componentCount": 34,
     "byLevel": {
       "1": 0,
       "2": 7,
       "3": 0,
-      "4": 8
+      "4": 27
     },
     "productionLevel4": [
       "event_age_timing",
@@ -41,7 +41,26 @@
       "calibration_windows",
       "industrial_workforce_scenario",
       "housing_scenario",
-      "household_projection"
+      "household_projection",
+      "labour_market_support",
+      "fading_policy",
+      "qutb_neutralization",
+      "base_population_ckm_bridge",
+      "sex_ratio_at_birth",
+      "fa_additivity",
+      "national_future_profiles",
+      "scenario_overlap_control",
+      "demographic_sensitivity_controls",
+      "ckm_uncertainty_diagnostics",
+      "scenario_migration_profiles",
+      "model_data_integrity",
+      "scenario_phase_in",
+      "population_accounting_identity",
+      "housing_occupancy_defaults",
+      "housing_stock_support",
+      "housing_balance_indicator",
+      "source_manifest_integrity",
+      "maturity_governance"
     ],
     "rejected": [
       "component_flow",
@@ -483,6 +502,494 @@
         }
       ],
       "nextAction": "Switch the UI production-support default to five-year trend and keep constant/manual as sensitivities; rerun the same external gate on future data refreshes."
+    },
+    {
+      "key": "labour_market_support",
+      "label": "Arbetsmarknads- och pendlingsunderlag",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_support",
+      "productionActive": true,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "SCB-pendlingsmatris och arbetskraftens åldersprofil ska vara kompletta, summera korrekt, täcka låsta år/geografier och bära explicit metodbrottsnot innan de används som produktionsstöd.",
+      "gates": [
+        {
+          "label": "Labour support validation gate locked before results",
+          "passed": true,
+          "evidence": "validation_gate_locked_before_results",
+          "required": true
+        },
+        {
+          "label": "SCB commuting and worker-age support layer passes structural validation",
+          "passed": true,
+          "evidence": "checks={'allRequiredGeographiesPresent': True, 'allWorkplacesCoverRequiredYears': True, 'residenceSharesSumTo100': True, 'latestMatrixReconcilesToWorkplaceTotals': True, 'workerAgeCellsComplete': True, 'workerAgeSharesSumTo100': True, 'workerAgeProfileUsesLockedYears2022to2024': True, 'qualityMethodBreakExplicit': True}",
+          "required": true
+        }
+      ],
+      "nextAction": "Keep as production support; rerun structural validation on every SCB refresh and keep the 2024 method-break note visible."
+    },
+    {
+      "key": "fading_policy",
+      "label": "Fading-policy för små lokala åldersceller",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_support",
+      "productionActive": true,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "Informationsbaserad fading ska vara deterministisk, monoton och utfallsoberoende, använda dokumenterade fasta trösklar och samtidigt behålla de redan godkända rolling-origin-resultaten för lokal fruktsamhet och dödlighet.",
+      "gates": [
+        {
+          "label": "Fading thresholds and policy are explicitly documented",
+          "passed": true,
+          "evidence": "production_policy_audit_locked",
+          "required": true
+        },
+        {
+          "label": "Information-based fading audit and downstream rolling evidence pass",
+          "passed": true,
+          "evidence": "checks={'thresholdsMatchProductionBuilder': True, 'zeroInformationYieldsZeroWeight': True, 'strongInformationCanBeFullyLocal': True, 'monotonicInExposure': True, 'monotonicInExpectedEvents': True, 'deterministicOutcomeIndependent': True, 'fertilityLocalizationRollingGateStillPasses': True, 'mortalityLocalizationRollingGateStillPasses': True}",
+          "required": true
+        }
+      ],
+      "nextAction": "Freeze thresholds; rerun the audit whenever fertility/mortality calibration or fading mechanics change."
+    },
+    {
+      "key": "qutb_neutralization",
+      "label": "qutb: neutral utbildningsövergång",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_support",
+      "productionActive": true,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "V1:s qutb ska vara explicit identitet, regressionsverifierat ha noll effekt på befolkningsprognosen och vara dokumenterat som en neutral, utbytbar produktionsplaceholder.",
+      "gates": [
+        {
+          "label": "Neutral qutb mode is explicitly documented",
+          "passed": true,
+          "evidence": "status=production_neutralization_locked; mode=identity",
+          "required": true
+        },
+        {
+          "label": "Identity qutb regression has zero forecast effect",
+          "passed": true,
+          "evidence": "checks={'qutbModeIsIdentity': True, 'identityMatrixShape': True, 'identityMatrixValues': True, 'identityRowsSumToOne': True, 'identityQutbHasZeroForecastEffect': True}",
+          "required": true
+        }
+      ],
+      "nextAction": "Keep identity qutb as the explicit V1 production placeholder; treat any future non-identity education-transition model as a new pre-declared candidate."
+    },
+    {
+      "key": "base_population_ckm_bridge",
+      "label": "Basbefolkning och CKM-metodbrygga 2024→2025",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_support",
+      "productionActive": true,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "2025 års CKM-befolkning ska vara komplett prognosbas, medan historisk kalibrering uttryckligen stannar 2024; FA ska kunna rekonstrueras additivt och metodbrytningen ska vara versionssäkrad.",
+      "gates": [
+        {
+          "label": "2024→2025 method bridge is explicitly documented",
+          "passed": true,
+          "evidence": "production_bridge_locked",
+          "required": true
+        },
+        {
+          "label": "CKM base population and pre-CKM calibration separation validate",
+          "passed": true,
+          "evidence": "checks={'baseYearIs2025': True, 'methodBreakExplicit': True, 'completeMunicipalAgeSexBase': True, 'faMembersAreLockedFive': True, 'faBaseCanBeAdditivelyReconstructed': True, 'preCkmCalibrationSourcesStopAt2024': True, 'ckmBaseSourceContains2025': True, 'ckm2025RetainedAsDiagnostics': True, 'bridgeMetadataIsReproducible': True}",
+          "required": true
+        }
+      ],
+      "nextAction": "Keep the bridge explicit on every base-year rollover; never extend pre-CKM calibration across the method break implicitly."
+    },
+    {
+      "key": "sex_ratio_at_birth",
+      "label": "Könskvot vid födseln",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_support",
+      "productionActive": true,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "Fast Raps-könskvot 0,515/0,485 ska vara källdokumenterad, summera till 1, användas konsekvent i prognosmotorn och inte påverka totalt antal födda.",
+      "gates": [
+        {
+          "label": "Raps newborn sex split is explicitly documented",
+          "passed": true,
+          "evidence": "status=production_parameter_locked; maleShare=0.515",
+          "required": true
+        },
+        {
+          "label": "Sex-ratio regression and total-birth invariance pass",
+          "passed": true,
+          "evidence": "checks={'productionMaleShareIs0515': True, 'sexSharesSumToOne': True, 'sourceIsExplicit': True, 'localObservedShareDiagnosticVisible': True, 'totalBirthsInvariantToSexSplit': True, 'syntheticNewbornSplitMatchesParameter': True}",
+          "required": true
+        }
+      ],
+      "nextAction": "Freeze 0.515/0.485 as the Raps production parameter; keep local observed sex share diagnostic only."
+    },
+    {
+      "key": "fa_additivity",
+      "label": "FA-additivitet",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_support",
+      "productionActive": true,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "Publicerad Luleå FA-prognos ska exakt motsvara summan av de fem kommunprognoserna för befolkning, födda, döda, nettoflyttning, scenarieeffekt och ålder/kön; kommunala bruttoflyttar ska inte presenteras som externa FA-flöden.",
+      "gates": [
+        {
+          "label": "FA membership and additive production rule are explicitly locked",
+          "passed": true,
+          "evidence": "status=production_rule_locked; members=['2580', '2582', '2581', '2560', '2514']",
+          "required": true
+        },
+        {
+          "label": "Baseline and scenario FA additivity regression passes",
+          "passed": true,
+          "evidence": "checks={'baseline_populationAdditive': True, 'baseline_birthsAdditive': True, 'baseline_deathsAdditive': True, 'baseline_netMigrationAdditive': True, 'baseline_scenarioEffectAdditive': True, 'baseline_ageSexAdditive': True, 'baseline_faGrossFlowsSuppressed': True, 'housing_populationAdditive': True, 'housing_birthsAdditive': True, 'housing_deathsAdditive': True, 'housing_netMigrationAdditive': True, 'housing_scenarioEffectAdditive': True, 'housing_ageSexAdditive': True, 'housing_faGrossFlowsSuppressed': True, 'membershipMatchesConfig': True}",
+          "required": true
+        }
+      ],
+      "nextAction": "Freeze additive FA publication logic; rerun regression whenever simulation aggregation or FA membership changes."
+    },
+    {
+      "key": "national_future_profiles",
+      "label": "Nationella framtidsprofiler för fruktsamhet och dödlighet",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_support",
+      "productionActive": true,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "Raps/SCB 2024-basens årliga fruktsamhets- och dödlighetsprofiler ska täcka hela den stödda tioårshorisonten utan luckor, och SCB 2026 ska vara en separat fruktsamhetskänslighet snarare än tyst baslinjebyte.",
+      "gates": [
+        {
+          "label": "National future-profile production gate is explicitly locked",
+          "passed": true,
+          "evidence": "production_input_gate_locked",
+          "required": true
+        },
+        {
+          "label": "Ten-year fertility/mortality coverage and scenario separation validate",
+          "passed": true,
+          "evidence": "checks={'defaultFertilityScenarioIsRaps2024': True, 'futureProfileModeExplicit': True, 'completeTenYearFertilityCoverage': True, 'completeTenYearMortalityCoverage': True, 'allFutureRatesFiniteNonnegative': True, 'scb2026SensitivityCoverage': True, 'scb2026DoesNotReplaceBaseline': True}",
+          "required": true
+        }
+      ],
+      "nextAction": "Keep SCB 2024/Raps as production baseline and SCB 2026 fertility as an explicit sensitivity until a separately validated baseline update is approved."
+    },
+    {
+      "key": "scenario_overlap_control",
+      "label": "Scenarieöverlapp bostad + jobb",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_support",
+      "productionActive": true,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "Överlappsavdraget ska vara begränsat till den mindre positiva externa scenarieeffekten, monotont i 0–100 %, nettonoll utan aktiva scenarier och fortsatt kompatibelt med FA-additivitet.",
+      "gates": [
+        {
+          "label": "Overlap control is explicitly documented as a scenario assumption",
+          "passed": true,
+          "evidence": "production_scenario_control_locked",
+          "required": true
+        },
+        {
+          "label": "Overlap clamp, monotonicity and no-scenario neutrality pass",
+          "passed": true,
+          "evidence": "checks={'zeroPctZeroDeduction': True, 'fullPctDeductsMinComponent': True, 'clampsBelowZero': True, 'clampsAboveHundred': True, 'monotonicDeduction': True, 'totalFormula': True, 'noScenarioNoBaselineEffect': True}",
+          "required": true
+        }
+      ],
+      "nextAction": "Keep the overlap percentage user-controlled and outside the baseline; rerun regression whenever scenario aggregation changes."
+    },
+    {
+      "key": "demographic_sensitivity_controls",
+      "label": "Demografiska känslighetsmultiplikatorer",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_support",
+      "productionActive": true,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "Neutralläget 1/1/1 ska reproducera baslinjen exakt; nollvärden ska nollställa respektive komponent deterministiskt och flyttmultiplikatorn ska skala nettoflyttningen utan att ändra produktionsstandarderna.",
+      "gates": [
+        {
+          "label": "Sensitivity controls and neutral value are explicitly documented",
+          "passed": true,
+          "evidence": "status=production_sensitivity_controls_locked; neutral=1",
+          "required": true
+        },
+        {
+          "label": "Neutrality and component-isolation regression passes",
+          "passed": true,
+          "evidence": "checks={'neutralControlsReproduceBaseline': True, 'zeroFertilityGivesZeroBirths': True, 'zeroMortalityGivesZeroDeaths': True, 'zeroMigrationGivesZeroNetMigration': True, 'doubleMigrationDoublesNetContribution': True, 'modelDefaultsRemainNeutral': True}",
+          "required": true
+        }
+      ],
+      "nextAction": "Keep 1/1/1 as the UI baseline and treat all non-neutral multipliers as explicit sensitivities only."
+    },
+    {
+      "key": "ckm_uncertainty_diagnostics",
+      "label": "CKM-osäkerhetsdiagnostik",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_support",
+      "productionActive": true,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "±3-cellsdiagnostiken ska matcha modellmetadata, ge ordnade ändliga riskintervall, minska relativt med större tal, hållas utanför pre-CKM-kalibreringen och uttryckligen beskrivas som känslighet snarare än konfidensintervall.",
+      "gates": [
+        {
+          "label": "CKM sensitivity policy is explicitly documented",
+          "passed": true,
+          "evidence": "status=production_diagnostic_policy_locked; delta=3",
+          "required": true
+        },
+        {
+          "label": "CKM bounds, method-break separation and interpretation validate",
+          "passed": true,
+          "evidence": "checks={'deltaMatchesCalibration': True, 'boundsOrdered': True, 'fixedDeltaRelativeImpactFallsWithCount': True, 'zeroCellFiniteNonnegative': True, 'methodBreakExplicit': True, 'ckmDiagnosticsPresent': True, 'preCkmCalibrationStopsAt2024': True, 'uncertaintyNoteNotConfidenceInterval': True}",
+          "required": true
+        }
+      ],
+      "nextAction": "Keep CKM output as sensitivity diagnostics only; rerun whenever disclosure methodology or method-break treatment changes."
+    },
+    {
+      "key": "scenario_migration_profiles",
+      "label": "Scenarieprofiler för jobbdriven inflyttning",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_support",
+      "productionActive": true,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "Alla scenarieprofiler ska vara kompletta, summera till 1 och vara icke-negativa; worker_hybrid ska exakt återge SCB:s breda ålder/kön-struktur och family_companion ska exkludera 18–24, samtidigt som profilerna hålls separata från baslinjens migration.",
+      "gates": [
+        {
+          "label": "Scenario migration profile gate is explicitly locked",
+          "passed": true,
+          "evidence": "production_scenario_profile_gate_locked",
+          "required": true
+        },
+        {
+          "label": "Profile sums, supports and SCB worker-target reconciliation pass",
+          "passed": true,
+          "evidence": "checks={'allProfilesPresent': True, 'allProfilesSumToOne': True, 'allSharesFiniteNonnegative': True, 'workerHybridZeroOutside15to74': True, 'familyCompanionZeroAge18to24': True, 'workerHybridReconcilesToLabourTargets': True, 'scenarioProfilesSeparatedFromBaselineMigration': True}",
+          "required": true
+        }
+      ],
+      "nextAction": "Keep profiles as descriptive scenario priors only; rerun validation whenever labour-market structure or scenario age-profile mechanics change."
+    },
+    {
+      "key": "model_data_integrity",
+      "label": "Kärndata: fullständighet och unikhet",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_support",
+      "productionActive": true,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "Basbefolkning samt produktionsprofiler för fruktsamhet, dödlighet och nettoflyttning ska vara kompletta för alla fem kommuner och huvudfönster, sakna dubblettnycklar och endast innehålla numeriskt giltiga värden.",
+      "gates": [
+        {
+          "label": "Core model-data integrity gate is explicitly locked",
+          "passed": true,
+          "evidence": "production_data_integrity_gate_locked",
+          "required": true
+        },
+        {
+          "label": "Completeness, uniqueness and numeric-integrity checks pass",
+          "passed": true,
+          "evidence": "checks={'basePopulationComplete': True, 'basePopulationNoDuplicateKeys': True, 'basePopulationFiniteNonnegative': True, 'fertilityProfilesComplete': True, 'fertilityProfilesNoDuplicateKeys': True, 'fertilityValuesFiniteNonnegative': True, 'mortalityProfilesComplete': True, 'mortalityProfilesNoDuplicateKeys': True, 'mortalityValuesFiniteInUnitInterval': True, 'netMigrationProfilesComplete': True, 'netMigrationProfilesNoDuplicateKeys': True, 'netMigrationValuesFinite': True, 'faMembershipExact': True, 'calibrationWindowsExact': True, 'defaultWindowIs10': True, 'dataReadyFlag': True}; counts={'basePopulation': 1010, 'fertilityBaseProfiles': 525, 'mortalityBaseProfiles': 3030, 'netMigrationBaseProfiles': 3030}",
+          "required": true
+        }
+      ],
+      "nextAction": "Keep as a hard production-build gate; rerun after every SCB refresh and model-data schema change."
+    },
+    {
+      "key": "scenario_phase_in",
+      "label": "Scenarieinfasning över flera år",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_support",
+      "productionActive": true,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "Bostads- och arbetsplatseffekter ska vara noll utanför infasningsfönstret, fördelas deterministiskt inom det och bevara exakt samma kumulativa scenarioeffekt oavsett antal infasningsår.",
+      "gates": [
+        {
+          "label": "Scenario phase-in rule is explicitly documented",
+          "passed": true,
+          "evidence": "production_scenario_phase_gate_locked",
+          "required": true
+        },
+        {
+          "label": "Timing-window and cumulative-magnitude regressions pass",
+          "passed": true,
+          "evidence": "checks={'zeroBeforeStart': True, 'zeroAfterPhase': True, 'equalHousingAnnualIncrements': True, 'equalWorkplaceAnnualIncrements': True, 'housingCumulativePreserved': True, 'workplaceCumulativePreserved': True, 'phaseYearsChangesTimingNotMagnitude': True, 'zeroPhaseYearsFallsBackToOneYear': True}; examples={'housingPhase4Annual': [50, 50, 50, 50], 'workplacePhase4Annual': [50, 50, 50, 50], 'housingPhase1Total': 200, 'housingPhase4Total': 200}",
+          "required": true
+        }
+      ],
+      "nextAction": "Keep uniform phase-in as the production scenario timing rule; validate any future non-uniform ramp separately."
+    },
+    {
+      "key": "population_accounting_identity",
+      "label": "Årlig befolkningsbalans",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_support",
+      "productionActive": true,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "För varje år, kommun och FA ska förändringen exakt motsvara födda minus döda plus nettoflyttning plus explicit scenarieeffekt, och ny befolkning ska exakt motsvara föregående befolkning plus förändringen.",
+      "gates": [
+        {
+          "label": "Population accounting rule is explicitly documented",
+          "passed": true,
+          "evidence": "production_accounting_gate_locked",
+          "required": true
+        },
+        {
+          "label": "Annual demographic balance and prior-year reconciliation pass",
+          "passed": true,
+          "evidence": "checks={'annualChangeIdentity': True, 'populationReconcilesToPriorYear': True, 'baselineScenarioEffectZero': True, 'fullTenYearHorizonCovered': True}; maxIdentityResidual=2.0486368157435209e-10; maxPopulationResidual=0",
+          "required": true
+        }
+      ],
+      "nextAction": "Keep as a hard production invariant for every municipality/FA and every baseline/scenario run."
+    },
+    {
+      "key": "housing_occupancy_defaults",
+      "label": "SCB-standard för personer per bostad",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_support",
+      "productionActive": true,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "Alla stödda bostadstyp/upplåtelse/storlek-kombinationer ska ha kommunal SCB-standard eller explicit riksfallback för produktionsåret; värden ska vara positiva och källa tydlig, medan kombinationer utan stöd ska kräva manuell nivå.",
+      "gates": [
+        {
+          "label": "SCB occupancy-default policy is explicitly documented",
+          "passed": true,
+          "evidence": "production_occupancy_support_gate_locked",
+          "required": true
+        },
+        {
+          "label": "Supported auto combinations, positivity, source and fallback precedence validate",
+          "passed": true,
+          "evidence": "checks={'defaultYearMatchesDataMeta': True, 'allSupportedAutoCombinationsResolvable': True, 'allResolvedDefaultsFinitePositive': True, 'allSourcesExplicitSCB': True, 'municipalRowsPrecedeSwedenFallback': True, 'uiPolicyRequiresManualWhenUnsupported': True}; local=62; riketFallback=3",
+          "required": true
+        }
+      ],
+      "nextAction": "Keep SCB auto as the preferred persons-per-dwelling source; require explicit manual input whenever no supported SCB cell exists."
+    },
+    {
+      "key": "housing_stock_support",
+      "label": "SCB bostadsbestånd",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_support",
+      "productionActive": true,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "Senaste bostadsbeståndet ska vara komplett för alla fem kommuner över hustyp × upplåtelseform, sakna dubbletter, ha icke-negativa tal och kunna summeras reproducerbart till FA.",
+      "gates": [
+        {
+          "label": "Housing-stock support gate is explicitly locked",
+          "passed": true,
+          "evidence": "production_housing_stock_gate_locked",
+          "required": true
+        },
+        {
+          "label": "Latest-year completeness, uniqueness and FA additivity validate",
+          "passed": true,
+          "evidence": "checks={'latestYearExplicit': True, 'completeCategoryGrid': True, 'noDuplicateKeys': True, 'allCountsFiniteNonnegative': True, 'allMunicipalTotalsPositive': True, 'faTotalAdditive': True}; latestYear=2025; faTotal=96134.0",
+          "required": true
+        }
+      ],
+      "nextAction": "Keep SCB housing stock as descriptive production support and rerun on every refresh."
+    },
+    {
+      "key": "housing_balance_indicator",
+      "label": "Bostadsefterfrågan och reserv",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_support",
+      "productionActive": true,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "Bostadsreserven ska vara matematiskt korrekt och begränsad till 0–20 %, nolläge neutralt, planerat tillskott räknas relativt basåret och balansmåttet ska förbli ett analysstöd utan påverkan på den demografiska prognosen.",
+      "gates": [
+        {
+          "label": "Housing-balance analysis rule is explicitly locked",
+          "passed": true,
+          "evidence": "production_housing_balance_gate_locked",
+          "required": true
+        },
+        {
+          "label": "Reserve clamp, neutrality and balance arithmetic validate",
+          "passed": true,
+          "evidence": "checks={'zeroReserveNeutral': True, 'reserveMonotonic': True, 'lowerClamp': True, 'upperClamp': True, 'formulaMatches': True, 'balanceFormula': True, 'baseRelativePlannedAdditions': True, 'analysisHelperDoesNotMutateForecast': True}; examples={'r0': 1000, 'r1': 1010.1010101010102, 'r10': 1111.111111111111, 'r20': 1250, 'balance': 47.47474747474746}",
+          "required": true
+        }
+      ],
+      "nextAction": "Keep as analysis-only production support; reserve remains user-controlled and must not alter the demographic forecast."
+    },
+    {
+      "key": "source_manifest_integrity",
+      "label": "Källmanifest och rådataproveniens",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_support",
+      "productionActive": true,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "Alla centrala SCB/Raps-råkällor ska ha spårbart tabell-ID, existerande icke-tom fil, dokumenterat urval och korrekt tidsavgränsning kring CKM-brytningen.",
+      "gates": [
+        {
+          "label": "Critical source-manifest gate is explicitly locked",
+          "passed": true,
+          "evidence": "production_source_manifest_gate_locked",
+          "required": true
+        },
+        {
+          "label": "Required sources, table IDs, raw files, selections and CKM year boundaries validate",
+          "passed": true,
+          "evidence": "checks={'allRequiredSourcesPresent': True, 'allTableIdsPresent': True, 'allRawFilesExistAndNonempty': True, 'allManifestRowCountsValid': True, 'allSelectionsRecorded': True, 'preCkmSourcesStopBy2024': True, 'population2025SelectionContains2025': True}; requiredSourceCount=18",
+          "required": true
+        }
+      ],
+      "nextAction": "Keep source provenance as a hard production prerequisite and rerun on every full SCB refresh."
+    },
+    {
+      "key": "maturity_governance",
+      "label": "Mognadsregister och produktionsstyrning",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_support",
+      "productionActive": true,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "Varje komponent i mognadspolicyn ska förekomma exakt en gång i den genererade rapporten, inga okända komponenter får finnas och nivåsummorna ska vara internt konsistenta.",
+      "gates": [
+        {
+          "label": "Every policy component is represented exactly once and report metadata are internally valid",
+          "passed": true,
+          "evidence": "checks={'allPolicyComponentsRepresented': True, 'noDuplicateComponentKeys': True, 'noUnknownComponents': True, 'allLevelsValid': True, 'allTargetsPresent': True, 'allRequiredGatesDocumented': True}; missing=[]; unknown=[]",
+          "required": true
+        }
+      ],
+      "nextAction": "Keep the registry self-auditing; every new policy component must be wired into the report builder in the same change."
     }
   ]
 }

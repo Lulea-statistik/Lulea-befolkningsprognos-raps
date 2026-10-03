@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_source_manifest_validated",
+  "allPassed": true,
+  "checks": {
+    "allRequiredSourcesPresent": true,
+    "allTableIdsPresent": true,
+    "allRawFilesExistAndNonempty": true,
+    "allManifestRowCountsValid": true,
+    "allSelectionsRecorded": true,
+    "preCkmSourcesStopBy2024": true,
+    "population2025SelectionContains2025": true
+  },
+  "requiredSourceCount": 18,
+  "missingSources": [],
+  "missingTableIds": [],
+  "missingOrEmptyFiles": [],
+  "invalidRowCounts": [],
+  "emptySelections": [],
+  "preCkmYearViolations": {},
+  "population2025Years": [
+    2025
+  ],
+  "note": "Source-traceability and raw-input structure gate; not a forecast-accuracy claim."
+}

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_diagnostic_validated",
+  "allPassed": true,
+  "checks": {
+    "deltaMatchesCalibration": true,
+    "boundsOrdered": true,
+    "fixedDeltaRelativeImpactFallsWithCount": true,
+    "zeroCellFiniteNonnegative": true,
+    "methodBreakExplicit": true,
+    "ckmDiagnosticsPresent": true,
+    "preCkmCalibrationStopsAt2024": true,
+    "uncertaintyNoteNotConfidenceInterval": true
+  },
+  "cellDelta": 3,
+  "examples": {
+    "smallCountRelativePct": 30,
+    "largeCountRelativePct": 0.3
+  },
+  "note": "CKM sensitivity diagnostics only; not statistical confidence intervals and not calibration inputs."
+}

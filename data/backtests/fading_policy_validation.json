@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_policy_validated",
+  "allPassed": true,
+  "checks": {
+    "thresholdsMatchProductionBuilder": true,
+    "zeroInformationYieldsZeroWeight": true,
+    "strongInformationCanBeFullyLocal": true,
+    "monotonicInExposure": true,
+    "monotonicInExpectedEvents": true,
+    "deterministicOutcomeIndependent": true,
+    "fertilityLocalizationRollingGateStillPasses": true,
+    "mortalityLocalizationRollingGateStillPasses": true
+  },
+  "thresholds": {
+    "zeroLocalExposure": 20,
+    "fullLocalExposure": 100,
+    "zeroExpectedEvents": 1,
+    "fullExpectedEvents": 20
+  },
+  "fertilityEvidence": {
+    "2580": {
+      "3": {
+        "passed": true,
+        "localizedMAE": 61.4,
+        "nationalOnlyMAE": 113.3
+      },
+      "6": {
+        "passed": true,
+        "localizedMAE": 62.5,
+        "nationalOnlyMAE": 115
+      },
+      "10": {
+        "passed": true,
+        "localizedMAE": 63.2,
+        "nationalOnlyMAE": 115.6
+      }
+    },
+    "FA_LULEA": {
+      "3": {
+        "passed": true,
+        "localizedMAE": 103,
+        "nationalOnlyMAE": 137.9
+      },
+      "6": {
+        "passed": true,
+        "localizedMAE": 96.4,
+        "nationalOnlyMAE": 140.7
+      },
+      "10": {
+        "passed": true,
+        "localizedMAE": 86.7,
+        "nationalOnlyMAE": 140.3
+      }
+    }
+  },
+  "mortalityEvidence": {
+    "2580": {
+      "3": {
+        "passed": true,
+        "localizedMAE": 31.7,
+        "nationalOnlyMAE": 41.7
+      },
+      "6": {
+        "passed": true,
+        "localizedMAE": 32.1,
+        "nationalOnlyMAE": 41.8
+      },
+      "10": {
+        "passed": true,
+        "localizedMAE": 31.1,
+        "nationalOnlyMAE": 41.6
+      }
+    },
+    "FA_LULEA": {
+      "3": {
+        "passed": true,
+        "localizedMAE": 46.9,
+        "nationalOnlyMAE": 153.5
+      },
+      "6": {
+        "passed": true,
+        "localizedMAE": 45.7,
+        "nationalOnlyMAE": 153.4
+      },
+      "10": {
+        "passed": true,
+        "localizedMAE": 51.9,
+        "nationalOnlyMAE": 153.1
+      }
+    }
+  },
+  "note": "Audit of the existing production fallback policy. No threshold is estimated from these outcomes."
+}

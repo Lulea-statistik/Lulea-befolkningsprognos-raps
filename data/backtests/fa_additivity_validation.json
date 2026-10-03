@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_rule_validated",
+  "allPassed": true,
+  "checks": {
+    "baseline_populationAdditive": true,
+    "baseline_birthsAdditive": true,
+    "baseline_deathsAdditive": true,
+    "baseline_netMigrationAdditive": true,
+    "baseline_scenarioEffectAdditive": true,
+    "baseline_ageSexAdditive": true,
+    "baseline_faGrossFlowsSuppressed": true,
+    "housing_populationAdditive": true,
+    "housing_birthsAdditive": true,
+    "housing_deathsAdditive": true,
+    "housing_netMigrationAdditive": true,
+    "housing_scenarioEffectAdditive": true,
+    "housing_ageSexAdditive": true,
+    "housing_faGrossFlowsSuppressed": true,
+    "membershipMatchesConfig": true
+  },
+  "detail": {
+    "baseline": {
+      "years": [
+        2025,
+        2026,
+        2027,
+        2028
+      ]
+    },
+    "housing": {
+      "years": [
+        2025,
+        2026,
+        2027,
+        2028
+      ]
+    }
+  },
+  "note": "Structural regression that published FA results are additive sums of the five municipal simulations."
+}

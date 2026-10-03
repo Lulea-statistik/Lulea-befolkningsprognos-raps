@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_housing_stock_validated",
+  "allPassed": true,
+  "checks": {
+    "latestYearExplicit": true,
+    "completeCategoryGrid": true,
+    "noDuplicateKeys": true,
+    "allCountsFiniteNonnegative": true,
+    "allMunicipalTotalsPositive": true,
+    "faTotalAdditive": true
+  },
+  "latestYear": 2025,
+  "municipalTotals": {
+    "2514": 8568.0,
+    "2560": 4325.0,
+    "2580": 43195.0,
+    "2581": 21830.0,
+    "2582": 18216.0
+  },
+  "faTotal": 96134.0,
+  "duplicateKeys": [],
+  "note": "Structural validation of descriptive SCB housing-stock support."
+}

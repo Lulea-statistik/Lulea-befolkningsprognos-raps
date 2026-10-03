@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_occupancy_support_validated",
+  "allPassed": true,
+  "checks": {
+    "defaultYearMatchesDataMeta": true,
+    "allSupportedAutoCombinationsResolvable": true,
+    "allResolvedDefaultsFinitePositive": true,
+    "allSourcesExplicitSCB": true,
+    "municipalRowsPrecedeSwedenFallback": true,
+    "uiPolicyRequiresManualWhenUnsupported": true
+  },
+  "defaultYear": 2024,
+  "localResolvedCells": 62,
+  "swedenFallbackCells": 3,
+  "missing": [],
+  "nonpositive": [],
+  "badSource": [],
+  "note": "Validates SCB-derived scenario defaults and explicit Sweden fallback; not a dwelling-capacity model."
+}

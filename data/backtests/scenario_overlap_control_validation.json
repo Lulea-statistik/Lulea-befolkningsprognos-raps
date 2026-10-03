@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_control_validated",
+  "allPassed": true,
+  "checks": {
+    "zeroPctZeroDeduction": true,
+    "fullPctDeductsMinComponent": true,
+    "clampsBelowZero": true,
+    "clampsAboveHundred": true,
+    "monotonicDeduction": true,
+    "totalFormula": true,
+    "noScenarioNoBaselineEffect": true
+  },
+  "examples": {
+    "zero": 0,
+    "twentyFive": 25,
+    "hundred": 100
+  },
+  "note": "Structural validation of the scenario double-count control; does not estimate the correct overlap percentage."
+}

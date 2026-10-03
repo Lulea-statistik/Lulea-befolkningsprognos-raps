@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_housing_balance_validated",
+  "allPassed": true,
+  "checks": {
+    "zeroReserveNeutral": true,
+    "reserveMonotonic": true,
+    "lowerClamp": true,
+    "upperClamp": true,
+    "formulaMatches": true,
+    "balanceFormula": true,
+    "baseRelativePlannedAdditions": true,
+    "analysisHelperDoesNotMutateForecast": true
+  },
+  "examples": {
+    "r0": 1000,
+    "r1": 1010.1010101010102,
+    "r10": 1111.111111111111,
+    "r20": 1250,
+    "balance": 47.47474747474746
+  },
+  "note": "Housing-demand indicator validation only; does not validate market shortage or prices."
+}
