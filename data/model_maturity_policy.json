@@ -115,6 +115,11 @@
       "label": "qutb: neutral utbildningsövergång",
       "targetLevel": 4,
       "requiredGate": "V1:s qutb ska vara explicit identitet, regressionsverifierat ha noll effekt på befolkningsprognosen och vara dokumenterat som en neutral, utbytbar produktionsplaceholder."
+    },
+    "base_population_ckm_bridge": {
+      "label": "Basbefolkning och CKM-metodbrygga 2024→2025",
+      "targetLevel": 4,
+      "requiredGate": "2025 års CKM-befolkning ska vara komplett prognosbas, medan historisk kalibrering uttryckligen stannar 2024; FA ska kunna rekonstrueras additivt och metodbrytningen ska vara versionssäkrad."
     }
   }
 }
