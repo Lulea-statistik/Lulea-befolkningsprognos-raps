@@ -35,6 +35,7 @@ Geografi, kalibreringsfönster och slutår är globala filter och gäller på al
 - `data/raw/` – reproducerbara SCB-uttag.
 - `docs/RAPS_ALIGNMENT.md` – Raps-prioritet, fallback-fading och anti-overfitting-regel.
 - `docs/VALIDATION.md` – benchmark- och backteststrategi.
+- `docs/PRODUCTION_READINESS.md` – aktuell produktionsstatus, mognadsgrad, stängda kandidater och förvaltningsregler.
 - `docs/ANALYSIS_DESIGN.md` – rekommenderade illustrationer, utvärdering och arbetsmarknads-/pendlingsanalys.
 - `scripts/scb_extract.py` – rådatahämtning från SCB PxWebApi v2.
 - `scripts/build_model_data.py` – bygger kalibrerad modell.
@@ -119,15 +120,18 @@ Workflow **Update SCB data** kan köras manuellt och månadsvis. Det:
 8. jämför modellen mot SCB,
 9. committar genererade data om något har förändrats.
 
-## Nästa modellsteg
+## Produktionsstatus och nästa utvecklingssteg
 
-- koppla officiella Raps-kluster/parametrar där de går att få fram,
-- förbättra IMIG/UMIG och `urisk`,
-- behåll #38-resultatet orört och testa den låsta komponentkandidaten på nya, fördeklarerade holdout-kommuner/regioner innan någon komponentmotor eller ändrade komponentfönster kan bli produktionsstandard,
-- använda TAB1830-pendlingsmatrisen som prior för var nya jobbinnehavare bor och därefter separat skatta faktisk flyttbenägenhet,
-- vidareutveckla den jobbrelaterade ålder/kön-profilen med riktade flytt-/hushållsdata när sådana finns,
-- koppla empiriska personer-per-bostad-antaganden per bostadstyp/upplåtelseform/storlek,
-- lägga till delområden när stabila delområdesdata och geometrier finns.
+Efter **Update SCB data #70** omfattar mognadsregistret 34 komponenter: **27 är på nivå 4**, **7 är medvetet stängda på nivå 2**, och inga komponenter ligger på nivå 1 eller 3. De sju nivå-2-kandidaterna ska inte efterhandsjusteras mot redan använda utfall. Se `docs/PRODUCTION_READINESS.md` och `data/model_maturity.json` för aktuell status.
+
+Nya metodlyft ska införas som separata, förhandslåsta kandidater. Prioriterade framtida utvecklingsspår är:
+
+- officiella Raps-kluster/parametrar där de går att få fram,
+- en genuint ny IMIG/UMIG-/Profet-arkitektur som låses innan ny utvärdering,
+- nya fördeklarerade holdouts om en ny migrationsmotor ska prövas,
+- riktade data för faktisk jobbdriven flyttbenägenhet och hushållssammansättning,
+- fullare bostadsmarknadsstöd för rivningar, vakanser och ingående över-/underskott,
+- delområden när stabila delområdesdata och geometrier finns.
 
 
 ## Arbetsmarknadens åldersprofil
