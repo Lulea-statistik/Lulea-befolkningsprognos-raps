@@ -1663,6 +1663,46 @@
       horizonRows+originRows+
       "</tbody></table></div>";
   }
+  function renderLocalizationMethodValidation(geo,selected){
+    const el=$("localizationMethodValidation");
+    if(!el) return;
+    const d=ageCellWeightDiagnostic?.localizationMethodDiagnostic;
+    if(!d){
+      el.innerHTML="<p class=\"hint\">Alternativdiagnostiken genereras i nästa Update SCB data-körning.</p>";
+      return;
+    }
+    const gf=d.fertility?.summary?.[geo]||{};
+    const gm=d.mortality?.summary?.[geo]||{};
+    const w=gf[selected]&&gm[selected]?selected:(gf["10"]&&gm["10"]?"10":null);
+    const f=w?gf[w]:null, m=w?gm[w]:null;
+    if(!f||!m){
+      el.innerHTML="<p class=\"hint\">Alternativdiagnostik saknas för vald geografi och kalibreringsperiod.</p>";
+      return;
+    }
+    const markBest=(values,i)=>{
+      const nums=values.map(Number).filter(Number.isFinite);
+      const min=nums.length?Math.min(...nums):NaN;
+      const v=Number(values[i]);
+      const txt=Number.isFinite(v)?fmt1.format(v):"–";
+      return Number.isFinite(v)&&Math.abs(v-min)<1e-9?"<strong>"+txt+"</strong>":txt;
+    };
+    const fv=[f.currentBirthsMAE,f.empiricalBayesBirthsMAE,f.spline1BirthsMAE,f.spline10BirthsMAE,f.spline100BirthsMAE];
+    const mv=[m.currentDeathsMAE,m.empiricalBayesDeathsMAE];
+    const horizons=[1,2,3].map(h=>{
+      const fh=f.byHorizon?.[h], mh=m.byHorizon?.[h];
+      if(!fh||!mh) return "";
+      const fvh=[fh.currentBirthsMAE,fh.empiricalBayesBirthsMAE,fh.spline1BirthsMAE,fh.spline10BirthsMAE,fh.spline100BirthsMAE];
+      const mvh=[mh.currentDeathsMAE,mh.empiricalBayesDeathsMAE];
+      return "<tr><td>n+"+h+" fruktsamhet</td><td>"+markBest(fvh,0)+"</td><td>"+markBest(fvh,1)+"</td><td>"+markBest(fvh,2)+"</td><td>"+markBest(fvh,3)+"</td><td>"+markBest(fvh,4)+"</td></tr>"+
+        "<tr><td>n+"+h+" dödlighet</td><td>"+markBest(mvh,0)+"</td><td>"+markBest(mvh,1)+"</td><td colspan=\"3\">Ej testat – SCB använder annan WLS-metod för dödsrisker</td></tr>";
+    }).join("");
+    el.innerHTML=
+      "<p class=\"hint\">Kalibreringsfönster: "+w+" år. Lägre MAE är bättre. Spline 1/10/100 är en penaliserad åldersutjämningskänslighet, inte en exakt reproduktion av SCB:s interna utjämningsfaktor.</p>"+
+      "<div class=\"analysisTableWrap\"><table class=\"miniTable\"><thead><tr><th>Komponent</th><th>Nuvarande</th><th>Empirical Bayes</th><th>Penaliserad 1</th><th>Penaliserad 10</th><th>Penaliserad 100</th></tr></thead><tbody>"+
+      "<tr><td>Fruktsamhet – födda MAE</td><td>"+markBest(fv,0)+"</td><td>"+markBest(fv,1)+"</td><td>"+markBest(fv,2)+"</td><td>"+markBest(fv,3)+"</td><td>"+markBest(fv,4)+"</td></tr>"+
+      "<tr><td>Dödlighet – döda MAE</td><td>"+markBest(mv,0)+"</td><td>"+markBest(mv,1)+"</td><td colspan=\"3\">Ej testat i denna kandidat</td></tr>"+
+      horizons+"</tbody></table></div>";
+  }
   function renderValidation(){
     const geo=$("geo").value, selected=String($("window").value);
     const bw=backtest?.summary?.[geo]?.[selected]?selected:(backtest?.summary?.[geo]?.["10"]?"10":null);
@@ -1681,6 +1721,7 @@
     renderBacktestMigrationLegAgeTable(geo,bw);
     renderScbBenchmarkTable(geo,selected);
     renderAgeCellWeightValidation(geo,selected);
+    renderLocalizationMethodValidation(geo,selected);
   }
 
   function renderBacktestTable(geo,w){
