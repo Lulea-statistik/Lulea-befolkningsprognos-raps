@@ -20219,7 +20219,7 @@
     "household_totals": {
       "table_id": "TAB4374",
       "path": "data/raw/household_totals.csv",
-      "rows_including_header": 7,
+      "rows_including_header": 12,
       "selection": {
         "Region": [
           "2580",
@@ -20227,6 +20227,11 @@
           "2581",
           "2560",
           "2514",
+          "0780",
+          "1490",
+          "1780",
+          "2281",
+          "2380",
           "00"
         ],
         "ContentsCode": [

@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "engine_regression_passed",
+  "allPassed": true,
+  "checks": {
+    "externalEffectMonotonic": true,
+    "internalMovesNetZeroAtFA": true,
+    "municipalEffectsSumToFA": true,
+    "faContainsOnlyExternalHousingGrowth": true,
+    "referenceFormula": true,
+    "baselineExcluded": true,
+    "autoModePreferred": true
+  },
+  "outputs": {
+    "low": {
+      "fa": {
+        "total": 71.4,
+        "housingExternal": 71.4,
+        "housingInternalNet": 0
+      }
+    },
+    "reference": {
+      "fa": {
+        "total": 285,
+        "housingExternal": 285,
+        "housingInternalNet": 0
+      }
+    },
+    "high": {
+      "fa": {
+        "total": 700,
+        "housingExternal": 700,
+        "housingInternalNet": 0
+      }
+    }
+  },
+  "note": "Deterministic regression of housing scenario mechanics; not an empirical forecast validation."
+}

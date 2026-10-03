@@ -26,12 +26,12 @@
     "Scenarier bedöms separat från baslinjen; produktionsmoget scenario betyder reproducerbar och transparent scenariomekanik, inte att scenariot ingår i basprognosen."
   ],
   "summary": {
-    "componentCount": 13,
+    "componentCount": 15,
     "byLevel": {
       "1": 0,
-      "2": 6,
-      "3": 1,
-      "4": 6
+      "2": 7,
+      "3": 0,
+      "4": 8
     },
     "productionLevel4": [
       "event_age_timing",
@@ -39,12 +39,16 @@
       "mortality_localization",
       "net_migration_10y",
       "calibration_windows",
-      "industrial_workforce_scenario"
+      "industrial_workforce_scenario",
+      "housing_scenario",
+      "household_projection"
     ],
     "rejected": [
       "component_flow",
       "migration_recency",
-      "migration_age_smoothing"
+      "migration_age_smoothing",
+      "birth_status",
+      "consistency_adjustment"
     ]
   },
   "components": [
@@ -243,7 +247,7 @@
       "label": "SCB-lik riskbaserad migration",
       "maturityLevel": 2,
       "maturityName": "Utvecklingskandidat",
-      "lifecycle": "development",
+      "lifecycle": "rejected_superseded",
       "productionActive": false,
       "targetLevel": 4,
       "productionGatePassed": false,
@@ -252,18 +256,18 @@
         {
           "label": "Current age/sex risk-flow beats net10 at n+1",
           "passed": false,
-          "evidence": "population 139.1 vs 81.2; migration 163.8 vs 121.4",
+          "evidence": "candidate population/migration MAE=139.1/163.8; net10=81.2/121.4; passed=False",
           "required": true
         }
       ],
-      "nextAction": "Supersede with the more faithful Profet implementation rather than tuning this approximation."
+      "nextAction": "Closed: do not retune this approximation; retain results as evidence and use net10 in production."
     },
     {
       "key": "profet_flow",
       "label": "Profet-lik baslinje",
       "maturityLevel": 2,
       "maturityName": "Utvecklingskandidat",
-      "lifecycle": "development",
+      "lifecycle": "rejected_current_architecture",
       "productionActive": false,
       "targetLevel": 4,
       "productionGatePassed": false,
@@ -276,32 +280,38 @@
           "required": true
         },
         {
-          "label": "Birth-status state implemented in development cohort engine",
-          "passed": true,
-          "evidence": "Rolling-origin birth-status candidate available",
+          "label": "Base SCB-risk migration increment passes locked comparator",
+          "passed": false,
+          "evidence": "passed=False",
           "required": true
         },
         {
-          "label": "Municipality→county consistency layer integrated in development engine",
-          "passed": true,
-          "evidence": "With/without rolling-origin diagnostic available",
+          "label": "Birth-status increment passes locked n+1/n+2 comparator",
+          "passed": false,
+          "evidence": "passed=False",
+          "required": true
+        },
+        {
+          "label": "Municipality→county consistency increment passes locked accuracy comparator",
+          "passed": false,
+          "evidence": "passed=False",
           "required": true
         },
         {
           "label": "County→national consistency layer active",
           "passed": false,
-          "evidence": "Not active until all-county support is available.",
-          "required": true
+          "evidence": "Not implemented because the preceding forecast-quality increments did not qualify for promotion.",
+          "required": false
         }
       ],
-      "nextAction": "Keep Profet in development until birth-status and full municipality→county→national consistency gates are satisfied."
+      "nextAction": "Lock a genuinely new Profet architecture before any new outcome evaluation; do not retune the consumed risk, birth-status or consistency candidates."
     },
     {
       "key": "birth_status",
       "label": "Inrikes/utrikes född som modellstatus",
       "maturityLevel": 2,
       "maturityName": "Utvecklingskandidat",
-      "lifecycle": "development",
+      "lifecycle": "rejected",
       "productionActive": false,
       "targetLevel": 4,
       "productionGatePassed": false,
@@ -322,18 +332,18 @@
         {
           "label": "Pre-locked Luleå n+1/n+2 promotion gate",
           "passed": false,
-          "evidence": "n+1 population 121.1 < 81.2; n+1 migration 161.3 < 121.4; n+2 population 183.2 <= 107.9; n+2 migration 75.1 <= 106.4",
+          "evidence": "n+1 population candidate=121.1, net10=81.2, passed=False; n+1 migration candidate=161.3, net10=121.4, passed=False; n+2 population candidate=183.2, net10=107.9, passed=False; n+2 migration candidate=75.1, net10=106.4, passed=True",
           "required": true
         }
       ],
-      "nextAction": "Keep at level 2; do not retune birth-status parameters from these outcomes."
+      "nextAction": "Closed: keep at level 2, do not retune birth-status parameters from these consumed outcomes."
     },
     {
       "key": "consistency_adjustment",
       "label": "Konsistensjustering kommun → län → riket",
-      "maturityLevel": 3,
-      "maturityName": "Validerad kandidat",
-      "lifecycle": "validated_candidate",
+      "maturityLevel": 2,
+      "maturityName": "Utvecklingskandidat",
+      "lifecycle": "rejected",
       "productionActive": false,
       "targetLevel": 4,
       "productionGatePassed": false,
@@ -364,7 +374,7 @@
           "required": true
         }
       ],
-      "nextAction": "Keep at level 3; do not tune the adjustment from these outcomes. Review the locked with/without accuracy comparison."
+      "nextAction": "Closed at level 2: structural accounting passed but the locked with/without forecast-accuracy gate failed; do not retune from these outcomes."
     },
     {
       "key": "industrial_workforce_scenario",
@@ -392,7 +402,7 @@
         {
           "label": "Low/reference/high sensitivity presets and parameter ranges documented",
           "passed": true,
-          "evidence": "presets=['low', 'reference', 'high']; ranges=['realizationPct', 'moveSharePct', 'personsPerJob', 'internationalRecruitmentSharePct', 'phaseYears']",
+          "evidence": "presets=['low', 'reference', 'high']; ranges=['realizationPct', 'moveSharePct', 'personsPerJob', 'internationalRecruitmentSharePct', 'phaseYears', 'spinOffJobsPerDirectJob']",
           "required": true
         },
         {
@@ -404,11 +414,75 @@
         {
           "label": "End-to-end scenario engine regression passes",
           "passed": true,
-          "evidence": "checks={'externalEffectMonotonic': True, 'totalEffectMonotonic': True, 'sourceSplitPreservesExternalTotal': True, 'faInternalMovesNetZero': True, 'municipalEffectsSumToFA': True, 'internationalShareChangesCompositionNotTotal': True}",
+          "evidence": "checks={'externalEffectMonotonic': True, 'spinOffFactorIncludedInLabourDemand': True, 'totalEffectMonotonic': True, 'sourceSplitPreservesExternalTotal': True, 'faInternalMovesNetZero': True, 'municipalEffectsSumToFA': True, 'internationalShareChangesCompositionNotTotal': True}",
           "required": true
         }
       ],
       "nextAction": "Keep presets as sensitivity scenarios, never baseline assumptions; rerun structural and engine regression tests whenever scenario mechanics change."
+    },
+    {
+      "key": "housing_scenario",
+      "label": "Bostadsdrivet befolkningsscenario",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_ready_scenario",
+      "productionActive": false,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "Scenarioeffekter ska vara transparent separerade från baslinjen, använda explicita antaganden och klara deterministiska regressionskontroller för FA-balans och låg/referens/hög-känslighet.",
+      "gates": [
+        {
+          "label": "Housing scenario is explicitly excluded from baseline",
+          "passed": true,
+          "evidence": "baselineExcluded=true",
+          "required": true
+        },
+        {
+          "label": "Low/reference/high presets and parameter ranges documented",
+          "passed": true,
+          "evidence": "presets=['low', 'reference', 'high']; ranges=['completionPct', 'occupancyPct', 'personsPerDwelling', 'externalSharePct', 'internalSharePct', 'phaseYears']",
+          "required": true
+        },
+        {
+          "label": "End-to-end housing scenario regression passes",
+          "passed": true,
+          "evidence": "checks={'externalEffectMonotonic': True, 'internalMovesNetZeroAtFA': True, 'municipalEffectsSumToFA': True, 'faContainsOnlyExternalHousingGrowth': True, 'referenceFormula': True, 'baselineExcluded': True, 'autoModePreferred': True}",
+          "required": true
+        }
+      ],
+      "nextAction": "Keep housing presets as sensitivity scenarios; rerun regression whenever scenario mechanics or SCB occupancy-default logic changes."
+    },
+    {
+      "key": "household_projection",
+      "label": "Hushållsframskrivning för bostadsefterfrågan",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_support",
+      "productionActive": true,
+      "targetLevel": 4,
+      "productionGatePassed": true,
+      "requiredGate": "Antingen ska aktivt konstant personer/hushåll-läge klara den förhandslåsta Luleå/FA-grinden, eller ska den redan fördeklarerade femårstrenden klara en separat låst extern kontroll på fem orörda kommuner innan den blir produktionsstandard.",
+      "gates": [
+        {
+          "label": "Validation gate locked before results",
+          "passed": true,
+          "evidence": "validation_gate_locked_before_results",
+          "required": true
+        },
+        {
+          "label": "Current constant mode passes locked Luleå/FA rolling gate",
+          "passed": false,
+          "evidence": "checks={'2580_n1_mae_not_worse': False, '2580_n2_mae_not_worse': False, '2580_n1_mape_le_2pct': True, '2580_n2_mape_le_2pct': True, 'FA_LULEA_n1_mae_not_worse': False, 'FA_LULEA_n2_mae_not_worse': False, 'FA_LULEA_n1_mape_le_2pct': True, 'FA_LULEA_n2_mape_le_2pct': True}",
+          "required": false
+        },
+        {
+          "label": "Pre-declared five-year trend passes locked independent external holdout gate",
+          "passed": true,
+          "evidence": "status=passed_external_gate; checks={'pooled_n1_trend_mae_below_constant': True, 'pooled_n2_trend_mae_below_constant': True, 'pooled_n1_trend_mape_le_2pct': True, 'pooled_n2_trend_mape_le_2pct': True, 'n1_at_least_4_of_5_holdouts_win': True, 'n2_at_least_4_of_5_holdouts_win': True}; wins={'1': 4, '2': 5}",
+          "required": true
+        }
+      ],
+      "nextAction": "Switch the UI production-support default to five-year trend and keep constant/manual as sensitivities; rerun the same external gate on future data refreshes."
     }
   ]
 }

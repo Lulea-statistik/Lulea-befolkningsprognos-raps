@@ -1,0 +1,300 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "passed_external_gate",
+  "allPassed": true,
+  "checks": {
+    "pooled_n1_trend_mae_below_constant": true,
+    "pooled_n2_trend_mae_below_constant": true,
+    "pooled_n1_trend_mape_le_2pct": true,
+    "pooled_n2_trend_mape_le_2pct": true,
+    "n1_at_least_4_of_5_holdouts_win": true,
+    "n2_at_least_4_of_5_holdouts_win": true
+  },
+  "wins": {
+    "1": 4,
+    "2": 5
+  },
+  "pooled": {
+    "1": {
+      "constant": {
+        "observations": 50,
+        "MAE": 211.82873738265707,
+        "MAPE": 0.4605623215496675,
+        "meanError": -195.44637374629374
+      },
+      "trend": {
+        "observations": 50,
+        "MAE": 146.66716874177814,
+        "MAPE": 0.32178549950143337,
+        "meanError": -59.18823539356177
+      }
+    },
+    "2": {
+      "constant": {
+        "observations": 45,
+        "MAE": 442.87489108958454,
+        "MAPE": 0.9566096112961588,
+        "meanError": -424.41812341281707
+      },
+      "trend": {
+        "observations": 45,
+        "MAE": 267.2484132966316,
+        "MAPE": 0.5827835297327504,
+        "meanError": -188.64919627091635
+      }
+    },
+    "3": {
+      "constant": {
+        "observations": 40,
+        "MAE": 687.7072889326348,
+        "MAPE": 1.479592154400558,
+        "meanError": -676.1816071144531
+      },
+      "trend": {
+        "observations": 40,
+        "MAE": 418.2991495527711,
+        "MAPE": 0.9064538397878075,
+        "meanError": -399.5557534122934
+      }
+    }
+  },
+  "holdouts": {
+    "1490": {
+      "name": "Borås kommun",
+      "byHorizon": {
+        "1": {
+          "constant": {
+            "observations": 10,
+            "MAE": 191.52375491614583,
+            "MAPE": 0.36616159129943116,
+            "meanError": -146.35466400705553
+          },
+          "trend": {
+            "observations": 10,
+            "MAE": 191.87778140452502,
+            "MAPE": 0.36698945888978146,
+            "meanError": -79.70417623972534
+          }
+        },
+        "2": {
+          "constant": {
+            "observations": 9,
+            "MAE": 401.20874255458006,
+            "MAPE": 0.7613209018484763,
+            "meanError": -350.5481364939745
+          },
+          "trend": {
+            "observations": 9,
+            "MAE": 398.58806064910704,
+            "MAPE": 0.7608862436043461,
+            "meanError": -285.9444547790853
+          }
+        },
+        "3": {
+          "constant": {
+            "observations": 8,
+            "MAE": 632.5920766350655,
+            "MAPE": 1.195566636764867,
+            "meanError": -574.963667544157
+          },
+          "trend": {
+            "observations": 8,
+            "MAE": 607.6352182745113,
+            "MAPE": 1.1592820894383669,
+            "meanError": -607.6352182745077
+          }
+        }
+      }
+    },
+    "1780": {
+      "name": "Karlstads kommun",
+      "byHorizon": {
+        "1": {
+          "constant": {
+            "observations": 10,
+            "MAE": 244.72379469241133,
+            "MAPE": 0.5028784532869082,
+            "meanError": -244.72379469241133
+          },
+          "trend": {
+            "observations": 10,
+            "MAE": 186.46215900778844,
+            "MAPE": 0.3892347443236523,
+            "meanError": -64.2682155857132
+          }
+        },
+        "2": {
+          "constant": {
+            "observations": 9,
+            "MAE": 517.0976600700928,
+            "MAPE": 1.0582280159018649,
+            "meanError": -517.0976600700928
+          },
+          "trend": {
+            "observations": 9,
+            "MAE": 268.90793531780787,
+            "MAPE": 0.5579731409349175,
+            "meanError": -184.8860988980531
+          }
+        },
+        "3": {
+          "constant": {
+            "observations": 8,
+            "MAE": 826.919042935092,
+            "MAPE": 1.6848789055614393,
+            "meanError": -826.919042935092
+          },
+          "trend": {
+            "observations": 8,
+            "MAE": 409.5790703611947,
+            "MAPE": 0.8450032916810253,
+            "meanError": -409.5790703611947
+          }
+        }
+      }
+    },
+    "2281": {
+      "name": "Sundsvalls kommun",
+      "byHorizon": {
+        "1": {
+          "constant": {
+            "observations": 10,
+            "MAE": 280.358969792322,
+            "MAPE": 0.5805657485779098,
+            "meanError": -280.358969792322
+          },
+          "trend": {
+            "observations": 10,
+            "MAE": 134.83896114278832,
+            "MAPE": 0.27965561536316164,
+            "meanError": -49.76784561099557
+          }
+        },
+        "2": {
+          "constant": {
+            "observations": 9,
+            "MAE": 595.7109173943674,
+            "MAPE": 1.2306956700259966,
+            "meanError": -595.7109173943674
+          },
+          "trend": {
+            "observations": 9,
+            "MAE": 259.97877975776487,
+            "MAPE": 0.5386843003644293,
+            "meanError": -176.94267564357546
+          }
+        },
+        "3": {
+          "constant": {
+            "observations": 8,
+            "MAE": 931.8531191252032,
+            "MAPE": 1.9187477600793614,
+            "meanError": -931.8531191252032
+          },
+          "trend": {
+            "observations": 8,
+            "MAE": 415.5608218156567,
+            "MAPE": 0.8596688488122454,
+            "meanError": -384.5783656753074
+          }
+        }
+      }
+    },
+    "2380": {
+      "name": "Östersunds kommun",
+      "byHorizon": {
+        "1": {
+          "constant": {
+            "observations": 10,
+            "MAE": 96.43015909597052,
+            "MAPE": 0.2990272915203967,
+            "meanError": -96.43015909597052
+          },
+          "trend": {
+            "observations": 10,
+            "MAE": 84.37233984537234,
+            "MAPE": 0.2622681826405307,
+            "meanError": -26.874992559548993
+          }
+        },
+        "2": {
+          "constant": {
+            "observations": 9,
+            "MAE": 196.17832714379983,
+            "MAPE": 0.6075672697243603,
+            "meanError": -196.17832714379983
+          },
+          "trend": {
+            "observations": 9,
+            "MAE": 151.64094069400986,
+            "MAPE": 0.4707174283961042,
+            "meanError": -59.11082625763245
+          }
+        },
+        "3": {
+          "constant": {
+            "observations": 8,
+            "MAE": 321.2843697677399,
+            "MAPE": 0.992306187818571,
+            "meanError": -321.2843697677399
+          },
+          "trend": {
+            "observations": 8,
+            "MAE": 214.48618496253312,
+            "MAPE": 0.6661671083367415,
+            "meanError": -151.7516604004977
+          }
+        }
+      }
+    },
+    "0780": {
+      "name": "Växjö kommun",
+      "byHorizon": {
+        "1": {
+          "constant": {
+            "observations": 10,
+            "MAE": 246.10700841643558,
+            "MAPE": 0.5541785230636915,
+            "meanError": -209.36428114370938
+          },
+          "trend": {
+            "observations": 10,
+            "MAE": 135.78460230841665,
+            "MAPE": 0.31077949629004076,
+            "meanError": -75.32594697182576
+          }
+        },
+        "2": {
+          "constant": {
+            "observations": 9,
+            "MAE": 504.1788082850827,
+            "MAPE": 1.125236198980096,
+            "meanError": -462.555575961851
+          },
+          "trend": {
+            "observations": 9,
+            "MAE": 257.12635006446845,
+            "MAPE": 0.5856565353639548,
+            "meanError": -236.36192577623538
+          }
+        },
+        "3": {
+          "constant": {
+            "observations": 8,
+            "MAE": 725.8878362000733,
+            "MAPE": 1.6064612817785513,
+            "meanError": -725.8878362000733
+          },
+          "trend": {
+            "observations": 8,
+            "MAE": 444.2344523499596,
+            "MAPE": 1.0021478606706584,
+            "meanError": -444.2344523499596
+          }
+        }
+      }
+    }
+  },
+  "config": "data/household_projection_external_config.json",
+  "note": "External control of household-size projection only; not a housing-market forecast."
+}

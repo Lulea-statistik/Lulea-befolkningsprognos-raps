@@ -22,7 +22,8 @@
       "internationalRecruitmentSharePct": 10,
       "phaseYears": 6,
       "allocationMode": "commuting",
-      "ageProfileMode": "worker_household"
+      "ageProfileMode": "worker_household",
+      "spinOffJobsPerDirectJob": 0.5
     },
     "reference": {
       "label": "Referenskänslighet",
@@ -33,7 +34,8 @@
       "internationalRecruitmentSharePct": 25,
       "phaseYears": 4,
       "allocationMode": "commuting",
-      "ageProfileMode": "worker_household"
+      "ageProfileMode": "worker_household",
+      "spinOffJobsPerDirectJob": 1.5
     },
     "high": {
       "label": "Hög befolkningseffekt",
@@ -44,7 +46,8 @@
       "internationalRecruitmentSharePct": 40,
       "phaseYears": 3,
       "allocationMode": "commuting",
-      "ageProfileMode": "worker_household"
+      "ageProfileMode": "worker_household",
+      "spinOffJobsPerDirectJob": 2.5
     }
   },
   "parameterRanges": {
@@ -82,6 +85,13 @@
         6
       ],
       "rationale": "Sensitivity range for how quickly the realised employment effect is phased into the population scenario."
+    },
+    "spinOffJobsPerDirectJob": {
+      "range": [
+        0,
+        3
+      ],
+      "rationale": "User-controlled sensitivity assumption for indirect/spin-off employment. It is not an empirically calibrated multiplier in the baseline."
     }
   },
   "note": "Structural scenario validation only. Passing means the scenario is transparent, bounded and reproducible; it does not establish a most-likely industrial development outcome."

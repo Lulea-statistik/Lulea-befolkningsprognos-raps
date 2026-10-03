@@ -4,6 +4,7 @@
   "allPassed": true,
   "checks": {
     "externalEffectMonotonic": true,
+    "spinOffFactorIncludedInLabourDemand": true,
     "totalEffectMonotonic": true,
     "sourceSplitPreservesExternalTotal": true,
     "faInternalMovesNetZero": true,
@@ -22,28 +23,28 @@
   "presets": {
     "low": {
       "fa": {
-        "total": 4.875,
-        "jobExternal": 4.875,
-        "jobExternalDomestic": 4.3875,
-        "jobExternalInternational": 0.48750000000000004,
+        "total": 7.3125,
+        "jobExternal": 7.3125,
+        "jobExternalDomestic": 6.58125,
+        "jobExternalInternational": 0.7312500000000001,
         "jobInternalNet": 0
       }
     },
     "reference": {
       "fa": {
-        "total": 23.90625,
-        "jobExternal": 23.90625,
-        "jobExternalDomestic": 17.9296875,
-        "jobExternalInternational": 5.9765625,
+        "total": 59.765625,
+        "jobExternal": 59.765625,
+        "jobExternalDomestic": 44.82421875,
+        "jobExternalInternational": 14.94140625,
         "jobInternalNet": 0
       }
     },
     "high": {
       "fa": {
-        "total": 84,
-        "jobExternal": 84,
-        "jobExternalDomestic": 50.4,
-        "jobExternalInternational": 33.6,
+        "total": 294,
+        "jobExternal": 294,
+        "jobExternalDomestic": 176.4,
+        "jobExternalInternational": 117.60000000000001,
         "jobInternalNet": 0
       }
     }

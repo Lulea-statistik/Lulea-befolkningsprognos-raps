@@ -1,0 +1,791 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "gate_failed",
+  "allPassed": false,
+  "checks": {
+    "2580_n1_mae_not_worse": false,
+    "2580_n2_mae_not_worse": false,
+    "2580_n1_mape_le_2pct": true,
+    "2580_n2_mape_le_2pct": true,
+    "FA_LULEA_n1_mae_not_worse": false,
+    "FA_LULEA_n2_mae_not_worse": false,
+    "FA_LULEA_n1_mape_le_2pct": true,
+    "FA_LULEA_n2_mape_le_2pct": true
+  },
+  "config": "data/household_projection_config.json",
+  "results": {
+    "2580": {
+      "historyYears": [
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "rows": [
+        {
+          "origin": 2015,
+          "year": 2016,
+          "horizon": 1,
+          "actualHouseholds": 37082.0,
+          "constantPredicted": 37082.0,
+          "trendPredicted": 37216.84363636363,
+          "constantError": 0.0,
+          "trendError": 134.84363636362832,
+          "originPersonsPerHousehold": 2.07,
+          "trendPersonsPerHousehold": 2.0625
+        },
+        {
+          "origin": 2015,
+          "year": 2017,
+          "horizon": 2,
+          "actualHouseholds": 37613.0,
+          "constantPredicted": 37431.29468599034,
+          "trendPredicted": 37704.515815085164,
+          "constantError": -181.70531400966138,
+          "trendError": 91.51581508516392,
+          "originPersonsPerHousehold": 2.07,
+          "trendPersonsPerHousehold": 2.0549999999999997
+        },
+        {
+          "origin": 2015,
+          "year": 2018,
+          "horizon": 3,
+          "actualHouseholds": 38109.0,
+          "constantPredicted": 37556.69565217392,
+          "trendPredicted": 37969.4065934066,
+          "constantError": -552.3043478260806,
+          "trendError": -139.59340659339796,
+          "originPersonsPerHousehold": 2.07,
+          "trendPersonsPerHousehold": 2.0474999999999994
+        },
+        {
+          "origin": 2016,
+          "year": 2017,
+          "horizon": 1,
+          "actualHouseholds": 37613.0,
+          "constantPredicted": 37431.29468599034,
+          "trendPredicted": 37567.408484848485,
+          "constantError": -181.70531400966138,
+          "trendError": -45.59151515151461,
+          "originPersonsPerHousehold": 2.07,
+          "trendPersonsPerHousehold": 2.0625
+        },
+        {
+          "origin": 2016,
+          "year": 2018,
+          "horizon": 2,
+          "actualHouseholds": 38109.0,
+          "constantPredicted": 37556.69565217392,
+          "trendPredicted": 37830.832116788326,
+          "constantError": -552.3043478260806,
+          "trendError": -278.16788321167405,
+          "originPersonsPerHousehold": 2.07,
+          "trendPersonsPerHousehold": 2.0549999999999997
+        },
+        {
+          "origin": 2016,
+          "year": 2019,
+          "horizon": 3,
+          "actualHouseholds": 38435.0,
+          "constantPredicted": 37692.29468599034,
+          "trendPredicted": 38106.495726495734,
+          "constantError": -742.7053140096614,
+          "trendError": -328.50427350426617,
+          "originPersonsPerHousehold": 2.07,
+          "trendPersonsPerHousehold": 2.0474999999999994
+        },
+        {
+          "origin": 2017,
+          "year": 2018,
+          "horizon": 1,
+          "actualHouseholds": 38109.0,
+          "constantPredicted": 37739.00970873786,
+          "trendPredicted": 37923.10243902439,
+          "constantError": -369.9902912621401,
+          "trendError": -185.89756097560894,
+          "originPersonsPerHousehold": 2.06,
+          "trendPersonsPerHousehold": 2.05
+        },
+        {
+          "origin": 2017,
+          "year": 2019,
+          "horizon": 2,
+          "actualHouseholds": 38435.0,
+          "constantPredicted": 37875.26699029125,
+          "trendPredicted": 38246.593137254895,
+          "constantError": -559.733009708747,
+          "trendError": -188.40686274510517,
+          "originPersonsPerHousehold": 2.06,
+          "trendPersonsPerHousehold": 2.04
+        },
+        {
+          "origin": 2017,
+          "year": 2020,
+          "horizon": 3,
+          "actualHouseholds": 39072.0,
+          "constantPredicted": 38123.65048543688,
+          "trendPredicted": 38687.05418719211,
+          "constantError": -948.3495145631168,
+          "trendError": -384.94581280789134,
+          "originPersonsPerHousehold": 2.06,
+          "trendPersonsPerHousehold": 2.0300000000000002
+        },
+        {
+          "origin": 2018,
+          "year": 2019,
+          "horizon": 1,
+          "actualHouseholds": 38435.0,
+          "constantPredicted": 38246.593137254895,
+          "trendPredicted": 38434.99999999999,
+          "constantError": -188.40686274510517,
+          "trendError": -7.275957614183426e-12,
+          "originPersonsPerHousehold": 2.04,
+          "trendPersonsPerHousehold": 2.0300000000000002
+        },
+        {
+          "origin": 2018,
+          "year": 2020,
+          "horizon": 2,
+          "actualHouseholds": 39072.0,
+          "constantPredicted": 38497.411764705874,
+          "trendPredicted": 38878.57425742574,
+          "constantError": -574.5882352941262,
+          "trendError": -193.42574257426168,
+          "originPersonsPerHousehold": 2.04,
+          "trendPersonsPerHousehold": 2.02
+        },
+        {
+          "origin": 2018,
+          "year": 2021,
+          "horizon": 3,
+          "actualHouseholds": 39440.0,
+          "constantPredicted": 38666.666666666664,
+          "trendPredicted": 39243.78109452737,
+          "constantError": -773.3333333333358,
+          "trendError": -196.2189054726332,
+          "originPersonsPerHousehold": 2.04,
+          "trendPersonsPerHousehold": 2.01
+        },
+        {
+          "origin": 2019,
+          "year": 2020,
+          "horizon": 1,
+          "actualHouseholds": 39072.0,
+          "constantPredicted": 38687.054187192116,
+          "trendPredicted": 38878.574257425746,
+          "constantError": -384.94581280788407,
+          "trendError": -193.4257425742544,
+          "originPersonsPerHousehold": 2.03,
+          "trendPersonsPerHousehold": 2.0199999999999996
+        },
+        {
+          "origin": 2019,
+          "year": 2021,
+          "horizon": 2,
+          "actualHouseholds": 39440.0,
+          "constantPredicted": 38857.14285714286,
+          "trendPredicted": 39243.78109452737,
+          "constantError": -582.8571428571377,
+          "trendError": -196.2189054726332,
+          "originPersonsPerHousehold": 2.03,
+          "trendPersonsPerHousehold": 2.01
+        },
+        {
+          "origin": 2019,
+          "year": 2022,
+          "horizon": 3,
+          "actualHouseholds": 39842.0,
+          "constantPredicted": 39056.93596059114,
+          "trendPredicted": 39642.79000000001,
+          "constantError": -785.0640394088623,
+          "trendError": -199.20999999999185,
+          "originPersonsPerHousehold": 2.03,
+          "trendPersonsPerHousehold": 1.9999999999999998
+        },
+        {
+          "origin": 2020,
+          "year": 2021,
+          "horizon": 1,
+          "actualHouseholds": 39440.0,
+          "constantPredicted": 39243.78109452737,
+          "trendPredicted": 39538.847117794496,
+          "constantError": -196.2189054726332,
+          "trendError": 98.84711779449572,
+          "originPersonsPerHousehold": 2.01,
+          "trendPersonsPerHousehold": 1.9949999999999997
+        },
+        {
+          "origin": 2020,
+          "year": 2022,
+          "horizon": 2,
+          "actualHouseholds": 39842.0,
+          "constantPredicted": 39445.56218905473,
+          "trendPredicted": 40043.222222222226,
+          "constantError": -396.4378109452664,
+          "trendError": 201.22222222222626,
+          "originPersonsPerHousehold": 2.01,
+          "trendPersonsPerHousehold": 1.9799999999999998
+        },
+        {
+          "origin": 2020,
+          "year": 2023,
+          "horizon": 3,
+          "actualHouseholds": 40155.0,
+          "constantPredicted": 39355.89552238807,
+          "trendPredicted": 40257.17557251909,
+          "constantError": -799.1044776119306,
+          "trendError": 102.17557251908875,
+          "originPersonsPerHousehold": 2.01,
+          "trendPersonsPerHousehold": 1.9649999999999999
+        },
+        {
+          "origin": 2021,
+          "year": 2022,
+          "horizon": 1,
+          "actualHouseholds": 39842.0,
+          "constantPredicted": 39642.79,
+          "trendPredicted": 39942.35768261965,
+          "constantError": -199.20999999999913,
+          "trendError": 100.35768261965131,
+          "originPersonsPerHousehold": 2.0,
+          "trendPersonsPerHousehold": 1.9849999999999999
+        },
+        {
+          "origin": 2021,
+          "year": 2023,
+          "horizon": 2,
+          "actualHouseholds": 40155.0,
+          "constantPredicted": 39552.675,
+          "trendPredicted": 40155.0,
+          "constantError": -602.3249999999971,
+          "trendError": 0.0,
+          "originPersonsPerHousehold": 2.0,
+          "trendPersonsPerHousehold": 1.97
+        },
+        {
+          "origin": 2021,
+          "year": 2024,
+          "horizon": 3,
+          "actualHouseholds": 40552.0,
+          "constantPredicted": 39740.96,
+          "trendPredicted": 40655.71355498721,
+          "constantError": -811.0400000000009,
+          "trendError": 103.71355498721096,
+          "originPersonsPerHousehold": 2.0,
+          "trendPersonsPerHousehold": 1.955
+        },
+        {
+          "origin": 2022,
+          "year": 2023,
+          "horizon": 1,
+          "actualHouseholds": 40155.0,
+          "constantPredicted": 39751.432160804026,
+          "trendPredicted": 40002.705436156764,
+          "constantError": -403.56783919597365,
+          "trendError": -152.29456384323566,
+          "originPersonsPerHousehold": 1.99,
+          "trendPersonsPerHousehold": 1.9775
+        },
+        {
+          "origin": 2022,
+          "year": 2024,
+          "horizon": 2,
+          "actualHouseholds": 40552.0,
+          "constantPredicted": 39940.66331658291,
+          "trendPredicted": 40448.814249363866,
+          "constantError": -611.3366834170884,
+          "trendError": -103.18575063613389,
+          "originPersonsPerHousehold": 1.99,
+          "trendPersonsPerHousehold": 1.9649999999999999
+        },
+        {
+          "origin": 2022,
+          "year": 2025,
+          "horizon": 3,
+          "actualHouseholds": 40868.0,
+          "constantPredicted": 40251.89949748744,
+          "trendPredicted": 41024.983354673495,
+          "constantError": -616.1005025125633,
+          "trendError": 156.98335467349534,
+          "originPersonsPerHousehold": 1.99,
+          "trendPersonsPerHousehold": 1.9525
+        },
+        {
+          "origin": 2023,
+          "year": 2024,
+          "horizon": 1,
+          "actualHouseholds": 40552.0,
+          "constantPredicted": 40346.15228426395,
+          "trendPredicted": 40655.713554987204,
+          "constantError": -205.84771573604667,
+          "trendError": 103.71355498720368,
+          "originPersonsPerHousehold": 1.9700000000000002,
+          "trendPersonsPerHousehold": 1.9550000000000003
+        },
+        {
+          "origin": 2023,
+          "year": 2025,
+          "horizon": 2,
+          "actualHouseholds": 40868.0,
+          "constantPredicted": 40660.54822335025,
+          "trendPredicted": 41289.31958762886,
+          "constantError": -207.451776649752,
+          "trendError": 421.31958762885915,
+          "originPersonsPerHousehold": 1.9700000000000002,
+          "trendPersonsPerHousehold": 1.9400000000000004
+        },
+        {
+          "origin": 2024,
+          "year": 2025,
+          "horizon": 1,
+          "actualHouseholds": 40868.0,
+          "constantPredicted": 40868.0,
+          "trendPredicted": 41130.31065468549,
+          "constantError": 0.0,
+          "trendError": 262.3106546854906,
+          "originPersonsPerHousehold": 1.96,
+          "trendPersonsPerHousehold": 1.9475
+        }
+      ],
+      "byHorizon": {
+        "1": {
+          "observations": 10,
+          "constant": {
+            "MAE": 212.98927412294432,
+            "MAPE": 0.5439535103792678,
+            "meanError": -212.98927412294432
+          },
+          "trend": {
+            "MAE": 127.72820289950906,
+            "MAPE": 0.32470883534294187,
+            "meanError": 12.286326390584872
+          }
+        },
+        "2": {
+          "observations": 9,
+          "constant": {
+            "MAE": 474.30436896753963,
+            "MAPE": 1.2052528171379526,
+            "meanError": -474.30436896753963
+          },
+          "trend": {
+            "MAE": 185.94030773067303,
+            "MAPE": 0.47182503302621065,
+            "meanError": -27.260835522617626
+          }
+        },
+        "3": {
+          "observations": 8,
+          "constant": {
+            "MAE": 753.500191158194,
+            "MAPE": 1.904705260157734,
+            "meanError": -753.500191158194
+          },
+          "trend": {
+            "MAE": 201.41811006974694,
+            "MAPE": 0.5122582068668923,
+            "meanError": -110.69998952479818
+          }
+        }
+      }
+    },
+    "FA_LULEA": {
+      "historyYears": [
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "rows": [
+        {
+          "origin": 2015,
+          "year": 2016,
+          "horizon": 1,
+          "actualHouseholds": 82245.0,
+          "constantPredicted": 82131.10082792176,
+          "trendPredicted": 82433.51932303682,
+          "constantError": -113.899172078236,
+          "trendError": 188.5193230368168,
+          "originPersonsPerHousehold": 2.081737104172287,
+          "trendPersonsPerHousehold": 2.0740999705470458
+        },
+        {
+          "origin": 2015,
+          "year": 2017,
+          "horizon": 2,
+          "actualHouseholds": 83104.0,
+          "constantPredicted": 82724.14401167713,
+          "trendPredicted": 83335.59981002285,
+          "constantError": -379.8559883228736,
+          "trendError": 231.5998100228462,
+          "originPersonsPerHousehold": 2.081737104172287,
+          "trendPersonsPerHousehold": 2.0664628369218043
+        },
+        {
+          "origin": 2015,
+          "year": 2018,
+          "horizon": 3,
+          "actualHouseholds": 83837.0,
+          "constantPredicted": 82639.14288466386,
+          "trendPredicted": 83558.78291423274,
+          "constantError": -1197.8571153361409,
+          "trendError": -278.21708576726087,
+          "originPersonsPerHousehold": 2.081737104172287,
+          "trendPersonsPerHousehold": 2.0588257032965624
+        },
+        {
+          "origin": 2016,
+          "year": 2017,
+          "horizon": 1,
+          "actualHouseholds": 83104.0,
+          "constantPredicted": 82838.86561432011,
+          "trendPredicted": 83091.48703345703,
+          "constantError": -265.13438567989215,
+          "trendError": -12.51296654297039,
+          "originPersonsPerHousehold": 2.078854155267797,
+          "trendPersonsPerHousehold": 2.072533855732527
+        },
+        {
+          "origin": 2016,
+          "year": 2018,
+          "horizon": 2,
+          "actualHouseholds": 83837.0,
+          "constantPredicted": 82753.74660799078,
+          "trendPredicted": 83260.01418586007,
+          "constantError": -1083.2533920092246,
+          "trendError": -576.9858141399309,
+          "originPersonsPerHousehold": 2.078854155267797,
+          "trendPersonsPerHousehold": 2.066213556197257
+        },
+        {
+          "origin": 2016,
+          "year": 2019,
+          "horizon": 3,
+          "actualHouseholds": 84374.0,
+          "constantPredicted": 82841.3862336655,
+          "trendPredicted": 83603.92435046415,
+          "constantError": -1532.6137663344998,
+          "trendError": -770.075649535851,
+          "originPersonsPerHousehold": 2.078854155267797,
+          "trendPersonsPerHousehold": 2.059893256661987
+        },
+        {
+          "origin": 2017,
+          "year": 2018,
+          "horizon": 1,
+          "actualHouseholds": 83837.0,
+          "constantPredicted": 83018.60856145802,
+          "trendPredicted": 83309.79701077958,
+          "constantError": -818.3914385419775,
+          "trendError": -527.2029892204155,
+          "originPersonsPerHousehold": 2.0722217943781285,
+          "trendPersonsPerHousehold": 2.0649788641033466
+        },
+        {
+          "origin": 2017,
+          "year": 2019,
+          "horizon": 2,
+          "actualHouseholds": 84374.0,
+          "constantPredicted": 83106.52868684917,
+          "trendPredicted": 83691.57439923858,
+          "constantError": -1267.4713131508324,
+          "trendError": -682.4256007614167,
+          "originPersonsPerHousehold": 2.0722217943781285,
+          "trendPersonsPerHousehold": 2.057735933828565
+        },
+        {
+          "origin": 2017,
+          "year": 2020,
+          "horizon": 3,
+          "actualHouseholds": 85176.0,
+          "constantPredicted": 83313.08958740588,
+          "trendPredicted": 84195.94687754891,
+          "constantError": -1862.910412594123,
+          "trendError": -980.0531224510923,
+          "originPersonsPerHousehold": 2.0722217943781285,
+          "trendPersonsPerHousehold": 2.0504930035537825
+        },
+        {
+          "origin": 2018,
+          "year": 2019,
+          "horizon": 1,
+          "actualHouseholds": 84374.0,
+          "constantPredicted": 83925.78683562808,
+          "trendPredicted": 84279.97105675214,
+          "constantError": -448.21316437191854,
+          "trendError": -94.0289432478603,
+          "originPersonsPerHousehold": 2.05199339193912,
+          "trendPersonsPerHousehold": 2.0433699471020748
+        },
+        {
+          "origin": 2018,
+          "year": 2020,
+          "horizon": 2,
+          "actualHouseholds": 85176.0,
+          "constantPredicted": 84134.38399860213,
+          "trendPredicted": 84847.52268049991,
+          "constantError": -1041.616001397866,
+          "trendError": -328.4773195000889,
+          "originPersonsPerHousehold": 2.05199339193912,
+          "trendPersonsPerHousehold": 2.0347465022650297
+        },
+        {
+          "origin": 2018,
+          "year": 2021,
+          "horizon": 3,
+          "actualHouseholds": 85817.0,
+          "constantPredicted": 84339.20434629479,
+          "trendPredicted": 85416.08041304827,
+          "constantError": -1477.7956537052087,
+          "trendError": -400.919586951728,
+          "originPersonsPerHousehold": 2.05199339193912,
+          "trendPersonsPerHousehold": 2.026123057427985
+        },
+        {
+          "origin": 2019,
+          "year": 2020,
+          "horizon": 1,
+          "actualHouseholds": 85176.0,
+          "constantPredicted": 84583.71119476357,
+          "trendPredicted": 85006.89751611599,
+          "constantError": -592.2888052364287,
+          "trendError": -169.10248388400942,
+          "originPersonsPerHousehold": 2.0410927536918955,
+          "trendPersonsPerHousehold": 2.0309316660717975
+        },
+        {
+          "origin": 2019,
+          "year": 2021,
+          "horizon": 2,
+          "actualHouseholds": 85817.0,
+          "constantPredicted": 84789.62540382624,
+          "trendPredicted": 85642.32468813953,
+          "constantError": -1027.3745961737586,
+          "trendError": -174.67531186046836,
+          "originPersonsPerHousehold": 2.0410927536918955,
+          "trendPersonsPerHousehold": 2.0207705784516996
+        },
+        {
+          "origin": 2019,
+          "year": 2022,
+          "horizon": 3,
+          "actualHouseholds": 86417.0,
+          "constantPredicted": 84858.01034113372,
+          "trendPredicted": 86144.56004003146,
+          "constantError": -1558.9896588662814,
+          "trendError": -272.4399599685421,
+          "originPersonsPerHousehold": 2.0410927536918955,
+          "trendPersonsPerHousehold": 2.0106094908316017
+        },
+        {
+          "origin": 2020,
+          "year": 2021,
+          "horizon": 1,
+          "actualHouseholds": 85817.0,
+          "constantPredicted": 85383.35610229653,
+          "trendPredicted": 85934.03271115934,
+          "constantError": -433.64389770347043,
+          "trendError": 117.03271115933603,
+          "originPersonsPerHousehold": 2.0268995961303653,
+          "trendPersonsPerHousehold": 2.0139109563460074
+        },
+        {
+          "origin": 2020,
+          "year": 2022,
+          "horizon": 2,
+          "actualHouseholds": 86417.0,
+          "constantPredicted": 85452.21989814831,
+          "trendPredicted": 86561.61639379841,
+          "constantError": -964.7801018516911,
+          "trendError": 144.61639379840926,
+          "originPersonsPerHousehold": 2.0268995961303653,
+          "trendPersonsPerHousehold": 2.0009223165616494
+        },
+        {
+          "origin": 2020,
+          "year": 2023,
+          "horizon": 3,
+          "actualHouseholds": 86836.0,
+          "constantPredicted": 85132.28791866695,
+          "trendPredicted": 86800.98436670899,
+          "constantError": -1703.7120813330548,
+          "trendError": -35.01563329101191,
+          "originPersonsPerHousehold": 2.0268995961303653,
+          "trendPersonsPerHousehold": 1.9879336767772915
+        },
+        {
+          "origin": 2021,
+          "year": 2022,
+          "horizon": 1,
+          "actualHouseholds": 86417.0,
+          "constantPredicted": 85886.21354041803,
+          "trendPredicted": 86481.91627738098,
+          "constantError": -530.7864595819701,
+          "trendError": 64.91627738098032,
+          "originPersonsPerHousehold": 2.0166574221890765,
+          "trendPersonsPerHousehold": 2.0027663291418136
+        },
+        {
+          "origin": 2021,
+          "year": 2023,
+          "horizon": 2,
+          "actualHouseholds": 86836.0,
+          "constantPredicted": 85564.65669448827,
+          "trendPredicted": 86759.89165556527,
+          "constantError": -1271.3433055117348,
+          "trendError": -76.1083444347314,
+          "originPersonsPerHousehold": 2.0166574221890765,
+          "trendPersonsPerHousehold": 1.9888752360945505
+        },
+        {
+          "origin": 2021,
+          "year": 2024,
+          "horizon": 3,
+          "actualHouseholds": 87480.0,
+          "constantPredicted": 85726.01280605169,
+          "trendPredicted": 87534.88001845728,
+          "constantError": -1753.9871939483128,
+          "trendError": 54.88001845727558,
+          "originPersonsPerHousehold": 2.0166574221890765,
+          "trendPersonsPerHousehold": 1.9749841430472874
+        },
+        {
+          "origin": 2022,
+          "year": 2023,
+          "horizon": 1,
+          "actualHouseholds": 86836.0,
+          "constantPredicted": 86093.45589659584,
+          "trendPredicted": 86609.00573589111,
+          "constantError": -742.5441034041578,
+          "trendError": -226.99426410888555,
+          "originPersonsPerHousehold": 2.0042708031984446,
+          "trendPersonsPerHousehold": 1.9923401560132759
+        },
+        {
+          "origin": 2022,
+          "year": 2024,
+          "horizon": 2,
+          "actualHouseholds": 87480.0,
+          "constantPredicted": 86255.80920707698,
+          "trendPredicted": 87295.07671486614,
+          "constantError": -1224.190792923022,
+          "trendError": -184.9232851338602,
+          "originPersonsPerHousehold": 2.0042708031984446,
+          "trendPersonsPerHousehold": 1.980409508828107
+        },
+        {
+          "origin": 2022,
+          "year": 2025,
+          "horizon": 3,
+          "actualHouseholds": 88241.0,
+          "constantPredicted": 86764.88213193913,
+          "trendPredicted": 88342.4878918226,
+          "constantError": -1476.1178680608718,
+          "trendError": 101.48789182260225,
+          "originPersonsPerHousehold": 2.0042708031984446,
+          "trendPersonsPerHousehold": 1.9684788616429383
+        },
+        {
+          "origin": 2023,
+          "year": 2024,
+          "horizon": 1,
+          "actualHouseholds": 87480.0,
+          "constantPredicted": 86999.75358524198,
+          "trendPredicted": 87594.41143993622,
+          "constantError": -480.24641475801764,
+          "trendError": 114.41143993621517,
+          "originPersonsPerHousehold": 1.9871320650421485,
+          "trendPersonsPerHousehold": 1.9736418928797117
+        },
+        {
+          "origin": 2023,
+          "year": 2025,
+          "horizon": 2,
+          "actualHouseholds": 88241.0,
+          "constantPredicted": 87513.2171933985,
+          "trendPredicted": 88717.78554792941,
+          "constantError": -727.7828066015063,
+          "trendError": 476.7855479294085,
+          "originPersonsPerHousehold": 1.9871320650421485,
+          "trendPersonsPerHousehold": 1.960151720717275
+        },
+        {
+          "origin": 2024,
+          "year": 2025,
+          "horizon": 1,
+          "actualHouseholds": 88241.0,
+          "constantPredicted": 87996.29797316059,
+          "trendPredicted": 88564.06193242947,
+          "constantError": -244.7020268394117,
+          "trendError": 323.06193242946756,
+          "originPersonsPerHousehold": 1.9762231367169636,
+          "trendPersonsPerHousehold": 1.9635540218636132
+        }
+      ],
+      "byHorizon": {
+        "1": {
+          "observations": 10,
+          "constant": {
+            "MAE": 466.98498681954806,
+            "MAPE": 0.5461217236993591,
+            "meanError": -466.98498681954806
+          },
+          "trend": {
+            "MAE": 183.7783330946957,
+            "MAPE": 0.21528919250500217,
+            "meanError": -22.189996306132524
+          }
+        },
+        "2": {
+          "observations": 9,
+          "constant": {
+            "MAE": 998.629810882501,
+            "MAPE": 1.1640126144901521,
+            "meanError": -998.629810882501
+          },
+          "trend": {
+            "MAE": 319.6219363979067,
+            "MAPE": 0.3746237970904229,
+            "meanError": -130.06599156442584
+          }
+        },
+        "3": {
+          "observations": 8,
+          "constant": {
+            "MAE": 1570.4979687723117,
+            "MAPE": 1.8247834393849394,
+            "meanError": -1570.4979687723117
+          },
+          "trend": {
+            "MAE": 361.6361185306705,
+            "MAPE": 0.42446014134732907,
+            "meanError": -322.54414096070104
+          }
+        }
+      }
+    }
+  },
+  "note": "Uses observed future persons to isolate the household-size assumption; this is not a full housing-market forecast backtest."
+}
