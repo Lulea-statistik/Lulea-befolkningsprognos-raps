@@ -31,7 +31,7 @@ for(const sc of scenarios){
     endYear:baseYear+3,window:10,migrationWindow:10,
     fertMult:1,mortMult:1,migMult:1,
     cohortTimingMode:'event_age_aligned',
-    scenarios:sc.value,includeDetail:false
+    scenarios:sc.value,includeDetail:true
   };
   const fa=M.simulate(data,{...common,geo:'FA_LULEA'});
   const municipal=Object.fromEntries(
