@@ -135,6 +135,16 @@
       "label": "Nationella framtidsprofiler för fruktsamhet och dödlighet",
       "targetLevel": 4,
       "requiredGate": "Raps/SCB 2024-basens årliga fruktsamhets- och dödlighetsprofiler ska täcka hela den stödda tioårshorisonten utan luckor, och SCB 2026 ska vara en separat fruktsamhetskänslighet snarare än tyst baslinjebyte."
+    },
+    "scenario_overlap_control": {
+      "label": "Scenarieöverlapp bostad + jobb",
+      "targetLevel": 4,
+      "requiredGate": "Överlappsavdraget ska vara begränsat till den mindre positiva externa scenarieeffekten, monotont i 0–100 %, nettonoll utan aktiva scenarier och fortsatt kompatibelt med FA-additivitet."
+    },
+    "demographic_sensitivity_controls": {
+      "label": "Demografiska känslighetsmultiplikatorer",
+      "targetLevel": 4,
+      "requiredGate": "Neutralläget 1/1/1 ska reproducera baslinjen exakt; nollvärden ska nollställa respektive komponent deterministiskt och flyttmultiplikatorn ska skala nettoflyttningen utan att ändra produktionsstandarderna."
     }
   }
 }
