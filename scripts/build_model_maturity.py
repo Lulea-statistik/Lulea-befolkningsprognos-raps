@@ -248,6 +248,26 @@ def main():
         "Keep 10 years as default; retain 3 and 6 as sensitivity/regime alternatives."
     ))
 
+    mig_spline = rolling.get("migrationSplineDiagnostic", {}).get("summary", {})
+    mig_spline_evidence = []
+    for geo in GEOS:
+        s = mig_spline.get(geo, {})
+        if s.get("oneYear"):
+            mig_spline_evidence.append(
+                f"{geo}: n+1 population MAE spline={s['oneYear']['spline']['populationMAE']} vs raw={s['oneYear']['raw']['populationMAE']}; "
+                f"net migration MAE spline={s['oneYear']['spline']['netMigrationMAE']} vs raw={s['oneYear']['raw']['netMigrationMAE']}"
+            )
+    comps.append(component(
+        policy, "migration_spline_candidate", 2, "development_locked", False,
+        [gate(
+            "Locked lambda=10 total-preserving migration spline diagnostic generated",
+            bool(mig_spline_evidence),
+            "; ".join(mig_spline_evidence) if mig_spline_evidence else "Awaiting rolling-origin results",
+            required=False
+        )],
+        "Keep lambda=10 and per-municipality/sex total preservation locked. Use 2018-2024 only as development evidence and do not retune from these outcomes."
+    ))
+
     # Component-flow rejected at external holdout.
     cf = rolling["componentFlowDiagnostic"]["summary"]["2580"]
     cf_gate = bool(hgate)
