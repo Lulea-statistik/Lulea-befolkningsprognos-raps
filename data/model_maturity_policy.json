@@ -95,6 +95,11 @@
       "label": "Bostadsdrivet befolkningsscenario",
       "targetLevel": 4,
       "requiredGate": "Scenarioeffekter ska vara transparent separerade från baslinjen, använda explicita antaganden och klara deterministiska regressionskontroller för FA-balans och låg/referens/hög-känslighet."
+    },
+    "household_projection": {
+      "label": "Hushållsframskrivning för bostadsefterfrågan",
+      "targetLevel": 4,
+      "requiredGate": "Aktivt konstant personer/hushåll-läge ska i förhandslåst historisk rolling-validering inte vara sämre än femårstrend på n+1/n+2 för Luleå och FA samt hålla MAPE högst 2 procent."
     }
   }
 }
