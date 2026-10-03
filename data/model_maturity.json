@@ -26,10 +26,10 @@
     "Scenarier bedöms separat från baslinjen; produktionsmoget scenario betyder reproducerbar och transparent scenariomekanik, inte att scenariot ingår i basprognosen."
   ],
   "summary": {
-    "componentCount": 37,
+    "componentCount": 38,
     "byLevel": {
       "1": 0,
-      "2": 9,
+      "2": 10,
       "3": 1,
       "4": 27
     },
@@ -150,7 +150,7 @@
       "productionActive": false,
       "targetLevel": 4,
       "productionGatePassed": true,
-      "requiredGate": "Kandidaten är låst efter utvecklingsanalys. Den får inte befordras på redan konsumerade 2018–2024-resultat; nivå 3–4 kräver ny oberoende evidens med förhandsdefinierad grind.",
+      "requiredGate": "Nivå 3 kräver den redan låsta 2025-holdoutgrinden. Nivå 4 kräver dessutom en ytterligare helt orörd årlig eller extern kontroll efter 2025 där lambda=10 och metodformuleringen förblir oförändrade; kandidaten måste återigen sänka maternal-age-cell MAE och inte försämra totalfelet för födda i både Luleå och Luleå FA.",
       "gates": [
         {
           "label": "Vintage-correct 2018-2024 development diagnostic generated",
@@ -192,6 +192,26 @@
         }
       ],
       "nextAction": "Closed at level 2 after the locked 2025 holdout gate failed. Do not retune shrinkage on 2018-2025 outcomes."
+    },
+    {
+      "key": "mortality_wls_candidate",
+      "label": "Dödlighet: weighted least squares för lokal riskkurva",
+      "maturityLevel": 2,
+      "maturityName": "Utvecklingskandidat",
+      "lifecycle": "development_locked",
+      "productionActive": false,
+      "targetLevel": 4,
+      "productionGatePassed": false,
+      "requiredGate": "Ny SCB-inspirerad kandidat låst före resultatutvärdering: log(lokal hazard)=a+b×log(rikets hazard), separat per geografi/fönster/kön och viktad med observerade lokala dödsfall per ålder. 2018–2024 får endast användas som utvecklingsevidens; nivå 3 kräver ny orörd extern eller framtida kontroll utan omformulering.",
+      "gates": [
+        {
+          "label": "Locked SCB-inspired weighted-least-squares mortality diagnostic generated",
+          "passed": true,
+          "evidence": "2580 w3: current=31.7, WLS=23; 2580 w6: current=32.1, WLS=24.7; 2580 w10: current=31.1, WLS=23.9; FA_LULEA w3: current=46.9, WLS=101.8; FA_LULEA w6: current=45.7, WLS=50.3; FA_LULEA w10: current=51.9, WLS=39.8",
+          "required": false
+        }
+      ],
+      "nextAction": "Keep the two-parameter log-hazard WLS formulation frozen. Treat 2018-2024 as development evidence only; require new untouched external or future evidence before any level-3 promotion."
     },
     {
       "key": "net_migration_10y",

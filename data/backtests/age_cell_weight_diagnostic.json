@@ -5195,7 +5195,7 @@
     }
   },
   "localizationMethodDiagnostic": {
-    "note": "Development diagnostic only. Compares the current production information weighting with a method-of-moments empirical-Bayes shrinkage candidate, a discrete second-difference penalized age smoother, and a natural cubic smoothing-spline candidate for fertility. The smoothing-spline candidate minimizes weighted squared deviations plus lambda times integrated squared curvature. It is methodologically aligned with penalized-least-squares smoothing splines but does not claim to reproduce SCB internal smoothing-factor choices. Lambda values are fixed sensitivity settings, not a promotion rule.",
+    "note": "Development diagnostic only. Compares the current production information weighting with a method-of-moments empirical-Bayes shrinkage candidate, a discrete second-difference penalized age smoother, and a natural cubic smoothing-spline candidate for fertility. The smoothing-spline candidate minimizes weighted squared deviations plus lambda times integrated squared curvature. Mortality also includes a separately locked SCB-inspired weighted-least-squares candidate: log(local hazard)=a+b*log(national hazard), fitted by geography/window/sex with observed local deaths as weights. Neither candidate claims to reproduce unpublished SCB optimization details. Lambda values are fixed sensitivity settings, not a promotion rule.",
     "independentHoldout": false,
     "fertility": {
       "summary": {
@@ -5994,18 +5994,22 @@
             "observations": 12,
             "currentDeathsMAE": 13.2,
             "empiricalBayesDeathsMAE": 13.9,
+            "weightedLeastSquaresDeathsMAE": 18.1,
             "byHorizon": {
               "1": {
                 "currentDeathsMAE": 14.5,
-                "empiricalBayesDeathsMAE": 15.4
+                "empiricalBayesDeathsMAE": 15.4,
+                "weightedLeastSquaresDeathsMAE": 21.6
               },
               "2": {
                 "currentDeathsMAE": 13.5,
-                "empiricalBayesDeathsMAE": 14.2
+                "empiricalBayesDeathsMAE": 14.2,
+                "weightedLeastSquaresDeathsMAE": 16.8
               },
               "3": {
                 "currentDeathsMAE": 11.7,
-                "empiricalBayesDeathsMAE": 12.1
+                "empiricalBayesDeathsMAE": 12.1,
+                "weightedLeastSquaresDeathsMAE": 15.9
               }
             }
           },
@@ -6013,18 +6017,22 @@
             "observations": 12,
             "currentDeathsMAE": 11.3,
             "empiricalBayesDeathsMAE": 12,
+            "weightedLeastSquaresDeathsMAE": 14.4,
             "byHorizon": {
               "1": {
                 "currentDeathsMAE": 9.7,
-                "empiricalBayesDeathsMAE": 12.3
+                "empiricalBayesDeathsMAE": 12.3,
+                "weightedLeastSquaresDeathsMAE": 17.4
               },
               "2": {
                 "currentDeathsMAE": 10.3,
-                "empiricalBayesDeathsMAE": 11.3
+                "empiricalBayesDeathsMAE": 11.3,
+                "weightedLeastSquaresDeathsMAE": 13.3
               },
               "3": {
                 "currentDeathsMAE": 13.9,
-                "empiricalBayesDeathsMAE": 12.4
+                "empiricalBayesDeathsMAE": 12.4,
+                "weightedLeastSquaresDeathsMAE": 12.5
               }
             }
           },
@@ -6032,18 +6040,22 @@
             "observations": 12,
             "currentDeathsMAE": 13.5,
             "empiricalBayesDeathsMAE": 11.5,
+            "weightedLeastSquaresDeathsMAE": 12.5,
             "byHorizon": {
               "1": {
                 "currentDeathsMAE": 10.7,
-                "empiricalBayesDeathsMAE": 10.5
+                "empiricalBayesDeathsMAE": 10.5,
+                "weightedLeastSquaresDeathsMAE": 13.7
               },
               "2": {
                 "currentDeathsMAE": 13.6,
-                "empiricalBayesDeathsMAE": 10.4
+                "empiricalBayesDeathsMAE": 10.4,
+                "weightedLeastSquaresDeathsMAE": 11.1
               },
               "3": {
                 "currentDeathsMAE": 16.3,
-                "empiricalBayesDeathsMAE": 13.6
+                "empiricalBayesDeathsMAE": 13.6,
+                "weightedLeastSquaresDeathsMAE": 12.6
               }
             }
           }
@@ -6053,18 +6065,22 @@
             "observations": 12,
             "currentDeathsMAE": 8.7,
             "empiricalBayesDeathsMAE": 8.7,
+            "weightedLeastSquaresDeathsMAE": 15.9,
             "byHorizon": {
               "1": {
                 "currentDeathsMAE": 8.8,
-                "empiricalBayesDeathsMAE": 8.8
+                "empiricalBayesDeathsMAE": 8.8,
+                "weightedLeastSquaresDeathsMAE": 15.2
               },
               "2": {
                 "currentDeathsMAE": 10.7,
-                "empiricalBayesDeathsMAE": 10.8
+                "empiricalBayesDeathsMAE": 10.8,
+                "weightedLeastSquaresDeathsMAE": 18.5
               },
               "3": {
                 "currentDeathsMAE": 6.5,
-                "empiricalBayesDeathsMAE": 6.4
+                "empiricalBayesDeathsMAE": 6.4,
+                "weightedLeastSquaresDeathsMAE": 14
               }
             }
           },
@@ -6072,18 +6088,22 @@
             "observations": 12,
             "currentDeathsMAE": 7.7,
             "empiricalBayesDeathsMAE": 7.7,
+            "weightedLeastSquaresDeathsMAE": 12.2,
             "byHorizon": {
               "1": {
                 "currentDeathsMAE": 7.8,
-                "empiricalBayesDeathsMAE": 7.9
+                "empiricalBayesDeathsMAE": 7.9,
+                "weightedLeastSquaresDeathsMAE": 10.6
               },
               "2": {
                 "currentDeathsMAE": 9.5,
-                "empiricalBayesDeathsMAE": 9.5
+                "empiricalBayesDeathsMAE": 9.5,
+                "weightedLeastSquaresDeathsMAE": 15
               },
               "3": {
                 "currentDeathsMAE": 5.9,
-                "empiricalBayesDeathsMAE": 5.9
+                "empiricalBayesDeathsMAE": 5.9,
+                "weightedLeastSquaresDeathsMAE": 11.1
               }
             }
           },
@@ -6091,18 +6111,22 @@
             "observations": 12,
             "currentDeathsMAE": 7.6,
             "empiricalBayesDeathsMAE": 7.6,
+            "weightedLeastSquaresDeathsMAE": 10.3,
             "byHorizon": {
               "1": {
                 "currentDeathsMAE": 8.2,
-                "empiricalBayesDeathsMAE": 8.2
+                "empiricalBayesDeathsMAE": 8.2,
+                "weightedLeastSquaresDeathsMAE": 8.7
               },
               "2": {
                 "currentDeathsMAE": 8.8,
-                "empiricalBayesDeathsMAE": 8.8
+                "empiricalBayesDeathsMAE": 8.8,
+                "weightedLeastSquaresDeathsMAE": 13.2
               },
               "3": {
                 "currentDeathsMAE": 5.7,
-                "empiricalBayesDeathsMAE": 5.7
+                "empiricalBayesDeathsMAE": 5.7,
+                "weightedLeastSquaresDeathsMAE": 8.9
               }
             }
           }
@@ -6112,18 +6136,22 @@
             "observations": 12,
             "currentDeathsMAE": 31.7,
             "empiricalBayesDeathsMAE": 30.6,
+            "weightedLeastSquaresDeathsMAE": 23,
             "byHorizon": {
               "1": {
                 "currentDeathsMAE": 30.9,
-                "empiricalBayesDeathsMAE": 29.7
+                "empiricalBayesDeathsMAE": 29.7,
+                "weightedLeastSquaresDeathsMAE": 21.2
               },
               "2": {
                 "currentDeathsMAE": 38.6,
-                "empiricalBayesDeathsMAE": 37.9
+                "empiricalBayesDeathsMAE": 37.9,
+                "weightedLeastSquaresDeathsMAE": 21.5
               },
               "3": {
                 "currentDeathsMAE": 25.7,
-                "empiricalBayesDeathsMAE": 24.2
+                "empiricalBayesDeathsMAE": 24.2,
+                "weightedLeastSquaresDeathsMAE": 26.4
               }
             }
           },
@@ -6131,18 +6159,22 @@
             "observations": 12,
             "currentDeathsMAE": 32.1,
             "empiricalBayesDeathsMAE": 31.4,
+            "weightedLeastSquaresDeathsMAE": 24.7,
             "byHorizon": {
               "1": {
                 "currentDeathsMAE": 31.7,
-                "empiricalBayesDeathsMAE": 31.4
+                "empiricalBayesDeathsMAE": 31.4,
+                "weightedLeastSquaresDeathsMAE": 22.7
               },
               "2": {
                 "currentDeathsMAE": 38.7,
-                "empiricalBayesDeathsMAE": 38.3
+                "empiricalBayesDeathsMAE": 38.3,
+                "weightedLeastSquaresDeathsMAE": 30.3
               },
               "3": {
                 "currentDeathsMAE": 25.8,
-                "empiricalBayesDeathsMAE": 24.5
+                "empiricalBayesDeathsMAE": 24.5,
+                "weightedLeastSquaresDeathsMAE": 20.9
               }
             }
           },
@@ -6150,18 +6182,22 @@
             "observations": 12,
             "currentDeathsMAE": 31.1,
             "empiricalBayesDeathsMAE": 27.9,
+            "weightedLeastSquaresDeathsMAE": 23.9,
             "byHorizon": {
               "1": {
                 "currentDeathsMAE": 28.4,
-                "empiricalBayesDeathsMAE": 27
+                "empiricalBayesDeathsMAE": 27,
+                "weightedLeastSquaresDeathsMAE": 22.6
               },
               "2": {
                 "currentDeathsMAE": 37.9,
-                "empiricalBayesDeathsMAE": 35.6
+                "empiricalBayesDeathsMAE": 35.6,
+                "weightedLeastSquaresDeathsMAE": 31.6
               },
               "3": {
                 "currentDeathsMAE": 27,
-                "empiricalBayesDeathsMAE": 21.1
+                "empiricalBayesDeathsMAE": 21.1,
+                "weightedLeastSquaresDeathsMAE": 17.5
               }
             }
           }
@@ -6171,18 +6207,22 @@
             "observations": 12,
             "currentDeathsMAE": 19.8,
             "empiricalBayesDeathsMAE": 21.1,
+            "weightedLeastSquaresDeathsMAE": 50.9,
             "byHorizon": {
               "1": {
                 "currentDeathsMAE": 13.1,
-                "empiricalBayesDeathsMAE": 12.9
+                "empiricalBayesDeathsMAE": 12.9,
+                "weightedLeastSquaresDeathsMAE": 41.6
               },
               "2": {
                 "currentDeathsMAE": 16.9,
-                "empiricalBayesDeathsMAE": 19.5
+                "empiricalBayesDeathsMAE": 19.5,
+                "weightedLeastSquaresDeathsMAE": 49.3
               },
               "3": {
                 "currentDeathsMAE": 29.5,
-                "empiricalBayesDeathsMAE": 30.9
+                "empiricalBayesDeathsMAE": 30.9,
+                "weightedLeastSquaresDeathsMAE": 61.9
               }
             }
           },
@@ -6190,18 +6230,22 @@
             "observations": 12,
             "currentDeathsMAE": 21,
             "empiricalBayesDeathsMAE": 20.5,
+            "weightedLeastSquaresDeathsMAE": 34.3,
             "byHorizon": {
               "1": {
                 "currentDeathsMAE": 17,
-                "empiricalBayesDeathsMAE": 14.6
+                "empiricalBayesDeathsMAE": 14.6,
+                "weightedLeastSquaresDeathsMAE": 24.8
               },
               "2": {
                 "currentDeathsMAE": 18.7,
-                "empiricalBayesDeathsMAE": 18.7
+                "empiricalBayesDeathsMAE": 18.7,
+                "weightedLeastSquaresDeathsMAE": 32.7
               },
               "3": {
                 "currentDeathsMAE": 27.3,
-                "empiricalBayesDeathsMAE": 28.2
+                "empiricalBayesDeathsMAE": 28.2,
+                "weightedLeastSquaresDeathsMAE": 45.5
               }
             }
           },
@@ -6209,18 +6253,22 @@
             "observations": 12,
             "currentDeathsMAE": 18.4,
             "empiricalBayesDeathsMAE": 19.3,
+            "weightedLeastSquaresDeathsMAE": 23,
             "byHorizon": {
               "1": {
                 "currentDeathsMAE": 20,
-                "empiricalBayesDeathsMAE": 17.3
+                "empiricalBayesDeathsMAE": 17.3,
+                "weightedLeastSquaresDeathsMAE": 14.4
               },
               "2": {
                 "currentDeathsMAE": 15.2,
-                "empiricalBayesDeathsMAE": 16.6
+                "empiricalBayesDeathsMAE": 16.6,
+                "weightedLeastSquaresDeathsMAE": 21.7
               },
               "3": {
                 "currentDeathsMAE": 20.2,
-                "empiricalBayesDeathsMAE": 24.1
+                "empiricalBayesDeathsMAE": 24.1,
+                "weightedLeastSquaresDeathsMAE": 32.9
               }
             }
           }
@@ -6230,18 +6278,22 @@
             "observations": 12,
             "currentDeathsMAE": 17.4,
             "empiricalBayesDeathsMAE": 16.6,
+            "weightedLeastSquaresDeathsMAE": 16.4,
             "byHorizon": {
               "1": {
                 "currentDeathsMAE": 15.2,
-                "empiricalBayesDeathsMAE": 14.3
+                "empiricalBayesDeathsMAE": 14.3,
+                "weightedLeastSquaresDeathsMAE": 16.5
               },
               "2": {
                 "currentDeathsMAE": 20.4,
-                "empiricalBayesDeathsMAE": 20.2
+                "empiricalBayesDeathsMAE": 20.2,
+                "weightedLeastSquaresDeathsMAE": 11.5
               },
               "3": {
                 "currentDeathsMAE": 16.6,
-                "empiricalBayesDeathsMAE": 15.3
+                "empiricalBayesDeathsMAE": 15.3,
+                "weightedLeastSquaresDeathsMAE": 21.1
               }
             }
           },
@@ -6249,18 +6301,22 @@
             "observations": 12,
             "currentDeathsMAE": 20,
             "empiricalBayesDeathsMAE": 18.7,
+            "weightedLeastSquaresDeathsMAE": 10.1,
             "byHorizon": {
               "1": {
                 "currentDeathsMAE": 17.6,
-                "empiricalBayesDeathsMAE": 16.4
+                "empiricalBayesDeathsMAE": 16.4,
+                "weightedLeastSquaresDeathsMAE": 9.3
               },
               "2": {
                 "currentDeathsMAE": 24.9,
-                "empiricalBayesDeathsMAE": 23.5
+                "empiricalBayesDeathsMAE": 23.5,
+                "weightedLeastSquaresDeathsMAE": 10.1
               },
               "3": {
                 "currentDeathsMAE": 17.5,
-                "empiricalBayesDeathsMAE": 16.3
+                "empiricalBayesDeathsMAE": 16.3,
+                "weightedLeastSquaresDeathsMAE": 10.9
               }
             }
           },
@@ -6268,18 +6324,22 @@
             "observations": 12,
             "currentDeathsMAE": 19.1,
             "empiricalBayesDeathsMAE": 18.5,
+            "weightedLeastSquaresDeathsMAE": 11.6,
             "byHorizon": {
               "1": {
                 "currentDeathsMAE": 16.5,
-                "empiricalBayesDeathsMAE": 16.1
+                "empiricalBayesDeathsMAE": 16.1,
+                "weightedLeastSquaresDeathsMAE": 11
               },
               "2": {
                 "currentDeathsMAE": 23.9,
-                "empiricalBayesDeathsMAE": 23.2
+                "empiricalBayesDeathsMAE": 23.2,
+                "weightedLeastSquaresDeathsMAE": 14.5
               },
               "3": {
                 "currentDeathsMAE": 16.8,
-                "empiricalBayesDeathsMAE": 16.2
+                "empiricalBayesDeathsMAE": 16.2,
+                "weightedLeastSquaresDeathsMAE": 9.2
               }
             }
           }
@@ -6289,18 +6349,22 @@
             "observations": 12,
             "currentDeathsMAE": 46.9,
             "empiricalBayesDeathsMAE": 46.2,
+            "weightedLeastSquaresDeathsMAE": 101.8,
             "byHorizon": {
               "1": {
                 "currentDeathsMAE": 40.1,
-                "empiricalBayesDeathsMAE": 37.2
+                "empiricalBayesDeathsMAE": 37.2,
+                "weightedLeastSquaresDeathsMAE": 108.7
               },
               "2": {
                 "currentDeathsMAE": 60,
-                "empiricalBayesDeathsMAE": 60.7
+                "empiricalBayesDeathsMAE": 60.7,
+                "weightedLeastSquaresDeathsMAE": 84.4
               },
               "3": {
                 "currentDeathsMAE": 40.7,
-                "empiricalBayesDeathsMAE": 40.6
+                "empiricalBayesDeathsMAE": 40.6,
+                "weightedLeastSquaresDeathsMAE": 112.1
               }
             }
           },
@@ -6308,18 +6372,22 @@
             "observations": 12,
             "currentDeathsMAE": 45.7,
             "empiricalBayesDeathsMAE": 45.5,
+            "weightedLeastSquaresDeathsMAE": 50.3,
             "byHorizon": {
               "1": {
                 "currentDeathsMAE": 42.3,
-                "empiricalBayesDeathsMAE": 42.7
+                "empiricalBayesDeathsMAE": 42.7,
+                "weightedLeastSquaresDeathsMAE": 47.1
               },
               "2": {
                 "currentDeathsMAE": 58.3,
-                "empiricalBayesDeathsMAE": 58.3
+                "empiricalBayesDeathsMAE": 58.3,
+                "weightedLeastSquaresDeathsMAE": 31.5
               },
               "3": {
                 "currentDeathsMAE": 36.6,
-                "empiricalBayesDeathsMAE": 35.4
+                "empiricalBayesDeathsMAE": 35.4,
+                "weightedLeastSquaresDeathsMAE": 72.3
               }
             }
           },
@@ -6327,18 +6395,22 @@
             "observations": 12,
             "currentDeathsMAE": 51.9,
             "empiricalBayesDeathsMAE": 44.9,
+            "weightedLeastSquaresDeathsMAE": 39.8,
             "byHorizon": {
               "1": {
                 "currentDeathsMAE": 46.2,
-                "empiricalBayesDeathsMAE": 42.1
+                "empiricalBayesDeathsMAE": 42.1,
+                "weightedLeastSquaresDeathsMAE": 28.7
               },
               "2": {
                 "currentDeathsMAE": 67.2,
-                "empiricalBayesDeathsMAE": 58.6
+                "empiricalBayesDeathsMAE": 58.6,
+                "weightedLeastSquaresDeathsMAE": 37.5
               },
               "3": {
                 "currentDeathsMAE": 42.2,
-                "empiricalBayesDeathsMAE": 33.9
+                "empiricalBayesDeathsMAE": 33.9,
+                "weightedLeastSquaresDeathsMAE": 53
               }
             }
           }
