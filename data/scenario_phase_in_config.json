@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_scenario_phase_gate_locked",
+  "component": "scenario_phase_in",
+  "purpose": "Validate that housing and workplace scenario effects are distributed over their declared phase-in years without loss, duplication or leakage outside the phase window.",
+  "requiredChecks": [
+    "scenario effect is zero before start year",
+    "scenario effect is zero after the final phase year",
+    "annual phase increments are equal within a row",
+    "sum of annual housing external effects equals the declared full housing external effect",
+    "sum of annual workplace external effects equals the declared full workplace external effect",
+    "phaseYears values below 1 fall back to exactly one year rather than division by zero",
+    "changing phaseYears changes timing only, not the cumulative scenario total"
+  ],
+  "governance": [
+    "Phase-in is a timing assumption, not a change in cumulative scenario magnitude.",
+    "Housing and workplace scenarios use the same deterministic phase-in rule.",
+    "Any future non-uniform ramp shape must be introduced as a separately documented scenario method."
+  ]
+}
