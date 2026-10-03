@@ -185,6 +185,9 @@ jobs:
       - name: Validate production fading policy
         run: python scripts/validate_fading_policy.py
 
+      - name: Validate neutral qutb production mode
+        run: node scripts/validate_qutb_neutralization.js
+
       - name: Build model maturity report
         run: python scripts/build_model_maturity.py
 
