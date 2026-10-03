@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_diagnostic_policy_locked",
+  "component": "ckm_uncertainty_diagnostics",
+  "purpose": "Provide transparent sensitivity diagnostics for SCB Cell Key Method perturbation without treating them as statistical confidence intervals or calibration inputs.",
+  "cellDelta": 3,
+  "requiredChecks": [
+    "configured CKM cell delta matches model calibration metadata",
+    "risk bounds are ordered low <= base <= high for representative event/exposure cells",
+    "larger event counts reduce relative impact of a fixed ±3 perturbation",
+    "zero/near-zero cells remain finite and nonnegative",
+    "2025 CKM diagnostics remain excluded from pre-2025 calibration",
+    "UI/method metadata identify CKM as a method break and diagnostics rather than confidence intervals"
+  ],
+  "governance": [
+    "±3 is a sensitivity bound tied to the CKM perturbation scale used in this model, not a confidence interval.",
+    "CKM diagnostics must not be used to retune historical fertility, mortality or migration parameters.",
+    "Any future change in SCB disclosure methodology requires an explicit policy update."
+  ]
+}
