@@ -845,7 +845,9 @@
     const geo=options.geo;
     const baseYear=+data.meta.baseYear;
     const endYear=+options.endYear;
-    const fertMult=n(options.fertMult||1), mortMult=n(options.mortMult||1), migMult=n(options.migMult||1);
+    const fertMult=n(options.fertMult==null?1:options.fertMult),
+      mortMult=n(options.mortMult==null?1:options.mortMult),
+      migMult=n(options.migMult==null?1:options.migMult);
     const migrationMode=options.migrationMode||"net";
     const cohortTimingMode=options.cohortTimingMode||data.parameters?.cohortTimingMode||"event_age_aligned";
     const fertilityScenario=options.fertilityScenario||data.parameters?.defaultFertilityScenario||"raps2024";
