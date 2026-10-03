@@ -120,6 +120,9 @@ jobs:
       - name: Validate scenario migration profiles
         run: python scripts/validate_scenario_migration_profiles.py
 
+      - name: Validate core model data integrity
+        run: python scripts/validate_model_data_integrity.py
+
       - name: Validate JavaScript syntax
         run: |
           node --check js/model.js
