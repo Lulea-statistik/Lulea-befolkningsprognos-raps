@@ -392,7 +392,15 @@
 
     for(const s of scenarios.workplaces||[]){
       if(!s.active) continue;
-      const realizedJobs=n(s.jobs)*n(s.realizationPct)/100;
+      const directRealizedJobs=n(s.jobs)*n(s.realizationPct)/100;
+      // spinOffJobsPerDirectJob is additional employment generated outside
+      // the direct industrial establishment. Example: 1.5 means 1 direct
+      // realised job + 1.5 additional jobs = 2.5 jobs in the scenario's
+      // total labour-demand effect. Missing field stays 0 for backwards
+      // compatibility with previously saved scenarios.
+      const spinOffJobsPerDirectJob=Math.max(0,n(s.spinOffJobsPerDirectJob));
+      const spinOffJobs=directRealizedJobs*spinOffJobsPerDirectJob;
+      const realizedJobs=directRealizedJobs+spinOffJobs;
       const internationalShare=clamp(n(s.internationalRecruitmentSharePct)/100,0,1);
       const commuting=observedCommutingShares(s,members);
 
