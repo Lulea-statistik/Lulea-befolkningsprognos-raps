@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_occupancy_support_gate_locked",
+  "component": "housing_occupancy_defaults",
+  "purpose": "Validate SCB-derived persons-per-dwelling defaults used by housing scenario auto mode.",
+  "defaultYear": 2024,
+  "supportedAutoCombinations": {
+    "smallHouse": {
+      "dwellingType": "småhus",
+      "tenures": [
+        "äganderätt",
+        "hyresrätt",
+        "bostadsrätt"
+      ],
+      "size": "alla"
+    },
+    "multiFamily": {
+      "dwellingType": "flerbostadshus",
+      "tenures": [
+        "hyresrätt",
+        "bostadsrätt"
+      ],
+      "sizes": [
+        "1 rum",
+        "2 rum",
+        "3 rum",
+        "4 rum",
+        "5+"
+      ]
+    }
+  },
+  "requiredChecks": [
+    "all five municipalities have a local or Sweden fallback for every supported auto combination",
+    "all auto defaults are finite and strictly positive",
+    "occupancyDefaultYear matches the configured production year",
+    "sources identify the SCB household tables",
+    "municipality-specific rows take precedence over Sweden fallback",
+    "unsupported combinations do not silently retain a stale automatic value; manual input is required instead"
+  ],
+  "governance": [
+    "Persons per dwelling is a scenario default derived from observed persons per household, not a dwelling-capacity maximum.",
+    "Sweden fallback is permitted only when the exact municipal cell is unavailable.",
+    "Unsupported dwelling/tenure combinations must be explicit manual assumptions rather than hidden imputation."
+  ]
+}
