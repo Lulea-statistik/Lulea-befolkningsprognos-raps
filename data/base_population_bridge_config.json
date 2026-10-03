@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_bridge_locked",
+  "component": "base_population_ckm_bridge",
+  "purpose": "Keep the 2025 CKM population stock as the forecast base while preserving pre-CKM calibration through 2024.",
+  "requiredChecks": [
+    "model base year is 2025",
+    "calibration preCkmEnd is 2024 and ckmStart is 2025",
+    "all five municipalities have complete age/sex base population rows for 2025",
+    "FA base population equals the sum of its five municipalities",
+    "2025 CKM observations remain diagnostics/control data and are not silently appended to pre-CKM calibration windows",
+    "the CKM method break and uncertainty delta remain explicit in model metadata"
+  ],
+  "governance": [
+    "A future base-year rollover must update the bridge explicitly rather than extending calibration across a method break by accident.",
+    "The CKM base stock can be updated independently of the historical calibration series.",
+    "Any change to the method-break treatment requires a new validation run."
+  ]
+}
