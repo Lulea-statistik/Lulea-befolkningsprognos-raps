@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_scenario_control_locked",
+  "component": "scenario_overlap_control",
+  "purpose": "Prevent double counting when the same external residents can be represented by both housing and workplace scenarios.",
+  "defaultOverlapPct": 25,
+  "formula": "deduction = min(max(0,housingExternal), max(0,jobExternal)) × clamp(overlapPct/100,0,1)",
+  "requiredChecks": [
+    "0 percent overlap gives zero deduction",
+    "100 percent overlap never deducts more than the smaller positive external component",
+    "overlap is clamped to 0-100 percent",
+    "deduction is monotonic in overlap percentage",
+    "overlap never alters the demographic baseline when no housing/workplace scenario is active",
+    "FA scenario totals remain additive across municipalities"
+  ],
+  "governance": [
+    "The overlap percentage is an explicit scenario assumption, not an estimated baseline parameter.",
+    "Default 25 percent is a user-facing reference assumption and must remain editable.",
+    "Any empirical future overlap model should replace this control only after separate validation."
+  ]
+}
