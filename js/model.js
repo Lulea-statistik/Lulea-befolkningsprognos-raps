@@ -270,6 +270,16 @@
     const r=firstMatch(idx,`${yearKey(year)}|${status}`);
     return r?Math.max(0,n(r.value)):0;
   }
+  function getProfetConsistencyFactor(rows,year,leg,direction){
+    const idx=indexRows(
+      rows,"profetConsistencyFactor",
+      r=>`${yearKey(r.year)}|${r.leg}|${r.direction}`
+    );
+    const r=firstMatch(
+      idx,`${yearKey(year)}|${leg}|${direction}`
+    );
+    return r?Math.max(0,n(r.value)):1;
+  }
 
   function baseMunicipalityWeights(data){
     const members=(data.geographies.find(g=>g.code==="FA_LULEA")||{}).members||[];
@@ -605,6 +615,10 @@
     const baseYear=+data.meta.baseYear;
     const endYear=+options.endYear;
     const statuses=["sweden_born","foreign_born"];
+    const useConsistency=options.consistencyAdjustment===true;
+    const profetMode=useConsistency
+      ?"profet_birth_status_consistent"
+      :"profet_birth_status";
     const baseRows=(data.populationBaseBirthStatus||[])
       .filter(r=>r.geo===geo && +r.year===baseYear);
     if(!baseRows.length){
@@ -648,7 +662,7 @@
     const results=[{
       year:baseYear,population:totalPop(),births:0,deaths:0,netMigration:0,
       grossInMigration:0,grossOutMigration:0,
-      migrationMode:"profet_birth_status",
+      migrationMode:profetMode,
       migrationWindow:10,cohortTimingMode,
       fertilityScenario:options.fertilityScenario||data.parameters?.defaultFertilityScenario||"raps2024",
       scenarioEffect:0,change:0,
@@ -744,28 +758,50 @@
                 data.profetBirthStatusDomesticInDistribution,
                 geo,status,leg,sex,age
               );
+              const inFactor=useConsistency
+                ?getProfetConsistencyFactor(
+                  data.profetConsistencyFactors,year,leg,"in"
+                )
+                :1;
               incoming+=
                 Math.max(0,n(domesticTotals[status][leg]))*
-                Math.max(0,n(dist?.share));
+                Math.max(0,n(dist?.share))*
+                inFactor;
               const out=getProfetBirthOut(
                 data.profetBirthStatusOutMigration,
                 geo,status,leg,sex,age
               );
-              totalOutRisk+=Math.max(0,n(out?.value));
+              const outFactor=useConsistency
+                ?getProfetConsistencyFactor(
+                  data.profetConsistencyFactors,year,leg,"out"
+                )
+                :1;
+              totalOutRisk+=Math.max(0,n(out?.value))*outFactor;
             }
             const intlIn=getProfetBirthInternationalIn(
               data.profetBirthStatusInternationalInMigration,
               geo,status,sex,age
             );
+            const intlInFactor=useConsistency
+              ?getProfetConsistencyFactor(
+                data.profetConsistencyFactors,year,"international","in"
+              )
+              :1;
             incoming+=
               nationalImmigration*
               Math.max(0,n(intlIn?.municipalityShare))*
-              Math.max(0,n(intlIn?.ageSexShare));
+              Math.max(0,n(intlIn?.ageSexShare))*
+              intlInFactor;
             const intlOut=getProfetBirthOut(
               data.profetBirthStatusOutMigration,
               geo,status,"international",sex,age
             );
-            totalOutRisk+=Math.max(0,n(intlOut?.value));
+            const intlOutFactor=useConsistency
+              ?getProfetConsistencyFactor(
+                data.profetConsistencyFactors,year,"international","out"
+              )
+              :1;
+            totalOutRisk+=Math.max(0,n(intlOut?.value))*intlOutFactor;
 
             incoming*=imigMult;
             const outgoing=Math.min(
@@ -786,7 +822,7 @@
       results.push({
         year,population:total,births,deaths,netMigration,
         grossInMigration,grossOutMigration,
-        migrationMode:"profet_birth_status",
+        migrationMode:profetMode,
         migrationWindow:10,cohortTimingMode,
         fertilityScenario:options.fertilityScenario||data.parameters?.defaultFertilityScenario||"raps2024",
         scenarioEffect:0,change:total-prev,
@@ -883,6 +919,27 @@
       const hasNatIn=(data.profetBirthStatusNationalImmigration||[]).length>0;
       if(!hasBase||!hasLevels||!hasDist||!hasOut||!hasIntl||!hasNatPop||!hasNatIn){
         throw new Error(`Saknar Profet-underlag efter födelsestatus för ${geo}.`);
+      }
+      if(options.consistencyAdjustment===true){
+        const neededYears=[];
+        for(let y=baseYear+1;y<=endYear;y++) neededYears.push(y);
+        const legs=["county","rest_sweden","international"];
+        const missing=neededYears.flatMap(y=>
+          legs.flatMap(leg=>
+            ["in","out"]
+              .filter(direction=>
+                !(data.profetConsistencyFactors||[]).some(
+                  r=>+r.year===y&&r.leg===leg&&r.direction===direction
+                )
+              )
+              .map(direction=>`${y}:${leg}:${direction}`)
+          )
+        );
+        if(missing.length){
+          throw new Error(
+            `Saknar Profet-konsistensfaktorer för ${geo}: ${missing.join(", ")}.`
+          );
+        }
       }
       return simulateProfetBirthStatus(
         data,options,fertilityRows,window,cohortTimingMode,
