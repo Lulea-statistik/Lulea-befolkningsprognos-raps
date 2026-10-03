@@ -249,7 +249,15 @@ def main():
         policy, "profet_flow", 2, "development", False,
         [
             gate("Method locked from public sources", "locked" in profet_cfg.get("status", ""), profet_cfg.get("status")),
-            gate("Birth-status state active in cohort engine", False, profet_cfg["dimensions"]["birthStatus"]["currentModelStatus"]),
+            gate(
+                "Birth-status state implemented in development cohort engine",
+                bool(rolling.get("profetBirthStatusDiagnostic", {}).get("summary", {}).get("2580")),
+                (
+                    "Rolling-origin birth-status candidate available"
+                    if rolling.get("profetBirthStatusDiagnostic", {}).get("summary", {}).get("2580")
+                    else "Awaiting first rolling-origin run"
+                )
+            ),
             gate("County/national consistency adjustment active", False, profet_cfg["consistencyAdjustment"]["currentModelStatus"])
         ],
         "Implement Profet incrementally: direct risk structure, then birth status, then consistency adjustment."
