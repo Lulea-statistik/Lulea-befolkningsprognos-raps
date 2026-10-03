@@ -72,6 +72,9 @@ jobs:
       - name: Test migration analogue candidate pool
         run: python tests/test_migration_analog_config.py
 
+      - name: Validate industrial workforce scenario presets
+        run: python scripts/validate_industrial_workforce_scenario.py
+
       - name: Validate JavaScript syntax
         run: |
           node --check js/model.js
