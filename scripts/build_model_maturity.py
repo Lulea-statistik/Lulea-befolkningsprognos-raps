@@ -17,6 +17,7 @@ INDUSTRIAL_SCENARIO_VALIDATION = ROOT / "data" / "backtests" / "industrial_workf
 INDUSTRIAL_SCENARIO_ENGINE_VALIDATION = ROOT / "data" / "backtests" / "industrial_workforce_scenario_engine_validation.json"
 HOUSING_SCENARIO_VALIDATION = ROOT / "data" / "backtests" / "housing_scenario_validation.json"
 HOUSEHOLD_PROJECTION_VALIDATION = ROOT / "data" / "backtests" / "household_projection_validation.json"
+HOUSEHOLD_PROJECTION_EXTERNAL = ROOT / "data" / "backtests" / "household_projection_external_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -684,16 +685,37 @@ def main():
         else {}
     )
     household_has_results = bool(household_validation.get("checks"))
-    household_gate = household_validation.get("allPassed") is True
-    household_level = 4 if household_gate else 2 if household_has_results else 1
+    household_constant_gate = household_validation.get("allPassed") is True
+    household_external = (
+        load(HOUSEHOLD_PROJECTION_EXTERNAL)
+        if HOUSEHOLD_PROJECTION_EXTERNAL.exists()
+        else {}
+    )
+    household_external_has_results = (
+        household_external.get("status") in {
+            "passed_external_gate", "failed_external_gate"
+        }
+    )
+    household_trend_external_gate = (
+        household_external.get("allPassed") is True
+        and household_external.get("status") == "passed_external_gate"
+    )
+    household_level = (
+        4 if household_constant_gate or household_trend_external_gate
+        else 2 if household_has_results
+        else 1
+    )
+    household_lifecycle = (
+        "production_support" if household_level == 4
+        else "development_candidate" if household_has_results and not household_external_has_results
+        else "rejected" if household_external_has_results
+        else "diagnostic"
+    )
+    household_production_active = household_constant_gate or household_trend_external_gate
     comps.append(component(
         policy, "household_projection", household_level,
-        (
-            "production_support" if household_gate
-            else "rejected" if household_has_results
-            else "diagnostic"
-        ),
-        household_gate,
+        household_lifecycle,
+        household_production_active,
         [
             gate(
                 "Validation gate locked before results",
@@ -701,19 +723,34 @@ def main():
                 household_cfg.get("status")
             ),
             gate(
-                "Rolling household projection gate passes for Luleå and FA",
-                household_gate,
+                "Current constant mode passes locked Luleå/FA rolling gate",
+                household_constant_gate,
                 (
                     f"checks={household_validation.get('checks')}"
                     if household_has_results else "Awaiting rolling validation"
+                ),
+                required=False
+            ),
+            gate(
+                "Pre-declared five-year trend passes locked independent external holdout gate",
+                household_trend_external_gate,
+                (
+                    f"status={household_external.get('status')}; "
+                    f"checks={household_external.get('checks')}; "
+                    f"wins={household_external.get('wins')}"
+                    if household_external else "Awaiting full SCB refresh / external validation"
                 )
             )
         ],
         (
-            "Keep constant latest persons-per-household as the production-support default; rerun the same rolling gate when household data refresh."
-            if household_gate
-            else "Keep below production maturity; do not tune the five-year trend window or thresholds from these consumed outcomes."
-            if household_has_results
+            "Switch the UI production-support default to five-year trend and keep constant/manual as sensitivities; rerun the same external gate on future data refreshes."
+            if household_trend_external_gate and not household_constant_gate
+            else "Keep constant latest persons-per-household as production-support default; rerun validation when household data refresh."
+            if household_constant_gate
+            else "Await independent external household trend validation; do not retune the five-year window, caps, holdouts or thresholds."
+            if household_has_results and not household_external_has_results
+            else "External trend gate failed; keep household projection below production maturity and retain results without retuning."
+            if household_external_has_results
             else "Run the locked rolling household projection validation."
         )
     ))
