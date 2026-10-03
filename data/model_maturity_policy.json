@@ -190,6 +190,11 @@
       "label": "Mognadsregister och produktionsstyrning",
       "targetLevel": 4,
       "requiredGate": "Varje komponent i mognadspolicyn ska förekomma exakt en gång i den genererade rapporten, inga okända komponenter får finnas och nivåsummorna ska vara internt konsistenta."
+    },
+    "source_manifest_integrity": {
+      "label": "Källmanifest och rådataproveniens",
+      "targetLevel": 4,
+      "requiredGate": "Alla centrala SCB/Raps-råkällor ska ha spårbart tabell-ID, existerande icke-tom fil, dokumenterat urval och korrekt tidsavgränsning kring CKM-brytningen."
     }
   }
 }
