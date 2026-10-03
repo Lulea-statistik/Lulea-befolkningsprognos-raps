@@ -403,7 +403,7 @@ def build_origin(
     origin, cfg, pop, birth_year_exposure, fertility_exposure, deaths, births,
     inflow, outflow, netmig, migration_legs, population_birth_status,
     migration_birth_status, component_cfg, scb_risk_cfg, recency_cfg,
-    profet_birth_cfg
+    profet_birth_cfg, profet_consistency_cfg, consistency_profile_geos
 ):
     original_end = b.CALIBRATION_END
     original_windows = b.WINDOWS
@@ -443,6 +443,7 @@ def build_origin(
             migration_birth_status,
             population_birth_status,
             profet_birth_cfg,
+            geos=consistency_profile_geos,
         )
 
         detail_key = cfg["detail_key"]
@@ -474,6 +475,18 @@ def build_origin(
             raise RuntimeError(
                 f"Missing usable SCB forecast profiles for origin {origin}"
             )
+
+        profet_consistency_factors = profet_consistency_factor_rows(
+            origin,
+            end_year,
+            consistency_profile_geos,
+            population_birth_status,
+            profet_birth_in_levels,
+            profet_birth_out,
+            profet_birth_international_in,
+            profet_birth_national_exposure,
+            profet_birth_national_immigration,
+        )
 
         fertility_rates, mortality_risks = b.extend_profiles_with_future(
             fertility_rates,
@@ -540,6 +553,9 @@ def build_origin(
                 "profetBirthStatusStatus": "development_candidate_not_production_default",
                 "profetBirthStatusProductionDefault": False,
                 "profetBirthStatusConfig": profet_birth_cfg,
+                "profetConsistencyStatus": "development_candidate_not_production_default",
+                "profetConsistencyProductionDefault": False,
+                "profetConsistencyConfig": profet_consistency_cfg,
             },
             "populationBase": base_population(pop, origin),
             "populationBaseBirthStatus": b.birth_status_population_rows(
@@ -561,6 +577,7 @@ def build_origin(
             "profetBirthStatusDomesticInDistribution": profet_birth_in_distribution,
             "profetBirthStatusOutMigration": profet_birth_out,
             "profetBirthStatusInternationalInMigration": profet_birth_international_in,
+            "profetConsistencyFactors": profet_consistency_factors,
             "profetBirthStatusNationalMeanPopulation": [
                 {
                     "year": year,
@@ -669,16 +686,17 @@ def main():
         b.MIGRATION_LEG_CODES_PRE2025,
         allowed_geos=set(b.MUNICIPALITIES) | {b.RIKET_CODE},
     )
+    _county, consistency_profile_geos = consistency_support_geographies()
     population_birth_status = b.load_population_birth_status(
         "population_birth_region_pre2025.csv",
         "population_birth_region_pre2025",
-        allowed_geos=set(b.MUNICIPALITIES) | {b.RIKET_CODE},
+        allowed_geos=set(consistency_profile_geos) | {b.RIKET_CODE},
     )
     migration_birth_status = b.load_migration_legs_birth_status(
         "migration_birth_region_pre2025.csv",
         "migration_birth_region_pre2025",
         b.MIGRATION_LEG_CODES_PRE2025,
-        allowed_geos=set(b.MUNICIPALITIES) | {b.RIKET_CODE},
+        allowed_geos=set(consistency_profile_geos) | {b.RIKET_CODE},
     )
     component_cfg = json.loads(
         (ROOT / "data" / "migration_component_windows.json").read_text(encoding="utf-8")
@@ -696,13 +714,19 @@ def main():
     )
     if profet_birth_cfg.get("status") != "development_candidate_locked_before_birth_status_results":
         raise RuntimeError("Unexpected Profet birth-status candidate status.")
+    profet_consistency_cfg = json.loads(
+        CONSISTENCY_ADJUSTMENT_CONFIG.read_text(encoding="utf-8")
+    )
+    if profet_consistency_cfg.get("status") != "development_candidate_locked_before_adjustment_results":
+        raise RuntimeError("Unexpected consistency adjustment candidate status.")
 
     entries = [
         build_origin(
             origin, cfg, pop, birth_year_exposure, fertility_exposure,
             deaths, births, inflow, outflow, netmig, migration_legs,
             population_birth_status, migration_birth_status,
-            component_cfg, scb_risk_cfg, recency_cfg, profet_birth_cfg
+            component_cfg, scb_risk_cfg, recency_cfg, profet_birth_cfg,
+            profet_consistency_cfg, consistency_profile_geos
         )
         for origin, cfg in ORIGINS.items()
     ]
@@ -742,6 +766,13 @@ def main():
             "independentHoldout": False,
             "promotionGate": profet_birth_cfg["evaluation"]["promotionToLevel3"],
             "note": "This stage isolates birth-status migration/state effects; fertility and mortality are unchanged."
+        },
+        "profetConsistencyCandidate": {
+            "config": "data/scb_consistency_adjustment_config.json",
+            "developmentOrigins": profet_consistency_cfg["accuracyEvaluation"]["developmentOrigins"],
+            "promotionGate": profet_consistency_cfg["accuracyEvaluation"],
+            "independentHoldout": False,
+            "note": "Uses frozen same-vintage SCB county flow targets and all 14 Norrbotten municipalities. Production net10 remains unchanged."
         },
         "horizonYears": HORIZON_YEARS,
         "overlapNote": (
