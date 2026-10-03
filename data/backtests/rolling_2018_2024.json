@@ -11835,7 +11835,7 @@
     }
   },
   "localizationMethodDiagnostic": {
-    "note": "Development diagnostic only. Compares the current production information weighting with a method-of-moments empirical-Bayes shrinkage candidate and, for fertility only, penalized second-difference age-curve smoothing inspired by SCB smoothing-spline principles. The spline proxy is not claimed to reproduce SCB internal smoothing factors. Penalties 1/10/100 are reported as sensitivity values and are not a promotion rule.",
+    "note": "Development diagnostic only. Compares the current production information weighting with a method-of-moments empirical-Bayes shrinkage candidate, a discrete second-difference penalized age smoother, and a natural cubic smoothing-spline candidate for fertility. The smoothing-spline candidate minimizes weighted squared deviations plus lambda times integrated squared curvature. It is methodologically aligned with penalized-least-squares smoothing splines but does not claim to reproduce SCB internal smoothing-factor choices. Lambda values are fixed sensitivity settings, not a promotion rule.",
     "independentHoldout": false,
     "fertility": {
       "summary": {
@@ -11847,27 +11847,39 @@
             "spline1BirthsMAE": 10.3,
             "spline10BirthsMAE": 10.6,
             "spline100BirthsMAE": 10.7,
+            "cubicSpline1BirthsMAE": 10.4,
+            "cubicSpline10BirthsMAE": 10.6,
+            "cubicSpline100BirthsMAE": 10.7,
             "byHorizon": {
               "1": {
                 "currentBirthsMAE": 8.1,
                 "empiricalBayesBirthsMAE": 6.1,
                 "spline1BirthsMAE": 14.9,
                 "spline10BirthsMAE": 15.5,
-                "spline100BirthsMAE": 15.8
+                "spline100BirthsMAE": 15.8,
+                "cubicSpline1BirthsMAE": 15,
+                "cubicSpline10BirthsMAE": 15.5,
+                "cubicSpline100BirthsMAE": 15.8
               },
               "2": {
                 "currentBirthsMAE": 6.6,
                 "empiricalBayesBirthsMAE": 12.8,
                 "spline1BirthsMAE": 8,
                 "spline10BirthsMAE": 8.4,
-                "spline100BirthsMAE": 8.3
+                "spline100BirthsMAE": 8.3,
+                "cubicSpline1BirthsMAE": 8.1,
+                "cubicSpline10BirthsMAE": 8.4,
+                "cubicSpline100BirthsMAE": 8.3
               },
               "3": {
                 "currentBirthsMAE": 8.8,
                 "empiricalBayesBirthsMAE": 14.4,
                 "spline1BirthsMAE": 8.1,
                 "spline10BirthsMAE": 8,
-                "spline100BirthsMAE": 8
+                "spline100BirthsMAE": 8,
+                "cubicSpline1BirthsMAE": 8.1,
+                "cubicSpline10BirthsMAE": 8,
+                "cubicSpline100BirthsMAE": 8
               }
             }
           },
@@ -11878,27 +11890,39 @@
             "spline1BirthsMAE": 9.5,
             "spline10BirthsMAE": 9.7,
             "spline100BirthsMAE": 9.7,
+            "cubicSpline1BirthsMAE": 9.5,
+            "cubicSpline10BirthsMAE": 9.7,
+            "cubicSpline100BirthsMAE": 9.7,
             "byHorizon": {
               "1": {
                 "currentBirthsMAE": 9.3,
                 "empiricalBayesBirthsMAE": 4.3,
                 "spline1BirthsMAE": 14.5,
                 "spline10BirthsMAE": 14.9,
-                "spline100BirthsMAE": 14.8
+                "spline100BirthsMAE": 14.8,
+                "cubicSpline1BirthsMAE": 14.5,
+                "cubicSpline10BirthsMAE": 14.9,
+                "cubicSpline100BirthsMAE": 14.8
               },
               "2": {
                 "currentBirthsMAE": 5.5,
                 "empiricalBayesBirthsMAE": 8.4,
                 "spline1BirthsMAE": 7.4,
                 "spline10BirthsMAE": 7.7,
-                "spline100BirthsMAE": 7.7
+                "spline100BirthsMAE": 7.7,
+                "cubicSpline1BirthsMAE": 7.4,
+                "cubicSpline10BirthsMAE": 7.7,
+                "cubicSpline100BirthsMAE": 7.7
               },
               "3": {
                 "currentBirthsMAE": 8.6,
                 "empiricalBayesBirthsMAE": 12,
                 "spline1BirthsMAE": 6.6,
                 "spline10BirthsMAE": 6.6,
-                "spline100BirthsMAE": 6.7
+                "spline100BirthsMAE": 6.7,
+                "cubicSpline1BirthsMAE": 6.7,
+                "cubicSpline10BirthsMAE": 6.6,
+                "cubicSpline100BirthsMAE": 6.7
               }
             }
           },
@@ -11909,27 +11933,39 @@
             "spline1BirthsMAE": 11.4,
             "spline10BirthsMAE": 11.5,
             "spline100BirthsMAE": 11.5,
+            "cubicSpline1BirthsMAE": 11.4,
+            "cubicSpline10BirthsMAE": 11.5,
+            "cubicSpline100BirthsMAE": 11.5,
             "byHorizon": {
               "1": {
                 "currentBirthsMAE": 13.6,
                 "empiricalBayesBirthsMAE": 8.1,
                 "spline1BirthsMAE": 17,
                 "spline10BirthsMAE": 17.2,
-                "spline100BirthsMAE": 17.2
+                "spline100BirthsMAE": 17.2,
+                "cubicSpline1BirthsMAE": 17.1,
+                "cubicSpline10BirthsMAE": 17.2,
+                "cubicSpline100BirthsMAE": 17.2
               },
               "2": {
                 "currentBirthsMAE": 8.5,
                 "empiricalBayesBirthsMAE": 7.3,
                 "spline1BirthsMAE": 10,
                 "spline10BirthsMAE": 10.1,
-                "spline100BirthsMAE": 10.1
+                "spline100BirthsMAE": 10.1,
+                "cubicSpline1BirthsMAE": 10,
+                "cubicSpline10BirthsMAE": 10.1,
+                "cubicSpline100BirthsMAE": 10.1
               },
               "3": {
                 "currentBirthsMAE": 6.1,
                 "empiricalBayesBirthsMAE": 7.3,
                 "spline1BirthsMAE": 7.1,
                 "spline10BirthsMAE": 7.1,
-                "spline100BirthsMAE": 7.1
+                "spline100BirthsMAE": 7.1,
+                "cubicSpline1BirthsMAE": 7.1,
+                "cubicSpline10BirthsMAE": 7.1,
+                "cubicSpline100BirthsMAE": 7.1
               }
             }
           }
@@ -11942,27 +11978,39 @@
             "spline1BirthsMAE": 7.9,
             "spline10BirthsMAE": 8,
             "spline100BirthsMAE": 8,
+            "cubicSpline1BirthsMAE": 7.9,
+            "cubicSpline10BirthsMAE": 7.9,
+            "cubicSpline100BirthsMAE": 8,
             "byHorizon": {
               "1": {
                 "currentBirthsMAE": 7.8,
                 "empiricalBayesBirthsMAE": 7.6,
                 "spline1BirthsMAE": 11.1,
                 "spline10BirthsMAE": 11.1,
-                "spline100BirthsMAE": 11.1
+                "spline100BirthsMAE": 11.1,
+                "cubicSpline1BirthsMAE": 11.1,
+                "cubicSpline10BirthsMAE": 11.1,
+                "cubicSpline100BirthsMAE": 11.1
               },
               "2": {
                 "currentBirthsMAE": 7.1,
                 "empiricalBayesBirthsMAE": 6.9,
                 "spline1BirthsMAE": 7.5,
                 "spline10BirthsMAE": 7.5,
-                "spline100BirthsMAE": 7.5
+                "spline100BirthsMAE": 7.5,
+                "cubicSpline1BirthsMAE": 7.4,
+                "cubicSpline10BirthsMAE": 7.5,
+                "cubicSpline100BirthsMAE": 7.5
               },
               "3": {
                 "currentBirthsMAE": 4.5,
                 "empiricalBayesBirthsMAE": 5,
                 "spline1BirthsMAE": 5.2,
                 "spline10BirthsMAE": 5.3,
-                "spline100BirthsMAE": 5.3
+                "spline100BirthsMAE": 5.3,
+                "cubicSpline1BirthsMAE": 5.2,
+                "cubicSpline10BirthsMAE": 5.3,
+                "cubicSpline100BirthsMAE": 5.3
               }
             }
           },
@@ -11973,27 +12021,39 @@
             "spline1BirthsMAE": 7.7,
             "spline10BirthsMAE": 7.8,
             "spline100BirthsMAE": 7.8,
+            "cubicSpline1BirthsMAE": 7.7,
+            "cubicSpline10BirthsMAE": 7.8,
+            "cubicSpline100BirthsMAE": 7.8,
             "byHorizon": {
               "1": {
                 "currentBirthsMAE": 8.9,
                 "empiricalBayesBirthsMAE": 8.7,
                 "spline1BirthsMAE": 11.3,
                 "spline10BirthsMAE": 11.3,
-                "spline100BirthsMAE": 11.3
+                "spline100BirthsMAE": 11.3,
+                "cubicSpline1BirthsMAE": 11.3,
+                "cubicSpline10BirthsMAE": 11.3,
+                "cubicSpline100BirthsMAE": 11.3
               },
               "2": {
                 "currentBirthsMAE": 5.6,
                 "empiricalBayesBirthsMAE": 5.6,
                 "spline1BirthsMAE": 5.9,
                 "spline10BirthsMAE": 6,
-                "spline100BirthsMAE": 6
+                "spline100BirthsMAE": 6,
+                "cubicSpline1BirthsMAE": 5.9,
+                "cubicSpline10BirthsMAE": 6,
+                "cubicSpline100BirthsMAE": 6
               },
               "3": {
                 "currentBirthsMAE": 5.4,
                 "empiricalBayesBirthsMAE": 5.8,
                 "spline1BirthsMAE": 6,
                 "spline10BirthsMAE": 6.1,
-                "spline100BirthsMAE": 6
+                "spline100BirthsMAE": 6,
+                "cubicSpline1BirthsMAE": 6,
+                "cubicSpline10BirthsMAE": 6.1,
+                "cubicSpline100BirthsMAE": 6
               }
             }
           },
@@ -12004,27 +12064,39 @@
             "spline1BirthsMAE": 8.1,
             "spline10BirthsMAE": 8.2,
             "spline100BirthsMAE": 8.1,
+            "cubicSpline1BirthsMAE": 8.1,
+            "cubicSpline10BirthsMAE": 8.2,
+            "cubicSpline100BirthsMAE": 8.1,
             "byHorizon": {
               "1": {
                 "currentBirthsMAE": 9.3,
                 "empiricalBayesBirthsMAE": 9,
                 "spline1BirthsMAE": 11.6,
                 "spline10BirthsMAE": 11.7,
-                "spline100BirthsMAE": 11.6
+                "spline100BirthsMAE": 11.6,
+                "cubicSpline1BirthsMAE": 11.7,
+                "cubicSpline10BirthsMAE": 11.7,
+                "cubicSpline100BirthsMAE": 11.6
               },
               "2": {
                 "currentBirthsMAE": 6.1,
                 "empiricalBayesBirthsMAE": 6.1,
                 "spline1BirthsMAE": 6.5,
                 "spline10BirthsMAE": 6.4,
-                "spline100BirthsMAE": 6.4
+                "spline100BirthsMAE": 6.4,
+                "cubicSpline1BirthsMAE": 6.5,
+                "cubicSpline10BirthsMAE": 6.4,
+                "cubicSpline100BirthsMAE": 6.4
               },
               "3": {
                 "currentBirthsMAE": 4.6,
                 "empiricalBayesBirthsMAE": 4.6,
                 "spline1BirthsMAE": 6.3,
                 "spline10BirthsMAE": 6.4,
-                "spline100BirthsMAE": 6.3
+                "spline100BirthsMAE": 6.3,
+                "cubicSpline1BirthsMAE": 6.3,
+                "cubicSpline10BirthsMAE": 6.4,
+                "cubicSpline100BirthsMAE": 6.3
               }
             }
           }
@@ -12037,27 +12109,39 @@
             "spline1BirthsMAE": 58.5,
             "spline10BirthsMAE": 58,
             "spline100BirthsMAE": 58,
+            "cubicSpline1BirthsMAE": 58.4,
+            "cubicSpline10BirthsMAE": 58,
+            "cubicSpline100BirthsMAE": 58,
             "byHorizon": {
               "1": {
                 "currentBirthsMAE": 37.6,
                 "empiricalBayesBirthsMAE": 36,
                 "spline1BirthsMAE": 35.5,
                 "spline10BirthsMAE": 35,
-                "spline100BirthsMAE": 34.5
+                "spline100BirthsMAE": 34.5,
+                "cubicSpline1BirthsMAE": 35.4,
+                "cubicSpline10BirthsMAE": 34.9,
+                "cubicSpline100BirthsMAE": 34.5
               },
               "2": {
                 "currentBirthsMAE": 54.1,
                 "empiricalBayesBirthsMAE": 53.9,
                 "spline1BirthsMAE": 51.5,
                 "spline10BirthsMAE": 51.2,
-                "spline100BirthsMAE": 51.2
+                "spline100BirthsMAE": 51.2,
+                "cubicSpline1BirthsMAE": 51.5,
+                "cubicSpline10BirthsMAE": 51.2,
+                "cubicSpline100BirthsMAE": 51.2
               },
               "3": {
                 "currentBirthsMAE": 92.4,
                 "empiricalBayesBirthsMAE": 92.5,
                 "spline1BirthsMAE": 88.4,
                 "spline10BirthsMAE": 87.9,
-                "spline100BirthsMAE": 88.3
+                "spline100BirthsMAE": 88.3,
+                "cubicSpline1BirthsMAE": 88.3,
+                "cubicSpline10BirthsMAE": 87.9,
+                "cubicSpline100BirthsMAE": 88.3
               }
             }
           },
@@ -12068,27 +12152,39 @@
             "spline1BirthsMAE": 60.4,
             "spline10BirthsMAE": 60.1,
             "spline100BirthsMAE": 59.7,
+            "cubicSpline1BirthsMAE": 60.3,
+            "cubicSpline10BirthsMAE": 60.1,
+            "cubicSpline100BirthsMAE": 59.7,
             "byHorizon": {
               "1": {
                 "currentBirthsMAE": 39.6,
                 "empiricalBayesBirthsMAE": 37,
                 "spline1BirthsMAE": 38.4,
                 "spline10BirthsMAE": 38,
-                "spline100BirthsMAE": 37.4
+                "spline100BirthsMAE": 37.4,
+                "cubicSpline1BirthsMAE": 38.3,
+                "cubicSpline10BirthsMAE": 38,
+                "cubicSpline100BirthsMAE": 37.3
               },
               "2": {
                 "currentBirthsMAE": 53.8,
                 "empiricalBayesBirthsMAE": 51.1,
                 "spline1BirthsMAE": 51.3,
                 "spline10BirthsMAE": 51,
-                "spline100BirthsMAE": 50.6
+                "spline100BirthsMAE": 50.6,
+                "cubicSpline1BirthsMAE": 51.3,
+                "cubicSpline10BirthsMAE": 51,
+                "cubicSpline100BirthsMAE": 50.6
               },
               "3": {
                 "currentBirthsMAE": 94.1,
                 "empiricalBayesBirthsMAE": 92.2,
                 "spline1BirthsMAE": 91.5,
                 "spline10BirthsMAE": 91.2,
-                "spline100BirthsMAE": 91.2
+                "spline100BirthsMAE": 91.2,
+                "cubicSpline1BirthsMAE": 91.4,
+                "cubicSpline10BirthsMAE": 91.2,
+                "cubicSpline100BirthsMAE": 91.3
               }
             }
           },
@@ -12099,27 +12195,39 @@
             "spline1BirthsMAE": 61.7,
             "spline10BirthsMAE": 61.4,
             "spline100BirthsMAE": 60.7,
+            "cubicSpline1BirthsMAE": 61.7,
+            "cubicSpline10BirthsMAE": 61.3,
+            "cubicSpline100BirthsMAE": 60.7,
             "byHorizon": {
               "1": {
                 "currentBirthsMAE": 38,
                 "empiricalBayesBirthsMAE": 34.3,
                 "spline1BirthsMAE": 37.1,
                 "spline10BirthsMAE": 36.8,
-                "spline100BirthsMAE": 35.9
+                "spline100BirthsMAE": 35.9,
+                "cubicSpline1BirthsMAE": 37.1,
+                "cubicSpline10BirthsMAE": 36.8,
+                "cubicSpline100BirthsMAE": 35.9
               },
               "2": {
                 "currentBirthsMAE": 55.5,
                 "empiricalBayesBirthsMAE": 50.4,
                 "spline1BirthsMAE": 53.6,
                 "spline10BirthsMAE": 53.2,
-                "spline100BirthsMAE": 52.4
+                "spline100BirthsMAE": 52.4,
+                "cubicSpline1BirthsMAE": 53.6,
+                "cubicSpline10BirthsMAE": 53.2,
+                "cubicSpline100BirthsMAE": 52.4
               },
               "3": {
                 "currentBirthsMAE": 96.1,
                 "empiricalBayesBirthsMAE": 92.1,
                 "spline1BirthsMAE": 94.3,
                 "spline10BirthsMAE": 94,
-                "spline100BirthsMAE": 93.7
+                "spline100BirthsMAE": 93.7,
+                "cubicSpline1BirthsMAE": 94.2,
+                "cubicSpline10BirthsMAE": 94,
+                "cubicSpline100BirthsMAE": 93.7
               }
             }
           }
@@ -12132,27 +12240,39 @@
             "spline1BirthsMAE": 24.4,
             "spline10BirthsMAE": 24.4,
             "spline100BirthsMAE": 24.5,
+            "cubicSpline1BirthsMAE": 24.4,
+            "cubicSpline10BirthsMAE": 24.4,
+            "cubicSpline100BirthsMAE": 24.5,
             "byHorizon": {
               "1": {
                 "currentBirthsMAE": 25.7,
                 "empiricalBayesBirthsMAE": 27.1,
                 "spline1BirthsMAE": 25.8,
                 "spline10BirthsMAE": 26,
-                "spline100BirthsMAE": 25.9
+                "spline100BirthsMAE": 25.9,
+                "cubicSpline1BirthsMAE": 25.9,
+                "cubicSpline10BirthsMAE": 26,
+                "cubicSpline100BirthsMAE": 25.9
               },
               "2": {
                 "currentBirthsMAE": 16.9,
                 "empiricalBayesBirthsMAE": 20.6,
                 "spline1BirthsMAE": 14.8,
                 "spline10BirthsMAE": 14.6,
-                "spline100BirthsMAE": 14.6
+                "spline100BirthsMAE": 14.6,
+                "cubicSpline1BirthsMAE": 14.7,
+                "cubicSpline10BirthsMAE": 14.7,
+                "cubicSpline100BirthsMAE": 14.6
               },
               "3": {
                 "currentBirthsMAE": 35.2,
                 "empiricalBayesBirthsMAE": 43.1,
                 "spline1BirthsMAE": 32.6,
                 "spline10BirthsMAE": 32.7,
-                "spline100BirthsMAE": 32.9
+                "spline100BirthsMAE": 32.9,
+                "cubicSpline1BirthsMAE": 32.6,
+                "cubicSpline10BirthsMAE": 32.7,
+                "cubicSpline100BirthsMAE": 32.9
               }
             }
           },
@@ -12163,27 +12283,39 @@
             "spline1BirthsMAE": 20.2,
             "spline10BirthsMAE": 20.2,
             "spline100BirthsMAE": 20.4,
+            "cubicSpline1BirthsMAE": 20.1,
+            "cubicSpline10BirthsMAE": 20.2,
+            "cubicSpline100BirthsMAE": 20.4,
             "byHorizon": {
               "1": {
                 "currentBirthsMAE": 20.3,
                 "empiricalBayesBirthsMAE": 21.5,
                 "spline1BirthsMAE": 20.4,
                 "spline10BirthsMAE": 20.4,
-                "spline100BirthsMAE": 20.6
+                "spline100BirthsMAE": 20.6,
+                "cubicSpline1BirthsMAE": 20.4,
+                "cubicSpline10BirthsMAE": 20.4,
+                "cubicSpline100BirthsMAE": 20.6
               },
               "2": {
                 "currentBirthsMAE": 15.2,
                 "empiricalBayesBirthsMAE": 19.5,
                 "spline1BirthsMAE": 14,
                 "spline10BirthsMAE": 14,
-                "spline100BirthsMAE": 13.9
+                "spline100BirthsMAE": 13.9,
+                "cubicSpline1BirthsMAE": 14,
+                "cubicSpline10BirthsMAE": 14,
+                "cubicSpline100BirthsMAE": 13.9
               },
               "3": {
                 "currentBirthsMAE": 27.4,
                 "empiricalBayesBirthsMAE": 36.6,
                 "spline1BirthsMAE": 26.1,
                 "spline10BirthsMAE": 26.2,
-                "spline100BirthsMAE": 26.8
+                "spline100BirthsMAE": 26.8,
+                "cubicSpline1BirthsMAE": 26.1,
+                "cubicSpline10BirthsMAE": 26.2,
+                "cubicSpline100BirthsMAE": 26.8
               }
             }
           },
@@ -12194,27 +12326,39 @@
             "spline1BirthsMAE": 19.9,
             "spline10BirthsMAE": 19.9,
             "spline100BirthsMAE": 20,
+            "cubicSpline1BirthsMAE": 19.9,
+            "cubicSpline10BirthsMAE": 19.9,
+            "cubicSpline100BirthsMAE": 20,
             "byHorizon": {
               "1": {
                 "currentBirthsMAE": 21.8,
                 "empiricalBayesBirthsMAE": 23.1,
                 "spline1BirthsMAE": 21.9,
                 "spline10BirthsMAE": 22,
-                "spline100BirthsMAE": 22.2
+                "spline100BirthsMAE": 22.2,
+                "cubicSpline1BirthsMAE": 21.9,
+                "cubicSpline10BirthsMAE": 22,
+                "cubicSpline100BirthsMAE": 22.2
               },
               "2": {
                 "currentBirthsMAE": 11,
                 "empiricalBayesBirthsMAE": 15.4,
                 "spline1BirthsMAE": 10.8,
                 "spline10BirthsMAE": 10.7,
-                "spline100BirthsMAE": 10.6
+                "spline100BirthsMAE": 10.6,
+                "cubicSpline1BirthsMAE": 10.8,
+                "cubicSpline10BirthsMAE": 10.7,
+                "cubicSpline100BirthsMAE": 10.6
               },
               "3": {
                 "currentBirthsMAE": 28,
                 "empiricalBayesBirthsMAE": 36.5,
                 "spline1BirthsMAE": 27,
                 "spline10BirthsMAE": 27.1,
-                "spline100BirthsMAE": 27.3
+                "spline100BirthsMAE": 27.3,
+                "cubicSpline1BirthsMAE": 27,
+                "cubicSpline10BirthsMAE": 27.1,
+                "cubicSpline100BirthsMAE": 27.3
               }
             }
           }
@@ -12227,27 +12371,39 @@
             "spline1BirthsMAE": 13.9,
             "spline10BirthsMAE": 13.6,
             "spline100BirthsMAE": 13.5,
+            "cubicSpline1BirthsMAE": 13.9,
+            "cubicSpline10BirthsMAE": 13.6,
+            "cubicSpline100BirthsMAE": 13.5,
             "byHorizon": {
               "1": {
                 "currentBirthsMAE": 11.9,
                 "empiricalBayesBirthsMAE": 11,
                 "spline1BirthsMAE": 12.5,
                 "spline10BirthsMAE": 12.5,
-                "spline100BirthsMAE": 12.6
+                "spline100BirthsMAE": 12.6,
+                "cubicSpline1BirthsMAE": 12.5,
+                "cubicSpline10BirthsMAE": 12.5,
+                "cubicSpline100BirthsMAE": 12.6
               },
               "2": {
                 "currentBirthsMAE": 14.6,
                 "empiricalBayesBirthsMAE": 22.3,
                 "spline1BirthsMAE": 11,
                 "spline10BirthsMAE": 10.6,
-                "spline100BirthsMAE": 10.3
+                "spline100BirthsMAE": 10.3,
+                "cubicSpline1BirthsMAE": 11,
+                "cubicSpline10BirthsMAE": 10.6,
+                "cubicSpline100BirthsMAE": 10.3
               },
               "3": {
                 "currentBirthsMAE": 20.9,
                 "empiricalBayesBirthsMAE": 30.7,
                 "spline1BirthsMAE": 18.2,
                 "spline10BirthsMAE": 17.8,
-                "spline100BirthsMAE": 17.6
+                "spline100BirthsMAE": 17.6,
+                "cubicSpline1BirthsMAE": 18.1,
+                "cubicSpline10BirthsMAE": 17.8,
+                "cubicSpline100BirthsMAE": 17.6
               }
             }
           },
@@ -12258,27 +12414,39 @@
             "spline1BirthsMAE": 13.8,
             "spline10BirthsMAE": 13.5,
             "spline100BirthsMAE": 13.5,
+            "cubicSpline1BirthsMAE": 13.7,
+            "cubicSpline10BirthsMAE": 13.5,
+            "cubicSpline100BirthsMAE": 13.5,
             "byHorizon": {
               "1": {
                 "currentBirthsMAE": 10.9,
                 "empiricalBayesBirthsMAE": 10.8,
                 "spline1BirthsMAE": 10.7,
                 "spline10BirthsMAE": 10.6,
-                "spline100BirthsMAE": 10.6
+                "spline100BirthsMAE": 10.6,
+                "cubicSpline1BirthsMAE": 10.7,
+                "cubicSpline10BirthsMAE": 10.6,
+                "cubicSpline100BirthsMAE": 10.6
               },
               "2": {
                 "currentBirthsMAE": 15,
                 "empiricalBayesBirthsMAE": 23.6,
                 "spline1BirthsMAE": 11.6,
                 "spline10BirthsMAE": 11.2,
-                "spline100BirthsMAE": 11.1
+                "spline100BirthsMAE": 11.1,
+                "cubicSpline1BirthsMAE": 11.5,
+                "cubicSpline10BirthsMAE": 11.2,
+                "cubicSpline100BirthsMAE": 11.2
               },
               "3": {
                 "currentBirthsMAE": 22,
                 "empiricalBayesBirthsMAE": 32.9,
                 "spline1BirthsMAE": 19,
                 "spline10BirthsMAE": 18.8,
-                "spline100BirthsMAE": 18.9
+                "spline100BirthsMAE": 18.9,
+                "cubicSpline1BirthsMAE": 19,
+                "cubicSpline10BirthsMAE": 18.8,
+                "cubicSpline100BirthsMAE": 18.9
               }
             }
           },
@@ -12289,27 +12457,39 @@
             "spline1BirthsMAE": 12.3,
             "spline10BirthsMAE": 12.3,
             "spline100BirthsMAE": 12.4,
+            "cubicSpline1BirthsMAE": 12.3,
+            "cubicSpline10BirthsMAE": 12.3,
+            "cubicSpline100BirthsMAE": 12.4,
             "byHorizon": {
               "1": {
                 "currentBirthsMAE": 11.3,
                 "empiricalBayesBirthsMAE": 11.7,
                 "spline1BirthsMAE": 12.2,
                 "spline10BirthsMAE": 12.4,
-                "spline100BirthsMAE": 12.4
+                "spline100BirthsMAE": 12.4,
+                "cubicSpline1BirthsMAE": 12.2,
+                "cubicSpline10BirthsMAE": 12.4,
+                "cubicSpline100BirthsMAE": 12.4
               },
               "2": {
                 "currentBirthsMAE": 9.6,
                 "empiricalBayesBirthsMAE": 17.3,
                 "spline1BirthsMAE": 8.3,
                 "spline10BirthsMAE": 8.3,
-                "spline100BirthsMAE": 8.3
+                "spline100BirthsMAE": 8.3,
+                "cubicSpline1BirthsMAE": 8.3,
+                "cubicSpline10BirthsMAE": 8.3,
+                "cubicSpline100BirthsMAE": 8.3
               },
               "3": {
                 "currentBirthsMAE": 17.4,
                 "empiricalBayesBirthsMAE": 26.9,
                 "spline1BirthsMAE": 16.4,
                 "spline10BirthsMAE": 16.4,
-                "spline100BirthsMAE": 16.5
+                "spline100BirthsMAE": 16.5,
+                "cubicSpline1BirthsMAE": 16.4,
+                "cubicSpline10BirthsMAE": 16.4,
+                "cubicSpline100BirthsMAE": 16.5
               }
             }
           }
@@ -12322,27 +12502,39 @@
             "spline1BirthsMAE": 91.3,
             "spline10BirthsMAE": 90.5,
             "spline100BirthsMAE": 90.4,
+            "cubicSpline1BirthsMAE": 91.2,
+            "cubicSpline10BirthsMAE": 90.4,
+            "cubicSpline100BirthsMAE": 90.4,
             "byHorizon": {
               "1": {
                 "currentBirthsMAE": 69.2,
                 "empiricalBayesBirthsMAE": 71.5,
                 "spline1BirthsMAE": 69.3,
                 "spline10BirthsMAE": 69.2,
-                "spline100BirthsMAE": 69
+                "spline100BirthsMAE": 69,
+                "cubicSpline1BirthsMAE": 69.4,
+                "cubicSpline10BirthsMAE": 69.2,
+                "cubicSpline100BirthsMAE": 69
               },
               "2": {
                 "currentBirthsMAE": 88.5,
                 "empiricalBayesBirthsMAE": 108.3,
                 "spline1BirthsMAE": 75.6,
                 "spline10BirthsMAE": 74.3,
-                "spline100BirthsMAE": 74
+                "spline100BirthsMAE": 74,
+                "cubicSpline1BirthsMAE": 75.4,
+                "cubicSpline10BirthsMAE": 74.3,
+                "cubicSpline100BirthsMAE": 74
               },
               "3": {
                 "currentBirthsMAE": 151.4,
                 "empiricalBayesBirthsMAE": 179.6,
                 "spline1BirthsMAE": 129,
                 "spline10BirthsMAE": 127.9,
-                "spline100BirthsMAE": 128.1
+                "spline100BirthsMAE": 128.1,
+                "cubicSpline1BirthsMAE": 128.9,
+                "cubicSpline10BirthsMAE": 127.9,
+                "cubicSpline100BirthsMAE": 128.1
               }
             }
           },
@@ -12353,27 +12545,39 @@
             "spline1BirthsMAE": 86.1,
             "spline10BirthsMAE": 85.6,
             "spline100BirthsMAE": 85.9,
+            "cubicSpline1BirthsMAE": 86,
+            "cubicSpline10BirthsMAE": 85.6,
+            "cubicSpline100BirthsMAE": 85.9,
             "byHorizon": {
               "1": {
                 "currentBirthsMAE": 61,
                 "empiricalBayesBirthsMAE": 63.4,
                 "spline1BirthsMAE": 60.9,
                 "spline10BirthsMAE": 60.8,
-                "spline100BirthsMAE": 61.1
+                "spline100BirthsMAE": 61.1,
+                "cubicSpline1BirthsMAE": 60.9,
+                "cubicSpline10BirthsMAE": 60.8,
+                "cubicSpline100BirthsMAE": 61.2
               },
               "2": {
                 "currentBirthsMAE": 80.7,
                 "empiricalBayesBirthsMAE": 99.2,
                 "spline1BirthsMAE": 70.3,
                 "spline10BirthsMAE": 70,
-                "spline100BirthsMAE": 70.2
+                "spline100BirthsMAE": 70.2,
+                "cubicSpline1BirthsMAE": 70.2,
+                "cubicSpline10BirthsMAE": 70,
+                "cubicSpline100BirthsMAE": 70.2
               },
               "3": {
                 "currentBirthsMAE": 147.4,
                 "empiricalBayesBirthsMAE": 173.7,
                 "spline1BirthsMAE": 127.1,
                 "spline10BirthsMAE": 126.1,
-                "spline100BirthsMAE": 126.3
+                "spline100BirthsMAE": 126.3,
+                "cubicSpline1BirthsMAE": 126.9,
+                "cubicSpline10BirthsMAE": 126.1,
+                "cubicSpline100BirthsMAE": 126.3
               }
             }
           },
@@ -12384,27 +12588,39 @@
             "spline1BirthsMAE": 80.9,
             "spline10BirthsMAE": 80.9,
             "spline100BirthsMAE": 81.4,
+            "cubicSpline1BirthsMAE": 80.9,
+            "cubicSpline10BirthsMAE": 80.9,
+            "cubicSpline100BirthsMAE": 81.4,
             "byHorizon": {
               "1": {
                 "currentBirthsMAE": 59,
                 "empiricalBayesBirthsMAE": 62.2,
                 "spline1BirthsMAE": 58.4,
                 "spline10BirthsMAE": 58.7,
-                "spline100BirthsMAE": 59.3
+                "spline100BirthsMAE": 59.3,
+                "cubicSpline1BirthsMAE": 58.5,
+                "cubicSpline10BirthsMAE": 58.7,
+                "cubicSpline100BirthsMAE": 59.3
               },
               "2": {
                 "currentBirthsMAE": 71.2,
                 "empiricalBayesBirthsMAE": 82.1,
                 "spline1BirthsMAE": 64.3,
                 "spline10BirthsMAE": 64.1,
-                "spline100BirthsMAE": 63.8
+                "spline100BirthsMAE": 63.8,
+                "cubicSpline1BirthsMAE": 64.3,
+                "cubicSpline10BirthsMAE": 64.1,
+                "cubicSpline100BirthsMAE": 63.8
               },
               "3": {
                 "currentBirthsMAE": 129.9,
                 "empiricalBayesBirthsMAE": 152.4,
                 "spline1BirthsMAE": 119.9,
                 "spline10BirthsMAE": 119.9,
-                "spline100BirthsMAE": 121.1
+                "spline100BirthsMAE": 121.1,
+                "cubicSpline1BirthsMAE": 119.9,
+                "cubicSpline10BirthsMAE": 120,
+                "cubicSpline100BirthsMAE": 121.1
               }
             }
           }
