@@ -185,6 +185,11 @@
       "label": "Bostadsefterfrågan och reserv",
       "targetLevel": 4,
       "requiredGate": "Bostadsreserven ska vara matematiskt korrekt och begränsad till 0–20 %, nolläge neutralt, planerat tillskott räknas relativt basåret och balansmåttet ska förbli ett analysstöd utan påverkan på den demografiska prognosen."
+    },
+    "maturity_governance": {
+      "label": "Mognadsregister och produktionsstyrning",
+      "targetLevel": 4,
+      "requiredGate": "Varje komponent i mognadspolicyn ska förekomma exakt en gång i den genererade rapporten, inga okända komponenter får finnas och nivåsummorna ska vara internt konsistenta."
     }
   }
 }
