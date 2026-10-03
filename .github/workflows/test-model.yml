@@ -80,6 +80,9 @@ jobs:
       - name: Run model tests
         run: node tests/test_model.js
 
+      - name: Build mass-preserving municipality-county adjustment diagnostic
+        run: python scripts/build_scb_consistency_adjustment.py
+
       - name: Build model maturity report
         run: python scripts/build_model_maturity.py
 
