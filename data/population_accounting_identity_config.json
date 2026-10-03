@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_accounting_gate_locked",
+  "component": "population_accounting_identity",
+  "purpose": "Guarantee that every published annual population change is exactly explained by births, deaths, net migration and explicit scenario effects.",
+  "requiredChecks": [
+    "for every municipality and FA, annual change equals births - deaths + net migration + scenario effect",
+    "population at year t equals population at year t-1 plus reported annual change",
+    "baseline scenario effect is exactly zero",
+    "the identity holds with active housing and workplace scenarios",
+    "the identity holds for every supported forecast year in the ten-year horizon"
+  ],
+  "governance": [
+    "Accounting identity is a hard production invariant, independent of forecast accuracy.",
+    "Any future demographic component must enter the identity explicitly rather than changing population invisibly.",
+    "Failure blocks production publication."
+  ]
+}
