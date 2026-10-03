@@ -34,6 +34,7 @@ SCENARIO_PHASE_IN_VALIDATION = ROOT / "data" / "backtests" / "scenario_phase_in_
 POPULATION_ACCOUNTING_VALIDATION = ROOT / "data" / "backtests" / "population_accounting_identity_validation.json"
 HOUSING_OCCUPANCY_DEFAULTS_VALIDATION = ROOT / "data" / "backtests" / "housing_occupancy_defaults_validation.json"
 HOUSING_STOCK_SUPPORT_VALIDATION = ROOT / "data" / "backtests" / "housing_stock_support_validation.json"
+HOUSING_BALANCE_INDICATOR_VALIDATION = ROOT / "data" / "backtests" / "housing_balance_indicator_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -1437,6 +1438,48 @@ def main():
             else "Keep below production maturity until category completeness and uniqueness pass."
             if housing_stock_has_results
             else "Run the locked housing-stock support validation."
+        )
+    ))
+
+    housing_balance_cfg = load(ROOT / "data" / "housing_balance_indicator_config.json")
+    housing_balance_validation = (
+        load(HOUSING_BALANCE_INDICATOR_VALIDATION)
+        if HOUSING_BALANCE_INDICATOR_VALIDATION.exists()
+        else {}
+    )
+    housing_balance_gate = housing_balance_validation.get("allPassed") is True
+    housing_balance_has_results = bool(housing_balance_validation.get("checks"))
+    comps.append(component(
+        policy, "housing_balance_indicator",
+        4 if housing_balance_gate else 2 if housing_balance_has_results else 1,
+        (
+            "production_support" if housing_balance_gate
+            else "rejected" if housing_balance_has_results
+            else "diagnostic"
+        ),
+        housing_balance_gate,
+        [
+            gate(
+                "Housing-balance analysis rule is explicitly locked",
+                housing_balance_cfg.get("status") == "production_housing_balance_gate_locked",
+                housing_balance_cfg.get("status")
+            ),
+            gate(
+                "Reserve clamp, neutrality and balance arithmetic validate",
+                housing_balance_gate,
+                (
+                    f"checks={housing_balance_validation.get('checks')}; "
+                    f"examples={housing_balance_validation.get('examples')}"
+                    if housing_balance_has_results else "Awaiting validation"
+                )
+            )
+        ],
+        (
+            "Keep as analysis-only production support; reserve remains user-controlled and must not alter the demographic forecast."
+            if housing_balance_gate
+            else "Keep below production maturity until reserve and balance arithmetic pass."
+            if housing_balance_has_results
+            else "Run the locked housing-balance validation."
         )
     ))
 
