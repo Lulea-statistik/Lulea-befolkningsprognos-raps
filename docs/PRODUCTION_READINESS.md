@@ -86,6 +86,21 @@ Bostads- och arbetsplatsscenarier är separata från baslinjen. Produktionsmogna
 - personer per bostad hämtas från SCB där stöd finns och kräver manuell nivå när giltig standard saknas,
 - hushålls- och bostadsbalansen är ett indikativt analysstöd och påverkar inte den demografiska prognosen.
 
+## UI- och exportkontroll
+
+Före produktionsförvaltning ska den publicerade dashboarden också passera följande operativa kontroller:
+
+- alla huvudsidor ska kunna renderas oberoende; ett UI-fel på en sida får inte stoppa övriga sidor,
+- Åldersanalys ska visa lokal nivå jämfört med Riket för fruktsamhet och dödlighet samt separat lokal vikt,
+- dödlighetsrisk ska visas separat för 0–70 år och 71–100+ år så yngre åldrar inte komprimeras av den höga äldre-dödligheten,
+- diagramaxlar ska använda naturligt avrundade intervall snarare än godtyckliga ändvärden,
+- byte av geografi eller kalibreringsfönster får inte lämna kvar värden från tidigare val när data saknas,
+- Validering ska fortsätta renderas även om en annan analysvy får ett JavaScriptfel,
+- CSV-export ska vara kompatibel med svensk Excel, bära geografi och modellval samt innehålla både prognos och baslinje för spårbarhet,
+- GitHub Pages-deploy och relevant modelltest ska båda vara gröna för den publicerade committen.
+
+Senast verifierad UI-/exportrevision omfattar bland annat isolerad sidrendering, jämförelsediagram Luleå/Riket, delad dödlighetsrisk 0–70/71+, robust tomläge för arbetsmarknadsdata och spårbar semikolonseparerad CSV-export.
+
 ## Hårda produktionsgrindar
 
 En ny version ska inte betraktas som produktionsklar om någon av följande kontroller faller:
