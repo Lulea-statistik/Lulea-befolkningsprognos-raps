@@ -198,7 +198,12 @@ def national_only_mortality_rows(future_mort, start_year, end_year):
     return result
 
 
-def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deaths, births, inflow, outflow, netmig, migration_legs, component_cfg, scb_risk_cfg, recency_cfg):
+def build_origin(
+    origin, cfg, pop, birth_year_exposure, fertility_exposure, deaths, births,
+    inflow, outflow, netmig, migration_legs, population_birth_status,
+    migration_birth_status, component_cfg, scb_risk_cfg, recency_cfg,
+    profet_birth_cfg
+):
     original_end = b.CALIBRATION_END
     original_windows = b.WINDOWS
     original_migration_windows = b.MIGRATION_WINDOWS
@@ -228,6 +233,16 @@ def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deat
         ) = b.scb_risk_migration_profiles(
             migration_legs, birth_year_exposure, scb_risk_cfg
         )
+        (
+            profet_birth_in_levels,
+            profet_birth_in_distribution,
+            profet_birth_out,
+            profet_birth_international_in,
+        ) = b.profet_birth_status_profiles(
+            migration_birth_status,
+            population_birth_status,
+            profet_birth_cfg,
+        )
 
         detail_key = cfg["detail_key"]
         births_key = cfg["births_key"]
@@ -244,6 +259,13 @@ def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deat
             scb_national_immigration,
             scb_national_migration_exposure,
         ) = b.load_forecast_migration_context(
+            detail_file,
+            detail_key,
+        )
+        (
+            profet_birth_national_immigration,
+            profet_birth_national_exposure,
+        ) = b.load_forecast_migration_context_by_birth_status(
             detail_file,
             detail_key,
         )
@@ -314,8 +336,14 @@ def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deat
                 "scbRiskMigrationStatus": "development_candidate_not_production_default",
                 "scbRiskMigrationProductionDefault": False,
                 "scbRiskMigrationConfig": scb_risk_cfg,
+                "profetBirthStatusStatus": "development_candidate_not_production_default",
+                "profetBirthStatusProductionDefault": False,
+                "profetBirthStatusConfig": profet_birth_cfg,
             },
             "populationBase": base_population(pop, origin),
+            "populationBaseBirthStatus": b.birth_status_population_rows(
+                population_birth_status, origin
+            ),
             "fertilityRates": fertility_rates,
             "fertilityRatesNationalOnly": fertility_rates_national_only,
             "mortalityRisks": mortality_risks,
@@ -328,6 +356,30 @@ def build_origin(origin, cfg, pop, birth_year_exposure, fertility_exposure, deat
             "scbRiskDomesticInDistribution": scb_risk_internal_in_distribution,
             "scbRiskOutMigration": scb_risk_out,
             "scbRiskInternationalInMigration": scb_risk_international_in,
+            "profetBirthStatusDomesticInLevels": profet_birth_in_levels,
+            "profetBirthStatusDomesticInDistribution": profet_birth_in_distribution,
+            "profetBirthStatusOutMigration": profet_birth_out,
+            "profetBirthStatusInternationalInMigration": profet_birth_international_in,
+            "profetBirthStatusNationalMeanPopulation": [
+                {
+                    "year": year,
+                    "status": status,
+                    "sex": sex,
+                    "age": age,
+                    "value": value,
+                }
+                for (year, status, sex, age), value in sorted(
+                    profet_birth_national_exposure.items()
+                )
+                if origin < year <= end_year
+            ],
+            "profetBirthStatusNationalImmigration": [
+                {"year": year, "status": status, "value": value}
+                for (year, status), value in sorted(
+                    profet_birth_national_immigration.items()
+                )
+                if origin < year <= end_year
+            ],
             "scbRiskNationalMeanPopulation": [
                 {"year": year, "sex": sex, "age": age, "value": value}
                 for (year, sex, age), value in sorted(
@@ -416,6 +468,17 @@ def main():
         b.MIGRATION_LEG_CODES_PRE2025,
         allowed_geos=set(b.MUNICIPALITIES) | {b.RIKET_CODE},
     )
+    population_birth_status = b.load_population_birth_status(
+        "population_birth_region_pre2025.csv",
+        "population_birth_region_pre2025",
+        allowed_geos=set(b.MUNICIPALITIES) | {b.RIKET_CODE},
+    )
+    migration_birth_status = b.load_migration_legs_birth_status(
+        "migration_birth_region_pre2025.csv",
+        "migration_birth_region_pre2025",
+        b.MIGRATION_LEG_CODES_PRE2025,
+        allowed_geos=set(b.MUNICIPALITIES) | {b.RIKET_CODE},
+    )
     component_cfg = json.loads(
         (ROOT / "data" / "migration_component_windows.json").read_text(encoding="utf-8")
     )
@@ -427,12 +490,18 @@ def main():
     )
     if recency_cfg.get("status") != "development_candidate_locked_before_full_cohort_results":
         raise RuntimeError("Unexpected migration recency candidate status.")
+    profet_birth_cfg = json.loads(
+        (ROOT / "data" / "profet_birth_status_config.json").read_text(encoding="utf-8")
+    )
+    if profet_birth_cfg.get("status") != "development_candidate_locked_before_birth_status_results":
+        raise RuntimeError("Unexpected Profet birth-status candidate status.")
 
     entries = [
         build_origin(
             origin, cfg, pop, birth_year_exposure, fertility_exposure,
             deaths, births, inflow, outflow, netmig, migration_legs,
-            component_cfg, scb_risk_cfg, recency_cfg
+            population_birth_status, migration_birth_status,
+            component_cfg, scb_risk_cfg, recency_cfg, profet_birth_cfg
         )
         for origin, cfg in ORIGINS.items()
     ]
