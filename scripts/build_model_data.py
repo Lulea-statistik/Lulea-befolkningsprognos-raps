@@ -232,6 +232,49 @@ def load_forecast_migration_context(filename: str, file_key: str):
     return immigration, exposure
 
 
+def forecast_birth_status(file_key: str, raw_code: str):
+    labels = (
+        manifest().get("files", {}).get(file_key, {})
+        .get("dimension_value_labels", {}).get("Fodelseregion", {})
+    )
+    label = str(labels.get(str(raw_code), "")).strip().lower()
+    if "födda i sverige" in label or "född i sverige" in label:
+        return "sweden_born"
+    if label:
+        return "foreign_born"
+    return None
+
+
+def load_forecast_migration_context_by_birth_status(
+    filename: str, file_key: str
+):
+    """National future immigration and mean population by birth status."""
+    path = RAW / filename
+    immigration = defaultdict(float)
+    exposure = defaultdict(float)
+    if not path.exists():
+        return immigration, exposure
+    in_code = content_code_for(file_key, "inflyttade")
+    mean_code = content_code_for(file_key, "medelfolkmängd")
+    if not in_code or not mean_code:
+        raise RuntimeError(
+            f"Could not identify Inflyttade/Medelfolkmängd for {file_key}."
+        )
+    for r in rows(path):
+        status = forecast_birth_status(file_key, r.get("Fodelseregion", ""))
+        age = age_value(r.get("Alder", ""))
+        sex = SEX_MAP.get(r.get("Kon", ""))
+        if not status or age is None or not sex:
+            continue
+        for col, code, year in value_columns(r.keys(), {in_code, mean_code}):
+            value = num(r[col])
+            if code == in_code:
+                immigration[(year, status)] += value
+            elif code == mean_code:
+                exposure[(year, status, sex, age)] += value
+    return immigration, exposure
+
+
 def national_future_profiles(detail_filename: str, detail_key: str, births_filename: str):
     birth_counts = load_forecast_birth_counts(births_filename)
     deaths, exposure = load_forecast_detail(detail_filename, detail_key)
@@ -406,6 +449,43 @@ def load_migration_legs(filename: str, code_map, allowed_geos=None):
                 continue
             leg, direction = leg_direction
             out[(geo, year, sex, age, leg, direction)] += num(r[col])
+    return out
+
+
+def load_migration_legs_birth_status(
+    filename: str, file_key: str, code_map, allowed_geos=None
+):
+    """Load migration legs retaining Swedish-/foreign-born status."""
+    path = RAW / filename
+    out = defaultdict(float)
+    geos = _allowed_geographies(allowed_geos)
+    reverse = {
+        code: (leg, direction)
+        for leg, directions in code_map.items()
+        for direction, code in directions.items()
+    }
+    status_codes = birth_status_codes(file_key)
+    reverse_status = {code: status for status, code in status_codes.items()}
+    if set(reverse_status.values()) != {"sweden_born", "foreign_born"}:
+        raise RuntimeError(
+            f"Could not identify Swedish-/foreign-born codes for {file_key}."
+        )
+
+    for r in rows(path):
+        status = reverse_status.get(str(r.get("Fodelseregion", "")).strip())
+        if not status:
+            continue
+        age = age_value(r.get("Alder", ""))
+        sex = SEX_MAP.get(r.get("Kon", ""))
+        geo = r.get("Region")
+        if age is None or not sex or geo not in geos:
+            continue
+        for col, code, year in value_columns(r.keys(), set(reverse)):
+            leg_direction = reverse.get(code)
+            if not leg_direction:
+                continue
+            leg, direction = leg_direction
+            out[(geo, year, sex, age, status, leg, direction)] += num(r[col])
     return out
 
 
