@@ -32,9 +32,9 @@ Municipal gross flows include moves between municipalities inside Lulea FA. They
 
 Reference: Tillväxtverket, *Raps Teknisk modellspecifikation*, sections 1.2.1-1.2.2.
 
-## Fallback fading
+## Informationsvägd reservutjämning mot riksprofilen
 
-The fallback avoids a hard switch between national and local age-specific data.
+The fallback method uses information-weighted partial smoothing toward the national age profile rather than a hard switch between national and local age-specific data.
 
 First calculate a broad age-standardized municipality/FA factor:
 
@@ -76,7 +76,7 @@ Safety bounds for local/national ratios remain 0.50 to 1.50 until official Raps 
 
 ## Anti-overfitting rule
 
-The fading thresholds, ratio bounds, calibration windows and model equations are fixed before benchmark evaluation. A poor backtest may identify a model weakness, but the same historical backtest must not then be used to choose parameters that improve that known result.
+The information-weighting thresholds, ratio bounds, calibration windows and model equations are fixed before benchmark evaluation. A poor backtest may identify a model weakness, but the same historical backtest must not then be used to choose parameters that improve that known result.
 
 Changes motivated by a backtest must be based on an independent methodological reason and should subsequently be evaluated on another holdout period or future data.
 
