@@ -52,6 +52,7 @@ function scenarioFor(preset){
       commutingShares,
       moveSharePct:preset.moveSharePct,
       personsPerJob:preset.personsPerJob,
+      spinOffJobsPerDirectJob:preset.spinOffJobsPerDirectJob,
       internationalRecruitmentSharePct:preset.internationalRecruitmentSharePct,
       hostResidencePct:60,
       internalSharePct:10,
@@ -79,6 +80,15 @@ const checks={};
 checks.externalEffectMonotonic=
   output.low.fa.jobExternal <= output.reference.fa.jobExternal + tol &&
   output.reference.fa.jobExternal <= output.high.fa.jobExternal + tol;
+
+checks.spinOffFactorIncludedInLabourDemand=(()=>{
+  const base=cfg.sensitivityPresets.reference;
+  const zero={...base,spinOffJobsPerDirectJob:0};
+  const withSpin={...base,spinOffJobsPerDirectJob:1.5};
+  const a=M.scenarioEffect(demoData,{scenarios:scenarioFor(zero)},2030,'FA_LULEA');
+  const b=M.scenarioEffect(demoData,{scenarios:scenarioFor(withSpin)},2030,'FA_LULEA');
+  return a.jobExternal>0 && Math.abs(b.jobExternal/a.jobExternal-2.5)<1e-9;
+})();
 
 checks.totalEffectMonotonic=
   output.low.fa.total <= output.reference.fa.total + tol &&
