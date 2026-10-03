@@ -22372,6 +22372,2145 @@
       "passed": false
     }
   },
+  "migrationSplineDiagnostic": {
+    "note": "New development candidate, separate from the previously rejected adaptive migration_age_smoothing. Smooths only the one-year-age distribution of the 10-year net-migration profile with a natural cubic spline at locked lambda=10, while preserving the annual net-migration total separately for each municipality and sex. Production baseline is unchanged.",
+    "independentHoldout": false,
+    "lambda": 10,
+    "summary": {
+      "2514": {
+        "observations": 12,
+        "oneYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 57.2,
+            "netMigrationMAE": 55.5
+          },
+          "spline": {
+            "populationMAE": 57.2,
+            "netMigrationMAE": 55.5
+          }
+        },
+        "twoYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 63.7,
+            "netMigrationMAE": 53.8
+          },
+          "spline": {
+            "populationMAE": 63.8,
+            "netMigrationMAE": 53.8
+          }
+        },
+        "threeYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 86,
+            "netMigrationMAE": 64.2
+          },
+          "spline": {
+            "populationMAE": 86.2,
+            "netMigrationMAE": 64.2
+          }
+        },
+        "byHorizon": {
+          "1": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 57.2,
+              "netMigrationMAE": 55.5
+            },
+            "spline": {
+              "populationMAE": 57.2,
+              "netMigrationMAE": 55.5
+            }
+          },
+          "2": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 63.7,
+              "netMigrationMAE": 53.8
+            },
+            "spline": {
+              "populationMAE": 63.8,
+              "netMigrationMAE": 53.8
+            }
+          },
+          "3": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 86,
+              "netMigrationMAE": 64.2
+            },
+            "spline": {
+              "populationMAE": 86.2,
+              "netMigrationMAE": 64.2
+            }
+          }
+        },
+        "byOrigin": {
+          "2018": [
+            {
+              "year": 2019,
+              "horizon": 1,
+              "splinePopulationError": 56.7,
+              "rawPopulationError": 56.7,
+              "splineNetMigrationError": 86.7,
+              "rawNetMigrationError": 86.7,
+              "splinePredictedNetMigration": -24.3,
+              "rawPredictedNetMigration": -24.3,
+              "actualNetMigration": -111
+            },
+            {
+              "year": 2020,
+              "horizon": 2,
+              "splinePopulationError": 14.5,
+              "rawPopulationError": 14.7,
+              "splineNetMigrationError": -26.3,
+              "rawNetMigrationError": -26.3,
+              "splinePredictedNetMigration": -24.3,
+              "rawPredictedNetMigration": -24.3,
+              "actualNetMigration": 2
+            },
+            {
+              "year": 2021,
+              "horizon": 3,
+              "splinePopulationError": -58.2,
+              "rawPopulationError": -57.8,
+              "splineNetMigrationError": -58.3,
+              "rawNetMigrationError": -58.3,
+              "splinePredictedNetMigration": -24.3,
+              "rawPredictedNetMigration": -24.3,
+              "actualNetMigration": 34
+            }
+          ],
+          "2019": [
+            {
+              "year": 2020,
+              "horizon": 1,
+              "splinePopulationError": -41.1,
+              "rawPopulationError": -41.1,
+              "splineNetMigrationError": -22.4,
+              "rawNetMigrationError": -22.4,
+              "splinePredictedNetMigration": -20.4,
+              "rawPredictedNetMigration": -20.4,
+              "actualNetMigration": 2
+            },
+            {
+              "year": 2021,
+              "horizon": 2,
+              "splinePopulationError": -112.8,
+              "rawPopulationError": -112.7,
+              "splineNetMigrationError": -54.4,
+              "rawNetMigrationError": -54.4,
+              "splinePredictedNetMigration": -20.4,
+              "rawPredictedNetMigration": -20.4,
+              "actualNetMigration": 34
+            },
+            {
+              "year": 2022,
+              "horizon": 3,
+              "splinePopulationError": -190.8,
+              "rawPopulationError": -190.5,
+              "splineNetMigrationError": -93.4,
+              "rawNetMigrationError": -93.4,
+              "splinePredictedNetMigration": -20.4,
+              "rawPredictedNetMigration": -20.4,
+              "actualNetMigration": 73
+            }
+          ],
+          "2020": [
+            {
+              "year": 2021,
+              "horizon": 1,
+              "splinePopulationError": -60.2,
+              "rawPopulationError": -60.2,
+              "splineNetMigrationError": -41.3,
+              "rawNetMigrationError": -41.3,
+              "splinePredictedNetMigration": -7.3,
+              "rawPredictedNetMigration": -7.3,
+              "actualNetMigration": 34
+            },
+            {
+              "year": 2022,
+              "horizon": 2,
+              "splinePopulationError": -127.4,
+              "rawPopulationError": -127.2,
+              "splineNetMigrationError": -80.3,
+              "rawNetMigrationError": -80.3,
+              "splinePredictedNetMigration": -7.3,
+              "rawPredictedNetMigration": -7.3,
+              "actualNetMigration": 73
+            },
+            {
+              "year": 2023,
+              "horizon": 3,
+              "splinePopulationError": -52.8,
+              "rawPopulationError": -52.5,
+              "splineNetMigrationError": 45.7,
+              "rawNetMigrationError": 45.7,
+              "splinePredictedNetMigration": -7.3,
+              "rawPredictedNetMigration": -7.3,
+              "actualNetMigration": -53
+            }
+          ],
+          "2021": [
+            {
+              "year": 2022,
+              "horizon": 1,
+              "splinePopulationError": -70.8,
+              "rawPopulationError": -70.8,
+              "splineNetMigrationError": -71.7,
+              "rawNetMigrationError": -71.7,
+              "splinePredictedNetMigration": 1.3,
+              "rawPredictedNetMigration": 1.3,
+              "actualNetMigration": 73
+            },
+            {
+              "year": 2023,
+              "horizon": 2,
+              "splinePopulationError": -0.4,
+              "rawPopulationError": -0.3,
+              "splineNetMigrationError": 54.3,
+              "rawNetMigrationError": 54.3,
+              "splinePredictedNetMigration": 1.3,
+              "rawPredictedNetMigration": 1.3,
+              "actualNetMigration": -53
+            },
+            {
+              "year": 2024,
+              "horizon": 3,
+              "splinePopulationError": 43,
+              "rawPopulationError": 43.2,
+              "splineNetMigrationError": 59.3,
+              "rawNetMigrationError": 59.3,
+              "splinePredictedNetMigration": 1.3,
+              "rawPredictedNetMigration": 1.3,
+              "actualNetMigration": -58
+            }
+          ]
+        }
+      },
+      "2560": {
+        "observations": 12,
+        "oneYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 36.9,
+            "netMigrationMAE": 41.1
+          },
+          "spline": {
+            "populationMAE": 36.9,
+            "netMigrationMAE": 41.1
+          }
+        },
+        "twoYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 70.6,
+            "netMigrationMAE": 54
+          },
+          "spline": {
+            "populationMAE": 70.6,
+            "netMigrationMAE": 54
+          }
+        },
+        "threeYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 110.1,
+            "netMigrationMAE": 51
+          },
+          "spline": {
+            "populationMAE": 110,
+            "netMigrationMAE": 51
+          }
+        },
+        "byHorizon": {
+          "1": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 36.9,
+              "netMigrationMAE": 41.1
+            },
+            "spline": {
+              "populationMAE": 36.9,
+              "netMigrationMAE": 41.1
+            }
+          },
+          "2": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 70.6,
+              "netMigrationMAE": 54
+            },
+            "spline": {
+              "populationMAE": 70.6,
+              "netMigrationMAE": 54
+            }
+          },
+          "3": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 110.1,
+              "netMigrationMAE": 51
+            },
+            "spline": {
+              "populationMAE": 110,
+              "netMigrationMAE": 51
+            }
+          }
+        },
+        "byOrigin": {
+          "2018": [
+            {
+              "year": 2019,
+              "horizon": 1,
+              "splinePopulationError": 42,
+              "rawPopulationError": 42,
+              "splineNetMigrationError": 47.5,
+              "rawNetMigrationError": 47.5,
+              "splinePredictedNetMigration": -1.5,
+              "rawPredictedNetMigration": -1.5,
+              "actualNetMigration": -49
+            },
+            {
+              "year": 2020,
+              "horizon": 2,
+              "splinePopulationError": 23.1,
+              "rawPopulationError": 23.2,
+              "splineNetMigrationError": -23.5,
+              "rawNetMigrationError": -23.5,
+              "splinePredictedNetMigration": -1.5,
+              "rawPredictedNetMigration": -1.5,
+              "actualNetMigration": 22
+            },
+            {
+              "year": 2021,
+              "horizon": 3,
+              "splinePopulationError": 38.1,
+              "rawPopulationError": 38.2,
+              "splineNetMigrationError": 20.5,
+              "rawNetMigrationError": 20.5,
+              "splinePredictedNetMigration": -1.5,
+              "rawPredictedNetMigration": -1.5,
+              "actualNetMigration": -22
+            }
+          ],
+          "2019": [
+            {
+              "year": 2020,
+              "horizon": 1,
+              "splinePopulationError": -18.8,
+              "rawPopulationError": -18.8,
+              "splineNetMigrationError": -22.1,
+              "rawNetMigrationError": -22.1,
+              "splinePredictedNetMigration": -0.1,
+              "rawPredictedNetMigration": -0.1,
+              "actualNetMigration": 22
+            },
+            {
+              "year": 2021,
+              "horizon": 2,
+              "splinePopulationError": -3.5,
+              "rawPopulationError": -3.4,
+              "splineNetMigrationError": 21.9,
+              "rawNetMigrationError": 21.9,
+              "splinePredictedNetMigration": -0.1,
+              "rawPredictedNetMigration": -0.1,
+              "actualNetMigration": -22
+            },
+            {
+              "year": 2022,
+              "horizon": 3,
+              "splinePopulationError": 65.9,
+              "rawPopulationError": 66,
+              "splineNetMigrationError": 60.9,
+              "rawNetMigrationError": 60.9,
+              "splinePredictedNetMigration": -0.1,
+              "rawPredictedNetMigration": -0.1,
+              "actualNetMigration": -61
+            }
+          ],
+          "2020": [
+            {
+              "year": 2021,
+              "horizon": 1,
+              "splinePopulationError": 18.6,
+              "rawPopulationError": 18.6,
+              "splineNetMigrationError": 27.1,
+              "rawNetMigrationError": 27.1,
+              "splinePredictedNetMigration": 5.1,
+              "rawPredictedNetMigration": 5.1,
+              "actualNetMigration": -22
+            },
+            {
+              "year": 2022,
+              "horizon": 2,
+              "splinePopulationError": 90.3,
+              "rawPopulationError": 90.3,
+              "splineNetMigrationError": 66.1,
+              "rawNetMigrationError": 66.1,
+              "splinePredictedNetMigration": 5.1,
+              "rawPredictedNetMigration": 5.1,
+              "actualNetMigration": -61
+            },
+            {
+              "year": 2023,
+              "horizon": 3,
+              "splinePopulationError": 192.2,
+              "rawPopulationError": 192.3,
+              "splineNetMigrationError": 103.1,
+              "rawNetMigrationError": 103.1,
+              "splinePredictedNetMigration": 5.1,
+              "rawPredictedNetMigration": 5.1,
+              "actualNetMigration": -98
+            }
+          ],
+          "2021": [
+            {
+              "year": 2022,
+              "horizon": 1,
+              "splinePopulationError": 68.2,
+              "rawPopulationError": 68.2,
+              "splineNetMigrationError": 67.5,
+              "rawNetMigrationError": 67.5,
+              "splinePredictedNetMigration": 6.5,
+              "rawPredictedNetMigration": 6.5,
+              "actualNetMigration": -61
+            },
+            {
+              "year": 2023,
+              "horizon": 2,
+              "splinePopulationError": 165.7,
+              "rawPopulationError": 165.7,
+              "splineNetMigrationError": 104.5,
+              "rawNetMigrationError": 104.5,
+              "splinePredictedNetMigration": 6.5,
+              "rawPredictedNetMigration": 6.5,
+              "actualNetMigration": -98
+            },
+            {
+              "year": 2024,
+              "horizon": 3,
+              "splinePopulationError": 143.9,
+              "rawPopulationError": 144,
+              "splineNetMigrationError": -19.5,
+              "rawNetMigrationError": -19.5,
+              "splinePredictedNetMigration": 6.5,
+              "rawPredictedNetMigration": 6.5,
+              "actualNetMigration": 26
+            }
+          ]
+        }
+      },
+      "2580": {
+        "observations": 12,
+        "oneYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 81.2,
+            "netMigrationMAE": 121.4
+          },
+          "spline": {
+            "populationMAE": 81.2,
+            "netMigrationMAE": 121.4
+          }
+        },
+        "twoYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 107.9,
+            "netMigrationMAE": 106.4
+          },
+          "spline": {
+            "populationMAE": 107.8,
+            "netMigrationMAE": 106.4
+          }
+        },
+        "threeYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 211.5,
+            "netMigrationMAE": 112.6
+          },
+          "spline": {
+            "populationMAE": 211.4,
+            "netMigrationMAE": 112.6
+          }
+        },
+        "byHorizon": {
+          "1": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 81.2,
+              "netMigrationMAE": 121.4
+            },
+            "spline": {
+              "populationMAE": 81.2,
+              "netMigrationMAE": 121.4
+            }
+          },
+          "2": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 107.9,
+              "netMigrationMAE": 106.4
+            },
+            "spline": {
+              "populationMAE": 107.8,
+              "netMigrationMAE": 106.4
+            }
+          },
+          "3": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 211.5,
+              "netMigrationMAE": 112.6
+            },
+            "spline": {
+              "populationMAE": 211.4,
+              "netMigrationMAE": 112.6
+            }
+          }
+        },
+        "byOrigin": {
+          "2018": [
+            {
+              "year": 2019,
+              "horizon": 1,
+              "splinePopulationError": 147.1,
+              "rawPopulationError": 147.1,
+              "splineNetMigrationError": 148.3,
+              "rawNetMigrationError": 148.3,
+              "splinePredictedNetMigration": 329.3,
+              "rawPredictedNetMigration": 329.3,
+              "actualNetMigration": 181
+            },
+            {
+              "year": 2020,
+              "horizon": 2,
+              "splinePopulationError": 129.2,
+              "rawPopulationError": 129.1,
+              "splineNetMigrationError": -107.7,
+              "rawNetMigrationError": -107.7,
+              "splinePredictedNetMigration": 329.3,
+              "rawPredictedNetMigration": 329.3,
+              "actualNetMigration": 437
+            },
+            {
+              "year": 2021,
+              "horizon": 3,
+              "splinePopulationError": 239.5,
+              "rawPopulationError": 238.9,
+              "splineNetMigrationError": 131.3,
+              "rawNetMigrationError": 131.3,
+              "splinePredictedNetMigration": 329.3,
+              "rawPredictedNetMigration": 329.3,
+              "actualNetMigration": 198
+            }
+          ],
+          "2019": [
+            {
+              "year": 2020,
+              "horizon": 1,
+              "splinePopulationError": -66.8,
+              "rawPopulationError": -66.8,
+              "splineNetMigrationError": -119.5,
+              "rawNetMigrationError": -119.5,
+              "splinePredictedNetMigration": 317.5,
+              "rawPredictedNetMigration": 317.5,
+              "actualNetMigration": 437
+            },
+            {
+              "year": 2021,
+              "horizon": 2,
+              "splinePopulationError": -4.9,
+              "rawPopulationError": -5,
+              "splineNetMigrationError": 119.5,
+              "rawNetMigrationError": 119.5,
+              "splinePredictedNetMigration": 317.5,
+              "rawPredictedNetMigration": 317.5,
+              "actualNetMigration": 198
+            },
+            {
+              "year": 2022,
+              "horizon": 3,
+              "splinePopulationError": -4.1,
+              "rawPopulationError": -4.8,
+              "splineNetMigrationError": -106.5,
+              "rawNetMigrationError": -106.5,
+              "splinePredictedNetMigration": 317.5,
+              "rawPredictedNetMigration": 317.5,
+              "actualNetMigration": 424
+            }
+          ],
+          "2020": [
+            {
+              "year": 2021,
+              "horizon": 1,
+              "splinePopulationError": 84,
+              "rawPopulationError": 84,
+              "splineNetMigrationError": 156.9,
+              "rawNetMigrationError": 156.9,
+              "splinePredictedNetMigration": 354.9,
+              "rawPredictedNetMigration": 354.9,
+              "actualNetMigration": 198
+            },
+            {
+              "year": 2022,
+              "horizon": 2,
+              "splinePopulationError": 99.7,
+              "rawPopulationError": 99.8,
+              "splineNetMigrationError": -69.1,
+              "rawNetMigrationError": -69.1,
+              "splinePredictedNetMigration": 354.9,
+              "rawPredictedNetMigration": 354.9,
+              "actualNetMigration": 424
+            },
+            {
+              "year": 2023,
+              "horizon": 3,
+              "splinePopulationError": 376.5,
+              "rawPopulationError": 376.4,
+              "splineNetMigrationError": 120.9,
+              "rawNetMigrationError": 120.9,
+              "splinePredictedNetMigration": 354.9,
+              "rawPredictedNetMigration": 354.9,
+              "actualNetMigration": 234
+            }
+          ],
+          "2021": [
+            {
+              "year": 2022,
+              "horizon": 1,
+              "splinePopulationError": -27,
+              "rawPopulationError": -27,
+              "splineNetMigrationError": -60.8,
+              "rawNetMigrationError": -60.8,
+              "splinePredictedNetMigration": 363.2,
+              "rawPredictedNetMigration": 363.2,
+              "actualNetMigration": 424
+            },
+            {
+              "year": 2023,
+              "horizon": 2,
+              "splinePopulationError": 197.3,
+              "rawPopulationError": 197.5,
+              "splineNetMigrationError": 129.2,
+              "rawNetMigrationError": 129.2,
+              "splinePredictedNetMigration": 363.2,
+              "rawPredictedNetMigration": 363.2,
+              "actualNetMigration": 234
+            },
+            {
+              "year": 2024,
+              "horizon": 3,
+              "splinePopulationError": 225.6,
+              "rawPopulationError": 225.8,
+              "splineNetMigrationError": -91.8,
+              "rawNetMigrationError": -91.8,
+              "splinePredictedNetMigration": 363.2,
+              "rawPredictedNetMigration": 363.2,
+              "actualNetMigration": 455
+            }
+          ]
+        }
+      },
+      "2581": {
+        "observations": 12,
+        "oneYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 74.7,
+            "netMigrationMAE": 82.7
+          },
+          "spline": {
+            "populationMAE": 74.7,
+            "netMigrationMAE": 82.7
+          }
+        },
+        "twoYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 119.6,
+            "netMigrationMAE": 97.8
+          },
+          "spline": {
+            "populationMAE": 119.5,
+            "netMigrationMAE": 97.7
+          }
+        },
+        "threeYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 151.5,
+            "netMigrationMAE": 70.7
+          },
+          "spline": {
+            "populationMAE": 151.4,
+            "netMigrationMAE": 70.7
+          }
+        },
+        "byHorizon": {
+          "1": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 74.7,
+              "netMigrationMAE": 82.7
+            },
+            "spline": {
+              "populationMAE": 74.7,
+              "netMigrationMAE": 82.7
+            }
+          },
+          "2": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 119.6,
+              "netMigrationMAE": 97.8
+            },
+            "spline": {
+              "populationMAE": 119.5,
+              "netMigrationMAE": 97.7
+            }
+          },
+          "3": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 151.5,
+              "netMigrationMAE": 70.7
+            },
+            "spline": {
+              "populationMAE": 151.4,
+              "netMigrationMAE": 70.7
+            }
+          }
+        },
+        "byOrigin": {
+          "2018": [
+            {
+              "year": 2019,
+              "horizon": 1,
+              "splinePopulationError": -68.1,
+              "rawPopulationError": -68.1,
+              "splineNetMigrationError": -40.4,
+              "rawNetMigrationError": -40.4,
+              "splinePredictedNetMigration": 152.6,
+              "rawPredictedNetMigration": 152.6,
+              "actualNetMigration": 193
+            },
+            {
+              "year": 2020,
+              "horizon": 2,
+              "splinePopulationError": 82.7,
+              "rawPopulationError": 82.8,
+              "splineNetMigrationError": 131.6,
+              "rawNetMigrationError": 131.6,
+              "splinePredictedNetMigration": 152.6,
+              "rawPredictedNetMigration": 152.6,
+              "actualNetMigration": 21
+            },
+            {
+              "year": 2021,
+              "horizon": 3,
+              "splinePopulationError": 77.1,
+              "rawPopulationError": 77.3,
+              "splineNetMigrationError": 42.6,
+              "rawNetMigrationError": 42.6,
+              "splinePredictedNetMigration": 152.6,
+              "rawPredictedNetMigration": 152.6,
+              "actualNetMigration": 110
+            }
+          ],
+          "2019": [
+            {
+              "year": 2020,
+              "horizon": 1,
+              "splinePopulationError": 175,
+              "rawPopulationError": 175,
+              "splineNetMigrationError": 151.7,
+              "rawNetMigrationError": 151.7,
+              "splinePredictedNetMigration": 172.7,
+              "rawPredictedNetMigration": 172.7,
+              "actualNetMigration": 21
+            },
+            {
+              "year": 2021,
+              "horizon": 2,
+              "splinePopulationError": 194.5,
+              "rawPopulationError": 194.6,
+              "splineNetMigrationError": 62.7,
+              "rawNetMigrationError": 62.7,
+              "splinePredictedNetMigration": 172.7,
+              "rawPredictedNetMigration": 172.7,
+              "actualNetMigration": 110
+            },
+            {
+              "year": 2022,
+              "horizon": 3,
+              "splinePopulationError": 266.6,
+              "rawPopulationError": 266.7,
+              "splineNetMigrationError": 81.7,
+              "rawNetMigrationError": 81.7,
+              "splinePredictedNetMigration": 172.7,
+              "rawPredictedNetMigration": 172.7,
+              "actualNetMigration": 91
+            }
+          ],
+          "2020": [
+            {
+              "year": 2021,
+              "horizon": 1,
+              "splinePopulationError": 15.3,
+              "rawPopulationError": 15.3,
+              "splineNetMigrationError": 59.5,
+              "rawNetMigrationError": 59.5,
+              "splinePredictedNetMigration": 169.5,
+              "rawPredictedNetMigration": 169.5,
+              "actualNetMigration": 110
+            },
+            {
+              "year": 2022,
+              "horizon": 2,
+              "splinePopulationError": 77.7,
+              "rawPopulationError": 77.8,
+              "splineNetMigrationError": 78.5,
+              "rawNetMigrationError": 78.5,
+              "splinePredictedNetMigration": 169.5,
+              "rawPredictedNetMigration": 169.5,
+              "actualNetMigration": 91
+            },
+            {
+              "year": 2023,
+              "horizon": 3,
+              "splinePopulationError": 188.3,
+              "rawPopulationError": 188.4,
+              "splineNetMigrationError": 117.5,
+              "rawNetMigrationError": 117.5,
+              "splinePredictedNetMigration": 169.5,
+              "rawPredictedNetMigration": 169.5,
+              "actualNetMigration": 52
+            }
+          ],
+          "2021": [
+            {
+              "year": 2022,
+              "horizon": 1,
+              "splinePopulationError": 40.3,
+              "rawPopulationError": 40.3,
+              "splineNetMigrationError": 79.2,
+              "rawNetMigrationError": 79.2,
+              "splinePredictedNetMigration": 170.2,
+              "rawPredictedNetMigration": 170.2,
+              "actualNetMigration": 91
+            },
+            {
+              "year": 2023,
+              "horizon": 2,
+              "splinePopulationError": 123.1,
+              "rawPopulationError": 123.2,
+              "splineNetMigrationError": 118.2,
+              "rawNetMigrationError": 118.2,
+              "splinePredictedNetMigration": 170.2,
+              "rawPredictedNetMigration": 170.2,
+              "actualNetMigration": 52
+            },
+            {
+              "year": 2024,
+              "horizon": 3,
+              "splinePopulationError": 73.5,
+              "rawPopulationError": 73.7,
+              "splineNetMigrationError": -40.8,
+              "rawNetMigrationError": -40.8,
+              "splinePredictedNetMigration": 170.2,
+              "rawPredictedNetMigration": 170.2,
+              "actualNetMigration": 211
+            }
+          ]
+        }
+      },
+      "2582": {
+        "observations": 12,
+        "oneYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 69.2,
+            "netMigrationMAE": 57.9
+          },
+          "spline": {
+            "populationMAE": 69.2,
+            "netMigrationMAE": 57.9
+          }
+        },
+        "twoYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 109.7,
+            "netMigrationMAE": 63.6
+          },
+          "spline": {
+            "populationMAE": 109.6,
+            "netMigrationMAE": 63.6
+          }
+        },
+        "threeYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 146.2,
+            "netMigrationMAE": 93.5
+          },
+          "spline": {
+            "populationMAE": 145.9,
+            "netMigrationMAE": 93.5
+          }
+        },
+        "byHorizon": {
+          "1": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 69.2,
+              "netMigrationMAE": 57.9
+            },
+            "spline": {
+              "populationMAE": 69.2,
+              "netMigrationMAE": 57.9
+            }
+          },
+          "2": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 109.7,
+              "netMigrationMAE": 63.6
+            },
+            "spline": {
+              "populationMAE": 109.6,
+              "netMigrationMAE": 63.6
+            }
+          },
+          "3": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 146.2,
+              "netMigrationMAE": 93.5
+            },
+            "spline": {
+              "populationMAE": 145.9,
+              "netMigrationMAE": 93.5
+            }
+          }
+        },
+        "byOrigin": {
+          "2018": [
+            {
+              "year": 2019,
+              "horizon": 1,
+              "splinePopulationError": 21.8,
+              "rawPopulationError": 21.8,
+              "splineNetMigrationError": 43.5,
+              "rawNetMigrationError": 43.5,
+              "splinePredictedNetMigration": 83.5,
+              "rawPredictedNetMigration": 83.5,
+              "actualNetMigration": 40
+            },
+            {
+              "year": 2020,
+              "horizon": 2,
+              "splinePopulationError": 82.8,
+              "rawPopulationError": 82.9,
+              "splineNetMigrationError": 30.5,
+              "rawNetMigrationError": 30.5,
+              "splinePredictedNetMigration": 83.5,
+              "rawPredictedNetMigration": 83.5,
+              "actualNetMigration": 53
+            },
+            {
+              "year": 2021,
+              "horizon": 3,
+              "splinePopulationError": 24.2,
+              "rawPopulationError": 24.5,
+              "splineNetMigrationError": -27.5,
+              "rawNetMigrationError": -27.5,
+              "splinePredictedNetMigration": 83.5,
+              "rawPredictedNetMigration": 83.5,
+              "actualNetMigration": 111
+            }
+          ],
+          "2019": [
+            {
+              "year": 2020,
+              "horizon": 1,
+              "splinePopulationError": 72.4,
+              "rawPopulationError": 72.4,
+              "splineNetMigrationError": 40.8,
+              "rawNetMigrationError": 40.8,
+              "splinePredictedNetMigration": 93.8,
+              "rawPredictedNetMigration": 93.8,
+              "actualNetMigration": 53
+            },
+            {
+              "year": 2021,
+              "horizon": 2,
+              "splinePopulationError": 26.4,
+              "rawPopulationError": 26.5,
+              "splineNetMigrationError": -17.2,
+              "rawNetMigrationError": -17.2,
+              "splinePredictedNetMigration": 93.8,
+              "rawPredictedNetMigration": 93.8,
+              "actualNetMigration": 111
+            },
+            {
+              "year": 2022,
+              "horizon": 3,
+              "splinePopulationError": 191.4,
+              "rawPopulationError": 191.7,
+              "splineNetMigrationError": 140.8,
+              "rawNetMigrationError": 140.8,
+              "splinePredictedNetMigration": 93.8,
+              "rawPredictedNetMigration": 93.8,
+              "actualNetMigration": -47
+            }
+          ],
+          "2020": [
+            {
+              "year": 2021,
+              "horizon": 1,
+              "splinePopulationError": -58,
+              "rawPopulationError": -58,
+              "splineNetMigrationError": -21.3,
+              "rawNetMigrationError": -21.3,
+              "splinePredictedNetMigration": 89.7,
+              "rawPredictedNetMigration": 89.7,
+              "actualNetMigration": 111
+            },
+            {
+              "year": 2022,
+              "horizon": 2,
+              "splinePopulationError": 92.3,
+              "rawPopulationError": 92.4,
+              "splineNetMigrationError": 136.7,
+              "rawNetMigrationError": 136.7,
+              "splinePredictedNetMigration": 89.7,
+              "rawPredictedNetMigration": 89.7,
+              "actualNetMigration": -47
+            },
+            {
+              "year": 2023,
+              "horizon": 3,
+              "splinePopulationError": 234.2,
+              "rawPopulationError": 234.4,
+              "splineNetMigrationError": 80.7,
+              "rawNetMigrationError": 80.7,
+              "splinePredictedNetMigration": 89.7,
+              "rawPredictedNetMigration": 89.7,
+              "actualNetMigration": 9
+            }
+          ],
+          "2021": [
+            {
+              "year": 2022,
+              "horizon": 1,
+              "splinePopulationError": 124.4,
+              "rawPopulationError": 124.4,
+              "splineNetMigrationError": 126,
+              "rawNetMigrationError": 126,
+              "splinePredictedNetMigration": 79,
+              "rawPredictedNetMigration": 79,
+              "actualNetMigration": -47
+            },
+            {
+              "year": 2023,
+              "horizon": 2,
+              "splinePopulationError": 236.9,
+              "rawPopulationError": 237,
+              "splineNetMigrationError": 70,
+              "rawNetMigrationError": 70,
+              "splinePredictedNetMigration": 79,
+              "rawPredictedNetMigration": 79,
+              "actualNetMigration": 9
+            },
+            {
+              "year": 2024,
+              "horizon": 3,
+              "splinePopulationError": 133.9,
+              "rawPopulationError": 134.1,
+              "splineNetMigrationError": -125,
+              "rawNetMigrationError": -125,
+              "splinePredictedNetMigration": 79,
+              "rawPredictedNetMigration": 79,
+              "actualNetMigration": 204
+            }
+          ]
+        }
+      },
+      "FA_LULEA": {
+        "observations": 12,
+        "oneYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 113.9,
+            "netMigrationMAE": 158.8
+          },
+          "spline": {
+            "populationMAE": 113.9,
+            "netMigrationMAE": 158.8
+          }
+        },
+        "twoYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 347.2,
+            "netMigrationMAE": 186.3
+          },
+          "spline": {
+            "populationMAE": 346.9,
+            "netMigrationMAE": 186.3
+          }
+        },
+        "threeYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 552.6,
+            "netMigrationMAE": 219.5
+          },
+          "spline": {
+            "populationMAE": 552,
+            "netMigrationMAE": 219.5
+          }
+        },
+        "byHorizon": {
+          "1": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 113.9,
+              "netMigrationMAE": 158.8
+            },
+            "spline": {
+              "populationMAE": 113.9,
+              "netMigrationMAE": 158.8
+            }
+          },
+          "2": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 347.2,
+              "netMigrationMAE": 186.3
+            },
+            "spline": {
+              "populationMAE": 346.9,
+              "netMigrationMAE": 186.3
+            }
+          },
+          "3": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 552.6,
+              "netMigrationMAE": 219.5
+            },
+            "spline": {
+              "populationMAE": 552,
+              "netMigrationMAE": 219.5
+            }
+          }
+        },
+        "byOrigin": {
+          "2018": [
+            {
+              "year": 2019,
+              "horizon": 1,
+              "splinePopulationError": 199.4,
+              "rawPopulationError": 199.4,
+              "splineNetMigrationError": 285.6,
+              "rawNetMigrationError": 285.6,
+              "splinePredictedNetMigration": 539.6,
+              "rawPredictedNetMigration": 539.6,
+              "actualNetMigration": 254
+            },
+            {
+              "year": 2020,
+              "horizon": 2,
+              "splinePopulationError": 332.4,
+              "rawPopulationError": 332.7,
+              "splineNetMigrationError": 4.6,
+              "rawNetMigrationError": 4.6,
+              "splinePredictedNetMigration": 539.6,
+              "rawPredictedNetMigration": 539.6,
+              "actualNetMigration": 535
+            },
+            {
+              "year": 2021,
+              "horizon": 3,
+              "splinePopulationError": 320.8,
+              "rawPopulationError": 321.1,
+              "splineNetMigrationError": 108.6,
+              "rawNetMigrationError": 108.6,
+              "splinePredictedNetMigration": 539.6,
+              "rawPredictedNetMigration": 539.6,
+              "actualNetMigration": 431
+            }
+          ],
+          "2019": [
+            {
+              "year": 2020,
+              "horizon": 1,
+              "splinePopulationError": 120.7,
+              "rawPopulationError": 120.7,
+              "splineNetMigrationError": 28.5,
+              "rawNetMigrationError": 28.5,
+              "splinePredictedNetMigration": 563.5,
+              "rawPredictedNetMigration": 563.5,
+              "actualNetMigration": 535
+            },
+            {
+              "year": 2021,
+              "horizon": 2,
+              "splinePopulationError": 99.8,
+              "rawPopulationError": 100,
+              "splineNetMigrationError": 132.5,
+              "rawNetMigrationError": 132.5,
+              "splinePredictedNetMigration": 563.5,
+              "rawPredictedNetMigration": 563.5,
+              "actualNetMigration": 431
+            },
+            {
+              "year": 2022,
+              "horizon": 3,
+              "splinePopulationError": 328.9,
+              "rawPopulationError": 329.2,
+              "splineNetMigrationError": 83.5,
+              "rawNetMigrationError": 83.5,
+              "splinePredictedNetMigration": 563.5,
+              "rawPredictedNetMigration": 563.5,
+              "actualNetMigration": 480
+            }
+          ],
+          "2020": [
+            {
+              "year": 2021,
+              "horizon": 1,
+              "splinePopulationError": -0.3,
+              "rawPopulationError": -0.3,
+              "splineNetMigrationError": 180.9,
+              "rawNetMigrationError": 180.9,
+              "splinePredictedNetMigration": 611.9,
+              "rawPredictedNetMigration": 611.9,
+              "actualNetMigration": 431
+            },
+            {
+              "year": 2022,
+              "horizon": 2,
+              "splinePopulationError": 232.6,
+              "rawPopulationError": 233,
+              "splineNetMigrationError": 131.9,
+              "rawNetMigrationError": 131.9,
+              "splinePredictedNetMigration": 611.9,
+              "rawPredictedNetMigration": 611.9,
+              "actualNetMigration": 480
+            },
+            {
+              "year": 2023,
+              "horizon": 3,
+              "splinePopulationError": 938.3,
+              "rawPopulationError": 938.9,
+              "splineNetMigrationError": 467.9,
+              "rawNetMigrationError": 467.9,
+              "splinePredictedNetMigration": 611.9,
+              "rawPredictedNetMigration": 611.9,
+              "actualNetMigration": 144
+            }
+          ],
+          "2021": [
+            {
+              "year": 2022,
+              "horizon": 1,
+              "splinePopulationError": 135.2,
+              "rawPopulationError": 135.1,
+              "splineNetMigrationError": 140.2,
+              "rawNetMigrationError": 140.2,
+              "splinePredictedNetMigration": 620.2,
+              "rawPredictedNetMigration": 620.2,
+              "actualNetMigration": 480
+            },
+            {
+              "year": 2023,
+              "horizon": 2,
+              "splinePopulationError": 722.6,
+              "rawPopulationError": 723.2,
+              "splineNetMigrationError": 476.2,
+              "rawNetMigrationError": 476.2,
+              "splinePredictedNetMigration": 620.2,
+              "rawPredictedNetMigration": 620.2,
+              "actualNetMigration": 144
+            },
+            {
+              "year": 2024,
+              "horizon": 3,
+              "splinePopulationError": 619.9,
+              "rawPopulationError": 621,
+              "splineNetMigrationError": -217.8,
+              "rawNetMigrationError": -217.8,
+              "splinePredictedNetMigration": 620.2,
+              "rawPredictedNetMigration": 620.2,
+              "actualNetMigration": 838
+            }
+          ]
+        }
+      }
+    },
+    "results": {
+      "2514": {
+        "2018": [
+          {
+            "year": 2019,
+            "horizon": 1,
+            "splinePopulationError": 56.7,
+            "rawPopulationError": 56.7,
+            "splineNetMigrationError": 86.7,
+            "rawNetMigrationError": 86.7,
+            "splinePredictedNetMigration": -24.3,
+            "rawPredictedNetMigration": -24.3,
+            "actualNetMigration": -111
+          },
+          {
+            "year": 2020,
+            "horizon": 2,
+            "splinePopulationError": 14.5,
+            "rawPopulationError": 14.7,
+            "splineNetMigrationError": -26.3,
+            "rawNetMigrationError": -26.3,
+            "splinePredictedNetMigration": -24.3,
+            "rawPredictedNetMigration": -24.3,
+            "actualNetMigration": 2
+          },
+          {
+            "year": 2021,
+            "horizon": 3,
+            "splinePopulationError": -58.2,
+            "rawPopulationError": -57.8,
+            "splineNetMigrationError": -58.3,
+            "rawNetMigrationError": -58.3,
+            "splinePredictedNetMigration": -24.3,
+            "rawPredictedNetMigration": -24.3,
+            "actualNetMigration": 34
+          }
+        ],
+        "2019": [
+          {
+            "year": 2020,
+            "horizon": 1,
+            "splinePopulationError": -41.1,
+            "rawPopulationError": -41.1,
+            "splineNetMigrationError": -22.4,
+            "rawNetMigrationError": -22.4,
+            "splinePredictedNetMigration": -20.4,
+            "rawPredictedNetMigration": -20.4,
+            "actualNetMigration": 2
+          },
+          {
+            "year": 2021,
+            "horizon": 2,
+            "splinePopulationError": -112.8,
+            "rawPopulationError": -112.7,
+            "splineNetMigrationError": -54.4,
+            "rawNetMigrationError": -54.4,
+            "splinePredictedNetMigration": -20.4,
+            "rawPredictedNetMigration": -20.4,
+            "actualNetMigration": 34
+          },
+          {
+            "year": 2022,
+            "horizon": 3,
+            "splinePopulationError": -190.8,
+            "rawPopulationError": -190.5,
+            "splineNetMigrationError": -93.4,
+            "rawNetMigrationError": -93.4,
+            "splinePredictedNetMigration": -20.4,
+            "rawPredictedNetMigration": -20.4,
+            "actualNetMigration": 73
+          }
+        ],
+        "2020": [
+          {
+            "year": 2021,
+            "horizon": 1,
+            "splinePopulationError": -60.2,
+            "rawPopulationError": -60.2,
+            "splineNetMigrationError": -41.3,
+            "rawNetMigrationError": -41.3,
+            "splinePredictedNetMigration": -7.3,
+            "rawPredictedNetMigration": -7.3,
+            "actualNetMigration": 34
+          },
+          {
+            "year": 2022,
+            "horizon": 2,
+            "splinePopulationError": -127.4,
+            "rawPopulationError": -127.2,
+            "splineNetMigrationError": -80.3,
+            "rawNetMigrationError": -80.3,
+            "splinePredictedNetMigration": -7.3,
+            "rawPredictedNetMigration": -7.3,
+            "actualNetMigration": 73
+          },
+          {
+            "year": 2023,
+            "horizon": 3,
+            "splinePopulationError": -52.8,
+            "rawPopulationError": -52.5,
+            "splineNetMigrationError": 45.7,
+            "rawNetMigrationError": 45.7,
+            "splinePredictedNetMigration": -7.3,
+            "rawPredictedNetMigration": -7.3,
+            "actualNetMigration": -53
+          }
+        ],
+        "2021": [
+          {
+            "year": 2022,
+            "horizon": 1,
+            "splinePopulationError": -70.8,
+            "rawPopulationError": -70.8,
+            "splineNetMigrationError": -71.7,
+            "rawNetMigrationError": -71.7,
+            "splinePredictedNetMigration": 1.3,
+            "rawPredictedNetMigration": 1.3,
+            "actualNetMigration": 73
+          },
+          {
+            "year": 2023,
+            "horizon": 2,
+            "splinePopulationError": -0.4,
+            "rawPopulationError": -0.3,
+            "splineNetMigrationError": 54.3,
+            "rawNetMigrationError": 54.3,
+            "splinePredictedNetMigration": 1.3,
+            "rawPredictedNetMigration": 1.3,
+            "actualNetMigration": -53
+          },
+          {
+            "year": 2024,
+            "horizon": 3,
+            "splinePopulationError": 43,
+            "rawPopulationError": 43.2,
+            "splineNetMigrationError": 59.3,
+            "rawNetMigrationError": 59.3,
+            "splinePredictedNetMigration": 1.3,
+            "rawPredictedNetMigration": 1.3,
+            "actualNetMigration": -58
+          }
+        ]
+      },
+      "2560": {
+        "2018": [
+          {
+            "year": 2019,
+            "horizon": 1,
+            "splinePopulationError": 42,
+            "rawPopulationError": 42,
+            "splineNetMigrationError": 47.5,
+            "rawNetMigrationError": 47.5,
+            "splinePredictedNetMigration": -1.5,
+            "rawPredictedNetMigration": -1.5,
+            "actualNetMigration": -49
+          },
+          {
+            "year": 2020,
+            "horizon": 2,
+            "splinePopulationError": 23.1,
+            "rawPopulationError": 23.2,
+            "splineNetMigrationError": -23.5,
+            "rawNetMigrationError": -23.5,
+            "splinePredictedNetMigration": -1.5,
+            "rawPredictedNetMigration": -1.5,
+            "actualNetMigration": 22
+          },
+          {
+            "year": 2021,
+            "horizon": 3,
+            "splinePopulationError": 38.1,
+            "rawPopulationError": 38.2,
+            "splineNetMigrationError": 20.5,
+            "rawNetMigrationError": 20.5,
+            "splinePredictedNetMigration": -1.5,
+            "rawPredictedNetMigration": -1.5,
+            "actualNetMigration": -22
+          }
+        ],
+        "2019": [
+          {
+            "year": 2020,
+            "horizon": 1,
+            "splinePopulationError": -18.8,
+            "rawPopulationError": -18.8,
+            "splineNetMigrationError": -22.1,
+            "rawNetMigrationError": -22.1,
+            "splinePredictedNetMigration": -0.1,
+            "rawPredictedNetMigration": -0.1,
+            "actualNetMigration": 22
+          },
+          {
+            "year": 2021,
+            "horizon": 2,
+            "splinePopulationError": -3.5,
+            "rawPopulationError": -3.4,
+            "splineNetMigrationError": 21.9,
+            "rawNetMigrationError": 21.9,
+            "splinePredictedNetMigration": -0.1,
+            "rawPredictedNetMigration": -0.1,
+            "actualNetMigration": -22
+          },
+          {
+            "year": 2022,
+            "horizon": 3,
+            "splinePopulationError": 65.9,
+            "rawPopulationError": 66,
+            "splineNetMigrationError": 60.9,
+            "rawNetMigrationError": 60.9,
+            "splinePredictedNetMigration": -0.1,
+            "rawPredictedNetMigration": -0.1,
+            "actualNetMigration": -61
+          }
+        ],
+        "2020": [
+          {
+            "year": 2021,
+            "horizon": 1,
+            "splinePopulationError": 18.6,
+            "rawPopulationError": 18.6,
+            "splineNetMigrationError": 27.1,
+            "rawNetMigrationError": 27.1,
+            "splinePredictedNetMigration": 5.1,
+            "rawPredictedNetMigration": 5.1,
+            "actualNetMigration": -22
+          },
+          {
+            "year": 2022,
+            "horizon": 2,
+            "splinePopulationError": 90.3,
+            "rawPopulationError": 90.3,
+            "splineNetMigrationError": 66.1,
+            "rawNetMigrationError": 66.1,
+            "splinePredictedNetMigration": 5.1,
+            "rawPredictedNetMigration": 5.1,
+            "actualNetMigration": -61
+          },
+          {
+            "year": 2023,
+            "horizon": 3,
+            "splinePopulationError": 192.2,
+            "rawPopulationError": 192.3,
+            "splineNetMigrationError": 103.1,
+            "rawNetMigrationError": 103.1,
+            "splinePredictedNetMigration": 5.1,
+            "rawPredictedNetMigration": 5.1,
+            "actualNetMigration": -98
+          }
+        ],
+        "2021": [
+          {
+            "year": 2022,
+            "horizon": 1,
+            "splinePopulationError": 68.2,
+            "rawPopulationError": 68.2,
+            "splineNetMigrationError": 67.5,
+            "rawNetMigrationError": 67.5,
+            "splinePredictedNetMigration": 6.5,
+            "rawPredictedNetMigration": 6.5,
+            "actualNetMigration": -61
+          },
+          {
+            "year": 2023,
+            "horizon": 2,
+            "splinePopulationError": 165.7,
+            "rawPopulationError": 165.7,
+            "splineNetMigrationError": 104.5,
+            "rawNetMigrationError": 104.5,
+            "splinePredictedNetMigration": 6.5,
+            "rawPredictedNetMigration": 6.5,
+            "actualNetMigration": -98
+          },
+          {
+            "year": 2024,
+            "horizon": 3,
+            "splinePopulationError": 143.9,
+            "rawPopulationError": 144,
+            "splineNetMigrationError": -19.5,
+            "rawNetMigrationError": -19.5,
+            "splinePredictedNetMigration": 6.5,
+            "rawPredictedNetMigration": 6.5,
+            "actualNetMigration": 26
+          }
+        ]
+      },
+      "2580": {
+        "2018": [
+          {
+            "year": 2019,
+            "horizon": 1,
+            "splinePopulationError": 147.1,
+            "rawPopulationError": 147.1,
+            "splineNetMigrationError": 148.3,
+            "rawNetMigrationError": 148.3,
+            "splinePredictedNetMigration": 329.3,
+            "rawPredictedNetMigration": 329.3,
+            "actualNetMigration": 181
+          },
+          {
+            "year": 2020,
+            "horizon": 2,
+            "splinePopulationError": 129.2,
+            "rawPopulationError": 129.1,
+            "splineNetMigrationError": -107.7,
+            "rawNetMigrationError": -107.7,
+            "splinePredictedNetMigration": 329.3,
+            "rawPredictedNetMigration": 329.3,
+            "actualNetMigration": 437
+          },
+          {
+            "year": 2021,
+            "horizon": 3,
+            "splinePopulationError": 239.5,
+            "rawPopulationError": 238.9,
+            "splineNetMigrationError": 131.3,
+            "rawNetMigrationError": 131.3,
+            "splinePredictedNetMigration": 329.3,
+            "rawPredictedNetMigration": 329.3,
+            "actualNetMigration": 198
+          }
+        ],
+        "2019": [
+          {
+            "year": 2020,
+            "horizon": 1,
+            "splinePopulationError": -66.8,
+            "rawPopulationError": -66.8,
+            "splineNetMigrationError": -119.5,
+            "rawNetMigrationError": -119.5,
+            "splinePredictedNetMigration": 317.5,
+            "rawPredictedNetMigration": 317.5,
+            "actualNetMigration": 437
+          },
+          {
+            "year": 2021,
+            "horizon": 2,
+            "splinePopulationError": -4.9,
+            "rawPopulationError": -5,
+            "splineNetMigrationError": 119.5,
+            "rawNetMigrationError": 119.5,
+            "splinePredictedNetMigration": 317.5,
+            "rawPredictedNetMigration": 317.5,
+            "actualNetMigration": 198
+          },
+          {
+            "year": 2022,
+            "horizon": 3,
+            "splinePopulationError": -4.1,
+            "rawPopulationError": -4.8,
+            "splineNetMigrationError": -106.5,
+            "rawNetMigrationError": -106.5,
+            "splinePredictedNetMigration": 317.5,
+            "rawPredictedNetMigration": 317.5,
+            "actualNetMigration": 424
+          }
+        ],
+        "2020": [
+          {
+            "year": 2021,
+            "horizon": 1,
+            "splinePopulationError": 84,
+            "rawPopulationError": 84,
+            "splineNetMigrationError": 156.9,
+            "rawNetMigrationError": 156.9,
+            "splinePredictedNetMigration": 354.9,
+            "rawPredictedNetMigration": 354.9,
+            "actualNetMigration": 198
+          },
+          {
+            "year": 2022,
+            "horizon": 2,
+            "splinePopulationError": 99.7,
+            "rawPopulationError": 99.8,
+            "splineNetMigrationError": -69.1,
+            "rawNetMigrationError": -69.1,
+            "splinePredictedNetMigration": 354.9,
+            "rawPredictedNetMigration": 354.9,
+            "actualNetMigration": 424
+          },
+          {
+            "year": 2023,
+            "horizon": 3,
+            "splinePopulationError": 376.5,
+            "rawPopulationError": 376.4,
+            "splineNetMigrationError": 120.9,
+            "rawNetMigrationError": 120.9,
+            "splinePredictedNetMigration": 354.9,
+            "rawPredictedNetMigration": 354.9,
+            "actualNetMigration": 234
+          }
+        ],
+        "2021": [
+          {
+            "year": 2022,
+            "horizon": 1,
+            "splinePopulationError": -27,
+            "rawPopulationError": -27,
+            "splineNetMigrationError": -60.8,
+            "rawNetMigrationError": -60.8,
+            "splinePredictedNetMigration": 363.2,
+            "rawPredictedNetMigration": 363.2,
+            "actualNetMigration": 424
+          },
+          {
+            "year": 2023,
+            "horizon": 2,
+            "splinePopulationError": 197.3,
+            "rawPopulationError": 197.5,
+            "splineNetMigrationError": 129.2,
+            "rawNetMigrationError": 129.2,
+            "splinePredictedNetMigration": 363.2,
+            "rawPredictedNetMigration": 363.2,
+            "actualNetMigration": 234
+          },
+          {
+            "year": 2024,
+            "horizon": 3,
+            "splinePopulationError": 225.6,
+            "rawPopulationError": 225.8,
+            "splineNetMigrationError": -91.8,
+            "rawNetMigrationError": -91.8,
+            "splinePredictedNetMigration": 363.2,
+            "rawPredictedNetMigration": 363.2,
+            "actualNetMigration": 455
+          }
+        ]
+      },
+      "2581": {
+        "2018": [
+          {
+            "year": 2019,
+            "horizon": 1,
+            "splinePopulationError": -68.1,
+            "rawPopulationError": -68.1,
+            "splineNetMigrationError": -40.4,
+            "rawNetMigrationError": -40.4,
+            "splinePredictedNetMigration": 152.6,
+            "rawPredictedNetMigration": 152.6,
+            "actualNetMigration": 193
+          },
+          {
+            "year": 2020,
+            "horizon": 2,
+            "splinePopulationError": 82.7,
+            "rawPopulationError": 82.8,
+            "splineNetMigrationError": 131.6,
+            "rawNetMigrationError": 131.6,
+            "splinePredictedNetMigration": 152.6,
+            "rawPredictedNetMigration": 152.6,
+            "actualNetMigration": 21
+          },
+          {
+            "year": 2021,
+            "horizon": 3,
+            "splinePopulationError": 77.1,
+            "rawPopulationError": 77.3,
+            "splineNetMigrationError": 42.6,
+            "rawNetMigrationError": 42.6,
+            "splinePredictedNetMigration": 152.6,
+            "rawPredictedNetMigration": 152.6,
+            "actualNetMigration": 110
+          }
+        ],
+        "2019": [
+          {
+            "year": 2020,
+            "horizon": 1,
+            "splinePopulationError": 175,
+            "rawPopulationError": 175,
+            "splineNetMigrationError": 151.7,
+            "rawNetMigrationError": 151.7,
+            "splinePredictedNetMigration": 172.7,
+            "rawPredictedNetMigration": 172.7,
+            "actualNetMigration": 21
+          },
+          {
+            "year": 2021,
+            "horizon": 2,
+            "splinePopulationError": 194.5,
+            "rawPopulationError": 194.6,
+            "splineNetMigrationError": 62.7,
+            "rawNetMigrationError": 62.7,
+            "splinePredictedNetMigration": 172.7,
+            "rawPredictedNetMigration": 172.7,
+            "actualNetMigration": 110
+          },
+          {
+            "year": 2022,
+            "horizon": 3,
+            "splinePopulationError": 266.6,
+            "rawPopulationError": 266.7,
+            "splineNetMigrationError": 81.7,
+            "rawNetMigrationError": 81.7,
+            "splinePredictedNetMigration": 172.7,
+            "rawPredictedNetMigration": 172.7,
+            "actualNetMigration": 91
+          }
+        ],
+        "2020": [
+          {
+            "year": 2021,
+            "horizon": 1,
+            "splinePopulationError": 15.3,
+            "rawPopulationError": 15.3,
+            "splineNetMigrationError": 59.5,
+            "rawNetMigrationError": 59.5,
+            "splinePredictedNetMigration": 169.5,
+            "rawPredictedNetMigration": 169.5,
+            "actualNetMigration": 110
+          },
+          {
+            "year": 2022,
+            "horizon": 2,
+            "splinePopulationError": 77.7,
+            "rawPopulationError": 77.8,
+            "splineNetMigrationError": 78.5,
+            "rawNetMigrationError": 78.5,
+            "splinePredictedNetMigration": 169.5,
+            "rawPredictedNetMigration": 169.5,
+            "actualNetMigration": 91
+          },
+          {
+            "year": 2023,
+            "horizon": 3,
+            "splinePopulationError": 188.3,
+            "rawPopulationError": 188.4,
+            "splineNetMigrationError": 117.5,
+            "rawNetMigrationError": 117.5,
+            "splinePredictedNetMigration": 169.5,
+            "rawPredictedNetMigration": 169.5,
+            "actualNetMigration": 52
+          }
+        ],
+        "2021": [
+          {
+            "year": 2022,
+            "horizon": 1,
+            "splinePopulationError": 40.3,
+            "rawPopulationError": 40.3,
+            "splineNetMigrationError": 79.2,
+            "rawNetMigrationError": 79.2,
+            "splinePredictedNetMigration": 170.2,
+            "rawPredictedNetMigration": 170.2,
+            "actualNetMigration": 91
+          },
+          {
+            "year": 2023,
+            "horizon": 2,
+            "splinePopulationError": 123.1,
+            "rawPopulationError": 123.2,
+            "splineNetMigrationError": 118.2,
+            "rawNetMigrationError": 118.2,
+            "splinePredictedNetMigration": 170.2,
+            "rawPredictedNetMigration": 170.2,
+            "actualNetMigration": 52
+          },
+          {
+            "year": 2024,
+            "horizon": 3,
+            "splinePopulationError": 73.5,
+            "rawPopulationError": 73.7,
+            "splineNetMigrationError": -40.8,
+            "rawNetMigrationError": -40.8,
+            "splinePredictedNetMigration": 170.2,
+            "rawPredictedNetMigration": 170.2,
+            "actualNetMigration": 211
+          }
+        ]
+      },
+      "2582": {
+        "2018": [
+          {
+            "year": 2019,
+            "horizon": 1,
+            "splinePopulationError": 21.8,
+            "rawPopulationError": 21.8,
+            "splineNetMigrationError": 43.5,
+            "rawNetMigrationError": 43.5,
+            "splinePredictedNetMigration": 83.5,
+            "rawPredictedNetMigration": 83.5,
+            "actualNetMigration": 40
+          },
+          {
+            "year": 2020,
+            "horizon": 2,
+            "splinePopulationError": 82.8,
+            "rawPopulationError": 82.9,
+            "splineNetMigrationError": 30.5,
+            "rawNetMigrationError": 30.5,
+            "splinePredictedNetMigration": 83.5,
+            "rawPredictedNetMigration": 83.5,
+            "actualNetMigration": 53
+          },
+          {
+            "year": 2021,
+            "horizon": 3,
+            "splinePopulationError": 24.2,
+            "rawPopulationError": 24.5,
+            "splineNetMigrationError": -27.5,
+            "rawNetMigrationError": -27.5,
+            "splinePredictedNetMigration": 83.5,
+            "rawPredictedNetMigration": 83.5,
+            "actualNetMigration": 111
+          }
+        ],
+        "2019": [
+          {
+            "year": 2020,
+            "horizon": 1,
+            "splinePopulationError": 72.4,
+            "rawPopulationError": 72.4,
+            "splineNetMigrationError": 40.8,
+            "rawNetMigrationError": 40.8,
+            "splinePredictedNetMigration": 93.8,
+            "rawPredictedNetMigration": 93.8,
+            "actualNetMigration": 53
+          },
+          {
+            "year": 2021,
+            "horizon": 2,
+            "splinePopulationError": 26.4,
+            "rawPopulationError": 26.5,
+            "splineNetMigrationError": -17.2,
+            "rawNetMigrationError": -17.2,
+            "splinePredictedNetMigration": 93.8,
+            "rawPredictedNetMigration": 93.8,
+            "actualNetMigration": 111
+          },
+          {
+            "year": 2022,
+            "horizon": 3,
+            "splinePopulationError": 191.4,
+            "rawPopulationError": 191.7,
+            "splineNetMigrationError": 140.8,
+            "rawNetMigrationError": 140.8,
+            "splinePredictedNetMigration": 93.8,
+            "rawPredictedNetMigration": 93.8,
+            "actualNetMigration": -47
+          }
+        ],
+        "2020": [
+          {
+            "year": 2021,
+            "horizon": 1,
+            "splinePopulationError": -58,
+            "rawPopulationError": -58,
+            "splineNetMigrationError": -21.3,
+            "rawNetMigrationError": -21.3,
+            "splinePredictedNetMigration": 89.7,
+            "rawPredictedNetMigration": 89.7,
+            "actualNetMigration": 111
+          },
+          {
+            "year": 2022,
+            "horizon": 2,
+            "splinePopulationError": 92.3,
+            "rawPopulationError": 92.4,
+            "splineNetMigrationError": 136.7,
+            "rawNetMigrationError": 136.7,
+            "splinePredictedNetMigration": 89.7,
+            "rawPredictedNetMigration": 89.7,
+            "actualNetMigration": -47
+          },
+          {
+            "year": 2023,
+            "horizon": 3,
+            "splinePopulationError": 234.2,
+            "rawPopulationError": 234.4,
+            "splineNetMigrationError": 80.7,
+            "rawNetMigrationError": 80.7,
+            "splinePredictedNetMigration": 89.7,
+            "rawPredictedNetMigration": 89.7,
+            "actualNetMigration": 9
+          }
+        ],
+        "2021": [
+          {
+            "year": 2022,
+            "horizon": 1,
+            "splinePopulationError": 124.4,
+            "rawPopulationError": 124.4,
+            "splineNetMigrationError": 126,
+            "rawNetMigrationError": 126,
+            "splinePredictedNetMigration": 79,
+            "rawPredictedNetMigration": 79,
+            "actualNetMigration": -47
+          },
+          {
+            "year": 2023,
+            "horizon": 2,
+            "splinePopulationError": 236.9,
+            "rawPopulationError": 237,
+            "splineNetMigrationError": 70,
+            "rawNetMigrationError": 70,
+            "splinePredictedNetMigration": 79,
+            "rawPredictedNetMigration": 79,
+            "actualNetMigration": 9
+          },
+          {
+            "year": 2024,
+            "horizon": 3,
+            "splinePopulationError": 133.9,
+            "rawPopulationError": 134.1,
+            "splineNetMigrationError": -125,
+            "rawNetMigrationError": -125,
+            "splinePredictedNetMigration": 79,
+            "rawPredictedNetMigration": 79,
+            "actualNetMigration": 204
+          }
+        ]
+      },
+      "FA_LULEA": {
+        "2018": [
+          {
+            "year": 2019,
+            "horizon": 1,
+            "splinePopulationError": 199.4,
+            "rawPopulationError": 199.4,
+            "splineNetMigrationError": 285.6,
+            "rawNetMigrationError": 285.6,
+            "splinePredictedNetMigration": 539.6,
+            "rawPredictedNetMigration": 539.6,
+            "actualNetMigration": 254
+          },
+          {
+            "year": 2020,
+            "horizon": 2,
+            "splinePopulationError": 332.4,
+            "rawPopulationError": 332.7,
+            "splineNetMigrationError": 4.6,
+            "rawNetMigrationError": 4.6,
+            "splinePredictedNetMigration": 539.6,
+            "rawPredictedNetMigration": 539.6,
+            "actualNetMigration": 535
+          },
+          {
+            "year": 2021,
+            "horizon": 3,
+            "splinePopulationError": 320.8,
+            "rawPopulationError": 321.1,
+            "splineNetMigrationError": 108.6,
+            "rawNetMigrationError": 108.6,
+            "splinePredictedNetMigration": 539.6,
+            "rawPredictedNetMigration": 539.6,
+            "actualNetMigration": 431
+          }
+        ],
+        "2019": [
+          {
+            "year": 2020,
+            "horizon": 1,
+            "splinePopulationError": 120.7,
+            "rawPopulationError": 120.7,
+            "splineNetMigrationError": 28.5,
+            "rawNetMigrationError": 28.5,
+            "splinePredictedNetMigration": 563.5,
+            "rawPredictedNetMigration": 563.5,
+            "actualNetMigration": 535
+          },
+          {
+            "year": 2021,
+            "horizon": 2,
+            "splinePopulationError": 99.8,
+            "rawPopulationError": 100,
+            "splineNetMigrationError": 132.5,
+            "rawNetMigrationError": 132.5,
+            "splinePredictedNetMigration": 563.5,
+            "rawPredictedNetMigration": 563.5,
+            "actualNetMigration": 431
+          },
+          {
+            "year": 2022,
+            "horizon": 3,
+            "splinePopulationError": 328.9,
+            "rawPopulationError": 329.2,
+            "splineNetMigrationError": 83.5,
+            "rawNetMigrationError": 83.5,
+            "splinePredictedNetMigration": 563.5,
+            "rawPredictedNetMigration": 563.5,
+            "actualNetMigration": 480
+          }
+        ],
+        "2020": [
+          {
+            "year": 2021,
+            "horizon": 1,
+            "splinePopulationError": -0.3,
+            "rawPopulationError": -0.3,
+            "splineNetMigrationError": 180.9,
+            "rawNetMigrationError": 180.9,
+            "splinePredictedNetMigration": 611.9,
+            "rawPredictedNetMigration": 611.9,
+            "actualNetMigration": 431
+          },
+          {
+            "year": 2022,
+            "horizon": 2,
+            "splinePopulationError": 232.6,
+            "rawPopulationError": 233,
+            "splineNetMigrationError": 131.9,
+            "rawNetMigrationError": 131.9,
+            "splinePredictedNetMigration": 611.9,
+            "rawPredictedNetMigration": 611.9,
+            "actualNetMigration": 480
+          },
+          {
+            "year": 2023,
+            "horizon": 3,
+            "splinePopulationError": 938.3,
+            "rawPopulationError": 938.9,
+            "splineNetMigrationError": 467.9,
+            "rawNetMigrationError": 467.9,
+            "splinePredictedNetMigration": 611.9,
+            "rawPredictedNetMigration": 611.9,
+            "actualNetMigration": 144
+          }
+        ],
+        "2021": [
+          {
+            "year": 2022,
+            "horizon": 1,
+            "splinePopulationError": 135.2,
+            "rawPopulationError": 135.1,
+            "splineNetMigrationError": 140.2,
+            "rawNetMigrationError": 140.2,
+            "splinePredictedNetMigration": 620.2,
+            "rawPredictedNetMigration": 620.2,
+            "actualNetMigration": 480
+          },
+          {
+            "year": 2023,
+            "horizon": 2,
+            "splinePopulationError": 722.6,
+            "rawPopulationError": 723.2,
+            "splineNetMigrationError": 476.2,
+            "rawNetMigrationError": 476.2,
+            "splinePredictedNetMigration": 620.2,
+            "rawPredictedNetMigration": 620.2,
+            "actualNetMigration": 144
+          },
+          {
+            "year": 2024,
+            "horizon": 3,
+            "splinePopulationError": 619.9,
+            "rawPopulationError": 621,
+            "splineNetMigrationError": -217.8,
+            "rawNetMigrationError": -217.8,
+            "splinePredictedNetMigration": 620.2,
+            "rawPredictedNetMigration": 620.2,
+            "actualNetMigration": 838
+          }
+        ]
+      }
+    }
+  },
   "componentFlowDiagnostic": {
     "note": "Development diagnostic only. Compares the locked three-leg component_flow engine with the existing 10-year exogenous net-migration baseline inside the full cohort model. The component windows were selected using Lulea development data, so this is not independent holdout evidence.",
     "independentHoldout": false,
