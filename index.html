@@ -134,12 +134,26 @@
 
         <article class="panel chartPanel">
           <div class="panelHead">
+            <div><h2>Fruktsamhet – lokal nivå jämfört med Riket</h2><p class="hint">Observerad lokal åldersspecifik födelsetakt jämförs med rikets nivå, per 1 000 kvinnor. Diagrammet visar signalen före fading; diagrammet för lokal vikt nedan visar hur mycket av signalen som faktiskt får påverka modellen.</p></div>
+          </div>
+          <svg id="fertilityRateChart" viewBox="0 0 900 320" role="img" aria-label="Fruktsamhet lokalt och i Riket efter ålder"></svg>
+        </article>
+
+        <article class="panel chartPanel">
+          <div class="panelHead">
             <div><h2>Fruktsamhet – lokal vikt per ålder</h2><p class="hint">Moderns ålder 15–49 år. Hover visar lokal vikt, årlig population, förväntade händelser och modellens nivå.</p></div>
           </div>
           <svg id="fertilityWeightChart" viewBox="0 0 900 320" role="img" aria-label="Lokal vikt för fruktsamhet efter ålder"></svg>
           <div class="tableWrap analysisTableWrap"><table id="fertilityAgeTable" class="miniTable"><thead><tr>
             <th>Ålder</th><th>Årlig population</th><th>Förv. födslar</th><th>Lokal vikt</th><th>Lokal/rike</th><th>Modell per 1 000 kvinnor</th>
           </tr></thead><tbody></tbody></table></div>
+        </article>
+
+        <article class="panel chartPanel">
+          <div class="panelHead">
+            <div><h2>Dödlighet – lokal nivå jämfört med Riket</h2><p class="hint">Observerad lokal ålders- och könsspecifik dödsrisk jämförs med rikets nivå, per 1 000 personer. Detta är den råa lokala signalen före fading och kan därför avvika tydligt även när den lokala modellvikten är låg.</p></div>
+          </div>
+          <svg id="mortalityRateChart" viewBox="0 0 900 340" role="img" aria-label="Dödlighet lokalt och i Riket efter ålder och kön"></svg>
         </article>
 
         <article class="panel chartPanel">
