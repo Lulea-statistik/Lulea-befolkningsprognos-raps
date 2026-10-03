@@ -29,8 +29,8 @@
     "componentCount": 37,
     "byLevel": {
       "1": 0,
-      "2": 10,
-      "3": 0,
+      "2": 9,
+      "3": 1,
       "4": 27
     },
     "productionLevel4": [
@@ -63,6 +63,8 @@
       "maturity_governance"
     ],
     "rejected": [
+      "mortality_eb_candidate",
+      "migration_spline_candidate",
       "component_flow",
       "migration_recency",
       "migration_age_smoothing",
@@ -142,42 +144,54 @@
     {
       "key": "fertility_spline_candidate",
       "label": "Fruktsamhet: kubisk smoothing spline för lokal åldersprofil",
-      "maturityLevel": 2,
-      "maturityName": "Utvecklingskandidat",
-      "lifecycle": "development_locked",
+      "maturityLevel": 3,
+      "maturityName": "Validerad kandidat",
+      "lifecycle": "validated_candidate",
       "productionActive": false,
       "targetLevel": 4,
-      "productionGatePassed": false,
+      "productionGatePassed": true,
       "requiredGate": "Kandidaten är låst efter utvecklingsanalys. Den får inte befordras på redan konsumerade 2018–2024-resultat; nivå 3–4 kräver ny oberoende evidens med förhandsdefinierad grind.",
       "gates": [
         {
-          "label": "Vintage-correct development diagnostic generated",
+          "label": "Vintage-correct 2018-2024 development diagnostic generated",
           "passed": true,
           "evidence": "2580 w3: current=61.4, cubicSpline10=58; 2580 w6: current=62.5, cubicSpline10=60.1; 2580 w10: current=63.2, cubicSpline10=61.3; FA_LULEA w3: current=103, cubicSpline10=90.4; FA_LULEA w6: current=96.4, cubicSpline10=85.6; FA_LULEA w10: current=86.7, cubicSpline10=80.9",
           "required": false
+        },
+        {
+          "label": "Independent 2025 holdout: lower maternal-age cell MAE and non-worse total-birth absolute error for Luleå and FA",
+          "passed": true,
+          "evidence": "2580: cell MAE 4.155 vs 4.318; total abs error 95.189 vs 97.226; FA_LULEA: cell MAE 8.483 vs 8.737; total abs error 277.175 vs 278.55",
+          "required": true
         }
       ],
-      "nextAction": "Keep lambda=10 locked as the representative cubic-spline candidate for future untouched validation; do not retune from consumed 2018-2024 outcomes."
+      "nextAction": "Level 3 validated candidate. Keep lambda=10 frozen; require one further untouched annual/external control before any level-4 production replacement."
     },
     {
       "key": "mortality_eb_candidate",
       "label": "Dödlighet: Empirical Bayes-shrinkage för lokal åldersrisk",
       "maturityLevel": 2,
       "maturityName": "Utvecklingskandidat",
-      "lifecycle": "development_locked",
+      "lifecycle": "rejected_2025_holdout",
       "productionActive": false,
       "targetLevel": 4,
       "productionGatePassed": false,
       "requiredGate": "Kandidaten är låst efter utvecklingsanalys. Den får inte befordras på redan konsumerade 2018–2024-resultat; nivå 3–4 kräver ny oberoende evidens med förhandsdefinierad grind.",
       "gates": [
         {
-          "label": "Vintage-correct development diagnostic generated",
+          "label": "Vintage-correct 2018-2024 development diagnostic generated",
           "passed": true,
           "evidence": "2580 w3: current=31.7, EB=30.6; 2580 w6: current=32.1, EB=31.4; 2580 w10: current=31.1, EB=27.9; FA_LULEA w3: current=46.9, EB=46.2; FA_LULEA w6: current=45.7, EB=45.5; FA_LULEA w10: current=51.9, EB=44.9",
           "required": false
+        },
+        {
+          "label": "Independent 2025 holdout: lower age-sex cell MAE and non-worse total-death absolute error for Luleå and FA",
+          "passed": false,
+          "evidence": "2580: cell MAE 1.394 vs 1.456; total abs error 51.886 vs 46.845; FA_LULEA: cell MAE 2.408 vs 2.503; total abs error 24.854 vs 30.089",
+          "required": true
         }
       ],
-      "nextAction": "Keep the current method-of-moments empirical-Bayes formulation locked for future untouched validation; do not retune from consumed 2018-2024 outcomes."
+      "nextAction": "Closed at level 2 after the locked 2025 holdout gate failed. Do not retune shrinkage on 2018-2025 outcomes."
     },
     {
       "key": "net_migration_10y",
@@ -230,7 +244,7 @@
       "label": "Migration: kubisk spline för 10-årig nettoflyttningsprofil",
       "maturityLevel": 2,
       "maturityName": "Utvecklingskandidat",
-      "lifecycle": "development_locked",
+      "lifecycle": "rejected",
       "productionActive": false,
       "targetLevel": 4,
       "productionGatePassed": false,
@@ -241,9 +255,15 @@
           "passed": true,
           "evidence": "2580: n+1 population MAE spline=81.2 vs raw=81.2; net migration MAE spline=121.4 vs raw=121.4; FA_LULEA: n+1 population MAE spline=113.9 vs raw=113.9; net migration MAE spline=158.8 vs raw=158.8",
           "required": false
+        },
+        {
+          "label": "Spline does not worsen all-age or age-15-39 MAE at n+1/n+2/n+3 for Luleå and FA",
+          "passed": false,
+          "evidence": "2580 oneYear: all-age 10 vs 7.1; age15-39 25.1 vs 13.4; 2580 twoYear: all-age 15.1 vs 10.6; age15-39 39.1 vs 20.6; 2580 threeYear: all-age 18.4 vs 13.4; age15-39 46.1 vs 25.6; FA_LULEA oneYear: all-age 11.3 vs 9; age15-39 24.5 vs 14.9; FA_LULEA twoYear: all-age 17.4 vs 14; age15-39 37.7 vs 23.5; FA_LULEA threeYear: all-age 22.3 vs 18.5; age15-39 45.3 vs 29.9",
+          "required": true
         }
       ],
-      "nextAction": "Keep lambda=10 and per-municipality/sex total preservation locked. Use 2018-2024 only as development evidence and do not retune from these outcomes."
+      "nextAction": "Closed at level 2. The locked lambda=10 total-preserving spline materially worsened age-profile MAE for Luleå and FA, especially ages 15-39. Do not retune lambda on consumed 2018-2024 outcomes."
     },
     {
       "key": "component_flow",

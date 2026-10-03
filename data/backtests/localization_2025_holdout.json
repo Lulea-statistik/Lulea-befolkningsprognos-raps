@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "independent_2025_component_holdout",
+  "independentHoldout": true,
+  "calibrationThrough": 2024,
+  "holdoutYear": 2025,
+  "productionWindow": 10,
+  "methodBreakNote": "2025 is kept outside calibration. This component-rate holdout uses observed 2025 local event exposures/outcomes while holding the pre-2025 national age profile fixed for both comparators. It therefore isolates the local shape/localization choice rather than the full CKM population bridge or national 2025 level shifts.",
+  "predeclaredGate": {
+    "fertility": "Cubic smoothing spline lambda=10 must reduce maternal-age cell MAE and must not worsen total-birth absolute error for both Lulea and Lulea FA.",
+    "mortality": "Method-of-moments empirical Bayes must reduce age-sex cell MAE and must not worsen total-death absolute error for both Lulea and Lulea FA."
+  },
+  "fertility": {
+    "candidate": "natural cubic smoothing spline",
+    "lambda": 10.0,
+    "summary": {
+      "2580": {
+        "actualTotal": 667.0,
+        "currentTotal": 764.226,
+        "candidateTotal": 762.189,
+        "currentTotalAbsError": 97.226,
+        "candidateTotalAbsError": 95.189,
+        "currentCellMAE": 4.318,
+        "candidateCellMAE": 4.155
+      },
+      "FA_LULEA": {
+        "actualTotal": 1345.0,
+        "currentTotal": 1623.55,
+        "candidateTotal": 1622.175,
+        "currentTotalAbsError": 278.55,
+        "candidateTotalAbsError": 277.175,
+        "currentCellMAE": 8.737,
+        "candidateCellMAE": 8.483
+      }
+    },
+    "gate": {
+      "checks": {
+        "2580": {
+          "cellMAEImproves": true,
+          "totalAbsErrorNotWorse": true
+        },
+        "FA_LULEA": {
+          "cellMAEImproves": true,
+          "totalAbsErrorNotWorse": true
+        }
+      },
+      "passed": true
+    }
+  },
+  "mortality": {
+    "candidate": "method-of-moments empirical Bayes",
+    "summary": {
+      "2580": {
+        "actualTotal": 771.0,
+        "currentTotal": 817.845,
+        "candidateTotal": 822.886,
+        "currentTotalAbsError": 46.845,
+        "candidateTotalAbsError": 51.886,
+        "currentCellMAE": 1.456,
+        "candidateCellMAE": 1.394
+      },
+      "FA_LULEA": {
+        "actualTotal": 2084.0,
+        "currentTotal": 2053.911,
+        "candidateTotal": 2059.146,
+        "currentTotalAbsError": 30.089,
+        "candidateTotalAbsError": 24.854,
+        "currentCellMAE": 2.503,
+        "candidateCellMAE": 2.408
+      }
+    },
+    "gate": {
+      "checks": {
+        "2580": {
+          "cellMAEImproves": true,
+          "totalAbsErrorNotWorse": false
+        },
+        "FA_LULEA": {
+          "cellMAEImproves": true,
+          "totalAbsErrorNotWorse": true
+        }
+      },
+      "passed": false
+    }
+  }
+}
