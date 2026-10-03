@@ -41,7 +41,7 @@
         </select>
       </label>
       <label>Slutår
-        <input id="endYear" type="number" min="2026" max="2070" value="2050" />
+        <select id="endYear"></select>
       </label>
       <button id="runBtn">Beräkna prognos</button>
       <button id="exportBtn" class="secondary" disabled>Exportera resultat CSV</button>
@@ -73,7 +73,7 @@
             <svg id="chart" viewBox="0 0 900 380" role="img" aria-label="Befolkningsprognos"></svg>
           </article>
           <article class="panel">
-            <h2>Benchmark 2050</h2>
+            <h2>Benchmark vid valt slutår</h2>
             <div id="benchmarkCards" class="stackedMetrics"></div>
           </article>
         </div>
