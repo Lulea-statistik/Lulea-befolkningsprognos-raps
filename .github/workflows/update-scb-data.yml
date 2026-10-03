@@ -182,6 +182,9 @@ jobs:
       - name: Validate labour market support layer
         run: python scripts/validate_labour_market_support.py
 
+      - name: Validate production fading policy
+        run: python scripts/validate_fading_policy.py
+
       - name: Build model maturity report
         run: python scripts/build_model_maturity.py
 
