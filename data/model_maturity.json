@@ -28,8 +28,8 @@
   "summary": {
     "componentCount": 13,
     "byLevel": {
-      "1": 2,
-      "2": 6,
+      "1": 1,
+      "2": 7,
       "3": 0,
       "4": 5
     },
@@ -293,9 +293,9 @@
     {
       "key": "consistency_adjustment",
       "label": "Konsistensjustering kommun → län → riket",
-      "maturityLevel": 1,
-      "maturityName": "Diagnostik",
-      "lifecycle": "diagnostic",
+      "maturityLevel": 2,
+      "maturityName": "Utvecklingskandidat",
+      "lifecycle": "development",
       "productionActive": false,
       "targetLevel": 4,
       "productionGatePassed": false,
@@ -304,10 +304,15 @@
         {
           "label": "Municipality-county consistency diagnostic exists",
           "passed": true,
-          "evidence": "Diagnostic exists; adjustment algorithm is not active."
+          "evidence": "SCB municipality-county accounting diagnostic available."
+        },
+        {
+          "label": "Mass-preserving municipality-to-county adjustment implemented",
+          "passed": true,
+          "evidence": "max residual 9.094947017729282e-13; national layer remains inactive"
         }
       ],
-      "nextAction": "Build a mass-preserving municipality→county adjustment and validate it on historical vintages."
+      "nextAction": "Add vintage-correct validation of the locked municipality→county adjustment; keep county→national inactive until all-county support is available."
     },
     {
       "key": "industrial_workforce_scenario",

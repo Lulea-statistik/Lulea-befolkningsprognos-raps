@@ -1,0 +1,1084 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "development_diagnostic_not_production",
+  "config": "data/scb_consistency_adjustment_config.json",
+  "county": {
+    "code": "25",
+    "name": "Norrbottens län"
+  },
+  "municipalities": {
+    "2505": "Arvidsjaurs kommun",
+    "2506": "Arjeplogs kommun",
+    "2510": "Jokkmokks kommun",
+    "2513": "Överkalix kommun",
+    "2514": "Kalix kommun",
+    "2518": "Övertorneå kommun",
+    "2521": "Pajala kommun",
+    "2523": "Gällivare kommun",
+    "2560": "Älvsbyns kommun",
+    "2580": "Luleå kommun",
+    "2581": "Piteå kommun",
+    "2582": "Bodens kommun",
+    "2583": "Haparanda kommun",
+    "2584": "Kiruna kommun"
+  },
+  "method": "Non-negative proportional raking to locked county flow totals; within-county movement is balanced to a common total.",
+  "massPreserving": true,
+  "maxAbsoluteResidual": 9.094947017729282e-13,
+  "rows": [
+    {
+      "year": 2024,
+      "targets": {
+        "countyDomesticIn": 5028.1062999999995,
+        "countyDomesticOut": 6119.499500000002,
+        "countyImmigration": 1600.7714999999994,
+        "countyEmigration": 876.3567999999997,
+        "withinCountyCommonTotal": 3898.080899999998
+      },
+      "raw": {
+        "municipalDomesticIn": 8915.294399999999,
+        "municipalDomesticOut": 10028.473199999999,
+        "municipalImmigration": 1600.763,
+        "municipalEmigration": 876.3524,
+        "withinCountyFromIn": 3887.1880999999994,
+        "withinCountyFromOut": 3908.973699999997
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5028.1062999999995,
+        "municipalDomesticOut": 6119.499500000002,
+        "municipalImmigration": 1600.7714999999994,
+        "municipalEmigration": 876.3567999999996,
+        "withinCountyIn": 3898.080899999998,
+        "withinCountyOut": 3898.080899999998
+      },
+      "residuals": {
+        "domesticIn": 0.0,
+        "domesticOut": 0.0,
+        "immigration": 0.0,
+        "emigration": -1.1368683772161603e-13,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5639865689684909,
+        "domesticOut": 0.6102124798020104,
+        "immigration": 1.0000053099678088,
+        "emigration": 1.0000050208112623
+      }
+    },
+    {
+      "year": 2025,
+      "targets": {
+        "countyDomesticIn": 5038.512499999999,
+        "countyDomesticOut": 6037.069699999997,
+        "countyImmigration": 1606.3229999999983,
+        "countyEmigration": 861.3997999999998,
+        "withinCountyCommonTotal": 3853.416950000001
+      },
+      "raw": {
+        "municipalDomesticIn": 8879.303699999999,
+        "municipalDomesticOut": 9903.1124,
+        "municipalImmigration": 1606.3116999999997,
+        "municipalEmigration": 861.3969000000003,
+        "withinCountyFromIn": 3840.7911999999997,
+        "withinCountyFromOut": 3866.0427000000027
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5038.5125,
+        "municipalDomesticOut": 6037.069699999997,
+        "municipalImmigration": 1606.3229999999985,
+        "municipalEmigration": 861.3997999999997,
+        "withinCountyIn": 3853.416950000001,
+        "withinCountyOut": 3853.416950000001
+      },
+      "residuals": {
+        "domesticIn": 9.094947017729282e-13,
+        "domesticOut": 0.0,
+        "immigration": 2.2737367544323206e-13,
+        "emigration": -1.1368683772161603e-13,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5674445508604464,
+        "domesticOut": 0.6096133676115801,
+        "immigration": 1.0000070347492325,
+        "emigration": 1.0000033666246064
+      }
+    },
+    {
+      "year": 2026,
+      "targets": {
+        "countyDomesticIn": 5054.883100000001,
+        "countyDomesticOut": 5968.014200000001,
+        "countyImmigration": 1612.9795000000001,
+        "countyEmigration": 850.8750000000005,
+        "withinCountyCommonTotal": 3815.8588999999974
+      },
+      "raw": {
+        "municipalDomesticIn": 8856.1701,
+        "municipalDomesticOut": 9798.444999999998,
+        "municipalImmigration": 1612.9696000000001,
+        "municipalEmigration": 850.8720999999999,
+        "withinCountyFromIn": 3801.2869999999984,
+        "withinCountyFromOut": 3830.4307999999965
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5054.883100000001,
+        "municipalDomesticOut": 5968.014200000001,
+        "municipalImmigration": 1612.9795000000001,
+        "municipalEmigration": 850.8750000000005,
+        "withinCountyIn": 3815.8588999999974,
+        "withinCountyOut": 3815.8588999999974
+      },
+      "residuals": {
+        "domesticIn": 0.0,
+        "domesticOut": 0.0,
+        "immigration": 0.0,
+        "emigration": 0.0,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5707752948421803,
+        "domesticOut": 0.6090776852857778,
+        "immigration": 1.0000061377474194,
+        "emigration": 1.0000034082678237
+      }
+    },
+    {
+      "year": 2027,
+      "targets": {
+        "countyDomesticIn": 5075.647500000006,
+        "countyDomesticOut": 5915.2483,
+        "countyImmigration": 1620.545199999999,
+        "countyEmigration": 842.3491999999999,
+        "withinCountyCommonTotal": 3786.0244999999973
+      },
+      "raw": {
+        "municipalDomesticIn": 8845.0303,
+        "municipalDomesticOut": 9717.9145,
+        "municipalImmigration": 1620.5384,
+        "municipalEmigration": 842.3443000000001,
+        "withinCountyFromIn": 3769.382799999994,
+        "withinCountyFromOut": 3802.6662000000006
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5075.6475000000055,
+        "municipalDomesticOut": 5915.248299999999,
+        "municipalImmigration": 1620.545199999999,
+        "municipalEmigration": 842.3492,
+        "withinCountyIn": 3786.0244999999973,
+        "withinCountyOut": 3786.0244999999973
+      },
+      "residuals": {
+        "domesticIn": -9.094947017729282e-13,
+        "domesticOut": -9.094947017729282e-13,
+        "immigration": 0.0,
+        "emigration": 1.1368683772161603e-13,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5738417312148728,
+        "domesticOut": 0.6086952401155618,
+        "immigration": 1.000004196136296,
+        "emigration": 1.00000581709878
+      }
+    },
+    {
+      "year": 2028,
+      "targets": {
+        "countyDomesticIn": 5100.334100000001,
+        "countyDomesticOut": 5878.473700000004,
+        "countyImmigration": 1629.6356000000005,
+        "countyEmigration": 835.8240000000001,
+        "withinCountyCommonTotal": 3763.7839999999965
+      },
+      "raw": {
+        "municipalDomesticIn": 8845.648,
+        "municipalDomesticOut": 9660.727799999999,
+        "municipalImmigration": 1629.627,
+        "municipalEmigration": 835.8176,
+        "withinCountyFromIn": 3745.3138999999983,
+        "withinCountyFromOut": 3782.2540999999947
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5100.334100000001,
+        "municipalDomesticOut": 5878.473700000004,
+        "municipalImmigration": 1629.6356000000007,
+        "municipalEmigration": 835.824,
+        "withinCountyIn": 3763.7839999999965,
+        "withinCountyOut": 3763.7839999999965
+      },
+      "residuals": {
+        "domesticIn": 0.0,
+        "domesticOut": 0.0,
+        "immigration": 2.2737367544323206e-13,
+        "emigration": -1.1368683772161603e-13,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5765924780185693,
+        "domesticOut": 0.6084918053482476,
+        "immigration": 1.0000052772812433,
+        "emigration": 1.0000076571730483
+      }
+    },
+    {
+      "year": 2029,
+      "targets": {
+        "countyDomesticIn": 5127.396500000003,
+        "countyDomesticOut": 5854.669100000004,
+        "countyImmigration": 1639.1114999999998,
+        "countyEmigration": 830.0057999999998,
+        "withinCountyCommonTotal": 3749.1001999999985
+      },
+      "raw": {
+        "municipalDomesticIn": 8854.588400000002,
+        "municipalDomesticOut": 9625.6776,
+        "municipalImmigration": 1639.1026999999997,
+        "municipalEmigration": 829.9994000000003,
+        "withinCountyFromIn": 3727.1919,
+        "withinCountyFromOut": 3771.008499999997
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5127.396500000003,
+        "municipalDomesticOut": 5854.669100000004,
+        "municipalImmigration": 1639.1114999999998,
+        "municipalEmigration": 830.0057999999998,
+        "withinCountyIn": 3749.1001999999985,
+        "withinCountyOut": 3749.1001999999985
+      },
+      "residuals": {
+        "domesticIn": 0.0,
+        "domesticOut": 0.0,
+        "immigration": 0.0,
+        "emigration": 0.0,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.579066611385347,
+        "domesticOut": 0.6082344893828568,
+        "immigration": 1.0000053687911075,
+        "emigration": 1.0000077108489471
+      }
+    },
+    {
+      "year": 2030,
+      "targets": {
+        "countyDomesticIn": 5151.768299999998,
+        "countyDomesticOut": 5840.288599999998,
+        "countyImmigration": 1650.946200000001,
+        "countyEmigration": 826.2976999999994,
+        "withinCountyCommonTotal": 3736.5391999999983
+      },
+      "raw": {
+        "municipalDomesticIn": 8862.984299999996,
+        "municipalDomesticOut": 9602.150999999996,
+        "municipalImmigration": 1650.9347,
+        "municipalEmigration": 826.2942000000003,
+        "withinCountyFromIn": 3711.2159999999985,
+        "withinCountyFromOut": 3761.862399999998
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5151.768299999999,
+        "municipalDomesticOut": 5840.288599999998,
+        "municipalImmigration": 1650.9462000000008,
+        "municipalEmigration": 826.2976999999994,
+        "withinCountyIn": 3736.5391999999983,
+        "withinCountyOut": 3736.5391999999983
+      },
+      "residuals": {
+        "domesticIn": 9.094947017729282e-13,
+        "domesticOut": 0.0,
+        "immigration": -2.2737367544323206e-13,
+        "emigration": 0.0,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5812679031824529,
+        "domesticOut": 0.608227114945391,
+        "immigration": 1.0000069657509778,
+        "emigration": 1.0000042357794585
+      }
+    },
+    {
+      "year": 2031,
+      "targets": {
+        "countyDomesticIn": 5172.103299999996,
+        "countyDomesticOut": 5829.787100000001,
+        "countyImmigration": 1663.6032,
+        "countyEmigration": 823.0936000000005,
+        "withinCountyCommonTotal": 3725.0321
+      },
+      "raw": {
+        "municipalDomesticIn": 8868.623599999999,
+        "municipalDomesticOut": 9583.330999999998,
+        "municipalImmigration": 1663.5952,
+        "municipalEmigration": 823.0901,
+        "withinCountyFromIn": 3696.520300000003,
+        "withinCountyFromOut": 3753.543899999997
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5172.103299999996,
+        "municipalDomesticOut": 5829.787100000002,
+        "municipalImmigration": 1663.6031999999998,
+        "municipalEmigration": 823.0936000000005,
+        "withinCountyIn": 3725.0321,
+        "withinCountyOut": 3725.0321
+      },
+      "residuals": {
+        "domesticIn": 0.0,
+        "domesticOut": 9.094947017729282e-13,
+        "immigration": -2.2737367544323206e-13,
+        "emigration": 0.0,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5831912068068823,
+        "domesticOut": 0.6083257585488806,
+        "immigration": 1.0000048088621558,
+        "emigration": 1.0000042522683732
+      }
+    },
+    {
+      "year": 2032,
+      "targets": {
+        "countyDomesticIn": 5191.2074,
+        "countyDomesticOut": 5823.066800000001,
+        "countyImmigration": 1677.383700000001,
+        "countyEmigration": 821.6392999999998,
+        "withinCountyCommonTotal": 3716.709899999998
+      },
+      "raw": {
+        "municipalDomesticIn": 8876.304299999998,
+        "municipalDomesticOut": 9571.3897,
+        "municipalImmigration": 1677.3715,
+        "municipalEmigration": 821.6322,
+        "withinCountyFromIn": 3685.0968999999977,
+        "withinCountyFromOut": 3748.3228999999983
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5191.2074,
+        "municipalDomesticOut": 5823.066800000001,
+        "municipalImmigration": 1677.383700000001,
+        "municipalEmigration": 821.6392999999998,
+        "withinCountyIn": 3716.709899999998,
+        "withinCountyOut": 3716.709899999998
+      },
+      "residuals": {
+        "domesticIn": 0.0,
+        "domesticOut": 0.0,
+        "immigration": 0.0,
+        "emigration": 0.0,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5848388275737687,
+        "domesticOut": 0.6083825841925548,
+        "immigration": 1.000007273284422,
+        "emigration": 1.000008641336111
+      }
+    },
+    {
+      "year": 2033,
+      "targets": {
+        "countyDomesticIn": 5211.3754999999965,
+        "countyDomesticOut": 5821.188099999999,
+        "countyImmigration": 1691.7803999999999,
+        "countyEmigration": 820.8793000000003,
+        "withinCountyCommonTotal": 3711.7465500000008
+      },
+      "raw": {
+        "municipalDomesticIn": 8889.108499999998,
+        "municipalDomesticOut": 9566.948199999999,
+        "municipalImmigration": 1691.7673000000002,
+        "municipalEmigration": 820.8728,
+        "withinCountyFromIn": 3677.733000000002,
+        "withinCountyFromOut": 3745.7600999999995
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5211.375499999996,
+        "municipalDomesticOut": 5821.188099999999,
+        "municipalImmigration": 1691.7803999999999,
+        "municipalEmigration": 820.8793000000002,
+        "withinCountyIn": 3711.7465500000008,
+        "withinCountyOut": 3711.7465500000008
+      },
+      "residuals": {
+        "domesticIn": -9.094947017729282e-13,
+        "domesticOut": 0.0,
+        "immigration": 0.0,
+        "emigration": -1.1368683772161603e-13,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5862652593339363,
+        "domesticOut": 0.6084686546123454,
+        "immigration": 1.0000077433817285,
+        "emigration": 1.0000079184009998
+      }
+    },
+    {
+      "year": 2034,
+      "targets": {
+        "countyDomesticIn": 5232.178499999995,
+        "countyDomesticOut": 5821.333699999995,
+        "countyImmigration": 1707.2239000000002,
+        "countyEmigration": 820.8642999999996,
+        "withinCountyCommonTotal": 3706.494300000004
+      },
+      "raw": {
+        "municipalDomesticIn": 8903.7613,
+        "municipalDomesticOut": 9562.739499999998,
+        "municipalImmigration": 1707.2142999999999,
+        "municipalEmigration": 820.8591999999998,
+        "withinCountyFromIn": 3671.5828000000047,
+        "withinCountyFromOut": 3741.405800000003
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5232.178499999995,
+        "municipalDomesticOut": 5821.333699999995,
+        "municipalImmigration": 1707.2239000000002,
+        "municipalEmigration": 820.8642999999996,
+        "withinCountyIn": 3706.494300000004,
+        "withinCountyOut": 3706.494300000004
+      },
+      "residuals": {
+        "domesticIn": 0.0,
+        "domesticOut": 0.0,
+        "immigration": 0.0,
+        "emigration": 0.0,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.587636878809857,
+        "domesticOut": 0.6087516762325269,
+        "immigration": 1.0000056231956354,
+        "emigration": 1.000006213002181
+      }
+    },
+    {
+      "year": 2035,
+      "targets": {
+        "countyDomesticIn": 5251.415399999999,
+        "countyDomesticOut": 5819.6183,
+        "countyImmigration": 1724.0457999999994,
+        "countyEmigration": 821.6264000000003,
+        "withinCountyCommonTotal": 3700.251450000002
+      },
+      "raw": {
+        "municipalDomesticIn": 8917.019200000002,
+        "municipalDomesticOut": 9554.5174,
+        "municipalImmigration": 1724.0356999999997,
+        "municipalEmigration": 821.6198999999999,
+        "withinCountyFromIn": 3665.6038000000035,
+        "withinCountyFromOut": 3734.8991000000005
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5251.415399999998,
+        "municipalDomesticOut": 5819.6183,
+        "municipalImmigration": 1724.0457999999996,
+        "municipalEmigration": 821.6264000000002,
+        "withinCountyIn": 3700.251450000002,
+        "withinCountyOut": 3700.251450000002
+      },
+      "residuals": {
+        "domesticIn": -9.094947017729282e-13,
+        "domesticOut": 0.0,
+        "immigration": 2.2737367544323206e-13,
+        "emigration": -1.1368683772161603e-13,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5889204993525188,
+        "domesticOut": 0.6090959968318232,
+        "immigration": 1.0000058583473648,
+        "emigration": 1.000007911200788
+      }
+    },
+    {
+      "year": 2036,
+      "targets": {
+        "countyDomesticIn": 5266.095500000005,
+        "countyDomesticOut": 5813.393199999998,
+        "countyImmigration": 1742.640200000001,
+        "countyEmigration": 823.4979999999998,
+        "withinCountyCommonTotal": 3695.407749999997
+      },
+      "raw": {
+        "municipalDomesticIn": 8926.948799999996,
+        "municipalDomesticOut": 9543.3554,
+        "municipalImmigration": 1742.6329,
+        "municipalEmigration": 823.4933999999998,
+        "withinCountyFromIn": 3660.8532999999916,
+        "withinCountyFromOut": 3729.9622000000027
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5266.095500000006,
+        "municipalDomesticOut": 5813.393199999998,
+        "municipalImmigration": 1742.6402000000007,
+        "municipalEmigration": 823.4979999999998,
+        "withinCountyIn": 3695.407749999997,
+        "withinCountyOut": 3695.407749999997
+      },
+      "residuals": {
+        "domesticIn": 9.094947017729282e-13,
+        "domesticOut": 0.0,
+        "immigration": -2.2737367544323206e-13,
+        "emigration": 0.0,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5899099029222624,
+        "domesticOut": 0.609156104570935,
+        "immigration": 1.000004189063572,
+        "emigration": 1.0000055859585517
+      }
+    },
+    {
+      "year": 2037,
+      "targets": {
+        "countyDomesticIn": 5275.557399999996,
+        "countyDomesticOut": 5804.239200000003,
+        "countyImmigration": 1760.7676,
+        "countyEmigration": 825.1388,
+        "withinCountyCommonTotal": 3690.02465
+      },
+      "raw": {
+        "municipalDomesticIn": 8930.859900000001,
+        "municipalDomesticOut": 9528.985999999997,
+        "municipalImmigration": 1760.7604,
+        "municipalEmigration": 825.1324,
+        "withinCountyFromIn": 3655.3025000000052,
+        "withinCountyFromOut": 3724.7467999999944
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5275.557399999995,
+        "municipalDomesticOut": 5804.239200000003,
+        "municipalImmigration": 1760.7676,
+        "municipalEmigration": 825.1387999999998,
+        "withinCountyIn": 3690.02465,
+        "withinCountyOut": 3690.02465
+      },
+      "residuals": {
+        "domesticIn": -9.094947017729282e-13,
+        "domesticOut": 0.0,
+        "immigration": 0.0,
+        "emigration": -1.1368683772161603e-13,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5907110243661974,
+        "domesticOut": 0.6091140442435328,
+        "immigration": 1.0000040891423956,
+        "emigration": 1.000007756330984
+      }
+    },
+    {
+      "year": 2038,
+      "targets": {
+        "countyDomesticIn": 5281.017900000003,
+        "countyDomesticOut": 5795.596499999998,
+        "countyImmigration": 1782.1777000000009,
+        "countyEmigration": 828.5898999999997,
+        "withinCountyCommonTotal": 3683.634899999999
+      },
+      "raw": {
+        "municipalDomesticIn": 8929.5472,
+        "municipalDomesticOut": 9514.336999999998,
+        "municipalImmigration": 1782.1680000000001,
+        "municipalEmigration": 828.5828999999999,
+        "withinCountyFromIn": 3648.5292999999983,
+        "withinCountyFromOut": 3718.7405
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5281.017900000003,
+        "municipalDomesticOut": 5795.596499999998,
+        "municipalImmigration": 1782.1777000000009,
+        "municipalEmigration": 828.5898999999998,
+        "withinCountyIn": 3683.634899999999,
+        "withinCountyOut": 3683.634899999999
+      },
+      "residuals": {
+        "domesticIn": 0.0,
+        "domesticOut": 0.0,
+        "immigration": 0.0,
+        "emigration": 1.1368683772161603e-13,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.59140937179883,
+        "domesticOut": 0.6091434957580333,
+        "immigration": 1.0000054428089837,
+        "emigration": 1.0000084481588987
+      }
+    },
+    {
+      "year": 2039,
+      "targets": {
+        "countyDomesticIn": 5282.741500000001,
+        "countyDomesticOut": 5787.574000000004,
+        "countyImmigration": 1803.6204000000007,
+        "countyEmigration": 831.7586000000002,
+        "withinCountyCommonTotal": 3676.3095499999968
+      },
+      "raw": {
+        "municipalDomesticIn": 8923.7468,
+        "municipalDomesticOut": 9499.187799999998,
+        "municipalImmigration": 1803.612799999999,
+        "municipalEmigration": 831.7525,
+        "withinCountyFromIn": 3641.0053,
+        "withinCountyFromOut": 3711.6137999999937
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5282.7415,
+        "municipalDomesticOut": 5787.574000000004,
+        "municipalImmigration": 1803.6204000000007,
+        "municipalEmigration": 831.7586000000001,
+        "withinCountyIn": 3676.3095499999968,
+        "withinCountyOut": 3676.3095499999968
+      },
+      "residuals": {
+        "domesticIn": -9.094947017729282e-13,
+        "domesticOut": 0.0,
+        "immigration": 0.0,
+        "emigration": -1.1368683772161603e-13,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5919869331119973,
+        "domesticOut": 0.6092704052024327,
+        "immigration": 1.0000042137647291,
+        "emigration": 1.000007333912432
+      }
+    },
+    {
+      "year": 2040,
+      "targets": {
+        "countyDomesticIn": 5277.660799999999,
+        "countyDomesticOut": 5774.6207,
+        "countyImmigration": 1826.7949999999992,
+        "countyEmigration": 836.2277999999999,
+        "withinCountyCommonTotal": 3667.6179999999995
+      },
+      "raw": {
+        "municipalDomesticIn": 8909.648999999998,
+        "municipalDomesticOut": 9477.8685,
+        "municipalImmigration": 1826.7853,
+        "municipalEmigration": 836.2237000000001,
+        "withinCountyFromIn": 3631.988199999999,
+        "withinCountyFromOut": 3703.2478
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5277.660799999999,
+        "municipalDomesticOut": 5774.6206999999995,
+        "municipalImmigration": 1826.7949999999994,
+        "municipalEmigration": 836.2278,
+        "withinCountyIn": 3667.6179999999995,
+        "withinCountyOut": 3667.6179999999995
+      },
+      "residuals": {
+        "domesticIn": 0.0,
+        "domesticOut": -9.094947017729282e-13,
+        "immigration": 2.2737367544323206e-13,
+        "emigration": 1.1368683772161603e-13,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5923533912503175,
+        "domesticOut": 0.6092741949310649,
+        "immigration": 1.0000053098741266,
+        "emigration": 1.0000049029942584
+      }
+    },
+    {
+      "year": 2041,
+      "targets": {
+        "countyDomesticIn": 5259.856,
+        "countyDomesticOut": 5750.034199999999,
+        "countyImmigration": 1827.723200000001,
+        "countyEmigration": 838.2865000000004,
+        "withinCountyCommonTotal": 3655.039549999998
+      },
+      "raw": {
+        "municipalDomesticIn": 8878.886499999999,
+        "municipalDomesticOut": 9441.082799999996,
+        "municipalImmigration": 1827.7138999999997,
+        "municipalEmigration": 838.2799999999999,
+        "withinCountyFromIn": 3619.030499999999,
+        "withinCountyFromOut": 3691.0485999999974
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5259.855999999999,
+        "municipalDomesticOut": 5750.0342,
+        "municipalImmigration": 1827.723200000001,
+        "municipalEmigration": 838.2865000000004,
+        "withinCountyIn": 3655.039549999998,
+        "withinCountyOut": 3655.039549999998
+      },
+      "residuals": {
+        "domesticIn": -9.094947017729282e-13,
+        "domesticOut": 9.094947017729282e-13,
+        "immigration": 0.0,
+        "emigration": 0.0,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5924004096684872,
+        "domesticOut": 0.6090439329692142,
+        "immigration": 1.0000050883237257,
+        "emigration": 1.0000077539724204
+      }
+    },
+    {
+      "year": 2042,
+      "targets": {
+        "countyDomesticIn": 5228.598500000005,
+        "countyDomesticOut": 5712.1429,
+        "countyImmigration": 1828.1420000000012,
+        "countyEmigration": 839.6275000000002,
+        "withinCountyCommonTotal": 3637.7561499999983
+      },
+      "raw": {
+        "municipalDomesticIn": 8830.0449,
+        "municipalDomesticOut": 9386.2088,
+        "municipalImmigration": 1828.1328999999996,
+        "municipalEmigration": 839.6214,
+        "withinCountyFromIn": 3601.446399999996,
+        "withinCountyFromOut": 3674.0659000000005
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5228.598500000005,
+        "municipalDomesticOut": 5712.1429,
+        "municipalImmigration": 1828.142000000001,
+        "municipalEmigration": 839.6275,
+        "withinCountyIn": 3637.7561499999983,
+        "withinCountyOut": 3637.7561499999983
+      },
+      "residuals": {
+        "domesticIn": 0.0,
+        "domesticOut": 0.0,
+        "immigration": -2.2737367544323206e-13,
+        "emigration": -1.1368683772161603e-13,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5921372494946208,
+        "domesticOut": 0.6085676359554243,
+        "immigration": 1.0000049777562678,
+        "emigration": 1.0000072651792822
+      }
+    },
+    {
+      "year": 2043,
+      "targets": {
+        "countyDomesticIn": 5190.813699999997,
+        "countyDomesticOut": 5667.308999999997,
+        "countyImmigration": 1828.391800000001,
+        "countyEmigration": 840.6219999999996,
+        "withinCountyCommonTotal": 3618.5418500000046
+      },
+      "raw": {
+        "municipalDomesticIn": 8772.7922,
+        "municipalDomesticOut": 9322.414200000003,
+        "municipalImmigration": 1828.3824,
+        "municipalEmigration": 840.6181999999998,
+        "withinCountyFromIn": 3581.978500000003,
+        "withinCountyFromOut": 3655.1052000000063
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5190.813699999996,
+        "municipalDomesticOut": 5667.3089999999975,
+        "municipalImmigration": 1828.391800000001,
+        "municipalEmigration": 840.6219999999997,
+        "withinCountyIn": 3618.5418500000046,
+        "withinCountyOut": 3618.5418500000046
+      },
+      "residuals": {
+        "domesticIn": -9.094947017729282e-13,
+        "domesticOut": 9.094947017729282e-13,
+        "immigration": 0.0,
+        "emigration": 1.1368683772161603e-13,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.591694591831321,
+        "domesticOut": 0.6079228919049741,
+        "immigration": 1.0000051411564677,
+        "emigration": 1.0000045204826638
+      }
+    },
+    {
+      "year": 2044,
+      "targets": {
+        "countyDomesticIn": 5152.5781000000015,
+        "countyDomesticOut": 5619.506299999996,
+        "countyImmigration": 1828.7979000000005,
+        "countyEmigration": 841.5369999999996,
+        "withinCountyCommonTotal": 3598.07225
+      },
+      "raw": {
+        "municipalDomesticIn": 8714.5461,
+        "municipalDomesticOut": 9253.682799999999,
+        "municipalImmigration": 1828.7906000000003,
+        "municipalEmigration": 841.5305,
+        "withinCountyFromIn": 3561.967999999998,
+        "withinCountyFromOut": 3634.1765000000023
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5152.5781000000015,
+        "municipalDomesticOut": 5619.506299999996,
+        "municipalImmigration": 1828.7979000000005,
+        "municipalEmigration": 841.5369999999996,
+        "withinCountyIn": 3598.07225,
+        "withinCountyOut": 3598.07225
+      },
+      "residuals": {
+        "domesticIn": 0.0,
+        "domesticOut": 0.0,
+        "immigration": 0.0,
+        "emigration": 0.0,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5912617870023089,
+        "domesticOut": 0.6072724148270997,
+        "immigration": 1.0000039917090564,
+        "emigration": 1.0000077240218859
+      }
+    },
+    {
+      "year": 2045,
+      "targets": {
+        "countyDomesticIn": 5116.851199999995,
+        "countyDomesticOut": 5570.364800000003,
+        "countyImmigration": 1828.8666000000003,
+        "countyEmigration": 841.9896999999995,
+        "withinCountyCommonTotal": 3576.6012000000032
+      },
+      "raw": {
+        "municipalDomesticIn": 8658.343900000002,
+        "municipalDomesticOut": 9182.074500000002,
+        "municipalImmigration": 1828.8588999999997,
+        "municipalEmigration": 841.9817000000004,
+        "withinCountyFromIn": 3541.492700000007,
+        "withinCountyFromOut": 3611.7096999999994
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5116.851199999995,
+        "municipalDomesticOut": 5570.364800000003,
+        "municipalImmigration": 1828.8666,
+        "municipalEmigration": 841.9896999999994,
+        "withinCountyIn": 3576.6012000000032,
+        "withinCountyOut": 3576.6012000000032
+      },
+      "residuals": {
+        "domesticIn": 0.0,
+        "domesticOut": 0.0,
+        "immigration": -2.2737367544323206e-13,
+        "emigration": -1.1368683772161603e-13,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.590973430842819,
+        "domesticOut": 0.6066564587338081,
+        "immigration": 1.0000042102755988,
+        "emigration": 1.0000095013941503
+      }
+    },
+    {
+      "year": 2046,
+      "targets": {
+        "countyDomesticIn": 5085.427199999997,
+        "countyDomesticOut": 5520.656599999998,
+        "countyImmigration": 1828.1660000000004,
+        "countyEmigration": 842.8875,
+        "withinCountyCommonTotal": 3555.500550000004
+      },
+      "raw": {
+        "municipalDomesticIn": 8606.777800000002,
+        "municipalDomesticOut": 9110.307100000002,
+        "municipalImmigration": 1828.158,
+        "municipalEmigration": 842.8798999999998,
+        "withinCountyFromIn": 3521.3506000000043,
+        "withinCountyFromOut": 3589.6505000000034
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5085.427199999997,
+        "municipalDomesticOut": 5520.656599999999,
+        "municipalImmigration": 1828.1660000000004,
+        "municipalEmigration": 842.8875000000002,
+        "withinCountyIn": 3555.500550000004,
+        "withinCountyOut": 3555.500550000004
+      },
+      "residuals": {
+        "domesticIn": 0.0,
+        "domesticOut": 9.094947017729282e-13,
+        "immigration": 0.0,
+        "emigration": 1.1368683772161603e-13,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5908630753776397,
+        "domesticOut": 0.605979199098568,
+        "immigration": 1.0000043759893842,
+        "emigration": 1.0000090167057019
+      }
+    },
+    {
+      "year": 2047,
+      "targets": {
+        "countyDomesticIn": 5060.1655000000055,
+        "countyDomesticOut": 5474.1365,
+        "countyImmigration": 1827.6752999999999,
+        "countyEmigration": 842.7332000000001,
+        "withinCountyCommonTotal": 3536.0427999999984
+      },
+      "raw": {
+        "municipalDomesticIn": 8562.973700000002,
+        "municipalDomesticOut": 9043.4139,
+        "municipalImmigration": 1827.6664,
+        "municipalEmigration": 842.7295000000001,
+        "withinCountyFromIn": 3502.8081999999968,
+        "withinCountyFromOut": 3569.2774
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5060.1655000000055,
+        "municipalDomesticOut": 5474.1365,
+        "municipalImmigration": 1827.6752999999999,
+        "municipalEmigration": 842.7332000000001,
+        "withinCountyIn": 3536.0427999999984,
+        "withinCountyOut": 3536.0427999999984
+      },
+      "residuals": {
+        "domesticIn": 0.0,
+        "domesticOut": 0.0,
+        "immigration": 0.0,
+        "emigration": 0.0,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5909355414696654,
+        "domesticOut": 0.6053174786128057,
+        "immigration": 1.0000048695976465,
+        "emigration": 1.0000043904954081
+      }
+    },
+    {
+      "year": 2048,
+      "targets": {
+        "countyDomesticIn": 5042.514100000001,
+        "countyDomesticOut": 5434.941100000004,
+        "countyImmigration": 1827.2149999999997,
+        "countyEmigration": 843.3719,
+        "withinCountyCommonTotal": 3519.685949999995
+      },
+      "raw": {
+        "municipalDomesticIn": 8529.534799999996,
+        "municipalDomesticOut": 8987.2923,
+        "municipalImmigration": 1827.2043,
+        "municipalEmigration": 843.3664,
+        "withinCountyFromIn": 3487.0206999999946,
+        "withinCountyFromOut": 3552.3511999999955
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5042.514100000002,
+        "municipalDomesticOut": 5434.941100000004,
+        "municipalImmigration": 1827.2149999999995,
+        "municipalEmigration": 843.3719,
+        "withinCountyIn": 3519.685949999995,
+        "withinCountyOut": 3519.685949999995
+      },
+      "residuals": {
+        "domesticIn": 9.094947017729282e-13,
+        "domesticOut": 0.0,
+        "immigration": -2.2737367544323206e-13,
+        "emigration": 0.0,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5911827805661809,
+        "domesticOut": 0.6047362118176577,
+        "immigration": 1.0000058559406846,
+        "emigration": 1.0000065214834264
+      }
+    },
+    {
+      "year": 2049,
+      "targets": {
+        "countyDomesticIn": 5032.804200000005,
+        "countyDomesticOut": 5405.089300000001,
+        "countyImmigration": 1825.8505000000002,
+        "countyEmigration": 843.6583000000008,
+        "withinCountyCommonTotal": 3506.578749999996
+      },
+      "raw": {
+        "municipalDomesticIn": 8506.9429,
+        "municipalDomesticOut": 8944.108099999998,
+        "municipalImmigration": 1825.8415999999993,
+        "municipalEmigration": 843.6505000000001,
+        "withinCountyFromIn": 3474.138699999995,
+        "withinCountyFromOut": 3539.018799999997
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5032.804200000004,
+        "municipalDomesticOut": 5405.089300000001,
+        "municipalImmigration": 1825.8505000000005,
+        "municipalEmigration": 843.6583000000008,
+        "withinCountyIn": 3506.578749999996,
+        "withinCountyOut": 3506.578749999996
+      },
+      "residuals": {
+        "domesticIn": -9.094947017729282e-13,
+        "domesticOut": 0.0,
+        "immigration": 2.2737367544323206e-13,
+        "emigration": 0.0,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5916113766321395,
+        "domesticOut": 0.6043184227614603,
+        "immigration": 1.0000048744644667,
+        "emigration": 1.0000092455347336
+      }
+    },
+    {
+      "year": 2050,
+      "targets": {
+        "countyDomesticIn": 5030.8789,
+        "countyDomesticOut": 5384.696500000003,
+        "countyImmigration": 1825.169200000001,
+        "countyEmigration": 844.0777000000002,
+        "withinCountyCommonTotal": 3496.696449999998
+      },
+      "raw": {
+        "municipalDomesticIn": 8495.165599999998,
+        "municipalDomesticOut": 8913.8027,
+        "municipalImmigration": 1825.1592,
+        "municipalEmigration": 844.0687,
+        "withinCountyFromIn": 3464.2866999999987,
+        "withinCountyFromOut": 3529.1061999999974
+      },
+      "adjusted": {
+        "municipalDomesticIn": 5030.8789,
+        "municipalDomesticOut": 5384.696500000002,
+        "municipalImmigration": 1825.169200000001,
+        "municipalEmigration": 844.0777000000002,
+        "withinCountyIn": 3496.696449999998,
+        "withinCountyOut": 3496.696449999998
+      },
+      "residuals": {
+        "domesticIn": 0.0,
+        "domesticOut": -9.094947017729282e-13,
+        "immigration": 0.0,
+        "emigration": 0.0,
+        "withinCountyBalance": 0.0
+      },
+      "factors": {
+        "domesticIn": 0.5922049241747566,
+        "domesticOut": 0.6040852239190803,
+        "immigration": 1.0000054789741086,
+        "emigration": 1.0000106626391905
+      }
+    }
+  ],
+  "nationalLayerActive": false
+}
