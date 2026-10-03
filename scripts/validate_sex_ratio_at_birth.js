@@ -56,7 +56,7 @@ const synthetic={
 const sr=M.simulate(synthetic,{
   geo:'2580',endYear:2026,window:10,migrationWindow:10,
   fertMult:1,mortMult:1,migMult:1,cohortTimingMode:'event_age_aligned',
-  scenarios:{housing:[],workplaces:[],overlapPct:0},includeDetail:false
+  scenarios:{housing:[],workplaces:[],overlapPct:0},includeDetail:true
 });
 const age0=sr[1].populationByAgeSex.filter(r=>r.age===0);
 const m0=age0.find(r=>r.sex==='M')?.value||0;
