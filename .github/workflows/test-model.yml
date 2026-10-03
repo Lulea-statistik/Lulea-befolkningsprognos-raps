@@ -161,6 +161,9 @@ jobs:
       - name: Validate consistency adjustment on frozen SCB vintages
         run: python scripts/build_scb_consistency_vintage_validation.py
 
+      - name: Validate locked localization candidates on 2025 holdout
+        run: python scripts/validate_localization_2025.py
+
       - name: Build model maturity report
         run: python scripts/build_model_maturity.py
 
