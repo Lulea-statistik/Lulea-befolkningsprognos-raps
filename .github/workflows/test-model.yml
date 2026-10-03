@@ -81,6 +81,9 @@ jobs:
       - name: Regression-test housing scenario engine
         run: node scripts/validate_housing_scenario.js
 
+      - name: Validate household projection
+        run: python scripts/validate_household_projection.py
+
       - name: Validate JavaScript syntax
         run: |
           node --check js/model.js
