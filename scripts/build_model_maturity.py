@@ -35,6 +35,7 @@ POPULATION_ACCOUNTING_VALIDATION = ROOT / "data" / "backtests" / "population_acc
 HOUSING_OCCUPANCY_DEFAULTS_VALIDATION = ROOT / "data" / "backtests" / "housing_occupancy_defaults_validation.json"
 HOUSING_STOCK_SUPPORT_VALIDATION = ROOT / "data" / "backtests" / "housing_stock_support_validation.json"
 HOUSING_BALANCE_INDICATOR_VALIDATION = ROOT / "data" / "backtests" / "housing_balance_indicator_validation.json"
+SOURCE_MANIFEST_VALIDATION = ROOT / "data" / "backtests" / "source_manifest_integrity_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -1480,6 +1481,48 @@ def main():
             else "Keep below production maturity until reserve and balance arithmetic pass."
             if housing_balance_has_results
             else "Run the locked housing-balance validation."
+        )
+    ))
+
+    source_manifest_cfg = load(ROOT / "data" / "source_manifest_integrity_config.json")
+    source_manifest_validation = (
+        load(SOURCE_MANIFEST_VALIDATION)
+        if SOURCE_MANIFEST_VALIDATION.exists()
+        else {}
+    )
+    source_manifest_gate = source_manifest_validation.get("allPassed") is True
+    source_manifest_has_results = bool(source_manifest_validation.get("checks"))
+    comps.append(component(
+        policy, "source_manifest_integrity",
+        4 if source_manifest_gate else 2 if source_manifest_has_results else 1,
+        (
+            "production_support" if source_manifest_gate
+            else "rejected" if source_manifest_has_results
+            else "diagnostic"
+        ),
+        source_manifest_gate,
+        [
+            gate(
+                "Critical source-manifest gate is explicitly locked",
+                source_manifest_cfg.get("status") == "production_source_manifest_gate_locked",
+                source_manifest_cfg.get("status")
+            ),
+            gate(
+                "Required sources, table IDs, raw files, selections and CKM year boundaries validate",
+                source_manifest_gate,
+                (
+                    f"checks={source_manifest_validation.get('checks')}; "
+                    f"requiredSourceCount={source_manifest_validation.get('requiredSourceCount')}"
+                    if source_manifest_has_results else "Awaiting validation"
+                )
+            )
+        ],
+        (
+            "Keep source provenance as a hard production prerequisite and rerun on every full SCB refresh."
+            if source_manifest_gate
+            else "Block production maturity until missing provenance, source files or year-boundary defects are corrected."
+            if source_manifest_has_results
+            else "Run the locked source-manifest integrity validation."
         )
     ))
 
