@@ -8893,6 +8893,809 @@
             }
           }
         }
+      },
+      "mortalityWlsExternal": {
+        "window": 10,
+        "current": {
+          "observations": 12,
+          "populationMAPE": 1,
+          "populationMAE": 2031.5,
+          "populationMeanError": 2031.5,
+          "birthsMAE": 147.4,
+          "birthsMeanError": 136.5,
+          "deathsMAE": 85.5,
+          "deathsMeanError": -55.7,
+          "netMigrationMAE": 999.6,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 754.3,
+            "populationMeanError": 754.3,
+            "birthsMAE": 80.1,
+            "birthsMeanError": 47.3,
+            "deathsMAE": 67.1,
+            "deathsMeanError": -67.1,
+            "netMigrationMAE": 726.9
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.9,
+            "populationMAE": 1977.1,
+            "populationMeanError": 1977.1,
+            "birthsMAE": 124.1,
+            "birthsMeanError": 124.1,
+            "deathsMAE": 93.4,
+            "deathsMeanError": -71.4,
+            "netMigrationMAE": 1097.9
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 1.6,
+            "populationMAE": 3363.1,
+            "populationMeanError": 3363.1,
+            "birthsMAE": 238.1,
+            "birthsMeanError": 238.1,
+            "deathsMAE": 96.1,
+            "deathsMeanError": -28.7,
+            "netMigrationMAE": 1174.1
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 754.3,
+              "populationMeanError": 754.3,
+              "birthsMAE": 80.1,
+              "birthsMeanError": 47.3,
+              "deathsMAE": 67.1,
+              "deathsMeanError": -67.1,
+              "netMigrationMAE": 726.9
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.9,
+              "populationMAE": 1977.1,
+              "populationMeanError": 1977.1,
+              "birthsMAE": 124.1,
+              "birthsMeanError": 124.1,
+              "deathsMAE": 93.4,
+              "deathsMeanError": -71.4,
+              "netMigrationMAE": 1097.9
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 1.6,
+              "populationMAE": 3363.1,
+              "populationMeanError": 3363.1,
+              "birthsMAE": 238.1,
+              "birthsMeanError": 238.1,
+              "deathsMAE": 96.1,
+              "deathsMeanError": -28.7,
+              "netMigrationMAE": 1174.1
+            }
+          }
+        },
+        "wls": {
+          "observations": 12,
+          "populationMAPE": 0.9,
+          "populationMAE": 1995.2,
+          "populationMeanError": 1995.2,
+          "birthsMAE": 147.3,
+          "birthsMeanError": 136.4,
+          "deathsMAE": 76.4,
+          "deathsMeanError": -36.9,
+          "netMigrationMAE": 999.6,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.4,
+            "populationMAE": 737.8,
+            "populationMeanError": 737.8,
+            "birthsMAE": 80.1,
+            "birthsMeanError": 47.3,
+            "deathsMAE": 50.6,
+            "deathsMeanError": -50.6,
+            "netMigrationMAE": 726.9
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.9,
+            "populationMAE": 1941.5,
+            "populationMeanError": 1941.5,
+            "birthsMAE": 124,
+            "birthsMeanError": 124,
+            "deathsMAE": 83.1,
+            "deathsMeanError": -52.3,
+            "netMigrationMAE": 1097.9
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 1.6,
+            "populationMAE": 3306.3,
+            "populationMeanError": 3306.3,
+            "birthsMAE": 237.9,
+            "birthsMeanError": 237.9,
+            "deathsMAE": 95.6,
+            "deathsMeanError": -7.9,
+            "netMigrationMAE": 1174.1
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.4,
+              "populationMAE": 737.8,
+              "populationMeanError": 737.8,
+              "birthsMAE": 80.1,
+              "birthsMeanError": 47.3,
+              "deathsMAE": 50.6,
+              "deathsMeanError": -50.6,
+              "netMigrationMAE": 726.9
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.9,
+              "populationMAE": 1941.5,
+              "populationMeanError": 1941.5,
+              "birthsMAE": 124,
+              "birthsMeanError": 124,
+              "deathsMAE": 83.1,
+              "deathsMeanError": -52.3,
+              "netMigrationMAE": 1097.9
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 1.6,
+              "populationMAE": 3306.3,
+              "populationMeanError": 3306.3,
+              "birthsMAE": 237.9,
+              "birthsMeanError": 237.9,
+              "deathsMAE": 95.6,
+              "deathsMeanError": -7.9,
+              "netMigrationMAE": 1174.1
+            }
+          }
+        },
+        "byOrigin": {
+          "2018": {
+            "current": {
+              "observations": 3,
+              "populationMAPE": 0.6,
+              "populationMAE": 1299.8,
+              "populationMeanError": 1299.8,
+              "birthsMAE": 150.9,
+              "birthsMeanError": 150.9,
+              "deathsMAE": 46.8,
+              "deathsMeanError": -20.4,
+              "netMigrationMAE": 694.9,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.1,
+                "populationMAE": 277.8,
+                "populationMeanError": 277.8,
+                "birthsMAE": 96.5,
+                "birthsMeanError": 96.5,
+                "deathsMAE": 59.4,
+                "deathsMeanError": -59.4,
+                "netMigrationMAE": 227.9
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 0.6,
+                "populationMAE": 1245.9,
+                "populationMeanError": 1245.9,
+                "birthsMAE": 144.8,
+                "birthsMeanError": 144.8,
+                "deathsMAE": 41.4,
+                "deathsMeanError": -41.4,
+                "netMigrationMAE": 817.9
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 1.1,
+                "populationMAE": 2375.6,
+                "populationMeanError": 2375.6,
+                "birthsMAE": 211.5,
+                "birthsMeanError": 211.5,
+                "deathsMAE": 39.7,
+                "deathsMeanError": 39.7,
+                "netMigrationMAE": 1038.9
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.1,
+                  "populationMAE": 277.8,
+                  "populationMeanError": 277.8,
+                  "birthsMAE": 96.5,
+                  "birthsMeanError": 96.5,
+                  "deathsMAE": 59.4,
+                  "deathsMeanError": -59.4,
+                  "netMigrationMAE": 227.9
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 0.6,
+                  "populationMAE": 1245.9,
+                  "populationMeanError": 1245.9,
+                  "birthsMAE": 144.8,
+                  "birthsMeanError": 144.8,
+                  "deathsMAE": 41.4,
+                  "deathsMeanError": -41.4,
+                  "netMigrationMAE": 817.9
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 1.1,
+                  "populationMAE": 2375.6,
+                  "populationMeanError": 2375.6,
+                  "birthsMAE": 211.5,
+                  "birthsMeanError": 211.5,
+                  "deathsMAE": 39.7,
+                  "deathsMeanError": 39.7,
+                  "netMigrationMAE": 1038.9
+                }
+              }
+            },
+            "wls": {
+              "observations": 3,
+              "populationMAPE": 0.6,
+              "populationMAE": 1263.5,
+              "populationMeanError": 1263.5,
+              "birthsMAE": 150.8,
+              "birthsMeanError": 150.8,
+              "deathsMAE": 41,
+              "deathsMeanError": -2,
+              "netMigrationMAE": 694.9,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.1,
+                "populationMAE": 260.8,
+                "populationMeanError": 260.8,
+                "birthsMAE": 96.5,
+                "birthsMeanError": 96.5,
+                "deathsMAE": 42.4,
+                "deathsMeanError": -42.4,
+                "netMigrationMAE": 227.9
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 0.6,
+                "populationMAE": 1209.5,
+                "populationMeanError": 1209.5,
+                "birthsMAE": 144.7,
+                "birthsMeanError": 144.7,
+                "deathsMAE": 22.1,
+                "deathsMeanError": -22.1,
+                "netMigrationMAE": 817.9
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 1.1,
+                "populationMAE": 2320.2,
+                "populationMeanError": 2320.2,
+                "birthsMAE": 211.3,
+                "birthsMeanError": 211.3,
+                "deathsMAE": 58.4,
+                "deathsMeanError": 58.4,
+                "netMigrationMAE": 1038.9
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.1,
+                  "populationMAE": 260.8,
+                  "populationMeanError": 260.8,
+                  "birthsMAE": 96.5,
+                  "birthsMeanError": 96.5,
+                  "deathsMAE": 42.4,
+                  "deathsMeanError": -42.4,
+                  "netMigrationMAE": 227.9
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 0.6,
+                  "populationMAE": 1209.5,
+                  "populationMeanError": 1209.5,
+                  "birthsMAE": 144.7,
+                  "birthsMeanError": 144.7,
+                  "deathsMAE": 22.1,
+                  "deathsMeanError": -22.1,
+                  "netMigrationMAE": 817.9
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 1.1,
+                  "populationMAE": 2320.2,
+                  "populationMeanError": 2320.2,
+                  "birthsMAE": 211.3,
+                  "birthsMeanError": 211.3,
+                  "deathsMAE": 58.4,
+                  "deathsMeanError": 58.4,
+                  "netMigrationMAE": 1038.9
+                }
+              }
+            }
+          },
+          "2019": {
+            "current": {
+              "observations": 3,
+              "populationMAPE": 1,
+              "populationMAE": 2070.2,
+              "populationMeanError": 2070.2,
+              "birthsMAE": 178,
+              "birthsMeanError": 178,
+              "deathsMAE": 58.7,
+              "deathsMeanError": -29.3,
+              "netMigrationMAE": 901.1,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.5,
+                "populationMAE": 987.9,
+                "populationMeanError": 987.9,
+                "birthsMAE": 117.8,
+                "birthsMeanError": 117.8,
+                "deathsMAE": 35.7,
+                "deathsMeanError": -35.7,
+                "netMigrationMAE": 870.4
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 1,
+                "populationMAE": 2139.5,
+                "populationMeanError": 2139.5,
+                "birthsMAE": 185.3,
+                "birthsMeanError": 185.3,
+                "deathsMAE": 44.1,
+                "deathsMeanError": 44.1,
+                "netMigrationMAE": 1091.4
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 1.5,
+                "populationMAE": 3083.2,
+                "populationMeanError": 3083.2,
+                "birthsMAE": 231,
+                "birthsMeanError": 231,
+                "deathsMAE": 96.3,
+                "deathsMeanError": -96.3,
+                "netMigrationMAE": 741.4
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.5,
+                  "populationMAE": 987.9,
+                  "populationMeanError": 987.9,
+                  "birthsMAE": 117.8,
+                  "birthsMeanError": 117.8,
+                  "deathsMAE": 35.7,
+                  "deathsMeanError": -35.7,
+                  "netMigrationMAE": 870.4
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 1,
+                  "populationMAE": 2139.5,
+                  "populationMeanError": 2139.5,
+                  "birthsMAE": 185.3,
+                  "birthsMeanError": 185.3,
+                  "deathsMAE": 44.1,
+                  "deathsMeanError": 44.1,
+                  "netMigrationMAE": 1091.4
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 1.5,
+                  "populationMAE": 3083.2,
+                  "populationMeanError": 3083.2,
+                  "birthsMAE": 231,
+                  "birthsMeanError": 231,
+                  "deathsMAE": 96.3,
+                  "deathsMeanError": -96.3,
+                  "netMigrationMAE": 741.4
+                }
+              }
+            },
+            "wls": {
+              "observations": 3,
+              "populationMAPE": 1,
+              "populationMAE": 2034.5,
+              "populationMeanError": 2034.5,
+              "birthsMAE": 177.9,
+              "birthsMeanError": 177.9,
+              "deathsMAE": 51.8,
+              "deathsMeanError": -10.8,
+              "netMigrationMAE": 901.1,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.5,
+                "populationMAE": 971,
+                "populationMeanError": 971,
+                "birthsMAE": 117.8,
+                "birthsMeanError": 117.8,
+                "deathsMAE": 18.8,
+                "deathsMeanError": -18.8,
+                "netMigrationMAE": 870.4
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 1,
+                "populationMAE": 2105.2,
+                "populationMeanError": 2105.2,
+                "birthsMAE": 185.2,
+                "birthsMeanError": 185.2,
+                "deathsMAE": 61.5,
+                "deathsMeanError": 61.5,
+                "netMigrationMAE": 1091.4
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 1.4,
+                "populationMAE": 3027.4,
+                "populationMeanError": 3027.4,
+                "birthsMAE": 230.8,
+                "birthsMeanError": 230.8,
+                "deathsMAE": 75,
+                "deathsMeanError": -75,
+                "netMigrationMAE": 741.4
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.5,
+                  "populationMAE": 971,
+                  "populationMeanError": 971,
+                  "birthsMAE": 117.8,
+                  "birthsMeanError": 117.8,
+                  "deathsMAE": 18.8,
+                  "deathsMeanError": -18.8,
+                  "netMigrationMAE": 870.4
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 1,
+                  "populationMAE": 2105.2,
+                  "populationMeanError": 2105.2,
+                  "birthsMAE": 185.2,
+                  "birthsMeanError": 185.2,
+                  "deathsMAE": 61.5,
+                  "deathsMeanError": 61.5,
+                  "netMigrationMAE": 1091.4
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 1.4,
+                  "populationMAE": 3027.4,
+                  "populationMeanError": 3027.4,
+                  "birthsMAE": 230.8,
+                  "birthsMeanError": 230.8,
+                  "deathsMAE": 75,
+                  "deathsMeanError": -75,
+                  "netMigrationMAE": 741.4
+                }
+              }
+            }
+          },
+          "2020": {
+            "current": {
+              "observations": 3,
+              "populationMAPE": 1.1,
+              "populationMAE": 2372.5,
+              "populationMeanError": 2372.5,
+              "birthsMAE": 124.2,
+              "birthsMeanError": 124.2,
+              "deathsMAE": 126.4,
+              "deathsMeanError": -126.4,
+              "netMigrationMAE": 1192.3,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.5,
+                "populationMAE": 1090.7,
+                "populationMeanError": 1090.7,
+                "birthsMAE": 40.4,
+                "birthsMeanError": 40.4,
+                "deathsMAE": 46.6,
+                "deathsMeanError": -46.6,
+                "netMigrationMAE": 1084.6
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 0.9,
+                "populationMAE": 1944.4,
+                "populationMeanError": 1944.4,
+                "birthsMAE": 65,
+                "birthsMeanError": 65,
+                "deathsMAE": 179.2,
+                "deathsMeanError": -179.2,
+                "netMigrationMAE": 734.6
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 1.9,
+                "populationMAE": 4082.4,
+                "populationMeanError": 4082.4,
+                "birthsMAE": 267.1,
+                "birthsMeanError": 267.1,
+                "deathsMAE": 153.3,
+                "deathsMeanError": -153.3,
+                "netMigrationMAE": 1757.6
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.5,
+                  "populationMAE": 1090.7,
+                  "populationMeanError": 1090.7,
+                  "birthsMAE": 40.4,
+                  "birthsMeanError": 40.4,
+                  "deathsMAE": 46.6,
+                  "deathsMeanError": -46.6,
+                  "netMigrationMAE": 1084.6
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 0.9,
+                  "populationMAE": 1944.4,
+                  "populationMeanError": 1944.4,
+                  "birthsMAE": 65,
+                  "birthsMeanError": 65,
+                  "deathsMAE": 179.2,
+                  "deathsMeanError": -179.2,
+                  "netMigrationMAE": 734.6
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 1.9,
+                  "populationMAE": 4082.4,
+                  "populationMeanError": 4082.4,
+                  "birthsMAE": 267.1,
+                  "birthsMeanError": 267.1,
+                  "deathsMAE": 153.3,
+                  "deathsMeanError": -153.3,
+                  "netMigrationMAE": 1757.6
+                }
+              }
+            },
+            "wls": {
+              "observations": 3,
+              "populationMAPE": 1.1,
+              "populationMAE": 2335.8,
+              "populationMeanError": 2335.8,
+              "birthsMAE": 124,
+              "birthsMeanError": 124,
+              "deathsMAE": 107.2,
+              "deathsMeanError": -107.2,
+              "netMigrationMAE": 1192.3,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.5,
+                "populationMAE": 1074.9,
+                "populationMeanError": 1074.9,
+                "birthsMAE": 40.4,
+                "birthsMeanError": 40.4,
+                "deathsMAE": 30.9,
+                "deathsMeanError": -30.9,
+                "netMigrationMAE": 1084.6
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 0.9,
+                "populationMAE": 1908.1,
+                "populationMeanError": 1908.1,
+                "birthsMAE": 64.9,
+                "birthsMeanError": 64.9,
+                "deathsMAE": 158.8,
+                "deathsMeanError": -158.8,
+                "netMigrationMAE": 734.6
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 1.9,
+                "populationMAE": 4024.4,
+                "populationMeanError": 4024.4,
+                "birthsMAE": 266.8,
+                "birthsMeanError": 266.8,
+                "deathsMAE": 131.8,
+                "deathsMeanError": -131.8,
+                "netMigrationMAE": 1757.6
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.5,
+                  "populationMAE": 1074.9,
+                  "populationMeanError": 1074.9,
+                  "birthsMAE": 40.4,
+                  "birthsMeanError": 40.4,
+                  "deathsMAE": 30.9,
+                  "deathsMeanError": -30.9,
+                  "netMigrationMAE": 1084.6
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 0.9,
+                  "populationMAE": 1908.1,
+                  "populationMeanError": 1908.1,
+                  "birthsMAE": 64.9,
+                  "birthsMeanError": 64.9,
+                  "deathsMAE": 158.8,
+                  "deathsMeanError": -158.8,
+                  "netMigrationMAE": 734.6
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 1.9,
+                  "populationMAE": 4024.4,
+                  "populationMeanError": 4024.4,
+                  "birthsMAE": 266.8,
+                  "birthsMeanError": 266.8,
+                  "deathsMAE": 131.8,
+                  "deathsMeanError": -131.8,
+                  "netMigrationMAE": 1757.6
+                }
+              }
+            }
+          },
+          "2021": {
+            "current": {
+              "observations": 3,
+              "populationMAPE": 1.1,
+              "populationMAE": 2383.5,
+              "populationMeanError": 2383.5,
+              "birthsMAE": 136.5,
+              "birthsMeanError": 92.9,
+              "deathsMAE": 110.2,
+              "deathsMeanError": -47,
+              "netMigrationMAE": 1210.3,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.3,
+                "populationMAE": 660.8,
+                "populationMeanError": 660.8,
+                "birthsMAE": 65.5,
+                "birthsMeanError": -65.5,
+                "deathsMAE": 126.7,
+                "deathsMeanError": -126.7,
+                "netMigrationMAE": 724.6
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 1.2,
+                "populationMAE": 2578.6,
+                "populationMeanError": 2578.6,
+                "birthsMAE": 101.2,
+                "birthsMeanError": 101.2,
+                "deathsMAE": 109.1,
+                "deathsMeanError": -109.1,
+                "netMigrationMAE": 1747.6
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 1.9,
+                "populationMAE": 3911.2,
+                "populationMeanError": 3911.2,
+                "birthsMAE": 242.9,
+                "birthsMeanError": 242.9,
+                "deathsMAE": 94.9,
+                "deathsMeanError": 94.9,
+                "netMigrationMAE": 1158.6
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.3,
+                  "populationMAE": 660.8,
+                  "populationMeanError": 660.8,
+                  "birthsMAE": 65.5,
+                  "birthsMeanError": -65.5,
+                  "deathsMAE": 126.7,
+                  "deathsMeanError": -126.7,
+                  "netMigrationMAE": 724.6
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 1.2,
+                  "populationMAE": 2578.6,
+                  "populationMeanError": 2578.6,
+                  "birthsMAE": 101.2,
+                  "birthsMeanError": 101.2,
+                  "deathsMAE": 109.1,
+                  "deathsMeanError": -109.1,
+                  "netMigrationMAE": 1747.6
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 1.9,
+                  "populationMAE": 3911.2,
+                  "populationMeanError": 3911.2,
+                  "birthsMAE": 242.9,
+                  "birthsMeanError": 242.9,
+                  "deathsMAE": 94.9,
+                  "deathsMeanError": 94.9,
+                  "netMigrationMAE": 1158.6
+                }
+              }
+            },
+            "wls": {
+              "observations": 3,
+              "populationMAPE": 1.1,
+              "populationMAE": 2346.9,
+              "populationMeanError": 2346.9,
+              "birthsMAE": 136.4,
+              "birthsMeanError": 92.8,
+              "deathsMAE": 105.7,
+              "deathsMeanError": -27.7,
+              "netMigrationMAE": 1210.3,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.3,
+                "populationMAE": 644.3,
+                "populationMeanError": 644.3,
+                "birthsMAE": 65.5,
+                "birthsMeanError": -65.5,
+                "deathsMAE": 110.2,
+                "deathsMeanError": -110.2,
+                "netMigrationMAE": 724.6
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 1.2,
+                "populationMAE": 2543,
+                "populationMeanError": 2543,
+                "birthsMAE": 101.1,
+                "birthsMeanError": 101.1,
+                "deathsMAE": 90,
+                "deathsMeanError": -90,
+                "netMigrationMAE": 1747.6
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 1.8,
+                "populationMAE": 3853.3,
+                "populationMeanError": 3853.3,
+                "birthsMAE": 242.7,
+                "birthsMeanError": 242.7,
+                "deathsMAE": 117,
+                "deathsMeanError": 117,
+                "netMigrationMAE": 1158.6
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.3,
+                  "populationMAE": 644.3,
+                  "populationMeanError": 644.3,
+                  "birthsMAE": 65.5,
+                  "birthsMeanError": -65.5,
+                  "deathsMAE": 110.2,
+                  "deathsMeanError": -110.2,
+                  "netMigrationMAE": 724.6
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 1.2,
+                  "populationMAE": 2543,
+                  "populationMeanError": 2543,
+                  "birthsMAE": 101.1,
+                  "birthsMeanError": 101.1,
+                  "deathsMAE": 90,
+                  "deathsMeanError": -90,
+                  "netMigrationMAE": 1747.6
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 1.8,
+                  "populationMAE": 3853.3,
+                  "populationMeanError": 3853.3,
+                  "birthsMAE": 242.7,
+                  "birthsMeanError": 242.7,
+                  "deathsMAE": 117,
+                  "deathsMeanError": 117,
+                  "netMigrationMAE": 1158.6
+                }
+              }
+            }
+          }
+        }
       }
     },
     "FA36_GAV": {
@@ -15816,6 +16619,809 @@
             }
           }
         }
+      },
+      "mortalityWlsExternal": {
+        "window": 10,
+        "current": {
+          "observations": 12,
+          "populationMAPE": 0.9,
+          "populationMAE": 1477.3,
+          "populationMeanError": 1476.6,
+          "birthsMAE": 167.8,
+          "birthsMeanError": 167.8,
+          "deathsMAE": 36.5,
+          "deathsMeanError": -17.8,
+          "netMigrationMAE": 715.9,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.3,
+            "populationMAE": 502,
+            "populationMeanError": 499.8,
+            "birthsMAE": 82.8,
+            "birthsMeanError": 82.8,
+            "deathsMAE": 51.7,
+            "deathsMeanError": -16.3,
+            "netMigrationMAE": 472.5
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.9,
+            "populationMAE": 1421.3,
+            "populationMeanError": 1421.3,
+            "birthsMAE": 171.5,
+            "birthsMeanError": 171.5,
+            "deathsMAE": 37.7,
+            "deathsMeanError": -25.4,
+            "netMigrationMAE": 792.5
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 1.5,
+            "populationMAE": 2508.8,
+            "populationMeanError": 2508.8,
+            "birthsMAE": 249.1,
+            "birthsMeanError": 249.1,
+            "deathsMAE": 20,
+            "deathsMeanError": -11.7,
+            "netMigrationMAE": 882.8
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.3,
+              "populationMAE": 502,
+              "populationMeanError": 499.8,
+              "birthsMAE": 82.8,
+              "birthsMeanError": 82.8,
+              "deathsMAE": 51.7,
+              "deathsMeanError": -16.3,
+              "netMigrationMAE": 472.5
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.9,
+              "populationMAE": 1421.3,
+              "populationMeanError": 1421.3,
+              "birthsMAE": 171.5,
+              "birthsMeanError": 171.5,
+              "deathsMAE": 37.7,
+              "deathsMeanError": -25.4,
+              "netMigrationMAE": 792.5
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 1.5,
+              "populationMAE": 2508.8,
+              "populationMeanError": 2508.8,
+              "birthsMAE": 249.1,
+              "birthsMeanError": 249.1,
+              "deathsMAE": 20,
+              "deathsMeanError": -11.7,
+              "netMigrationMAE": 882.8
+            }
+          }
+        },
+        "wls": {
+          "observations": 12,
+          "populationMAPE": 0.9,
+          "populationMAE": 1457.1,
+          "populationMeanError": 1454.5,
+          "birthsMAE": 167.7,
+          "birthsMeanError": 167.7,
+          "deathsMAE": 33.5,
+          "deathsMeanError": -6.8,
+          "netMigrationMAE": 715.9,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.3,
+            "populationMAE": 496.5,
+            "populationMeanError": 488.9,
+            "birthsMAE": 82.8,
+            "birthsMeanError": 82.8,
+            "deathsMAE": 48.1,
+            "deathsMeanError": -5.4,
+            "netMigrationMAE": 472.5
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.8,
+            "populationMAE": 1399.2,
+            "populationMeanError": 1399.2,
+            "birthsMAE": 171.5,
+            "birthsMeanError": 171.5,
+            "deathsMAE": 36.8,
+            "deathsMeanError": -14.3,
+            "netMigrationMAE": 792.5
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 1.5,
+            "populationMAE": 2475.5,
+            "populationMeanError": 2475.5,
+            "birthsMAE": 249,
+            "birthsMeanError": 249,
+            "deathsMAE": 15.6,
+            "deathsMeanError": -0.7,
+            "netMigrationMAE": 882.8
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.3,
+              "populationMAE": 496.5,
+              "populationMeanError": 488.9,
+              "birthsMAE": 82.8,
+              "birthsMeanError": 82.8,
+              "deathsMAE": 48.1,
+              "deathsMeanError": -5.4,
+              "netMigrationMAE": 472.5
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.8,
+              "populationMAE": 1399.2,
+              "populationMeanError": 1399.2,
+              "birthsMAE": 171.5,
+              "birthsMeanError": 171.5,
+              "deathsMAE": 36.8,
+              "deathsMeanError": -14.3,
+              "netMigrationMAE": 792.5
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 1.5,
+              "populationMAE": 2475.5,
+              "populationMeanError": 2475.5,
+              "birthsMAE": 249,
+              "birthsMeanError": 249,
+              "deathsMAE": 15.6,
+              "deathsMeanError": -0.7,
+              "netMigrationMAE": 882.8
+            }
+          }
+        },
+        "byOrigin": {
+          "2018": {
+            "current": {
+              "observations": 3,
+              "populationMAPE": 0.4,
+              "populationMAE": 601.5,
+              "populationMeanError": 598.7,
+              "birthsMAE": 110.5,
+              "birthsMeanError": 110.5,
+              "deathsMAE": 37.4,
+              "deathsMeanError": 9.9,
+              "netMigrationMAE": 398.4,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0,
+                "populationMAE": 4.3,
+                "populationMeanError": -4.3,
+                "birthsMAE": 33.1,
+                "birthsMeanError": 33.1,
+                "deathsMAE": 70.9,
+                "deathsMeanError": 70.9,
+                "netMigrationMAE": 69.4
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 0.3,
+                "populationMAE": 508.2,
+                "populationMeanError": 508.2,
+                "birthsMAE": 128.8,
+                "birthsMeanError": 128.8,
+                "deathsMAE": 25.3,
+                "deathsMeanError": -25.3,
+                "netMigrationMAE": 385.4
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 0.8,
+                "populationMAE": 1292.1,
+                "populationMeanError": 1292.1,
+                "birthsMAE": 169.6,
+                "birthsMeanError": 169.6,
+                "deathsMAE": 16,
+                "deathsMeanError": -16,
+                "netMigrationMAE": 740.4
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0,
+                  "populationMAE": 4.3,
+                  "populationMeanError": -4.3,
+                  "birthsMAE": 33.1,
+                  "birthsMeanError": 33.1,
+                  "deathsMAE": 70.9,
+                  "deathsMeanError": 70.9,
+                  "netMigrationMAE": 69.4
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 0.3,
+                  "populationMAE": 508.2,
+                  "populationMeanError": 508.2,
+                  "birthsMAE": 128.8,
+                  "birthsMeanError": 128.8,
+                  "deathsMAE": 25.3,
+                  "deathsMeanError": -25.3,
+                  "netMigrationMAE": 385.4
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 0.8,
+                  "populationMAE": 1292.1,
+                  "populationMeanError": 1292.1,
+                  "birthsMAE": 169.6,
+                  "birthsMeanError": 169.6,
+                  "deathsMAE": 16,
+                  "deathsMeanError": -16,
+                  "netMigrationMAE": 740.4
+                }
+              }
+            },
+            "wls": {
+              "observations": 3,
+              "populationMAPE": 0.4,
+              "populationMAE": 587.5,
+              "populationMeanError": 577.4,
+              "birthsMAE": 110.5,
+              "birthsMeanError": 110.5,
+              "deathsMAE": 34.1,
+              "deathsMeanError": 20.3,
+              "netMigrationMAE": 398.4,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0,
+                "populationMAE": 15.1,
+                "populationMeanError": -15.1,
+                "birthsMAE": 33.1,
+                "birthsMeanError": 33.1,
+                "deathsMAE": 81.6,
+                "deathsMeanError": 81.6,
+                "netMigrationMAE": 69.4
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 0.3,
+                "populationMAE": 486.7,
+                "populationMeanError": 486.7,
+                "birthsMAE": 128.8,
+                "birthsMeanError": 128.8,
+                "deathsMAE": 14.6,
+                "deathsMeanError": -14.6,
+                "netMigrationMAE": 385.4
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 0.8,
+                "populationMAE": 1260.6,
+                "populationMeanError": 1260.6,
+                "birthsMAE": 169.5,
+                "birthsMeanError": 169.5,
+                "deathsMAE": 6,
+                "deathsMeanError": -6,
+                "netMigrationMAE": 740.4
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0,
+                  "populationMAE": 15.1,
+                  "populationMeanError": -15.1,
+                  "birthsMAE": 33.1,
+                  "birthsMeanError": 33.1,
+                  "deathsMAE": 81.6,
+                  "deathsMeanError": 81.6,
+                  "netMigrationMAE": 69.4
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 0.3,
+                  "populationMAE": 486.7,
+                  "populationMeanError": 486.7,
+                  "birthsMAE": 128.8,
+                  "birthsMeanError": 128.8,
+                  "deathsMAE": 14.6,
+                  "deathsMeanError": -14.6,
+                  "netMigrationMAE": 385.4
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 0.8,
+                  "populationMAE": 1260.6,
+                  "populationMeanError": 1260.6,
+                  "birthsMAE": 169.5,
+                  "birthsMeanError": 169.5,
+                  "deathsMAE": 6,
+                  "deathsMeanError": -6,
+                  "netMigrationMAE": 740.4
+                }
+              }
+            }
+          },
+          "2019": {
+            "current": {
+              "observations": 3,
+              "populationMAPE": 0.8,
+              "populationMAE": 1316.3,
+              "populationMeanError": 1316.3,
+              "birthsMAE": 206.5,
+              "birthsMeanError": 206.5,
+              "deathsMAE": 16.7,
+              "deathsMeanError": -16.7,
+              "netMigrationMAE": 606.4,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.3,
+                "populationMAE": 479,
+                "populationMeanError": 479,
+                "birthsMAE": 112.3,
+                "birthsMeanError": 112.3,
+                "deathsMAE": 8.7,
+                "deathsMeanError": -8.7,
+                "netMigrationMAE": 385.1
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 0.7,
+                "populationMAE": 1231.8,
+                "populationMeanError": 1231.8,
+                "birthsMAE": 152.7,
+                "birthsMeanError": 152.7,
+                "deathsMAE": 2,
+                "deathsMeanError": -2,
+                "netMigrationMAE": 740.1
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 1.3,
+                "populationMAE": 2238,
+                "populationMeanError": 2238,
+                "birthsMAE": 354.6,
+                "birthsMeanError": 354.6,
+                "deathsMAE": 39.5,
+                "deathsMeanError": -39.5,
+                "netMigrationMAE": 694.1
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.3,
+                  "populationMAE": 479,
+                  "populationMeanError": 479,
+                  "birthsMAE": 112.3,
+                  "birthsMeanError": 112.3,
+                  "deathsMAE": 8.7,
+                  "deathsMeanError": -8.7,
+                  "netMigrationMAE": 385.1
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 0.7,
+                  "populationMAE": 1231.8,
+                  "populationMeanError": 1231.8,
+                  "birthsMAE": 152.7,
+                  "birthsMeanError": 152.7,
+                  "deathsMAE": 2,
+                  "deathsMeanError": -2,
+                  "netMigrationMAE": 740.1
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 1.3,
+                  "populationMAE": 2238,
+                  "populationMeanError": 2238,
+                  "birthsMAE": 354.6,
+                  "birthsMeanError": 354.6,
+                  "deathsMAE": 39.5,
+                  "deathsMeanError": -39.5,
+                  "netMigrationMAE": 694.1
+                }
+              }
+            },
+            "wls": {
+              "observations": 3,
+              "populationMAPE": 0.8,
+              "populationMAE": 1291.2,
+              "populationMeanError": 1291.2,
+              "birthsMAE": 206.5,
+              "birthsMeanError": 206.5,
+              "deathsMAE": 13.6,
+              "deathsMeanError": -4.1,
+              "netMigrationMAE": 606.4,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.3,
+                "populationMAE": 466.7,
+                "populationMeanError": 466.7,
+                "birthsMAE": 112.3,
+                "birthsMeanError": 112.3,
+                "deathsMAE": 3.7,
+                "deathsMeanError": 3.7,
+                "netMigrationMAE": 385.1
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 0.7,
+                "populationMAE": 1206.8,
+                "populationMeanError": 1206.8,
+                "birthsMAE": 152.6,
+                "birthsMeanError": 152.6,
+                "deathsMAE": 10.6,
+                "deathsMeanError": 10.6,
+                "netMigrationMAE": 740.1
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 1.3,
+                "populationMAE": 2200,
+                "populationMeanError": 2200,
+                "birthsMAE": 354.5,
+                "birthsMeanError": 354.5,
+                "deathsMAE": 26.6,
+                "deathsMeanError": -26.6,
+                "netMigrationMAE": 694.1
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.3,
+                  "populationMAE": 466.7,
+                  "populationMeanError": 466.7,
+                  "birthsMAE": 112.3,
+                  "birthsMeanError": 112.3,
+                  "deathsMAE": 3.7,
+                  "deathsMeanError": 3.7,
+                  "netMigrationMAE": 385.1
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 0.7,
+                  "populationMAE": 1206.8,
+                  "populationMeanError": 1206.8,
+                  "birthsMAE": 152.6,
+                  "birthsMeanError": 152.6,
+                  "deathsMAE": 10.6,
+                  "deathsMeanError": 10.6,
+                  "netMigrationMAE": 740.1
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 1.3,
+                  "populationMAE": 2200,
+                  "populationMeanError": 2200,
+                  "birthsMAE": 354.5,
+                  "birthsMeanError": 354.5,
+                  "deathsMAE": 26.6,
+                  "deathsMeanError": -26.6,
+                  "netMigrationMAE": 694.1
+                }
+              }
+            }
+          },
+          "2020": {
+            "current": {
+              "observations": 3,
+              "populationMAPE": 1.1,
+              "populationMAE": 1903.5,
+              "populationMeanError": 1903.5,
+              "birthsMAE": 196.3,
+              "birthsMeanError": 196.3,
+              "deathsMAE": 57.9,
+              "deathsMeanError": -57.9,
+              "netMigrationMAE": 932.5,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.4,
+                "populationMAE": 721.1,
+                "populationMeanError": 721.1,
+                "birthsMAE": 51.7,
+                "birthsMeanError": 51.7,
+                "deathsMAE": 66.6,
+                "deathsMeanError": -66.6,
+                "netMigrationMAE": 744.8
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 1,
+                "populationMAE": 1674.3,
+                "populationMeanError": 1674.3,
+                "birthsMAE": 237.3,
+                "birthsMeanError": 237.3,
+                "deathsMAE": 99,
+                "deathsMeanError": -99,
+                "netMigrationMAE": 698.8
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 2,
+                "populationMAE": 3315.1,
+                "populationMeanError": 3315.1,
+                "birthsMAE": 300,
+                "birthsMeanError": 300,
+                "deathsMAE": 8,
+                "deathsMeanError": -8,
+                "netMigrationMAE": 1353.8
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.4,
+                  "populationMAE": 721.1,
+                  "populationMeanError": 721.1,
+                  "birthsMAE": 51.7,
+                  "birthsMeanError": 51.7,
+                  "deathsMAE": 66.6,
+                  "deathsMeanError": -66.6,
+                  "netMigrationMAE": 744.8
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 1,
+                  "populationMAE": 1674.3,
+                  "populationMeanError": 1674.3,
+                  "birthsMAE": 237.3,
+                  "birthsMeanError": 237.3,
+                  "deathsMAE": 99,
+                  "deathsMeanError": -99,
+                  "netMigrationMAE": 698.8
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 2,
+                  "populationMAE": 3315.1,
+                  "populationMeanError": 3315.1,
+                  "birthsMAE": 300,
+                  "birthsMeanError": 300,
+                  "deathsMAE": 8,
+                  "deathsMeanError": -8,
+                  "netMigrationMAE": 1353.8
+                }
+              }
+            },
+            "wls": {
+              "observations": 3,
+              "populationMAPE": 1.1,
+              "populationMAE": 1880.6,
+              "populationMeanError": 1880.6,
+              "birthsMAE": 196.3,
+              "birthsMeanError": 196.3,
+              "deathsMAE": 48.7,
+              "deathsMeanError": -46.5,
+              "netMigrationMAE": 932.5,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.4,
+                "populationMAE": 709.8,
+                "populationMeanError": 709.8,
+                "birthsMAE": 51.7,
+                "birthsMeanError": 51.7,
+                "deathsMAE": 55.3,
+                "deathsMeanError": -55.3,
+                "netMigrationMAE": 744.8
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 1,
+                "populationMAE": 1651.3,
+                "populationMeanError": 1651.3,
+                "birthsMAE": 237.3,
+                "birthsMeanError": 237.3,
+                "deathsMAE": 87.5,
+                "deathsMeanError": -87.5,
+                "netMigrationMAE": 698.8
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 2,
+                "populationMAE": 3280.7,
+                "populationMeanError": 3280.7,
+                "birthsMAE": 299.9,
+                "birthsMeanError": 299.9,
+                "deathsMAE": 3.3,
+                "deathsMeanError": 3.3,
+                "netMigrationMAE": 1353.8
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.4,
+                  "populationMAE": 709.8,
+                  "populationMeanError": 709.8,
+                  "birthsMAE": 51.7,
+                  "birthsMeanError": 51.7,
+                  "deathsMAE": 55.3,
+                  "deathsMeanError": -55.3,
+                  "netMigrationMAE": 744.8
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 1,
+                  "populationMAE": 1651.3,
+                  "populationMeanError": 1651.3,
+                  "birthsMAE": 237.3,
+                  "birthsMeanError": 237.3,
+                  "deathsMAE": 87.5,
+                  "deathsMeanError": -87.5,
+                  "netMigrationMAE": 698.8
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 2,
+                  "populationMAE": 3280.7,
+                  "populationMeanError": 3280.7,
+                  "birthsMAE": 299.9,
+                  "birthsMeanError": 299.9,
+                  "deathsMAE": 3.3,
+                  "deathsMeanError": 3.3,
+                  "netMigrationMAE": 1353.8
+                }
+              }
+            }
+          },
+          "2021": {
+            "current": {
+              "observations": 3,
+              "populationMAPE": 1.3,
+              "populationMAE": 2088,
+              "populationMeanError": 2088,
+              "birthsMAE": 157.7,
+              "birthsMeanError": 157.7,
+              "deathsMAE": 34,
+              "deathsMeanError": -6.5,
+              "netMigrationMAE": 926.4,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.5,
+                "populationMAE": 803.4,
+                "populationMeanError": 803.4,
+                "birthsMAE": 133.9,
+                "birthsMeanError": 133.9,
+                "deathsMAE": 60.7,
+                "deathsMeanError": -60.7,
+                "netMigrationMAE": 690.7
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 1.4,
+                "populationMAE": 2270.7,
+                "populationMeanError": 2270.7,
+                "birthsMAE": 167.3,
+                "birthsMeanError": 167.3,
+                "deathsMAE": 24.6,
+                "deathsMeanError": 24.6,
+                "netMigrationMAE": 1345.7
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 1.9,
+                "populationMAE": 3189.9,
+                "populationMeanError": 3189.9,
+                "birthsMAE": 172,
+                "birthsMeanError": 172,
+                "deathsMAE": 16.6,
+                "deathsMeanError": 16.6,
+                "netMigrationMAE": 742.7
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.5,
+                  "populationMAE": 803.4,
+                  "populationMeanError": 803.4,
+                  "birthsMAE": 133.9,
+                  "birthsMeanError": 133.9,
+                  "deathsMAE": 60.7,
+                  "deathsMeanError": -60.7,
+                  "netMigrationMAE": 690.7
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 1.4,
+                  "populationMAE": 2270.7,
+                  "populationMeanError": 2270.7,
+                  "birthsMAE": 167.3,
+                  "birthsMeanError": 167.3,
+                  "deathsMAE": 24.6,
+                  "deathsMeanError": 24.6,
+                  "netMigrationMAE": 1345.7
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 1.9,
+                  "populationMAE": 3189.9,
+                  "populationMeanError": 3189.9,
+                  "birthsMAE": 172,
+                  "birthsMeanError": 172,
+                  "deathsMAE": 16.6,
+                  "deathsMeanError": 16.6,
+                  "netMigrationMAE": 742.7
+                }
+              }
+            },
+            "wls": {
+              "observations": 3,
+              "populationMAPE": 1.2,
+              "populationMAE": 2069,
+              "populationMeanError": 2069,
+              "birthsMAE": 157.7,
+              "birthsMeanError": 157.7,
+              "deathsMAE": 37.5,
+              "deathsMeanError": 3.1,
+              "netMigrationMAE": 926.4,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.5,
+                "populationMAE": 794.2,
+                "populationMeanError": 794.2,
+                "birthsMAE": 133.9,
+                "birthsMeanError": 133.9,
+                "deathsMAE": 51.6,
+                "deathsMeanError": -51.6,
+                "netMigrationMAE": 690.7
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 1.3,
+                "populationMAE": 2251.9,
+                "populationMeanError": 2251.9,
+                "birthsMAE": 167.2,
+                "birthsMeanError": 167.2,
+                "deathsMAE": 34.3,
+                "deathsMeanError": 34.3,
+                "netMigrationMAE": 1345.7
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 1.9,
+                "populationMAE": 3160.9,
+                "populationMeanError": 3160.9,
+                "birthsMAE": 171.9,
+                "birthsMeanError": 171.9,
+                "deathsMAE": 26.5,
+                "deathsMeanError": 26.5,
+                "netMigrationMAE": 742.7
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.5,
+                  "populationMAE": 794.2,
+                  "populationMeanError": 794.2,
+                  "birthsMAE": 133.9,
+                  "birthsMeanError": 133.9,
+                  "deathsMAE": 51.6,
+                  "deathsMeanError": -51.6,
+                  "netMigrationMAE": 690.7
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 1.3,
+                  "populationMAE": 2251.9,
+                  "populationMeanError": 2251.9,
+                  "birthsMAE": 167.2,
+                  "birthsMeanError": 167.2,
+                  "deathsMAE": 34.3,
+                  "deathsMeanError": 34.3,
+                  "netMigrationMAE": 1345.7
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 1.9,
+                  "populationMAE": 3160.9,
+                  "populationMeanError": 3160.9,
+                  "birthsMAE": 171.9,
+                  "birthsMeanError": 171.9,
+                  "deathsMAE": 26.5,
+                  "deathsMeanError": 26.5,
+                  "netMigrationMAE": 742.7
+                }
+              }
+            }
+          }
+        }
       }
     },
     "FA42_SUN": {
@@ -22253,7 +23859,872 @@
             }
           }
         }
+      },
+      "mortalityWlsExternal": {
+        "window": 10,
+        "current": {
+          "observations": 12,
+          "populationMAPE": 0.6,
+          "populationMAE": 923.7,
+          "populationMeanError": 890.5,
+          "birthsMAE": 96.6,
+          "birthsMeanError": 79.9,
+          "deathsMAE": 55.1,
+          "deathsMeanError": -12.1,
+          "netMigrationMAE": 453,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.3,
+            "populationMAE": 402.8,
+            "populationMeanError": 303.1,
+            "birthsMAE": 56.1,
+            "birthsMeanError": 6,
+            "deathsMAE": 76.1,
+            "deathsMeanError": -7.8,
+            "netMigrationMAE": 339.3
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.6,
+            "populationMAE": 876,
+            "populationMeanError": 876,
+            "birthsMAE": 82.7,
+            "birthsMeanError": 82.7,
+            "deathsMAE": 66.4,
+            "deathsMeanError": -25.7,
+            "netMigrationMAE": 514
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 1,
+            "populationMAE": 1492.4,
+            "populationMeanError": 1492.4,
+            "birthsMAE": 151.1,
+            "birthsMeanError": 151.1,
+            "deathsMAE": 22.9,
+            "deathsMeanError": -2.7,
+            "netMigrationMAE": 505.8
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.3,
+              "populationMAE": 402.8,
+              "populationMeanError": 303.1,
+              "birthsMAE": 56.1,
+              "birthsMeanError": 6,
+              "deathsMAE": 76.1,
+              "deathsMeanError": -7.8,
+              "netMigrationMAE": 339.3
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.6,
+              "populationMAE": 876,
+              "populationMeanError": 876,
+              "birthsMAE": 82.7,
+              "birthsMeanError": 82.7,
+              "deathsMAE": 66.4,
+              "deathsMeanError": -25.7,
+              "netMigrationMAE": 514
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 1,
+              "populationMAE": 1492.4,
+              "populationMeanError": 1492.4,
+              "birthsMAE": 151.1,
+              "birthsMeanError": 151.1,
+              "deathsMAE": 22.9,
+              "deathsMeanError": -2.7,
+              "netMigrationMAE": 505.8
+            }
+          }
+        },
+        "wls": {
+          "observations": 12,
+          "populationMAPE": 0.6,
+          "populationMAE": 918.2,
+          "populationMeanError": 884.3,
+          "birthsMAE": 96.6,
+          "birthsMeanError": 79.9,
+          "deathsMAE": 55.3,
+          "deathsMeanError": -8.9,
+          "netMigrationMAE": 453,
+          "oneYear": {
+            "observations": 4,
+            "populationMAPE": 0.3,
+            "populationMAE": 402,
+            "populationMeanError": 300.1,
+            "birthsMAE": 56.1,
+            "birthsMeanError": 6,
+            "deathsMAE": 75.3,
+            "deathsMeanError": -4.8,
+            "netMigrationMAE": 339.3
+          },
+          "twoYear": {
+            "observations": 4,
+            "populationMAPE": 0.6,
+            "populationMAE": 870,
+            "populationMeanError": 870,
+            "birthsMAE": 82.7,
+            "birthsMeanError": 82.7,
+            "deathsMAE": 66.3,
+            "deathsMeanError": -22.7,
+            "netMigrationMAE": 514
+          },
+          "threeYear": {
+            "observations": 4,
+            "populationMAPE": 1,
+            "populationMAE": 1482.7,
+            "populationMeanError": 1482.7,
+            "birthsMAE": 151,
+            "birthsMeanError": 151,
+            "deathsMAE": 24.4,
+            "deathsMeanError": 0.9,
+            "netMigrationMAE": 505.8
+          },
+          "byHorizon": {
+            "1": {
+              "observations": 4,
+              "populationMAPE": 0.3,
+              "populationMAE": 402,
+              "populationMeanError": 300.1,
+              "birthsMAE": 56.1,
+              "birthsMeanError": 6,
+              "deathsMAE": 75.3,
+              "deathsMeanError": -4.8,
+              "netMigrationMAE": 339.3
+            },
+            "2": {
+              "observations": 4,
+              "populationMAPE": 0.6,
+              "populationMAE": 870,
+              "populationMeanError": 870,
+              "birthsMAE": 82.7,
+              "birthsMeanError": 82.7,
+              "deathsMAE": 66.3,
+              "deathsMeanError": -22.7,
+              "netMigrationMAE": 514
+            },
+            "3": {
+              "observations": 4,
+              "populationMAPE": 1,
+              "populationMAE": 1482.7,
+              "populationMeanError": 1482.7,
+              "birthsMAE": 151,
+              "birthsMeanError": 151,
+              "deathsMAE": 24.4,
+              "deathsMeanError": 0.9,
+              "netMigrationMAE": 505.8
+            }
+          }
+        },
+        "byOrigin": {
+          "2018": {
+            "current": {
+              "observations": 3,
+              "populationMAPE": 0.3,
+              "populationMAE": 427.3,
+              "populationMeanError": 294.3,
+              "birthsMAE": 58.7,
+              "birthsMeanError": 24.2,
+              "deathsMAE": 78.7,
+              "deathsMeanError": 29,
+              "netMigrationMAE": 319,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.1,
+                "populationMAE": 199.4,
+                "populationMeanError": -199.4,
+                "birthsMAE": 51.8,
+                "birthsMeanError": -51.8,
+                "deathsMAE": 136.6,
+                "deathsMeanError": 136.6,
+                "netMigrationMAE": 37
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 0.2,
+                "populationMAE": 290.1,
+                "populationMeanError": 290.1,
+                "birthsMAE": 74,
+                "birthsMeanError": 74,
+                "deathsMAE": 74.5,
+                "deathsMeanError": -74.5,
+                "netMigrationMAE": 361
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 0.5,
+                "populationMAE": 792.3,
+                "populationMeanError": 792.3,
+                "birthsMAE": 50.3,
+                "birthsMeanError": 50.3,
+                "deathsMAE": 25,
+                "deathsMeanError": 25,
+                "netMigrationMAE": 559
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.1,
+                  "populationMAE": 199.4,
+                  "populationMeanError": -199.4,
+                  "birthsMAE": 51.8,
+                  "birthsMeanError": -51.8,
+                  "deathsMAE": 136.6,
+                  "deathsMeanError": 136.6,
+                  "netMigrationMAE": 37
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 0.2,
+                  "populationMAE": 290.1,
+                  "populationMeanError": 290.1,
+                  "birthsMAE": 74,
+                  "birthsMeanError": 74,
+                  "deathsMAE": 74.5,
+                  "deathsMeanError": -74.5,
+                  "netMigrationMAE": 361
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 0.5,
+                  "populationMAE": 792.3,
+                  "populationMeanError": 792.3,
+                  "birthsMAE": 50.3,
+                  "birthsMeanError": 50.3,
+                  "deathsMAE": 25,
+                  "deathsMeanError": 25,
+                  "netMigrationMAE": 559
+                }
+              }
+            },
+            "wls": {
+              "observations": 3,
+              "populationMAPE": 0.3,
+              "populationMAE": 421.1,
+              "populationMeanError": 285.2,
+              "birthsMAE": 58.7,
+              "birthsMeanError": 24.1,
+              "deathsMAE": 80.3,
+              "deathsMeanError": 33.7,
+              "netMigrationMAE": 319,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.1,
+                "populationMAE": 203.8,
+                "populationMeanError": -203.8,
+                "birthsMAE": 51.8,
+                "birthsMeanError": -51.8,
+                "deathsMAE": 140.9,
+                "deathsMeanError": 140.9,
+                "netMigrationMAE": 37
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 0.2,
+                "populationMAE": 281.1,
+                "populationMeanError": 281.1,
+                "birthsMAE": 74,
+                "birthsMeanError": 74,
+                "deathsMAE": 69.9,
+                "deathsMeanError": -69.9,
+                "netMigrationMAE": 361
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 0.5,
+                "populationMAE": 778.4,
+                "populationMeanError": 778.4,
+                "birthsMAE": 50.2,
+                "birthsMeanError": 50.2,
+                "deathsMAE": 30,
+                "deathsMeanError": 30,
+                "netMigrationMAE": 559
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.1,
+                  "populationMAE": 203.8,
+                  "populationMeanError": -203.8,
+                  "birthsMAE": 51.8,
+                  "birthsMeanError": -51.8,
+                  "deathsMAE": 140.9,
+                  "deathsMeanError": 140.9,
+                  "netMigrationMAE": 37
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 0.2,
+                  "populationMAE": 281.1,
+                  "populationMeanError": 281.1,
+                  "birthsMAE": 74,
+                  "birthsMeanError": 74,
+                  "deathsMAE": 69.9,
+                  "deathsMeanError": -69.9,
+                  "netMigrationMAE": 361
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 0.5,
+                  "populationMAE": 778.4,
+                  "populationMeanError": 778.4,
+                  "birthsMAE": 50.2,
+                  "birthsMeanError": 50.2,
+                  "deathsMAE": 30,
+                  "deathsMeanError": 30,
+                  "netMigrationMAE": 559
+                }
+              }
+            }
+          },
+          "2019": {
+            "current": {
+              "observations": 3,
+              "populationMAPE": 0.7,
+              "populationMAE": 1011.4,
+              "populationMeanError": 1011.4,
+              "birthsMAE": 112.1,
+              "birthsMeanError": 112.1,
+              "deathsMAE": 49.4,
+              "deathsMeanError": -24.6,
+              "netMigrationMAE": 458.7,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.3,
+                "populationMAE": 462.6,
+                "populationMeanError": 462.6,
+                "birthsMAE": 63.1,
+                "birthsMeanError": 63.1,
+                "deathsMAE": 62.1,
+                "deathsMeanError": -62.1,
+                "netMigrationMAE": 357.4
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 0.6,
+                "populationMAE": 937.1,
+                "populationMeanError": 937.1,
+                "birthsMAE": 38.3,
+                "birthsMeanError": 38.3,
+                "deathsMAE": 37.2,
+                "deathsMeanError": 37.2,
+                "netMigrationMAE": 555.4
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 1.1,
+                "populationMAE": 1634.5,
+                "populationMeanError": 1634.5,
+                "birthsMAE": 235,
+                "birthsMeanError": 235,
+                "deathsMAE": 49,
+                "deathsMeanError": -49,
+                "netMigrationMAE": 463.4
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.3,
+                  "populationMAE": 462.6,
+                  "populationMeanError": 462.6,
+                  "birthsMAE": 63.1,
+                  "birthsMeanError": 63.1,
+                  "deathsMAE": 62.1,
+                  "deathsMeanError": -62.1,
+                  "netMigrationMAE": 357.4
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 0.6,
+                  "populationMAE": 937.1,
+                  "populationMeanError": 937.1,
+                  "birthsMAE": 38.3,
+                  "birthsMeanError": 38.3,
+                  "deathsMAE": 37.2,
+                  "deathsMeanError": 37.2,
+                  "netMigrationMAE": 555.4
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 1.1,
+                  "populationMAE": 1634.5,
+                  "populationMeanError": 1634.5,
+                  "birthsMAE": 235,
+                  "birthsMeanError": 235,
+                  "deathsMAE": 49,
+                  "deathsMeanError": -49,
+                  "netMigrationMAE": 463.4
+                }
+              }
+            },
+            "wls": {
+              "observations": 3,
+              "populationMAPE": 0.7,
+              "populationMAE": 1006.7,
+              "populationMeanError": 1006.7,
+              "birthsMAE": 112.1,
+              "birthsMeanError": 112.1,
+              "deathsMAE": 48.6,
+              "deathsMeanError": -22.3,
+              "netMigrationMAE": 458.7,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.3,
+                "populationMAE": 460,
+                "populationMeanError": 460,
+                "birthsMAE": 63.1,
+                "birthsMeanError": 63.1,
+                "deathsMAE": 59.5,
+                "deathsMeanError": -59.5,
+                "netMigrationMAE": 357.4
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 0.6,
+                "populationMAE": 932.4,
+                "populationMeanError": 932.4,
+                "birthsMAE": 38.3,
+                "birthsMeanError": 38.3,
+                "deathsMAE": 39.4,
+                "deathsMeanError": 39.4,
+                "netMigrationMAE": 555.4
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 1.1,
+                "populationMAE": 1627.6,
+                "populationMeanError": 1627.6,
+                "birthsMAE": 234.9,
+                "birthsMeanError": 234.9,
+                "deathsMAE": 46.9,
+                "deathsMeanError": -46.9,
+                "netMigrationMAE": 463.4
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.3,
+                  "populationMAE": 460,
+                  "populationMeanError": 460,
+                  "birthsMAE": 63.1,
+                  "birthsMeanError": 63.1,
+                  "deathsMAE": 59.5,
+                  "deathsMeanError": -59.5,
+                  "netMigrationMAE": 357.4
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 0.6,
+                  "populationMAE": 932.4,
+                  "populationMeanError": 932.4,
+                  "birthsMAE": 38.3,
+                  "birthsMeanError": 38.3,
+                  "deathsMAE": 39.4,
+                  "deathsMeanError": 39.4,
+                  "netMigrationMAE": 555.4
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 1.1,
+                  "populationMAE": 1627.6,
+                  "populationMeanError": 1627.6,
+                  "birthsMAE": 234.9,
+                  "birthsMeanError": 234.9,
+                  "deathsMAE": 46.9,
+                  "deathsMeanError": -46.9,
+                  "netMigrationMAE": 463.4
+                }
+              }
+            }
+          },
+          "2020": {
+            "current": {
+              "observations": 3,
+              "populationMAPE": 0.8,
+              "populationMAE": 1151.5,
+              "populationMeanError": 1151.5,
+              "birthsMAE": 121.4,
+              "birthsMeanError": 89.2,
+              "deathsMAE": 51.2,
+              "deathsMeanError": -41.1,
+              "netMigrationMAE": 571,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.3,
+                "populationMAE": 441.1,
+                "populationMeanError": 441.1,
+                "birthsMAE": 48.3,
+                "birthsMeanError": -48.3,
+                "deathsMAE": 28.7,
+                "deathsMeanError": -28.7,
+                "netMigrationMAE": 542.7
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 0.7,
+                "populationMAE": 1087.5,
+                "populationMeanError": 1087.5,
+                "birthsMAE": 136,
+                "birthsMeanError": 136,
+                "deathsMAE": 109.7,
+                "deathsMeanError": -109.7,
+                "netMigrationMAE": 450.7
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 1.3,
+                "populationMAE": 1926,
+                "populationMeanError": 1926,
+                "birthsMAE": 179.9,
+                "birthsMeanError": 179.9,
+                "deathsMAE": 15.2,
+                "deathsMeanError": 15.2,
+                "netMigrationMAE": 719.7
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.3,
+                  "populationMAE": 441.1,
+                  "populationMeanError": 441.1,
+                  "birthsMAE": 48.3,
+                  "birthsMeanError": -48.3,
+                  "deathsMAE": 28.7,
+                  "deathsMeanError": -28.7,
+                  "netMigrationMAE": 542.7
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 0.7,
+                  "populationMAE": 1087.5,
+                  "populationMeanError": 1087.5,
+                  "birthsMAE": 136,
+                  "birthsMeanError": 136,
+                  "deathsMAE": 109.7,
+                  "deathsMeanError": -109.7,
+                  "netMigrationMAE": 450.7
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 1.3,
+                  "populationMAE": 1926,
+                  "populationMeanError": 1926,
+                  "birthsMAE": 179.9,
+                  "birthsMeanError": 179.9,
+                  "deathsMAE": 15.2,
+                  "deathsMeanError": 15.2,
+                  "netMigrationMAE": 719.7
+                }
+              }
+            },
+            "wls": {
+              "observations": 3,
+              "populationMAPE": 0.8,
+              "populationMAE": 1147.6,
+              "populationMeanError": 1147.6,
+              "birthsMAE": 121.4,
+              "birthsMeanError": 89.2,
+              "deathsMAE": 50.9,
+              "deathsMeanError": -39.1,
+              "netMigrationMAE": 571,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.3,
+                "populationMAE": 439.2,
+                "populationMeanError": 439.2,
+                "birthsMAE": 48.3,
+                "birthsMeanError": -48.3,
+                "deathsMAE": 26.8,
+                "deathsMeanError": -26.8,
+                "netMigrationMAE": 542.7
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 0.7,
+                "populationMAE": 1083.9,
+                "populationMeanError": 1083.9,
+                "birthsMAE": 135.9,
+                "birthsMeanError": 135.9,
+                "deathsMAE": 108.1,
+                "deathsMeanError": -108.1,
+                "netMigrationMAE": 450.7
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 1.3,
+                "populationMAE": 1919.8,
+                "populationMeanError": 1919.8,
+                "birthsMAE": 179.9,
+                "birthsMeanError": 179.9,
+                "deathsMAE": 17.7,
+                "deathsMeanError": 17.7,
+                "netMigrationMAE": 719.7
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.3,
+                  "populationMAE": 439.2,
+                  "populationMeanError": 439.2,
+                  "birthsMAE": 48.3,
+                  "birthsMeanError": -48.3,
+                  "deathsMAE": 26.8,
+                  "deathsMeanError": -26.8,
+                  "netMigrationMAE": 542.7
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 0.7,
+                  "populationMAE": 1083.9,
+                  "populationMeanError": 1083.9,
+                  "birthsMAE": 135.9,
+                  "birthsMeanError": 135.9,
+                  "deathsMAE": 108.1,
+                  "deathsMeanError": -108.1,
+                  "netMigrationMAE": 450.7
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 1.3,
+                  "populationMAE": 1919.8,
+                  "populationMeanError": 1919.8,
+                  "birthsMAE": 179.9,
+                  "birthsMeanError": 179.9,
+                  "deathsMAE": 17.7,
+                  "deathsMeanError": 17.7,
+                  "netMigrationMAE": 719.7
+                }
+              }
+            }
+          },
+          "2021": {
+            "current": {
+              "observations": 3,
+              "populationMAPE": 0.7,
+              "populationMAE": 1104.7,
+              "populationMeanError": 1104.7,
+              "birthsMAE": 94.2,
+              "birthsMeanError": 94.2,
+              "deathsMAE": 41.1,
+              "deathsMeanError": -11.7,
+              "netMigrationMAE": 463.3,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.3,
+                "populationMAE": 508,
+                "populationMeanError": 508,
+                "birthsMAE": 61,
+                "birthsMeanError": 61,
+                "deathsMAE": 77,
+                "deathsMeanError": -77,
+                "netMigrationMAE": 420
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 0.8,
+                "populationMAE": 1189.3,
+                "populationMeanError": 1189.3,
+                "birthsMAE": 82.4,
+                "birthsMeanError": 82.4,
+                "deathsMAE": 44.1,
+                "deathsMeanError": 44.1,
+                "netMigrationMAE": 689
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 1.1,
+                "populationMAE": 1616.7,
+                "populationMeanError": 1616.7,
+                "birthsMAE": 139.1,
+                "birthsMeanError": 139.1,
+                "deathsMAE": 2.2,
+                "deathsMeanError": -2.2,
+                "netMigrationMAE": 281
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.3,
+                  "populationMAE": 508,
+                  "populationMeanError": 508,
+                  "birthsMAE": 61,
+                  "birthsMeanError": 61,
+                  "deathsMAE": 77,
+                  "deathsMeanError": -77,
+                  "netMigrationMAE": 420
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 0.8,
+                  "populationMAE": 1189.3,
+                  "populationMeanError": 1189.3,
+                  "birthsMAE": 82.4,
+                  "birthsMeanError": 82.4,
+                  "deathsMAE": 44.1,
+                  "deathsMeanError": 44.1,
+                  "netMigrationMAE": 689
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 1.1,
+                  "populationMAE": 1616.7,
+                  "populationMeanError": 1616.7,
+                  "birthsMAE": 139.1,
+                  "birthsMeanError": 139.1,
+                  "deathsMAE": 2.2,
+                  "deathsMeanError": -2.2,
+                  "netMigrationMAE": 281
+                }
+              }
+            },
+            "wls": {
+              "observations": 3,
+              "populationMAPE": 0.7,
+              "populationMAE": 1097.5,
+              "populationMeanError": 1097.5,
+              "birthsMAE": 94.2,
+              "birthsMeanError": 94.2,
+              "deathsMAE": 41.6,
+              "deathsMeanError": -7.8,
+              "netMigrationMAE": 463.3,
+              "oneYear": {
+                "observations": 1,
+                "populationMAPE": 0.3,
+                "populationMAE": 505.1,
+                "populationMeanError": 505.1,
+                "birthsMAE": 61,
+                "birthsMeanError": 61,
+                "deathsMAE": 74,
+                "deathsMeanError": -74,
+                "netMigrationMAE": 420
+              },
+              "twoYear": {
+                "observations": 1,
+                "populationMAPE": 0.8,
+                "populationMAE": 1182.5,
+                "populationMeanError": 1182.5,
+                "birthsMAE": 82.4,
+                "birthsMeanError": 82.4,
+                "deathsMAE": 47.9,
+                "deathsMeanError": 47.9,
+                "netMigrationMAE": 689
+              },
+              "threeYear": {
+                "observations": 1,
+                "populationMAPE": 1.1,
+                "populationMAE": 1604.8,
+                "populationMeanError": 1604.8,
+                "birthsMAE": 139.1,
+                "birthsMeanError": 139.1,
+                "deathsMAE": 2.8,
+                "deathsMeanError": 2.8,
+                "netMigrationMAE": 281
+              },
+              "byHorizon": {
+                "1": {
+                  "observations": 1,
+                  "populationMAPE": 0.3,
+                  "populationMAE": 505.1,
+                  "populationMeanError": 505.1,
+                  "birthsMAE": 61,
+                  "birthsMeanError": 61,
+                  "deathsMAE": 74,
+                  "deathsMeanError": -74,
+                  "netMigrationMAE": 420
+                },
+                "2": {
+                  "observations": 1,
+                  "populationMAPE": 0.8,
+                  "populationMAE": 1182.5,
+                  "populationMeanError": 1182.5,
+                  "birthsMAE": 82.4,
+                  "birthsMeanError": 82.4,
+                  "deathsMAE": 47.9,
+                  "deathsMeanError": 47.9,
+                  "netMigrationMAE": 689
+                },
+                "3": {
+                  "observations": 1,
+                  "populationMAPE": 1.1,
+                  "populationMAE": 1604.8,
+                  "populationMeanError": 1604.8,
+                  "birthsMAE": 139.1,
+                  "birthsMeanError": 139.1,
+                  "deathsMAE": 2.8,
+                  "deathsMeanError": 2.8,
+                  "netMigrationMAE": 281
+                }
+              }
+            }
+          }
+        }
       }
     }
+  },
+  "mortalityWlsExternalGate": {
+    "status": "predeclared_external_gate",
+    "window": 10,
+    "regions": [
+      "FA16_TRH",
+      "FA36_GAV",
+      "FA42_SUN"
+    ],
+    "primaryHorizons": [
+      "n+1",
+      "n+2"
+    ],
+    "n3Role": "robustness_only",
+    "rule": "WLS must be non-worse than current mortality for n+1 and n+2 in every locked FA15 reference region, and pooled n+1/n+2 deaths MAE must be strictly lower.",
+    "checks": [
+      {
+        "region": "FA16_TRH",
+        "horizon": "oneYear",
+        "currentDeathsMAE": 67.1,
+        "wlsDeathsMAE": 50.6,
+        "passed": true
+      },
+      {
+        "region": "FA16_TRH",
+        "horizon": "twoYear",
+        "currentDeathsMAE": 93.4,
+        "wlsDeathsMAE": 83.1,
+        "passed": true
+      },
+      {
+        "region": "FA36_GAV",
+        "horizon": "oneYear",
+        "currentDeathsMAE": 51.7,
+        "wlsDeathsMAE": 48.1,
+        "passed": true
+      },
+      {
+        "region": "FA36_GAV",
+        "horizon": "twoYear",
+        "currentDeathsMAE": 37.7,
+        "wlsDeathsMAE": 36.8,
+        "passed": true
+      },
+      {
+        "region": "FA42_SUN",
+        "horizon": "oneYear",
+        "currentDeathsMAE": 76.1,
+        "wlsDeathsMAE": 75.3,
+        "passed": true
+      },
+      {
+        "region": "FA42_SUN",
+        "horizon": "twoYear",
+        "currentDeathsMAE": 66.4,
+        "wlsDeathsMAE": 66.3,
+        "passed": true
+      }
+    ],
+    "currentPooledDeathsMAE": 65.4,
+    "wlsPooledDeathsMAE": 60,
+    "passed": true
   }
 }

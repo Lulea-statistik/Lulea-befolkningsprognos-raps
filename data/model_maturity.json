@@ -29,8 +29,8 @@
     "componentCount": 38,
     "byLevel": {
       "1": 0,
-      "2": 10,
-      "3": 1,
+      "2": 9,
+      "3": 2,
       "4": 27
     },
     "productionLevel4": [
@@ -196,12 +196,12 @@
     {
       "key": "mortality_wls_candidate",
       "label": "Dödlighet: weighted least squares för lokal riskkurva",
-      "maturityLevel": 2,
-      "maturityName": "Utvecklingskandidat",
-      "lifecycle": "development_locked",
+      "maturityLevel": 3,
+      "maturityName": "Validerad kandidat",
+      "lifecycle": "validated_candidate",
       "productionActive": false,
       "targetLevel": 4,
-      "productionGatePassed": false,
+      "productionGatePassed": true,
       "requiredGate": "Ny SCB-inspirerad kandidat låst före resultatutvärdering: log(lokal hazard)=a+b×log(rikets hazard), separat per geografi/fönster/kön och viktad med observerade lokala dödsfall per ålder. 2018–2024 får endast användas som utvecklingsevidens; nivå 3 kräver ny orörd extern eller framtida kontroll utan omformulering.",
       "gates": [
         {
@@ -209,9 +209,15 @@
           "passed": true,
           "evidence": "2580 w3: current=31.7, WLS=23; 2580 w6: current=32.1, WLS=24.7; 2580 w10: current=31.1, WLS=23.9; FA_LULEA w3: current=46.9, WLS=101.8; FA_LULEA w6: current=45.7, WLS=50.3; FA_LULEA w10: current=51.9, WLS=39.8",
           "required": false
+        },
+        {
+          "label": "External FA15 gate: 10-year WLS non-worse at n+1/n+2 in all three locked regions and pooled MAE strictly better",
+          "passed": true,
+          "evidence": "FA16_TRH oneYear: WLS=50.6 vs current=67.1; FA16_TRH twoYear: WLS=83.1 vs current=93.4; FA36_GAV oneYear: WLS=48.1 vs current=51.7; FA36_GAV twoYear: WLS=36.8 vs current=37.7; FA42_SUN oneYear: WLS=75.3 vs current=76.1; FA42_SUN twoYear: WLS=66.3 vs current=66.4; pooled n+1/n+2 WLS=60 vs current=65.4",
+          "required": true
         }
       ],
-      "nextAction": "Keep the two-parameter log-hazard WLS formulation frozen. Treat 2018-2024 as development evidence only; require new untouched external or future evidence before any level-3 promotion."
+      "nextAction": "Level 3 validated candidate. Keep the locked two-parameter WLS formulation frozen and require one further untouched future/annual control before any level-4 production replacement."
     },
     {
       "key": "net_migration_10y",
