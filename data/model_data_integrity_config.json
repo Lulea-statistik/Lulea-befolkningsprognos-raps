@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_data_integrity_gate_locked",
+  "component": "model_data_integrity",
+  "purpose": "Fail production builds when core demographic model arrays are incomplete, duplicated or numerically invalid.",
+  "geographies": [
+    "2580",
+    "2582",
+    "2581",
+    "2560",
+    "2514"
+  ],
+  "windows": [
+    3,
+    6,
+    10
+  ],
+  "requiredChecks": [
+    "2025 base population has exactly one row for every municipality x sex x age 0-100",
+    "fertility profiles cover every municipality x window x age 15-49",
+    "mortality profiles cover every municipality x window x sex x age 0-100",
+    "net-migration profiles cover every municipality x window x sex x age 0-100",
+    "core profile keys contain no duplicates",
+    "population, fertility and mortality values are finite and nonnegative",
+    "migration values are finite",
+    "FA membership is exactly the five configured municipalities"
+  ],
+  "governance": [
+    "This is a structural production gate, not a forecast-accuracy claim.",
+    "Any annual SCB refresh must pass the same integrity checks before publication.",
+    "Missing cells must fail the build rather than be silently imputed in this layer."
+  ]
+}
