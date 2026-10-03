@@ -4,7 +4,10 @@
   "productionDefault": false,
   "purpose": "Isolate the value of Swedish-born / foreign-born population state in the Profet-like migration engine before adding consistency adjustment.",
   "state": {
-    "categories": ["sweden_born", "foreign_born"],
+    "categories": [
+      "sweden_born",
+      "foreign_born"
+    ],
     "newbornStatus": "sweden_born",
     "fertilityByBirthStatus": false,
     "mortalityByBirthStatus": false,
@@ -26,10 +29,24 @@
   },
   "evaluation": {
     "stage": "rolling_origin_development",
-    "compareAgainst": ["net10", "scb_risk_flow"],
+    "compareAgainst": [
+      "net10",
+      "scb_risk_flow"
+    ],
     "primaryHorizon": 1,
     "secondaryHorizon": 2,
-    "independentHoldout": false
+    "independentHoldout": false,
+    "promotionToLevel3": {
+      "primaryGeo": "2580",
+      "primaryHorizon": 1,
+      "requirements": [
+        "n+1 population MAE strictly below net10",
+        "n+1 net migration MAE strictly below net10",
+        "n+2 population MAE not above net10",
+        "n+2 net migration MAE not above net10"
+      ],
+      "note": "Locked before rolling-origin results are generated. External validation is still required before level 4."
+    }
   },
   "governance": "No age-specific or birth-status-specific tuning after viewing rolling-origin results. If promising, lock new external municipalities before external evaluation."
 }
