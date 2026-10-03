@@ -1483,7 +1483,54 @@ def main():
         )
     ))
 
+    # Maturity-governance self-audit. This is intentionally computed inside
+    # the report builder so a missing policy component cannot be hidden by a
+    # stale external validation artifact.
+    governance_key = "maturity_governance"
+    policy_keys = set(policy["components"])
+    expected_before_governance = policy_keys - {governance_key}
+    component_keys_before = [c["key"] for c in comps]
+    component_key_set_before = set(component_keys_before)
+    governance_checks = {
+        "allPolicyComponentsRepresented": component_key_set_before == expected_before_governance,
+        "noDuplicateComponentKeys": len(component_keys_before) == len(component_key_set_before),
+        "noUnknownComponents": component_key_set_before.issubset(expected_before_governance),
+        "allLevelsValid": all(c["maturityLevel"] in (1, 2, 3, 4) for c in comps),
+        "allTargetsPresent": all(c.get("targetLevel") in (1, 2, 3, 4) for c in comps),
+        "allRequiredGatesDocumented": all(bool(c.get("requiredGate")) for c in comps),
+    }
+    governance_gate = all(governance_checks.values())
+    comps.append(component(
+        policy, governance_key,
+        4 if governance_gate else 2,
+        "production_support" if governance_gate else "rejected",
+        governance_gate,
+        [
+            gate(
+                "Every policy component is represented exactly once and report metadata are internally valid",
+                governance_gate,
+                (
+                    f"checks={governance_checks}; "
+                    f"missing={sorted(expected_before_governance - component_key_set_before)}; "
+                    f"unknown={sorted(component_key_set_before - expected_before_governance)}"
+                )
+            )
+        ],
+        (
+            "Keep the registry self-auditing; every new policy component must be wired into the report builder in the same change."
+            if governance_gate
+            else "Block production until the maturity policy and generated component registry are reconciled."
+        )
+    ))
+
     counts = {str(i): sum(c["maturityLevel"] == i for c in comps) for i in range(1,5)}
+    if sum(counts.values()) != len(comps):
+        raise RuntimeError("Maturity level counts do not reconcile to component count.")
+    if not governance_gate:
+        raise RuntimeError(
+            "Maturity governance failed: policy/report component registry mismatch."
+        )
+
     report = {
         "schemaVersion": "0.1.0",
         "generatedBy": "scripts/build_model_maturity.py",
