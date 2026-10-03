@@ -37,6 +37,7 @@ HOUSING_STOCK_SUPPORT_VALIDATION = ROOT / "data" / "backtests" / "housing_stock_
 HOUSING_BALANCE_INDICATOR_VALIDATION = ROOT / "data" / "backtests" / "housing_balance_indicator_validation.json"
 SOURCE_MANIFEST_VALIDATION = ROOT / "data" / "backtests" / "source_manifest_integrity_validation.json"
 AGE_CELL_WEIGHT_DIAGNOSTIC = ROOT / "data" / "backtests" / "age_cell_weight_diagnostic.json"
+LOCALIZATION_2025_HOLDOUT = ROOT / "data" / "backtests" / "localization_2025_holdout.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -82,6 +83,7 @@ def main():
     holdout = load(HOLDOUT)
     smoothing = load(SMOOTHING)
     age_weight = load(AGE_CELL_WEIGHT_DIAGNOSTIC)
+    localization_2025 = load(LOCALIZATION_2025_HOLDOUT)
 
     comps = []
 
@@ -180,15 +182,41 @@ def main():
                 fert_evidence.append(
                     f"{geo} w{w}: current={s.get('currentBirthsMAE')}, cubicSpline10={s.get('cubicSpline10BirthsMAE')}"
                 )
+    fert_2025 = localization_2025.get("fertility", {})
+    fert_2025_gate = bool((fert_2025.get("gate") or {}).get("passed"))
+    fert_2025_summary = fert_2025.get("summary", {})
+    fert_holdout_evidence = "; ".join(
+        (
+            f"{geo}: cell MAE {fert_2025_summary.get(geo, {}).get('candidateCellMAE')} "
+            f"vs {fert_2025_summary.get(geo, {}).get('currentCellMAE')}; "
+            f"total abs error {fert_2025_summary.get(geo, {}).get('candidateTotalAbsError')} "
+            f"vs {fert_2025_summary.get(geo, {}).get('currentTotalAbsError')}"
+        )
+        for geo in GEOS
+    )
+    fert_candidate_level = 3 if fert_2025_gate else 2
     comps.append(component(
-        policy, "fertility_spline_candidate", 2, "development_locked", False,
-        [gate(
-            "Vintage-correct development diagnostic generated",
-            bool(fert_evidence),
-            "; ".join(fert_evidence) if fert_evidence else "missing",
-            required=False
-        )],
-        "Keep lambda=10 locked as the representative cubic-spline candidate for future untouched validation; do not retune from consumed 2018-2024 outcomes."
+        policy, "fertility_spline_candidate", fert_candidate_level,
+        "validated_candidate" if fert_2025_gate else "rejected_2025_holdout", False,
+        [
+            gate(
+                "Vintage-correct 2018-2024 development diagnostic generated",
+                bool(fert_evidence),
+                "; ".join(fert_evidence) if fert_evidence else "missing",
+                required=False
+            ),
+            gate(
+                "Independent 2025 holdout: lower maternal-age cell MAE and non-worse total-birth absolute error for Luleå and FA",
+                fert_2025_gate,
+                fert_holdout_evidence,
+                required=True
+            )
+        ],
+        (
+            "Level 3 validated candidate. Keep lambda=10 frozen; require one further untouched annual/external control before any level-4 production replacement."
+            if fert_2025_gate
+            else "Closed at level 2 after the locked 2025 holdout gate failed. Do not retune lambda on 2018-2025 outcomes."
+        )
     ))
 
     mort_evidence = []
@@ -199,15 +227,41 @@ def main():
                 mort_evidence.append(
                     f"{geo} w{w}: current={s.get('currentDeathsMAE')}, EB={s.get('empiricalBayesDeathsMAE')}"
                 )
+    mort_2025 = localization_2025.get("mortality", {})
+    mort_2025_gate = bool((mort_2025.get("gate") or {}).get("passed"))
+    mort_2025_summary = mort_2025.get("summary", {})
+    mort_holdout_evidence = "; ".join(
+        (
+            f"{geo}: cell MAE {mort_2025_summary.get(geo, {}).get('candidateCellMAE')} "
+            f"vs {mort_2025_summary.get(geo, {}).get('currentCellMAE')}; "
+            f"total abs error {mort_2025_summary.get(geo, {}).get('candidateTotalAbsError')} "
+            f"vs {mort_2025_summary.get(geo, {}).get('currentTotalAbsError')}"
+        )
+        for geo in GEOS
+    )
+    mort_candidate_level = 3 if mort_2025_gate else 2
     comps.append(component(
-        policy, "mortality_eb_candidate", 2, "development_locked", False,
-        [gate(
-            "Vintage-correct development diagnostic generated",
-            bool(mort_evidence),
-            "; ".join(mort_evidence) if mort_evidence else "missing",
-            required=False
-        )],
-        "Keep the current method-of-moments empirical-Bayes formulation locked for future untouched validation; do not retune from consumed 2018-2024 outcomes."
+        policy, "mortality_eb_candidate", mort_candidate_level,
+        "validated_candidate" if mort_2025_gate else "rejected_2025_holdout", False,
+        [
+            gate(
+                "Vintage-correct 2018-2024 development diagnostic generated",
+                bool(mort_evidence),
+                "; ".join(mort_evidence) if mort_evidence else "missing",
+                required=False
+            ),
+            gate(
+                "Independent 2025 holdout: lower age-sex cell MAE and non-worse total-death absolute error for Luleå and FA",
+                mort_2025_gate,
+                mort_holdout_evidence,
+                required=True
+            )
+        ],
+        (
+            "Level 3 validated candidate. Keep the current empirical-Bayes formulation frozen; require one further untouched annual/external control before any level-4 production replacement."
+            if mort_2025_gate
+            else "Closed at level 2 after the locked 2025 holdout gate failed. Do not retune shrinkage on 2018-2025 outcomes."
+        )
     ))
 
     # Net10 incumbent.
