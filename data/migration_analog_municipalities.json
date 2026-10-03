@@ -73,5 +73,50 @@
     "Similarity ranking is descriptive and must not be tuned from Lulea forecast errors.",
     "Analogue signal remains diagnostic until rolling-origin smoothing tests compare local+analogue+national against local+national.",
     "No single analogue municipality may replace Lulea observations by default."
-  ]
+  ],
+  "smoothingCandidate": {
+    "status": "top5_locked_before_smoothing_results",
+    "selectionRule": "five highest similarityScore municipalities from the pre-locked analogue index",
+    "topK": 5,
+    "selected": [
+      {
+        "code": "0780",
+        "name": "Växjö kommun"
+      },
+      {
+        "code": "1490",
+        "name": "Borås kommun"
+      },
+      {
+        "code": "2281",
+        "name": "Sundsvalls kommun"
+      },
+      {
+        "code": "2380",
+        "name": "Östersunds kommun"
+      },
+      {
+        "code": "1780",
+        "name": "Karlstads kommun"
+      }
+    ],
+    "analogueAggregation": "similarity-score-weighted age/sex migration profile",
+    "role": "third reference signal between Lulea local profile and national profile; diagnostic only",
+    "evaluation": {
+      "compareAgainst": "existing local_plus_national adaptive smoothing",
+      "primaryGeo": "2580",
+      "horizons": [
+        1,
+        2
+      ],
+      "requiredBeforePromotion": [
+        "n+1 population MAE not worse",
+        "n+1 net migration MAE not worse",
+        "at least one n+1 metric strictly better",
+        "n+2 population MAE not worse",
+        "n+2 net migration MAE not worse"
+      ]
+    },
+    "governance": "Do not change topK, selected municipalities, analogue weights, or thresholds after viewing smoothing outcomes."
+  }
 }
