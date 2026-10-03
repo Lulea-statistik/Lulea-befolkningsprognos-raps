@@ -751,11 +751,27 @@
         if(!Number.isFinite(ratio)) return null;
         return (1-Math.exp(-Math.max(0,hazard*ratio)))*1000;
       };
-      drawAgeLineChart("mortalityRateChart",ages,[
-        {name:`${geoLabel} kvinnor`,values:women.map(localRiskPer1000),cls:"lineVariation"},
-        {name:"Riket kvinnor",values:women.map(riskPer1000),cls:"lineWomen"},
-        {name:`${geoLabel} män`,values:men.map(localRiskPer1000),cls:"lineSensitivity"},
-        {name:"Riket män",values:men.map(riskPer1000),cls:"lineMen"}
+      const splitMortality=(fromAge,toAge)=>{
+        const splitAges=ages.filter(age=>age>=fromAge && age<=toAge);
+        const splitWomen=splitAges.map(age=>mort.find(r=>+r.age===age&&r.sex==="K"));
+        const splitMen=splitAges.map(age=>mort.find(r=>+r.age===age&&r.sex==="M"));
+        return {ages:splitAges,women:splitWomen,men:splitMen};
+      };
+      const younger=splitMortality(0,70);
+      const older=splitMortality(71,100);
+
+      drawAgeLineChart("mortalityRateYoungChart",younger.ages,[
+        {name:`${geoLabel} kvinnor`,values:younger.women.map(localRiskPer1000),cls:"lineVariation"},
+        {name:"Riket kvinnor",values:younger.women.map(riskPer1000),cls:"lineWomen"},
+        {name:`${geoLabel} män`,values:younger.men.map(localRiskPer1000),cls:"lineSensitivity"},
+        {name:"Riket män",values:younger.men.map(riskPer1000),cls:"lineMen"}
+      ],{includeZero:true,xLabel:"Ålder",hoverLabel:"Ålder",valueDigits:1});
+
+      drawAgeLineChart("mortalityRateOldChart",older.ages,[
+        {name:`${geoLabel} kvinnor`,values:older.women.map(localRiskPer1000),cls:"lineVariation"},
+        {name:"Riket kvinnor",values:older.women.map(riskPer1000),cls:"lineWomen"},
+        {name:`${geoLabel} män`,values:older.men.map(localRiskPer1000),cls:"lineSensitivity"},
+        {name:"Riket män",values:older.men.map(riskPer1000),cls:"lineMen"}
       ],{includeZero:true,xLabel:"Ålder",hoverLabel:"Ålder",valueDigits:1});
 
       drawAgeLineChart("mortalityWeightChart",ages,[
@@ -763,7 +779,8 @@
         {name:"Män lokal vikt",values:men.map(r=>Number(r?.cellLocalWeight||0)*100),cls:"lineMen",suffix:" %"}
       ],{yMin:0,yMax:100,xLabel:"Ålder",valueDigits:1});
     }else{
-      $("mortalityRateChart").innerHTML="";
+      $("mortalityRateYoungChart").innerHTML="";
+      $("mortalityRateOldChart").innerHTML="";
       $("mortalityWeightChart").innerHTML="";
     }
   }
