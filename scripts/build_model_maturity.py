@@ -36,6 +36,7 @@ HOUSING_OCCUPANCY_DEFAULTS_VALIDATION = ROOT / "data" / "backtests" / "housing_o
 HOUSING_STOCK_SUPPORT_VALIDATION = ROOT / "data" / "backtests" / "housing_stock_support_validation.json"
 HOUSING_BALANCE_INDICATOR_VALIDATION = ROOT / "data" / "backtests" / "housing_balance_indicator_validation.json"
 SOURCE_MANIFEST_VALIDATION = ROOT / "data" / "backtests" / "source_manifest_integrity_validation.json"
+AGE_CELL_WEIGHT_DIAGNOSTIC = ROOT / "data" / "backtests" / "age_cell_weight_diagnostic.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -80,6 +81,7 @@ def main():
     validation = load(VALIDATION)
     holdout = load(HOLDOUT)
     smoothing = load(SMOOTHING)
+    age_weight = load(AGE_CELL_WEIGHT_DIAGNOSTIC)
 
     comps = []
 
