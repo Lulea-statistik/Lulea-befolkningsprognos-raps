@@ -33,6 +33,7 @@ MODEL_DATA_INTEGRITY_VALIDATION = ROOT / "data" / "backtests" / "model_data_inte
 SCENARIO_PHASE_IN_VALIDATION = ROOT / "data" / "backtests" / "scenario_phase_in_validation.json"
 POPULATION_ACCOUNTING_VALIDATION = ROOT / "data" / "backtests" / "population_accounting_identity_validation.json"
 HOUSING_OCCUPANCY_DEFAULTS_VALIDATION = ROOT / "data" / "backtests" / "housing_occupancy_defaults_validation.json"
+HOUSING_STOCK_SUPPORT_VALIDATION = ROOT / "data" / "backtests" / "housing_stock_support_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -1393,6 +1394,49 @@ def main():
             else "Keep below production maturity until all supported cells resolve without hidden imputation."
             if occupancy_has_results
             else "Run the locked housing occupancy-default validation."
+        )
+    ))
+
+    housing_stock_cfg = load(ROOT / "data" / "housing_stock_support_config.json")
+    housing_stock_validation = (
+        load(HOUSING_STOCK_SUPPORT_VALIDATION)
+        if HOUSING_STOCK_SUPPORT_VALIDATION.exists()
+        else {}
+    )
+    housing_stock_gate = housing_stock_validation.get("allPassed") is True
+    housing_stock_has_results = bool(housing_stock_validation.get("checks"))
+    comps.append(component(
+        policy, "housing_stock_support",
+        4 if housing_stock_gate else 2 if housing_stock_has_results else 1,
+        (
+            "production_support" if housing_stock_gate
+            else "rejected" if housing_stock_has_results
+            else "diagnostic"
+        ),
+        housing_stock_gate,
+        [
+            gate(
+                "Housing-stock support gate is explicitly locked",
+                housing_stock_cfg.get("status") == "production_housing_stock_gate_locked",
+                housing_stock_cfg.get("status")
+            ),
+            gate(
+                "Latest-year completeness, uniqueness and FA additivity validate",
+                housing_stock_gate,
+                (
+                    f"checks={housing_stock_validation.get('checks')}; "
+                    f"latestYear={housing_stock_validation.get('latestYear')}; "
+                    f"faTotal={housing_stock_validation.get('faTotal')}"
+                    if housing_stock_has_results else "Awaiting validation"
+                )
+            )
+        ],
+        (
+            "Keep SCB housing stock as descriptive production support and rerun on every refresh."
+            if housing_stock_gate
+            else "Keep below production maturity until category completeness and uniqueness pass."
+            if housing_stock_has_results
+            else "Run the locked housing-stock support validation."
         )
     ))
 
