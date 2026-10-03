@@ -1686,21 +1686,21 @@
       const txt=Number.isFinite(v)?fmt1.format(v):"–";
       return Number.isFinite(v)&&Math.abs(v-min)<1e-9?"<strong>"+txt+"</strong>":txt;
     };
-    const fv=[f.currentBirthsMAE,f.empiricalBayesBirthsMAE,f.spline1BirthsMAE,f.spline10BirthsMAE,f.spline100BirthsMAE];
+    const fv=[f.currentBirthsMAE,f.empiricalBayesBirthsMAE,f.spline1BirthsMAE,f.spline10BirthsMAE,f.spline100BirthsMAE,f.cubicSpline1BirthsMAE,f.cubicSpline10BirthsMAE,f.cubicSpline100BirthsMAE];
     const mv=[m.currentDeathsMAE,m.empiricalBayesDeathsMAE];
     const horizons=[1,2,3].map(h=>{
       const fh=f.byHorizon?.[h], mh=m.byHorizon?.[h];
       if(!fh||!mh) return "";
-      const fvh=[fh.currentBirthsMAE,fh.empiricalBayesBirthsMAE,fh.spline1BirthsMAE,fh.spline10BirthsMAE,fh.spline100BirthsMAE];
+      const fvh=[fh.currentBirthsMAE,fh.empiricalBayesBirthsMAE,fh.spline1BirthsMAE,fh.spline10BirthsMAE,fh.spline100BirthsMAE,fh.cubicSpline1BirthsMAE,fh.cubicSpline10BirthsMAE,fh.cubicSpline100BirthsMAE];
       const mvh=[mh.currentDeathsMAE,mh.empiricalBayesDeathsMAE];
-      return "<tr><td>n+"+h+" fruktsamhet</td><td>"+markBest(fvh,0)+"</td><td>"+markBest(fvh,1)+"</td><td>"+markBest(fvh,2)+"</td><td>"+markBest(fvh,3)+"</td><td>"+markBest(fvh,4)+"</td></tr>"+
-        "<tr><td>n+"+h+" dödlighet</td><td>"+markBest(mvh,0)+"</td><td>"+markBest(mvh,1)+"</td><td colspan=\"3\">Ej testat – SCB använder annan WLS-metod för dödsrisker</td></tr>";
+      return "<tr><td>n+"+h+" fruktsamhet</td><td>"+markBest(fvh,0)+"</td><td>"+markBest(fvh,1)+"</td><td>"+markBest(fvh,2)+"</td><td>"+markBest(fvh,3)+"</td><td>"+markBest(fvh,4)+"</td><td>"+markBest(fvh,5)+"</td><td>"+markBest(fvh,6)+"</td><td>"+markBest(fvh,7)+"</td></tr>"+
+        "<tr><td>n+"+h+" dödlighet</td><td>"+markBest(mvh,0)+"</td><td>"+markBest(mvh,1)+"</td><td colspan=\"6\">Ej testat – SCB använder annan WLS-metod för dödsrisker</td></tr>";
     }).join("");
     el.innerHTML=
       "<p class=\"hint\">Kalibreringsfönster: "+w+" år. Lägre MAE är bättre. Spline 1/10/100 är en penaliserad åldersutjämningskänslighet, inte en exakt reproduktion av SCB:s interna utjämningsfaktor.</p>"+
-      "<div class=\"analysisTableWrap\"><table class=\"miniTable\"><thead><tr><th>Komponent</th><th>Nuvarande</th><th>Empirical Bayes</th><th>Penaliserad 1</th><th>Penaliserad 10</th><th>Penaliserad 100</th></tr></thead><tbody>"+
-      "<tr><td>Fruktsamhet – födda MAE</td><td>"+markBest(fv,0)+"</td><td>"+markBest(fv,1)+"</td><td>"+markBest(fv,2)+"</td><td>"+markBest(fv,3)+"</td><td>"+markBest(fv,4)+"</td></tr>"+
-      "<tr><td>Dödlighet – döda MAE</td><td>"+markBest(mv,0)+"</td><td>"+markBest(mv,1)+"</td><td colspan=\"3\">Ej testat i denna kandidat</td></tr>"+
+      "<div class=\"analysisTableWrap\"><table class=\"miniTable\"><thead><tr><th>Komponent</th><th>Nuvarande</th><th>Empirical Bayes</th><th>Diskret penaliserad 1</th><th>Diskret penaliserad 10</th><th>Diskret penaliserad 100</th><th>Kubisk spline 1</th><th>Kubisk spline 10</th><th>Kubisk spline 100</th></tr></thead><tbody>"+
+      "<tr><td>Fruktsamhet – födda MAE</td><td>"+markBest(fv,0)+"</td><td>"+markBest(fv,1)+"</td><td>"+markBest(fv,2)+"</td><td>"+markBest(fv,3)+"</td><td>"+markBest(fv,4)+"</td><td>"+markBest(fv,5)+"</td><td>"+markBest(fv,6)+"</td><td>"+markBest(fv,7)+"</td></tr>"+
+      "<tr><td>Dödlighet – döda MAE</td><td>"+markBest(mv,0)+"</td><td>"+markBest(mv,1)+"</td><td colspan=\"6\">Ej testat i denna kandidat</td></tr>"+
       horizons+"</tbody></table></div>";
   }
   function renderValidation(){
