@@ -96,6 +96,9 @@ jobs:
       - name: Validate neutral qutb production mode
         run: node scripts/validate_qutb_neutralization.js
 
+      - name: Validate 2025 CKM base-population bridge
+        run: python scripts/validate_base_population_bridge.py
+
       - name: Validate JavaScript syntax
         run: |
           node --check js/model.js
