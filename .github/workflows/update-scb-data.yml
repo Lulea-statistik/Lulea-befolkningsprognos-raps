@@ -224,6 +224,9 @@ jobs:
       - name: Validate SCB housing occupancy defaults
         run: python scripts/validate_housing_occupancy_defaults.py
 
+      - name: Validate SCB housing-stock support
+        run: python scripts/validate_housing_stock_support.py
+
       - name: Build model maturity report
         run: python scripts/build_model_maturity.py
 
