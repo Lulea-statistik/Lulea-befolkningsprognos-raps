@@ -1225,6 +1225,12 @@
     return results;
   }
 
+  function housingRequiredDwellings(newHouseholds,reservePct){
+    const households=n(newHouseholds);
+    const reserve=clamp(n(reservePct)/100,0,0.2);
+    return households/(1-reserve);
+  }
+
   function aggregatePopulationByAgeSex(parts){
     if(!parts.length || !parts.every(r=>Array.isArray(r.populationByAgeSex))) return undefined;
     const totals=new Map();
@@ -1310,5 +1316,5 @@
     return results;
   }
 
-  global.RAPSModel={riskFromEvents,ckmMaxRelativePct,ckmRiskBounds,identityTransition,selectWindow,mean,scenarioEffect,simulate};
+  global.RAPSModel={riskFromEvents,ckmMaxRelativePct,ckmRiskBounds,identityTransition,selectWindow,mean,scenarioEffect,housingRequiredDwellings,simulate};
 })(window);
