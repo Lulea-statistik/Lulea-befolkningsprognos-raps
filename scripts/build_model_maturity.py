@@ -257,15 +257,45 @@ def main():
                 f"{geo}: n+1 population MAE spline={s['oneYear']['spline']['populationMAE']} vs raw={s['oneYear']['raw']['populationMAE']}; "
                 f"net migration MAE spline={s['oneYear']['spline']['netMigrationMAE']} vs raw={s['oneYear']['raw']['netMigrationMAE']}"
             )
+    mig_spline_age_gate = True
+    mig_spline_age_evidence = []
+    for geo in GEOS:
+        s = mig_spline.get(geo, {})
+        for horizon_name in ("oneYear", "twoYear", "threeYear"):
+            h = s.get(horizon_name)
+            if not h:
+                mig_spline_age_gate = False
+                continue
+            raw_age = h["raw"].get("ageProfileMAE")
+            spline_age = h["spline"].get("ageProfileMAE")
+            raw_young = h["raw"].get("age15to39MAE")
+            spline_young = h["spline"].get("age15to39MAE")
+            ok = (
+                raw_age is not None and spline_age is not None
+                and raw_young is not None and spline_young is not None
+                and spline_age <= raw_age and spline_young <= raw_young
+            )
+            mig_spline_age_gate = mig_spline_age_gate and ok
+            mig_spline_age_evidence.append(
+                f"{geo} {horizon_name}: all-age {spline_age} vs {raw_age}; age15-39 {spline_young} vs {raw_young}"
+            )
     comps.append(component(
-        policy, "migration_spline_candidate", 2, "development_locked", False,
-        [gate(
-            "Locked lambda=10 total-preserving migration spline diagnostic generated",
-            bool(mig_spline_evidence),
-            "; ".join(mig_spline_evidence) if mig_spline_evidence else "Awaiting rolling-origin results",
-            required=False
-        )],
-        "Keep lambda=10 and per-municipality/sex total preservation locked. Use 2018-2024 only as development evidence and do not retune from these outcomes."
+        policy, "migration_spline_candidate", 2, "rejected", False,
+        [
+            gate(
+                "Locked lambda=10 total-preserving migration spline diagnostic generated",
+                bool(mig_spline_evidence),
+                "; ".join(mig_spline_evidence) if mig_spline_evidence else "Awaiting rolling-origin results",
+                required=False
+            ),
+            gate(
+                "Spline does not worsen all-age or age-15-39 MAE at n+1/n+2/n+3 for Luleå and FA",
+                mig_spline_age_gate,
+                "; ".join(mig_spline_age_evidence),
+                required=True
+            )
+        ],
+        "Closed at level 2. The locked lambda=10 total-preserving spline materially worsened age-profile MAE for Luleå and FA, especially ages 15-39. Do not retune lambda on consumed 2018-2024 outcomes."
     ))
 
     # Component-flow rejected at external holdout.
