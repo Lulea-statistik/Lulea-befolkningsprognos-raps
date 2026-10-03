@@ -25,6 +25,8 @@ BASE_POPULATION_BRIDGE_VALIDATION = ROOT / "data" / "backtests" / "base_populati
 SEX_RATIO_VALIDATION = ROOT / "data" / "backtests" / "sex_ratio_at_birth_validation.json"
 FA_ADDITIVITY_VALIDATION = ROOT / "data" / "backtests" / "fa_additivity_validation.json"
 NATIONAL_FUTURE_PROFILES_VALIDATION = ROOT / "data" / "backtests" / "national_future_profiles_validation.json"
+SCENARIO_OVERLAP_VALIDATION = ROOT / "data" / "backtests" / "scenario_overlap_control_validation.json"
+DEMOGRAPHIC_SENSITIVITY_VALIDATION = ROOT / "data" / "backtests" / "demographic_sensitivity_controls_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -1049,6 +1051,89 @@ def main():
             else "Keep below production maturity until the supported ten-year future-profile coverage is complete."
             if future_profiles_has_results
             else "Run the locked future-profile coverage validation."
+        )
+    ))
+
+    overlap_cfg = load(ROOT / "data" / "scenario_overlap_control_config.json")
+    overlap_validation = (
+        load(SCENARIO_OVERLAP_VALIDATION)
+        if SCENARIO_OVERLAP_VALIDATION.exists()
+        else {}
+    )
+    overlap_gate = overlap_validation.get("allPassed") is True
+    overlap_has_results = bool(overlap_validation.get("checks"))
+    comps.append(component(
+        policy, "scenario_overlap_control",
+        4 if overlap_gate else 2 if overlap_has_results else 1,
+        (
+            "production_support" if overlap_gate
+            else "rejected" if overlap_has_results
+            else "diagnostic"
+        ),
+        overlap_gate,
+        [
+            gate(
+                "Overlap control is explicitly documented as a scenario assumption",
+                overlap_cfg.get("status") == "production_scenario_control_locked",
+                overlap_cfg.get("status")
+            ),
+            gate(
+                "Overlap clamp, monotonicity and no-scenario neutrality pass",
+                overlap_gate,
+                (
+                    f"checks={overlap_validation.get('checks')}"
+                    if overlap_has_results else "Awaiting validation"
+                )
+            )
+        ],
+        (
+            "Keep the overlap percentage user-controlled and outside the baseline; rerun regression whenever scenario aggregation changes."
+            if overlap_gate
+            else "Keep below production maturity until bounded/no-double-count regression passes."
+            if overlap_has_results
+            else "Run the locked scenario-overlap regression."
+        )
+    ))
+
+    sensitivity_cfg = load(ROOT / "data" / "demographic_sensitivity_controls_config.json")
+    sensitivity_validation = (
+        load(DEMOGRAPHIC_SENSITIVITY_VALIDATION)
+        if DEMOGRAPHIC_SENSITIVITY_VALIDATION.exists()
+        else {}
+    )
+    sensitivity_gate = sensitivity_validation.get("allPassed") is True
+    sensitivity_has_results = bool(sensitivity_validation.get("checks"))
+    comps.append(component(
+        policy, "demographic_sensitivity_controls",
+        4 if sensitivity_gate else 2 if sensitivity_has_results else 1,
+        (
+            "production_support" if sensitivity_gate
+            else "rejected" if sensitivity_has_results
+            else "diagnostic"
+        ),
+        sensitivity_gate,
+        [
+            gate(
+                "Sensitivity controls and neutral value are explicitly documented",
+                sensitivity_cfg.get("status") == "production_sensitivity_controls_locked"
+                and float(sensitivity_cfg.get("neutralValue", 0)) == 1.0,
+                f"status={sensitivity_cfg.get('status')}; neutral={sensitivity_cfg.get('neutralValue')}"
+            ),
+            gate(
+                "Neutrality and component-isolation regression passes",
+                sensitivity_gate,
+                (
+                    f"checks={sensitivity_validation.get('checks')}"
+                    if sensitivity_has_results else "Awaiting validation"
+                )
+            )
+        ],
+        (
+            "Keep 1/1/1 as the UI baseline and treat all non-neutral multipliers as explicit sensitivities only."
+            if sensitivity_gate
+            else "Keep below production maturity until neutral and zero-effect regressions pass."
+            if sensitivity_has_results
+            else "Run the locked demographic-sensitivity regression."
         )
     ))
 
