@@ -1,4 +1,4 @@
-# Luleå rAps-liknande befolkningsmodell
+# Luleå rAps-inspirerad befolkningsmodell
 
 HTML-baserad demografisk prognosmodell för Luleå FA och kommunerna Luleå, Boden, Piteå, Älvsbyn och Kalix.
 
@@ -8,13 +8,13 @@ Gränssnittet är uppdelat i nio rapportsidor:
 
 1. **Resultat** – KPI:er, befolkningskurva, demografiska komponenter, årsresultat och SCB-benchmark.
 2. **Befolkningsanalys** – kalibreringskänslighet 3/6/10 år, kommun/Riket-faktorer, åldersstruktur och demografisk balans.
-3. **Åldersanalys 1-år** – fruktsamhets- och dödlighetsfading för varje enskild ålder, inklusive kvinnor/män för dödlighet.
+3. **Åldersanalys 1-år** – informationsvägd utjämning för fruktsamhet och dödlighet för varje enskild ålder, inklusive kvinnor/män för dödlighet.
 4. **Flyttanalys** – inflyttning, utflyttning, netto, historisk variation och praktisk 5 %-känslighet i 1-årsåldrar.
 5. **Arbetsmarknad & pendling** – jobbutveckling, bostads-/arbetsställekommun, pendlingsmatris och scenariofördelning av nya jobb.
 6. **Hushåll & bostad** – hushållsbildning, personer per hushåll, SCB-standardvärden per bostadstyp, bostadsbestånd och indikativ ny bostadsefterfrågan.
 7. **Scenario & justering** – val mellan Raps/SCB 2024 och SCB 2026 fruktsamhetsbana, separat 2/4/6/10-årigt nettoflyttningsfönster, generella demografiska multiplikatorer, bostadsbyggande och arbetsplatsetableringar.
 8. **Validering** – historisk 2022–2024-backtest, fel per 1-årsålder och jämförelse mot SCB:s regionala framskrivning.
-9. **Metod & data** – källor, CKM-status, Raps-anpassning och fading-policy.
+9. **Metod & data** – källor, CKM-status, rAps-inspiration, metodavvikelser och utjämningspolicy.
 
 Linjediagrammen har hover-värden för närmaste år eller ålder. Flyttanalysens historiska standardavvikelse är en variationsindikator, inte ett statistiskt konfidensintervall.
 
@@ -33,7 +33,7 @@ Geografi, kalibreringsfönster och slutår är globala filter och gäller på al
 - `data/migration_component_windows.json` – låst utvecklingskandidat för komponentvisa migrationsfönster; #38 har genomfört första externa testet utan regional omtrimning.
 - `data/benchmarks/` – SCB- och Tillväxtverket/Raps-benchmarks.
 - `data/raw/` – reproducerbara SCB-uttag.
-- `docs/RAPS_ALIGNMENT.md` – Raps-prioritet, fallback-fading och anti-overfitting-regel.
+- `docs/RAPS_ALIGNMENT.md` – rAps-prioritet, informationsvägd reservutjämning och regel mot överanpassning.
 - `docs/VALIDATION.md` – benchmark- och backteststrategi.
 - `docs/PRODUCTION_READINESS.md` – aktuell produktionsstatus, mognadsgrad, stängda kandidater och förvaltningsregler.
 - `docs/ANALYSIS_DESIGN.md` – rekommenderade illustrationer, utvärdering och arbetsmarknads-/pendlingsanalys.
@@ -50,9 +50,9 @@ Geografi, kalibreringsfönster och slutår är globala filter och gäller på al
 - Händelserisker använder medelfolkmängd som exponering med matchad åldersdefinition: TAB2818 för dödlighet/flyttning (ålder vid årets slut) och TAB2819 för fruktsamhet (moderns ålder vid födelsen). Folkmängd 31 december används fortfarande för bestånd och redovisade befolkningsnivåer.
 - Kohorttimingen är event-age-aligned: 31-decemberbeståndet åldras först till prognosårets ålder, födda beräknas på prognosårets mödrar, nyfödda läggs till och dödlighet appliceras därefter på prognosårets ålder inklusive ålder 0. Legacy V1-timing finns endast kvar i valideringen.
 - Lokal nivå skattas som observerat/förväntat mot rikets åldersprofil.
-- Där officiella Raps-parametrar saknas används en outcome-oberoende fading per ålderscell.
-- Fading använder två outcome-oberoende informationssignaler: genomsnittlig årlig cellpopulation och förväntat antal händelser. Populationssignalen går från 0 % vid <=20 till 100 % vid >=100; händelsesignalen går från 0 % vid <=1 förväntad händelse till 100 % vid >=20. Den slutliga lokala vikten är produkten av de två.
-- Fadinggränserna är fastställda före benchmarkutvärderingen och får inte trimmas mot känt utfall.
+- Där officiella Raps-parametrar saknas används en utfallsoberoende informationsvägd utjämning per ålderscell.
+- Utjämningen använder två utfallsoberoende informationssignaler: genomsnittlig årlig cellpopulation och förväntat antal händelser. Populationssignalen går från 0 % vid <=20 till 100 % vid >=100; händelsesignalen går från 0 % vid <=1 förväntad händelse till 100 % vid >=20. Den slutliga lokala vikten är produkten av de två.
+- Gränserna för informationsvägd utjämning är fastställda före benchmarkutvärderingen och får inte trimmas mot känt utfall.
 - `urisk`: historisk kommunal utflyttningsrisk lagras per kön/ettårsålder och 2/4/6/10-årsfönster. Historisk bruttoinflyttning lagras parallellt. Basscenariot använder fortfarande exogen nettoflyttning tills IMIG/UMIG/`ifl` aktiveras.
 - Nettoflyttningens 2/3/4/6/10-årsfönster kan varieras separat från fruktsamhet/dödlighet för en ren känslighetsanalys. Rolling-origin-testet jämför samma fönster på n+1 och n+2. 19 år har tagits bort som aktivt migrationsfönster eftersom #36 inte gav något prognosstöd för det; fruktsamhet och dödlighet behåller däremot 19 år som lång stabilitetskontroll. Observerat 2025-netto sparas som post-2024 diagnostik men används inte för efterhandskalibrering.
 - `qutb`: identitetsmatris tills övergångstal läggs in.
@@ -127,7 +127,7 @@ Efter **Update SCB data #70** omfattar mognadsregistret 34 komponenter: **27 är
 Nya metodlyft ska införas som separata, förhandslåsta kandidater. Prioriterade framtida utvecklingsspår är:
 
 - officiella Raps-kluster/parametrar där de går att få fram,
-- en genuint ny IMIG/UMIG-/Profet-arkitektur som låses innan ny utvärdering,
+- en genuint ny riskbaserad IMIG/UMIG-arkitektur med explicit befolkningsstatus och nationella exponeringspopulationer, låst innan ny utvärdering,
 - nya fördeklarerade holdouts om en ny migrationsmotor ska prövas,
 - riktade data för faktisk jobbdriven flyttbenägenhet och hushållssammansättning,
 - fullare bostadsmarknadsstöd för rivningar, vakanser och ingående över-/underskott,
