@@ -2024,6 +2024,214 @@ def scb_risk_migration_profiles(pre2025, exposure, config):
         international_in,
     )
 
+def profet_birth_status_profiles(
+    migration_status, population_status, config
+):
+    """Build a Profet-like migration candidate retaining birth status.
+
+    This stage changes only the migration/population-state dimension.
+    Fertility and mortality remain the same as in the production engine.
+    """
+    method = config["migration"]
+    in_window = int(method["domesticInRiskWindow"])
+    age_window = int(method["domesticInAgeSexDistributionWindow"])
+    out_window = int(method["domesticOutRiskWindow"])
+    intl_share_window = int(method["internationalShareWindow"])
+    intl_age_window = int(method["internationalAgeSexDistributionWindow"])
+    intl_out_window = int(method["internationalOutRiskWindow"])
+    statuses = ("sweden_born", "foreign_born")
+
+    domestic_in_levels = []
+    domestic_in_distribution = []
+    out_risks = []
+    international_in = []
+
+    for geo in MUNICIPALITIES:
+        for status in statuses:
+            for leg in ("county", "rest_sweden"):
+                in_years = list(window_years(in_window))
+                age_years = list(window_years(age_window))
+                out_years = list(window_years(out_window))
+
+                incoming = sum(
+                    migration_status.get(
+                        (geo, y, sex, age, status, leg, "in"), 0.0
+                    )
+                    for y in in_years
+                    for sex in ("K", "M")
+                    for age in range(101)
+                )
+                local_exposure = sum(
+                    population_status.get(
+                        (geo, y, sex, age, status), 0.0
+                    )
+                    for y in in_years
+                    for sex in ("K", "M")
+                    for age in range(101)
+                )
+                national_exposure = sum(
+                    population_status.get(
+                        (RIKET_CODE, y, sex, age, status), 0.0
+                    )
+                    for y in in_years
+                    for sex in ("K", "M")
+                    for age in range(101)
+                )
+                rest_exposure = max(0.0, national_exposure - local_exposure)
+                domestic_in_levels.append({
+                    "geo": geo,
+                    "status": status,
+                    "leg": leg,
+                    "window": in_window,
+                    "value": 0.0 if rest_exposure <= 0 else incoming / rest_exposure,
+                    "events": incoming,
+                    "riskExposure": rest_exposure,
+                    "riskPopulation": "rest_of_sweden_same_birth_status",
+                    "method": "Profet-stage birth-status domestic in-migration risk",
+                })
+
+                dist_total = sum(
+                    migration_status.get(
+                        (geo, y, sex, age, status, leg, "in"), 0.0
+                    )
+                    for y in age_years
+                    for sex in ("K", "M")
+                    for age in range(101)
+                )
+                for sex in ("K", "M"):
+                    for age in range(101):
+                        cell_in = sum(
+                            migration_status.get(
+                                (geo, y, sex, age, status, leg, "in"), 0.0
+                            )
+                            for y in age_years
+                        )
+                        domestic_in_distribution.append({
+                            "geo": geo,
+                            "status": status,
+                            "leg": leg,
+                            "sex": sex,
+                            "age": age,
+                            "window": age_window,
+                            "share": 0.0 if dist_total <= 0 else cell_in / dist_total,
+                            "events": cell_in,
+                            "totalEvents": dist_total,
+                            "method": "Profet-stage birth-status age/sex in-migrant distribution",
+                        })
+
+                        outgoing = sum(
+                            migration_status.get(
+                                (geo, y, sex, age, status, leg, "out"), 0.0
+                            )
+                            for y in out_years
+                        )
+                        exposure = sum(
+                            population_status.get(
+                                (geo, y, sex, age, status), 0.0
+                            )
+                            for y in out_years
+                        )
+                        out_risks.append({
+                            "geo": geo,
+                            "status": status,
+                            "leg": leg,
+                            "sex": sex,
+                            "age": age,
+                            "window": out_window,
+                            "value": 0.0 if exposure <= 0 else outgoing / exposure,
+                            "events": outgoing,
+                            "riskExposure": exposure,
+                            "riskPopulation": "municipality_same_birth_status",
+                            "method": "Profet-stage birth-status domestic out-migration risk",
+                        })
+
+            # International in-migration: national immigration within birth
+            # status x municipal share within the same status x local age/sex.
+            share_years = list(window_years(intl_share_window))
+            age_years = list(window_years(intl_age_window))
+            local_in = sum(
+                migration_status.get(
+                    (geo, y, sex, age, status, "international", "in"), 0.0
+                )
+                for y in share_years
+                for sex in ("K", "M")
+                for age in range(101)
+            )
+            national_in = sum(
+                migration_status.get(
+                    (RIKET_CODE, y, sex, age, status, "international", "in"), 0.0
+                )
+                for y in share_years
+                for sex in ("K", "M")
+                for age in range(101)
+            )
+            municipal_share = 0.0 if national_in <= 0 else local_in / national_in
+            local_age_total = sum(
+                migration_status.get(
+                    (geo, y, sex, age, status, "international", "in"), 0.0
+                )
+                for y in age_years
+                for sex in ("K", "M")
+                for age in range(101)
+            )
+            for sex in ("K", "M"):
+                for age in range(101):
+                    cell_in = sum(
+                        migration_status.get(
+                            (geo, y, sex, age, status, "international", "in"), 0.0
+                        )
+                        for y in age_years
+                    )
+                    international_in.append({
+                        "geo": geo,
+                        "status": status,
+                        "sex": sex,
+                        "age": age,
+                        "municipalityShare": municipal_share,
+                        "municipalityShareWindow": intl_share_window,
+                        "ageSexShare": 0.0 if local_age_total <= 0 else cell_in / local_age_total,
+                        "ageSexWindow": intl_age_window,
+                        "localShareEvents": local_in,
+                        "nationalShareEvents": national_in,
+                        "cellEvents": cell_in,
+                        "localAgeSexEvents": local_age_total,
+                        "method": "Profet-stage birth-status national immigration share x local age/sex",
+                    })
+
+                    outgoing = sum(
+                        migration_status.get(
+                            (geo, y, sex, age, status, "international", "out"), 0.0
+                        )
+                        for y in window_years(intl_out_window)
+                    )
+                    exposure = sum(
+                        population_status.get(
+                            (geo, y, sex, age, status), 0.0
+                        )
+                        for y in window_years(intl_out_window)
+                    )
+                    out_risks.append({
+                        "geo": geo,
+                        "status": status,
+                        "leg": "international",
+                        "sex": sex,
+                        "age": age,
+                        "window": intl_out_window,
+                        "value": 0.0 if exposure <= 0 else outgoing / exposure,
+                        "events": outgoing,
+                        "riskExposure": exposure,
+                        "riskPopulation": "municipality_same_birth_status",
+                        "method": "Profet-stage birth-status emigration risk",
+                    })
+
+    return (
+        domestic_in_levels,
+        domestic_in_distribution,
+        out_risks,
+        international_in,
+    )
+
+
 def birth_status_codes(file_key: str):
     info = manifest().get("files", {}).get(file_key, {})
     labels_map = (
