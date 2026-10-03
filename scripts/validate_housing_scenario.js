@@ -80,8 +80,11 @@ checks.faContainsOnlyExternalHousingGrowth=['low','reference','high'].every(key=
 
 checks.referenceFormula=(()=>{
   const p=cfg.sensitivityPresets.reference;
-  const expected=
+  const fullEffect=
     1000*(p.completionPct/100)*(p.occupancyPct/100)*2*(p.externalSharePct/100);
+  // scenarioEffect returns the annual phased increment. At the start year
+  // the full housing effect is distributed evenly across phaseYears.
+  const expected=fullEffect/p.phaseYears;
   return Math.abs(output.reference.fa.housingExternal-expected)<tol;
 })();
 
