@@ -19,7 +19,7 @@
     <button class="tab active" data-page="results">Resultat</button>
     <button class="tab" data-page="analysis">Befolkningsanalys</button>
     <button class="tab" data-page="age">Åldersanalys 1-år</button>
-    <button class="tab" data-page="migration">Flyttanalys</button>
+    <button class="tab" data-page="migration">Flyttningar</button>
     <button class="tab" data-page="labour">Arbetsmarknad & pendling</button>
     <button class="tab" data-page="housing">Hushåll & bostad</button>
     <button class="tab" data-page="scenario">Scenario & justering</button>
@@ -160,7 +160,7 @@
 
       <section class="page" id="page-migration">
         <div class="pageTitle">
-          <div><h2>Flyttanalys i 1-årsklasser</h2><p>Historiska flyttströmmar, variation och praktisk betydelse per ålder.</p></div>
+          <div><h2>Flyttningar</h2><p>Historiska flyttströmmar, lokala åldersvikter, variation och praktisk betydelse.</p></div>
         </div>
 
         <div class="cards">
@@ -213,6 +213,43 @@
         <article class="panel">
           <h2>Tre geografiska flyttben</h2>
           <div id="migrationLegDiagnostic"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panelHead">
+            <div>
+              <h2>Lokal vikt per ålder, kön och flyttben</h2>
+              <p class="hint">Diagnostisk lokal retention i åldersprofilen. 100 % betyder att den råa lokala ålder/kön-cellen behålls fullt ut; lägre vikt innebär att profilen lånar mer struktur från närliggande åldrar och motsvarande riksmönster. Vikten används ännu inte i produktionsprognosens net10-baslinje.</p>
+            </div>
+            <span id="migrationLocalWeightWindow">–</span>
+          </div>
+          <div class="grid2">
+            <div>
+              <h3>Inflyttning från övriga Norrbotten</h3>
+              <svg id="migrationWeightCountyIn" viewBox="0 0 900 330" role="img" aria-label="Lokal vikt för inflyttning från övriga Norrbotten efter ålder och kön"></svg>
+            </div>
+            <div>
+              <h3>Utflyttning till övriga Norrbotten</h3>
+              <svg id="migrationWeightCountyOut" viewBox="0 0 900 330" role="img" aria-label="Lokal vikt för utflyttning till övriga Norrbotten efter ålder och kön"></svg>
+            </div>
+            <div>
+              <h3>Inflyttning från övriga Sverige</h3>
+              <svg id="migrationWeightRestIn" viewBox="0 0 900 330" role="img" aria-label="Lokal vikt för inflyttning från övriga Sverige efter ålder och kön"></svg>
+            </div>
+            <div>
+              <h3>Utflyttning till övriga Sverige</h3>
+              <svg id="migrationWeightRestOut" viewBox="0 0 900 330" role="img" aria-label="Lokal vikt för utflyttning till övriga Sverige efter ålder och kön"></svg>
+            </div>
+            <div>
+              <h3>Invandring</h3>
+              <svg id="migrationWeightInternationalIn" viewBox="0 0 900 330" role="img" aria-label="Lokal vikt för invandring efter ålder och kön"></svg>
+            </div>
+            <div>
+              <h3>Utvandring</h3>
+              <svg id="migrationWeightInternationalOut" viewBox="0 0 900 330" role="img" aria-label="Lokal vikt för utvandring efter ålder och kön"></svg>
+            </div>
+          </div>
+          <div id="migrationLocalWeightNote"></div>
         </article>
 
         <article class="panel">
