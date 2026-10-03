@@ -548,12 +548,68 @@ for (const geo of geos) {
     const mortZeroRows = [];
     const mortFullRows = [];
 
+    const byOriginFertility = {};
+    const byOriginMortality = {};
+
     for (const entry of origins) {
-      currentRows.push(...(report.results[geo][entry.origin][window] || []));
-      fertZeroRows.push(...scoreWeightVariant(entry, geo, window, 'fertility', 0));
-      fertFullRows.push(...scoreWeightVariant(entry, geo, window, 'fertility', 1));
-      mortZeroRows.push(...scoreWeightVariant(entry, geo, window, 'mortality', 0));
-      mortFullRows.push(...scoreWeightVariant(entry, geo, window, 'mortality', 1));
+      const current = report.results[geo][entry.origin][window] || [];
+      const fertZero = scoreWeightVariant(entry, geo, window, 'fertility', 0);
+      const fertFull = scoreWeightVariant(entry, geo, window, 'fertility', 1);
+      const mortZero = scoreWeightVariant(entry, geo, window, 'mortality', 0);
+      const mortFull = scoreWeightVariant(entry, geo, window, 'mortality', 1);
+
+      currentRows.push(...current);
+      fertZeroRows.push(...fertZero);
+      fertFullRows.push(...fertFull);
+      mortZeroRows.push(...mortZero);
+      mortFullRows.push(...mortFull);
+
+      byOriginFertility[entry.origin] = {
+        zeroWeightBirthsMAE: round1(mean(fertZero.map(x => Math.abs(x.birthsError)))),
+        currentWeightBirthsMAE: round1(mean(current.map(x => Math.abs(x.birthsError)))),
+        fullLocalBirthsMAE: round1(mean(fertFull.map(x => Math.abs(x.birthsError)))),
+        rows: current.map((r,i)=>({
+          year:r.year,
+          horizon:r.horizon,
+          zeroWeightAbsBirthsError:round1(Math.abs(fertZero[i]?.birthsError)),
+          currentWeightAbsBirthsError:round1(Math.abs(r.birthsError)),
+          fullLocalAbsBirthsError:round1(Math.abs(fertFull[i]?.birthsError))
+        }))
+      };
+      byOriginMortality[entry.origin] = {
+        zeroWeightDeathsMAE: round1(mean(mortZero.map(x => Math.abs(x.deathsError)))),
+        currentWeightDeathsMAE: round1(mean(current.map(x => Math.abs(x.deathsError)))),
+        fullLocalDeathsMAE: round1(mean(mortFull.map(x => Math.abs(x.deathsError)))),
+        rows: current.map((r,i)=>({
+          year:r.year,
+          horizon:r.horizon,
+          zeroWeightAbsDeathsError:round1(Math.abs(mortZero[i]?.deathsError)),
+          currentWeightAbsDeathsError:round1(Math.abs(r.deathsError)),
+          fullLocalAbsDeathsError:round1(Math.abs(mortFull[i]?.deathsError))
+        }))
+      };
+    }
+
+    const fertilityByHorizon = {};
+    const mortalityByHorizon = {};
+    for (let horizon=1; horizon<=manifest.horizonYears; horizon++) {
+      const currentH=currentRows.filter(r=>r.horizon===horizon);
+      const f0=fertZeroRows.filter(r=>r.horizon===horizon);
+      const f1=fertFullRows.filter(r=>r.horizon===horizon);
+      const m0=mortZeroRows.filter(r=>r.horizon===horizon);
+      const m1=mortFullRows.filter(r=>r.horizon===horizon);
+      fertilityByHorizon[horizon]={
+        observations:currentH.length,
+        zeroWeightBirthsMAE:round1(mean(f0.map(x=>Math.abs(x.birthsError)))),
+        currentWeightBirthsMAE:round1(mean(currentH.map(x=>Math.abs(x.birthsError)))),
+        fullLocalBirthsMAE:round1(mean(f1.map(x=>Math.abs(x.birthsError))))
+      };
+      mortalityByHorizon[horizon]={
+        observations:currentH.length,
+        zeroWeightDeathsMAE:round1(mean(m0.map(x=>Math.abs(x.deathsError)))),
+        currentWeightDeathsMAE:round1(mean(currentH.map(x=>Math.abs(x.deathsError)))),
+        fullLocalDeathsMAE:round1(mean(m1.map(x=>Math.abs(x.deathsError))))
+      };
     }
 
     report.ageCellWeightDiagnostic.fertility.summary[geo][window] = {
@@ -563,7 +619,9 @@ for (const geo of geos) {
       fullLocalBirthsMAE: round1(mean(fertFullRows.map(x => Math.abs(x.birthsError)))),
       zeroWeightPopulationMAPE: round1(mean(fertZeroRows.map(x => x.populationAbsPctError))),
       currentWeightPopulationMAPE: round1(mean(currentRows.map(x => x.populationAbsPctError))),
-      fullLocalPopulationMAPE: round1(mean(fertFullRows.map(x => x.populationAbsPctError)))
+      fullLocalPopulationMAPE: round1(mean(fertFullRows.map(x => x.populationAbsPctError))),
+      byHorizon: fertilityByHorizon,
+      byOrigin: byOriginFertility
     };
 
     report.ageCellWeightDiagnostic.mortality.summary[geo][window] = {
@@ -573,7 +631,9 @@ for (const geo of geos) {
       fullLocalDeathsMAE: round1(mean(mortFullRows.map(x => Math.abs(x.deathsError)))),
       zeroWeightPopulationMAPE: round1(mean(mortZeroRows.map(x => x.populationAbsPctError))),
       currentWeightPopulationMAPE: round1(mean(currentRows.map(x => x.populationAbsPctError))),
-      fullLocalPopulationMAPE: round1(mean(mortFullRows.map(x => x.populationAbsPctError)))
+      fullLocalPopulationMAPE: round1(mean(mortFullRows.map(x => x.populationAbsPctError))),
+      byHorizon: mortalityByHorizon,
+      byOrigin: byOriginMortality
     };
   }
 }
