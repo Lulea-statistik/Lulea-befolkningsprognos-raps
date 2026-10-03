@@ -21,6 +21,7 @@ HOUSEHOLD_PROJECTION_EXTERNAL = ROOT / "data" / "backtests" / "household_project
 LABOUR_MARKET_SUPPORT_VALIDATION = ROOT / "data" / "backtests" / "labour_market_support_validation.json"
 FADING_POLICY_VALIDATION = ROOT / "data" / "backtests" / "fading_policy_validation.json"
 QUTB_VALIDATION = ROOT / "data" / "backtests" / "qutb_neutralization_validation.json"
+BASE_POPULATION_BRIDGE_VALIDATION = ROOT / "data" / "backtests" / "base_population_bridge_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -879,6 +880,47 @@ def main():
             else "Keep qutb below production maturity until identity/no-effect regression passes."
             if qutb_has_results
             else "Run the locked qutb neutralization regression."
+        )
+    ))
+
+    base_bridge_cfg = load(ROOT / "data" / "base_population_bridge_config.json")
+    base_bridge_validation = (
+        load(BASE_POPULATION_BRIDGE_VALIDATION)
+        if BASE_POPULATION_BRIDGE_VALIDATION.exists()
+        else {}
+    )
+    base_bridge_gate = base_bridge_validation.get("allPassed") is True
+    base_bridge_has_results = bool(base_bridge_validation.get("checks"))
+    comps.append(component(
+        policy, "base_population_ckm_bridge",
+        4 if base_bridge_gate else 2 if base_bridge_has_results else 1,
+        (
+            "production_support" if base_bridge_gate
+            else "rejected" if base_bridge_has_results
+            else "diagnostic"
+        ),
+        base_bridge_gate,
+        [
+            gate(
+                "2024→2025 method bridge is explicitly documented",
+                base_bridge_cfg.get("status") == "production_bridge_locked",
+                base_bridge_cfg.get("status")
+            ),
+            gate(
+                "CKM base population and pre-CKM calibration separation validate",
+                base_bridge_gate,
+                (
+                    f"checks={base_bridge_validation.get('checks')}"
+                    if base_bridge_has_results else "Awaiting validation"
+                )
+            )
+        ],
+        (
+            "Keep the bridge explicit on every base-year rollover; never extend pre-CKM calibration across the method break implicitly."
+            if base_bridge_gate
+            else "Keep below production maturity until base-stock completeness and method-break separation pass."
+            if base_bridge_has_results
+            else "Run the locked base-population bridge validation."
         )
     ))
 
