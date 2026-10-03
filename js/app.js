@@ -518,8 +518,10 @@
         ...common,
         scenarios:currentScenarios()
       });
-      renderAll();
-      renderStatus("Beräkningen genomfördes.");
+      const renderErrors=renderAll();
+      renderStatus(renderErrors.length
+        ? `Beräkningen genomfördes, men UI-fel kvarstår: ${renderErrors.join("; ")}`
+        : "Beräkningen genomfördes.");
       $("exportBtn").disabled=false;
     }catch(e){
       latest=[];baseline=[];$("exportBtn").disabled=true;renderStatus(e.message);
@@ -527,17 +529,29 @@
   }
 
   function renderAll(){
-    renderResults();
-    renderAnalysis();
-    renderDetailedAgeAnalysis();
-    renderMigrationAnalysis();
-    renderMigrationLocalWeightCharts();
-    renderYoungAdultMigrationDiagnostic();
-    renderMigrationLegDiagnostic();
-    renderLabourAnalysis();
-    renderHousingAnalysis();
-    renderValidation();
-    renderDataStatus();
+    const errors=[];
+    const renderers=[
+      ["Resultat",renderResults],
+      ["Befolkningsanalys",renderAnalysis],
+      ["Åldersanalys",renderDetailedAgeAnalysis],
+      ["Flyttningar",renderMigrationAnalysis],
+      ["Lokala flyttvikter",renderMigrationLocalWeightCharts],
+      ["Unga vuxna",renderYoungAdultMigrationDiagnostic],
+      ["Flyttben",renderMigrationLegDiagnostic],
+      ["Arbetsmarknad",renderLabourAnalysis],
+      ["Hushåll och bostad",renderHousingAnalysis],
+      ["Validering",renderValidation],
+      ["Datastatus",renderDataStatus]
+    ];
+    renderers.forEach(([name,fn])=>{
+      try{
+        fn();
+      }catch(e){
+        console.error(`Renderingsfel i ${name}`,e);
+        errors.push(`${name}: ${e?.message||e}`);
+      }
+    });
+    return errors;
   }
 
   function renderResults(){
