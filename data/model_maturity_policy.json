@@ -180,6 +180,11 @@
       "label": "SCB bostadsbestånd",
       "targetLevel": 4,
       "requiredGate": "Senaste bostadsbeståndet ska vara komplett för alla fem kommuner över hustyp × upplåtelseform, sakna dubbletter, ha icke-negativa tal och kunna summeras reproducerbart till FA."
+    },
+    "housing_balance_indicator": {
+      "label": "Bostadsefterfrågan och reserv",
+      "targetLevel": 4,
+      "requiredGate": "Bostadsreserven ska vara matematiskt korrekt och begränsad till 0–20 %, nolläge neutralt, planerat tillskott räknas relativt basåret och balansmåttet ska förbli ett analysstöd utan påverkan på den demografiska prognosen."
     }
   }
 }
