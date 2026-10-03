@@ -19,6 +19,7 @@ ORDERED_FIELDS = (
     "moveSharePct",
     "personsPerJob",
     "internationalRecruitmentSharePct",
+    "spinOffJobsPerDirectJob",
 )
 INVERSE_ORDERED_FIELDS = ("phaseYears",)
 
