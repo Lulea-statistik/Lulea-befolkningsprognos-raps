@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "external_holdouts_locked_before_results",
+  "component": "household_projection_trend",
+  "holdouts": {
+    "1490": "Borås kommun",
+    "1780": "Karlstads kommun",
+    "2281": "Sundsvalls kommun",
+    "2380": "Östersunds kommun",
+    "0780": "Växjö kommun"
+  },
+  "rationale": "These municipalities were not used in the Lulea/FA household-projection development test. They are reused from the pre-declared Lulea-analogue pool only as independent household-formation controls.",
+  "candidate": {
+    "method": "five_year_linear_trend",
+    "historyYears": 5,
+    "cap": [
+      1.2,
+      4
+    ]
+  },
+  "comparator": "constant_latest_persons_per_household",
+  "productionGate": [
+    "trend household-count MAE must be below constant at n+1 across the pooled external holdouts",
+    "trend household-count MAE must be below constant at n+2 across the pooled external holdouts",
+    "trend household-count MAPE must be <= 2 percent at n+1 across the pooled external holdouts",
+    "trend household-count MAPE must be <= 2 percent at n+2 across the pooled external holdouts",
+    "at least four of five holdout municipalities must have lower n+1 MAE with trend than constant",
+    "at least four of five holdout municipalities must have lower n+2 MAE with trend than constant"
+  ],
+  "governance": [
+    "Holdout municipalities and the 4-of-5 rule are locked before their household results are downloaded or scored.",
+    "Do not change the five-year trend window, caps, holdouts or thresholds after viewing results.",
+    "Passing this gate qualifies the already pre-declared trend challenger for production-support use in household-demand analysis; it does not validate vacancy or market-price forecasts."
+  ]
+}
