@@ -197,6 +197,9 @@ jobs:
       - name: Validate production FA additivity
         run: node scripts/validate_fa_additivity.js
 
+      - name: Validate future national profile coverage
+        run: node scripts/validate_national_future_profiles.js
+
       - name: Build model maturity report
         run: python scripts/build_model_maturity.py
 
