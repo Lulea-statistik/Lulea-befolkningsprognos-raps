@@ -411,7 +411,19 @@
       return;
     }
     const levelLabel=l=>`Nivå ${l} · ${maturity.levels?.[String(l)]?.name||""}`;
-    const stateLabel=s=>({production:"Produktion",production_support:"Produktionsstöd",active_needs_final_gate:"Aktiv – sista grind saknas",validated_candidate:"Validerad kandidat",development:"Utveckling",development_scenario:"Scenarioutveckling",diagnostic:"Diagnostik",rejected:"Avslutad"}[s]||s);
+    const stateLabel=s=>({
+      production:"Produktion",
+      production_support:"Produktionsstöd",
+      production_ready_scenario:"Produktionsklart scenario",
+      active_needs_final_gate:"Aktiv – sista grind saknas",
+      validated_candidate:"Validerad kandidat",
+      development:"Utveckling",
+      development_scenario:"Scenarioutveckling",
+      diagnostic:"Diagnostik",
+      rejected:"Avslutad",
+      rejected_superseded:"Avslutad – ersatt",
+      rejected_current_architecture:"Avslutad – nuvarande arkitektur"
+    }[s]||s);
     const rows=maturity.components.map(c=>{
       const gates=(c.gates||[]).map(g=>`${g.passed?"✓":"✗"} ${g.label}`).join("<br>");
       return `<tr>
