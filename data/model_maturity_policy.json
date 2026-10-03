@@ -199,7 +199,7 @@
     "fertility_spline_candidate": {
       "label": "Fruktsamhet: kubisk smoothing spline för lokal åldersprofil",
       "targetLevel": 4,
-      "requiredGate": "Kandidaten är låst efter utvecklingsanalys. Den får inte befordras på redan konsumerade 2018–2024-resultat; nivå 3–4 kräver ny oberoende evidens med förhandsdefinierad grind."
+      "requiredGate": "Nivå 3 kräver den redan låsta 2025-holdoutgrinden. Nivå 4 kräver dessutom en ytterligare helt orörd årlig eller extern kontroll efter 2025 där lambda=10 och metodformuleringen förblir oförändrade; kandidaten måste återigen sänka maternal-age-cell MAE och inte försämra totalfelet för födda i både Luleå och Luleå FA."
     },
     "mortality_eb_candidate": {
       "label": "Dödlighet: Empirical Bayes-shrinkage för lokal åldersrisk",
