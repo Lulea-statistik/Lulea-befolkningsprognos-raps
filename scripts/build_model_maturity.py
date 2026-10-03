@@ -28,6 +28,7 @@ NATIONAL_FUTURE_PROFILES_VALIDATION = ROOT / "data" / "backtests" / "national_fu
 SCENARIO_OVERLAP_VALIDATION = ROOT / "data" / "backtests" / "scenario_overlap_control_validation.json"
 DEMOGRAPHIC_SENSITIVITY_VALIDATION = ROOT / "data" / "backtests" / "demographic_sensitivity_controls_validation.json"
 CKM_UNCERTAINTY_VALIDATION = ROOT / "data" / "backtests" / "ckm_uncertainty_diagnostics_validation.json"
+SCENARIO_MIGRATION_PROFILES_VALIDATION = ROOT / "data" / "backtests" / "scenario_migration_profiles_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -1177,6 +1178,47 @@ def main():
             else "Keep below production maturity until bounds and method-break separation pass."
             if ckm_has_results
             else "Run the locked CKM diagnostic validation."
+        )
+    ))
+
+    scenario_profiles_cfg = load(ROOT / "data" / "scenario_migration_profiles_config.json")
+    scenario_profiles_validation = (
+        load(SCENARIO_MIGRATION_PROFILES_VALIDATION)
+        if SCENARIO_MIGRATION_PROFILES_VALIDATION.exists()
+        else {}
+    )
+    scenario_profiles_gate = scenario_profiles_validation.get("allPassed") is True
+    scenario_profiles_has_results = bool(scenario_profiles_validation.get("checks"))
+    comps.append(component(
+        policy, "scenario_migration_profiles",
+        4 if scenario_profiles_gate else 2 if scenario_profiles_has_results else 1,
+        (
+            "production_support" if scenario_profiles_gate
+            else "rejected" if scenario_profiles_has_results
+            else "diagnostic"
+        ),
+        scenario_profiles_gate,
+        [
+            gate(
+                "Scenario migration profile gate is explicitly locked",
+                scenario_profiles_cfg.get("status") == "production_scenario_profile_gate_locked",
+                scenario_profiles_cfg.get("status")
+            ),
+            gate(
+                "Profile sums, supports and SCB worker-target reconciliation pass",
+                scenario_profiles_gate,
+                (
+                    f"checks={scenario_profiles_validation.get('checks')}"
+                    if scenario_profiles_has_results else "Awaiting validation"
+                )
+            )
+        ],
+        (
+            "Keep profiles as descriptive scenario priors only; rerun validation whenever labour-market structure or scenario age-profile mechanics change."
+            if scenario_profiles_gate
+            else "Keep below production maturity until all profile accounting and SCB target reconciliations pass."
+            if scenario_profiles_has_results
+            else "Run the locked scenario-profile validation."
         )
     ))
 
