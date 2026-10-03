@@ -1583,7 +1583,7 @@ def main():
             "componentCount": len(comps),
             "byLevel": counts,
             "productionLevel4": [c["key"] for c in comps if c["maturityLevel"] == 4],
-            "rejected": [c["key"] for c in comps if c["lifecycle"] == "rejected"]
+            "rejected": [c["key"] for c in comps if str(c["lifecycle"]).startswith("rejected")]
         },
         "components": comps
     }
