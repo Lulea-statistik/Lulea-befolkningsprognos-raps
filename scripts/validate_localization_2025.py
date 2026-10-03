@@ -166,22 +166,15 @@ def score_fertility(model):
     exp25 = b.aggregate_fa_age_sex(
         b.load_wide_age_sex("mean_population_event_age_2025.csv")
     )
-    # National 2025 observed age-specific rates isolate the local-shape decision.
-    nat_births = {
-        age: births25.get((b.RIKET_CODE, 2025, age), 0.0)
-        for age in range(15, 50)
-    }
-    nat_exp = {
-        age: exp25.get((b.RIKET_CODE, 2025, "K", age), 0.0)
-        for age in range(15, 50)
-    }
+    # Hold the pre-2025 national age profile fixed for both methods.
+    # This isolates the localization choice; 2025 is used only as local exposure/outcome.
     base = {(r["geo"], int(r["age"])): r for r in rows}
     out = {}
     for geo in GEOS:
         cells = []
         for age in range(15, 50):
             r = base[(geo, age)]
-            nr = 0.0 if nat_exp[age] <= 0 else nat_births[age] / nat_exp[age]
+            nr = max(0.0, float(r.get("nationalRate") or 0.0))
             exposure = exp25.get((geo, 2025, "K", age), 0.0)
             actual = births25.get((geo, 2025, age), 0.0)
             current = exposure * nr * current_factor(r)
@@ -225,9 +218,7 @@ def score_mortality(model):
         for sex in ("K", "M"):
             for age in range(101):
                 r = base[(geo, sex, age)]
-                nd = deaths25.get((b.RIKET_CODE, 2025, sex, age), 0.0)
-                ne = exp25.get((b.RIKET_CODE, 2025, sex, age), 0.0)
-                nh = 0.0 if ne <= 0 else nd / ne
+                nh = max(0.0, float(r.get("nationalHazard") or 0.0))
                 exposure = exp25.get((geo, 2025, sex, age), 0.0)
                 actual = deaths25.get((geo, 2025, sex, age), 0.0)
                 current = exposure * nh * current_factor(r)
@@ -291,9 +282,10 @@ def main():
         "holdoutYear": 2025,
         "productionWindow": WINDOW,
         "methodBreakNote": (
-            "2025 is kept outside calibration. This is a component-rate holdout using observed "
-            "2025 event exposures and observed Sweden age-specific rates, so it isolates local "
-            "shape/localization rather than the full CKM population bridge."
+            "2025 is kept outside calibration. This component-rate holdout uses observed 2025 local "
+            "event exposures/outcomes while holding the pre-2025 national age profile fixed for "
+            "both comparators. It therefore isolates the local shape/localization choice rather "
+            "than the full CKM population bridge or national 2025 level shifts."
         ),
         "predeclaredGate": {
             "fertility": (
