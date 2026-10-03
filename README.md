@@ -7,7 +7,7 @@ HTML-baserad demografisk prognosmodell för Luleå FA och kommunerna Luleå, Bod
 Gränssnittet är uppdelat i nio rapportsidor:
 
 1. **Resultat** – KPI:er, befolkningskurva, demografiska komponenter, årsresultat och SCB-benchmark.
-2. **Befolkningsanalys** – kalibreringskänslighet 6/10/19 år, kommun/Riket-faktorer, åldersstruktur och demografisk balans.
+2. **Befolkningsanalys** – kalibreringskänslighet 3/6/10 år, kommun/Riket-faktorer, åldersstruktur och demografisk balans.
 3. **Åldersanalys 1-år** – fruktsamhets- och dödlighetsfading för varje enskild ålder, inklusive kvinnor/män för dödlighet.
 4. **Flyttanalys** – inflyttning, utflyttning, netto, historisk variation och praktisk 5 %-känslighet i 1-årsåldrar.
 5. **Arbetsmarknad & pendling** – jobbutveckling, bostads-/arbetsställekommun, pendlingsmatris och scenariofördelning av nya jobb.
@@ -27,7 +27,7 @@ Geografi, kalibreringsfönster och slutår är globala filter och gäller på al
 - `js/model.js` – kohortmodell, CKM-diagnostik och scenarioeffekter.
 - `js/app.js` – navigering, filter, diagram, scenariotabeller och valideringsvyer.
 - `data/model_data.json/js` – genererade modellindata för browser och analys.
-- `data/model_validation.json/js` – 6/10/19-årig valideringssammanställning.
+- `data/model_validation.json/js` – 3/6/10-årig valideringssammanställning.
 - `data/backtests/` – 2022–2024 utvecklingsbacktest samt rolling-origin-validering med SCB-vintages 2018–2021.
 - `data/reference_fa_regions.json` – låst FA15-konfiguration för externa referensregioner.
 - `data/migration_component_windows.json` – låst utvecklingskandidat för komponentvisa migrationsfönster; #38 har genomfört första externa testet utan regional omtrimning.
@@ -44,7 +44,7 @@ Geografi, kalibreringsfönster och slutår är globala filter och gäller på al
 
 ## Modellprinciper
 
-- Basår 2025, prognos normalt till 2050.
+- Basår 2025. Dashboardens ordinarie valbara prognoshorisont är de kommande tio åren.
 - Fruktsamhet och dödlighet följer SCB 2024:s nationella framtidstrender och lokaliseras mot kommun/FA.
 - SCB 2026 kan väljas som en **fruktsamhets-only känslighetsbana**. Den behåller samma lokala Luleåprofil och ändrar inte dödlighet eller migration. SCB-benchmark är jämförelse, inte kalibreringsmål.
 - Händelserisker använder medelfolkmängd som exponering med matchad åldersdefinition: TAB2818 för dödlighet/flyttning (ålder vid årets slut) och TAB2819 för fruktsamhet (moderns ålder vid födelsen). Folkmängd 31 december används fortfarande för bestånd och redovisade befolkningsnivåer.
@@ -54,12 +54,12 @@ Geografi, kalibreringsfönster och slutår är globala filter och gäller på al
 - Fading använder två outcome-oberoende informationssignaler: genomsnittlig årlig cellpopulation och förväntat antal händelser. Populationssignalen går från 0 % vid <=20 till 100 % vid >=100; händelsesignalen går från 0 % vid <=1 förväntad händelse till 100 % vid >=20. Den slutliga lokala vikten är produkten av de två.
 - Fadinggränserna är fastställda före benchmarkutvärderingen och får inte trimmas mot känt utfall.
 - `urisk`: historisk kommunal utflyttningsrisk lagras per kön/ettårsålder och 2/4/6/10-årsfönster. Historisk bruttoinflyttning lagras parallellt. Basscenariot använder fortfarande exogen nettoflyttning tills IMIG/UMIG/`ifl` aktiveras.
-- Nettoflyttningens 2/4/6/10-årsfönster kan varieras separat från fruktsamhet/dödlighet för en ren känslighetsanalys. Rolling-origin-testet jämför samma fönster på n+1 och n+2. 19 år har tagits bort som aktivt migrationsfönster eftersom #36 inte gav något prognosstöd för det; fruktsamhet och dödlighet behåller däremot 19 år som lång stabilitetskontroll. Observerat 2025-netto sparas som post-2024 diagnostik men används inte för efterhandskalibrering.
+- Nettoflyttningens 2/3/4/6/10-årsfönster kan varieras separat från fruktsamhet/dödlighet för en ren känslighetsanalys. Rolling-origin-testet jämför samma fönster på n+1 och n+2. 19 år har tagits bort som aktivt migrationsfönster eftersom #36 inte gav något prognosstöd för det; fruktsamhet och dödlighet behåller däremot 19 år som lång stabilitetskontroll. Observerat 2025-netto sparas som post-2024 diagnostik men används inte för efterhandskalibrering.
 - `qutb`: identitetsmatris tills övergångstal läggs in.
-- Kalibreringsfönster 6, 10 (standard) och 19 år.
+- Huvudkalibreringsfönster 3, 6 och 10 år, där 10 år är produktionsstandard.
 - CKM-metodbrottet 2025 flaggas separat.
 - Luleå FA prognostiseras additivt som summan av de fem kommunprognoserna. FA-specifika kalibrerade profiler används som diagnostik, inte som en separat prognosmotor.
-- Kommunal migration delas diagnostiskt i tre geografiska ben från SCB TAB4693/TAB6657: **övriga Norrbotten**, **övriga Sverige** och **utlandet**, vardera med in-, ut- och nettoflöde per ettårsålder och kön. Dessa ben används ännu inte som separata produktionsmotorer; de används först för komponentvis 2/4/6/10-årsvalidering.
+- Kommunal migration delas diagnostiskt i tre geografiska ben från SCB TAB4693/TAB6657: **övriga Norrbotten**, **övriga Sverige** och **utlandet**, vardera med in-, ut- och nettoflöde per ettårsålder och kön. Dessa ben används ännu inte som separata produktionsmotorer; de används för komponentvis 2/3/4/6/10-årsvalidering.
 
 ## Bostads- och arbetsplatsscenarier
 
