@@ -6646,6 +6646,370 @@
       }
     }
   },
+  "ageCellWeightDiagnostic": {
+    "note": "Diagnostic only. Isolates the age-cell weighting choice while retaining the broad municipality factor. Compares 0% local age-cell weight, current information-weighted production values, and 100% local age-cell weight. This is distinct from the harder national-only diagnostic, which also removes the broad municipality factor.",
+    "definitions": {
+      "zero": "National age profile multiplied by the broad municipality factor; no one-year local cell deviation.",
+      "current": "Production information-weighted blend between broad municipality factor and local one-year cell factor.",
+      "full": "Local one-year cell factor at 100% weight, subject to the same fixed local/national ratio bounds."
+    },
+    "fertility": {
+      "summary": {
+        "2514": {
+          "3": {
+            "observations": 12,
+            "zeroWeightBirthsMAE": 11.1,
+            "currentWeightBirthsMAE": 7.8,
+            "fullLocalBirthsMAE": 9.1,
+            "zeroWeightPopulationMAPE": 0.6,
+            "currentWeightPopulationMAPE": 0.6,
+            "fullLocalPopulationMAPE": 0.7
+          },
+          "6": {
+            "observations": 12,
+            "zeroWeightBirthsMAE": 8.3,
+            "currentWeightBirthsMAE": 7.8,
+            "fullLocalBirthsMAE": 9.1,
+            "zeroWeightPopulationMAPE": 0.4,
+            "currentWeightPopulationMAPE": 0.4,
+            "fullLocalPopulationMAPE": 0.4
+          },
+          "10": {
+            "observations": 12,
+            "zeroWeightBirthsMAE": 7.6,
+            "currentWeightBirthsMAE": 9.4,
+            "fullLocalBirthsMAE": 11,
+            "zeroWeightPopulationMAPE": 0.4,
+            "currentWeightPopulationMAPE": 0.5,
+            "fullLocalPopulationMAPE": 0.5
+          }
+        },
+        "2560": {
+          "3": {
+            "observations": 12,
+            "zeroWeightBirthsMAE": 6.5,
+            "currentWeightBirthsMAE": 6.5,
+            "fullLocalBirthsMAE": 7.6,
+            "zeroWeightPopulationMAPE": 0.7,
+            "currentWeightPopulationMAPE": 0.7,
+            "fullLocalPopulationMAPE": 0.6
+          },
+          "6": {
+            "observations": 12,
+            "zeroWeightBirthsMAE": 6.7,
+            "currentWeightBirthsMAE": 6.6,
+            "fullLocalBirthsMAE": 7.6,
+            "zeroWeightPopulationMAPE": 1.1,
+            "currentWeightPopulationMAPE": 1.1,
+            "fullLocalPopulationMAPE": 1
+          },
+          "10": {
+            "observations": 12,
+            "zeroWeightBirthsMAE": 6.6,
+            "currentWeightBirthsMAE": 6.7,
+            "fullLocalBirthsMAE": 8.1,
+            "zeroWeightPopulationMAPE": 0.9,
+            "currentWeightPopulationMAPE": 0.9,
+            "fullLocalPopulationMAPE": 0.8
+          }
+        },
+        "2580": {
+          "3": {
+            "observations": 12,
+            "zeroWeightBirthsMAE": 60.8,
+            "currentWeightBirthsMAE": 61.4,
+            "fullLocalBirthsMAE": 60.6,
+            "zeroWeightPopulationMAPE": 0.2,
+            "currentWeightPopulationMAPE": 0.2,
+            "fullLocalPopulationMAPE": 0.2
+          },
+          "6": {
+            "observations": 12,
+            "zeroWeightBirthsMAE": 60.1,
+            "currentWeightBirthsMAE": 62.5,
+            "fullLocalBirthsMAE": 62.2,
+            "zeroWeightPopulationMAPE": 0.2,
+            "currentWeightPopulationMAPE": 0.2,
+            "fullLocalPopulationMAPE": 0.2
+          },
+          "10": {
+            "observations": 12,
+            "zeroWeightBirthsMAE": 58.9,
+            "currentWeightBirthsMAE": 63.2,
+            "fullLocalBirthsMAE": 63,
+            "zeroWeightPopulationMAPE": 0.2,
+            "currentWeightPopulationMAPE": 0.2,
+            "fullLocalPopulationMAPE": 0.2
+          }
+        },
+        "2581": {
+          "3": {
+            "observations": 12,
+            "zeroWeightBirthsMAE": 30.3,
+            "currentWeightBirthsMAE": 25.9,
+            "fullLocalBirthsMAE": 25,
+            "zeroWeightPopulationMAPE": 0.3,
+            "currentWeightPopulationMAPE": 0.3,
+            "fullLocalPopulationMAPE": 0.3
+          },
+          "6": {
+            "observations": 12,
+            "zeroWeightBirthsMAE": 25.9,
+            "currentWeightBirthsMAE": 20.9,
+            "fullLocalBirthsMAE": 20.5,
+            "zeroWeightPopulationMAPE": 0.4,
+            "currentWeightPopulationMAPE": 0.4,
+            "fullLocalPopulationMAPE": 0.3
+          },
+          "10": {
+            "observations": 12,
+            "zeroWeightBirthsMAE": 25,
+            "currentWeightBirthsMAE": 20.2,
+            "fullLocalBirthsMAE": 20,
+            "zeroWeightPopulationMAPE": 0.3,
+            "currentWeightPopulationMAPE": 0.3,
+            "fullLocalPopulationMAPE": 0.3
+          }
+        },
+        "2582": {
+          "3": {
+            "observations": 12,
+            "zeroWeightBirthsMAE": 21.3,
+            "currentWeightBirthsMAE": 15.8,
+            "fullLocalBirthsMAE": 15.2,
+            "zeroWeightPopulationMAPE": 0.3,
+            "currentWeightPopulationMAPE": 0.3,
+            "fullLocalPopulationMAPE": 0.3
+          },
+          "6": {
+            "observations": 12,
+            "zeroWeightBirthsMAE": 22.4,
+            "currentWeightBirthsMAE": 16,
+            "fullLocalBirthsMAE": 14.8,
+            "zeroWeightPopulationMAPE": 0.4,
+            "currentWeightPopulationMAPE": 0.3,
+            "fullLocalPopulationMAPE": 0.3
+          },
+          "10": {
+            "observations": 12,
+            "zeroWeightBirthsMAE": 18.7,
+            "currentWeightBirthsMAE": 12.8,
+            "fullLocalBirthsMAE": 12.5,
+            "zeroWeightPopulationMAPE": 0.4,
+            "currentWeightPopulationMAPE": 0.4,
+            "fullLocalPopulationMAPE": 0.4
+          }
+        },
+        "FA_LULEA": {
+          "3": {
+            "observations": 12,
+            "zeroWeightBirthsMAE": 119.8,
+            "currentWeightBirthsMAE": 103,
+            "fullLocalBirthsMAE": 95.1,
+            "zeroWeightPopulationMAPE": 0.2,
+            "currentWeightPopulationMAPE": 0.2,
+            "fullLocalPopulationMAPE": 0.2
+          },
+          "6": {
+            "observations": 12,
+            "zeroWeightBirthsMAE": 112.1,
+            "currentWeightBirthsMAE": 96.4,
+            "fullLocalBirthsMAE": 89.1,
+            "zeroWeightPopulationMAPE": 0.3,
+            "currentWeightPopulationMAPE": 0.3,
+            "fullLocalPopulationMAPE": 0.3
+          },
+          "10": {
+            "observations": 12,
+            "zeroWeightBirthsMAE": 98.9,
+            "currentWeightBirthsMAE": 86.7,
+            "fullLocalBirthsMAE": 81.9,
+            "zeroWeightPopulationMAPE": 0.2,
+            "currentWeightPopulationMAPE": 0.2,
+            "fullLocalPopulationMAPE": 0.2
+          }
+        }
+      }
+    },
+    "mortality": {
+      "summary": {
+        "2514": {
+          "3": {
+            "observations": 12,
+            "zeroWeightDeathsMAE": 13.9,
+            "currentWeightDeathsMAE": 13.2,
+            "fullLocalDeathsMAE": 17.5,
+            "zeroWeightPopulationMAPE": 0.6,
+            "currentWeightPopulationMAPE": 0.6,
+            "fullLocalPopulationMAPE": 0.6
+          },
+          "6": {
+            "observations": 12,
+            "zeroWeightDeathsMAE": 12,
+            "currentWeightDeathsMAE": 11.3,
+            "fullLocalDeathsMAE": 13.9,
+            "zeroWeightPopulationMAPE": 0.4,
+            "currentWeightPopulationMAPE": 0.4,
+            "fullLocalPopulationMAPE": 0.4
+          },
+          "10": {
+            "observations": 12,
+            "zeroWeightDeathsMAE": 11.5,
+            "currentWeightDeathsMAE": 13.5,
+            "fullLocalDeathsMAE": 13.8,
+            "zeroWeightPopulationMAPE": 0.5,
+            "currentWeightPopulationMAPE": 0.5,
+            "fullLocalPopulationMAPE": 0.4
+          }
+        },
+        "2560": {
+          "3": {
+            "observations": 12,
+            "zeroWeightDeathsMAE": 8.7,
+            "currentWeightDeathsMAE": 8.7,
+            "fullLocalDeathsMAE": 8,
+            "zeroWeightPopulationMAPE": 0.7,
+            "currentWeightPopulationMAPE": 0.7,
+            "fullLocalPopulationMAPE": 0.8
+          },
+          "6": {
+            "observations": 12,
+            "zeroWeightDeathsMAE": 7.7,
+            "currentWeightDeathsMAE": 7.7,
+            "fullLocalDeathsMAE": 7.9,
+            "zeroWeightPopulationMAPE": 1.1,
+            "currentWeightPopulationMAPE": 1.1,
+            "fullLocalPopulationMAPE": 1.2
+          },
+          "10": {
+            "observations": 12,
+            "zeroWeightDeathsMAE": 7.6,
+            "currentWeightDeathsMAE": 7.6,
+            "fullLocalDeathsMAE": 7.8,
+            "zeroWeightPopulationMAPE": 0.9,
+            "currentWeightPopulationMAPE": 0.9,
+            "fullLocalPopulationMAPE": 1
+          }
+        },
+        "2580": {
+          "3": {
+            "observations": 12,
+            "zeroWeightDeathsMAE": 30.6,
+            "currentWeightDeathsMAE": 31.7,
+            "fullLocalDeathsMAE": 34,
+            "zeroWeightPopulationMAPE": 0.2,
+            "currentWeightPopulationMAPE": 0.2,
+            "fullLocalPopulationMAPE": 0.2
+          },
+          "6": {
+            "observations": 12,
+            "zeroWeightDeathsMAE": 31.4,
+            "currentWeightDeathsMAE": 32.1,
+            "fullLocalDeathsMAE": 33.1,
+            "zeroWeightPopulationMAPE": 0.2,
+            "currentWeightPopulationMAPE": 0.2,
+            "fullLocalPopulationMAPE": 0.2
+          },
+          "10": {
+            "observations": 12,
+            "zeroWeightDeathsMAE": 27.9,
+            "currentWeightDeathsMAE": 31.1,
+            "fullLocalDeathsMAE": 30.2,
+            "zeroWeightPopulationMAPE": 0.2,
+            "currentWeightPopulationMAPE": 0.2,
+            "fullLocalPopulationMAPE": 0.2
+          }
+        },
+        "2581": {
+          "3": {
+            "observations": 12,
+            "zeroWeightDeathsMAE": 21.1,
+            "currentWeightDeathsMAE": 19.8,
+            "fullLocalDeathsMAE": 17.9,
+            "zeroWeightPopulationMAPE": 0.3,
+            "currentWeightPopulationMAPE": 0.3,
+            "fullLocalPopulationMAPE": 0.3
+          },
+          "6": {
+            "observations": 12,
+            "zeroWeightDeathsMAE": 20.5,
+            "currentWeightDeathsMAE": 21,
+            "fullLocalDeathsMAE": 19.4,
+            "zeroWeightPopulationMAPE": 0.3,
+            "currentWeightPopulationMAPE": 0.4,
+            "fullLocalPopulationMAPE": 0.4
+          },
+          "10": {
+            "observations": 12,
+            "zeroWeightDeathsMAE": 19.3,
+            "currentWeightDeathsMAE": 18.4,
+            "fullLocalDeathsMAE": 18.3,
+            "zeroWeightPopulationMAPE": 0.3,
+            "currentWeightPopulationMAPE": 0.3,
+            "fullLocalPopulationMAPE": 0.3
+          }
+        },
+        "2582": {
+          "3": {
+            "observations": 12,
+            "zeroWeightDeathsMAE": 16.6,
+            "currentWeightDeathsMAE": 17.4,
+            "fullLocalDeathsMAE": 21,
+            "zeroWeightPopulationMAPE": 0.3,
+            "currentWeightPopulationMAPE": 0.3,
+            "fullLocalPopulationMAPE": 0.3
+          },
+          "6": {
+            "observations": 12,
+            "zeroWeightDeathsMAE": 18.7,
+            "currentWeightDeathsMAE": 20,
+            "fullLocalDeathsMAE": 21,
+            "zeroWeightPopulationMAPE": 0.3,
+            "currentWeightPopulationMAPE": 0.3,
+            "fullLocalPopulationMAPE": 0.3
+          },
+          "10": {
+            "observations": 12,
+            "zeroWeightDeathsMAE": 18.5,
+            "currentWeightDeathsMAE": 19.1,
+            "fullLocalDeathsMAE": 19.9,
+            "zeroWeightPopulationMAPE": 0.4,
+            "currentWeightPopulationMAPE": 0.4,
+            "fullLocalPopulationMAPE": 0.4
+          }
+        },
+        "FA_LULEA": {
+          "3": {
+            "observations": 12,
+            "zeroWeightDeathsMAE": 46.2,
+            "currentWeightDeathsMAE": 46.9,
+            "fullLocalDeathsMAE": 64.2,
+            "zeroWeightPopulationMAPE": 0.2,
+            "currentWeightPopulationMAPE": 0.2,
+            "fullLocalPopulationMAPE": 0.2
+          },
+          "6": {
+            "observations": 12,
+            "zeroWeightDeathsMAE": 45.5,
+            "currentWeightDeathsMAE": 45.7,
+            "fullLocalDeathsMAE": 54.2,
+            "zeroWeightPopulationMAPE": 0.3,
+            "currentWeightPopulationMAPE": 0.3,
+            "fullLocalPopulationMAPE": 0.3
+          },
+          "10": {
+            "observations": 12,
+            "zeroWeightDeathsMAE": 44.9,
+            "currentWeightDeathsMAE": 51.9,
+            "fullLocalDeathsMAE": 52.6,
+            "zeroWeightPopulationMAPE": 0.2,
+            "currentWeightPopulationMAPE": 0.2,
+            "fullLocalPopulationMAPE": 0.2
+          }
+        }
+      }
+    }
+  },
   "eventAgeTimingDiagnostic": {
     "note": "Historical comparison of legacy V1 timing against the production event-age aligned cohort step. Primary evaluation horizon is n+1, secondary is n+2, and n+3 is supplementary robustness only.",
     "summary": {

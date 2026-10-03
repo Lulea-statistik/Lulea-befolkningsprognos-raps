@@ -66,6 +66,8 @@
       "component_flow",
       "migration_recency",
       "migration_age_smoothing",
+      "scb_risk_flow",
+      "profet_flow",
       "birth_status",
       "consistency_adjustment"
     ]
