@@ -105,6 +105,11 @@
       "label": "Arbetsmarknads- och pendlingsunderlag",
       "targetLevel": 4,
       "requiredGate": "SCB-pendlingsmatris och arbetskraftens åldersprofil ska vara kompletta, summera korrekt, täcka låsta år/geografier och bära explicit metodbrottsnot innan de används som produktionsstöd."
+    },
+    "fading_policy": {
+      "label": "Fading-policy för små lokala åldersceller",
+      "targetLevel": 4,
+      "requiredGate": "Informationsbaserad fading ska vara deterministisk, monoton och utfallsoberoende, använda dokumenterade fasta trösklar och samtidigt behålla de redan godkända rolling-origin-resultaten för lokal fruktsamhet och dödlighet."
     }
   }
 }
