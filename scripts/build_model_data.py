@@ -2294,6 +2294,27 @@ def birth_status_diagnostic(pop_birth_status, year=2024):
     return result
 
 
+def birth_status_population_rows(pop_birth_status, year, geos=None):
+    """Population state rows by Swedish-/foreign-born for a base year."""
+    allowed = set(geos or MUNICIPALITIES)
+    result = []
+    for geo in allowed:
+        for status in ("sweden_born", "foreign_born"):
+            for sex in ("K", "M"):
+                for age in range(101):
+                    result.append({
+                        "geo": geo,
+                        "year": year,
+                        "status": status,
+                        "sex": sex,
+                        "age": age,
+                        "value": pop_birth_status.get(
+                            (geo, year, sex, age, status), 0.0
+                        ),
+                    })
+    return result
+
+
 def migration_profiles(netmig):
     result = []
     geos = list(MUNICIPALITIES) + [FA_CODE]
