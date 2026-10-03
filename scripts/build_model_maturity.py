@@ -215,16 +215,73 @@ def main():
         "No further promotion. Keep diagnostic history to prevent rediscovering the same failed candidate."
     ))
 
-    # Smoothing remains diagnostic.
+    # Migration age smoothing: existing local+national candidate plus the
+    # pre-locked analogue extension. Either may become the validated candidate,
+    # but production remains unchanged until an untouched external control.
+    smoothing_roll = rolling.get("migrationAgeSmoothingDiagnostic", {})
+    smoothing_summary = smoothing_roll.get("summary", {}).get("2580", {})
+    existing_smoothing_gate = (
+        smoothing_roll.get("existingSmoothingGate") or {}
+    ).get("passed") is True
+    analogue_smoothing_gate = (
+        smoothing_roll.get("analogueSmoothingGate") or {}
+    ).get("passed") is True
+    smoothing_rolling_available = bool(
+        smoothing_summary.get("observations", 0)
+    )
+    smoothing_validated = (
+        existing_smoothing_gate or analogue_smoothing_gate
+    )
+    smoothing_level = (
+        3 if smoothing_validated
+        else 2 if smoothing_rolling_available
+        else 1
+    )
+    smoothing_lifecycle = (
+        "validated_candidate" if smoothing_validated
+        else "rejected" if smoothing_rolling_available
+        else "diagnostic"
+    )
+    smoothing_n1 = smoothing_summary.get("oneYear") or {}
     comps.append(component(
-        policy, "migration_age_smoothing", 1, "diagnostic", False,
-        [gate(
-            "Diagnostic data generated",
-            smoothing.get("status") == "diagnostic_only_not_active_in_forecast"
-            and len(smoothing.get("allAgeDirectionRows", [])) > 0,
-            f"status={smoothing.get('status')}; rows={len(smoothing.get('allAgeDirectionRows', []))}"
-        )],
-        "Add vintage-correct rolling-origin score with smoothing on/off before any promotion."
+        policy, "migration_age_smoothing", smoothing_level,
+        smoothing_lifecycle, False,
+        [
+            gate(
+                "Diagnostic data generated",
+                smoothing.get("status") == "diagnostic_only_not_active_in_forecast"
+                and len(smoothing.get("allAgeDirectionRows", [])) > 0,
+                f"status={smoothing.get('status')}; rows={len(smoothing.get('allAgeDirectionRows', []))}"
+            ),
+            gate(
+                "Existing local+national smoothing passes pre-locked rolling gate",
+                existing_smoothing_gate,
+                (
+                    f"n+1 raw pop/mig={smoothing_n1.get('raw', {}).get('populationMAE')}/"
+                    f"{smoothing_n1.get('raw', {}).get('netMigrationMAE')}; "
+                    f"local+national={smoothing_n1.get('localNational', {}).get('populationMAE')}/"
+                    f"{smoothing_n1.get('localNational', {}).get('netMigrationMAE')}"
+                    if smoothing_rolling_available else "Awaiting rolling-origin results"
+                )
+            ),
+            gate(
+                "Analogue extension passes pre-locked rolling gate against both comparators",
+                analogue_smoothing_gate,
+                (
+                    f"n+1 analogue pop/mig={smoothing_n1.get('localNationalAnalogue', {}).get('populationMAE')}/"
+                    f"{smoothing_n1.get('localNationalAnalogue', {}).get('netMigrationMAE')}"
+                    if smoothing_rolling_available else "Awaiting rolling-origin results"
+                ),
+                required=False
+            )
+        ],
+        (
+            "Lock untouched external municipalities before any level-4 evaluation; do not retune smoothing or analogue weights from Luleå outcomes."
+            if smoothing_validated
+            else "Keep failed locked smoothing candidates out of production; do not retune from these outcomes."
+            if smoothing_rolling_available
+            else "Run vintage-correct raw vs local+national vs analogue smoothing comparison."
+        )
     ))
 
     # Existing SCB-risk candidate remains development-only.
