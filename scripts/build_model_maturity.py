@@ -13,6 +13,7 @@ HOLDOUT = ROOT / "data" / "backtests" / "component_flow_holdout.json"
 SMOOTHING = ROOT / "data" / "backtests" / "migration_age_smoothing.json"
 CONSISTENCY_ADJUSTMENT = ROOT / "data" / "backtests" / "scb_consistency_adjustment.json"
 CONSISTENCY_VINTAGE = ROOT / "data" / "backtests" / "scb_consistency_vintage_validation.json"
+INDUSTRIAL_SCENARIO_VALIDATION = ROOT / "data" / "backtests" / "industrial_workforce_scenario_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -474,13 +475,55 @@ def main():
     ))
 
     industrial_cfg = load(ROOT / "data" / "industrial_workforce_scenario_config.json")
+    industrial_validation = (
+        load(INDUSTRIAL_SCENARIO_VALIDATION)
+        if INDUSTRIAL_SCENARIO_VALIDATION.exists()
+        else {}
+    )
+    industrial_presets = industrial_cfg.get("sensitivityPresets") or {}
+    industrial_ranges = industrial_cfg.get("parameterRanges") or {}
+    industrial_structure_ok = (
+        industrial_validation.get("allPassed") is True
+        and all(k in industrial_presets for k in ("low", "reference", "high"))
+        and len(industrial_ranges) >= 5
+    )
+    industrial_level = 3 if industrial_structure_ok else 2
     comps.append(component(
-        policy, "industrial_workforce_scenario", 2, "development_scenario", False,
+        policy, "industrial_workforce_scenario", industrial_level,
+        "validated_scenario" if industrial_structure_ok else "development_scenario", False,
         [
-            gate("Scenario is explicitly excluded from baseline", industrial_cfg.get("baselineExcluded") is True, "baselineExcluded=true"),
-            gate("International recruitment share is explicit", "internationalRecruitmentSharePct" in industrial_cfg.get("fields", {}), "Explicit Sweden/international split is available")
+            gate(
+                "Scenario is explicitly excluded from baseline",
+                industrial_cfg.get("baselineExcluded") is True,
+                "baselineExcluded=true"
+            ),
+            gate(
+                "International recruitment share is explicit",
+                "internationalRecruitmentSharePct" in industrial_cfg.get("fields", {}),
+                "Explicit Sweden/international split is available"
+            ),
+            gate(
+                "Low/reference/high sensitivity presets and parameter ranges documented",
+                bool(industrial_presets) and len(industrial_ranges) >= 5,
+                (
+                    f"presets={list(industrial_presets)}; ranges={list(industrial_ranges)}"
+                    if industrial_presets else "Scenario presets missing"
+                )
+            ),
+            gate(
+                "Scenario structure validation passes",
+                industrial_validation.get("allPassed") is True,
+                (
+                    f"checks={industrial_validation.get('checks')}"
+                    if industrial_validation else "Awaiting structural validation"
+                )
+            )
         ],
-        "Add documented scenario presets/ranges for Boden; do not hard-code a Skellefteå percentage."
+        (
+            "Expose the validated presets in the UI and add deterministic end-to-end preset regression tests before level 4."
+            if industrial_structure_ok
+            else "Complete documented presets/ranges and structural validation."
+        )
     ))
 
     counts = {str(i): sum(c["maturityLevel"] == i for c in comps) for i in range(1,5)}
