@@ -90,6 +90,11 @@
       "label": "Industridrivet arbetskraftsscenario",
       "targetLevel": 4,
       "requiredGate": "Scenarioeffekter ska vara transparent separerade från baslinjen, källfördelning Sverige/utland explicit och parametrar dokumenterade eller scenariostyrda."
+    },
+    "housing_scenario": {
+      "label": "Bostadsdrivet befolkningsscenario",
+      "targetLevel": 4,
+      "requiredGate": "Scenarioeffekter ska vara transparent separerade från baslinjen, använda explicita antaganden och klara deterministiska regressionskontroller för FA-balans och låg/referens/hög-känslighet."
     }
   }
 }
