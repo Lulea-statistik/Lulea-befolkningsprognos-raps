@@ -69,6 +69,9 @@ jobs:
       - name: Test mass-preserving SCB consistency adjustment
         run: python tests/test_scb_consistency_adjustment.py
 
+      - name: Test migration analogue candidate pool
+        run: python tests/test_migration_analog_config.py
+
       - name: Validate JavaScript syntax
         run: |
           node --check js/model.js
@@ -79,6 +82,9 @@ jobs:
 
       - name: Run model tests
         run: node tests/test_model.js
+
+      - name: Build migration analogue similarity diagnostic
+        run: python scripts/build_migration_analog_similarity.py
 
       - name: Build mass-preserving municipality-county adjustment diagnostic
         run: python scripts/build_scb_consistency_adjustment.py
