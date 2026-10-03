@@ -31,6 +31,7 @@ CKM_UNCERTAINTY_VALIDATION = ROOT / "data" / "backtests" / "ckm_uncertainty_diag
 SCENARIO_MIGRATION_PROFILES_VALIDATION = ROOT / "data" / "backtests" / "scenario_migration_profiles_validation.json"
 MODEL_DATA_INTEGRITY_VALIDATION = ROOT / "data" / "backtests" / "model_data_integrity_validation.json"
 SCENARIO_PHASE_IN_VALIDATION = ROOT / "data" / "backtests" / "scenario_phase_in_validation.json"
+POPULATION_ACCOUNTING_VALIDATION = ROOT / "data" / "backtests" / "population_accounting_identity_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -1305,6 +1306,49 @@ def main():
             else "Keep below production maturity until timing and cumulative-conservation checks pass."
             if phase_has_results
             else "Run the locked scenario phase-in validation."
+        )
+    ))
+
+    accounting_cfg = load(ROOT / "data" / "population_accounting_identity_config.json")
+    accounting_validation = (
+        load(POPULATION_ACCOUNTING_VALIDATION)
+        if POPULATION_ACCOUNTING_VALIDATION.exists()
+        else {}
+    )
+    accounting_gate = accounting_validation.get("allPassed") is True
+    accounting_has_results = bool(accounting_validation.get("checks"))
+    comps.append(component(
+        policy, "population_accounting_identity",
+        4 if accounting_gate else 2 if accounting_has_results else 1,
+        (
+            "production_support" if accounting_gate
+            else "rejected" if accounting_has_results
+            else "diagnostic"
+        ),
+        accounting_gate,
+        [
+            gate(
+                "Population accounting rule is explicitly documented",
+                accounting_cfg.get("status") == "production_accounting_gate_locked",
+                accounting_cfg.get("status")
+            ),
+            gate(
+                "Annual demographic balance and prior-year reconciliation pass",
+                accounting_gate,
+                (
+                    f"checks={accounting_validation.get('checks')}; "
+                    f"maxIdentityResidual={accounting_validation.get('maxIdentityResidual')}; "
+                    f"maxPopulationResidual={accounting_validation.get('maxPopulationResidual')}"
+                    if accounting_has_results else "Awaiting validation"
+                )
+            )
+        ],
+        (
+            "Keep as a hard production invariant for every municipality/FA and every baseline/scenario run."
+            if accounting_gate
+            else "Block production maturity until all annual accounting residuals are zero within tolerance."
+            if accounting_has_results
+            else "Run the locked population-accounting validation."
         )
     ))
 
