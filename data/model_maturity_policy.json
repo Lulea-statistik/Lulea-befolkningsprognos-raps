@@ -175,6 +175,11 @@
       "label": "SCB-standard för personer per bostad",
       "targetLevel": 4,
       "requiredGate": "Alla stödda bostadstyp/upplåtelse/storlek-kombinationer ska ha kommunal SCB-standard eller explicit riksfallback för produktionsåret; värden ska vara positiva och källa tydlig, medan kombinationer utan stöd ska kräva manuell nivå."
+    },
+    "housing_stock_support": {
+      "label": "SCB bostadsbestånd",
+      "targetLevel": 4,
+      "requiredGate": "Senaste bostadsbeståndet ska vara komplett för alla fem kommuner över hustyp × upplåtelseform, sakna dubbletter, ha icke-negativa tal och kunna summeras reproducerbart till FA."
     }
   }
 }
