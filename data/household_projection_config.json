@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "validation_gate_locked_before_results",
+  "component": "household_projection",
+  "baselineMode": "constant_latest_persons_per_household",
+  "challenger": "five_year_linear_trend",
+  "purpose": "Validate the household-formation proxy used by the housing-demand indicator independently of population forecast error.",
+  "evaluation": {
+    "geographies": [
+      "2580",
+      "FA_LULEA"
+    ],
+    "minimumHistoryYears": 5,
+    "horizons": [
+      1,
+      2,
+      3
+    ],
+    "primaryHorizons": [
+      1,
+      2
+    ],
+    "populationInput": "observed persons implied by SCB households × personsPerHousehold, so the test isolates the household-size assumption",
+    "gate": [
+      "constant mode household-count MAE must not exceed five-year trend at n+1 for both Lulea and FA",
+      "constant mode household-count MAE must not exceed five-year trend at n+2 for both Lulea and FA",
+      "constant mode household-count MAPE must be <= 2 percent at n+1 for both Lulea and FA",
+      "constant mode household-count MAPE must be <= 2 percent at n+2 for both Lulea and FA"
+    ]
+  },
+  "methods": {
+    "constant": {
+      "formula": "future persons / personsPerHousehold at rolling origin",
+      "activeDefault": true
+    },
+    "trend": {
+      "formula": "future persons / capped linear extrapolation of personsPerHousehold from first to last observation in most recent five years",
+      "cap": [
+        1.2,
+        4
+      ],
+      "activeDefault": false
+    }
+  },
+  "governance": [
+    "The gate is locked before validation results are generated.",
+    "Do not tune the five-year window, caps or error thresholds after viewing these outcomes.",
+    "This validates an indicative household-formation proxy, not housing-market prices, vacancy or housing shortage."
+  ]
+}
