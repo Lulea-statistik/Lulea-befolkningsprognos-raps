@@ -1,6 +1,6 @@
 # Produktionsberedskap och modellstyrning
 
-Detta dokument sammanfattar produktionsläget för Luleås rAps-liknande befolkningsmodell efter **Update SCB data #70**.
+Detta dokument sammanfattar produktionsläget för Luleås rAps-inspirerade befolkningsmodell efter **Update SCB data #70**.
 
 ## Produktionsstatus
 
@@ -28,7 +28,7 @@ Nivå 2-komponenterna nedan är **medvetet underkända eller stängda kandidater
 | `housing_scenario` – Bostadsdrivet befolkningsscenario | production_ready_scenario | Nej / scenario eller stöd |
 | `household_projection` – Hushållsframskrivning för bostadsefterfrågan | production_support | Ja |
 | `labour_market_support` – Arbetsmarknads- och pendlingsunderlag | production_support | Ja |
-| `fading_policy` – Fading-policy för små lokala åldersceller | production_support | Ja |
+| `fading_policy` – Informationsvägd utjämning för små lokala åldersceller | production_support | Ja |
 | `qutb_neutralization` – qutb: neutral utbildningsövergång | production_support | Ja |
 | `base_population_ckm_bridge` – Basbefolkning och CKM-metodbrygga 2024→2025 | production_support | Ja |
 | `sex_ratio_at_birth` – Könskvot vid födseln | production_support | Ja |
@@ -51,11 +51,11 @@ Nivå 2-komponenterna nedan är **medvetet underkända eller stängda kandidater
 
 | Komponent | Status | Förvaltningsregel |
 |---|---|---|
-| `component_flow` – Tre-bens component-flow | rejected | Retain for research only; do not retune against consumed holdouts. |
-| `migration_recency` – Adaptiv recency för migration | rejected | No further promotion. Keep diagnostic history to prevent rediscovering the same failed candidate. |
+| `component_flow` – Trebensmodell med separata bruttoflöden | rejected | Retain for research only; do not retune against consumed holdouts. |
+| `migration_recency` – Adaptiv tidsviktning mot senare år | rejected | No further promotion. Keep diagnostic history to prevent rediscovering the same failed candidate. |
 | `migration_age_smoothing` – Adaptiv åldersmjukning för migration | rejected | Keep failed locked smoothing candidates out of production; do not retune from these outcomes. |
-| `scb_risk_flow` – SCB-lik riskbaserad migration | rejected_superseded | Closed: do not retune this approximation; retain results as evidence and use net10 in production. |
-| `profet_flow` – Profet-lik baslinje | rejected_current_architecture | Lock a genuinely new Profet architecture before any new outcome evaluation; do not retune the consumed risk, birth-status or consistency candidates. |
+| `scb_risk_flow` – Riskbaserad migration med regionala in-/utflyttningsrisker och nationell invandringsnivå | rejected_superseded | Closed: do not retune this approximation; retain results as evidence and use net10 in production. |
+| `profet_flow` – Födelsestatusuppdelad riskbaserad migrationsmodell | rejected_current_architecture | Lock a genuinely new Profet architecture before any new outcome evaluation; do not retune the consumed risk, birth-status or consistency candidates. |
 | `birth_status` – Inrikes/utrikes född som modellstatus | rejected | Closed: keep at level 2, do not retune birth-status parameters from these consumed outcomes. |
 | `consistency_adjustment` – Konsistensjustering kommun → län → riket | rejected | Closed at level 2: structural accounting passed but the locked with/without forecast-accuracy gate failed; do not retune from these outcomes. |
 
@@ -69,10 +69,10 @@ Den demografiska baslinjen bygger på följande huvudprinciper:
 - tioårigt nettoflyttningsfönster som produktionsstandard,
 - Luleå FA som exakt summa av de fem kommunprognoserna,
 - fast könsfördelning vid födsel enligt den dokumenterade rAps-referensparametern,
-- outcome-oberoende fading för små åldersceller,
+- utfallsoberoende informationsvägd utjämning för små åldersceller,
 - qutb som neutral identitetsövergång tills en separat utbildningsmodell införs.
 
-Tre-bens migration, recency, adaptiv åldersmjukning, Profet-lik baslinje, födelseland som modellstatus och länskonsistensjustering ingår **inte** i produktionsbaslinjen eftersom deras låsta valideringsgrindar inte passerade.
+Trebensmodell med separata bruttoflöden, adaptiv tidsviktning mot senare år, adaptiv åldersutjämning, födelsestatusuppdelad riskbaserad migration och länskonsistensjustering ingår **inte** i produktionsbaslinjen eftersom deras låsta valideringsgrindar inte passerade.
 
 ## Scenario- och analysstöd
 
@@ -137,7 +137,7 @@ En ny metod som påverkar basprognosen ska behandlas som en **ny kandidat**:
 - underkänd kandidat behålls som dokumenterad evidens men aktiveras inte,
 - en kandidat får nivå 4 först när den passerar sin fördefinierade grind.
 
-Detta gäller särskilt framtida försök med IMIG/UMIG, Profet-lik arkitektur, separata migrationsben eller nya åldersutjämningar.
+Detta gäller särskilt framtida försök med IMIG/UMIG, födelsestatusuppdelade riskbaserade migrationsmodeller, separata migrationsben eller nya åldersutjämningar.
 
 ## Kända avgränsningar
 
