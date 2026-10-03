@@ -540,9 +540,9 @@ SPECS = {
     "backtest_births_2021": {"start":2021,"end":2024,"all_birth_regions":True,"all_maternal_ages":True},
     "regional_forecast_benchmark": {"start":2024,"end":2050,"include_consistency_geos":True},
     "regional_flows_benchmark": {"start":2024,"end":2050,"include_consistency_geos":True},
-    "regional_flows_benchmark_2020": {"start":2020,"end":2024,"frozen":True},
-    "regional_flows_benchmark_2021": {"start":2021,"end":2024,"frozen":True},
-    "regional_flows_benchmark_2022": {"start":2022,"end":2024,"frozen":True},
+    "regional_flows_benchmark_2020": {"start":2020,"end":2024,"frozen":True,"include_consistency_geos":True},
+    "regional_flows_benchmark_2021": {"start":2021,"end":2024,"frozen":True,"include_consistency_geos":True},
+    "regional_flows_benchmark_2022": {"start":2022,"end":2024,"frozen":True,"include_consistency_geos":True},
     "commuting_flows": {"start":2020,"end":2024,"commuting":True},
     "employment_age_profile": {
         "start":2022,"end":2024,
@@ -572,17 +572,26 @@ def main():
         table_id = table["id"]
         path = OUT / f"{key}.csv"
         if spec.get("frozen") and path.exists():
-            print(f"Reusing frozen {key} from {path.relative_to(ROOT)}", file=sys.stderr)
             previous = (previous_manifest.get("files") or {}).get(key)
-            if previous:
-                manifest["files"][key] = previous
-            else:
-                manifest["files"][key] = {
-                    "table_id": table_id,
-                    "path": str(path.relative_to(ROOT)),
-                    "frozen_reused_without_metadata": True,
-                }
-            continue
+            needs_consistency_refresh = False
+            if spec.get("include_consistency_geos"):
+                previous_regions = set(((previous or {}).get("selection") or {}).get("Region") or [])
+                needs_consistency_refresh = not set(CONSISTENCY_GEOGRAPHIES).issubset(previous_regions)
+            if not needs_consistency_refresh:
+                print(f"Reusing frozen {key} from {path.relative_to(ROOT)}", file=sys.stderr)
+                if previous:
+                    manifest["files"][key] = previous
+                else:
+                    manifest["files"][key] = {
+                        "table_id": table_id,
+                        "path": str(path.relative_to(ROOT)),
+                        "frozen_reused_without_metadata": True,
+                    }
+                continue
+            print(
+                f"Refreshing frozen {key}: existing file lacks locked consistency geographies.",
+                file=sys.stderr,
+            )
         print(f"Downloading {key} from {table_id}", file=sys.stderr)
         md = metadata(table_id)
         selection = build_selection(md, spec)
