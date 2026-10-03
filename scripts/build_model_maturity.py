@@ -20,6 +20,7 @@ HOUSEHOLD_PROJECTION_VALIDATION = ROOT / "data" / "backtests" / "household_proje
 HOUSEHOLD_PROJECTION_EXTERNAL = ROOT / "data" / "backtests" / "household_projection_external_validation.json"
 LABOUR_MARKET_SUPPORT_VALIDATION = ROOT / "data" / "backtests" / "labour_market_support_validation.json"
 FADING_POLICY_VALIDATION = ROOT / "data" / "backtests" / "fading_policy_validation.json"
+QUTB_VALIDATION = ROOT / "data" / "backtests" / "qutb_neutralization_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -836,6 +837,48 @@ def main():
             else "Keep below production maturity; do not tune fading thresholds from consumed forecast outcomes."
             if fading_has_results
             else "Run the production fading-policy audit."
+        )
+    ))
+
+    qutb_cfg = load(ROOT / "data" / "qutb_neutralization_config.json")
+    qutb_validation = (
+        load(QUTB_VALIDATION)
+        if QUTB_VALIDATION.exists()
+        else {}
+    )
+    qutb_gate = qutb_validation.get("allPassed") is True
+    qutb_has_results = bool(qutb_validation.get("checks"))
+    comps.append(component(
+        policy, "qutb_neutralization",
+        4 if qutb_gate else 2 if qutb_has_results else 1,
+        (
+            "production_support" if qutb_gate
+            else "rejected" if qutb_has_results
+            else "diagnostic"
+        ),
+        qutb_gate,
+        [
+            gate(
+                "Neutral qutb mode is explicitly documented",
+                qutb_cfg.get("status") == "production_neutralization_locked"
+                and qutb_cfg.get("productionMode") == "identity",
+                f"status={qutb_cfg.get('status')}; mode={qutb_cfg.get('productionMode')}"
+            ),
+            gate(
+                "Identity qutb regression has zero forecast effect",
+                qutb_gate,
+                (
+                    f"checks={qutb_validation.get('checks')}"
+                    if qutb_has_results else "Awaiting validation"
+                )
+            )
+        ],
+        (
+            "Keep identity qutb as the explicit V1 production placeholder; treat any future non-identity education-transition model as a new pre-declared candidate."
+            if qutb_gate
+            else "Keep qutb below production maturity until identity/no-effect regression passes."
+            if qutb_has_results
+            else "Run the locked qutb neutralization regression."
         )
     ))
 
