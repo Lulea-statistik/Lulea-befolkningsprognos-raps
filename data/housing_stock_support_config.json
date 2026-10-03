@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_housing_stock_gate_locked",
+  "component": "housing_stock_support",
+  "purpose": "Validate the SCB housing-stock layer used as the current-stock baseline in housing analysis.",
+  "geographies": [
+    "2580",
+    "2582",
+    "2581",
+    "2560",
+    "2514"
+  ],
+  "categories": {
+    "dwellingTypes": [
+      "småhus",
+      "flerbostadshus",
+      "specialbostäder",
+      "övriga hus"
+    ],
+    "tenures": [
+      "äganderätt",
+      "hyresrätt",
+      "bostadsrätt",
+      "uppgift saknas"
+    ]
+  },
+  "requiredChecks": [
+    "latest housing-stock year is explicit and common to all five municipalities",
+    "every municipality has exactly one row for each dwelling-type x tenure combination",
+    "housing-stock keys contain no duplicates",
+    "all dwelling counts are finite and nonnegative",
+    "municipal totals are strictly positive",
+    "FA total is reproducibly equal to the sum of the five municipal stocks"
+  ],
+  "governance": [
+    "Housing stock is descriptive production support, not a demographic forecast driver.",
+    "Unknown tenure remains explicit as 'uppgift saknas' rather than being redistributed.",
+    "Any new SCB classification must be handled explicitly before publication."
+  ]
+}
