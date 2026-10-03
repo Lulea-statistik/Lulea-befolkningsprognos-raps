@@ -151,9 +151,16 @@
 
         <article class="panel chartPanel">
           <div class="panelHead">
-            <div><h2>Dödlighet – lokal nivå jämfört med Riket</h2><p class="hint">Observerad lokal ålders- och könsspecifik dödsrisk jämförs med rikets nivå, per 1 000 personer. Detta är den råa lokala signalen före fading och kan därför avvika tydligt även när den lokala modellvikten är låg.</p></div>
+            <div><h2>Dödlighet – lokal nivå jämfört med Riket, 0–70 år</h2><p class="hint">Observerad lokal ålders- och könsspecifik dödsrisk jämförs med rikets nivå, per 1 000 personer. Egen Y-skala gör små skillnader i yngre åldrar läsbara.</p></div>
           </div>
-          <svg id="mortalityRateChart" viewBox="0 0 900 340" role="img" aria-label="Dödlighet lokalt och i Riket efter ålder och kön"></svg>
+          <svg id="mortalityRateYoungChart" viewBox="0 0 900 340" role="img" aria-label="Dödlighet lokalt och i Riket 0 till 70 år"></svg>
+        </article>
+
+        <article class="panel chartPanel">
+          <div class="panelHead">
+            <div><h2>Dödlighet – lokal nivå jämfört med Riket, 71–100+ år</h2><p class="hint">Äldre åldrar visas separat eftersom risknivåerna är betydligt högre och annars dominerar skalan för hela diagrammet.</p></div>
+          </div>
+          <svg id="mortalityRateOldChart" viewBox="0 0 900 340" role="img" aria-label="Dödlighet lokalt och i Riket 71 till 100 plus år"></svg>
         </article>
 
         <article class="panel chartPanel">
