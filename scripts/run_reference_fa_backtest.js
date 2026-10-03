@@ -61,6 +61,63 @@ function scoreRows(rows) {
     byHorizon
   };
 }
+function clamp(v,lo,hi){ return Math.max(lo,Math.min(hi,v)); }
+function mortalityWeightedLeastSquaresRates(model) {
+  const bounds=model?.meta?.localRatioBounds||{min:0.5,max:1.5};
+  const lo=Number(bounds.min??0.5), hi=Number(bounds.max??1.5);
+  const baseRows=(model.mortalityRisks||[]).filter(r=>r.year==null && r.geo!=='SE');
+  const groups=new Map();
+  for(const r of baseRows){
+    const k=`${r.geo}|${+r.window}|${r.sex}`;
+    if(!groups.has(k)) groups.set(k,[]);
+    groups.get(k).push(r);
+  }
+  const factorByKey=new Map();
+  for(const group of groups.values()){
+    const pts=[];
+    for(const r of group){
+      const nat=Number(r.nationalHazard);
+      const raw=Number(r.rawCellFactor);
+      const expected=Math.max(0,Number(r.cellExpectedEvents)||0);
+      const deaths=Math.max(0,expected*Math.max(0,raw));
+      const localHazard=nat*raw;
+      if(!(nat>0) || !(localHazard>0) || !(deaths>0)) continue;
+      pts.push({x:Math.log(nat),y:Math.log(localHazard),w:deaths});
+    }
+    const sw=pts.reduce((s,p)=>s+p.w,0);
+    let intercept=0, slope=1;
+    if(sw>0 && pts.length>=2){
+      const xbar=pts.reduce((s,p)=>s+p.w*p.x,0)/sw;
+      const ybar=pts.reduce((s,p)=>s+p.w*p.y,0)/sw;
+      const denom=pts.reduce((s,p)=>s+p.w*(p.x-xbar)*(p.x-xbar),0);
+      slope=denom>1e-12
+        ? pts.reduce((s,p)=>s+p.w*(p.x-xbar)*(p.y-ybar),0)/denom
+        : 1;
+      intercept=ybar-slope*xbar;
+    }
+    for(const r of group){
+      const nat=Number(r.nationalHazard);
+      let factor=clamp(Number(r.municipalityFactor)||1,lo,hi);
+      if(sw>0 && pts.length>=2 && nat>0){
+        const fitted=Math.exp(intercept+slope*Math.log(nat));
+        factor=clamp(fitted/nat,lo,hi);
+      }
+      factorByKey.set(`${r.geo}|${+r.window}|${r.sex}|${+r.age}`,factor);
+    }
+  }
+  return (model.mortalityRisks||[]).map(r=>{
+    if(r.geo==='SE') return r;
+    const factor=factorByKey.get(`${r.geo}|${+r.window}|${r.sex}|${+r.age}`);
+    const nat=Number(r.nationalHazard);
+    if(!Number.isFinite(factor)||!Number.isFinite(nat)) return r;
+    const hazard=Math.max(0,nat*factor);
+    return {...r,value:Math.max(0,Math.min(1,1-Math.exp(-hazard)))};
+  });
+}
+function wlsModel(model){
+  return {...model,mortalityRisks:mortalityWeightedLeastSquaresRates(model)};
+}
+
 function runGeo(model, actual, geo, window, timingMode, migrationWindow=null) {
   const pred = M.simulate(model, {
     geo,
@@ -129,7 +186,8 @@ for (const region of manifest.regions) {
     summary:{},
     byOrigin:{},
     memberSummary:{},
-    migrationWindowSummary:{}
+    migrationWindowSummary:{},
+    mortalityWlsExternal:{}
   };
 
   for (const window of manifest.windows.map(Number)) {
@@ -214,6 +272,33 @@ for (const region of manifest.regions) {
     };
   }
 
+  {
+    const window=10;
+    const currentRows=[];
+    const wlsRows=[];
+    const byOrigin={};
+    for(const entry of loaded){
+      const current=runGeo(
+        entry.model,entry.actual,region.code,window,'event_age_aligned'
+      );
+      const wls=runGeo(
+        wlsModel(entry.model),entry.actual,region.code,window,'event_age_aligned'
+      );
+      currentRows.push(...current);
+      wlsRows.push(...wls);
+      byOrigin[entry.origin]={
+        current:scoreRows(current),
+        wls:scoreRows(wls)
+      };
+    }
+    regionOut.mortalityWlsExternal={
+      window,
+      current:scoreRows(currentRows),
+      wls:scoreRows(wlsRows),
+      byOrigin
+    };
+  }
+
   for (const migrationWindow of (manifest.migrationWindows||[6,10]).map(Number)) {
     const rows=[];
     const byOrigin={};
@@ -255,6 +340,45 @@ for (const region of manifest.regions) {
   report.regions[region.code] = regionOut;
 }
 
+{
+  const regionRows=Object.entries(report.regions).map(([code,r])=>({
+    code,
+    name:r.name,
+    current:r.mortalityWlsExternal.current,
+    wls:r.mortalityWlsExternal.wls
+  }));
+  const checks=[];
+  for(const r of regionRows){
+    for(const horizon of ['oneYear','twoYear']){
+      checks.push({
+        region:r.code,
+        horizon,
+        currentDeathsMAE:r.current[horizon].deathsMAE,
+        wlsDeathsMAE:r.wls[horizon].deathsMAE,
+        passed:r.wls[horizon].deathsMAE<=r.current[horizon].deathsMAE
+      });
+    }
+  }
+  const currentPooled=mean(regionRows.flatMap(r=>[
+    r.current.oneYear.deathsMAE,r.current.twoYear.deathsMAE
+  ]));
+  const wlsPooled=mean(regionRows.flatMap(r=>[
+    r.wls.oneYear.deathsMAE,r.wls.twoYear.deathsMAE
+  ]));
+  report.mortalityWlsExternalGate={
+    status:'predeclared_external_gate',
+    window:10,
+    regions:regionRows.map(r=>r.code),
+    primaryHorizons:['n+1','n+2'],
+    n3Role:'robustness_only',
+    rule:'WLS must be non-worse than current mortality for n+1 and n+2 in every locked FA15 reference region, and pooled n+1/n+2 deaths MAE must be strictly lower.',
+    checks,
+    currentPooledDeathsMAE:round1(currentPooled),
+    wlsPooledDeathsMAE:round1(wlsPooled),
+    passed:checks.every(x=>x.passed) && wlsPooled<currentPooled
+  };
+}
+
 const outJson=path.join(
   ROOT,'data','backtests','reference_fa_rolling.json'
 );
@@ -269,7 +393,14 @@ fs.writeFileSync(
 );
 
 console.log('Wrote data/backtests/reference_fa_rolling.json/js');
+console.log('Mortality WLS external gate:',JSON.stringify(report.mortalityWlsExternalGate));
 for (const [code,region] of Object.entries(report.regions)) {
+  if(region.mortalityWlsExternal){
+    const x=region.mortalityWlsExternal;
+    console.log(
+      `${code} ${region.name} mortality WLS 10y: n+1 current=${x.current.oneYear.deathsMAE} WLS=${x.wls.oneYear.deathsMAE} | n+2 current=${x.current.twoYear.deathsMAE} WLS=${x.wls.twoYear.deathsMAE} | n+3 current=${x.current.threeYear.deathsMAE} WLS=${x.wls.threeYear.deathsMAE}`
+    );
+  }
   for (const migrationWindow of report.migrationWindows) {
     const m=region.migrationWindowSummary[migrationWindow];
     console.log(
