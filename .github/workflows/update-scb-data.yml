@@ -209,6 +209,9 @@ jobs:
       - name: Validate CKM uncertainty diagnostics
         run: node scripts/validate_ckm_uncertainty_diagnostics.js
 
+      - name: Validate scenario migration profiles
+        run: python scripts/validate_scenario_migration_profiles.py
+
       - name: Build model maturity report
         run: python scripts/build_model_maturity.py
 
