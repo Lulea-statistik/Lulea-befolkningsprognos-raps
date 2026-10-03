@@ -30,6 +30,9 @@ for key in (
     "migration_birth_region_pre2025",
     "regional_forecast_benchmark",
     "regional_flows_benchmark",
+    "regional_flows_benchmark_2020",
+    "regional_flows_benchmark_2021",
+    "regional_flows_benchmark_2022",
 ):
     assert extract.SPECS[key].get("include_consistency_geos") is True, key
 
