@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_parameter_locked",
+  "component": "sex_ratio_at_birth",
+  "purpose": "Audit the fixed Raps newborn sex split used by every production fertility path.",
+  "maleShare": 0.515,
+  "femaleShare": 0.485,
+  "source": "Raps technical specification already recorded in model_data.parameters.sexRatioMaleAtBirthSource",
+  "requiredChecks": [
+    "production parameter equals 0.515 male and 0.485 female",
+    "male and female newborn shares sum exactly to 1",
+    "the same split is used in the ordinary and birth-status simulation engines",
+    "changing only the sex split must not change total births in the first forecast year",
+    "the historical Lulea FA male birth share diagnostic remains visible but does not tune the production parameter"
+  ],
+  "governance": [
+    "The fixed Raps split is not estimated from Lulea outcomes.",
+    "Observed local male-birth share is diagnostic only because annual/local sex ratios are noisy.",
+    "Any future replacement of 0.515 requires a new documented source and regression validation."
+  ]
+}
