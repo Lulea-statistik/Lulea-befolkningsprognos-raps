@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_policy_audit_locked",
+  "component": "fading_policy",
+  "purpose": "Document and audit the existing outcome-independent fallback fading used for sparse local fertility and mortality age cells.",
+  "thresholds": {
+    "zeroLocalExposure": 20,
+    "fullLocalExposure": 100,
+    "zeroExpectedEvents": 1,
+    "fullExpectedEvents": 20
+  },
+  "formula": "smoothstep(exposure) × smoothstep(expected events); applied as local-cell weight around the municipality/FA general factor",
+  "productionScope": [
+    "fertility age profile",
+    "mortality age/sex profile"
+  ],
+  "requiredChecks": [
+    "weight is deterministic and outcome-independent",
+    "weight is monotonic in exposure and expected events",
+    "near-zero information yields zero local weight",
+    "strong information can yield 100 percent local weight",
+    "threshold constants match the production builder",
+    "localized fertility with fading retains its existing passed rolling-origin gate",
+    "localized mortality with fading retains its existing passed rolling-origin gate"
+  ],
+  "governance": [
+    "Thresholds are not to be tuned against already-consumed forecast outcomes.",
+    "Fading is only a fallback where an official Raps parameter is unavailable.",
+    "Any future replacement must be pre-declared and compared without altering the existing production evidence."
+  ]
+}
