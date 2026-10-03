@@ -1632,6 +1632,26 @@
     };
     const fv=[f.zeroWeightBirthsMAE,f.currentWeightBirthsMAE,f.fullLocalBirthsMAE];
     const mv=[m.zeroWeightDeathsMAE,m.currentWeightDeathsMAE,m.fullLocalDeathsMAE];
+    const horizonRows=[1,2,3].map(h=>{
+      const fh=f.byHorizon?.[h], mh=m.byHorizon?.[h];
+      if(!fh||!mh) return "";
+      const fvals=[fh.zeroWeightBirthsMAE,fh.currentWeightBirthsMAE,fh.fullLocalBirthsMAE];
+      const mvals=[mh.zeroWeightDeathsMAE,mh.currentWeightDeathsMAE,mh.fullLocalDeathsMAE];
+      return "<tr><td>n+"+h+" fruktsamhet</td><td>"+markBest(fvals,0)+"</td><td>"+markBest(fvals,1)+"</td><td>"+markBest(fvals,2)+"</td></tr>"+
+        "<tr><td>n+"+h+" dödlighet</td><td>"+markBest(mvals,0)+"</td><td>"+markBest(mvals,1)+"</td><td>"+markBest(mvals,2)+"</td></tr>";
+    }).join("");
+    const origins=[...new Set([
+      ...Object.keys(f.byOrigin||{}),
+      ...Object.keys(m.byOrigin||{})
+    ])].sort();
+    const originRows=origins.map(origin=>{
+      const fo=f.byOrigin?.[origin], mo=m.byOrigin?.[origin];
+      if(!fo||!mo) return "";
+      const fvals=[fo.zeroWeightBirthsMAE,fo.currentWeightBirthsMAE,fo.fullLocalBirthsMAE];
+      const mvals=[mo.zeroWeightDeathsMAE,mo.currentWeightDeathsMAE,mo.fullLocalDeathsMAE];
+      return "<tr><td>Origin "+origin+" – fruktsamhet</td><td>"+markBest(fvals,0)+"</td><td>"+markBest(fvals,1)+"</td><td>"+markBest(fvals,2)+"</td></tr>"+
+        "<tr><td>Origin "+origin+" – dödlighet</td><td>"+markBest(mvals,0)+"</td><td>"+markBest(mvals,1)+"</td><td>"+markBest(mvals,2)+"</td></tr>";
+    }).join("");
     el.innerHTML=
       "<p class=\"hint\">Kalibreringsfönster: "+w+" år. Lägre MAE är bättre. Fetstil markerar lägst fel i denna trevägsjämförelse.</p>"+
       "<div class=\"analysisTableWrap\"><table class=\"miniTable\">"+
@@ -1640,6 +1660,7 @@
       "<tr><td>Dödlighet – döda MAE</td><td>"+markBest(mv,0)+"</td><td>"+markBest(mv,1)+"</td><td>"+markBest(mv,2)+"</td></tr>"+
       "<tr><td>Fruktsamhetsvariant – befolkning MAPE</td><td>"+pct.format(f.zeroWeightPopulationMAPE)+" %</td><td>"+pct.format(f.currentWeightPopulationMAPE)+" %</td><td>"+pct.format(f.fullLocalPopulationMAPE)+" %</td></tr>"+
       "<tr><td>Dödlighetsvariant – befolkning MAPE</td><td>"+pct.format(m.zeroWeightPopulationMAPE)+" %</td><td>"+pct.format(m.currentWeightPopulationMAPE)+" %</td><td>"+pct.format(m.fullLocalPopulationMAPE)+" %</td></tr>"+
+      horizonRows+originRows+
       "</tbody></table></div>";
   }
   function renderValidation(){
