@@ -154,6 +154,101 @@ function solveDense(A,b) {
   }
   return M.map((row,i)=>Number.isFinite(row[n])?row[n]:0);
 }
+function smoothingSplineFactors(rows, groupKeyFn, ageFn, bounds, lambda) {
+  const groups=new Map();
+  for(const r of rows){
+    const k=groupKeyFn(r);
+    if(!groups.has(k)) groups.set(k,[]);
+    groups.get(k).push(r);
+  }
+  const factors=new Map();
+
+  for(const rawGroup of groups.values()){
+    const group=rawGroup.slice().sort((a,b)=>ageFn(a)-ageFn(b));
+    const n=group.length;
+    if(n<3){
+      for(const r of group) factors.set(r,clampRatio(r.rawCellFactor,bounds));
+      continue;
+    }
+
+    const x=group.map(ageFn);
+    const h=[];
+    let valid=true;
+    for(let i=0;i<n-1;i++){
+      const dx=x[i+1]-x[i];
+      if(!(dx>0)){valid=false;break;}
+      h.push(dx);
+    }
+    if(!valid){
+      for(const r of group) factors.set(r,clampRatio(r.rawCellFactor,bounds));
+      continue;
+    }
+
+    const y=group.map(r=>{
+      const g=clampRatio(r.municipalityFactor,bounds);
+      const l=clampRatio(r.rawCellFactor,bounds);
+      return Math.log(Math.max(1e-9,l/g));
+    });
+
+    // Reliability weights are fixed ex ante from expected event information.
+    // They are normalized only for numerical stability; forecast outcomes are
+    // never used in the spline fit.
+    const eventWeights=group.map(r=>Math.max(0.5,Number(r.cellExpectedEvents)||0.5));
+    const sorted=eventWeights.slice().sort((a,b)=>a-b);
+    const median=sorted[Math.floor(sorted.length/2)]||1;
+    const w=eventWeights.map(v=>Math.max(0.05,v/median));
+
+    // Natural cubic smoothing-spline penalty:
+    // minimize sum_i w_i (y_i-f_i)^2 + lambda * integral (f''(x))^2 dx.
+    // At the observed knots the roughness penalty is K = Q R^-1 Q'.
+    const m=n-2;
+    const Q=Array.from({length:n},()=>Array(m).fill(0));
+    const R=Array.from({length:m},()=>Array(m).fill(0));
+    for(let j=0;j<m;j++){
+      const h0=h[j], h1=h[j+1];
+      Q[j][j]=1/h0;
+      Q[j+1][j]=-(1/h0+1/h1);
+      Q[j+2][j]=1/h1;
+      R[j][j]=(h0+h1)/3;
+      if(j<m-1){
+        R[j][j+1]=h1/6;
+        R[j+1][j]=h1/6;
+      }
+    }
+
+    // X = R^-1 Q', solved column by column to avoid an explicit inverse.
+    const X=Array.from({length:m},()=>Array(n).fill(0));
+    for(let col=0;col<n;col++){
+      const rhs=Array.from({length:m},(_,j)=>Q[col][j]);
+      const sol=solveDense(R,rhs);
+      for(let j=0;j<m;j++) X[j][col]=sol[j];
+    }
+
+    const K=Array.from({length:n},()=>Array(n).fill(0));
+    for(let i=0;i<n;i++){
+      for(let j=0;j<n;j++){
+        let s=0;
+        for(let k=0;k<m;k++) s+=Q[i][k]*X[k][j];
+        K[i][j]=s;
+      }
+    }
+
+    const A=Array.from({length:n},()=>Array(n).fill(0));
+    const rhs=Array(n).fill(0);
+    for(let i=0;i<n;i++){
+      A[i][i]+=w[i];
+      rhs[i]=w[i]*y[i];
+      for(let j=0;j<n;j++) A[i][j]+=lambda*K[i][j];
+    }
+    const z=solveDense(A,rhs);
+    for(let i=0;i<n;i++){
+      const g=clampRatio(group[i].municipalityFactor,bounds);
+      factors.set(group[i],clampRatio(g*Math.exp(z[i]),bounds));
+    }
+  }
+  return factors;
+}
+
 function penalizedAgeSmoothFactors(rows, groupKeyFn, ageFn, bounds, lambda) {
   const groups=new Map();
   for(const r of rows) {
@@ -195,7 +290,9 @@ function fertilityCandidateRates(model, method, lambda=10) {
   const baseRows=(model.fertilityRates||[]).filter(r=>r.year==null && r.geo!=='SE');
   const factorByRow=method==='eb'
     ? empiricalBayesFactors(baseRows,r=>`${r.geo}|${+r.window}`,bounds)
-    : penalizedAgeSmoothFactors(baseRows,r=>`${r.geo}|${+r.window}`,r=>+r.age,bounds,lambda);
+    : method==='smoothingSpline'
+      ? smoothingSplineFactors(baseRows,r=>`${r.geo}|${+r.window}`,r=>+r.age,bounds,lambda)
+      : penalizedAgeSmoothFactors(baseRows,r=>`${r.geo}|${+r.window}`,r=>+r.age,bounds,lambda);
   const factorByKey=new Map(baseRows.map(r=>[
     `${r.geo}|${+r.window}|${+r.age}`,
     factorByRow.get(r)
@@ -336,7 +433,7 @@ const report = {
     mortality: {summary: {}}
   },
   localizationMethodDiagnostic: {
-    note: 'Development diagnostic only. Compares the current production information weighting with a method-of-moments empirical-Bayes shrinkage candidate and, for fertility only, penalized second-difference age-curve smoothing inspired by SCB smoothing-spline principles. The spline proxy is not claimed to reproduce SCB internal smoothing factors. Penalties 1/10/100 are reported as sensitivity values and are not a promotion rule.',
+    note: 'Development diagnostic only. Compares the current production information weighting with a method-of-moments empirical-Bayes shrinkage candidate, a discrete second-difference penalized age smoother, and a natural cubic smoothing-spline candidate for fertility. The smoothing-spline candidate minimizes weighted squared deviations plus lambda times integrated squared curvature. It is methodologically aligned with penalized-least-squares smoothing splines but does not claim to reproduce SCB's unpublished smoothing-factor choices. Lambda values are fixed sensitivity settings, not a promotion rule.',
     independentHoldout: false,
     fertility: {summary: {}},
     mortality: {summary: {}}
@@ -805,6 +902,9 @@ for (const geo of geos) {
     const spline1Rows=[];
     const spline10Rows=[];
     const spline100Rows=[];
+    const cubicSpline1Rows=[];
+    const cubicSpline10Rows=[];
+    const cubicSpline100Rows=[];
     const ebMortRows=[];
     for(const entry of origins){
       currentRows.push(...(report.results[geo][entry.origin][window]||[]));
@@ -812,6 +912,9 @@ for (const geo of geos) {
       spline1Rows.push(...scoreCandidate(entry,geo,window,'fertility','spline',1));
       spline10Rows.push(...scoreCandidate(entry,geo,window,'fertility','spline',10));
       spline100Rows.push(...scoreCandidate(entry,geo,window,'fertility','spline',100));
+      cubicSpline1Rows.push(...scoreCandidate(entry,geo,window,'fertility','smoothingSpline',1));
+      cubicSpline10Rows.push(...scoreCandidate(entry,geo,window,'fertility','smoothingSpline',10));
+      cubicSpline100Rows.push(...scoreCandidate(entry,geo,window,'fertility','smoothingSpline',100));
       ebMortRows.push(...scoreCandidate(entry,geo,window,'mortality','eb'));
     }
     const byHorizonF={};
@@ -822,13 +925,19 @@ for (const geo of geos) {
       const s1=spline1Rows.filter(r=>r.horizon===h);
       const s10=spline10Rows.filter(r=>r.horizon===h);
       const s100=spline100Rows.filter(r=>r.horizon===h);
+      const cs1=cubicSpline1Rows.filter(r=>r.horizon===h);
+      const cs10=cubicSpline10Rows.filter(r=>r.horizon===h);
+      const cs100=cubicSpline100Rows.filter(r=>r.horizon===h);
       const ebm=ebMortRows.filter(r=>r.horizon===h);
       byHorizonF[h]={
         currentBirthsMAE:round1(mean(cur.map(x=>Math.abs(x.birthsError)))),
         empiricalBayesBirthsMAE:round1(mean(ebf.map(x=>Math.abs(x.birthsError)))),
         spline1BirthsMAE:round1(mean(s1.map(x=>Math.abs(x.birthsError)))),
         spline10BirthsMAE:round1(mean(s10.map(x=>Math.abs(x.birthsError)))),
-        spline100BirthsMAE:round1(mean(s100.map(x=>Math.abs(x.birthsError))))
+        spline100BirthsMAE:round1(mean(s100.map(x=>Math.abs(x.birthsError)))),
+        cubicSpline1BirthsMAE:round1(mean(cs1.map(x=>Math.abs(x.birthsError)))),
+        cubicSpline10BirthsMAE:round1(mean(cs10.map(x=>Math.abs(x.birthsError)))),
+        cubicSpline100BirthsMAE:round1(mean(cs100.map(x=>Math.abs(x.birthsError))))
       };
       byHorizonM[h]={
         currentDeathsMAE:round1(mean(cur.map(x=>Math.abs(x.deathsError)))),
@@ -842,6 +951,9 @@ for (const geo of geos) {
       spline1BirthsMAE:round1(mean(spline1Rows.map(x=>Math.abs(x.birthsError)))),
       spline10BirthsMAE:round1(mean(spline10Rows.map(x=>Math.abs(x.birthsError)))),
       spline100BirthsMAE:round1(mean(spline100Rows.map(x=>Math.abs(x.birthsError)))),
+      cubicSpline1BirthsMAE:round1(mean(cubicSpline1Rows.map(x=>Math.abs(x.birthsError)))),
+      cubicSpline10BirthsMAE:round1(mean(cubicSpline10Rows.map(x=>Math.abs(x.birthsError)))),
+      cubicSpline100BirthsMAE:round1(mean(cubicSpline100Rows.map(x=>Math.abs(x.birthsError)))),
       byHorizon:byHorizonF
     };
     report.localizationMethodDiagnostic.mortality.summary[geo][window]={
@@ -1807,7 +1919,7 @@ for (const geo of ['2580','FA_LULEA']){
     const f=report.localizationMethodDiagnostic.fertility.summary[geo][window];
     const m=report.localizationMethodDiagnostic.mortality.summary[geo][window];
     console.log(
-      `${geo} window=${window}: fertility methods current=${f.currentBirthsMAE} EB=${f.empiricalBayesBirthsMAE} spline1=${f.spline1BirthsMAE} spline10=${f.spline10BirthsMAE} spline100=${f.spline100BirthsMAE}`
+      `${geo} window=${window}: fertility methods current=${f.currentBirthsMAE} EB=${f.empiricalBayesBirthsMAE} discrete1=${f.spline1BirthsMAE} discrete10=${f.spline10BirthsMAE} discrete100=${f.spline100BirthsMAE} cubicSpline1=${f.cubicSpline1BirthsMAE} cubicSpline10=${f.cubicSpline10BirthsMAE} cubicSpline100=${f.cubicSpline100BirthsMAE}`
     );
     console.log(
       `${geo} window=${window}: mortality methods current=${m.currentDeathsMAE} EB=${m.empiricalBayesDeathsMAE}`
