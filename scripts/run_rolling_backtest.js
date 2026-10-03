@@ -433,7 +433,7 @@ const report = {
     mortality: {summary: {}}
   },
   localizationMethodDiagnostic: {
-    note: 'Development diagnostic only. Compares the current production information weighting with a method-of-moments empirical-Bayes shrinkage candidate, a discrete second-difference penalized age smoother, and a natural cubic smoothing-spline candidate for fertility. The smoothing-spline candidate minimizes weighted squared deviations plus lambda times integrated squared curvature. It is methodologically aligned with penalized-least-squares smoothing splines but does not claim to reproduce SCB's unpublished smoothing-factor choices. Lambda values are fixed sensitivity settings, not a promotion rule.',
+    note: 'Development diagnostic only. Compares the current production information weighting with a method-of-moments empirical-Bayes shrinkage candidate, a discrete second-difference penalized age smoother, and a natural cubic smoothing-spline candidate for fertility. The smoothing-spline candidate minimizes weighted squared deviations plus lambda times integrated squared curvature. It is methodologically aligned with penalized-least-squares smoothing splines but does not claim to reproduce SCB internal smoothing-factor choices. Lambda values are fixed sensitivity settings, not a promotion rule.',
     independentHoldout: false,
     fertility: {summary: {}},
     mortality: {summary: {}}
