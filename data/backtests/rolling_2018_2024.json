@@ -22383,33 +22383,45 @@
           "observations": 4,
           "raw": {
             "populationMAE": 57.2,
-            "netMigrationMAE": 55.5
+            "netMigrationMAE": 55.5,
+            "ageProfileMAE": 2.8,
+            "age15to39MAE": 3.9
           },
           "spline": {
             "populationMAE": 57.2,
-            "netMigrationMAE": 55.5
+            "netMigrationMAE": 55.5,
+            "ageProfileMAE": 2.9,
+            "age15to39MAE": 4.2
           }
         },
         "twoYear": {
           "observations": 4,
           "raw": {
             "populationMAE": 63.7,
-            "netMigrationMAE": 53.8
+            "netMigrationMAE": 53.8,
+            "ageProfileMAE": 3.9,
+            "age15to39MAE": 4.9
           },
           "spline": {
             "populationMAE": 63.8,
-            "netMigrationMAE": 53.8
+            "netMigrationMAE": 53.8,
+            "ageProfileMAE": 3.9,
+            "age15to39MAE": 5
           }
         },
         "threeYear": {
           "observations": 4,
           "raw": {
             "populationMAE": 86,
-            "netMigrationMAE": 64.2
+            "netMigrationMAE": 64.2,
+            "ageProfileMAE": 4.5,
+            "age15to39MAE": 5.3
           },
           "spline": {
             "populationMAE": 86.2,
-            "netMigrationMAE": 64.2
+            "netMigrationMAE": 64.2,
+            "ageProfileMAE": 4.4,
+            "age15to39MAE": 5.2
           }
         },
         "byHorizon": {
@@ -22417,33 +22429,45 @@
             "observations": 4,
             "raw": {
               "populationMAE": 57.2,
-              "netMigrationMAE": 55.5
+              "netMigrationMAE": 55.5,
+              "ageProfileMAE": 2.8,
+              "age15to39MAE": 3.9
             },
             "spline": {
               "populationMAE": 57.2,
-              "netMigrationMAE": 55.5
+              "netMigrationMAE": 55.5,
+              "ageProfileMAE": 2.9,
+              "age15to39MAE": 4.2
             }
           },
           "2": {
             "observations": 4,
             "raw": {
               "populationMAE": 63.7,
-              "netMigrationMAE": 53.8
+              "netMigrationMAE": 53.8,
+              "ageProfileMAE": 3.9,
+              "age15to39MAE": 4.9
             },
             "spline": {
               "populationMAE": 63.8,
-              "netMigrationMAE": 53.8
+              "netMigrationMAE": 53.8,
+              "ageProfileMAE": 3.9,
+              "age15to39MAE": 5
             }
           },
           "3": {
             "observations": 4,
             "raw": {
               "populationMAE": 86,
-              "netMigrationMAE": 64.2
+              "netMigrationMAE": 64.2,
+              "ageProfileMAE": 4.5,
+              "age15to39MAE": 5.3
             },
             "spline": {
               "populationMAE": 86.2,
-              "netMigrationMAE": 64.2
+              "netMigrationMAE": 64.2,
+              "ageProfileMAE": 4.4,
+              "age15to39MAE": 5.2
             }
           }
         },
@@ -22596,33 +22620,45 @@
           "observations": 4,
           "raw": {
             "populationMAE": 36.9,
-            "netMigrationMAE": 41.1
+            "netMigrationMAE": 41.1,
+            "ageProfileMAE": 2.2,
+            "age15to39MAE": 3.3
           },
           "spline": {
             "populationMAE": 36.9,
-            "netMigrationMAE": 41.1
+            "netMigrationMAE": 41.1,
+            "ageProfileMAE": 2.1,
+            "age15to39MAE": 3
           }
         },
         "twoYear": {
           "observations": 4,
           "raw": {
             "populationMAE": 70.6,
-            "netMigrationMAE": 54
+            "netMigrationMAE": 54,
+            "ageProfileMAE": 3.1,
+            "age15to39MAE": 4.9
           },
           "spline": {
             "populationMAE": 70.6,
-            "netMigrationMAE": 54
+            "netMigrationMAE": 54,
+            "ageProfileMAE": 2.9,
+            "age15to39MAE": 4.5
           }
         },
         "threeYear": {
           "observations": 4,
           "raw": {
             "populationMAE": 110.1,
-            "netMigrationMAE": 51
+            "netMigrationMAE": 51,
+            "ageProfileMAE": 3.8,
+            "age15to39MAE": 6.3
           },
           "spline": {
             "populationMAE": 110,
-            "netMigrationMAE": 51
+            "netMigrationMAE": 51,
+            "ageProfileMAE": 3.7,
+            "age15to39MAE": 5.8
           }
         },
         "byHorizon": {
@@ -22630,33 +22666,45 @@
             "observations": 4,
             "raw": {
               "populationMAE": 36.9,
-              "netMigrationMAE": 41.1
+              "netMigrationMAE": 41.1,
+              "ageProfileMAE": 2.2,
+              "age15to39MAE": 3.3
             },
             "spline": {
               "populationMAE": 36.9,
-              "netMigrationMAE": 41.1
+              "netMigrationMAE": 41.1,
+              "ageProfileMAE": 2.1,
+              "age15to39MAE": 3
             }
           },
           "2": {
             "observations": 4,
             "raw": {
               "populationMAE": 70.6,
-              "netMigrationMAE": 54
+              "netMigrationMAE": 54,
+              "ageProfileMAE": 3.1,
+              "age15to39MAE": 4.9
             },
             "spline": {
               "populationMAE": 70.6,
-              "netMigrationMAE": 54
+              "netMigrationMAE": 54,
+              "ageProfileMAE": 2.9,
+              "age15to39MAE": 4.5
             }
           },
           "3": {
             "observations": 4,
             "raw": {
               "populationMAE": 110.1,
-              "netMigrationMAE": 51
+              "netMigrationMAE": 51,
+              "ageProfileMAE": 3.8,
+              "age15to39MAE": 6.3
             },
             "spline": {
               "populationMAE": 110,
-              "netMigrationMAE": 51
+              "netMigrationMAE": 51,
+              "ageProfileMAE": 3.7,
+              "age15to39MAE": 5.8
             }
           }
         },
@@ -22809,33 +22857,45 @@
           "observations": 4,
           "raw": {
             "populationMAE": 81.2,
-            "netMigrationMAE": 121.4
+            "netMigrationMAE": 121.4,
+            "ageProfileMAE": 7.1,
+            "age15to39MAE": 13.4
           },
           "spline": {
             "populationMAE": 81.2,
-            "netMigrationMAE": 121.4
+            "netMigrationMAE": 121.4,
+            "ageProfileMAE": 10,
+            "age15to39MAE": 25.1
           }
         },
         "twoYear": {
           "observations": 4,
           "raw": {
             "populationMAE": 107.9,
-            "netMigrationMAE": 106.4
+            "netMigrationMAE": 106.4,
+            "ageProfileMAE": 10.6,
+            "age15to39MAE": 20.6
           },
           "spline": {
             "populationMAE": 107.8,
-            "netMigrationMAE": 106.4
+            "netMigrationMAE": 106.4,
+            "ageProfileMAE": 15.1,
+            "age15to39MAE": 39.1
           }
         },
         "threeYear": {
           "observations": 4,
           "raw": {
             "populationMAE": 211.5,
-            "netMigrationMAE": 112.6
+            "netMigrationMAE": 112.6,
+            "ageProfileMAE": 13.4,
+            "age15to39MAE": 25.6
           },
           "spline": {
             "populationMAE": 211.4,
-            "netMigrationMAE": 112.6
+            "netMigrationMAE": 112.6,
+            "ageProfileMAE": 18.4,
+            "age15to39MAE": 46.1
           }
         },
         "byHorizon": {
@@ -22843,33 +22903,45 @@
             "observations": 4,
             "raw": {
               "populationMAE": 81.2,
-              "netMigrationMAE": 121.4
+              "netMigrationMAE": 121.4,
+              "ageProfileMAE": 7.1,
+              "age15to39MAE": 13.4
             },
             "spline": {
               "populationMAE": 81.2,
-              "netMigrationMAE": 121.4
+              "netMigrationMAE": 121.4,
+              "ageProfileMAE": 10,
+              "age15to39MAE": 25.1
             }
           },
           "2": {
             "observations": 4,
             "raw": {
               "populationMAE": 107.9,
-              "netMigrationMAE": 106.4
+              "netMigrationMAE": 106.4,
+              "ageProfileMAE": 10.6,
+              "age15to39MAE": 20.6
             },
             "spline": {
               "populationMAE": 107.8,
-              "netMigrationMAE": 106.4
+              "netMigrationMAE": 106.4,
+              "ageProfileMAE": 15.1,
+              "age15to39MAE": 39.1
             }
           },
           "3": {
             "observations": 4,
             "raw": {
               "populationMAE": 211.5,
-              "netMigrationMAE": 112.6
+              "netMigrationMAE": 112.6,
+              "ageProfileMAE": 13.4,
+              "age15to39MAE": 25.6
             },
             "spline": {
               "populationMAE": 211.4,
-              "netMigrationMAE": 112.6
+              "netMigrationMAE": 112.6,
+              "ageProfileMAE": 18.4,
+              "age15to39MAE": 46.1
             }
           }
         },
@@ -23022,33 +23094,45 @@
           "observations": 4,
           "raw": {
             "populationMAE": 74.7,
-            "netMigrationMAE": 82.7
+            "netMigrationMAE": 82.7,
+            "ageProfileMAE": 4.6,
+            "age15to39MAE": 8.1
           },
           "spline": {
             "populationMAE": 74.7,
-            "netMigrationMAE": 82.7
+            "netMigrationMAE": 82.7,
+            "ageProfileMAE": 4.4,
+            "age15to39MAE": 7.8
           }
         },
         "twoYear": {
           "observations": 4,
           "raw": {
             "populationMAE": 119.6,
-            "netMigrationMAE": 97.8
+            "netMigrationMAE": 97.8,
+            "ageProfileMAE": 6.9,
+            "age15to39MAE": 13.2
           },
           "spline": {
             "populationMAE": 119.5,
-            "netMigrationMAE": 97.7
+            "netMigrationMAE": 97.7,
+            "ageProfileMAE": 6.8,
+            "age15to39MAE": 12.9
           }
         },
         "threeYear": {
           "observations": 4,
           "raw": {
             "populationMAE": 151.5,
-            "netMigrationMAE": 70.7
+            "netMigrationMAE": 70.7,
+            "ageProfileMAE": 8.6,
+            "age15to39MAE": 16
           },
           "spline": {
             "populationMAE": 151.4,
-            "netMigrationMAE": 70.7
+            "netMigrationMAE": 70.7,
+            "ageProfileMAE": 8.5,
+            "age15to39MAE": 15.8
           }
         },
         "byHorizon": {
@@ -23056,33 +23140,45 @@
             "observations": 4,
             "raw": {
               "populationMAE": 74.7,
-              "netMigrationMAE": 82.7
+              "netMigrationMAE": 82.7,
+              "ageProfileMAE": 4.6,
+              "age15to39MAE": 8.1
             },
             "spline": {
               "populationMAE": 74.7,
-              "netMigrationMAE": 82.7
+              "netMigrationMAE": 82.7,
+              "ageProfileMAE": 4.4,
+              "age15to39MAE": 7.8
             }
           },
           "2": {
             "observations": 4,
             "raw": {
               "populationMAE": 119.6,
-              "netMigrationMAE": 97.8
+              "netMigrationMAE": 97.8,
+              "ageProfileMAE": 6.9,
+              "age15to39MAE": 13.2
             },
             "spline": {
               "populationMAE": 119.5,
-              "netMigrationMAE": 97.7
+              "netMigrationMAE": 97.7,
+              "ageProfileMAE": 6.8,
+              "age15to39MAE": 12.9
             }
           },
           "3": {
             "observations": 4,
             "raw": {
               "populationMAE": 151.5,
-              "netMigrationMAE": 70.7
+              "netMigrationMAE": 70.7,
+              "ageProfileMAE": 8.6,
+              "age15to39MAE": 16
             },
             "spline": {
               "populationMAE": 151.4,
-              "netMigrationMAE": 70.7
+              "netMigrationMAE": 70.7,
+              "ageProfileMAE": 8.5,
+              "age15to39MAE": 15.8
             }
           }
         },
@@ -23235,33 +23331,45 @@
           "observations": 4,
           "raw": {
             "populationMAE": 69.2,
-            "netMigrationMAE": 57.9
+            "netMigrationMAE": 57.9,
+            "ageProfileMAE": 3.9,
+            "age15to39MAE": 6.1
           },
           "spline": {
             "populationMAE": 69.2,
-            "netMigrationMAE": 57.9
+            "netMigrationMAE": 57.9,
+            "ageProfileMAE": 3.8,
+            "age15to39MAE": 6
           }
         },
         "twoYear": {
           "observations": 4,
           "raw": {
             "populationMAE": 109.7,
-            "netMigrationMAE": 63.6
+            "netMigrationMAE": 63.6,
+            "ageProfileMAE": 5.5,
+            "age15to39MAE": 8.5
           },
           "spline": {
             "populationMAE": 109.6,
-            "netMigrationMAE": 63.6
+            "netMigrationMAE": 63.6,
+            "ageProfileMAE": 5.5,
+            "age15to39MAE": 8.5
           }
         },
         "threeYear": {
           "observations": 4,
           "raw": {
             "populationMAE": 146.2,
-            "netMigrationMAE": 93.5
+            "netMigrationMAE": 93.5,
+            "ageProfileMAE": 6.8,
+            "age15to39MAE": 10.4
           },
           "spline": {
             "populationMAE": 145.9,
-            "netMigrationMAE": 93.5
+            "netMigrationMAE": 93.5,
+            "ageProfileMAE": 6.8,
+            "age15to39MAE": 10.4
           }
         },
         "byHorizon": {
@@ -23269,33 +23377,45 @@
             "observations": 4,
             "raw": {
               "populationMAE": 69.2,
-              "netMigrationMAE": 57.9
+              "netMigrationMAE": 57.9,
+              "ageProfileMAE": 3.9,
+              "age15to39MAE": 6.1
             },
             "spline": {
               "populationMAE": 69.2,
-              "netMigrationMAE": 57.9
+              "netMigrationMAE": 57.9,
+              "ageProfileMAE": 3.8,
+              "age15to39MAE": 6
             }
           },
           "2": {
             "observations": 4,
             "raw": {
               "populationMAE": 109.7,
-              "netMigrationMAE": 63.6
+              "netMigrationMAE": 63.6,
+              "ageProfileMAE": 5.5,
+              "age15to39MAE": 8.5
             },
             "spline": {
               "populationMAE": 109.6,
-              "netMigrationMAE": 63.6
+              "netMigrationMAE": 63.6,
+              "ageProfileMAE": 5.5,
+              "age15to39MAE": 8.5
             }
           },
           "3": {
             "observations": 4,
             "raw": {
               "populationMAE": 146.2,
-              "netMigrationMAE": 93.5
+              "netMigrationMAE": 93.5,
+              "ageProfileMAE": 6.8,
+              "age15to39MAE": 10.4
             },
             "spline": {
               "populationMAE": 145.9,
-              "netMigrationMAE": 93.5
+              "netMigrationMAE": 93.5,
+              "ageProfileMAE": 6.8,
+              "age15to39MAE": 10.4
             }
           }
         },
@@ -23448,33 +23568,45 @@
           "observations": 4,
           "raw": {
             "populationMAE": 113.9,
-            "netMigrationMAE": 158.8
+            "netMigrationMAE": 158.8,
+            "ageProfileMAE": 9,
+            "age15to39MAE": 14.9
           },
           "spline": {
             "populationMAE": 113.9,
-            "netMigrationMAE": 158.8
+            "netMigrationMAE": 158.8,
+            "ageProfileMAE": 11.3,
+            "age15to39MAE": 24.5
           }
         },
         "twoYear": {
           "observations": 4,
           "raw": {
             "populationMAE": 347.2,
-            "netMigrationMAE": 186.3
+            "netMigrationMAE": 186.3,
+            "ageProfileMAE": 14,
+            "age15to39MAE": 23.5
           },
           "spline": {
             "populationMAE": 346.9,
-            "netMigrationMAE": 186.3
+            "netMigrationMAE": 186.3,
+            "ageProfileMAE": 17.4,
+            "age15to39MAE": 37.7
           }
         },
         "threeYear": {
           "observations": 4,
           "raw": {
             "populationMAE": 552.6,
-            "netMigrationMAE": 219.5
+            "netMigrationMAE": 219.5,
+            "ageProfileMAE": 18.5,
+            "age15to39MAE": 29.9
           },
           "spline": {
             "populationMAE": 552,
-            "netMigrationMAE": 219.5
+            "netMigrationMAE": 219.5,
+            "ageProfileMAE": 22.3,
+            "age15to39MAE": 45.3
           }
         },
         "byHorizon": {
@@ -23482,33 +23614,45 @@
             "observations": 4,
             "raw": {
               "populationMAE": 113.9,
-              "netMigrationMAE": 158.8
+              "netMigrationMAE": 158.8,
+              "ageProfileMAE": 9,
+              "age15to39MAE": 14.9
             },
             "spline": {
               "populationMAE": 113.9,
-              "netMigrationMAE": 158.8
+              "netMigrationMAE": 158.8,
+              "ageProfileMAE": 11.3,
+              "age15to39MAE": 24.5
             }
           },
           "2": {
             "observations": 4,
             "raw": {
               "populationMAE": 347.2,
-              "netMigrationMAE": 186.3
+              "netMigrationMAE": 186.3,
+              "ageProfileMAE": 14,
+              "age15to39MAE": 23.5
             },
             "spline": {
               "populationMAE": 346.9,
-              "netMigrationMAE": 186.3
+              "netMigrationMAE": 186.3,
+              "ageProfileMAE": 17.4,
+              "age15to39MAE": 37.7
             }
           },
           "3": {
             "observations": 4,
             "raw": {
               "populationMAE": 552.6,
-              "netMigrationMAE": 219.5
+              "netMigrationMAE": 219.5,
+              "ageProfileMAE": 18.5,
+              "age15to39MAE": 29.9
             },
             "spline": {
               "populationMAE": 552,
-              "netMigrationMAE": 219.5
+              "netMigrationMAE": 219.5,
+              "ageProfileMAE": 22.3,
+              "age15to39MAE": 45.3
             }
           }
         },
