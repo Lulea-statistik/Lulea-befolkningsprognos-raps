@@ -105,6 +105,9 @@ jobs:
       - name: Validate production FA additivity
         run: node scripts/validate_fa_additivity.js
 
+      - name: Validate future national profile coverage
+        run: node scripts/validate_national_future_profiles.js
+
       - name: Validate JavaScript syntax
         run: |
           node --check js/model.js
