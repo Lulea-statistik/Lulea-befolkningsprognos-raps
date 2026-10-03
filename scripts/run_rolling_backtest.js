@@ -1454,7 +1454,26 @@ fs.writeFileSync(
   'utf8'
 );
 
-console.log('Wrote data/backtests/rolling_2018_2024.json/js');
+const weightCompact = {
+  schemaVersion: '0.1.0',
+  source: 'rolling_2018_2024',
+  windows,
+  diagnostic: report.ageCellWeightDiagnostic
+};
+fs.writeFileSync(
+  path.join(ROOT, 'data', 'backtests', 'age_cell_weight_diagnostic.json'),
+  JSON.stringify(weightCompact, null, 2) + '\n',
+  'utf8'
+);
+fs.writeFileSync(
+  path.join(ROOT, 'data', 'backtests', 'age_cell_weight_diagnostic.js'),
+  'window.AGE_CELL_WEIGHT_DIAGNOSTIC = ' +
+    JSON.stringify(weightCompact) +
+    ';\n',
+  'utf8'
+);
+
+console.log('Wrote data/backtests/rolling_2018_2024.json/js and age_cell_weight_diagnostic.json/js');
 const national = report.nationalAssumptionBenchmark.summary;
 console.log(
   `National SCB vintage diagnostic: births mean error=${national.birthsMeanError} | ` +
