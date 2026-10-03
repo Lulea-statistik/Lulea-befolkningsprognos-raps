@@ -415,13 +415,40 @@ function migrationSplineRows(model, lambda=10) {
     return replacement.get(`${r.geo}|${r.sex}|${+r.age}`)||r;
   });
 }
+function ageProfileErrors(entry, geo, predRows) {
+  const actualRows=entry.actual.populationAgeRows||[];
+  const out=[];
+  for(const p of predRows){
+    if(+p.year<=+entry.origin || !Array.isArray(p.populationByAgeSex)) continue;
+    const predByAge=new Map();
+    for(const r of p.populationByAgeSex){
+      predByAge.set(+r.age,(predByAge.get(+r.age)||0)+Number(r.value||0));
+    }
+    for(let age=0;age<=100;age++){
+      const actual=actualRows
+        .filter(r=>r.geo===geo && +r.year===+p.year && +r.age===age)
+        .reduce((s,r)=>s+Number(r.value||0),0);
+      const predicted=Number(predByAge.get(age)||0);
+      out.push({
+        year:+p.year,
+        horizon:+p.year-+entry.origin,
+        age,
+        error:predicted-actual,
+        absError:Math.abs(predicted-actual)
+      });
+    }
+  }
+  return out;
+}
+
 function scoreMigrationSpline(entry, geo, lambda=10) {
   const variant={...entry.model,netMigration:migrationSplineRows(entry.model,lambda)};
   const pred=M.simulate(variant,{
     geo,endYear:entry.endYear,fertMult:1,mortMult:1,migMult:1,
     window:10,migrationWindow:10,cohortTimingMode:'event_age_aligned',
-    scenarios:{housing:[],workplaces:[],overlapPct:0},includeDetail:false
+    scenarios:{housing:[],workplaces:[],overlapPct:0},includeDetail:true
   });
+  const ageErrors=ageProfileErrors(entry,geo,pred);
   const rows=[];
   for(const p of pred){
     if(+p.year<=+entry.origin) continue;
@@ -436,6 +463,7 @@ function scoreMigrationSpline(entry, geo, lambda=10) {
       actualNetMigration:a.netMigration
     });
   }
+  rows.ageErrors=ageErrors;
   return rows;
 }
 
@@ -1250,6 +1278,13 @@ for (const geo of geos) {
   for(const entry of origins){
     const spline=scoreMigrationSpline(entry,geo,10);
     const raw=report.results[geo][entry.origin][10]||[];
+    const rawPred=M.simulate(entry.model,{
+      geo,endYear:entry.endYear,fertMult:1,mortMult:1,migMult:1,
+      window:10,migrationWindow:10,cohortTimingMode:'event_age_aligned',
+      scenarios:{housing:[],workplaces:[],overlapPct:0},includeDetail:true
+    });
+    const rawAgeErrors=ageProfileErrors(entry,geo,rawPred);
+    const splineAgeErrors=spline.ageErrors||[];
     const rows=[];
     for(const s of spline){
       const r=raw.find(x=>+x.year===+s.year);
@@ -1282,15 +1317,23 @@ for (const geo of geos) {
   const byHorizon={};
   for(let h=1;h<=manifest.horizonYears;h++){
     const rows=allRows.filter(r=>r.horizon===h);
+    const rawAgeH=rawAgeErrors.filter(r=>r.horizon===h);
+    const splineAgeH=splineAgeErrors.filter(r=>r.horizon===h);
+    const raw1539=rawAgeH.filter(r=>r.age>=15&&r.age<=39);
+    const spline1539=splineAgeH.filter(r=>r.age>=15&&r.age<=39);
     byHorizon[h]={
       observations:rows.length,
       raw:{
         populationMAE:round1(mean(rows.map(r=>Math.abs(r.rawPopulationError)))),
-        netMigrationMAE:round1(mean(rows.map(r=>Math.abs(r.rawNetMigrationError))))
+        netMigrationMAE:round1(mean(rows.map(r=>Math.abs(r.rawNetMigrationError)))),
+        ageProfileMAE:round1(mean(rawAgeH.map(r=>r.absError))),
+        age15to39MAE:round1(mean(raw1539.map(r=>r.absError)))
       },
       spline:{
         populationMAE:round1(mean(rows.map(r=>Math.abs(r.splinePopulationError)))),
-        netMigrationMAE:round1(mean(rows.map(r=>Math.abs(r.splineNetMigrationError))))
+        netMigrationMAE:round1(mean(rows.map(r=>Math.abs(r.splineNetMigrationError)))),
+        ageProfileMAE:round1(mean(splineAgeH.map(r=>r.absError))),
+        age15to39MAE:round1(mean(spline1539.map(r=>r.absError)))
       }
     };
   }
@@ -2112,7 +2155,7 @@ for(const geo of ['2580','FA_LULEA']){
   const s=report.migrationSplineDiagnostic.summary[geo];
   if(!s?.oneYear) continue;
   console.log(
-    `${geo} migration spline lambda=10: n+1 population MAE spline=${s.oneYear.spline.populationMAE} raw=${s.oneYear.raw.populationMAE} | net migration MAE spline=${s.oneYear.spline.netMigrationMAE} raw=${s.oneYear.raw.netMigrationMAE}`
+    `${geo} migration spline lambda=10: n+1 population MAE spline=${s.oneYear.spline.populationMAE} raw=${s.oneYear.raw.populationMAE} | net migration MAE spline=${s.oneYear.spline.netMigrationMAE} raw=${s.oneYear.raw.netMigrationMAE} | age-profile MAE spline=${s.oneYear.spline.ageProfileMAE} raw=${s.oneYear.raw.ageProfileMAE} | age15-39 MAE spline=${s.oneYear.spline.age15to39MAE} raw=${s.oneYear.raw.age15to39MAE}`
   );
 }
 
