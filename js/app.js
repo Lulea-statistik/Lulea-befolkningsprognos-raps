@@ -261,7 +261,7 @@
       <td><input data-k="realizationPct" type="number" value="${s.realizationPct}" min="0" max="100"></td>
       <td><input data-k="moveSharePct" type="number" value="${s.moveSharePct}" min="0" max="100"></td>
       <td><input data-k="personsPerJob" type="number" value="${s.personsPerJob}" min="0" step="0.1"></td>
-      <td><input data-k="spinOffJobsPerDirectJob" type="number" value="${Number(s.spinOffJobsPerDirectJob??1.5)}" min="0" max="5" step="0.1"></td>
+      <td><input data-k="spinOffJobsPerDirectJob" type="number" value="${Number(s.spinOffJobsPerDirectJob??1.5)}" min="0" max="3" step="0.1"></td>
       <td><input data-k="internationalRecruitmentSharePct" type="number" value="${Number(s.internationalRecruitmentSharePct||0)}" min="0" max="100"></td>
       <td><input data-k="hostResidencePct" type="number" value="${s.hostResidencePct}" min="0" max="100"></td>
       <td><input data-k="internalSharePct" type="number" value="${s.internalSharePct}" min="0" max="100"></td>
