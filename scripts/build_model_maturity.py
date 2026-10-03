@@ -29,6 +29,7 @@ SCENARIO_OVERLAP_VALIDATION = ROOT / "data" / "backtests" / "scenario_overlap_co
 DEMOGRAPHIC_SENSITIVITY_VALIDATION = ROOT / "data" / "backtests" / "demographic_sensitivity_controls_validation.json"
 CKM_UNCERTAINTY_VALIDATION = ROOT / "data" / "backtests" / "ckm_uncertainty_diagnostics_validation.json"
 SCENARIO_MIGRATION_PROFILES_VALIDATION = ROOT / "data" / "backtests" / "scenario_migration_profiles_validation.json"
+MODEL_DATA_INTEGRITY_VALIDATION = ROOT / "data" / "backtests" / "model_data_integrity_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -1219,6 +1220,48 @@ def main():
             else "Keep below production maturity until all profile accounting and SCB target reconciliations pass."
             if scenario_profiles_has_results
             else "Run the locked scenario-profile validation."
+        )
+    ))
+
+    integrity_cfg = load(ROOT / "data" / "model_data_integrity_config.json")
+    integrity_validation = (
+        load(MODEL_DATA_INTEGRITY_VALIDATION)
+        if MODEL_DATA_INTEGRITY_VALIDATION.exists()
+        else {}
+    )
+    integrity_gate = integrity_validation.get("allPassed") is True
+    integrity_has_results = bool(integrity_validation.get("checks"))
+    comps.append(component(
+        policy, "model_data_integrity",
+        4 if integrity_gate else 2 if integrity_has_results else 1,
+        (
+            "production_support" if integrity_gate
+            else "rejected" if integrity_has_results
+            else "diagnostic"
+        ),
+        integrity_gate,
+        [
+            gate(
+                "Core model-data integrity gate is explicitly locked",
+                integrity_cfg.get("status") == "production_data_integrity_gate_locked",
+                integrity_cfg.get("status")
+            ),
+            gate(
+                "Completeness, uniqueness and numeric-integrity checks pass",
+                integrity_gate,
+                (
+                    f"checks={integrity_validation.get('checks')}; "
+                    f"counts={integrity_validation.get('counts')}"
+                    if integrity_has_results else "Awaiting validation"
+                )
+            )
+        ],
+        (
+            "Keep as a hard production-build gate; rerun after every SCB refresh and model-data schema change."
+            if integrity_gate
+            else "Block production maturity until missing/duplicate/invalid core cells are corrected without silent imputation."
+            if integrity_has_results
+            else "Run the locked core model-data integrity validation."
         )
     ))
 
