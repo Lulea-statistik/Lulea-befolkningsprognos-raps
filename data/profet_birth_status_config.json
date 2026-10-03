@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "development_candidate_locked_before_birth_status_results",
+  "productionDefault": false,
+  "purpose": "Isolate the value of Swedish-born / foreign-born population state in the Profet-like migration engine before adding consistency adjustment.",
+  "state": {
+    "categories": ["sweden_born", "foreign_born"],
+    "newbornStatus": "sweden_born",
+    "fertilityByBirthStatus": false,
+    "mortalityByBirthStatus": false,
+    "note": "Fertility and mortality remain identical to the production model in this stage so only the migration/state dimension changes."
+  },
+  "migration": {
+    "domesticInRiskWindow": 6,
+    "domesticInAgeSexDistributionWindow": 9,
+    "domesticOutRiskWindow": 6,
+    "internationalShareWindow": 5,
+    "internationalAgeSexDistributionWindow": 9,
+    "internationalOutRiskWindow": 9,
+    "domesticInRiskPopulation": "rest_of_sweden_same_birth_status",
+    "internationalIn": "national immigration by birth status x municipal historical share within status x local age/sex profile within status"
+  },
+  "nationalFuture": {
+    "populationExposure": "SCB national projected mean population by birth region, aggregated to Swedish-born / foreign-born",
+    "immigration": "SCB national projected immigration by birth region, aggregated to Swedish-born / foreign-born"
+  },
+  "evaluation": {
+    "stage": "rolling_origin_development",
+    "compareAgainst": ["net10", "scb_risk_flow"],
+    "primaryHorizon": 1,
+    "secondaryHorizon": 2,
+    "independentHoldout": false
+  },
+  "governance": "No age-specific or birth-status-specific tuning after viewing rolling-origin results. If promising, lock new external municipalities before external evaluation."
+}
