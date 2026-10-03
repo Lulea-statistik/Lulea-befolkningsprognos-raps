@@ -25,6 +25,7 @@ CONFIG = ROOT / "data" / "scb_sources.json"
 REFERENCE_FA_CONFIG = ROOT / "data" / "reference_fa_regions.json"
 COMPONENT_HOLDOUT_CONFIG = ROOT / "data" / "component_flow_holdout_municipalities.json"
 CONSISTENCY_CONFIG = ROOT / "data" / "scb_consistency_geographies.json"
+MIGRATION_ANALOG_CONFIG = ROOT / "data" / "migration_analog_municipalities.json"
 OUT = ROOT / "data" / "raw"
 
 MUNICIPALITIES = ["2580", "2582", "2581", "2560", "2514"]
@@ -53,6 +54,14 @@ def consistency_geographies():
     return sorted(codes)
 
 CONSISTENCY_GEOGRAPHIES = consistency_geographies()
+
+def migration_analog_geographies():
+    if not MIGRATION_ANALOG_CONFIG.exists():
+        return []
+    cfg = json.loads(MIGRATION_ANALOG_CONFIG.read_text(encoding="utf-8"))
+    return sorted((cfg.get("candidates") or {}).keys())
+
+MIGRATION_ANALOG_GEOGRAPHIES = migration_analog_geographies()
 RIKET = "00"
 MODEL_AGES = [str(i) for i in range(100)]
 TOP_AGE_CODES = ["100+", "100+1"]
@@ -208,6 +217,8 @@ def build_selection(md: dict, spec: dict) -> dict[str, list[str]]:
                 wanted.extend(REFERENCE_VALIDATION_MUNICIPALITIES)
             if spec.get("include_consistency_geos"):
                 wanted.extend(CONSISTENCY_GEOGRAPHIES)
+            if spec.get("include_migration_analog_geos"):
+                wanted.extend(MIGRATION_ANALOG_GEOGRAPHIES)
             if spec.get("include_riket"):
                 wanted.append(RIKET)
             wanted = list(dict.fromkeys(wanted))
@@ -496,27 +507,27 @@ def download_csv(table_id: str, selection: dict[str, list[str]]) -> str:
     return merge_wide_csv_chunks(chunks)
 
 SPECS = {
-    "population_pre2025": {"start":2006,"end":2024,"content_terms":["Folkmängd"],"include_reference_geos":True,"include_consistency_geos":True},
+    "population_pre2025": {"start":2006,"end":2024,"content_terms":["Folkmängd"],"include_reference_geos":True,"include_consistency_geos":True,"include_migration_analog_geos":True},
     "population_2025": {"start":2025,"end":2025,"content_terms":["Folkmängd"],"include_consistency_geos":True},
     "population_birth_region_pre2025": {
         "start":2006,"end":2024,"include_riket":True,
-        "include_reference_geos":True,"include_consistency_geos":True,"all_birth_regions":True
+        "include_reference_geos":True,"include_consistency_geos":True,"include_migration_analog_geos":True,"all_birth_regions":True
     },
     "population_birth_region_2025": {
         "start":2025,"end":2025,"include_riket":True,
         "include_reference_geos":True,"all_birth_regions":True
     },
-    "mean_population_pre2025": {"start":2006,"end":2024,"include_riket":True,"include_reference_geos":True,"include_consistency_geos":True},
+    "mean_population_pre2025": {"start":2006,"end":2024,"include_riket":True,"include_reference_geos":True,"include_consistency_geos":True,"include_migration_analog_geos":True},
     "mean_population_2025": {"start":2025,"end":2025},
     "mean_population_event_age_pre2025": {"start":2006,"end":2024,"include_riket":True,"include_reference_geos":True},
     "mean_population_event_age_2025": {"start":2025,"end":2025},
-    "migration_pre2025": {"start":2006,"end":2024,"include_reference_geos":True,"include_consistency_geos":True},
+    "migration_pre2025": {"start":2006,"end":2024,"include_reference_geos":True,"include_consistency_geos":True,"include_migration_analog_geos":True},
     "migration_2025": {"start":2025,"end":2025},
     "births_pre2025": {"start":2006,"end":2024,"include_riket":True,"include_reference_geos":True,"include_consistency_geos":True},
     "births_2025": {"start":2025,"end":2025},
     "deaths_pre2025": {"start":2006,"end":2024,"include_riket":True,"include_reference_geos":True,"include_consistency_geos":True},
     "deaths_2025": {"start":2025,"end":2025},
-    "migration_birth_region_pre2025": {"start":2006,"end":2024,"all_birth_regions":True,"include_reference_geos":True,"include_consistency_geos":True,"include_riket":True},
+    "migration_birth_region_pre2025": {"start":2006,"end":2024,"all_birth_regions":True,"include_reference_geos":True,"include_consistency_geos":True,"include_migration_analog_geos":True,"include_riket":True},
     "migration_birth_region_2025": {"start":2025,"end":2025,"all_birth_regions":True},
     "raps_fertility_forecast": {"start":2024,"end":2050,"all_birth_regions":True},
     "raps_mortality_forecast": {"start":2024,"end":2050,"all_birth_regions":True},
