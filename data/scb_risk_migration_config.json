@@ -65,6 +65,23 @@
     },
     "smoothingTarget": "Adjacent local-age mean plus the corresponding Sweden age curvature. This preserves age breaks that also appear nationally while smoothing only the municipality-specific isolated spike/trough.",
     "structuralBreakProtection": "No hard-coded protected ages. A young-adult, retirement-age or other discontinuity is retained when it has high local event support, repeats stably over years, or is also present in the Sweden profile.",
-    "governance": "Diagnostic only until rolling-origin validation shows improvement. No age-specific manual overrides or thresholds may be tuned after inspecting forecast outcomes."
+    "governance": "Diagnostic only until rolling-origin validation shows improvement. No age-specific manual overrides or thresholds may be tuned after inspecting forecast outcomes.",
+    "evaluation": {
+      "status": "locked_before_rolling_smoothing_results",
+      "primaryGeo": "2580",
+      "compareExistingSmoothingAgainst": "net10_raw_age_profile",
+      "horizons": [
+        1,
+        2
+      ],
+      "requirements": [
+        "n+1 population MAE not above raw net10",
+        "n+1 net migration MAE not above raw net10",
+        "at least one n+1 metric strictly below raw net10",
+        "n+2 population MAE not above raw net10",
+        "n+2 net migration MAE not above raw net10"
+      ],
+      "note": "Existing local+national adaptive smoothing must pass this gate before it can advance beyond diagnostic status."
+    }
   }
 }
