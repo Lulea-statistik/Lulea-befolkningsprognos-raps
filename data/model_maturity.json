@@ -254,12 +254,17 @@
           "evidence": "Rolling-origin birth-status candidate available"
         },
         {
-          "label": "County/national consistency adjustment active",
+          "label": "Municipality→county consistency layer integrated in development engine",
+          "passed": true,
+          "evidence": "With/without rolling-origin diagnostic available"
+        },
+        {
+          "label": "County→national consistency layer active",
           "passed": false,
-          "evidence": "diagnostic_support_data_exists_not_yet_production"
+          "evidence": "Not active until all-county support is available."
         }
       ],
-      "nextAction": "Implement Profet incrementally: direct risk structure, then birth status, then consistency adjustment."
+      "nextAction": "Keep Profet in development until birth-status and full municipality→county→national consistency gates are satisfied."
     },
     {
       "key": "birth_status",
@@ -298,7 +303,7 @@
       "lifecycle": "validated_candidate",
       "productionActive": false,
       "targetLevel": 4,
-      "productionGatePassed": true,
+      "productionGatePassed": false,
       "requiredGate": "Justeringsalgoritmen ska bevara totalsummor, vara reproducerbar och valideras mot historiska SCB-vintager.",
       "gates": [
         {
@@ -315,9 +320,14 @@
           "label": "Locked adjustment passes frozen SCB 2020/2021/2022 vintages",
           "passed": true,
           "evidence": "vintages=[2020, 2021, 2022]; max residual=9.094947017729282e-13"
+        },
+        {
+          "label": "Profet with municipality→county adjustment meets pre-locked accuracy gate",
+          "passed": false,
+          "evidence": "checks={'n1PopulationNotWorse': False, 'n1MigrationNotWorse': True, 'n1AtLeastOneStrictlyBetter': True, 'n2PopulationNotWorse': False, 'n2MigrationNotWorse': False}"
         }
       ],
-      "nextAction": "Integrate the validated municipality→county layer into a Profet development run and compare forecast accuracy with/without adjustment; keep county→national inactive until all-county support is available."
+      "nextAction": "Keep at level 3; do not tune the adjustment from these outcomes. Review the locked with/without accuracy comparison."
     },
     {
       "key": "industrial_workforce_scenario",
