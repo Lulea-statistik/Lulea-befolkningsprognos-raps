@@ -71,6 +71,9 @@ jobs:
       - name: Test mass-preserving SCB consistency adjustment
         run: python tests/test_scb_consistency_adjustment.py
 
+      - name: Test migration analogue candidate pool
+        run: python tests/test_migration_analog_config.py
+
       - name: Discover current SCB PxWeb tables
         if: ${{ github.event_name == 'schedule' || github.event.inputs.mode == 'full' }}
         run: python scripts/scb_v2_client.py --out data/scb_discovery.json
@@ -130,6 +133,9 @@ jobs:
 
       - name: Build adaptive migration recency diagnostic
         run: python scripts/build_migration_recency_diagnostic.py
+
+      - name: Build migration analogue similarity diagnostic
+        run: python scripts/build_migration_analog_similarity.py
 
       - name: Build locked component-flow holdout inputs
         run: python scripts/build_component_flow_holdout.py
