@@ -135,6 +135,9 @@ jobs:
       - name: Validate SCB housing-stock support
         run: python scripts/validate_housing_stock_support.py
 
+      - name: Validate housing balance indicator
+        run: node scripts/validate_housing_balance_indicator.js
+
       - name: Validate JavaScript syntax
         run: |
           node --check js/model.js
