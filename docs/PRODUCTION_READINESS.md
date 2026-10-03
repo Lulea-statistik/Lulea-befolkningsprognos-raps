@@ -1,15 +1,15 @@
 # Produktionsberedskap och modellstyrning
 
-Detta dokument sammanfattar produktionsläget för Luleås rAps-inspirerade befolkningsmodell efter **Update SCB data #70**.
+Detta dokument sammanfattar produktionsläget för Luleås rAps-inspirerade befolkningsmodell efter **Update SCB data #78**.
 
 ## Produktionsstatus
 
-Den genererade mognadsrapporten omfattar **34 komponenter**:
+Den genererade mognadsrapporten omfattar **37 komponenter**:
 
 - **27 komponenter på mognadsgrad 4**
-- **7 komponenter på mognadsgrad 2**
+- **9 komponenter på mognadsgrad 2**
 - **0 komponenter på mognadsgrad 1**
-- **0 komponenter på mognadsgrad 3**
+- **1 komponent på mognadsgrad 3**
 
 Nivå 4 betyder att komponenten har en definierad produktionsroll, är reproducerbar och har passerat sin fördefinierade produktionsgrind. För scenarier och stödkomponenter betyder nivå 4 inte att antagandet är den mest sannolika framtiden; det betyder att mekaniken är dokumenterad, reproducerbar och kontrollerad.
 
@@ -47,10 +47,18 @@ Nivå 2-komponenterna nedan är **medvetet underkända eller stängda kandidater
 | `source_manifest_integrity` – Källmanifest och rådataproveniens | production_support | Ja |
 | `maturity_governance` – Mognadsregister och produktionsstyrning | production_support | Ja |
 
+## Nivå 3 – validerad kandidat
+
+| Komponent | Status | Nästa produktionsgrind |
+|---|---|---|
+| `fertility_spline_candidate` – Fruktsamhet: kubisk smoothing spline λ=10 | validated_candidate | Ytterligare helt orörd årlig eller extern kontroll efter 2025 med oförändrad λ=10. Lägre maternal-age-cell MAE och inte sämre totalfel för födda krävs i både Luleå och Luleå FA. |
+
 ## Stängda nivå 2-kandidater
 
 | Komponent | Status | Förvaltningsregel |
 |---|---|---|
+| `mortality_eb_candidate` – Dödlighet: Empirical Bayes | rejected_2025_holdout | Förbättrade cell-MAE men försämrade Luleås totalfel 2025; stängd utan eftertrimning. |
+| `migration_spline_candidate` – Migration: kubisk spline för net10 | rejected | Försämrade åldersprofil-MAE, särskilt 15–39 år; stängd utan eftertrimning. |
 | `component_flow` – Trebensmodell med separata bruttoflöden | rejected | Retain for research only; do not retune against consumed holdouts. |
 | `migration_recency` – Adaptiv tidsviktning mot senare år | rejected | No further promotion. Keep diagnostic history to prevent rediscovering the same failed candidate. |
 | `migration_age_smoothing` – Adaptiv åldersmjukning för migration | rejected | Keep failed locked smoothing candidates out of production; do not retune from these outcomes. |
@@ -153,16 +161,25 @@ För Luleå kommun gav 0 % lägst MAE i fem av sex kombinationer av fruktsamhet/
 
 Slutsatsen är därför att lokal information tydligt kan vara värdefull, men att den nuvarande viktfunktionen ännu inte är visad som den mest träffsäkra kompromissen mellan riksprofil och lokal ettårsåldersprofil. Trösklarna får inte efterjusteras mot dessa redan observerade resultat. En ny viktfunktion eller SCB-inspirerad splineutjämning ska behandlas som en ny, förhandslåst kandidat och utvärderas på ny oberoende evidens.
 
-## Låsta utvecklingskandidater för lokalisering
+## Låsta och validerade kandidater för lokalisering
 
-Efter Update SCB data #74 behandlas två alternativa lokaliseringsmetoder som separata, låsta utvecklingskandidater. De påverkar inte produktionsbaslinjen.
+Efter utvecklingsdiagnostiken 2018–2024 låstes alternativa lokaliseringsmetoder och testades därefter mot ett separat 2025-holdout. Produktionsbaslinjen ändras inte automatiskt av kandidatstatus.
 
-- **Fruktsamhet – kubisk smoothing spline.** Kandidaten använder en natural-cubic smoothing spline på den lokala åldersprofilens log-relativa avvikelse mot den generella kommunnivån. Anpassningen minimerar viktade kvadrerade avvikelser plus en integrerad krökningspenalty. Som representativ utvecklingskandidat låses **lambda = 10**. Värdet 1/10/100 har redan jämförts på 2018–2024 och får därför inte användas för ny efterhandsoptimering.
-- **Dödlighet – Empirical Bayes.** Kandidaten använder metod-of-moments-shrinkage där lokala ettårsåldersavvikelser dras mot den generella kommunnivån i proportion till skattad lokal osäkerhet. Den nuvarande formuleringen låses utan ytterligare trimning på 2018–2024.
+- **Fruktsamhet – kubisk smoothing spline, λ=10:** klarade den förhandsdefinierade 2025-grinden för både Luleå kommun och Luleå FA. Maternal-age-cell MAE förbättrades från 4,318 till 4,155 i Luleå och från 8,737 till 8,483 i FA. Totalfelet för födda förbättrades samtidigt från 97,226 till 95,189 respektive från 278,550 till 277,175. Kandidaten är därför **mognadsgrad 3 – validerad kandidat**, men är ännu inte produktionsaktiv.
+- **Dödlighet – Empirical Bayes:** förbättrade ålder×kön-cell MAE i både Luleå och FA, men klarade inte den låsta 2025-grinden eftersom totalfelet för döda i Luleå försämrades från 46,845 till 51,886. Kandidaten är därför **stängd på mognadsgrad 2** och får inte eftertrimmas mot 2018–2025.
+- **Migration – kubisk spline för net10-profil:** stängd på mognadsgrad 2. Total nettoflyttning bevarades, men åldersprofilen försämrades tydligt, särskilt 15–39 år. Rå 10-årig ettårsåldersprofil behålls därför.
 
-Rolling-origin 2018–2024 är nu **utvecklingsevidens** för dessa kandidater, inte oberoende godkännandeevidens. Nivå 3 eller 4 kräver en ny förhandsdefinierad valideringsgrind på data som inte använts för att formulera eller välja kandidaten.
+2025-holdoutet använder endast 2025 som lokalt utfall och exponering. Den nationella pre-2025-profilen hålls fixerad för båda jämförda metoderna, så kontrollen isolerar lokaliseringsmetoden och blandar inte in ett nytt nationellt nivåantagande.
 
-Den nuvarande informationsvägningen ligger kvar i produktion tills en låst ersättare klarar en sådan oberoende kontroll.
+### Förhandslåst nivå-4-grind för fruktsamhets-splinen
+
+Fruktsamhets-splinen får inte gå från nivå 3 till nivå 4 på grundval av 2018–2025, eftersom dessa utfall redan är konsumerade. Nästa produktionsgrind är därför låst i förväg:
+
+1. λ ska förbli **10** och splineformuleringen får inte ändras.
+2. Evidensen ska komma från en **helt orörd årlig eller extern kontroll efter 2025**.
+3. Kandidaten ska återigen ge **lägre maternal-age-cell MAE** än nuvarande produktionsmetod för både Luleå kommun och Luleå FA.
+4. Kandidaten får samtidigt **inte försämra totalfelet för antal födda** i någon av de två geografierna.
+5. Först om samtliga krav passerar kan kandidaten övervägas för nivå 4 och produktionsbyte.
 
 ## Kända avgränsningar
 
