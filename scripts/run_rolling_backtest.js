@@ -305,6 +305,58 @@ function fertilityCandidateRates(model, method, lambda=10) {
     return {...r,value:Math.max(0,nat*factor)};
   });
 }
+function mortalityWeightedLeastSquaresRates(model) {
+  const bounds=localRatioBounds(model);
+  const baseRows=(model.mortalityRisks||[]).filter(r=>r.year==null && r.geo!=='SE');
+  const groups=new Map();
+  for(const r of baseRows){
+    const k=`${r.geo}|${+r.window}|${r.sex}`;
+    if(!groups.has(k)) groups.set(k,[]);
+    groups.get(k).push(r);
+  }
+  const factorByKey=new Map();
+  for(const group of groups.values()){
+    const pts=[];
+    for(const r of group){
+      const nat=Number(r.nationalHazard);
+      const raw=Number(r.rawCellFactor);
+      const expected=Math.max(0,Number(r.cellExpectedEvents)||0);
+      const deaths=Math.max(0,expected*Math.max(0,raw));
+      const localHazard=nat*raw;
+      if(!(nat>0) || !(localHazard>0) || !(deaths>0)) continue;
+      pts.push({x:Math.log(nat),y:Math.log(localHazard),w:deaths});
+    }
+    const sw=pts.reduce((s,p)=>s+p.w,0);
+    let intercept=0, slope=1;
+    if(sw>0 && pts.length>=2){
+      const xbar=pts.reduce((s,p)=>s+p.w*p.x,0)/sw;
+      const ybar=pts.reduce((s,p)=>s+p.w*p.y,0)/sw;
+      const denom=pts.reduce((s,p)=>s+p.w*(p.x-xbar)*(p.x-xbar),0);
+      slope=denom>1e-12
+        ? pts.reduce((s,p)=>s+p.w*(p.x-xbar)*(p.y-ybar),0)/denom
+        : 1;
+      intercept=ybar-slope*xbar;
+    }
+    for(const r of group){
+      const nat=Number(r.nationalHazard);
+      let factor=clampRatio(r.municipalityFactor,bounds);
+      if(sw>0 && pts.length>=2 && nat>0){
+        const fitted=Math.exp(intercept+slope*Math.log(nat));
+        factor=clampRatio(fitted/nat,bounds);
+      }
+      factorByKey.set(`${r.geo}|${+r.window}|${r.sex}|${+r.age}`,factor);
+    }
+  }
+  return (model.mortalityRisks||[]).map(r=>{
+    if(r.geo==='SE') return r;
+    const factor=factorByKey.get(`${r.geo}|${+r.window}|${r.sex}|${+r.age}`);
+    const nat=Number(r.nationalHazard);
+    if(!Number.isFinite(factor)||!Number.isFinite(nat)) return r;
+    const hazard=Math.max(0,nat*factor);
+    return {...r,value:Math.max(0,Math.min(1,1-Math.exp(-hazard)))};
+  });
+}
+
 function mortalityEmpiricalBayesRates(model) {
   const bounds=localRatioBounds(model);
   const baseRows=(model.mortalityRisks||[]).filter(r=>r.year==null && r.geo!=='SE');
@@ -327,7 +379,11 @@ function mortalityEmpiricalBayesRates(model) {
 function scoreCandidate(entry, geo, window, component, method, lambda=10) {
   const variant=component==='fertility'
     ? {...entry.model,fertilityRates:fertilityCandidateRates(entry.model,method,lambda)}
-    : {...entry.model,mortalityRisks:mortalityEmpiricalBayesRates(entry.model)};
+    : {...entry.model,mortalityRisks:
+        method==='wls'
+          ? mortalityWeightedLeastSquaresRates(entry.model)
+          : mortalityEmpiricalBayesRates(entry.model)
+      };
   const pred=M.simulate(variant,{
     geo,endYear:entry.endYear,fertMult:1,mortMult:1,migMult:1,window,
     scenarios:{housing:[],workplaces:[],overlapPct:0},includeDetail:false
@@ -553,7 +609,7 @@ const report = {
     mortality: {summary: {}}
   },
   localizationMethodDiagnostic: {
-    note: 'Development diagnostic only. Compares the current production information weighting with a method-of-moments empirical-Bayes shrinkage candidate, a discrete second-difference penalized age smoother, and a natural cubic smoothing-spline candidate for fertility. The smoothing-spline candidate minimizes weighted squared deviations plus lambda times integrated squared curvature. It is methodologically aligned with penalized-least-squares smoothing splines but does not claim to reproduce SCB internal smoothing-factor choices. Lambda values are fixed sensitivity settings, not a promotion rule.',
+    note: 'Development diagnostic only. Compares the current production information weighting with a method-of-moments empirical-Bayes shrinkage candidate, a discrete second-difference penalized age smoother, and a natural cubic smoothing-spline candidate for fertility. The smoothing-spline candidate minimizes weighted squared deviations plus lambda times integrated squared curvature. Mortality also includes a separately locked SCB-inspired weighted-least-squares candidate: log(local hazard)=a+b*log(national hazard), fitted by geography/window/sex with observed local deaths as weights. Neither candidate claims to reproduce unpublished SCB optimization details. Lambda values are fixed sensitivity settings, not a promotion rule.',
     independentHoldout: false,
     fertility: {summary: {}},
     mortality: {summary: {}}
@@ -1033,6 +1089,7 @@ for (const geo of geos) {
     const cubicSpline10Rows=[];
     const cubicSpline100Rows=[];
     const ebMortRows=[];
+    const wlsMortRows=[];
     for(const entry of origins){
       currentRows.push(...(report.results[geo][entry.origin][window]||[]));
       ebFertRows.push(...scoreCandidate(entry,geo,window,'fertility','eb'));
@@ -1043,6 +1100,7 @@ for (const geo of geos) {
       cubicSpline10Rows.push(...scoreCandidate(entry,geo,window,'fertility','smoothingSpline',10));
       cubicSpline100Rows.push(...scoreCandidate(entry,geo,window,'fertility','smoothingSpline',100));
       ebMortRows.push(...scoreCandidate(entry,geo,window,'mortality','eb'));
+      wlsMortRows.push(...scoreCandidate(entry,geo,window,'mortality','wls'));
     }
     const byHorizonF={};
     const byHorizonM={};
@@ -1056,6 +1114,7 @@ for (const geo of geos) {
       const cs10=cubicSpline10Rows.filter(r=>r.horizon===h);
       const cs100=cubicSpline100Rows.filter(r=>r.horizon===h);
       const ebm=ebMortRows.filter(r=>r.horizon===h);
+      const wlsm=wlsMortRows.filter(r=>r.horizon===h);
       byHorizonF[h]={
         currentBirthsMAE:round1(mean(cur.map(x=>Math.abs(x.birthsError)))),
         empiricalBayesBirthsMAE:round1(mean(ebf.map(x=>Math.abs(x.birthsError)))),
@@ -1068,7 +1127,8 @@ for (const geo of geos) {
       };
       byHorizonM[h]={
         currentDeathsMAE:round1(mean(cur.map(x=>Math.abs(x.deathsError)))),
-        empiricalBayesDeathsMAE:round1(mean(ebm.map(x=>Math.abs(x.deathsError))))
+        empiricalBayesDeathsMAE:round1(mean(ebm.map(x=>Math.abs(x.deathsError)))),
+        weightedLeastSquaresDeathsMAE:round1(mean(wlsm.map(x=>Math.abs(x.deathsError))))
       };
     }
     report.localizationMethodDiagnostic.fertility.summary[geo][window]={
@@ -1087,6 +1147,7 @@ for (const geo of geos) {
       observations:currentRows.length,
       currentDeathsMAE:round1(mean(currentRows.map(x=>Math.abs(x.deathsError)))),
       empiricalBayesDeathsMAE:round1(mean(ebMortRows.map(x=>Math.abs(x.deathsError)))),
+      weightedLeastSquaresDeathsMAE:round1(mean(wlsMortRows.map(x=>Math.abs(x.deathsError)))),
       byHorizon:byHorizonM
     };
   }
@@ -2129,7 +2190,7 @@ for (const geo of ['2580','FA_LULEA']){
       `${geo} window=${window}: fertility methods current=${f.currentBirthsMAE} EB=${f.empiricalBayesBirthsMAE} discrete1=${f.spline1BirthsMAE} discrete10=${f.spline10BirthsMAE} discrete100=${f.spline100BirthsMAE} cubicSpline1=${f.cubicSpline1BirthsMAE} cubicSpline10=${f.cubicSpline10BirthsMAE} cubicSpline100=${f.cubicSpline100BirthsMAE}`
     );
     console.log(
-      `${geo} window=${window}: mortality methods current=${m.currentDeathsMAE} EB=${m.empiricalBayesDeathsMAE}`
+      `${geo} window=${window}: mortality methods current=${m.currentDeathsMAE} EB=${m.empiricalBayesDeathsMAE} WLS=${m.weightedLeastSquaresDeathsMAE}`
     );
   }
 }
