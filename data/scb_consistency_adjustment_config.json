@@ -18,5 +18,22 @@
     "active": false,
     "reason": "Only Norrbotten municipality-to-county support geography is currently locked; all-county support is required before county-to-national activation."
   },
-  "governance": "No parameter tuning from Lulea outcome errors. This stage validates accounting and mass preservation only."
+  "governance": "No parameter tuning from Lulea outcome errors. This stage validates accounting and mass preservation only.",
+  "accuracyEvaluation": {
+    "status": "locked_before_profet_accuracy_results",
+    "developmentOrigins": [
+      2020,
+      2021
+    ],
+    "primaryGeo": "2580",
+    "compareAgainst": "profet_birth_status_without_consistency",
+    "requirements": [
+      "n+1 population MAE not above unadjusted Profet",
+      "n+1 net migration MAE not above unadjusted Profet",
+      "at least one n+1 MAE strictly below unadjusted Profet",
+      "n+2 population MAE not above unadjusted Profet",
+      "n+2 net migration MAE not above unadjusted Profet"
+    ],
+    "note": "This gate decides whether the municipality-to-county layer advances inside the Profet development candidate. It does not promote the component to production level 4."
+  }
 }
