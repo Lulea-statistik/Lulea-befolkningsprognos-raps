@@ -89,6 +89,15 @@ const report = {
     windows: migrationWindows,
     summary: {}
   },
+  migrationAgeSmoothingDiagnostic: {
+    note: 'Development diagnostic. Compares raw net10 age profile, existing adaptive local+national smoothing, and the pre-locked local+national+analogue smoothing. Analogue municipalities are re-ranked vintage-correctly at each origin.',
+    independentHoldout: false,
+    candidate: manifest.migrationAgeSmoothingCandidate || null,
+    summary: {},
+    results: {},
+    existingSmoothingGate: null,
+    analogueSmoothingGate: null
+  },
   componentFlowDiagnostic: {
     note: 'Development diagnostic only. Compares the locked three-leg component_flow engine with the existing 10-year exogenous net-migration baseline inside the full cohort model. The component windows were selected using Lulea development data, so this is not independent holdout evidence.',
     independentHoldout: false,
@@ -1129,6 +1138,144 @@ for (const geo of geos) {
   };
 }
 
+
+{
+  const geo='2580';
+  const allRows=[];
+  const byOrigin={};
+  report.migrationAgeSmoothingDiagnostic.results[geo]={};
+
+  for(const entry of origins){
+    const localRows=entry.model.netMigrationSmoothed||[];
+    const analogueRows=entry.model.netMigrationAnalogueSmoothed||[];
+    if(!localRows.length||!analogueRows.length) continue;
+
+    const common={
+      geo,
+      endYear:entry.endYear,
+      fertMult:1,
+      mortMult:1,
+      migMult:1,
+      window:10,
+      migrationWindow:10,
+      cohortTimingMode:'event_age_aligned',
+      scenarios:{housing:[],workplaces:[],overlapPct:0},
+      includeDetail:false
+    };
+    const raw=M.simulate(entry.model,common);
+    const local=M.simulate({...entry.model,netMigration:localRows},common);
+    const analogue=M.simulate({...entry.model,netMigration:analogueRows},common);
+    const rows=[];
+
+    for(const p of raw){
+      if(+p.year<=+entry.origin) continue;
+      const a=byActual(entry.actual,geo,p.year);
+      const l=local.find(x=>+x.year===+p.year);
+      const g=analogue.find(x=>+x.year===+p.year);
+      if(!a||!l||!g) continue;
+      const row={
+        year:+p.year,
+        horizon:+p.year-+entry.origin,
+        rawPopulationError:p.population-a.population,
+        localPopulationError:l.population-a.population,
+        analoguePopulationError:g.population-a.population,
+        rawPopulationAbsPctError:ape(p.population,a.population),
+        localPopulationAbsPctError:ape(l.population,a.population),
+        analoguePopulationAbsPctError:ape(g.population,a.population),
+        rawNetMigrationError:p.netMigration-a.netMigration,
+        localNetMigrationError:l.netMigration-a.netMigration,
+        analogueNetMigrationError:g.netMigration-a.netMigration,
+        rawPredictedNetMigration:p.netMigration,
+        localPredictedNetMigration:l.netMigration,
+        analoguePredictedNetMigration:g.netMigration,
+        actualNetMigration:a.netMigration
+      };
+      rows.push(row);
+      allRows.push(row);
+    }
+
+    byOrigin[entry.origin]={
+      analogueTop5:entry.model.migrationAgeSmoothingAudit?.analogueTop5||[],
+      rows:rows.map(r=>({
+        year:r.year,
+        horizon:r.horizon,
+        rawPopulationError:round1(r.rawPopulationError),
+        localPopulationError:round1(r.localPopulationError),
+        analoguePopulationError:round1(r.analoguePopulationError),
+        rawNetMigrationError:round1(r.rawNetMigrationError),
+        localNetMigrationError:round1(r.localNetMigrationError),
+        analogueNetMigrationError:round1(r.analogueNetMigrationError),
+        rawPredictedNetMigration:round1(r.rawPredictedNetMigration),
+        localPredictedNetMigration:round1(r.localPredictedNetMigration),
+        analoguePredictedNetMigration:round1(r.analoguePredictedNetMigration),
+        actualNetMigration:round1(r.actualNetMigration)
+      }))
+    };
+    report.migrationAgeSmoothingDiagnostic.results[geo][entry.origin]=byOrigin[entry.origin];
+  }
+
+  const byHorizon={};
+  for(let horizon=1;horizon<=manifest.horizonYears;horizon++){
+    const h=allRows.filter(r=>r.horizon===horizon);
+    const metrics=(prefix)=>({
+      populationMAE:round1(mean(h.map(r=>Math.abs(r[prefix+'PopulationError'])))),
+      populationMAPE:round1(mean(h.map(r=>r[prefix+'PopulationAbsPctError']))),
+      populationMeanError:round1(mean(h.map(r=>r[prefix+'PopulationError']))),
+      netMigrationMAE:round1(mean(h.map(r=>Math.abs(r[prefix+'NetMigrationError'])))),
+      netMigrationMeanError:round1(mean(h.map(r=>r[prefix+'NetMigrationError'])))
+    });
+    byHorizon[horizon]={
+      observations:h.length,
+      raw:metrics('raw'),
+      localNational:metrics('local'),
+      localNationalAnalogue:metrics('analogue')
+    };
+  }
+
+  report.migrationAgeSmoothingDiagnostic.summary[geo]={
+    observations:allRows.length,
+    origins:Object.keys(byOrigin).map(Number),
+    oneYear:byHorizon[1],
+    twoYear:byHorizon[2],
+    threeYear:byHorizon[3],
+    byHorizon,
+    byOrigin
+  };
+
+  const n1=byHorizon[1],n2=byHorizon[2];
+  const existingChecks={
+    n1PopulationNotWorse:!!n1&&n1.localNational.populationMAE<=n1.raw.populationMAE,
+    n1MigrationNotWorse:!!n1&&n1.localNational.netMigrationMAE<=n1.raw.netMigrationMAE,
+    n1AtLeastOneStrictlyBetter:!!n1&&(
+      n1.localNational.populationMAE<n1.raw.populationMAE||
+      n1.localNational.netMigrationMAE<n1.raw.netMigrationMAE
+    ),
+    n2PopulationNotWorse:!!n2&&n2.localNational.populationMAE<=n2.raw.populationMAE,
+    n2MigrationNotWorse:!!n2&&n2.localNational.netMigrationMAE<=n2.raw.netMigrationMAE
+  };
+  report.migrationAgeSmoothingDiagnostic.existingSmoothingGate={
+    primaryGeo:geo,
+    checks:existingChecks,
+    passed:Object.values(existingChecks).every(Boolean)
+  };
+
+  const analogueChecks={
+    n1PopulationNotWorse:!!n1&&n1.localNationalAnalogue.populationMAE<=n1.localNational.populationMAE,
+    n1MigrationNotWorse:!!n1&&n1.localNationalAnalogue.netMigrationMAE<=n1.localNational.netMigrationMAE,
+    n1AtLeastOneStrictlyBetter:!!n1&&(
+      n1.localNationalAnalogue.populationMAE<n1.localNational.populationMAE||
+      n1.localNationalAnalogue.netMigrationMAE<n1.localNational.netMigrationMAE
+    ),
+    n2PopulationNotWorse:!!n2&&n2.localNationalAnalogue.populationMAE<=n2.localNational.populationMAE,
+    n2MigrationNotWorse:!!n2&&n2.localNationalAnalogue.netMigrationMAE<=n2.localNational.netMigrationMAE
+  };
+  report.migrationAgeSmoothingDiagnostic.analogueSmoothingGate={
+    primaryGeo:geo,
+    checks:analogueChecks,
+    passed:Object.values(analogueChecks).every(Boolean)
+  };
+}
+
 const outJson = path.join(
   ROOT, 'data', 'backtests', 'rolling_2018_2024.json'
 );
@@ -1235,6 +1382,19 @@ for (const geo of ['2580','FA_LULEA']) {
     `n+1 population MAE=${s.oneYear.profetBirthStatus.populationMAE} vs net10=${s.oneYear.net10Baseline.populationMAE} | `+
     `n+2 migration MAE=${s.twoYear.profetBirthStatus.netMigrationMAE} vs net10=${s.twoYear.net10Baseline.netMigrationMAE}`
   );
+}
+
+{
+  const s=report.migrationAgeSmoothingDiagnostic.summary['2580'];
+  if(s?.oneYear){
+    console.log(
+      `2580 migration age smoothing: n+1 population MAE raw=${s.oneYear.raw.populationMAE} local+national=${s.oneYear.localNational.populationMAE} analogue=${s.oneYear.localNationalAnalogue.populationMAE} | `+
+      `n+1 migration MAE raw=${s.oneYear.raw.netMigrationMAE} local+national=${s.oneYear.localNational.netMigrationMAE} analogue=${s.oneYear.localNationalAnalogue.netMigrationMAE}`
+    );
+    console.log(
+      `Smoothing gates: existing=${report.migrationAgeSmoothingDiagnostic.existingSmoothingGate?.passed} analogue=${report.migrationAgeSmoothingDiagnostic.analogueSmoothingGate?.passed}`
+    );
+  }
 }
 
 for (const geo of ['2580','FA_LULEA']) {
