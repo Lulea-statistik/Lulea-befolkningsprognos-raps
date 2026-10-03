@@ -67,6 +67,24 @@ const sumJobs=municipalJobs.reduce((s,r)=>s+r.total,0);
 assert(Math.abs(sumJobs-faJobs.total)<1e-9,'observed commuting workplace effects balance across municipalities');
 assert(Math.abs(faJobs.total-20)<1e-9,'only outside-FA movers add population to FA');
 
+const spinOffScenario=JSON.parse(JSON.stringify(commutingScenario));
+spinOffScenario.workplaces[0].spinOffJobsPerDirectJob=1.5;
+const faJobsWithSpinOff=M.scenarioEffect(
+  demoData,{scenarios:spinOffScenario},2030,'FA_LULEA'
+);
+assert(
+  Math.abs(faJobsWithSpinOff.jobExternal-faJobs.jobExternal*2.5)<1e-9,
+  '1.5 spin-off jobs per direct job multiplies total labour-demand effect by 2.5'
+);
+assert(
+  Math.abs(
+    faJobsWithSpinOff.jobExternalDomestic+
+    faJobsWithSpinOff.jobExternalInternational-
+    faJobsWithSpinOff.jobExternal
+  )<1e-9,
+  'spin-off scenario preserves domestic/international source split'
+);
+
 
 const profiledScenarioData={
   meta:{baseYear:2025},
