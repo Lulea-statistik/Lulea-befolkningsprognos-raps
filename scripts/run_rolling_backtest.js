@@ -99,6 +99,157 @@ function mortalityWeightVariant(model, weight) {
     return {...r, value: Math.max(0, Math.min(1, 1 - Math.exp(-hazard)))};
   });
 }
+function sampleVariance(values) {
+  const x=values.map(Number).filter(Number.isFinite);
+  if(x.length<2) return 0;
+  const m=mean(x);
+  return x.reduce((s,v)=>s+(v-m)*(v-m),0)/(x.length-1);
+}
+function empiricalBayesFactors(rows, groupKeyFn, bounds) {
+  const groups=new Map();
+  for(const r of rows) {
+    const k=groupKeyFn(r);
+    if(!groups.has(k)) groups.set(k,[]);
+    groups.get(k).push(r);
+  }
+  const factors=new Map();
+  for(const group of groups.values()) {
+    const stats=group.map(r=>{
+      const g=clampRatio(r.municipalityFactor,bounds);
+      const l=clampRatio(r.rawCellFactor,bounds);
+      const delta=Math.log(Math.max(1e-9,l/g));
+      const expected=Math.max(0,Number(r.cellExpectedEvents)||0);
+      const raw=Math.max(0,Number(r.rawCellFactor)||0);
+      const observedApprox=expected*raw;
+      const samplingVar=1/Math.max(0.5,observedApprox+0.5);
+      return {r,g,l,delta,samplingVar};
+    });
+    const observedVar=sampleVariance(stats.map(x=>x.delta));
+    const meanSampling=mean(stats.map(x=>x.samplingVar))||0;
+    const tau2=Math.max(0,observedVar-meanSampling);
+    for(const x of stats) {
+      const w=tau2<=0?0:tau2/(tau2+x.samplingVar);
+      const factor=clampRatio(x.g*Math.exp(w*x.delta),bounds);
+      factors.set(x.r,factor);
+    }
+  }
+  return factors;
+}
+function solveDense(A,b) {
+  const n=A.length;
+  const M=A.map((row,i)=>row.slice().concat([b[i]]));
+  for(let col=0;col<n;col++){
+    let pivot=col;
+    for(let r=col+1;r<n;r++) if(Math.abs(M[r][col])>Math.abs(M[pivot][col])) pivot=r;
+    if(Math.abs(M[pivot][col])<1e-12) continue;
+    [M[col],M[pivot]]=[M[pivot],M[col]];
+    const div=M[col][col];
+    for(let j=col;j<=n;j++) M[col][j]/=div;
+    for(let r=0;r<n;r++){
+      if(r===col) continue;
+      const mult=M[r][col];
+      if(!mult) continue;
+      for(let j=col;j<=n;j++) M[r][j]-=mult*M[col][j];
+    }
+  }
+  return M.map((row,i)=>Number.isFinite(row[n])?row[n]:0);
+}
+function penalizedAgeSmoothFactors(rows, groupKeyFn, ageFn, bounds, lambda) {
+  const groups=new Map();
+  for(const r of rows) {
+    const k=groupKeyFn(r);
+    if(!groups.has(k)) groups.set(k,[]);
+    groups.get(k).push(r);
+  }
+  const factors=new Map();
+  for(const rawGroup of groups.values()) {
+    const group=rawGroup.slice().sort((a,b)=>ageFn(a)-ageFn(b));
+    const n=group.length;
+    if(n<3){ for(const r of group) factors.set(r,clampRatio(r.rawCellFactor,bounds)); continue; }
+    const events=group.map(r=>Math.max(0.5,Number(r.cellExpectedEvents)||0.5));
+    const sortedEvents=events.slice().sort((a,b)=>a-b);
+    const median=sortedEvents[Math.floor(sortedEvents.length/2)]||1;
+    const weights=events.map(v=>Math.max(0.05,v/median));
+    const y=group.map(r=>{
+      const g=clampRatio(r.municipalityFactor,bounds);
+      const l=clampRatio(r.rawCellFactor,bounds);
+      return Math.log(Math.max(1e-9,l/g));
+    });
+    const A=Array.from({length:n},()=>Array(n).fill(0));
+    const rhs=Array(n).fill(0);
+    for(let i=0;i<n;i++){ A[i][i]+=weights[i]; rhs[i]+=weights[i]*y[i]; }
+    for(let i=0;i<n-2;i++){
+      const d=[1,-2,1];
+      for(let a=0;a<3;a++) for(let b=0;b<3;b++) A[i+a][i+b]+=lambda*d[a]*d[b];
+    }
+    const z=solveDense(A,rhs);
+    for(let i=0;i<n;i++){
+      const g=clampRatio(group[i].municipalityFactor,bounds);
+      factors.set(group[i],clampRatio(g*Math.exp(z[i]),bounds));
+    }
+  }
+  return factors;
+}
+function fertilityCandidateRates(model, method, lambda=10) {
+  const bounds=localRatioBounds(model);
+  const baseRows=(model.fertilityRates||[]).filter(r=>r.year==null && r.geo!=='SE');
+  const factorByRow=method==='eb'
+    ? empiricalBayesFactors(baseRows,r=>`${r.geo}|${+r.window}`,bounds)
+    : penalizedAgeSmoothFactors(baseRows,r=>`${r.geo}|${+r.window}`,r=>+r.age,bounds,lambda);
+  const factorByKey=new Map(baseRows.map(r=>[
+    `${r.geo}|${+r.window}|${+r.age}`,
+    factorByRow.get(r)
+  ]));
+  return (model.fertilityRates||[]).map(r=>{
+    if(r.geo==='SE') return r;
+    const factor=factorByKey.get(`${r.geo}|${+r.window}|${+r.age}`);
+    const nat=Number(r.nationalRate);
+    if(!Number.isFinite(factor)||!Number.isFinite(nat)) return r;
+    return {...r,value:Math.max(0,nat*factor)};
+  });
+}
+function mortalityEmpiricalBayesRates(model) {
+  const bounds=localRatioBounds(model);
+  const baseRows=(model.mortalityRisks||[]).filter(r=>r.year==null && r.geo!=='SE');
+  const factorByRow=empiricalBayesFactors(
+    baseRows,r=>`${r.geo}|${+r.window}|${r.sex}`,bounds
+  );
+  const factorByKey=new Map(baseRows.map(r=>[
+    `${r.geo}|${+r.window}|${r.sex}|${+r.age}`,
+    factorByRow.get(r)
+  ]));
+  return (model.mortalityRisks||[]).map(r=>{
+    if(r.geo==='SE') return r;
+    const factor=factorByKey.get(`${r.geo}|${+r.window}|${r.sex}|${+r.age}`);
+    const nat=Number(r.nationalHazard);
+    if(!Number.isFinite(factor)||!Number.isFinite(nat)) return r;
+    const hazard=Math.max(0,nat*factor);
+    return {...r,value:Math.max(0,Math.min(1,1-Math.exp(-hazard)))};
+  });
+}
+function scoreCandidate(entry, geo, window, component, method, lambda=10) {
+  const variant=component==='fertility'
+    ? {...entry.model,fertilityRates:fertilityCandidateRates(entry.model,method,lambda)}
+    : {...entry.model,mortalityRisks:mortalityEmpiricalBayesRates(entry.model)};
+  const pred=M.simulate(variant,{
+    geo,endYear:entry.endYear,fertMult:1,mortMult:1,migMult:1,window,
+    scenarios:{housing:[],workplaces:[],overlapPct:0},includeDetail:false
+  });
+  const rows=[];
+  for(const p of pred){
+    if(+p.year<=+entry.origin) continue;
+    const a=byActual(entry.actual,geo,p.year);
+    if(!a) continue;
+    rows.push({
+      year:+p.year,horizon:+p.year-+entry.origin,
+      populationError:p.population-a.population,
+      populationAbsPctError:ape(p.population,a.population),
+      birthsError:p.births-a.births,deathsError:p.deaths-a.deaths
+    });
+  }
+  return rows;
+}
+
 function scoreWeightVariant(entry, geo, window, component, weight) {
   const variant = component === 'fertility'
     ? {...entry.model, fertilityRates: fertilityWeightVariant(entry.model, weight)}
@@ -181,6 +332,12 @@ const report = {
       current: 'Production information-weighted blend between broad municipality factor and local one-year cell factor.',
       full: 'Local one-year cell factor at 100% weight, subject to the same fixed local/national ratio bounds.'
     },
+    fertility: {summary: {}},
+    mortality: {summary: {}}
+  },
+  localizationMethodDiagnostic: {
+    note: 'Development diagnostic only. Compares the current production information weighting with a method-of-moments empirical-Bayes shrinkage candidate and, for fertility only, penalized second-difference age-curve smoothing inspired by SCB smoothing-spline principles. The spline proxy is not claimed to reproduce SCB internal smoothing factors. Penalties 1/10/100 are reported as sensitivity values and are not a promotion rule.',
+    independentHoldout: false,
     fertility: {summary: {}},
     mortality: {summary: {}}
   },
@@ -638,6 +795,63 @@ for (const geo of geos) {
   }
 }
 
+
+for (const geo of geos) {
+  report.localizationMethodDiagnostic.fertility.summary[geo]={};
+  report.localizationMethodDiagnostic.mortality.summary[geo]={};
+  for(const window of windows){
+    const currentRows=[];
+    const ebFertRows=[];
+    const spline1Rows=[];
+    const spline10Rows=[];
+    const spline100Rows=[];
+    const ebMortRows=[];
+    for(const entry of origins){
+      currentRows.push(...(report.results[geo][entry.origin][window]||[]));
+      ebFertRows.push(...scoreCandidate(entry,geo,window,'fertility','eb'));
+      spline1Rows.push(...scoreCandidate(entry,geo,window,'fertility','spline',1));
+      spline10Rows.push(...scoreCandidate(entry,geo,window,'fertility','spline',10));
+      spline100Rows.push(...scoreCandidate(entry,geo,window,'fertility','spline',100));
+      ebMortRows.push(...scoreCandidate(entry,geo,window,'mortality','eb'));
+    }
+    const byHorizonF={};
+    const byHorizonM={};
+    for(let h=1;h<=manifest.horizonYears;h++){
+      const cur=currentRows.filter(r=>r.horizon===h);
+      const ebf=ebFertRows.filter(r=>r.horizon===h);
+      const s1=spline1Rows.filter(r=>r.horizon===h);
+      const s10=spline10Rows.filter(r=>r.horizon===h);
+      const s100=spline100Rows.filter(r=>r.horizon===h);
+      const ebm=ebMortRows.filter(r=>r.horizon===h);
+      byHorizonF[h]={
+        currentBirthsMAE:round1(mean(cur.map(x=>Math.abs(x.birthsError)))),
+        empiricalBayesBirthsMAE:round1(mean(ebf.map(x=>Math.abs(x.birthsError)))),
+        spline1BirthsMAE:round1(mean(s1.map(x=>Math.abs(x.birthsError)))),
+        spline10BirthsMAE:round1(mean(s10.map(x=>Math.abs(x.birthsError)))),
+        spline100BirthsMAE:round1(mean(s100.map(x=>Math.abs(x.birthsError))))
+      };
+      byHorizonM[h]={
+        currentDeathsMAE:round1(mean(cur.map(x=>Math.abs(x.deathsError)))),
+        empiricalBayesDeathsMAE:round1(mean(ebm.map(x=>Math.abs(x.deathsError))))
+      };
+    }
+    report.localizationMethodDiagnostic.fertility.summary[geo][window]={
+      observations:currentRows.length,
+      currentBirthsMAE:round1(mean(currentRows.map(x=>Math.abs(x.birthsError)))),
+      empiricalBayesBirthsMAE:round1(mean(ebFertRows.map(x=>Math.abs(x.birthsError)))),
+      spline1BirthsMAE:round1(mean(spline1Rows.map(x=>Math.abs(x.birthsError)))),
+      spline10BirthsMAE:round1(mean(spline10Rows.map(x=>Math.abs(x.birthsError)))),
+      spline100BirthsMAE:round1(mean(spline100Rows.map(x=>Math.abs(x.birthsError)))),
+      byHorizon:byHorizonF
+    };
+    report.localizationMethodDiagnostic.mortality.summary[geo][window]={
+      observations:currentRows.length,
+      currentDeathsMAE:round1(mean(currentRows.map(x=>Math.abs(x.deathsError)))),
+      empiricalBayesDeathsMAE:round1(mean(ebMortRows.map(x=>Math.abs(x.deathsError)))),
+      byHorizon:byHorizonM
+    };
+  }
+}
 
 for (const geo of geos) {
   report.eventAgeTimingDiagnostic.summary[geo] = {};
@@ -1515,10 +1729,11 @@ fs.writeFileSync(
 );
 
 const weightCompact = {
-  schemaVersion: '0.1.0',
+  schemaVersion: '0.2.0',
   source: 'rolling_2018_2024',
   windows,
-  diagnostic: report.ageCellWeightDiagnostic
+  diagnostic: report.ageCellWeightDiagnostic,
+  localizationMethodDiagnostic: report.localizationMethodDiagnostic
 };
 fs.writeFileSync(
   path.join(ROOT, 'data', 'backtests', 'age_cell_weight_diagnostic.json'),
@@ -1583,6 +1798,19 @@ for (const geo of ['2580', 'FA_LULEA']) {
     );
     console.log(
       `${geo} window=${window}: mortality age-cell weight MAE zero=${m.zeroWeightDeathsMAE} | current=${m.currentWeightDeathsMAE} | full=${m.fullLocalDeathsMAE}`
+    );
+  }
+}
+
+for (const geo of ['2580','FA_LULEA']){
+  for(const window of windows){
+    const f=report.localizationMethodDiagnostic.fertility.summary[geo][window];
+    const m=report.localizationMethodDiagnostic.mortality.summary[geo][window];
+    console.log(
+      `${geo} window=${window}: fertility methods current=${f.currentBirthsMAE} EB=${f.empiricalBayesBirthsMAE} spline1=${f.spline1BirthsMAE} spline10=${f.spline10BirthsMAE} spline100=${f.spline100BirthsMAE}`
+    );
+    console.log(
+      `${geo} window=${window}: mortality methods current=${m.currentDeathsMAE} EB=${m.empiricalBayesDeathsMAE}`
     );
   }
 }
