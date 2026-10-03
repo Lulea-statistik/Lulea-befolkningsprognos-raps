@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "scenario_structure_locked_before_validation",
+  "baselineExcluded": true,
+  "purpose": "Represent planned housing separately from the demographic baseline with explicit completion, occupancy, household-size and migration-source assumptions.",
+  "principles": {
+    "plannedHousingIsScenarioNotBaseline": true,
+    "scbOccupancyDefaultsPreferred": true,
+    "manualOccupancyAllowedButExplicit": true,
+    "externalResidentsAddToFA": true,
+    "internalMovesWithinFAAreZeroSum": true,
+    "phaseInIsExplicit": true
+  },
+  "parameterRanges": {
+    "completionPct": {
+      "range": [
+        0,
+        100
+      ],
+      "rationale": "Share of planned dwellings assumed completed."
+    },
+    "occupancyPct": {
+      "range": [
+        0,
+        100
+      ],
+      "rationale": "Share of completed dwellings assumed occupied."
+    },
+    "personsPerDwelling": {
+      "range": [
+        0.5,
+        5
+      ],
+      "rationale": "Manual sensitivity range; auto mode should use SCB-derived occupancy defaults."
+    },
+    "externalSharePct": {
+      "range": [
+        0,
+        100
+      ],
+      "rationale": "Share of residents new to the FA rather than redistributed within it."
+    },
+    "internalSharePct": {
+      "range": [
+        0,
+        100
+      ],
+      "rationale": "Share of residents redistributed from other FA municipalities to the host municipality."
+    },
+    "phaseYears": {
+      "range": [
+        1,
+        10
+      ],
+      "rationale": "Years over which the scenario effect is phased in."
+    }
+  },
+  "sensitivityPresets": {
+    "low": {
+      "label": "Låg befolkningseffekt",
+      "interpretation": "Sensitivity setting, not a probability statement.",
+      "completionPct": 70,
+      "occupancyPct": 85,
+      "externalSharePct": 30,
+      "internalSharePct": 20,
+      "phaseYears": 5,
+      "personsMode": "auto"
+    },
+    "reference": {
+      "label": "Referenskänslighet",
+      "interpretation": "Middle sensitivity setting for comparison, not a most-likely forecast.",
+      "completionPct": 90,
+      "occupancyPct": 95,
+      "externalSharePct": 50,
+      "internalSharePct": 25,
+      "phaseYears": 3,
+      "personsMode": "auto"
+    },
+    "high": {
+      "label": "Hög befolkningseffekt",
+      "interpretation": "Upper sensitivity setting, not a probability statement.",
+      "completionPct": 100,
+      "occupancyPct": 100,
+      "externalSharePct": 70,
+      "internalSharePct": 30,
+      "phaseYears": 2,
+      "personsMode": "auto"
+    }
+  },
+  "validationRequirements": [
+    "housing scenario remains excluded from baseline",
+    "FA external effect equals new-to-FA residents only",
+    "internal redistribution sums to zero across FA municipalities",
+    "scenario effect is monotonic across low/reference/high presets when all else is fixed",
+    "SCB auto occupancy defaults remain the preferred household-size source"
+  ],
+  "governance": [
+    "Presets are sensitivity scenarios, not forecasts or probabilities.",
+    "Planned dwelling count, municipality, dwelling type, tenure and size remain explicit user inputs.",
+    "Auto persons-per-dwelling should use the latest available SCB-derived occupancy default; manual override remains visible and explicit.",
+    "Do not calibrate housing scenario parameters against the same future population outcome used to evaluate the baseline."
+  ]
+}
