@@ -1,0 +1,1 @@
+window.AGE_CELL_WEIGHT_DIAGNOSTIC = null;
