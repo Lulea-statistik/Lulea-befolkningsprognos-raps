@@ -210,6 +210,11 @@
       "label": "Migration: kubisk spline för 10-årig nettoflyttningsprofil",
       "targetLevel": 4,
       "requiredGate": "Ny separat kandidat. Lambda=10 och totalbevarande per kommun och kön är låsta före resultatutvärdering. Kandidaten får inte eftertrimmas mot 2018–2024."
+    },
+    "mortality_wls_candidate": {
+      "label": "Dödlighet: weighted least squares för lokal riskkurva",
+      "targetLevel": 4,
+      "requiredGate": "Ny SCB-inspirerad kandidat låst före resultatutvärdering: log(lokal hazard)=a+b×log(rikets hazard), separat per geografi/fönster/kön och viktad med observerade lokala dödsfall per ålder. 2018–2024 får endast användas som utvecklingsevidens; nivå 3 kräver ny orörd extern eller framtida kontroll utan omformulering."
     }
   }
 }
