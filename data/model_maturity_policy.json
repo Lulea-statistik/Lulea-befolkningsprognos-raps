@@ -150,6 +150,11 @@
       "label": "CKM-osäkerhetsdiagnostik",
       "targetLevel": 4,
       "requiredGate": "±3-cellsdiagnostiken ska matcha modellmetadata, ge ordnade ändliga riskintervall, minska relativt med större tal, hållas utanför pre-CKM-kalibreringen och uttryckligen beskrivas som känslighet snarare än konfidensintervall."
+    },
+    "scenario_migration_profiles": {
+      "label": "Scenarieprofiler för jobbdriven inflyttning",
+      "targetLevel": 4,
+      "requiredGate": "Alla scenarieprofiler ska vara kompletta, summera till 1 och vara icke-negativa; worker_hybrid ska exakt återge SCB:s breda ålder/kön-struktur och family_companion ska exkludera 18–24, samtidigt som profilerna hålls separata från baslinjens migration."
     }
   }
 }
