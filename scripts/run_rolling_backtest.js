@@ -1273,6 +1273,8 @@ for (const geo of geos) {
 
 for (const geo of geos) {
   const allRows=[];
+  const allRawAgeErrors=[];
+  const allSplineAgeErrors=[];
   const byOrigin={};
   report.migrationSplineDiagnostic.results[geo]={};
   for(const entry of origins){
@@ -1285,6 +1287,8 @@ for (const geo of geos) {
     });
     const rawAgeErrors=ageProfileErrors(entry,geo,rawPred);
     const splineAgeErrors=spline.ageErrors||[];
+    allRawAgeErrors.push(...rawAgeErrors);
+    allSplineAgeErrors.push(...splineAgeErrors);
     const rows=[];
     for(const s of spline){
       const r=raw.find(x=>+x.year===+s.year);
@@ -1317,8 +1321,8 @@ for (const geo of geos) {
   const byHorizon={};
   for(let h=1;h<=manifest.horizonYears;h++){
     const rows=allRows.filter(r=>r.horizon===h);
-    const rawAgeH=rawAgeErrors.filter(r=>r.horizon===h);
-    const splineAgeH=splineAgeErrors.filter(r=>r.horizon===h);
+    const rawAgeH=allRawAgeErrors.filter(r=>r.horizon===h);
+    const splineAgeH=allSplineAgeErrors.filter(r=>r.horizon===h);
     const raw1539=rawAgeH.filter(r=>r.age>=15&&r.age<=39);
     const spline1539=splineAgeH.filter(r=>r.age>=15&&r.age<=39);
     byHorizon[h]={
