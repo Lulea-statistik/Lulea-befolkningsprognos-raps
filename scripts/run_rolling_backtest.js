@@ -36,6 +36,100 @@ function byActual(actual, geo, year) {
   );
 }
 
+function localRatioBounds(model) {
+  const bounds = model.diagnostics?.relativeFactors?.bounds || {};
+  return {
+    min: Number.isFinite(+bounds.min) ? +bounds.min : 0.5,
+    max: Number.isFinite(+bounds.max) ? +bounds.max : 1.5
+  };
+}
+function clampRatio(value, bounds) {
+  const x = Number(value);
+  if (!Number.isFinite(x)) return 1;
+  return Math.max(bounds.min, Math.min(bounds.max, x));
+}
+function fertilityWeightVariant(model, weight) {
+  const bounds = localRatioBounds(model);
+  const base = new Map(
+    (model.fertilityRates || [])
+      .filter(r => r.year == null && r.geo !== 'SE')
+      .map(r => [`${r.geo}|${+r.window}|${+r.age}`, r])
+  );
+  return (model.fertilityRates || []).map(r => {
+    if (r.geo === 'SE') return r;
+    const ref = r.year == null
+      ? r
+      : base.get(`${r.geo}|${+r.window}|${+r.age}`);
+    if (!ref) return r;
+    const nationalRate = Number(r.nationalRate);
+    if (!Number.isFinite(nationalRate)) return r;
+    const generalFactor = Number.isFinite(+ref.municipalityFactor)
+      ? +ref.municipalityFactor : 1;
+    const rawCellFactor = Number.isFinite(+ref.rawCellFactor)
+      ? +ref.rawCellFactor : generalFactor;
+    const ratio = weight === 0
+      ? generalFactor
+      : clampRatio(rawCellFactor, bounds);
+    return {...r, value: Math.max(0, nationalRate * ratio)};
+  });
+}
+function mortalityWeightVariant(model, weight) {
+  const bounds = localRatioBounds(model);
+  const base = new Map(
+    (model.mortalityRisks || [])
+      .filter(r => r.year == null && r.geo !== 'SE')
+      .map(r => [`${r.geo}|${+r.window}|${r.sex}|${+r.age}`, r])
+  );
+  return (model.mortalityRisks || []).map(r => {
+    if (r.geo === 'SE') return r;
+    const ref = r.year == null
+      ? r
+      : base.get(`${r.geo}|${+r.window}|${r.sex}|${+r.age}`);
+    if (!ref) return r;
+    const nationalHazard = Number(r.nationalHazard);
+    if (!Number.isFinite(nationalHazard)) return r;
+    const generalFactor = Number.isFinite(+ref.municipalityFactor)
+      ? +ref.municipalityFactor : 1;
+    const rawCellFactor = Number.isFinite(+ref.rawCellFactor)
+      ? +ref.rawCellFactor : generalFactor;
+    const ratio = weight === 0
+      ? generalFactor
+      : clampRatio(rawCellFactor, bounds);
+    const hazard = Math.max(0, nationalHazard * ratio);
+    return {...r, value: Math.max(0, Math.min(1, 1 - Math.exp(-hazard)))};
+  });
+}
+function scoreWeightVariant(entry, geo, window, component, weight) {
+  const variant = component === 'fertility'
+    ? {...entry.model, fertilityRates: fertilityWeightVariant(entry.model, weight)}
+    : {...entry.model, mortalityRisks: mortalityWeightVariant(entry.model, weight)};
+  const pred = M.simulate(variant, {
+    geo,
+    endYear: entry.endYear,
+    fertMult: 1,
+    mortMult: 1,
+    migMult: 1,
+    window,
+    scenarios: {housing: [], workplaces: [], overlapPct: 0},
+    includeDetail: false
+  });
+  const rows = [];
+  for (const p of pred) {
+    if (+p.year <= +entry.origin) continue;
+    const a = byActual(entry.actual, geo, p.year);
+    if (!a) continue;
+    rows.push({
+      year: +p.year,
+      horizon: +p.year - +entry.origin,
+      populationError: p.population - a.population,
+      populationAbsPctError: ape(p.population, a.population),
+      birthsError: p.births - a.births,
+      deathsError: p.deaths - a.deaths
+    });
+  }
+  return rows;
+}
+
 const origins = manifest.origins.map(entry => {
   const model = JSON.parse(
     fs.readFileSync(path.join(WORKDIR, entry.modelFile), 'utf8')
@@ -79,6 +173,16 @@ const report = {
   mortalityLocalizationDiagnostic: {
     note: 'Diagnostic only: compares current localized mortality with the same SCB national age/sex mortality profile applied without any local multiplier. It does not change the production baseline.',
     summary: {}
+  },
+  ageCellWeightDiagnostic: {
+    note: 'Diagnostic only. Isolates the age-cell weighting choice while retaining the broad municipality factor. Compares 0% local age-cell weight, current information-weighted production values, and 100% local age-cell weight. This is distinct from the harder national-only diagnostic, which also removes the broad municipality factor.',
+    definitions: {
+      zero: 'National age profile multiplied by the broad municipality factor; no one-year local cell deviation.',
+      current: 'Production information-weighted blend between broad municipality factor and local one-year cell factor.',
+      full: 'Local one-year cell factor at 100% weight, subject to the same fixed local/national ratio bounds.'
+    },
+    fertility: {summary: {}},
+    mortality: {summary: {}}
   },
   eventAgeTimingDiagnostic: {
     note: 'Historical comparison of legacy V1 timing against the production event-age aligned cohort step. Primary evaluation horizon is n+1, secondary is n+2, and n+3 is supplementary robustness only.',
@@ -429,6 +533,47 @@ for (const geo of geos) {
       nationalOnlyPopulationMAPE: round1(mean(nationalRows.map(x => x.populationAbsPctError))),
       nationalOnlyPopulationMeanError: round1(mean(nationalRows.map(x => x.populationError))),
       byOrigin
+    };
+  }
+}
+
+
+for (const geo of geos) {
+  report.ageCellWeightDiagnostic.fertility.summary[geo] = {};
+  report.ageCellWeightDiagnostic.mortality.summary[geo] = {};
+  for (const window of windows) {
+    const currentRows = [];
+    const fertZeroRows = [];
+    const fertFullRows = [];
+    const mortZeroRows = [];
+    const mortFullRows = [];
+
+    for (const entry of origins) {
+      currentRows.push(...(report.results[geo][entry.origin][window] || []));
+      fertZeroRows.push(...scoreWeightVariant(entry, geo, window, 'fertility', 0));
+      fertFullRows.push(...scoreWeightVariant(entry, geo, window, 'fertility', 1));
+      mortZeroRows.push(...scoreWeightVariant(entry, geo, window, 'mortality', 0));
+      mortFullRows.push(...scoreWeightVariant(entry, geo, window, 'mortality', 1));
+    }
+
+    report.ageCellWeightDiagnostic.fertility.summary[geo][window] = {
+      observations: currentRows.length,
+      zeroWeightBirthsMAE: round1(mean(fertZeroRows.map(x => Math.abs(x.birthsError)))),
+      currentWeightBirthsMAE: round1(mean(currentRows.map(x => Math.abs(x.birthsError)))),
+      fullLocalBirthsMAE: round1(mean(fertFullRows.map(x => Math.abs(x.birthsError)))),
+      zeroWeightPopulationMAPE: round1(mean(fertZeroRows.map(x => x.populationAbsPctError))),
+      currentWeightPopulationMAPE: round1(mean(currentRows.map(x => x.populationAbsPctError))),
+      fullLocalPopulationMAPE: round1(mean(fertFullRows.map(x => x.populationAbsPctError)))
+    };
+
+    report.ageCellWeightDiagnostic.mortality.summary[geo][window] = {
+      observations: currentRows.length,
+      zeroWeightDeathsMAE: round1(mean(mortZeroRows.map(x => Math.abs(x.deathsError)))),
+      currentWeightDeathsMAE: round1(mean(currentRows.map(x => Math.abs(x.deathsError)))),
+      fullLocalDeathsMAE: round1(mean(mortFullRows.map(x => Math.abs(x.deathsError)))),
+      zeroWeightPopulationMAPE: round1(mean(mortZeroRows.map(x => x.populationAbsPctError))),
+      currentWeightPopulationMAPE: round1(mean(currentRows.map(x => x.populationAbsPctError))),
+      fullLocalPopulationMAPE: round1(mean(mortFullRows.map(x => x.populationAbsPctError)))
     };
   }
 }
@@ -1346,6 +1491,19 @@ for (const geo of ['2580', 'FA_LULEA']) {
       `national-only=${s.nationalOnlyDeathsMeanError} | ` +
       `population MAPE localized=${s.localizedPopulationMAPE}% | ` +
       `national-only=${s.nationalOnlyPopulationMAPE}%`
+    );
+  }
+}
+
+for (const geo of ['2580', 'FA_LULEA']) {
+  for (const window of windows) {
+    const f = report.ageCellWeightDiagnostic.fertility.summary[geo][window];
+    const m = report.ageCellWeightDiagnostic.mortality.summary[geo][window];
+    console.log(
+      `${geo} window=${window}: fertility age-cell weight MAE zero=${f.zeroWeightBirthsMAE} | current=${f.currentWeightBirthsMAE} | full=${f.fullLocalBirthsMAE}`
+    );
+    console.log(
+      `${geo} window=${window}: mortality age-cell weight MAE zero=${m.zeroWeightDeathsMAE} | current=${m.currentWeightDeathsMAE} | full=${m.fullLocalDeathsMAE}`
     );
   }
 }
