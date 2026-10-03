@@ -5,6 +5,7 @@
   const validation=window.MODEL_VALIDATION||null;
   const maturity=window.MODEL_MATURITY||null;
   const backtest=window.MODEL_BACKTEST||null;
+  const ageCellWeightDiagnostic=window.AGE_CELL_WEIGHT_DIAGNOSTIC||null;
   const scbComparison=window.SCB_BENCHMARK_COMPARISON||null;
   const labour=window.LABOUR_MARKET_DATA||null;
   const housing=window.HOUSING_HOUSEHOLD_DATA||null;
@@ -1605,6 +1606,42 @@
       :"<p class='hint'>Bostadsbestånd saknas.</p>";
   }
 
+  function renderAgeCellWeightValidation(geo,selected){
+    const el=$("ageCellWeightValidation");
+    if(!el) return;
+    const d=ageCellWeightDiagnostic?.diagnostic;
+    if(!d){
+      el.innerHTML="<p class=\"hint\">Trevägsdiagnostiken genereras i nästa Update SCB data-körning.</p>";
+      return;
+    }
+    const geoF=d.fertility?.summary?.[geo]||{};
+    const geoM=d.mortality?.summary?.[geo]||{};
+    const w=geoF[selected]&&geoM[selected]?selected:(geoF["10"]&&geoM["10"]?"10":null);
+    const f=w?geoF[w]:null;
+    const m=w?geoM[w]:null;
+    if(!f||!m){
+      el.innerHTML="<p class=\"hint\">Trevägsdiagnostik saknas för vald geografi och kalibreringsperiod.</p>";
+      return;
+    }
+    const markBest=(values,i)=>{
+      const nums=values.map(Number).filter(Number.isFinite);
+      const min=nums.length?Math.min(...nums):NaN;
+      const v=Number(values[i]);
+      const txt=Number.isFinite(v)?fmt1.format(v):"–";
+      return Number.isFinite(v)&&Math.abs(v-min)<1e-9?"<strong>"+txt+"</strong>":txt;
+    };
+    const fv=[f.zeroWeightBirthsMAE,f.currentWeightBirthsMAE,f.fullLocalBirthsMAE];
+    const mv=[m.zeroWeightDeathsMAE,m.currentWeightDeathsMAE,m.fullLocalDeathsMAE];
+    el.innerHTML=
+      "<p class=\"hint\">Kalibreringsfönster: "+w+" år. Lägre MAE är bättre. Fetstil markerar lägst fel i denna trevägsjämförelse.</p>"+
+      "<div class=\"analysisTableWrap\"><table class=\"miniTable\">"+
+      "<thead><tr><th>Komponent</th><th>0 % lokal åldersvikt</th><th>Nuvarande informationsvikt</th><th>100 % lokal åldersvikt</th></tr></thead><tbody>"+
+      "<tr><td>Fruktsamhet – födda MAE</td><td>"+markBest(fv,0)+"</td><td>"+markBest(fv,1)+"</td><td>"+markBest(fv,2)+"</td></tr>"+
+      "<tr><td>Dödlighet – döda MAE</td><td>"+markBest(mv,0)+"</td><td>"+markBest(mv,1)+"</td><td>"+markBest(mv,2)+"</td></tr>"+
+      "<tr><td>Fruktsamhetsvariant – befolkning MAPE</td><td>"+pct.format(f.zeroWeightPopulationMAPE)+" %</td><td>"+pct.format(f.currentWeightPopulationMAPE)+" %</td><td>"+pct.format(f.fullLocalPopulationMAPE)+" %</td></tr>"+
+      "<tr><td>Dödlighetsvariant – befolkning MAPE</td><td>"+pct.format(m.zeroWeightPopulationMAPE)+" %</td><td>"+pct.format(m.currentWeightPopulationMAPE)+" %</td><td>"+pct.format(m.fullLocalPopulationMAPE)+" %</td></tr>"+
+      "</tbody></table></div>";
+  }
   function renderValidation(){
     const geo=$("geo").value, selected=String($("window").value);
     const bw=backtest?.summary?.[geo]?.[selected]?selected:(backtest?.summary?.[geo]?.["10"]?"10":null);
@@ -1622,6 +1659,7 @@
     renderBacktestCohortTable(geo,bw);
     renderBacktestMigrationLegAgeTable(geo,bw);
     renderScbBenchmarkTable(geo,selected);
+    renderAgeCellWeightValidation(geo,selected);
   }
 
   function renderBacktestTable(geo,w){
