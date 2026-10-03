@@ -2053,7 +2053,7 @@ def scb_risk_migration_profiles(pre2025, exposure, config):
     )
 
 def profet_birth_status_profiles(
-    migration_status, population_status, config
+    migration_status, population_status, config, geos=None
 ):
     """Build a Profet-like migration candidate retaining birth status.
 
@@ -2074,7 +2074,8 @@ def profet_birth_status_profiles(
     out_risks = []
     international_in = []
 
-    for geo in MUNICIPALITIES:
+    profile_geos = list(geos or MUNICIPALITIES)
+    for geo in profile_geos:
         for status in statuses:
             for leg in ("county", "rest_sweden"):
                 in_years = list(window_years(in_window))
