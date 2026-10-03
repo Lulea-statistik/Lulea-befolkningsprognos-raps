@@ -24,6 +24,7 @@ QUTB_VALIDATION = ROOT / "data" / "backtests" / "qutb_neutralization_validation.
 BASE_POPULATION_BRIDGE_VALIDATION = ROOT / "data" / "backtests" / "base_population_bridge_validation.json"
 SEX_RATIO_VALIDATION = ROOT / "data" / "backtests" / "sex_ratio_at_birth_validation.json"
 FA_ADDITIVITY_VALIDATION = ROOT / "data" / "backtests" / "fa_additivity_validation.json"
+NATIONAL_FUTURE_PROFILES_VALIDATION = ROOT / "data" / "backtests" / "national_future_profiles_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -1007,6 +1008,47 @@ def main():
             else "Keep below production maturity until baseline/scenario additivity and FA gross-flow suppression pass."
             if fa_add_has_results
             else "Run the locked FA-additivity validation."
+        )
+    ))
+
+    future_profiles_cfg = load(ROOT / "data" / "national_future_profiles_config.json")
+    future_profiles_validation = (
+        load(NATIONAL_FUTURE_PROFILES_VALIDATION)
+        if NATIONAL_FUTURE_PROFILES_VALIDATION.exists()
+        else {}
+    )
+    future_profiles_gate = future_profiles_validation.get("allPassed") is True
+    future_profiles_has_results = bool(future_profiles_validation.get("checks"))
+    comps.append(component(
+        policy, "national_future_profiles",
+        4 if future_profiles_gate else 2 if future_profiles_has_results else 1,
+        (
+            "production_support" if future_profiles_gate
+            else "rejected" if future_profiles_has_results
+            else "diagnostic"
+        ),
+        future_profiles_gate,
+        [
+            gate(
+                "National future-profile production gate is explicitly locked",
+                future_profiles_cfg.get("status") == "production_input_gate_locked",
+                future_profiles_cfg.get("status")
+            ),
+            gate(
+                "Ten-year fertility/mortality coverage and scenario separation validate",
+                future_profiles_gate,
+                (
+                    f"checks={future_profiles_validation.get('checks')}"
+                    if future_profiles_has_results else "Awaiting validation"
+                )
+            )
+        ],
+        (
+            "Keep SCB 2024/Raps as production baseline and SCB 2026 fertility as an explicit sensitivity until a separately validated baseline update is approved."
+            if future_profiles_gate
+            else "Keep below production maturity until the supported ten-year future-profile coverage is complete."
+            if future_profiles_has_results
+            else "Run the locked future-profile coverage validation."
         )
     ))
 
