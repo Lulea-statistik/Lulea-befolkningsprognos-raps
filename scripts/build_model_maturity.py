@@ -27,6 +27,7 @@ FA_ADDITIVITY_VALIDATION = ROOT / "data" / "backtests" / "fa_additivity_validati
 NATIONAL_FUTURE_PROFILES_VALIDATION = ROOT / "data" / "backtests" / "national_future_profiles_validation.json"
 SCENARIO_OVERLAP_VALIDATION = ROOT / "data" / "backtests" / "scenario_overlap_control_validation.json"
 DEMOGRAPHIC_SENSITIVITY_VALIDATION = ROOT / "data" / "backtests" / "demographic_sensitivity_controls_validation.json"
+CKM_UNCERTAINTY_VALIDATION = ROOT / "data" / "backtests" / "ckm_uncertainty_diagnostics_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -1134,6 +1135,48 @@ def main():
             else "Keep below production maturity until neutral and zero-effect regressions pass."
             if sensitivity_has_results
             else "Run the locked demographic-sensitivity regression."
+        )
+    ))
+
+    ckm_cfg = load(ROOT / "data" / "ckm_uncertainty_diagnostics_config.json")
+    ckm_validation = (
+        load(CKM_UNCERTAINTY_VALIDATION)
+        if CKM_UNCERTAINTY_VALIDATION.exists()
+        else {}
+    )
+    ckm_gate = ckm_validation.get("allPassed") is True
+    ckm_has_results = bool(ckm_validation.get("checks"))
+    comps.append(component(
+        policy, "ckm_uncertainty_diagnostics",
+        4 if ckm_gate else 2 if ckm_has_results else 1,
+        (
+            "production_support" if ckm_gate
+            else "rejected" if ckm_has_results
+            else "diagnostic"
+        ),
+        ckm_gate,
+        [
+            gate(
+                "CKM sensitivity policy is explicitly documented",
+                ckm_cfg.get("status") == "production_diagnostic_policy_locked"
+                and float(ckm_cfg.get("cellDelta", 0)) == 3.0,
+                f"status={ckm_cfg.get('status')}; delta={ckm_cfg.get('cellDelta')}"
+            ),
+            gate(
+                "CKM bounds, method-break separation and interpretation validate",
+                ckm_gate,
+                (
+                    f"checks={ckm_validation.get('checks')}"
+                    if ckm_has_results else "Awaiting validation"
+                )
+            )
+        ],
+        (
+            "Keep CKM output as sensitivity diagnostics only; rerun whenever disclosure methodology or method-break treatment changes."
+            if ckm_gate
+            else "Keep below production maturity until bounds and method-break separation pass."
+            if ckm_has_results
+            else "Run the locked CKM diagnostic validation."
         )
     ))
 
