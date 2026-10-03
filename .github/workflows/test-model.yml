@@ -99,6 +99,12 @@ jobs:
       - name: Validate 2025 CKM base-population bridge
         run: python scripts/validate_base_population_bridge.py
 
+      - name: Validate production sex ratio at birth
+        run: node scripts/validate_sex_ratio_at_birth.js
+
+      - name: Validate production FA additivity
+        run: node scripts/validate_fa_additivity.js
+
       - name: Validate JavaScript syntax
         run: |
           node --check js/model.js
