@@ -205,6 +205,11 @@
       "label": "Dödlighet: Empirical Bayes-shrinkage för lokal åldersrisk",
       "targetLevel": 4,
       "requiredGate": "Kandidaten är låst efter utvecklingsanalys. Den får inte befordras på redan konsumerade 2018–2024-resultat; nivå 3–4 kräver ny oberoende evidens med förhandsdefinierad grind."
+    },
+    "migration_spline_candidate": {
+      "label": "Migration: kubisk spline för 10-årig nettoflyttningsprofil",
+      "targetLevel": 4,
+      "requiredGate": "Ny separat kandidat. Lambda=10 och totalbevarande per kommun och kön är låsta före resultatutvärdering. Kandidaten får inte eftertrimmas mot 2018–2024."
     }
   }
 }
