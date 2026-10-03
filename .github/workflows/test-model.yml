@@ -114,6 +114,9 @@ jobs:
       - name: Validate demographic sensitivity controls
         run: node scripts/validate_demographic_sensitivity_controls.js
 
+      - name: Validate CKM uncertainty diagnostics
+        run: node scripts/validate_ckm_uncertainty_diagnostics.js
+
       - name: Validate JavaScript syntax
         run: |
           node --check js/model.js
