@@ -858,7 +858,11 @@
     };
 
     const geo=$("migrationWeightGeo")?.value||"2580";
-    const compact=smoothingDiagnostic||data.diagnostics?.migrationAgeSmoothingCompact;
+    const embeddedCompact=data.diagnostics?.migrationAgeSmoothingCompact;
+    const compact=(
+      Array.isArray(smoothingDiagnostic?.legSexLocalWeightRows) &&
+      smoothingDiagnostic.legSexLocalWeightRows.length
+    ) ? smoothingDiagnostic : embeddedCompact;
     const rows=(compact?.legSexLocalWeightRows||[]).filter(r=>r.geo===geo);
     if(!rows.length){
       if(windowLabel) windowLabel.textContent="–";
