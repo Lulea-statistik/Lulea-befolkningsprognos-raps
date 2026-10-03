@@ -550,6 +550,12 @@
         </div>
 
         <article class="panel">
+          <h2>Informationsvägd utjämning – 0 %, nuvarande och 100 % lokal åldersvikt</h2>
+          <p class="hint">Rolling-origin-diagnostik som isolerar själva ålderscellsvikten. 0 % behåller den generella kommunfaktorn men ingen lokal ettårsåldersavvikelse; 100 % använder den lokala ettårsåldersfaktorn fullt ut inom samma fasta faktorgränser.</p>
+          <div id="ageCellWeightValidation"></div>
+        </article>
+
+        <article class="panel">
           <h2>Valideringsprincip</h2>
           <p>Backtest och benchmark används för att bedöma modellen, inte för att i efterhand ändra antaganden så att historiska utfall passas bättre. Parametrar för informationsvägd utjämning och metodval ska vara dokumenterade och fastställda före utvärderingen.</p>
         </article>
@@ -750,6 +756,7 @@
   <script src="data/model_validation.js"></script>
   <script src="data/model_maturity.js"></script>
   <script src="data/backtests/backtest_2022_2024.js"></script>
+  <script src="data/backtests/age_cell_weight_diagnostic.js"></script>
   <script src="data/backtests/migration_age_smoothing.js"></script>
   <script src="data/benchmarks/scb_model_comparison.js"></script>
   <script src="js/model.js"></script>
