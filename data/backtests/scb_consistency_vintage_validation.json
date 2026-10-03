@@ -1,0 +1,419 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "historical_vintage_structural_validation",
+  "methodLockedBeforeResults": true,
+  "availableVintages": [
+    2020,
+    2021,
+    2022
+  ],
+  "missingVintages": [],
+  "allRequiredVintagesAvailable": true,
+  "allPassed": true,
+  "maxAbsoluteResidual": 9.094947017729282e-13,
+  "note": "This validates hierarchical accounting on frozen historical SCB vintages. It does not by itself prove improved population forecast accuracy.",
+  "vintages": {
+    "2020": {
+      "sourceFile": "data/raw/regional_flows_benchmark_2020.csv",
+      "years": [
+        {
+          "year": 2020,
+          "targets": {
+            "domesticIn": 4549.0,
+            "domesticOut": 6710.0,
+            "immigration": 2250.0,
+            "emigration": 640.0
+          },
+          "rawMunicipalSums": {
+            "domesticIn": 8514.0,
+            "domesticOut": 10675.0,
+            "immigration": 2250.0,
+            "emigration": 640.0
+          },
+          "rawWithinCountyFromIn": 3965.0,
+          "rawWithinCountyFromOut": 3965.0,
+          "adjustedMunicipalSums": {
+            "domesticIn": 4549.0,
+            "domesticOut": 6710.0,
+            "immigration": 2250.0,
+            "emigration": 640.0
+          },
+          "withinCountyCommonTotal": 3965.0,
+          "residuals": {
+            "domesticIn": 0.0,
+            "domesticOut": 0.0,
+            "immigration": 0.0,
+            "emigration": 0.0,
+            "withinCountyBalance": 0.0
+          },
+          "maxAbsoluteResidual": 0.0
+        },
+        {
+          "year": 2021,
+          "targets": {
+            "domesticIn": 4550.0,
+            "domesticOut": 6614.0,
+            "immigration": 2145.0,
+            "emigration": 681.0
+          },
+          "rawMunicipalSums": {
+            "domesticIn": 8472.0,
+            "domesticOut": 10536.0,
+            "immigration": 2145.0,
+            "emigration": 681.0
+          },
+          "rawWithinCountyFromIn": 3922.0,
+          "rawWithinCountyFromOut": 3922.0,
+          "adjustedMunicipalSums": {
+            "domesticIn": 4550.0,
+            "domesticOut": 6614.0,
+            "immigration": 2145.0,
+            "emigration": 681.0
+          },
+          "withinCountyCommonTotal": 3922.0,
+          "residuals": {
+            "domesticIn": 0.0,
+            "domesticOut": 0.0,
+            "immigration": 0.0,
+            "emigration": 0.0,
+            "withinCountyBalance": 0.0
+          },
+          "maxAbsoluteResidual": 0.0
+        },
+        {
+          "year": 2022,
+          "targets": {
+            "domesticIn": 4542.0,
+            "domesticOut": 6528.0,
+            "immigration": 2142.0,
+            "emigration": 734.0
+          },
+          "rawMunicipalSums": {
+            "domesticIn": 8412.0,
+            "domesticOut": 10398.0,
+            "immigration": 2142.0,
+            "emigration": 734.0
+          },
+          "rawWithinCountyFromIn": 3870.0,
+          "rawWithinCountyFromOut": 3870.0,
+          "adjustedMunicipalSums": {
+            "domesticIn": 4542.0,
+            "domesticOut": 6528.0,
+            "immigration": 2142.0,
+            "emigration": 734.0
+          },
+          "withinCountyCommonTotal": 3870.0,
+          "residuals": {
+            "domesticIn": 0.0,
+            "domesticOut": 0.0,
+            "immigration": 0.0,
+            "emigration": 0.0,
+            "withinCountyBalance": 0.0
+          },
+          "maxAbsoluteResidual": 0.0
+        },
+        {
+          "year": 2023,
+          "targets": {
+            "domesticIn": 4539.0,
+            "domesticOut": 6458.0,
+            "immigration": 2194.0,
+            "emigration": 786.0
+          },
+          "rawMunicipalSums": {
+            "domesticIn": 8367.0,
+            "domesticOut": 10286.0,
+            "immigration": 2194.0,
+            "emigration": 786.0
+          },
+          "rawWithinCountyFromIn": 3828.0,
+          "rawWithinCountyFromOut": 3828.0,
+          "adjustedMunicipalSums": {
+            "domesticIn": 4539.0,
+            "domesticOut": 6458.0,
+            "immigration": 2194.0,
+            "emigration": 786.0
+          },
+          "withinCountyCommonTotal": 3828.0,
+          "residuals": {
+            "domesticIn": 0.0,
+            "domesticOut": 0.0,
+            "immigration": 0.0,
+            "emigration": 0.0,
+            "withinCountyBalance": 0.0
+          },
+          "maxAbsoluteResidual": 0.0
+        },
+        {
+          "year": 2024,
+          "targets": {
+            "domesticIn": 4534.0,
+            "domesticOut": 6401.0,
+            "immigration": 2167.0,
+            "emigration": 823.0
+          },
+          "rawMunicipalSums": {
+            "domesticIn": 8326.0,
+            "domesticOut": 10193.0,
+            "immigration": 2167.0,
+            "emigration": 823.0
+          },
+          "rawWithinCountyFromIn": 3792.0,
+          "rawWithinCountyFromOut": 3792.0,
+          "adjustedMunicipalSums": {
+            "domesticIn": 4534.0,
+            "domesticOut": 6401.0,
+            "immigration": 2167.0,
+            "emigration": 823.0
+          },
+          "withinCountyCommonTotal": 3792.0,
+          "residuals": {
+            "domesticIn": 0.0,
+            "domesticOut": 0.0,
+            "immigration": 0.0,
+            "emigration": 0.0,
+            "withinCountyBalance": 0.0
+          },
+          "maxAbsoluteResidual": 0.0
+        }
+      ],
+      "passed": true
+    },
+    "2021": {
+      "sourceFile": "data/raw/regional_flows_benchmark_2021.csv",
+      "years": [
+        {
+          "year": 2021,
+          "targets": {
+            "domesticIn": 4920.0,
+            "domesticOut": 6433.0,
+            "immigration": 1555.0,
+            "emigration": 705.0
+          },
+          "rawMunicipalSums": {
+            "domesticIn": 8767.0,
+            "domesticOut": 10280.0,
+            "immigration": 1555.0,
+            "emigration": 705.0
+          },
+          "rawWithinCountyFromIn": 3847.0,
+          "rawWithinCountyFromOut": 3847.0,
+          "adjustedMunicipalSums": {
+            "domesticIn": 4919.999999999999,
+            "domesticOut": 6433.0,
+            "immigration": 1555.0,
+            "emigration": 705.0
+          },
+          "withinCountyCommonTotal": 3847.0,
+          "residuals": {
+            "domesticIn": -9.094947017729282e-13,
+            "domesticOut": 0.0,
+            "immigration": 0.0,
+            "emigration": 0.0,
+            "withinCountyBalance": 0.0
+          },
+          "maxAbsoluteResidual": 9.094947017729282e-13
+        },
+        {
+          "year": 2022,
+          "targets": {
+            "domesticIn": 4913.0,
+            "domesticOut": 6279.0,
+            "immigration": 1555.0,
+            "emigration": 702.0
+          },
+          "rawMunicipalSums": {
+            "domesticIn": 8699.0,
+            "domesticOut": 10065.0,
+            "immigration": 1555.0,
+            "emigration": 702.0
+          },
+          "rawWithinCountyFromIn": 3786.0,
+          "rawWithinCountyFromOut": 3786.0,
+          "adjustedMunicipalSums": {
+            "domesticIn": 4913.0,
+            "domesticOut": 6279.0,
+            "immigration": 1555.0,
+            "emigration": 702.0
+          },
+          "withinCountyCommonTotal": 3786.0,
+          "residuals": {
+            "domesticIn": 0.0,
+            "domesticOut": 0.0,
+            "immigration": 0.0,
+            "emigration": 0.0,
+            "withinCountyBalance": 0.0
+          },
+          "maxAbsoluteResidual": 0.0
+        },
+        {
+          "year": 2023,
+          "targets": {
+            "domesticIn": 4916.0,
+            "domesticOut": 6155.0,
+            "immigration": 1568.0,
+            "emigration": 678.0
+          },
+          "rawMunicipalSums": {
+            "domesticIn": 8647.0,
+            "domesticOut": 9886.0,
+            "immigration": 1568.0,
+            "emigration": 678.0
+          },
+          "rawWithinCountyFromIn": 3731.0,
+          "rawWithinCountyFromOut": 3731.0,
+          "adjustedMunicipalSums": {
+            "domesticIn": 4916.0,
+            "domesticOut": 6155.0,
+            "immigration": 1568.0,
+            "emigration": 678.0
+          },
+          "withinCountyCommonTotal": 3731.0,
+          "residuals": {
+            "domesticIn": 0.0,
+            "domesticOut": 0.0,
+            "immigration": 0.0,
+            "emigration": 0.0,
+            "withinCountyBalance": 0.0
+          },
+          "maxAbsoluteResidual": 0.0
+        },
+        {
+          "year": 2024,
+          "targets": {
+            "domesticIn": 4933.0,
+            "domesticOut": 6062.0,
+            "immigration": 1579.0,
+            "emigration": 681.0
+          },
+          "rawMunicipalSums": {
+            "domesticIn": 8615.0,
+            "domesticOut": 9744.0,
+            "immigration": 1579.0,
+            "emigration": 681.0
+          },
+          "rawWithinCountyFromIn": 3682.0,
+          "rawWithinCountyFromOut": 3682.0,
+          "adjustedMunicipalSums": {
+            "domesticIn": 4933.0,
+            "domesticOut": 6062.0,
+            "immigration": 1579.0,
+            "emigration": 681.0
+          },
+          "withinCountyCommonTotal": 3682.0,
+          "residuals": {
+            "domesticIn": 0.0,
+            "domesticOut": 0.0,
+            "immigration": 0.0,
+            "emigration": 0.0,
+            "withinCountyBalance": 0.0
+          },
+          "maxAbsoluteResidual": 0.0
+        }
+      ],
+      "passed": true
+    },
+    "2022": {
+      "sourceFile": "data/raw/regional_flows_benchmark_2022.csv",
+      "years": [
+        {
+          "year": 2022,
+          "targets": {
+            "domesticIn": 4984.2031,
+            "domesticOut": 6380.900799999994,
+            "immigration": 1645.7856999999997,
+            "emigration": 715.6704999999996
+          },
+          "rawMunicipalSums": {
+            "domesticIn": 8863.880000000003,
+            "domesticOut": 10280.886200000003,
+            "immigration": 1645.7766000000001,
+            "emigration": 715.6659000000001
+          },
+          "rawWithinCountyFromIn": 3879.676900000003,
+          "rawWithinCountyFromOut": 3899.9854000000087,
+          "adjustedMunicipalSums": {
+            "domesticIn": 4984.2031,
+            "domesticOut": 6380.900799999993,
+            "immigration": 1645.7856999999997,
+            "emigration": 715.6704999999996
+          },
+          "withinCountyCommonTotal": 3889.831150000006,
+          "residuals": {
+            "domesticIn": 0.0,
+            "domesticOut": -9.094947017729282e-13,
+            "immigration": 0.0,
+            "emigration": 0.0,
+            "withinCountyBalance": 0.0
+          },
+          "maxAbsoluteResidual": 9.094947017729282e-13
+        },
+        {
+          "year": 2023,
+          "targets": {
+            "domesticIn": 4989.947800000001,
+            "domesticOut": 6264.324200000002,
+            "immigration": 1638.360800000001,
+            "emigration": 705.6983000000002
+          },
+          "rawMunicipalSums": {
+            "domesticIn": 8815.0099,
+            "domesticOut": 10089.146600000002,
+            "immigration": 1638.3494,
+            "emigration": 705.6972999999999
+          },
+          "rawWithinCountyFromIn": 3825.0620999999983,
+          "rawWithinCountyFromOut": 3824.8224,
+          "adjustedMunicipalSums": {
+            "domesticIn": 4989.9478,
+            "domesticOut": 6264.324200000002,
+            "immigration": 1638.3608000000008,
+            "emigration": 705.6983000000002
+          },
+          "withinCountyCommonTotal": 3824.942249999999,
+          "residuals": {
+            "domesticIn": -9.094947017729282e-13,
+            "domesticOut": 0.0,
+            "immigration": -2.2737367544323206e-13,
+            "emigration": 0.0,
+            "withinCountyBalance": 0.0
+          },
+          "maxAbsoluteResidual": 9.094947017729282e-13
+        },
+        {
+          "year": 2024,
+          "targets": {
+            "domesticIn": 5003.505000000001,
+            "domesticOut": 6173.100699999999,
+            "immigration": 1625.549799999999,
+            "emigration": 697.7039
+          },
+          "rawMunicipalSums": {
+            "domesticIn": 8779.748700000002,
+            "domesticOut": 9939.366299999996,
+            "immigration": 1625.537,
+            "emigration": 697.6985999999999
+          },
+          "rawWithinCountyFromIn": 3776.243700000001,
+          "rawWithinCountyFromOut": 3766.265599999997,
+          "adjustedMunicipalSums": {
+            "domesticIn": 5003.505000000001,
+            "domesticOut": 6173.1007,
+            "immigration": 1625.5497999999993,
+            "emigration": 697.7039000000001
+          },
+          "withinCountyCommonTotal": 3771.254649999999,
+          "residuals": {
+            "domesticIn": 0.0,
+            "domesticOut": 9.094947017729282e-13,
+            "immigration": 2.2737367544323206e-13,
+            "emigration": 1.1368683772161603e-13,
+            "withinCountyBalance": 0.0
+          },
+          "maxAbsoluteResidual": 9.094947017729282e-13
+        }
+      ],
+      "passed": true
+    }
+  }
+}

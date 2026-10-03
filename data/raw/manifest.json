@@ -15673,14 +15673,24 @@
     "regional_flows_benchmark_2020": {
       "table_id": "TAB693",
       "path": "data/raw/regional_flows_benchmark_2020.csv",
-      "rows_including_header": 1011,
+      "rows_including_header": 3031,
       "selection": {
         "Region": [
           "2580",
           "2582",
           "2581",
           "2560",
-          "2514"
+          "2514",
+          "25",
+          "2505",
+          "2506",
+          "2510",
+          "2513",
+          "2518",
+          "2521",
+          "2523",
+          "2583",
+          "2584"
         ],
         "Kon": [
           "1",
@@ -16310,14 +16320,24 @@
     "regional_flows_benchmark_2021": {
       "table_id": "TAB5996",
       "path": "data/raw/regional_flows_benchmark_2021.csv",
-      "rows_including_header": 1011,
+      "rows_including_header": 3031,
       "selection": {
         "Region": [
           "2580",
           "2582",
           "2581",
           "2560",
-          "2514"
+          "2514",
+          "25",
+          "2505",
+          "2506",
+          "2510",
+          "2513",
+          "2518",
+          "2521",
+          "2523",
+          "2583",
+          "2584"
         ],
         "Kon": [
           "1",
@@ -16945,14 +16965,24 @@
     "regional_flows_benchmark_2022": {
       "table_id": "TAB6299",
       "path": "data/raw/regional_flows_benchmark_2022.csv",
-      "rows_including_header": 1011,
+      "rows_including_header": 3031,
       "selection": {
         "Region": [
           "2580",
           "2582",
           "2581",
           "2560",
-          "2514"
+          "2514",
+          "25",
+          "2505",
+          "2506",
+          "2510",
+          "2513",
+          "2518",
+          "2521",
+          "2523",
+          "2583",
+          "2584"
         ],
         "Kon": [
           "1",

@@ -29,8 +29,8 @@
     "componentCount": 13,
     "byLevel": {
       "1": 1,
-      "2": 7,
-      "3": 0,
+      "2": 6,
+      "3": 1,
       "4": 5
     },
     "productionLevel4": [
@@ -293,12 +293,12 @@
     {
       "key": "consistency_adjustment",
       "label": "Konsistensjustering kommun → län → riket",
-      "maturityLevel": 2,
-      "maturityName": "Utvecklingskandidat",
-      "lifecycle": "development",
+      "maturityLevel": 3,
+      "maturityName": "Validerad kandidat",
+      "lifecycle": "validated_candidate",
       "productionActive": false,
       "targetLevel": 4,
-      "productionGatePassed": false,
+      "productionGatePassed": true,
       "requiredGate": "Justeringsalgoritmen ska bevara totalsummor, vara reproducerbar och valideras mot historiska SCB-vintager.",
       "gates": [
         {
@@ -310,9 +310,14 @@
           "label": "Mass-preserving municipality-to-county adjustment implemented",
           "passed": true,
           "evidence": "max residual 9.094947017729282e-13; national layer remains inactive"
+        },
+        {
+          "label": "Locked adjustment passes frozen SCB 2020/2021/2022 vintages",
+          "passed": true,
+          "evidence": "vintages=[2020, 2021, 2022]; max residual=9.094947017729282e-13"
         }
       ],
-      "nextAction": "Add vintage-correct validation of the locked municipality→county adjustment; keep county→national inactive until all-county support is available."
+      "nextAction": "Integrate the validated municipality→county layer into a Profet development run and compare forecast accuracy with/without adjustment; keep county→national inactive until all-county support is available."
     },
     {
       "key": "industrial_workforce_scenario",
