@@ -116,6 +116,14 @@ const report = {
     candidate: manifest.profetBirthStatusCandidate || null,
     summary: {},
     results: {}
+  },
+  profetConsistencyDiagnostic: {
+    note: 'Development diagnostic only. Compares the same Profet birth-status engine with and without the locked Norrbotten municipality-to-county consistency layer. Only origins with same-vintage frozen county targets are scored.',
+    independentHoldout: false,
+    candidate: manifest.profetConsistencyCandidate || null,
+    summary: {},
+    results: {},
+    promotionGate: null
   }
 };
 
@@ -996,6 +1004,131 @@ for (const geo of geos) {
   };
 }
 
+
+for (const geo of geos) {
+  const allRows=[];
+  const byOrigin={};
+  report.profetConsistencyDiagnostic.results[geo]={};
+
+  for (const entry of origins) {
+    if(!(entry.model.profetConsistencyFactors||[]).length) continue;
+
+    const commonOptions={
+      geo,
+      endYear:entry.endYear,
+      fertMult:1,
+      mortMult:1,
+      migMult:1,
+      window:10,
+      migrationMode:'profet_birth_status',
+      cohortTimingMode:'event_age_aligned',
+      scenarios:{housing:[],workplaces:[],overlapPct:0},
+      includeDetail:false
+    };
+    const unadjusted=M.simulate(entry.model,commonOptions);
+    const adjusted=M.simulate(entry.model,{
+      ...commonOptions,
+      consistencyAdjustment:true
+    });
+    const rows=[];
+
+    for(const p of adjusted){
+      if(+p.year<=+entry.origin) continue;
+      const a=byActual(entry.actual,geo,p.year);
+      const u=unadjusted.find(x=>+x.year===+p.year);
+      if(!a||!u) continue;
+      const row={
+        year:+p.year,
+        horizon:+p.year-+entry.origin,
+        adjustedPopulationError:p.population-a.population,
+        adjustedPopulationAbsPctError:ape(p.population,a.population),
+        unadjustedPopulationError:u.population-a.population,
+        unadjustedPopulationAbsPctError:ape(u.population,a.population),
+        adjustedNetMigrationError:p.netMigration-a.netMigration,
+        unadjustedNetMigrationError:u.netMigration-a.netMigration,
+        adjustedGrossInMigrationError:geo==='FA_LULEA'?null:p.grossInMigration-a.grossInMigration,
+        unadjustedGrossInMigrationError:geo==='FA_LULEA'?null:u.grossInMigration-a.grossInMigration,
+        adjustedGrossOutMigrationError:geo==='FA_LULEA'?null:p.grossOutMigration-a.grossOutMigration,
+        unadjustedGrossOutMigrationError:geo==='FA_LULEA'?null:u.grossOutMigration-a.grossOutMigration
+      };
+      rows.push(row);
+      allRows.push(row);
+    }
+
+    byOrigin[entry.origin]=rows.map(r=>({
+      year:r.year,
+      horizon:r.horizon,
+      adjustedPopulationError:round1(r.adjustedPopulationError),
+      unadjustedPopulationError:round1(r.unadjustedPopulationError),
+      adjustedNetMigrationError:round1(r.adjustedNetMigrationError),
+      unadjustedNetMigrationError:round1(r.unadjustedNetMigrationError),
+      adjustedGrossInMigrationError:round1(r.adjustedGrossInMigrationError),
+      unadjustedGrossInMigrationError:round1(r.unadjustedGrossInMigrationError),
+      adjustedGrossOutMigrationError:round1(r.adjustedGrossOutMigrationError),
+      unadjustedGrossOutMigrationError:round1(r.unadjustedGrossOutMigrationError)
+    }));
+    report.profetConsistencyDiagnostic.results[geo][entry.origin]=byOrigin[entry.origin];
+  }
+
+  const byHorizon={};
+  for(let horizon=1;horizon<=manifest.horizonYears;horizon++){
+    const h=allRows.filter(r=>r.horizon===horizon);
+    byHorizon[horizon]={
+      observations:h.length,
+      adjusted:{
+        populationMAE:round1(mean(h.map(r=>Math.abs(r.adjustedPopulationError)))),
+        populationMAPE:round1(mean(h.map(r=>r.adjustedPopulationAbsPctError))),
+        populationMeanError:round1(mean(h.map(r=>r.adjustedPopulationError))),
+        netMigrationMAE:round1(mean(h.map(r=>Math.abs(r.adjustedNetMigrationError)))),
+        netMigrationMeanError:round1(mean(h.map(r=>r.adjustedNetMigrationError))),
+        grossInMigrationMAE:geo==='FA_LULEA'?null:round1(mean(h.map(r=>Math.abs(r.adjustedGrossInMigrationError)))),
+        grossOutMigrationMAE:geo==='FA_LULEA'?null:round1(mean(h.map(r=>Math.abs(r.adjustedGrossOutMigrationError))))
+      },
+      unadjusted:{
+        populationMAE:round1(mean(h.map(r=>Math.abs(r.unadjustedPopulationError)))),
+        populationMAPE:round1(mean(h.map(r=>r.unadjustedPopulationAbsPctError))),
+        populationMeanError:round1(mean(h.map(r=>r.unadjustedPopulationError))),
+        netMigrationMAE:round1(mean(h.map(r=>Math.abs(r.unadjustedNetMigrationError)))),
+        netMigrationMeanError:round1(mean(h.map(r=>r.unadjustedNetMigrationError))),
+        grossInMigrationMAE:geo==='FA_LULEA'?null:round1(mean(h.map(r=>Math.abs(r.unadjustedGrossInMigrationError)))),
+        grossOutMigrationMAE:geo==='FA_LULEA'?null:round1(mean(h.map(r=>Math.abs(r.unadjustedGrossOutMigrationError))))
+      }
+    };
+  }
+
+  report.profetConsistencyDiagnostic.summary[geo]={
+    observations:allRows.length,
+    origins:Object.keys(byOrigin).map(Number),
+    oneYear:byHorizon[1],
+    twoYear:byHorizon[2],
+    threeYear:byHorizon[3],
+    byHorizon,
+    byOrigin
+  };
+}
+
+{
+  const s=report.profetConsistencyDiagnostic.summary['2580'];
+  const n1=s?.oneYear;
+  const n2=s?.twoYear;
+  const checks={
+    n1PopulationNotWorse:!!n1 && n1.adjusted.populationMAE<=n1.unadjusted.populationMAE,
+    n1MigrationNotWorse:!!n1 && n1.adjusted.netMigrationMAE<=n1.unadjusted.netMigrationMAE,
+    n1AtLeastOneStrictlyBetter:!!n1 && (
+      n1.adjusted.populationMAE<n1.unadjusted.populationMAE ||
+      n1.adjusted.netMigrationMAE<n1.unadjusted.netMigrationMAE
+    ),
+    n2PopulationNotWorse:!!n2 && n2.adjusted.populationMAE<=n2.unadjusted.populationMAE,
+    n2MigrationNotWorse:!!n2 && n2.adjusted.netMigrationMAE<=n2.unadjusted.netMigrationMAE
+  };
+  report.profetConsistencyDiagnostic.promotionGate={
+    primaryGeo:'2580',
+    developmentOrigins:manifest.profetConsistencyCandidate?.developmentOrigins||[],
+    checks,
+    passed:Object.values(checks).every(Boolean)
+  };
+}
+
 const outJson = path.join(
   ROOT, 'data', 'backtests', 'rolling_2018_2024.json'
 );
@@ -1103,6 +1236,19 @@ for (const geo of ['2580','FA_LULEA']) {
     `n+2 migration MAE=${s.twoYear.profetBirthStatus.netMigrationMAE} vs net10=${s.twoYear.net10Baseline.netMigrationMAE}`
   );
 }
+
+for (const geo of ['2580','FA_LULEA']) {
+  const s=report.profetConsistencyDiagnostic.summary[geo];
+  if(!s?.oneYear) continue;
+  console.log(
+    `${geo} profet_consistency: n+1 population MAE=${s.oneYear.adjusted.populationMAE} vs unadjusted=${s.oneYear.unadjusted.populationMAE} | `+
+    `n+1 migration MAE=${s.oneYear.adjusted.netMigrationMAE} vs unadjusted=${s.oneYear.unadjusted.netMigrationMAE} | `+
+    `n+2 population MAE=${s.twoYear.adjusted.populationMAE} vs unadjusted=${s.twoYear.unadjusted.populationMAE}`
+  );
+}
+console.log(
+  `Profet consistency accuracy gate passed=${report.profetConsistencyDiagnostic.promotionGate?.passed}`
+);
 
 for (const geo of ['2580','FA_LULEA']) {
   const s=report.scbRiskFlowDiagnostic.summary[geo];
