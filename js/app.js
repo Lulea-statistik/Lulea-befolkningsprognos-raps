@@ -61,6 +61,7 @@
     fillCalibrationWindows();
     fillFertilityScenario();
     fillLabourWorkplace();
+    fillMigrationWeightGeo();
     bindTabs();
     renderScenarioTables();
     $("runBtn").addEventListener("click",run);
@@ -80,6 +81,7 @@
     ["labourWorkplace","labourScenarioYear","labourAddedJobs","labourExternalMovePct","labourPersonsPerMover","labourInternationalSharePct"].forEach(id=>{
       if($(id)) $(id).addEventListener("change",renderLabourAnalysis);
     });
+    if($("migrationWeightGeo")) $("migrationWeightGeo").addEventListener("change",renderMigrationLocalWeightCharts);
     if($("labourToScenario")) $("labourToScenario").addEventListener("click",addLabourScenarioToForecast);
     ["householdProjectionMode","householdManualSize","housingReservePct"].forEach(id=>{
       if($(id)) $(id).addEventListener("change",renderHousingAnalysis);
@@ -180,6 +182,15 @@
     const geos=(labour?.geographies||data.geographies.filter(g=>g.code!=="FA_LULEA"));
     $("labourWorkplace").innerHTML=geos.map(g=>`<option value="${g.code}">${g.name}</option>`).join("");
     if(geos.some(g=>g.code==="2580")) $("labourWorkplace").value="2580";
+  }
+
+  function fillMigrationWeightGeo(){
+    const el=$("migrationWeightGeo");
+    if(!el) return;
+    const geos=(data.geographies||[]).filter(g=>g.code!=="FA_LULEA");
+    el.innerHTML=geos.map(g=>`<option value="${g.code}">${g.name}</option>`).join("");
+    const globalGeo=$("geo")?.value;
+    el.value=geos.some(g=>g.code===globalGeo)?globalGeo:(geos.some(g=>g.code==="2580")?"2580":geos[0]?.code||"");
   }
   function blankHousing(){
     return {active:true,year:2030,municipality:"2580",dwellingType:"flerbostadshus",tenure:"hyresrätt",size:"2 rum",dwellings:100,completionPct:100,occupancyPct:95,personsMode:"auto",personsPerDwelling:1.6,externalSharePct:50,internalSharePct:25,phaseYears:3};
@@ -846,13 +857,7 @@
       if(note) note.innerHTML=`<p class="hint">${msg}</p>`;
     };
 
-    const geo=$("geo").value;
-    if(geo==="FA_LULEA"){
-      if(windowLabel) windowLabel.textContent="Kommunnivå";
-      clear("Lokala flyttvikter visas på kommunnivå. FA:s länsinterna bruttoflöden innehåller interna kommunflyttar och kräver därför separat aggregering.");
-      return;
-    }
-
+    const geo=$("migrationWeightGeo")?.value||"2580";
     const compact=smoothingDiagnostic||data.diagnostics?.migrationAgeSmoothingCompact;
     const rows=(compact?.legSexLocalWeightRows||[]).filter(r=>r.geo===geo);
     if(!rows.length){
@@ -914,7 +919,7 @@
           <div><span>Genomsnittlig informationsvikt</span><strong>${pct.format(meanInfo*100)} %</strong></div>
           <div><span>Genomsnittlig persistensvikt</span><strong>${pct.format(meanPersistence*100)} %</strong></div>
         </div>
-        <p class="hint">Detta är diagnostik för den framtida flyttmodellen. Produktionsbaslinjen är fortfarande net10 och använder inte dessa sex ålder/kön-vikter ännu.</p>`;
+        <p class="hint">Detta är diagnostik för den framtida flyttmodellen. Produktionsbaslinjen är fortfarande net10 och använder inte dessa sex ålder/kön-vikter ännu. Kommunprofilen väljs separat eftersom FA-nivån inte ännu har en egen korrekt aggregerad viktprofil.</p>`;
     }
   }
 
