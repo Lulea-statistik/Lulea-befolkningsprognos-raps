@@ -110,12 +110,13 @@
         2
       ],
       "requiredBeforePromotion": [
-        "n+1 population MAE not worse",
-        "n+1 net migration MAE not worse",
-        "at least one n+1 metric strictly better",
-        "n+2 population MAE not worse",
-        "n+2 net migration MAE not worse"
-      ]
+        "n+1 population MAE not worse than existing local+national smoothing or raw net10",
+        "n+1 net migration MAE not worse than existing local+national smoothing or raw net10",
+        "at least one n+1 metric strictly better than both comparators",
+        "n+2 population MAE not worse than existing local+national smoothing or raw net10",
+        "n+2 net migration MAE not worse than existing local+national smoothing or raw net10"
+      ],
+      "compareAlsoAgainst": "raw net10 age profile"
     },
     "governance": "Do not change topK, selected municipalities, analogue weights, or thresholds after viewing smoothing outcomes.",
     "backtestSelection": {
