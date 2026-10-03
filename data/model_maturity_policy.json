@@ -145,6 +145,11 @@
       "label": "Demografiska känslighetsmultiplikatorer",
       "targetLevel": 4,
       "requiredGate": "Neutralläget 1/1/1 ska reproducera baslinjen exakt; nollvärden ska nollställa respektive komponent deterministiskt och flyttmultiplikatorn ska skala nettoflyttningen utan att ändra produktionsstandarderna."
+    },
+    "ckm_uncertainty_diagnostics": {
+      "label": "CKM-osäkerhetsdiagnostik",
+      "targetLevel": 4,
+      "requiredGate": "±3-cellsdiagnostiken ska matcha modellmetadata, ge ordnade ändliga riskintervall, minska relativt med större tal, hållas utanför pre-CKM-kalibreringen och uttryckligen beskrivas som känslighet snarare än konfidensintervall."
     }
   }
 }
