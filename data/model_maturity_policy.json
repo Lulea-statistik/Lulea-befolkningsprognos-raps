@@ -160,6 +160,11 @@
       "label": "Kärndata: fullständighet och unikhet",
       "targetLevel": 4,
       "requiredGate": "Basbefolkning samt produktionsprofiler för fruktsamhet, dödlighet och nettoflyttning ska vara kompletta för alla fem kommuner och huvudfönster, sakna dubblettnycklar och endast innehålla numeriskt giltiga värden."
+    },
+    "scenario_phase_in": {
+      "label": "Scenarieinfasning över flera år",
+      "targetLevel": 4,
+      "requiredGate": "Bostads- och arbetsplatseffekter ska vara noll utanför infasningsfönstret, fördelas deterministiskt inom det och bevara exakt samma kumulativa scenarioeffekt oavsett antal infasningsår."
     }
   }
 }
