@@ -264,6 +264,26 @@ def main():
         )
     ))
 
+    wls_evidence = []
+    for geo in GEOS:
+        for w in WINDOWS:
+            s = mort_method.get(geo, {}).get(w, {})
+            if s:
+                wls_evidence.append(
+                    f"{geo} w{w}: current={s.get('currentDeathsMAE')}, "
+                    f"WLS={s.get('weightedLeastSquaresDeathsMAE')}"
+                )
+    comps.append(component(
+        policy, "mortality_wls_candidate", 2, "development_locked", False,
+        [gate(
+            "Locked SCB-inspired weighted-least-squares mortality diagnostic generated",
+            bool(wls_evidence) and all("None" not in x for x in wls_evidence),
+            "; ".join(wls_evidence) if wls_evidence else "Awaiting rolling-origin results",
+            required=False
+        )],
+        "Keep the two-parameter log-hazard WLS formulation frozen. Treat 2018-2024 as development evidence only; require new untouched external or future evidence before any level-3 promotion."
+    ))
+
     # Net10 incumbent.
     net10 = rolling["summary"]["2580"]["10"]
     hgate = (holdout.get("productionGate") or {}).get("passedAllGates")
