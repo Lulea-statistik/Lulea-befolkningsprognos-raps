@@ -15141,6 +15141,897 @@
       }
     }
   },
+  "migrationAgeSmoothingDiagnostic": {
+    "note": "Development diagnostic. Compares raw net10 age profile, existing adaptive local+national smoothing, and the pre-locked local+national+analogue smoothing. Analogue municipalities are re-ranked vintage-correctly at each origin.",
+    "independentHoldout": false,
+    "candidate": {
+      "config": "data/scb_risk_migration_config.json",
+      "analogueConfig": "data/migration_analog_municipalities.json",
+      "existingGate": {
+        "status": "locked_before_rolling_smoothing_results",
+        "primaryGeo": "2580",
+        "compareExistingSmoothingAgainst": "net10_raw_age_profile",
+        "horizons": [
+          1,
+          2
+        ],
+        "requirements": [
+          "n+1 population MAE not above raw net10",
+          "n+1 net migration MAE not above raw net10",
+          "at least one n+1 metric strictly below raw net10",
+          "n+2 population MAE not above raw net10",
+          "n+2 net migration MAE not above raw net10"
+        ],
+        "note": "Existing local+national adaptive smoothing must pass this gate before it can advance beyond diagnostic status."
+      },
+      "analogueGate": {
+        "compareAgainst": "existing local_plus_national adaptive smoothing",
+        "primaryGeo": "2580",
+        "horizons": [
+          1,
+          2
+        ],
+        "requiredBeforePromotion": [
+          "n+1 population MAE not worse than existing local+national smoothing or raw net10",
+          "n+1 net migration MAE not worse than existing local+national smoothing or raw net10",
+          "at least one n+1 metric strictly better than both comparators",
+          "n+2 population MAE not worse than existing local+national smoothing or raw net10",
+          "n+2 net migration MAE not worse than existing local+national smoothing or raw net10"
+        ],
+        "compareAlsoAgainst": "raw net10 age profile"
+      },
+      "backtestSelection": {
+        "method": "rerank candidate pool at each rolling origin using only years available through that origin",
+        "topK": 5,
+        "minimumHistoryYears": 6,
+        "currentProductionReferenceTop5": [
+          {
+            "code": "0780",
+            "name": "Växjö kommun"
+          },
+          {
+            "code": "1490",
+            "name": "Borås kommun"
+          },
+          {
+            "code": "2281",
+            "name": "Sundsvalls kommun"
+          },
+          {
+            "code": "2380",
+            "name": "Östersunds kommun"
+          },
+          {
+            "code": "1780",
+            "name": "Karlstads kommun"
+          }
+        ],
+        "note": "The current 2015-2024 top five is descriptive for the 2025 model only and is not retroactively imposed on historical origins."
+      },
+      "structuralTarget": {
+        "analogueAggregation": "similarity-score-weighted age/sex shares among the origin-specific top five",
+        "curvatureBlend": {
+          "nationalWeight": 0.5,
+          "analogueWeight": 0.5
+        },
+        "formula": "adjacent Lulea local-age mean + 0.5*Sweden age curvature + 0.5*analogue-pool age curvature",
+        "retentionRule": "same information+persistence local-retention rule as the existing adaptive smoothing candidate",
+        "totalPreservation": "smooth gross in and gross out age/sex shares separately, renormalize each to 1, then multiply by the original Lulea gross in/out annual totals; net profile = smoothed gross in - smoothed gross out",
+        "governance": "Weights and formula are fixed before rolling-origin forecast outcomes are generated."
+      },
+      "independentHoldout": false,
+      "note": "Analogue top-five is re-ranked at each origin using only information available through that origin."
+    },
+    "summary": {
+      "2580": {
+        "observations": 12,
+        "origins": [
+          2018,
+          2019,
+          2020,
+          2021
+        ],
+        "oneYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 81.2,
+            "populationMAPE": 0.1,
+            "populationMeanError": 34.3,
+            "netMigrationMAE": 121.4,
+            "netMigrationMeanError": 31.2
+          },
+          "localNational": {
+            "populationMAE": 84.5,
+            "populationMAPE": 0.1,
+            "populationMeanError": 46,
+            "netMigrationMAE": 124.7,
+            "netMigrationMeanError": 42.9
+          },
+          "localNationalAnalogue": {
+            "populationMAE": 84.5,
+            "populationMAPE": 0.1,
+            "populationMeanError": 46,
+            "netMigrationMAE": 124.7,
+            "netMigrationMeanError": 42.9
+          }
+        },
+        "twoYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 107.8,
+            "populationMAPE": 0.1,
+            "populationMeanError": 105.3,
+            "netMigrationMAE": 106.4,
+            "netMigrationMeanError": 18
+          },
+          "localNational": {
+            "populationMAE": 129,
+            "populationMAPE": 0.2,
+            "populationMeanError": 129,
+            "netMigrationMAE": 103.1,
+            "netMigrationMeanError": 29.7
+          },
+          "localNationalAnalogue": {
+            "populationMAE": 129,
+            "populationMAPE": 0.2,
+            "populationMeanError": 129,
+            "netMigrationMAE": 103.1,
+            "netMigrationMeanError": 29.7
+          }
+        },
+        "threeYear": {
+          "observations": 4,
+          "raw": {
+            "populationMAE": 211.5,
+            "populationMAPE": 0.3,
+            "populationMeanError": 209.1,
+            "netMigrationMAE": 112.6,
+            "netMigrationMeanError": 13.5
+          },
+          "localNational": {
+            "populationMAE": 245,
+            "populationMAPE": 0.3,
+            "populationMeanError": 245,
+            "netMigrationMAE": 115.9,
+            "netMigrationMeanError": 25.2
+          },
+          "localNationalAnalogue": {
+            "populationMAE": 244.9,
+            "populationMAPE": 0.3,
+            "populationMeanError": 244.9,
+            "netMigrationMAE": 115.9,
+            "netMigrationMeanError": 25.2
+          }
+        },
+        "byHorizon": {
+          "1": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 81.2,
+              "populationMAPE": 0.1,
+              "populationMeanError": 34.3,
+              "netMigrationMAE": 121.4,
+              "netMigrationMeanError": 31.2
+            },
+            "localNational": {
+              "populationMAE": 84.5,
+              "populationMAPE": 0.1,
+              "populationMeanError": 46,
+              "netMigrationMAE": 124.7,
+              "netMigrationMeanError": 42.9
+            },
+            "localNationalAnalogue": {
+              "populationMAE": 84.5,
+              "populationMAPE": 0.1,
+              "populationMeanError": 46,
+              "netMigrationMAE": 124.7,
+              "netMigrationMeanError": 42.9
+            }
+          },
+          "2": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 107.8,
+              "populationMAPE": 0.1,
+              "populationMeanError": 105.3,
+              "netMigrationMAE": 106.4,
+              "netMigrationMeanError": 18
+            },
+            "localNational": {
+              "populationMAE": 129,
+              "populationMAPE": 0.2,
+              "populationMeanError": 129,
+              "netMigrationMAE": 103.1,
+              "netMigrationMeanError": 29.7
+            },
+            "localNationalAnalogue": {
+              "populationMAE": 129,
+              "populationMAPE": 0.2,
+              "populationMeanError": 129,
+              "netMigrationMAE": 103.1,
+              "netMigrationMeanError": 29.7
+            }
+          },
+          "3": {
+            "observations": 4,
+            "raw": {
+              "populationMAE": 211.5,
+              "populationMAPE": 0.3,
+              "populationMeanError": 209.1,
+              "netMigrationMAE": 112.6,
+              "netMigrationMeanError": 13.5
+            },
+            "localNational": {
+              "populationMAE": 245,
+              "populationMAPE": 0.3,
+              "populationMeanError": 245,
+              "netMigrationMAE": 115.9,
+              "netMigrationMeanError": 25.2
+            },
+            "localNationalAnalogue": {
+              "populationMAE": 244.9,
+              "populationMAPE": 0.3,
+              "populationMeanError": 244.9,
+              "netMigrationMAE": 115.9,
+              "netMigrationMeanError": 25.2
+            }
+          }
+        },
+        "byOrigin": {
+          "2018": {
+            "analogueTop5": [
+              {
+                "geo": "2180",
+                "name": "Gävle kommun",
+                "distance": 1.0201598420568074,
+                "similarityScore": 49.5010334915805
+              },
+              {
+                "geo": "1490",
+                "name": "Borås kommun",
+                "distance": 1.0818195672940303,
+                "similarityScore": 48.03490252999254
+              },
+              {
+                "geo": "2281",
+                "name": "Sundsvalls kommun",
+                "distance": 1.0883002598152476,
+                "similarityScore": 47.885834199363174
+              },
+              {
+                "geo": "0780",
+                "name": "Växjö kommun",
+                "distance": 1.190485230217226,
+                "similarityScore": 45.651985514681236
+              },
+              {
+                "geo": "1780",
+                "name": "Karlstads kommun",
+                "distance": 1.2322400301640957,
+                "similarityScore": 44.798049783494314
+              }
+            ],
+            "rows": [
+              {
+                "year": 2019,
+                "horizon": 1,
+                "rawPopulationError": 147.1,
+                "localPopulationError": 150.4,
+                "analoguePopulationError": 150.4,
+                "rawNetMigrationError": 148.3,
+                "localNetMigrationError": 151.7,
+                "analogueNetMigrationError": 151.7,
+                "rawPredictedNetMigration": 329.3,
+                "localPredictedNetMigration": 332.7,
+                "analoguePredictedNetMigration": 332.7,
+                "actualNetMigration": 181
+              },
+              {
+                "year": 2020,
+                "horizon": 2,
+                "rawPopulationError": 129.1,
+                "localPopulationError": 136.3,
+                "analoguePopulationError": 136.3,
+                "rawNetMigrationError": -107.7,
+                "localNetMigrationError": -104.3,
+                "analogueNetMigrationError": -104.3,
+                "rawPredictedNetMigration": 329.3,
+                "localPredictedNetMigration": 332.7,
+                "analoguePredictedNetMigration": 332.7,
+                "actualNetMigration": 437
+              },
+              {
+                "year": 2021,
+                "horizon": 3,
+                "rawPopulationError": 238.9,
+                "localPopulationError": 250.5,
+                "analoguePopulationError": 250.4,
+                "rawNetMigrationError": 131.3,
+                "localNetMigrationError": 134.7,
+                "analogueNetMigrationError": 134.7,
+                "rawPredictedNetMigration": 329.3,
+                "localPredictedNetMigration": 332.7,
+                "analoguePredictedNetMigration": 332.7,
+                "actualNetMigration": 198
+              }
+            ]
+          },
+          "2019": {
+            "analogueTop5": [
+              {
+                "geo": "2180",
+                "name": "Gävle kommun",
+                "distance": 0.9479391840192626,
+                "similarityScore": 51.33630496290234
+              },
+              {
+                "geo": "0780",
+                "name": "Växjö kommun",
+                "distance": 1.0867935101366757,
+                "similarityScore": 47.9204097167479
+              },
+              {
+                "geo": "1490",
+                "name": "Borås kommun",
+                "distance": 1.0877345370359561,
+                "similarityScore": 47.89881003835582
+              },
+              {
+                "geo": "2281",
+                "name": "Sundsvalls kommun",
+                "distance": 1.1073841496218506,
+                "similarityScore": 47.45219328803627
+              },
+              {
+                "geo": "1780",
+                "name": "Karlstads kommun",
+                "distance": 1.2288715097073317,
+                "similarityScore": 44.865753617681975
+              }
+            ],
+            "rows": [
+              {
+                "year": 2020,
+                "horizon": 1,
+                "rawPopulationError": -66.8,
+                "localPopulationError": -38.5,
+                "analoguePopulationError": -38.5,
+                "rawNetMigrationError": -119.5,
+                "localNetMigrationError": -91.2,
+                "analogueNetMigrationError": -91.2,
+                "rawPredictedNetMigration": 317.5,
+                "localPredictedNetMigration": 345.8,
+                "analoguePredictedNetMigration": 345.8,
+                "actualNetMigration": 437
+              },
+              {
+                "year": 2021,
+                "horizon": 2,
+                "rawPopulationError": -5,
+                "localPopulationError": 52,
+                "analoguePopulationError": 52,
+                "rawNetMigrationError": 119.5,
+                "localNetMigrationError": 147.8,
+                "analogueNetMigrationError": 147.8,
+                "rawPredictedNetMigration": 317.5,
+                "localPredictedNetMigration": 345.8,
+                "analoguePredictedNetMigration": 345.8,
+                "actualNetMigration": 198
+              },
+              {
+                "year": 2022,
+                "horizon": 3,
+                "rawPopulationError": -4.8,
+                "localPopulationError": 81.5,
+                "analoguePopulationError": 81.4,
+                "rawNetMigrationError": -106.5,
+                "localNetMigrationError": -78.2,
+                "analogueNetMigrationError": -78.2,
+                "rawPredictedNetMigration": 317.5,
+                "localPredictedNetMigration": 345.8,
+                "analoguePredictedNetMigration": 345.8,
+                "actualNetMigration": 424
+              }
+            ]
+          },
+          "2020": {
+            "analogueTop5": [
+              {
+                "geo": "2180",
+                "name": "Gävle kommun",
+                "distance": 0.959782527519904,
+                "similarityScore": 51.02606977854301
+              },
+              {
+                "geo": "0780",
+                "name": "Växjö kommun",
+                "distance": 1.0127664565560432,
+                "similarityScore": 49.68286294432074
+              },
+              {
+                "geo": "2281",
+                "name": "Sundsvalls kommun",
+                "distance": 1.0569744073245142,
+                "similarityScore": 48.6150919738807
+              },
+              {
+                "geo": "1490",
+                "name": "Borås kommun",
+                "distance": 1.0971018140778608,
+                "similarityScore": 47.6848569433774
+              },
+              {
+                "geo": "1780",
+                "name": "Karlstads kommun",
+                "distance": 1.1611065167784693,
+                "similarityScore": 46.272591944736064
+              }
+            ],
+            "rows": [
+              {
+                "year": 2021,
+                "horizon": 1,
+                "rawPopulationError": 84,
+                "localPopulationError": 110.7,
+                "analoguePopulationError": 110.7,
+                "rawNetMigrationError": 156.9,
+                "localNetMigrationError": 183.6,
+                "analogueNetMigrationError": 183.6,
+                "rawPredictedNetMigration": 354.9,
+                "localPredictedNetMigration": 381.6,
+                "analoguePredictedNetMigration": 381.6,
+                "actualNetMigration": 198
+              },
+              {
+                "year": 2022,
+                "horizon": 2,
+                "rawPopulationError": 99.8,
+                "localPopulationError": 153.6,
+                "analoguePopulationError": 153.6,
+                "rawNetMigrationError": -69.1,
+                "localNetMigrationError": -42.4,
+                "analogueNetMigrationError": -42.4,
+                "rawPredictedNetMigration": 354.9,
+                "localPredictedNetMigration": 381.6,
+                "analoguePredictedNetMigration": 381.6,
+                "actualNetMigration": 424
+              },
+              {
+                "year": 2023,
+                "horizon": 3,
+                "rawPopulationError": 376.4,
+                "localPopulationError": 458.1,
+                "analoguePopulationError": 458,
+                "rawNetMigrationError": 120.9,
+                "localNetMigrationError": 147.6,
+                "analogueNetMigrationError": 147.6,
+                "rawPredictedNetMigration": 354.9,
+                "localPredictedNetMigration": 381.6,
+                "analoguePredictedNetMigration": 381.6,
+                "actualNetMigration": 234
+              }
+            ]
+          },
+          "2021": {
+            "analogueTop5": [
+              {
+                "geo": "2180",
+                "name": "Gävle kommun",
+                "distance": 0.9607605285399906,
+                "similarityScore": 51.00061866017947
+              },
+              {
+                "geo": "0780",
+                "name": "Växjö kommun",
+                "distance": 1.0269343627065513,
+                "similarityScore": 49.33558868007482
+              },
+              {
+                "geo": "2281",
+                "name": "Sundsvalls kommun",
+                "distance": 1.0479712839112412,
+                "similarityScore": 48.82880965450783
+              },
+              {
+                "geo": "1780",
+                "name": "Karlstads kommun",
+                "distance": 1.096780200706945,
+                "similarityScore": 47.69217105650094
+              },
+              {
+                "geo": "1490",
+                "name": "Borås kommun",
+                "distance": 1.1189505438704448,
+                "similarityScore": 47.193173190980396
+              }
+            ],
+            "rows": [
+              {
+                "year": 2022,
+                "horizon": 1,
+                "rawPopulationError": -27,
+                "localPopulationError": -38.4,
+                "analoguePopulationError": -38.4,
+                "rawNetMigrationError": -60.8,
+                "localNetMigrationError": -72.2,
+                "analogueNetMigrationError": -72.2,
+                "rawPredictedNetMigration": 363.2,
+                "localPredictedNetMigration": 351.8,
+                "analoguePredictedNetMigration": 351.8,
+                "actualNetMigration": 424
+              },
+              {
+                "year": 2023,
+                "horizon": 2,
+                "rawPopulationError": 197.5,
+                "localPopulationError": 174.1,
+                "analoguePopulationError": 174.1,
+                "rawNetMigrationError": 129.2,
+                "localNetMigrationError": 117.8,
+                "analogueNetMigrationError": 117.8,
+                "rawPredictedNetMigration": 363.2,
+                "localPredictedNetMigration": 351.8,
+                "analoguePredictedNetMigration": 351.8,
+                "actualNetMigration": 234
+              },
+              {
+                "year": 2024,
+                "horizon": 3,
+                "rawPopulationError": 225.8,
+                "localPopulationError": 189.9,
+                "analoguePopulationError": 189.8,
+                "rawNetMigrationError": -91.8,
+                "localNetMigrationError": -103.2,
+                "analogueNetMigrationError": -103.2,
+                "rawPredictedNetMigration": 363.2,
+                "localPredictedNetMigration": 351.8,
+                "analoguePredictedNetMigration": 351.8,
+                "actualNetMigration": 455
+              }
+            ]
+          }
+        }
+      }
+    },
+    "results": {
+      "2580": {
+        "2018": {
+          "analogueTop5": [
+            {
+              "geo": "2180",
+              "name": "Gävle kommun",
+              "distance": 1.0201598420568074,
+              "similarityScore": 49.5010334915805
+            },
+            {
+              "geo": "1490",
+              "name": "Borås kommun",
+              "distance": 1.0818195672940303,
+              "similarityScore": 48.03490252999254
+            },
+            {
+              "geo": "2281",
+              "name": "Sundsvalls kommun",
+              "distance": 1.0883002598152476,
+              "similarityScore": 47.885834199363174
+            },
+            {
+              "geo": "0780",
+              "name": "Växjö kommun",
+              "distance": 1.190485230217226,
+              "similarityScore": 45.651985514681236
+            },
+            {
+              "geo": "1780",
+              "name": "Karlstads kommun",
+              "distance": 1.2322400301640957,
+              "similarityScore": 44.798049783494314
+            }
+          ],
+          "rows": [
+            {
+              "year": 2019,
+              "horizon": 1,
+              "rawPopulationError": 147.1,
+              "localPopulationError": 150.4,
+              "analoguePopulationError": 150.4,
+              "rawNetMigrationError": 148.3,
+              "localNetMigrationError": 151.7,
+              "analogueNetMigrationError": 151.7,
+              "rawPredictedNetMigration": 329.3,
+              "localPredictedNetMigration": 332.7,
+              "analoguePredictedNetMigration": 332.7,
+              "actualNetMigration": 181
+            },
+            {
+              "year": 2020,
+              "horizon": 2,
+              "rawPopulationError": 129.1,
+              "localPopulationError": 136.3,
+              "analoguePopulationError": 136.3,
+              "rawNetMigrationError": -107.7,
+              "localNetMigrationError": -104.3,
+              "analogueNetMigrationError": -104.3,
+              "rawPredictedNetMigration": 329.3,
+              "localPredictedNetMigration": 332.7,
+              "analoguePredictedNetMigration": 332.7,
+              "actualNetMigration": 437
+            },
+            {
+              "year": 2021,
+              "horizon": 3,
+              "rawPopulationError": 238.9,
+              "localPopulationError": 250.5,
+              "analoguePopulationError": 250.4,
+              "rawNetMigrationError": 131.3,
+              "localNetMigrationError": 134.7,
+              "analogueNetMigrationError": 134.7,
+              "rawPredictedNetMigration": 329.3,
+              "localPredictedNetMigration": 332.7,
+              "analoguePredictedNetMigration": 332.7,
+              "actualNetMigration": 198
+            }
+          ]
+        },
+        "2019": {
+          "analogueTop5": [
+            {
+              "geo": "2180",
+              "name": "Gävle kommun",
+              "distance": 0.9479391840192626,
+              "similarityScore": 51.33630496290234
+            },
+            {
+              "geo": "0780",
+              "name": "Växjö kommun",
+              "distance": 1.0867935101366757,
+              "similarityScore": 47.9204097167479
+            },
+            {
+              "geo": "1490",
+              "name": "Borås kommun",
+              "distance": 1.0877345370359561,
+              "similarityScore": 47.89881003835582
+            },
+            {
+              "geo": "2281",
+              "name": "Sundsvalls kommun",
+              "distance": 1.1073841496218506,
+              "similarityScore": 47.45219328803627
+            },
+            {
+              "geo": "1780",
+              "name": "Karlstads kommun",
+              "distance": 1.2288715097073317,
+              "similarityScore": 44.865753617681975
+            }
+          ],
+          "rows": [
+            {
+              "year": 2020,
+              "horizon": 1,
+              "rawPopulationError": -66.8,
+              "localPopulationError": -38.5,
+              "analoguePopulationError": -38.5,
+              "rawNetMigrationError": -119.5,
+              "localNetMigrationError": -91.2,
+              "analogueNetMigrationError": -91.2,
+              "rawPredictedNetMigration": 317.5,
+              "localPredictedNetMigration": 345.8,
+              "analoguePredictedNetMigration": 345.8,
+              "actualNetMigration": 437
+            },
+            {
+              "year": 2021,
+              "horizon": 2,
+              "rawPopulationError": -5,
+              "localPopulationError": 52,
+              "analoguePopulationError": 52,
+              "rawNetMigrationError": 119.5,
+              "localNetMigrationError": 147.8,
+              "analogueNetMigrationError": 147.8,
+              "rawPredictedNetMigration": 317.5,
+              "localPredictedNetMigration": 345.8,
+              "analoguePredictedNetMigration": 345.8,
+              "actualNetMigration": 198
+            },
+            {
+              "year": 2022,
+              "horizon": 3,
+              "rawPopulationError": -4.8,
+              "localPopulationError": 81.5,
+              "analoguePopulationError": 81.4,
+              "rawNetMigrationError": -106.5,
+              "localNetMigrationError": -78.2,
+              "analogueNetMigrationError": -78.2,
+              "rawPredictedNetMigration": 317.5,
+              "localPredictedNetMigration": 345.8,
+              "analoguePredictedNetMigration": 345.8,
+              "actualNetMigration": 424
+            }
+          ]
+        },
+        "2020": {
+          "analogueTop5": [
+            {
+              "geo": "2180",
+              "name": "Gävle kommun",
+              "distance": 0.959782527519904,
+              "similarityScore": 51.02606977854301
+            },
+            {
+              "geo": "0780",
+              "name": "Växjö kommun",
+              "distance": 1.0127664565560432,
+              "similarityScore": 49.68286294432074
+            },
+            {
+              "geo": "2281",
+              "name": "Sundsvalls kommun",
+              "distance": 1.0569744073245142,
+              "similarityScore": 48.6150919738807
+            },
+            {
+              "geo": "1490",
+              "name": "Borås kommun",
+              "distance": 1.0971018140778608,
+              "similarityScore": 47.6848569433774
+            },
+            {
+              "geo": "1780",
+              "name": "Karlstads kommun",
+              "distance": 1.1611065167784693,
+              "similarityScore": 46.272591944736064
+            }
+          ],
+          "rows": [
+            {
+              "year": 2021,
+              "horizon": 1,
+              "rawPopulationError": 84,
+              "localPopulationError": 110.7,
+              "analoguePopulationError": 110.7,
+              "rawNetMigrationError": 156.9,
+              "localNetMigrationError": 183.6,
+              "analogueNetMigrationError": 183.6,
+              "rawPredictedNetMigration": 354.9,
+              "localPredictedNetMigration": 381.6,
+              "analoguePredictedNetMigration": 381.6,
+              "actualNetMigration": 198
+            },
+            {
+              "year": 2022,
+              "horizon": 2,
+              "rawPopulationError": 99.8,
+              "localPopulationError": 153.6,
+              "analoguePopulationError": 153.6,
+              "rawNetMigrationError": -69.1,
+              "localNetMigrationError": -42.4,
+              "analogueNetMigrationError": -42.4,
+              "rawPredictedNetMigration": 354.9,
+              "localPredictedNetMigration": 381.6,
+              "analoguePredictedNetMigration": 381.6,
+              "actualNetMigration": 424
+            },
+            {
+              "year": 2023,
+              "horizon": 3,
+              "rawPopulationError": 376.4,
+              "localPopulationError": 458.1,
+              "analoguePopulationError": 458,
+              "rawNetMigrationError": 120.9,
+              "localNetMigrationError": 147.6,
+              "analogueNetMigrationError": 147.6,
+              "rawPredictedNetMigration": 354.9,
+              "localPredictedNetMigration": 381.6,
+              "analoguePredictedNetMigration": 381.6,
+              "actualNetMigration": 234
+            }
+          ]
+        },
+        "2021": {
+          "analogueTop5": [
+            {
+              "geo": "2180",
+              "name": "Gävle kommun",
+              "distance": 0.9607605285399906,
+              "similarityScore": 51.00061866017947
+            },
+            {
+              "geo": "0780",
+              "name": "Växjö kommun",
+              "distance": 1.0269343627065513,
+              "similarityScore": 49.33558868007482
+            },
+            {
+              "geo": "2281",
+              "name": "Sundsvalls kommun",
+              "distance": 1.0479712839112412,
+              "similarityScore": 48.82880965450783
+            },
+            {
+              "geo": "1780",
+              "name": "Karlstads kommun",
+              "distance": 1.096780200706945,
+              "similarityScore": 47.69217105650094
+            },
+            {
+              "geo": "1490",
+              "name": "Borås kommun",
+              "distance": 1.1189505438704448,
+              "similarityScore": 47.193173190980396
+            }
+          ],
+          "rows": [
+            {
+              "year": 2022,
+              "horizon": 1,
+              "rawPopulationError": -27,
+              "localPopulationError": -38.4,
+              "analoguePopulationError": -38.4,
+              "rawNetMigrationError": -60.8,
+              "localNetMigrationError": -72.2,
+              "analogueNetMigrationError": -72.2,
+              "rawPredictedNetMigration": 363.2,
+              "localPredictedNetMigration": 351.8,
+              "analoguePredictedNetMigration": 351.8,
+              "actualNetMigration": 424
+            },
+            {
+              "year": 2023,
+              "horizon": 2,
+              "rawPopulationError": 197.5,
+              "localPopulationError": 174.1,
+              "analoguePopulationError": 174.1,
+              "rawNetMigrationError": 129.2,
+              "localNetMigrationError": 117.8,
+              "analogueNetMigrationError": 117.8,
+              "rawPredictedNetMigration": 363.2,
+              "localPredictedNetMigration": 351.8,
+              "analoguePredictedNetMigration": 351.8,
+              "actualNetMigration": 234
+            },
+            {
+              "year": 2024,
+              "horizon": 3,
+              "rawPopulationError": 225.8,
+              "localPopulationError": 189.9,
+              "analoguePopulationError": 189.8,
+              "rawNetMigrationError": -91.8,
+              "localNetMigrationError": -103.2,
+              "analogueNetMigrationError": -103.2,
+              "rawPredictedNetMigration": 363.2,
+              "localPredictedNetMigration": 351.8,
+              "analoguePredictedNetMigration": 351.8,
+              "actualNetMigration": 455
+            }
+          ]
+        }
+      }
+    },
+    "existingSmoothingGate": {
+      "primaryGeo": "2580",
+      "checks": {
+        "n1PopulationNotWorse": false,
+        "n1MigrationNotWorse": false,
+        "n1AtLeastOneStrictlyBetter": false,
+        "n2PopulationNotWorse": false,
+        "n2MigrationNotWorse": true
+      },
+      "passed": false
+    },
+    "analogueSmoothingGate": {
+      "primaryGeo": "2580",
+      "checks": {
+        "n1PopulationNotWorse": false,
+        "n1MigrationNotWorse": false,
+        "n1AtLeastOneStrictlyBetter": false,
+        "n2PopulationNotWorse": false,
+        "n2MigrationNotWorse": true
+      },
+      "passed": false
+    }
+  },
   "componentFlowDiagnostic": {
     "note": "Development diagnostic only. Compares the locked three-leg component_flow engine with the existing 10-year exogenous net-migration baseline inside the full cohort model. The component windows were selected using Lulea development data, so this is not independent holdout evidence.",
     "independentHoldout": false,
