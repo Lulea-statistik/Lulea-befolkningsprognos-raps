@@ -15,6 +15,7 @@ CONSISTENCY_ADJUSTMENT = ROOT / "data" / "backtests" / "scb_consistency_adjustme
 CONSISTENCY_VINTAGE = ROOT / "data" / "backtests" / "scb_consistency_vintage_validation.json"
 INDUSTRIAL_SCENARIO_VALIDATION = ROOT / "data" / "backtests" / "industrial_workforce_scenario_validation.json"
 INDUSTRIAL_SCENARIO_ENGINE_VALIDATION = ROOT / "data" / "backtests" / "industrial_workforce_scenario_engine_validation.json"
+HOUSING_SCENARIO_VALIDATION = ROOT / "data" / "backtests" / "housing_scenario_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -615,6 +616,63 @@ def main():
             else "Run end-to-end preset regression through the scenario engine before level 4."
             if industrial_level == 3
             else "Complete documented presets/ranges and structural validation."
+        )
+    ))
+
+    housing_cfg = load(ROOT / "data" / "housing_scenario_config.json")
+    housing_validation = (
+        load(HOUSING_SCENARIO_VALIDATION)
+        if HOUSING_SCENARIO_VALIDATION.exists()
+        else {}
+    )
+    housing_engine_ok = housing_validation.get("allPassed") is True
+    housing_ranges = housing_cfg.get("parameterRanges") or {}
+    housing_presets = housing_cfg.get("sensitivityPresets") or {}
+    housing_structure_ok = (
+        housing_cfg.get("baselineExcluded") is True
+        and len(housing_ranges) >= 6
+        and all(k in housing_presets for k in ("low", "reference", "high"))
+    )
+    housing_level = (
+        4 if housing_structure_ok and housing_engine_ok
+        else 3 if housing_structure_ok
+        else 2
+    )
+    comps.append(component(
+        policy, "housing_scenario", housing_level,
+        (
+            "production_ready_scenario" if housing_level == 4
+            else "validated_scenario" if housing_level == 3
+            else "development_scenario"
+        ),
+        False,
+        [
+            gate(
+                "Housing scenario is explicitly excluded from baseline",
+                housing_cfg.get("baselineExcluded") is True,
+                "baselineExcluded=true"
+            ),
+            gate(
+                "Low/reference/high presets and parameter ranges documented",
+                housing_structure_ok,
+                f"presets={list(housing_presets)}; ranges={list(housing_ranges)}"
+            ),
+            gate(
+                "End-to-end housing scenario regression passes",
+                housing_engine_ok,
+                (
+                    f"checks={housing_validation.get('checks')}"
+                    if housing_validation
+                    else "Awaiting housing scenario engine regression"
+                )
+            )
+        ],
+        (
+            "Keep housing presets as sensitivity scenarios; rerun regression whenever scenario mechanics or SCB occupancy-default logic changes."
+            if housing_level == 4
+            else "Complete deterministic engine regression before level 4."
+            if housing_level == 3
+            else "Complete documented housing scenario presets and ranges."
         )
     ))
 
