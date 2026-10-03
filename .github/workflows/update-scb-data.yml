@@ -218,6 +218,9 @@ jobs:
       - name: Validate scenario phase-in mechanics
         run: node scripts/validate_scenario_phase_in.js
 
+      - name: Validate annual population accounting identity
+        run: node scripts/validate_population_accounting_identity.js
+
       - name: Build model maturity report
         run: python scripts/build_model_maturity.py
 
