@@ -353,8 +353,8 @@
           <div class="formGrid3">
             <label>Hushållsstorlek i framskrivning
               <select id="householdProjectionMode">
+                <option value="trend" selected>Senaste 5 årens trend (standard)</option>
                 <option value="constant">Konstant senaste nivå</option>
-                <option value="trend">Senaste 5 årens trend</option>
                 <option value="manual">Manuell nivå</option>
               </select>
             </label>
@@ -365,7 +365,7 @@
               <input id="housingReservePct" type="number" min="0" max="20" step="0.5" value="1" />
             </label>
           </div>
-          <p class="hint">Balansen är en efterfrågeindikator, inte ett mått på faktisk bostadsbrist. Den jämför förändringen i beräknat hushållsbehov med aktiva bostadsscenariers färdigställda bostäder.</p>
+          <p class="hint">Standardläget använder den validerade femårstrenden för personer per hushåll. Konstant nivå och manuell nivå finns kvar som känslighetsalternativ. Balansen är en efterfrågeindikator, inte ett mått på faktisk bostadsbrist.</p>
         </article>
 
         <div class="grid2">
