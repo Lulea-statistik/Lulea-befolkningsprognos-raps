@@ -709,7 +709,8 @@ def build_origin(
     origin, cfg, pop, birth_year_exposure, fertility_exposure, deaths, births,
     inflow, outflow, netmig, migration_legs, population_birth_status,
     migration_birth_status, component_cfg, scb_risk_cfg, recency_cfg,
-    profet_birth_cfg, profet_consistency_cfg, consistency_profile_geos
+    profet_birth_cfg, profet_consistency_cfg, consistency_profile_geos,
+    analogue_cfg, analogue_pop, analogue_inflow, analogue_outflow
 ):
     original_end = b.CALIBRATION_END
     original_windows = b.WINDOWS
@@ -726,6 +727,25 @@ def build_origin(
         mortality_risks, mortality_factors = b.mortality_profiles(
             deaths, birth_year_exposure
         )
+
+        smoothing_diag = b.adaptive_migration_age_smoothing(
+            migration_legs, scb_risk_cfg
+        )
+        analogue_ranking = rolling_analogue_ranking(
+            analogue_pop, analogue_inflow, analogue_outflow,
+            origin, analogue_cfg
+        )
+        net_migration_smoothed = smoothed_net_rows_from_diagnostic(
+            smoothing_diag, "2580"
+        )
+        (
+            net_migration_analogue_smoothed,
+            analogue_smoothing_audit,
+        ) = analogue_smoothed_net_rows(
+            migration_legs, smoothing_diag, analogue_ranking,
+            analogue_cfg, "2580"
+        )
+
         component_inflow, component_out_hazards = b.migration_component_profiles(
             migration_legs, birth_year_exposure
         )
@@ -872,6 +892,15 @@ def build_origin(
             "mortalityRisks": mortality_risks,
             "mortalityRisksNationalOnly": mortality_risks_national_only,
             "netMigration": b.migration_profiles(netmig),
+            "netMigrationSmoothed": net_migration_smoothed,
+            "netMigrationAnalogueSmoothed": net_migration_analogue_smoothed,
+            "migrationAgeSmoothingAudit": {
+                "origin": origin,
+                "analogueTop5": analogue_ranking,
+                "analogueRows": analogue_smoothing_audit,
+                "localNationalMethod": smoothing_diag.get("method"),
+                "profileWindow": smoothing_diag.get("window"),
+            },
             "migrationComponentInflow": component_inflow,
             "migrationComponentOutHazards": component_out_hazards,
             "migrationRecencyOutHazards": recency_out_hazards,
@@ -987,10 +1016,33 @@ def main():
     netmig = b.aggregate_fa_age_sex(
         b.load_wide_age_sex("migration_pre2025.csv", b.NET_MIG_CODES)
     )
+    analogue_cfg = json.loads(
+        (ROOT / "data" / "migration_analog_municipalities.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    analogue_geos = set((analogue_cfg.get("candidates") or {}).keys())
+    analogue_allowed = analogue_geos | {"2580", b.RIKET_CODE}
+    analogue_pop = b.load_wide_age_sex(
+        "population_pre2025.csv",
+        allowed_geos=analogue_allowed,
+    )
+    analogue_inflow = b.load_wide_age_sex(
+        "migration_pre2025.csv",
+        b.IN_MIG_CODES,
+        allowed_geos=analogue_allowed,
+    )
+    analogue_outflow = b.load_wide_age_sex(
+        "migration_pre2025.csv",
+        b.OUT_MIG_CODES,
+        allowed_geos=analogue_allowed,
+    )
     migration_legs = b.load_migration_legs(
         "migration_birth_region_pre2025.csv",
         b.MIGRATION_LEG_CODES_PRE2025,
-        allowed_geos=set(b.MUNICIPALITIES) | {b.RIKET_CODE},
+        allowed_geos=(
+            set(b.MUNICIPALITIES) | analogue_geos | {b.RIKET_CODE}
+        ),
     )
     _county, consistency_profile_geos = consistency_support_geographies()
     population_birth_status = b.load_population_birth_status(
@@ -1032,7 +1084,8 @@ def main():
             deaths, births, inflow, outflow, netmig, migration_legs,
             population_birth_status, migration_birth_status,
             component_cfg, scb_risk_cfg, recency_cfg, profet_birth_cfg,
-            profet_consistency_cfg, consistency_profile_geos
+            profet_consistency_cfg, consistency_profile_geos,
+            analogue_cfg, analogue_pop, analogue_inflow, analogue_outflow
         )
         for origin, cfg in ORIGINS.items()
     ]
@@ -1065,6 +1118,16 @@ def main():
             "methodBasis": "Published SCB regional projection method; locked before this candidate is evaluated.",
             "independentHoldout": False,
             "note": "Lulea rolling-origin results are development diagnostics. Previously viewed municipalities are not independent confirmation."
+        },
+        "migrationAgeSmoothingCandidate": {
+            "config": "data/scb_risk_migration_config.json",
+            "analogueConfig": "data/migration_analog_municipalities.json",
+            "existingGate": scb_risk_cfg["ageProfileSmoothing"]["evaluation"],
+            "analogueGate": analogue_cfg["smoothingCandidate"]["evaluation"],
+            "backtestSelection": analogue_cfg["smoothingCandidate"]["backtestSelection"],
+            "structuralTarget": analogue_cfg["smoothingCandidate"]["structuralTarget"],
+            "independentHoldout": False,
+            "note": "Analogue top-five is re-ranked at each origin using only information available through that origin."
         },
         "profetBirthStatusCandidate": {
             "config": "data/profet_birth_status_config.json",
