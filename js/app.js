@@ -1411,11 +1411,11 @@
       };
     });
     const baseProjected=projection[0]?.households||0;
-    const reserve=Math.max(0,Math.min(.2,(+$("housingReservePct").value||0)/100));
+    const reservePct=+$("housingReservePct").value||0;
     const basePlanned=projection.length?plannedHousingCumulative(geo,projection[0].year):0;
     const demandRows=projection.map(r=>{
       const newHouseholds=r.households-baseProjected;
-      const required=reserve<1?newHouseholds/(1-reserve):newHouseholds;
+      const required=M.housingRequiredDwellings(newHouseholds,reservePct);
       const planned=plannedHousingCumulative(geo,r.year)-basePlanned;
       return {...r,newHouseholds,requiredNewDwellings:required,plannedAdditions:planned,balance:planned-required};
     });
