@@ -11,8 +11,11 @@ scripts/run_rolling_backtest.js.
 """
 from __future__ import annotations
 
+import csv
 import json
 import math
+import re
+from collections import defaultdict
 from pathlib import Path
 
 import build_model_data as b
@@ -43,6 +46,204 @@ ORIGINS = {
         "births_key": "backtest_births_2021",
     },
 }
+
+CONSISTENCY_GEOS_CONFIG = ROOT / "data" / "scb_consistency_geographies.json"
+CONSISTENCY_ADJUSTMENT_CONFIG = ROOT / "data" / "scb_consistency_adjustment_config.json"
+CONSISTENCY_VINTAGE_KEYS = {
+    2020: "regional_flows_benchmark_2020",
+    2021: "regional_flows_benchmark_2021",
+}
+
+
+def _num(value):
+    text = str(value or "").strip().replace(" ", "").replace(",", ".")
+    if text in ("", "..", "-", "—"):
+        return 0.0
+    try:
+        return float(text)
+    except ValueError:
+        return 0.0
+
+
+def _sniff(path):
+    text = path.read_text(encoding="utf-8")
+    try:
+        return csv.Sniffer().sniff(text[:10000], delimiters=";,\t,")
+    except csv.Error:
+        return csv.excel
+
+
+def consistency_support_geographies():
+    cfg = json.loads(CONSISTENCY_GEOS_CONFIG.read_text(encoding="utf-8"))
+    return cfg["county"]["code"], set(cfg["municipalities"])
+
+
+def regional_consistency_targets(origin, end_year):
+    """Frozen SCB county/municipality flow targets for one forecast vintage."""
+    key = CONSISTENCY_VINTAGE_KEYS.get(origin)
+    if not key:
+        return {}
+    manifest = json.loads((b.RAW / "manifest.json").read_text(encoding="utf-8"))
+    info = (manifest.get("files") or {}).get(key) or {}
+    labels = info.get("content_labels") or {}
+    by_label = {str(v).strip().lower(): k for k, v in labels.items()}
+    codes = {
+        "domesticIn": next((k for label, k in by_label.items() if "inrikes inflyttning" in label), None),
+        "domesticOut": next((k for label, k in by_label.items() if "inrikes utflyttning" in label), None),
+        "immigration": next((k for label, k in by_label.items() if label == "invandring"), None),
+        "emigration": next((k for label, k in by_label.items() if label == "utvandring"), None),
+    }
+    if any(v is None for v in codes.values()):
+        raise RuntimeError(f"Missing consistency flow codes for {key}: {codes}")
+
+    county, municipalities = consistency_support_geographies()
+    required = municipalities | {county}
+    selected = set(((info.get("selection") or {}).get("Region") or []))
+    if not required.issubset(selected):
+        raise RuntimeError(
+            f"Frozen {key} is missing locked Norrbotten consistency geographies."
+        )
+
+    path = b.RAW / f"{key}.csv"
+    text = path.read_text(encoding="utf-8")
+    reader = csv.DictReader(text.splitlines(), dialect=_sniff(path))
+    fields = reader.fieldnames or []
+    cols = []
+    for header in fields:
+        match = re.match(r"^(\S+)\s+(20\d{2})$", str(header or "").strip())
+        if match and match.group(1) in set(codes.values()):
+            cols.append((header, match.group(1), int(match.group(2))))
+    totals = defaultdict(float)
+    for row in reader:
+        geo = str(row.get("Region", "")).strip()
+        if geo not in required:
+            continue
+        for col, code, year in cols:
+            if origin < year <= end_year:
+                totals[(geo, code, year)] += _num(row.get(col))
+
+    targets = {}
+    for year in range(origin + 1, end_year + 1):
+        county_in = totals[(county, codes["domesticIn"], year)]
+        county_out = totals[(county, codes["domesticOut"], year)]
+        municipal_in = sum(totals[(geo, codes["domesticIn"], year)] for geo in municipalities)
+        municipal_out = sum(totals[(geo, codes["domesticOut"], year)] for geo in municipalities)
+        within_in = max(0.0, municipal_in - county_in)
+        within_out = max(0.0, municipal_out - county_out)
+        targets[year] = {
+            ("rest_sweden", "in"): county_in,
+            ("rest_sweden", "out"): county_out,
+            ("county", "in"): 0.5 * (within_in + within_out),
+            ("county", "out"): 0.5 * (within_in + within_out),
+            ("international", "in"): totals[(county, codes["immigration"], year)],
+            ("international", "out"): totals[(county, codes["emigration"], year)],
+        }
+    return targets
+
+
+def profet_consistency_factor_rows(
+    origin,
+    end_year,
+    profile_geos,
+    population_birth_status,
+    in_levels,
+    out_risks,
+    international_in,
+    national_exposure,
+    national_immigration,
+):
+    """Build common Norrbotten factors that preserve locked county totals.
+
+    The factors are derived from the unadjusted Profet development candidate
+    across all 14 Norrbotten municipalities and frozen county targets from the
+    same SCB vintage. They are not used by the production net10 baseline.
+    """
+    targets = regional_consistency_targets(origin, end_year)
+    if not targets:
+        return []
+
+    statuses = ("sweden_born", "foreign_born")
+    rows = []
+    base_totals = {
+        (geo, status): sum(
+            population_birth_status.get((geo, origin, sex, age, status), 0.0)
+            for sex in ("K", "M")
+            for age in range(101)
+        )
+        for geo in profile_geos
+        for status in statuses
+    }
+
+    level_map = {
+        (r["geo"], r["status"], r["leg"]): float(r.get("value") or 0.0)
+        for r in in_levels
+        if r["geo"] in profile_geos
+    }
+    intl_share_map = {}
+    for r in international_in:
+        if r["geo"] not in profile_geos:
+            continue
+        key = (r["geo"], r["status"])
+        intl_share_map[key] = max(
+            intl_share_map.get(key, 0.0),
+            float(r.get("municipalityShare") or 0.0),
+        )
+
+    out_expected = defaultdict(float)
+    for r in out_risks:
+        geo = r["geo"]
+        if geo not in profile_geos:
+            continue
+        pop = population_birth_status.get(
+            (geo, origin, r["sex"], int(r["age"]), r["status"]), 0.0
+        )
+        out_expected[(r["leg"], r["status"])] += (
+            max(0.0, float(r.get("value") or 0.0)) * max(0.0, pop)
+        )
+
+    for year in range(origin + 1, end_year + 1):
+        expected = defaultdict(float)
+        for geo in profile_geos:
+            for status in statuses:
+                national_pop = sum(
+                    value
+                    for (y, st, _sex, _age), value in national_exposure.items()
+                    if y == year and st == status
+                )
+                rest_pop = max(0.0, national_pop - base_totals[(geo, status)])
+                for leg in ("county", "rest_sweden"):
+                    expected[(leg, "in")] += (
+                        max(0.0, level_map.get((geo, status, leg), 0.0))
+                        * rest_pop
+                    )
+                expected[("international", "in")] += (
+                    max(0.0, national_immigration.get((year, status), 0.0))
+                    * max(0.0, intl_share_map.get((geo, status), 0.0))
+                )
+
+        for leg in ("county", "rest_sweden", "international"):
+            expected[(leg, "out")] = sum(
+                value
+                for (l, _status), value in out_expected.items()
+                if l == leg
+            )
+
+        for leg in ("county", "rest_sweden", "international"):
+            for direction in ("in", "out"):
+                target = max(0.0, targets[year][(leg, direction)])
+                model_expected = max(0.0, expected[(leg, direction)])
+                factor = 1.0 if model_expected <= 0 else target / model_expected
+                rows.append({
+                    "year": year,
+                    "leg": leg,
+                    "direction": direction,
+                    "value": factor,
+                    "target": target,
+                    "modelExpected": model_expected,
+                    "source": "locked Norrbotten municipality-to-county consistency adjustment",
+                })
+    return rows
+
 
 
 def historical_population():
