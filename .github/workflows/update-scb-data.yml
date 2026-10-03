@@ -233,6 +233,9 @@ jobs:
       - name: Validate critical source manifest integrity
         run: python scripts/validate_source_manifest_integrity.py
 
+      - name: Validate locked localization candidates on 2025 holdout
+        run: python scripts/validate_localization_2025.py
+
       - name: Build model maturity report
         run: python scripts/build_model_maturity.py
 
