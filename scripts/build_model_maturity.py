@@ -299,47 +299,93 @@ def main():
         and risk_n1["scbRiskFlow"]["netMigrationMAE"] < risk_n1["net10Baseline"]["netMigrationMAE"]
     )
     comps.append(component(
-        policy, "scb_risk_flow", 2, "development", False,
+        policy, "scb_risk_flow", 2,
+        "validated_candidate" if risk_better_n1 else "rejected_superseded",
+        False,
         [gate(
             "Current age/sex risk-flow beats net10 at n+1",
             risk_better_n1,
-            f"population {risk_n1['scbRiskFlow']['populationMAE']} vs {risk_n1['net10Baseline']['populationMAE']}; "
-            f"migration {risk_n1['scbRiskFlow']['netMigrationMAE']} vs {risk_n1['net10Baseline']['netMigrationMAE']}"
+            f"candidate population/migration MAE="
+            f"{risk_n1['scbRiskFlow']['populationMAE']}/"
+            f"{risk_n1['scbRiskFlow']['netMigrationMAE']}; "
+            f"net10={risk_n1['net10Baseline']['populationMAE']}/"
+            f"{risk_n1['net10Baseline']['netMigrationMAE']}; "
+            f"passed={risk_better_n1}"
         )],
-        "Supersede with the more faithful Profet implementation rather than tuning this approximation."
+        (
+            "Lock independent external validation before any production consideration."
+            if risk_better_n1
+            else "Closed: do not retune this approximation; retain results as evidence and use net10 in production."
+        )
     ))
 
-    # Profet, birth status, consistency, scenario are structural states.
+    # Profet is an alternative architecture. It is not promoted merely because
+    # its pieces are implemented: the locked forecast-quality gates must pass.
     profet_cfg = load(ROOT / "data" / "profet_flow_config.json")
+    profet_birth_diag = rolling.get("profetBirthStatusDiagnostic", {})
+    profet_birth_summary = profet_birth_diag.get("summary", {}).get("2580", {})
+    profet_consistency_diag = rolling.get("profetConsistencyDiagnostic", {})
+    profet_consistency_gate = (
+        profet_consistency_diag.get("promotionGate") or {}
+    ).get("passed") is True
+    profet_birth_n1 = profet_birth_summary.get("oneYear") or {}
+    profet_birth_n2 = profet_birth_summary.get("twoYear") or {}
+    profet_birth_gate = bool(
+        profet_birth_n1 and profet_birth_n2
+        and profet_birth_n1["profetBirthStatus"]["populationMAE"]
+            < profet_birth_n1["net10Baseline"]["populationMAE"]
+        and profet_birth_n1["profetBirthStatus"]["netMigrationMAE"]
+            < profet_birth_n1["net10Baseline"]["netMigrationMAE"]
+        and profet_birth_n2["profetBirthStatus"]["populationMAE"]
+            <= profet_birth_n2["net10Baseline"]["populationMAE"]
+        and profet_birth_n2["profetBirthStatus"]["netMigrationMAE"]
+            <= profet_birth_n2["net10Baseline"]["netMigrationMAE"]
+    )
+    profet_current_architecture_passes = (
+        risk_better_n1 and profet_birth_gate and profet_consistency_gate
+    )
+    profet_has_results = bool(profet_birth_summary and profet_consistency_diag.get("summary"))
     comps.append(component(
-        policy, "profet_flow", 2, "development", False,
+        policy, "profet_flow", 2,
+        (
+            "development" if not profet_has_results
+            else "validated_candidate" if profet_current_architecture_passes
+            else "rejected_current_architecture"
+        ),
+        False,
         [
-            gate("Method locked from public sources", "locked" in profet_cfg.get("status", ""), profet_cfg.get("status")),
             gate(
-                "Birth-status state implemented in development cohort engine",
-                bool(rolling.get("profetBirthStatusDiagnostic", {}).get("summary", {}).get("2580")),
-                (
-                    "Rolling-origin birth-status candidate available"
-                    if rolling.get("profetBirthStatusDiagnostic", {}).get("summary", {}).get("2580")
-                    else "Awaiting first rolling-origin run"
-                )
+                "Method locked from public sources",
+                "locked" in profet_cfg.get("status", ""),
+                profet_cfg.get("status")
             ),
             gate(
-                "Municipality→county consistency layer integrated in development engine",
-                bool(rolling.get("profetConsistencyDiagnostic", {}).get("summary", {}).get("2580")),
-                (
-                    "With/without rolling-origin diagnostic available"
-                    if rolling.get("profetConsistencyDiagnostic", {}).get("summary", {}).get("2580")
-                    else "Awaiting integrated consistency run"
-                )
+                "Base SCB-risk migration increment passes locked comparator",
+                risk_better_n1,
+                f"passed={risk_better_n1}"
+            ),
+            gate(
+                "Birth-status increment passes locked n+1/n+2 comparator",
+                profet_birth_gate,
+                f"passed={profet_birth_gate}"
+            ),
+            gate(
+                "Municipality→county consistency increment passes locked accuracy comparator",
+                profet_consistency_gate,
+                f"passed={profet_consistency_gate}"
             ),
             gate(
                 "County→national consistency layer active",
                 False,
-                "Not active until all-county support is available."
+                "Not implemented because the preceding forecast-quality increments did not qualify for promotion.",
+                required=False
             )
         ],
-        "Keep Profet in development until birth-status and full municipality→county→national consistency gates are satisfied."
+        (
+            "Lock a genuinely new Profet architecture before any new outcome evaluation; do not retune the consumed risk, birth-status or consistency candidates."
+            if profet_has_results and not profet_current_architecture_passes
+            else "Continue only after all locked incremental gates pass."
+        )
     ))
 
     birth_diag = rolling.get("profetBirthStatusDiagnostic", {}).get("summary", {})
@@ -355,17 +401,25 @@ def main():
         c4 = birth_n2["profetBirthStatus"]["netMigrationMAE"] <= birth_n2["net10Baseline"]["netMigrationMAE"]
         birth_gate_checks = [c1, c2, c3, c4]
         birth_evidence = [
-            f"n+1 population {birth_n1['profetBirthStatus']['populationMAE']} < {birth_n1['net10Baseline']['populationMAE']}",
-            f"n+1 migration {birth_n1['profetBirthStatus']['netMigrationMAE']} < {birth_n1['net10Baseline']['netMigrationMAE']}",
-            f"n+2 population {birth_n2['profetBirthStatus']['populationMAE']} <= {birth_n2['net10Baseline']['populationMAE']}",
-            f"n+2 migration {birth_n2['profetBirthStatus']['netMigrationMAE']} <= {birth_n2['net10Baseline']['netMigrationMAE']}",
+            f"n+1 population candidate={birth_n1['profetBirthStatus']['populationMAE']}, "
+            f"net10={birth_n1['net10Baseline']['populationMAE']}, passed={c1}",
+            f"n+1 migration candidate={birth_n1['profetBirthStatus']['netMigrationMAE']}, "
+            f"net10={birth_n1['net10Baseline']['netMigrationMAE']}, passed={c2}",
+            f"n+2 population candidate={birth_n2['profetBirthStatus']['populationMAE']}, "
+            f"net10={birth_n2['net10Baseline']['populationMAE']}, passed={c3}",
+            f"n+2 migration candidate={birth_n2['profetBirthStatus']['netMigrationMAE']}, "
+            f"net10={birth_n2['net10Baseline']['netMigrationMAE']}, passed={c4}",
         ]
     birth_gate = len(birth_gate_checks) == 4 and all(birth_gate_checks)
     birth_has_rolling = bool(birth_n1 and birth_n2)
     birth_level = 3 if birth_gate else 2
     comps.append(component(
         policy, "birth_status", birth_level,
-        "validated_candidate" if birth_gate else "development", False,
+        (
+            "validated_candidate" if birth_gate
+            else "rejected" if birth_has_rolling
+            else "development"
+        ), False,
         [
             gate(
                 "Source data configured",
@@ -386,7 +440,7 @@ def main():
         (
             "Lock new external municipalities before any level-4 evaluation."
             if birth_gate
-            else "Keep at level 2; do not retune birth-status parameters from these outcomes."
+            else "Closed: keep at level 2, do not retune birth-status parameters from these consumed outcomes."
         )
     ))
 
@@ -415,14 +469,23 @@ def main():
     consistency_accuracy = rolling.get("profetConsistencyDiagnostic", {})
     consistency_accuracy_gate = consistency_accuracy.get("promotionGate") or {}
     consistency_accuracy_ok = consistency_accuracy_gate.get("passed") is True
+    # Structural mass-balance checks are necessary but not sufficient for
+    # level 3 under the maturity policy. Level 3 requires a passed rolling
+    # forecast-quality comparator.
     consistency_level = (
-        3 if consistency_vintage_ok
-        else 2 if consistency_mass_ok
+        3 if consistency_accuracy_ok
+        else 2 if consistency_mass_ok or consistency_vintage_ok
         else 1
+    )
+    consistency_lifecycle = (
+        "validated_candidate" if consistency_accuracy_ok
+        else "rejected" if consistency_accuracy_gate
+        else "development" if consistency_mass_ok or consistency_vintage_ok
+        else "diagnostic"
     )
     comps.append(component(
         policy, "consistency_adjustment", consistency_level,
-        "validated_candidate" if consistency_vintage_ok else "development" if consistency_mass_ok else "diagnostic", False,
+        consistency_lifecycle, False,
         [
             gate(
                 "Municipality-county consistency diagnostic exists",
@@ -465,12 +528,12 @@ def main():
             )
         ],
         (
-            "Keep at level 3 and add county→national support plus an external production holdout before any level-4 promotion."
+            "Add county→national support and an untouched external holdout before any level-4 promotion."
             if consistency_accuracy_ok
-            else "Keep at level 3; do not tune the adjustment from these outcomes. Review the locked with/without accuracy comparison."
-            if consistency_vintage_ok
-            else "Complete frozen-vintage structural validation before model integration."
-            if consistency_mass_ok
+            else "Closed at level 2: structural accounting passed but the locked with/without forecast-accuracy gate failed; do not retune from these outcomes."
+            if consistency_accuracy_gate
+            else "Complete a locked with/without rolling forecast comparison before any level-3 promotion."
+            if consistency_mass_ok or consistency_vintage_ok
             else "Build the locked mass-preserving municipality→county adjustment."
         )
     ))
