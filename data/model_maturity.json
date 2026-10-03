@@ -28,8 +28,8 @@
   "summary": {
     "componentCount": 13,
     "byLevel": {
-      "1": 3,
-      "2": 5,
+      "1": 2,
+      "2": 6,
       "3": 0,
       "4": 5
     },
@@ -249,9 +249,9 @@
           "evidence": "method_locked_from_public_profet_and_scb_sources_before_new_results"
         },
         {
-          "label": "Birth-status state active in cohort engine",
-          "passed": false,
-          "evidence": "not_yet_active_in_population_state"
+          "label": "Birth-status state implemented in development cohort engine",
+          "passed": true,
+          "evidence": "Rolling-origin birth-status candidate available"
         },
         {
           "label": "County/national consistency adjustment active",
@@ -264,9 +264,9 @@
     {
       "key": "birth_status",
       "label": "Inrikes/utrikes född som modellstatus",
-      "maturityLevel": 1,
-      "maturityName": "Diagnostik",
-      "lifecycle": "diagnostic",
+      "maturityLevel": 2,
+      "maturityName": "Utvecklingskandidat",
+      "lifecycle": "development",
       "productionActive": false,
       "targetLevel": 4,
       "productionGatePassed": false,
@@ -275,10 +275,20 @@
         {
           "label": "Source data configured",
           "passed": true,
-          "evidence": "Population and migration by birth status are already extracted; state dimension is not active."
+          "evidence": "Population and all six migration flows are available by Swedish-/foreign-born, age and sex."
+        },
+        {
+          "label": "Birth-status state runs in the cohort engine",
+          "passed": true,
+          "evidence": "Rolling-origin Profet birth-status diagnostic generated"
+        },
+        {
+          "label": "Pre-locked Luleå n+1/n+2 promotion gate",
+          "passed": false,
+          "evidence": "n+1 population 121.1 < 81.2; n+1 migration 161.3 < 121.4; n+2 population 183.2 <= 107.9; n+2 migration 75.1 <= 106.4"
         }
       ],
-      "nextAction": "Introduce Swedish-/foreign-born state without simultaneously changing other migration assumptions."
+      "nextAction": "Keep at level 2; do not retune birth-status parameters from these outcomes."
     },
     {
       "key": "consistency_adjustment",
