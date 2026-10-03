@@ -42,6 +42,32 @@
     `).join("");
   }
 
+  function niceAxisDomain(min,max,target=5){
+    min=Number(min); max=Number(max);
+    if(!Number.isFinite(min)||!Number.isFinite(max)) return {min:0,max:1,ticks:[0,1]};
+    if(max<min)[min,max]=[max,min];
+    if(Math.abs(max-min)<1e-12){
+      const pad=Math.max(1,Math.abs(max)*0.1);
+      min-=pad; max+=pad;
+    }
+    const raw=(max-min)/Math.max(1,target-1);
+    const power=Math.pow(10,Math.floor(Math.log10(Math.max(raw,1e-12))));
+    const norm=raw/power;
+    const factor=norm<=1?1:norm<=2?2:norm<=5?5:10;
+    const step=factor*power;
+    let niceMin=Math.floor(min/step)*step;
+    let niceMax=Math.ceil(max/step)*step;
+    if(Math.abs(niceMin)<1e-12) niceMin=0;
+    if(Math.abs(niceMax)<1e-12) niceMax=0;
+    if(niceMax<=niceMin) niceMax=niceMin+step;
+    const ticks=[];
+    for(let v=niceMin,guard=0;v<=niceMax+step*1e-9 && guard<100;v+=step,guard++){
+      const clean=Math.abs(v-Math.round(v))<1e-9?Math.round(v):Number(v.toFixed(6));
+      ticks.push(clean);
+    }
+    return {min:niceMin,max:niceMax,ticks};
+  }
+
   const defaultHousing=[{
     active:false,year:2030,municipality:"2580",dwellingType:"småhus",
     tenure:"äganderätt",size:"5+",dwellings:1000,completionPct:100,
@@ -645,6 +671,7 @@
 
   function renderDetailedAgeAnalysis(){
     const geo=$("geo").value, w=+$("window").value;
+    const geoLabel=data.geographies?.find(g=>g.code===geo)?.name||"Lokal";
     const fert=(data.fertilityRates||[])
       .filter(r=>r.geo===geo && +r.window===w && r.year==null)
       .sort((a,b)=>+a.age-+b.age);
@@ -661,11 +688,23 @@
         <td>${r.rawCellFactor==null?"–":pct.format(r.rawCellFactor*100)+" %"}</td>
         <td>${fmt1.format(Number(r.value||0)*1000)}</td>
       </tr>`).join("");
+
+      const national=fert.map(r=>Number(r.nationalRate||0)*1000);
+      const local=fert.map(r=>{
+        const nat=Number(r.nationalRate||0), ratio=Number(r.rawCellFactor);
+        return Number.isFinite(ratio)?nat*ratio*1000:null;
+      });
+      drawAgeLineChart("fertilityRateChart",fert.map(r=>+r.age),[
+        {name:`${geoLabel} observerad`,values:local,cls:"lineVariation"},
+        {name:"Riket",values:national,cls:"lineSensitivity"}
+      ],{includeZero:true,xLabel:"Ålder",hoverLabel:"Ålder",valueDigits:1});
+
       drawAgeLineChart("fertilityWeightChart",fert.map(r=>+r.age),[
         {name:"Lokal vikt",values:fert.map(r=>Number(r.cellLocalWeight||0)*100),cls:"lineLocalWeight",suffix:" %"}
       ],{yMin:0,yMax:100,xLabel:"Ålder",valueDigits:1});
     }else{
       $("fertilityAgeTable").querySelector("tbody").innerHTML="";
+      $("fertilityRateChart").innerHTML="";
       $("fertilityWeightChart").innerHTML="";
     }
 
@@ -673,22 +712,45 @@
     const women=ages.map(age=>mort.find(r=>+r.age===age&&r.sex==="K"));
     const men=ages.map(age=>mort.find(r=>+r.age===age&&r.sex==="M"));
     $("mortalityAgeTable").querySelector("tbody").innerHTML=ages.map((age,i)=>{
-      const k=women[i],m=men[i];
+      const femaleRow=women[i], maleRow=men[i];
       return `<tr>
         <td>${age===100?"100+":age}</td>
-        <td>${k?.cellLocalWeight==null?"–":pct.format(k.cellLocalWeight*100)+" %"}</td>
-        <td>${m?.cellLocalWeight==null?"–":pct.format(m.cellLocalWeight*100)+" %"}</td>
-        <td>${k?.cellExpectedEvents==null?"–":fmt1.format(k.cellExpectedEvents)}</td>
-        <td>${m?.cellExpectedEvents==null?"–":fmt1.format(m.cellExpectedEvents)}</td>
-        <td>${k?.rawCellFactor==null?"–":pct.format(k.rawCellFactor*100)+" %"}</td>
-        <td>${m?.rawCellFactor==null?"–":pct.format(m.rawCellFactor*100)+" %"}</td>
+        <td>${femaleRow?.cellLocalWeight==null?"–":pct.format(femaleRow.cellLocalWeight*100)+" %"}</td>
+        <td>${maleRow?.cellLocalWeight==null?"–":pct.format(maleRow.cellLocalWeight*100)+" %"}</td>
+        <td>${femaleRow?.cellExpectedEvents==null?"–":fmt1.format(femaleRow.cellExpectedEvents)}</td>
+        <td>${maleRow?.cellExpectedEvents==null?"–":fmt1.format(maleRow.cellExpectedEvents)}</td>
+        <td>${femaleRow?.rawCellFactor==null?"–":pct.format(femaleRow.rawCellFactor*100)+" %"}</td>
+        <td>${maleRow?.rawCellFactor==null?"–":pct.format(maleRow.rawCellFactor*100)+" %"}</td>
       </tr>`;
     }).join("");
+
     if(ages.length){
+      const riskPer1000=r=>{
+        if(!r) return null;
+        const hazard=Number(r.nationalHazard||0);
+        return (1-Math.exp(-Math.max(0,hazard)))*1000;
+      };
+      const localRiskPer1000=r=>{
+        if(!r) return null;
+        const hazard=Number(r.nationalHazard||0);
+        const ratio=Number(r.rawCellFactor);
+        if(!Number.isFinite(ratio)) return null;
+        return (1-Math.exp(-Math.max(0,hazard*ratio)))*1000;
+      };
+      drawAgeLineChart("mortalityRateChart",ages,[
+        {name:`${geoLabel} kvinnor`,values:women.map(localRiskPer1000),cls:"lineVariation"},
+        {name:"Riket kvinnor",values:women.map(riskPer1000),cls:"lineWomen"},
+        {name:`${geoLabel} män`,values:men.map(localRiskPer1000),cls:"lineSensitivity"},
+        {name:"Riket män",values:men.map(riskPer1000),cls:"lineMen"}
+      ],{includeZero:true,xLabel:"Ålder",hoverLabel:"Ålder",valueDigits:1});
+
       drawAgeLineChart("mortalityWeightChart",ages,[
         {name:"Kvinnor lokal vikt",values:women.map(r=>Number(r?.cellLocalWeight||0)*100),cls:"lineWomen",suffix:" %"},
         {name:"Män lokal vikt",values:men.map(r=>Number(r?.cellLocalWeight||0)*100),cls:"lineMen",suffix:" %"}
       ],{yMin:0,yMax:100,xLabel:"Ålder",valueDigits:1});
+    }else{
+      $("mortalityRateChart").innerHTML="";
+      $("mortalityWeightChart").innerHTML="";
     }
   }
 
@@ -1041,13 +1103,15 @@
     let max=options.yMax!=null?options.yMax:Math.max(...all);
     if(options.includeZero){min=Math.min(0,min);max=Math.max(0,max);}
     if(!Number.isFinite(min))min=0;if(!Number.isFinite(max))max=1;
+    const domain=niceAxisDomain(min,max,5);
+    min=domain.min; max=domain.max;
     const span=Math.max(1e-9,max-min);
     const xmin=Math.min(...xValues),xmax=Math.max(...xValues),xspan=Math.max(1,xmax-xmin);
     const x=v=>p+(v-xmin)*(W-2*p)/xspan;
     const y=v=>H-p-(v-min)*(H-2*p)/span;
 
-    const grid=[0,.25,.5,.75,1].map(t=>{
-      const yy=p+t*(H-2*p),val=max-t*span;
+    const grid=domain.ticks.map(val=>{
+      const yy=y(val);
       return `<line x1="${p}" y1="${yy}" x2="${W-p}" y2="${yy}" class="gridline"/><text x="8" y="${yy+4}" class="axisText">${fmt1.format(val)}</text>`;
     }).join("");
     const lines=series.map(s=>{
