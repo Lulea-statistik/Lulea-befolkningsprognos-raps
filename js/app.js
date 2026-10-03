@@ -1696,7 +1696,20 @@
       return "<tr><td>n+"+h+" fruktsamhet</td><td>"+markBest(fvh,0)+"</td><td>"+markBest(fvh,1)+"</td><td>"+markBest(fvh,2)+"</td><td>"+markBest(fvh,3)+"</td><td>"+markBest(fvh,4)+"</td><td>"+markBest(fvh,5)+"</td><td>"+markBest(fvh,6)+"</td><td>"+markBest(fvh,7)+"</td></tr>"+
         "<tr><td>n+"+h+" dödlighet</td><td>"+markBest(mvh,0)+"</td><td>"+markBest(mvh,1)+"</td><td colspan=\"6\">Ej testat – SCB använder annan WLS-metod för dödsrisker</td></tr>";
     }).join("");
+    const componentByKey=key=>(maturity?.components||[]).find(x=>x.key===key);
+    const fertStatus=componentByKey("fertility_spline_candidate");
+    const mortStatus=componentByKey("mortality_eb_candidate");
+    const migStatus=componentByKey("migration_spline_candidate");
+    const candidateStatusMarkup=(fertStatus||mortStatus||migStatus)
+      ? "<div class=\"stackedMetrics\" style=\"margin-bottom:12px\">"+
+        (fertStatus?"<div class=\"kv\"><span>Fruktsamhet – kubisk spline λ=10</span><strong>Nivå "+fertStatus.maturityLevel+" · "+fertStatus.maturityName+"</strong></div>":"")+
+        (mortStatus?"<div class=\"kv\"><span>Dödlighet – Empirical Bayes</span><strong>Nivå "+mortStatus.maturityLevel+" · "+mortStatus.maturityName+"</strong></div>":"")+
+        (migStatus?"<div class=\"kv\"><span>Migration – kubisk spline</span><strong>Nivå "+migStatus.maturityLevel+" · "+migStatus.lifecycle+"</strong></div>":"")+
+        "</div>"+
+        "<p class=\"hint\"><strong>Produktionsstatus:</strong> fruktsamhets-splinen är validerad kandidat men ännu inte produktionsaktiv. Dödlighets-EB och migrations-splinen är stängda på nivå 2 efter låsta valideringsgrindar.</p>"
+      : "";
     el.innerHTML=
+      candidateStatusMarkup+
       "<p class=\"hint\">Kalibreringsfönster: "+w+" år. Lägre MAE är bättre. Spline 1/10/100 är en penaliserad åldersutjämningskänslighet, inte en exakt reproduktion av SCB:s interna utjämningsfaktor.</p>"+
       "<div class=\"analysisTableWrap\"><table class=\"miniTable\"><thead><tr><th>Komponent</th><th>Nuvarande</th><th>Empirical Bayes</th><th>Diskret penaliserad 1</th><th>Diskret penaliserad 10</th><th>Diskret penaliserad 100</th><th>Kubisk spline 1</th><th>Kubisk spline 10</th><th>Kubisk spline 100</th></tr></thead><tbody>"+
       "<tr><td>Fruktsamhet – födda MAE</td><td>"+markBest(fv,0)+"</td><td>"+markBest(fv,1)+"</td><td>"+markBest(fv,2)+"</td><td>"+markBest(fv,3)+"</td><td>"+markBest(fv,4)+"</td><td>"+markBest(fv,5)+"</td><td>"+markBest(fv,6)+"</td><td>"+markBest(fv,7)+"</td></tr>"+
