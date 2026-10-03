@@ -12,6 +12,7 @@ VALIDATION = ROOT / "data" / "model_validation.json"
 HOLDOUT = ROOT / "data" / "backtests" / "component_flow_holdout.json"
 SMOOTHING = ROOT / "data" / "backtests" / "migration_age_smoothing.json"
 CONSISTENCY_ADJUSTMENT = ROOT / "data" / "backtests" / "scb_consistency_adjustment.json"
+CONSISTENCY_VINTAGE = ROOT / "data" / "backtests" / "scb_consistency_vintage_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -324,10 +325,24 @@ def main():
         consistency_adjustment.get("massPreserving") is True
         and float(consistency_adjustment.get("maxAbsoluteResidual", 1.0)) < 1e-8
     )
-    consistency_level = 2 if consistency_mass_ok else 1
+    consistency_vintage = (
+        load(CONSISTENCY_VINTAGE)
+        if CONSISTENCY_VINTAGE.exists()
+        else {}
+    )
+    consistency_vintage_ok = (
+        consistency_vintage.get("allRequiredVintagesAvailable") is True
+        and consistency_vintage.get("allPassed") is True
+        and float(consistency_vintage.get("maxAbsoluteResidual", 1.0)) < 1e-8
+    )
+    consistency_level = (
+        3 if consistency_vintage_ok
+        else 2 if consistency_mass_ok
+        else 1
+    )
     comps.append(component(
         policy, "consistency_adjustment", consistency_level,
-        "development" if consistency_mass_ok else "diagnostic", False,
+        "validated_candidate" if consistency_vintage_ok else "development" if consistency_mass_ok else "diagnostic", False,
         [
             gate(
                 "Municipality-county consistency diagnostic exists",
@@ -346,10 +361,24 @@ def main():
                 )
                 if consistency_adjustment
                 else "Awaiting generated adjustment diagnostic."
+            ),
+            gate(
+                "Locked adjustment passes frozen SCB 2020/2021/2022 vintages",
+                consistency_vintage_ok,
+                (
+                    "vintages="
+                    + str(consistency_vintage.get("availableVintages"))
+                    + "; max residual="
+                    + str(consistency_vintage.get("maxAbsoluteResidual"))
+                )
+                if consistency_vintage
+                else "Awaiting frozen-vintage validation."
             )
         ],
         (
-            "Add vintage-correct validation of the locked municipality→county adjustment; keep county→national inactive until all-county support is available."
+            "Integrate the validated municipality→county layer into a Profet development run and compare forecast accuracy with/without adjustment; keep county→national inactive until all-county support is available."
+            if consistency_vintage_ok
+            else "Complete frozen-vintage structural validation before model integration."
             if consistency_mass_ok
             else "Build the locked mass-preserving municipality→county adjustment."
         )
