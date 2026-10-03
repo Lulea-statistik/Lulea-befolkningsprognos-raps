@@ -32,6 +32,7 @@ SCENARIO_MIGRATION_PROFILES_VALIDATION = ROOT / "data" / "backtests" / "scenario
 MODEL_DATA_INTEGRITY_VALIDATION = ROOT / "data" / "backtests" / "model_data_integrity_validation.json"
 SCENARIO_PHASE_IN_VALIDATION = ROOT / "data" / "backtests" / "scenario_phase_in_validation.json"
 POPULATION_ACCOUNTING_VALIDATION = ROOT / "data" / "backtests" / "population_accounting_identity_validation.json"
+HOUSING_OCCUPANCY_DEFAULTS_VALIDATION = ROOT / "data" / "backtests" / "housing_occupancy_defaults_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -1349,6 +1350,49 @@ def main():
             else "Block production maturity until all annual accounting residuals are zero within tolerance."
             if accounting_has_results
             else "Run the locked population-accounting validation."
+        )
+    ))
+
+    occupancy_cfg = load(ROOT / "data" / "housing_occupancy_defaults_config.json")
+    occupancy_validation = (
+        load(HOUSING_OCCUPANCY_DEFAULTS_VALIDATION)
+        if HOUSING_OCCUPANCY_DEFAULTS_VALIDATION.exists()
+        else {}
+    )
+    occupancy_gate = occupancy_validation.get("allPassed") is True
+    occupancy_has_results = bool(occupancy_validation.get("checks"))
+    comps.append(component(
+        policy, "housing_occupancy_defaults",
+        4 if occupancy_gate else 2 if occupancy_has_results else 1,
+        (
+            "production_support" if occupancy_gate
+            else "rejected" if occupancy_has_results
+            else "diagnostic"
+        ),
+        occupancy_gate,
+        [
+            gate(
+                "SCB occupancy-default policy is explicitly documented",
+                occupancy_cfg.get("status") == "production_occupancy_support_gate_locked",
+                occupancy_cfg.get("status")
+            ),
+            gate(
+                "Supported auto combinations, positivity, source and fallback precedence validate",
+                occupancy_gate,
+                (
+                    f"checks={occupancy_validation.get('checks')}; "
+                    f"local={occupancy_validation.get('localResolvedCells')}; "
+                    f"riketFallback={occupancy_validation.get('swedenFallbackCells')}"
+                    if occupancy_has_results else "Awaiting validation"
+                )
+            )
+        ],
+        (
+            "Keep SCB auto as the preferred persons-per-dwelling source; require explicit manual input whenever no supported SCB cell exists."
+            if occupancy_gate
+            else "Keep below production maturity until all supported cells resolve without hidden imputation."
+            if occupancy_has_results
+            else "Run the locked housing occupancy-default validation."
         )
     ))
 
