@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.1.0",
+  "schemaVersion": "0.2.0",
   "source": "rolling_2018_2024",
   "windows": [
     3,
@@ -5187,6 +5187,942 @@
                     "fullLocalAbsDeathsError": 8.8
                   }
                 ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "localizationMethodDiagnostic": {
+    "note": "Development diagnostic only. Compares the current production information weighting with a method-of-moments empirical-Bayes shrinkage candidate and, for fertility only, penalized second-difference age-curve smoothing inspired by SCB smoothing-spline principles. The spline proxy is not claimed to reproduce SCB internal smoothing factors. Penalties 1/10/100 are reported as sensitivity values and are not a promotion rule.",
+    "independentHoldout": false,
+    "fertility": {
+      "summary": {
+        "2514": {
+          "3": {
+            "observations": 12,
+            "currentBirthsMAE": 7.8,
+            "empiricalBayesBirthsMAE": 11.1,
+            "spline1BirthsMAE": 10.3,
+            "spline10BirthsMAE": 10.6,
+            "spline100BirthsMAE": 10.7,
+            "byHorizon": {
+              "1": {
+                "currentBirthsMAE": 8.1,
+                "empiricalBayesBirthsMAE": 6.1,
+                "spline1BirthsMAE": 14.9,
+                "spline10BirthsMAE": 15.5,
+                "spline100BirthsMAE": 15.8
+              },
+              "2": {
+                "currentBirthsMAE": 6.6,
+                "empiricalBayesBirthsMAE": 12.8,
+                "spline1BirthsMAE": 8,
+                "spline10BirthsMAE": 8.4,
+                "spline100BirthsMAE": 8.3
+              },
+              "3": {
+                "currentBirthsMAE": 8.8,
+                "empiricalBayesBirthsMAE": 14.4,
+                "spline1BirthsMAE": 8.1,
+                "spline10BirthsMAE": 8,
+                "spline100BirthsMAE": 8
+              }
+            }
+          },
+          "6": {
+            "observations": 12,
+            "currentBirthsMAE": 7.8,
+            "empiricalBayesBirthsMAE": 8.3,
+            "spline1BirthsMAE": 9.5,
+            "spline10BirthsMAE": 9.7,
+            "spline100BirthsMAE": 9.7,
+            "byHorizon": {
+              "1": {
+                "currentBirthsMAE": 9.3,
+                "empiricalBayesBirthsMAE": 4.3,
+                "spline1BirthsMAE": 14.5,
+                "spline10BirthsMAE": 14.9,
+                "spline100BirthsMAE": 14.8
+              },
+              "2": {
+                "currentBirthsMAE": 5.5,
+                "empiricalBayesBirthsMAE": 8.4,
+                "spline1BirthsMAE": 7.4,
+                "spline10BirthsMAE": 7.7,
+                "spline100BirthsMAE": 7.7
+              },
+              "3": {
+                "currentBirthsMAE": 8.6,
+                "empiricalBayesBirthsMAE": 12,
+                "spline1BirthsMAE": 6.6,
+                "spline10BirthsMAE": 6.6,
+                "spline100BirthsMAE": 6.7
+              }
+            }
+          },
+          "10": {
+            "observations": 12,
+            "currentBirthsMAE": 9.4,
+            "empiricalBayesBirthsMAE": 7.6,
+            "spline1BirthsMAE": 11.4,
+            "spline10BirthsMAE": 11.5,
+            "spline100BirthsMAE": 11.5,
+            "byHorizon": {
+              "1": {
+                "currentBirthsMAE": 13.6,
+                "empiricalBayesBirthsMAE": 8.1,
+                "spline1BirthsMAE": 17,
+                "spline10BirthsMAE": 17.2,
+                "spline100BirthsMAE": 17.2
+              },
+              "2": {
+                "currentBirthsMAE": 8.5,
+                "empiricalBayesBirthsMAE": 7.3,
+                "spline1BirthsMAE": 10,
+                "spline10BirthsMAE": 10.1,
+                "spline100BirthsMAE": 10.1
+              },
+              "3": {
+                "currentBirthsMAE": 6.1,
+                "empiricalBayesBirthsMAE": 7.3,
+                "spline1BirthsMAE": 7.1,
+                "spline10BirthsMAE": 7.1,
+                "spline100BirthsMAE": 7.1
+              }
+            }
+          }
+        },
+        "2560": {
+          "3": {
+            "observations": 12,
+            "currentBirthsMAE": 6.5,
+            "empiricalBayesBirthsMAE": 6.5,
+            "spline1BirthsMAE": 7.9,
+            "spline10BirthsMAE": 8,
+            "spline100BirthsMAE": 8,
+            "byHorizon": {
+              "1": {
+                "currentBirthsMAE": 7.8,
+                "empiricalBayesBirthsMAE": 7.6,
+                "spline1BirthsMAE": 11.1,
+                "spline10BirthsMAE": 11.1,
+                "spline100BirthsMAE": 11.1
+              },
+              "2": {
+                "currentBirthsMAE": 7.1,
+                "empiricalBayesBirthsMAE": 6.9,
+                "spline1BirthsMAE": 7.5,
+                "spline10BirthsMAE": 7.5,
+                "spline100BirthsMAE": 7.5
+              },
+              "3": {
+                "currentBirthsMAE": 4.5,
+                "empiricalBayesBirthsMAE": 5,
+                "spline1BirthsMAE": 5.2,
+                "spline10BirthsMAE": 5.3,
+                "spline100BirthsMAE": 5.3
+              }
+            }
+          },
+          "6": {
+            "observations": 12,
+            "currentBirthsMAE": 6.6,
+            "empiricalBayesBirthsMAE": 6.7,
+            "spline1BirthsMAE": 7.7,
+            "spline10BirthsMAE": 7.8,
+            "spline100BirthsMAE": 7.8,
+            "byHorizon": {
+              "1": {
+                "currentBirthsMAE": 8.9,
+                "empiricalBayesBirthsMAE": 8.7,
+                "spline1BirthsMAE": 11.3,
+                "spline10BirthsMAE": 11.3,
+                "spline100BirthsMAE": 11.3
+              },
+              "2": {
+                "currentBirthsMAE": 5.6,
+                "empiricalBayesBirthsMAE": 5.6,
+                "spline1BirthsMAE": 5.9,
+                "spline10BirthsMAE": 6,
+                "spline100BirthsMAE": 6
+              },
+              "3": {
+                "currentBirthsMAE": 5.4,
+                "empiricalBayesBirthsMAE": 5.8,
+                "spline1BirthsMAE": 6,
+                "spline10BirthsMAE": 6.1,
+                "spline100BirthsMAE": 6
+              }
+            }
+          },
+          "10": {
+            "observations": 12,
+            "currentBirthsMAE": 6.7,
+            "empiricalBayesBirthsMAE": 6.6,
+            "spline1BirthsMAE": 8.1,
+            "spline10BirthsMAE": 8.2,
+            "spline100BirthsMAE": 8.1,
+            "byHorizon": {
+              "1": {
+                "currentBirthsMAE": 9.3,
+                "empiricalBayesBirthsMAE": 9,
+                "spline1BirthsMAE": 11.6,
+                "spline10BirthsMAE": 11.7,
+                "spline100BirthsMAE": 11.6
+              },
+              "2": {
+                "currentBirthsMAE": 6.1,
+                "empiricalBayesBirthsMAE": 6.1,
+                "spline1BirthsMAE": 6.5,
+                "spline10BirthsMAE": 6.4,
+                "spline100BirthsMAE": 6.4
+              },
+              "3": {
+                "currentBirthsMAE": 4.6,
+                "empiricalBayesBirthsMAE": 4.6,
+                "spline1BirthsMAE": 6.3,
+                "spline10BirthsMAE": 6.4,
+                "spline100BirthsMAE": 6.3
+              }
+            }
+          }
+        },
+        "2580": {
+          "3": {
+            "observations": 12,
+            "currentBirthsMAE": 61.4,
+            "empiricalBayesBirthsMAE": 60.8,
+            "spline1BirthsMAE": 58.5,
+            "spline10BirthsMAE": 58,
+            "spline100BirthsMAE": 58,
+            "byHorizon": {
+              "1": {
+                "currentBirthsMAE": 37.6,
+                "empiricalBayesBirthsMAE": 36,
+                "spline1BirthsMAE": 35.5,
+                "spline10BirthsMAE": 35,
+                "spline100BirthsMAE": 34.5
+              },
+              "2": {
+                "currentBirthsMAE": 54.1,
+                "empiricalBayesBirthsMAE": 53.9,
+                "spline1BirthsMAE": 51.5,
+                "spline10BirthsMAE": 51.2,
+                "spline100BirthsMAE": 51.2
+              },
+              "3": {
+                "currentBirthsMAE": 92.4,
+                "empiricalBayesBirthsMAE": 92.5,
+                "spline1BirthsMAE": 88.4,
+                "spline10BirthsMAE": 87.9,
+                "spline100BirthsMAE": 88.3
+              }
+            }
+          },
+          "6": {
+            "observations": 12,
+            "currentBirthsMAE": 62.5,
+            "empiricalBayesBirthsMAE": 60.1,
+            "spline1BirthsMAE": 60.4,
+            "spline10BirthsMAE": 60.1,
+            "spline100BirthsMAE": 59.7,
+            "byHorizon": {
+              "1": {
+                "currentBirthsMAE": 39.6,
+                "empiricalBayesBirthsMAE": 37,
+                "spline1BirthsMAE": 38.4,
+                "spline10BirthsMAE": 38,
+                "spline100BirthsMAE": 37.4
+              },
+              "2": {
+                "currentBirthsMAE": 53.8,
+                "empiricalBayesBirthsMAE": 51.1,
+                "spline1BirthsMAE": 51.3,
+                "spline10BirthsMAE": 51,
+                "spline100BirthsMAE": 50.6
+              },
+              "3": {
+                "currentBirthsMAE": 94.1,
+                "empiricalBayesBirthsMAE": 92.2,
+                "spline1BirthsMAE": 91.5,
+                "spline10BirthsMAE": 91.2,
+                "spline100BirthsMAE": 91.2
+              }
+            }
+          },
+          "10": {
+            "observations": 12,
+            "currentBirthsMAE": 63.2,
+            "empiricalBayesBirthsMAE": 58.9,
+            "spline1BirthsMAE": 61.7,
+            "spline10BirthsMAE": 61.4,
+            "spline100BirthsMAE": 60.7,
+            "byHorizon": {
+              "1": {
+                "currentBirthsMAE": 38,
+                "empiricalBayesBirthsMAE": 34.3,
+                "spline1BirthsMAE": 37.1,
+                "spline10BirthsMAE": 36.8,
+                "spline100BirthsMAE": 35.9
+              },
+              "2": {
+                "currentBirthsMAE": 55.5,
+                "empiricalBayesBirthsMAE": 50.4,
+                "spline1BirthsMAE": 53.6,
+                "spline10BirthsMAE": 53.2,
+                "spline100BirthsMAE": 52.4
+              },
+              "3": {
+                "currentBirthsMAE": 96.1,
+                "empiricalBayesBirthsMAE": 92.1,
+                "spline1BirthsMAE": 94.3,
+                "spline10BirthsMAE": 94,
+                "spline100BirthsMAE": 93.7
+              }
+            }
+          }
+        },
+        "2581": {
+          "3": {
+            "observations": 12,
+            "currentBirthsMAE": 25.9,
+            "empiricalBayesBirthsMAE": 30.3,
+            "spline1BirthsMAE": 24.4,
+            "spline10BirthsMAE": 24.4,
+            "spline100BirthsMAE": 24.5,
+            "byHorizon": {
+              "1": {
+                "currentBirthsMAE": 25.7,
+                "empiricalBayesBirthsMAE": 27.1,
+                "spline1BirthsMAE": 25.8,
+                "spline10BirthsMAE": 26,
+                "spline100BirthsMAE": 25.9
+              },
+              "2": {
+                "currentBirthsMAE": 16.9,
+                "empiricalBayesBirthsMAE": 20.6,
+                "spline1BirthsMAE": 14.8,
+                "spline10BirthsMAE": 14.6,
+                "spline100BirthsMAE": 14.6
+              },
+              "3": {
+                "currentBirthsMAE": 35.2,
+                "empiricalBayesBirthsMAE": 43.1,
+                "spline1BirthsMAE": 32.6,
+                "spline10BirthsMAE": 32.7,
+                "spline100BirthsMAE": 32.9
+              }
+            }
+          },
+          "6": {
+            "observations": 12,
+            "currentBirthsMAE": 20.9,
+            "empiricalBayesBirthsMAE": 25.9,
+            "spline1BirthsMAE": 20.2,
+            "spline10BirthsMAE": 20.2,
+            "spline100BirthsMAE": 20.4,
+            "byHorizon": {
+              "1": {
+                "currentBirthsMAE": 20.3,
+                "empiricalBayesBirthsMAE": 21.5,
+                "spline1BirthsMAE": 20.4,
+                "spline10BirthsMAE": 20.4,
+                "spline100BirthsMAE": 20.6
+              },
+              "2": {
+                "currentBirthsMAE": 15.2,
+                "empiricalBayesBirthsMAE": 19.5,
+                "spline1BirthsMAE": 14,
+                "spline10BirthsMAE": 14,
+                "spline100BirthsMAE": 13.9
+              },
+              "3": {
+                "currentBirthsMAE": 27.4,
+                "empiricalBayesBirthsMAE": 36.6,
+                "spline1BirthsMAE": 26.1,
+                "spline10BirthsMAE": 26.2,
+                "spline100BirthsMAE": 26.8
+              }
+            }
+          },
+          "10": {
+            "observations": 12,
+            "currentBirthsMAE": 20.2,
+            "empiricalBayesBirthsMAE": 25,
+            "spline1BirthsMAE": 19.9,
+            "spline10BirthsMAE": 19.9,
+            "spline100BirthsMAE": 20,
+            "byHorizon": {
+              "1": {
+                "currentBirthsMAE": 21.8,
+                "empiricalBayesBirthsMAE": 23.1,
+                "spline1BirthsMAE": 21.9,
+                "spline10BirthsMAE": 22,
+                "spline100BirthsMAE": 22.2
+              },
+              "2": {
+                "currentBirthsMAE": 11,
+                "empiricalBayesBirthsMAE": 15.4,
+                "spline1BirthsMAE": 10.8,
+                "spline10BirthsMAE": 10.7,
+                "spline100BirthsMAE": 10.6
+              },
+              "3": {
+                "currentBirthsMAE": 28,
+                "empiricalBayesBirthsMAE": 36.5,
+                "spline1BirthsMAE": 27,
+                "spline10BirthsMAE": 27.1,
+                "spline100BirthsMAE": 27.3
+              }
+            }
+          }
+        },
+        "2582": {
+          "3": {
+            "observations": 12,
+            "currentBirthsMAE": 15.8,
+            "empiricalBayesBirthsMAE": 21.3,
+            "spline1BirthsMAE": 13.9,
+            "spline10BirthsMAE": 13.6,
+            "spline100BirthsMAE": 13.5,
+            "byHorizon": {
+              "1": {
+                "currentBirthsMAE": 11.9,
+                "empiricalBayesBirthsMAE": 11,
+                "spline1BirthsMAE": 12.5,
+                "spline10BirthsMAE": 12.5,
+                "spline100BirthsMAE": 12.6
+              },
+              "2": {
+                "currentBirthsMAE": 14.6,
+                "empiricalBayesBirthsMAE": 22.3,
+                "spline1BirthsMAE": 11,
+                "spline10BirthsMAE": 10.6,
+                "spline100BirthsMAE": 10.3
+              },
+              "3": {
+                "currentBirthsMAE": 20.9,
+                "empiricalBayesBirthsMAE": 30.7,
+                "spline1BirthsMAE": 18.2,
+                "spline10BirthsMAE": 17.8,
+                "spline100BirthsMAE": 17.6
+              }
+            }
+          },
+          "6": {
+            "observations": 12,
+            "currentBirthsMAE": 16,
+            "empiricalBayesBirthsMAE": 22.4,
+            "spline1BirthsMAE": 13.8,
+            "spline10BirthsMAE": 13.5,
+            "spline100BirthsMAE": 13.5,
+            "byHorizon": {
+              "1": {
+                "currentBirthsMAE": 10.9,
+                "empiricalBayesBirthsMAE": 10.8,
+                "spline1BirthsMAE": 10.7,
+                "spline10BirthsMAE": 10.6,
+                "spline100BirthsMAE": 10.6
+              },
+              "2": {
+                "currentBirthsMAE": 15,
+                "empiricalBayesBirthsMAE": 23.6,
+                "spline1BirthsMAE": 11.6,
+                "spline10BirthsMAE": 11.2,
+                "spline100BirthsMAE": 11.1
+              },
+              "3": {
+                "currentBirthsMAE": 22,
+                "empiricalBayesBirthsMAE": 32.9,
+                "spline1BirthsMAE": 19,
+                "spline10BirthsMAE": 18.8,
+                "spline100BirthsMAE": 18.9
+              }
+            }
+          },
+          "10": {
+            "observations": 12,
+            "currentBirthsMAE": 12.8,
+            "empiricalBayesBirthsMAE": 18.7,
+            "spline1BirthsMAE": 12.3,
+            "spline10BirthsMAE": 12.3,
+            "spline100BirthsMAE": 12.4,
+            "byHorizon": {
+              "1": {
+                "currentBirthsMAE": 11.3,
+                "empiricalBayesBirthsMAE": 11.7,
+                "spline1BirthsMAE": 12.2,
+                "spline10BirthsMAE": 12.4,
+                "spline100BirthsMAE": 12.4
+              },
+              "2": {
+                "currentBirthsMAE": 9.6,
+                "empiricalBayesBirthsMAE": 17.3,
+                "spline1BirthsMAE": 8.3,
+                "spline10BirthsMAE": 8.3,
+                "spline100BirthsMAE": 8.3
+              },
+              "3": {
+                "currentBirthsMAE": 17.4,
+                "empiricalBayesBirthsMAE": 26.9,
+                "spline1BirthsMAE": 16.4,
+                "spline10BirthsMAE": 16.4,
+                "spline100BirthsMAE": 16.5
+              }
+            }
+          }
+        },
+        "FA_LULEA": {
+          "3": {
+            "observations": 12,
+            "currentBirthsMAE": 103,
+            "empiricalBayesBirthsMAE": 119.8,
+            "spline1BirthsMAE": 91.3,
+            "spline10BirthsMAE": 90.5,
+            "spline100BirthsMAE": 90.4,
+            "byHorizon": {
+              "1": {
+                "currentBirthsMAE": 69.2,
+                "empiricalBayesBirthsMAE": 71.5,
+                "spline1BirthsMAE": 69.3,
+                "spline10BirthsMAE": 69.2,
+                "spline100BirthsMAE": 69
+              },
+              "2": {
+                "currentBirthsMAE": 88.5,
+                "empiricalBayesBirthsMAE": 108.3,
+                "spline1BirthsMAE": 75.6,
+                "spline10BirthsMAE": 74.3,
+                "spline100BirthsMAE": 74
+              },
+              "3": {
+                "currentBirthsMAE": 151.4,
+                "empiricalBayesBirthsMAE": 179.6,
+                "spline1BirthsMAE": 129,
+                "spline10BirthsMAE": 127.9,
+                "spline100BirthsMAE": 128.1
+              }
+            }
+          },
+          "6": {
+            "observations": 12,
+            "currentBirthsMAE": 96.4,
+            "empiricalBayesBirthsMAE": 112.1,
+            "spline1BirthsMAE": 86.1,
+            "spline10BirthsMAE": 85.6,
+            "spline100BirthsMAE": 85.9,
+            "byHorizon": {
+              "1": {
+                "currentBirthsMAE": 61,
+                "empiricalBayesBirthsMAE": 63.4,
+                "spline1BirthsMAE": 60.9,
+                "spline10BirthsMAE": 60.8,
+                "spline100BirthsMAE": 61.1
+              },
+              "2": {
+                "currentBirthsMAE": 80.7,
+                "empiricalBayesBirthsMAE": 99.2,
+                "spline1BirthsMAE": 70.3,
+                "spline10BirthsMAE": 70,
+                "spline100BirthsMAE": 70.2
+              },
+              "3": {
+                "currentBirthsMAE": 147.4,
+                "empiricalBayesBirthsMAE": 173.7,
+                "spline1BirthsMAE": 127.1,
+                "spline10BirthsMAE": 126.1,
+                "spline100BirthsMAE": 126.3
+              }
+            }
+          },
+          "10": {
+            "observations": 12,
+            "currentBirthsMAE": 86.7,
+            "empiricalBayesBirthsMAE": 98.9,
+            "spline1BirthsMAE": 80.9,
+            "spline10BirthsMAE": 80.9,
+            "spline100BirthsMAE": 81.4,
+            "byHorizon": {
+              "1": {
+                "currentBirthsMAE": 59,
+                "empiricalBayesBirthsMAE": 62.2,
+                "spline1BirthsMAE": 58.4,
+                "spline10BirthsMAE": 58.7,
+                "spline100BirthsMAE": 59.3
+              },
+              "2": {
+                "currentBirthsMAE": 71.2,
+                "empiricalBayesBirthsMAE": 82.1,
+                "spline1BirthsMAE": 64.3,
+                "spline10BirthsMAE": 64.1,
+                "spline100BirthsMAE": 63.8
+              },
+              "3": {
+                "currentBirthsMAE": 129.9,
+                "empiricalBayesBirthsMAE": 152.4,
+                "spline1BirthsMAE": 119.9,
+                "spline10BirthsMAE": 119.9,
+                "spline100BirthsMAE": 121.1
+              }
+            }
+          }
+        }
+      }
+    },
+    "mortality": {
+      "summary": {
+        "2514": {
+          "3": {
+            "observations": 12,
+            "currentDeathsMAE": 13.2,
+            "empiricalBayesDeathsMAE": 13.9,
+            "byHorizon": {
+              "1": {
+                "currentDeathsMAE": 14.5,
+                "empiricalBayesDeathsMAE": 15.4
+              },
+              "2": {
+                "currentDeathsMAE": 13.5,
+                "empiricalBayesDeathsMAE": 14.2
+              },
+              "3": {
+                "currentDeathsMAE": 11.7,
+                "empiricalBayesDeathsMAE": 12.1
+              }
+            }
+          },
+          "6": {
+            "observations": 12,
+            "currentDeathsMAE": 11.3,
+            "empiricalBayesDeathsMAE": 12,
+            "byHorizon": {
+              "1": {
+                "currentDeathsMAE": 9.7,
+                "empiricalBayesDeathsMAE": 12.3
+              },
+              "2": {
+                "currentDeathsMAE": 10.3,
+                "empiricalBayesDeathsMAE": 11.3
+              },
+              "3": {
+                "currentDeathsMAE": 13.9,
+                "empiricalBayesDeathsMAE": 12.4
+              }
+            }
+          },
+          "10": {
+            "observations": 12,
+            "currentDeathsMAE": 13.5,
+            "empiricalBayesDeathsMAE": 11.5,
+            "byHorizon": {
+              "1": {
+                "currentDeathsMAE": 10.7,
+                "empiricalBayesDeathsMAE": 10.5
+              },
+              "2": {
+                "currentDeathsMAE": 13.6,
+                "empiricalBayesDeathsMAE": 10.4
+              },
+              "3": {
+                "currentDeathsMAE": 16.3,
+                "empiricalBayesDeathsMAE": 13.6
+              }
+            }
+          }
+        },
+        "2560": {
+          "3": {
+            "observations": 12,
+            "currentDeathsMAE": 8.7,
+            "empiricalBayesDeathsMAE": 8.7,
+            "byHorizon": {
+              "1": {
+                "currentDeathsMAE": 8.8,
+                "empiricalBayesDeathsMAE": 8.8
+              },
+              "2": {
+                "currentDeathsMAE": 10.7,
+                "empiricalBayesDeathsMAE": 10.8
+              },
+              "3": {
+                "currentDeathsMAE": 6.5,
+                "empiricalBayesDeathsMAE": 6.4
+              }
+            }
+          },
+          "6": {
+            "observations": 12,
+            "currentDeathsMAE": 7.7,
+            "empiricalBayesDeathsMAE": 7.7,
+            "byHorizon": {
+              "1": {
+                "currentDeathsMAE": 7.8,
+                "empiricalBayesDeathsMAE": 7.9
+              },
+              "2": {
+                "currentDeathsMAE": 9.5,
+                "empiricalBayesDeathsMAE": 9.5
+              },
+              "3": {
+                "currentDeathsMAE": 5.9,
+                "empiricalBayesDeathsMAE": 5.9
+              }
+            }
+          },
+          "10": {
+            "observations": 12,
+            "currentDeathsMAE": 7.6,
+            "empiricalBayesDeathsMAE": 7.6,
+            "byHorizon": {
+              "1": {
+                "currentDeathsMAE": 8.2,
+                "empiricalBayesDeathsMAE": 8.2
+              },
+              "2": {
+                "currentDeathsMAE": 8.8,
+                "empiricalBayesDeathsMAE": 8.8
+              },
+              "3": {
+                "currentDeathsMAE": 5.7,
+                "empiricalBayesDeathsMAE": 5.7
+              }
+            }
+          }
+        },
+        "2580": {
+          "3": {
+            "observations": 12,
+            "currentDeathsMAE": 31.7,
+            "empiricalBayesDeathsMAE": 30.6,
+            "byHorizon": {
+              "1": {
+                "currentDeathsMAE": 30.9,
+                "empiricalBayesDeathsMAE": 29.7
+              },
+              "2": {
+                "currentDeathsMAE": 38.6,
+                "empiricalBayesDeathsMAE": 37.9
+              },
+              "3": {
+                "currentDeathsMAE": 25.7,
+                "empiricalBayesDeathsMAE": 24.2
+              }
+            }
+          },
+          "6": {
+            "observations": 12,
+            "currentDeathsMAE": 32.1,
+            "empiricalBayesDeathsMAE": 31.4,
+            "byHorizon": {
+              "1": {
+                "currentDeathsMAE": 31.7,
+                "empiricalBayesDeathsMAE": 31.4
+              },
+              "2": {
+                "currentDeathsMAE": 38.7,
+                "empiricalBayesDeathsMAE": 38.3
+              },
+              "3": {
+                "currentDeathsMAE": 25.8,
+                "empiricalBayesDeathsMAE": 24.5
+              }
+            }
+          },
+          "10": {
+            "observations": 12,
+            "currentDeathsMAE": 31.1,
+            "empiricalBayesDeathsMAE": 27.9,
+            "byHorizon": {
+              "1": {
+                "currentDeathsMAE": 28.4,
+                "empiricalBayesDeathsMAE": 27
+              },
+              "2": {
+                "currentDeathsMAE": 37.9,
+                "empiricalBayesDeathsMAE": 35.6
+              },
+              "3": {
+                "currentDeathsMAE": 27,
+                "empiricalBayesDeathsMAE": 21.1
+              }
+            }
+          }
+        },
+        "2581": {
+          "3": {
+            "observations": 12,
+            "currentDeathsMAE": 19.8,
+            "empiricalBayesDeathsMAE": 21.1,
+            "byHorizon": {
+              "1": {
+                "currentDeathsMAE": 13.1,
+                "empiricalBayesDeathsMAE": 12.9
+              },
+              "2": {
+                "currentDeathsMAE": 16.9,
+                "empiricalBayesDeathsMAE": 19.5
+              },
+              "3": {
+                "currentDeathsMAE": 29.5,
+                "empiricalBayesDeathsMAE": 30.9
+              }
+            }
+          },
+          "6": {
+            "observations": 12,
+            "currentDeathsMAE": 21,
+            "empiricalBayesDeathsMAE": 20.5,
+            "byHorizon": {
+              "1": {
+                "currentDeathsMAE": 17,
+                "empiricalBayesDeathsMAE": 14.6
+              },
+              "2": {
+                "currentDeathsMAE": 18.7,
+                "empiricalBayesDeathsMAE": 18.7
+              },
+              "3": {
+                "currentDeathsMAE": 27.3,
+                "empiricalBayesDeathsMAE": 28.2
+              }
+            }
+          },
+          "10": {
+            "observations": 12,
+            "currentDeathsMAE": 18.4,
+            "empiricalBayesDeathsMAE": 19.3,
+            "byHorizon": {
+              "1": {
+                "currentDeathsMAE": 20,
+                "empiricalBayesDeathsMAE": 17.3
+              },
+              "2": {
+                "currentDeathsMAE": 15.2,
+                "empiricalBayesDeathsMAE": 16.6
+              },
+              "3": {
+                "currentDeathsMAE": 20.2,
+                "empiricalBayesDeathsMAE": 24.1
+              }
+            }
+          }
+        },
+        "2582": {
+          "3": {
+            "observations": 12,
+            "currentDeathsMAE": 17.4,
+            "empiricalBayesDeathsMAE": 16.6,
+            "byHorizon": {
+              "1": {
+                "currentDeathsMAE": 15.2,
+                "empiricalBayesDeathsMAE": 14.3
+              },
+              "2": {
+                "currentDeathsMAE": 20.4,
+                "empiricalBayesDeathsMAE": 20.2
+              },
+              "3": {
+                "currentDeathsMAE": 16.6,
+                "empiricalBayesDeathsMAE": 15.3
+              }
+            }
+          },
+          "6": {
+            "observations": 12,
+            "currentDeathsMAE": 20,
+            "empiricalBayesDeathsMAE": 18.7,
+            "byHorizon": {
+              "1": {
+                "currentDeathsMAE": 17.6,
+                "empiricalBayesDeathsMAE": 16.4
+              },
+              "2": {
+                "currentDeathsMAE": 24.9,
+                "empiricalBayesDeathsMAE": 23.5
+              },
+              "3": {
+                "currentDeathsMAE": 17.5,
+                "empiricalBayesDeathsMAE": 16.3
+              }
+            }
+          },
+          "10": {
+            "observations": 12,
+            "currentDeathsMAE": 19.1,
+            "empiricalBayesDeathsMAE": 18.5,
+            "byHorizon": {
+              "1": {
+                "currentDeathsMAE": 16.5,
+                "empiricalBayesDeathsMAE": 16.1
+              },
+              "2": {
+                "currentDeathsMAE": 23.9,
+                "empiricalBayesDeathsMAE": 23.2
+              },
+              "3": {
+                "currentDeathsMAE": 16.8,
+                "empiricalBayesDeathsMAE": 16.2
+              }
+            }
+          }
+        },
+        "FA_LULEA": {
+          "3": {
+            "observations": 12,
+            "currentDeathsMAE": 46.9,
+            "empiricalBayesDeathsMAE": 46.2,
+            "byHorizon": {
+              "1": {
+                "currentDeathsMAE": 40.1,
+                "empiricalBayesDeathsMAE": 37.2
+              },
+              "2": {
+                "currentDeathsMAE": 60,
+                "empiricalBayesDeathsMAE": 60.7
+              },
+              "3": {
+                "currentDeathsMAE": 40.7,
+                "empiricalBayesDeathsMAE": 40.6
+              }
+            }
+          },
+          "6": {
+            "observations": 12,
+            "currentDeathsMAE": 45.7,
+            "empiricalBayesDeathsMAE": 45.5,
+            "byHorizon": {
+              "1": {
+                "currentDeathsMAE": 42.3,
+                "empiricalBayesDeathsMAE": 42.7
+              },
+              "2": {
+                "currentDeathsMAE": 58.3,
+                "empiricalBayesDeathsMAE": 58.3
+              },
+              "3": {
+                "currentDeathsMAE": 36.6,
+                "empiricalBayesDeathsMAE": 35.4
+              }
+            }
+          },
+          "10": {
+            "observations": 12,
+            "currentDeathsMAE": 51.9,
+            "empiricalBayesDeathsMAE": 44.9,
+            "byHorizon": {
+              "1": {
+                "currentDeathsMAE": 46.2,
+                "empiricalBayesDeathsMAE": 42.1
+              },
+              "2": {
+                "currentDeathsMAE": 67.2,
+                "empiricalBayesDeathsMAE": 58.6
+              },
+              "3": {
+                "currentDeathsMAE": 42.2,
+                "empiricalBayesDeathsMAE": 33.9
               }
             }
           }
