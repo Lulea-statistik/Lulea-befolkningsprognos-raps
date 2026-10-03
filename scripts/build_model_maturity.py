@@ -11,6 +11,7 @@ ROLLING = ROOT / "data" / "backtests" / "rolling_2018_2024.json"
 VALIDATION = ROOT / "data" / "model_validation.json"
 HOLDOUT = ROOT / "data" / "backtests" / "component_flow_holdout.json"
 SMOOTHING = ROOT / "data" / "backtests" / "migration_age_smoothing.json"
+CONSISTENCY_ADJUSTMENT = ROOT / "data" / "backtests" / "scb_consistency_adjustment.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -311,14 +312,47 @@ def main():
         )
     ))
 
+    consistency_diag_exists = (
+        ROOT / "data" / "backtests" / "scb_consistency_diagnostic.json"
+    ).exists()
+    consistency_adjustment = (
+        load(CONSISTENCY_ADJUSTMENT)
+        if CONSISTENCY_ADJUSTMENT.exists()
+        else {}
+    )
+    consistency_mass_ok = (
+        consistency_adjustment.get("massPreserving") is True
+        and float(consistency_adjustment.get("maxAbsoluteResidual", 1.0)) < 1e-8
+    )
+    consistency_level = 2 if consistency_mass_ok else 1
     comps.append(component(
-        policy, "consistency_adjustment", 1, "diagnostic", False,
-        [gate(
-            "Municipality-county consistency diagnostic exists",
-            (ROOT / "data" / "backtests" / "scb_consistency_diagnostic.json").exists(),
-            "Diagnostic exists; adjustment algorithm is not active."
-        )],
-        "Build a mass-preserving municipality→county adjustment and validate it on historical vintages."
+        policy, "consistency_adjustment", consistency_level,
+        "development" if consistency_mass_ok else "diagnostic", False,
+        [
+            gate(
+                "Municipality-county consistency diagnostic exists",
+                consistency_diag_exists,
+                "SCB municipality-county accounting diagnostic available."
+                if consistency_diag_exists
+                else "Consistency diagnostic missing."
+            ),
+            gate(
+                "Mass-preserving municipality-to-county adjustment implemented",
+                consistency_mass_ok,
+                (
+                    "max residual "
+                    + str(consistency_adjustment.get("maxAbsoluteResidual"))
+                    + "; national layer remains inactive"
+                )
+                if consistency_adjustment
+                else "Awaiting generated adjustment diagnostic."
+            )
+        ],
+        (
+            "Add vintage-correct validation of the locked municipality→county adjustment; keep county→national inactive until all-county support is available."
+            if consistency_mass_ok
+            else "Build the locked mass-preserving municipality→county adjustment."
+        )
     ))
 
     industrial_cfg = load(ROOT / "data" / "industrial_workforce_scenario_config.json")
