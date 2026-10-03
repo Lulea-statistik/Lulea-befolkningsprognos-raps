@@ -100,6 +100,11 @@
       "label": "Hushållsframskrivning för bostadsefterfrågan",
       "targetLevel": 4,
       "requiredGate": "Antingen ska aktivt konstant personer/hushåll-läge klara den förhandslåsta Luleå/FA-grinden, eller ska den redan fördeklarerade femårstrenden klara en separat låst extern kontroll på fem orörda kommuner innan den blir produktionsstandard."
+    },
+    "labour_market_support": {
+      "label": "Arbetsmarknads- och pendlingsunderlag",
+      "targetLevel": 4,
+      "requiredGate": "SCB-pendlingsmatris och arbetskraftens åldersprofil ska vara kompletta, summera korrekt, täcka låsta år/geografier och bära explicit metodbrottsnot innan de används som produktionsstöd."
     }
   }
 }
