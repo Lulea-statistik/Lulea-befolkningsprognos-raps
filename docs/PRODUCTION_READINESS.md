@@ -153,6 +153,17 @@ För Luleå kommun gav 0 % lägst MAE i fem av sex kombinationer av fruktsamhet/
 
 Slutsatsen är därför att lokal information tydligt kan vara värdefull, men att den nuvarande viktfunktionen ännu inte är visad som den mest träffsäkra kompromissen mellan riksprofil och lokal ettårsåldersprofil. Trösklarna får inte efterjusteras mot dessa redan observerade resultat. En ny viktfunktion eller SCB-inspirerad splineutjämning ska behandlas som en ny, förhandslåst kandidat och utvärderas på ny oberoende evidens.
 
+## Låsta utvecklingskandidater för lokalisering
+
+Efter Update SCB data #74 behandlas två alternativa lokaliseringsmetoder som separata, låsta utvecklingskandidater. De påverkar inte produktionsbaslinjen.
+
+- **Fruktsamhet – kubisk smoothing spline.** Kandidaten använder en natural-cubic smoothing spline på den lokala åldersprofilens log-relativa avvikelse mot den generella kommunnivån. Anpassningen minimerar viktade kvadrerade avvikelser plus en integrerad krökningspenalty. Som representativ utvecklingskandidat låses **lambda = 10**. Värdet 1/10/100 har redan jämförts på 2018–2024 och får därför inte användas för ny efterhandsoptimering.
+- **Dödlighet – Empirical Bayes.** Kandidaten använder metod-of-moments-shrinkage där lokala ettårsåldersavvikelser dras mot den generella kommunnivån i proportion till skattad lokal osäkerhet. Den nuvarande formuleringen låses utan ytterligare trimning på 2018–2024.
+
+Rolling-origin 2018–2024 är nu **utvecklingsevidens** för dessa kandidater, inte oberoende godkännandeevidens. Nivå 3 eller 4 kräver en ny förhandsdefinierad valideringsgrind på data som inte använts för att formulera eller välja kandidaten.
+
+Den nuvarande informationsvägningen ligger kvar i produktion tills en låst ersättare klarar en sådan oberoende kontroll.
+
 ## Kända avgränsningar
 
 Modellen är produktionsmogen inom den definierade arkitekturen, men den är inte en full marknads- eller samhällsekonomisk modell. Bland annat:
