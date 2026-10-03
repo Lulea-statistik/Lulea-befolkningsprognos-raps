@@ -176,6 +176,9 @@ jobs:
       - name: Validate household projection
         run: python scripts/validate_household_projection.py
 
+      - name: Validate household trend on external holdouts
+        run: python scripts/validate_household_projection_external.py
+
       - name: Build model maturity report
         run: python scripts/build_model_maturity.py
 
