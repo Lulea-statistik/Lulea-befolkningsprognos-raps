@@ -1260,14 +1260,28 @@ for (const geo of geos) {
   };
 
   const analogueChecks={
-    n1PopulationNotWorse:!!n1&&n1.localNationalAnalogue.populationMAE<=n1.localNational.populationMAE,
-    n1MigrationNotWorse:!!n1&&n1.localNationalAnalogue.netMigrationMAE<=n1.localNational.netMigrationMAE,
+    n1PopulationNotWorse:!!n1&&
+      n1.localNationalAnalogue.populationMAE<=n1.localNational.populationMAE&&
+      n1.localNationalAnalogue.populationMAE<=n1.raw.populationMAE,
+    n1MigrationNotWorse:!!n1&&
+      n1.localNationalAnalogue.netMigrationMAE<=n1.localNational.netMigrationMAE&&
+      n1.localNationalAnalogue.netMigrationMAE<=n1.raw.netMigrationMAE,
     n1AtLeastOneStrictlyBetter:!!n1&&(
-      n1.localNationalAnalogue.populationMAE<n1.localNational.populationMAE||
-      n1.localNationalAnalogue.netMigrationMAE<n1.localNational.netMigrationMAE
+      (
+        n1.localNationalAnalogue.populationMAE<n1.localNational.populationMAE&&
+        n1.localNationalAnalogue.populationMAE<n1.raw.populationMAE
+      )||
+      (
+        n1.localNationalAnalogue.netMigrationMAE<n1.localNational.netMigrationMAE&&
+        n1.localNationalAnalogue.netMigrationMAE<n1.raw.netMigrationMAE
+      )
     ),
-    n2PopulationNotWorse:!!n2&&n2.localNationalAnalogue.populationMAE<=n2.localNational.populationMAE,
-    n2MigrationNotWorse:!!n2&&n2.localNationalAnalogue.netMigrationMAE<=n2.localNational.netMigrationMAE
+    n2PopulationNotWorse:!!n2&&
+      n2.localNationalAnalogue.populationMAE<=n2.localNational.populationMAE&&
+      n2.localNationalAnalogue.populationMAE<=n2.raw.populationMAE,
+    n2MigrationNotWorse:!!n2&&
+      n2.localNationalAnalogue.netMigrationMAE<=n2.localNational.netMigrationMAE&&
+      n2.localNationalAnalogue.netMigrationMAE<=n2.raw.netMigrationMAE
   };
   report.migrationAgeSmoothingDiagnostic.analogueSmoothingGate={
     primaryGeo:geo,
