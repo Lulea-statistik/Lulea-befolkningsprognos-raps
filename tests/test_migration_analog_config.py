@@ -17,4 +17,12 @@ assert abs(sum(float(x["weight"]) for x in features) - 1.0) < 1e-12
 assert len(features) == 6
 assert cfg["index"]["calibrationYears"] == list(range(2015, 2025))
 
-print("OK: migration analogue pool and similarity weights are locked")
+
+smooth = cfg["smoothingCandidate"]
+assert smooth["status"] == "top5_locked_before_smoothing_results"
+assert smooth["topK"] == 5
+assert [x["code"] for x in smooth["selected"]] == [
+    "0780","1490","2281","2380","1780"
+]
+
+print("OK: migration analogue pool, ranking rule and top-five smoothing pool are locked")
