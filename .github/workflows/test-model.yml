@@ -66,6 +66,9 @@ jobs:
       - name: Test SCB consistency wide parser
         run: python tests/test_scb_consistency_parser.py
 
+      - name: Test mass-preserving SCB consistency adjustment
+        run: python tests/test_scb_consistency_adjustment.py
+
       - name: Validate JavaScript syntax
         run: |
           node --check js/model.js
