@@ -260,9 +260,22 @@ def main():
                     else "Awaiting first rolling-origin run"
                 )
             ),
-            gate("County/national consistency adjustment active", False, profet_cfg["consistencyAdjustment"]["currentModelStatus"])
+            gate(
+                "Municipality→county consistency layer integrated in development engine",
+                bool(rolling.get("profetConsistencyDiagnostic", {}).get("summary", {}).get("2580")),
+                (
+                    "With/without rolling-origin diagnostic available"
+                    if rolling.get("profetConsistencyDiagnostic", {}).get("summary", {}).get("2580")
+                    else "Awaiting integrated consistency run"
+                )
+            ),
+            gate(
+                "County→national consistency layer active",
+                False,
+                "Not active until all-county support is available."
+            )
         ],
-        "Implement Profet incrementally: direct risk structure, then birth status, then consistency adjustment."
+        "Keep Profet in development until birth-status and full municipality→county→national consistency gates are satisfied."
     ))
 
     birth_diag = rolling.get("profetBirthStatusDiagnostic", {}).get("summary", {})
@@ -335,6 +348,9 @@ def main():
         and consistency_vintage.get("allPassed") is True
         and float(consistency_vintage.get("maxAbsoluteResidual", 1.0)) < 1e-8
     )
+    consistency_accuracy = rolling.get("profetConsistencyDiagnostic", {})
+    consistency_accuracy_gate = consistency_accuracy.get("promotionGate") or {}
+    consistency_accuracy_ok = consistency_accuracy_gate.get("passed") is True
     consistency_level = (
         3 if consistency_vintage_ok
         else 2 if consistency_mass_ok
@@ -373,10 +389,21 @@ def main():
                 )
                 if consistency_vintage
                 else "Awaiting frozen-vintage validation."
+            ),
+            gate(
+                "Profet with municipality→county adjustment meets pre-locked accuracy gate",
+                consistency_accuracy_ok,
+                (
+                    "checks=" + str(consistency_accuracy_gate.get("checks"))
+                )
+                if consistency_accuracy_gate
+                else "Awaiting with/without Profet accuracy comparison."
             )
         ],
         (
-            "Integrate the validated municipality→county layer into a Profet development run and compare forecast accuracy with/without adjustment; keep county→national inactive until all-county support is available."
+            "Keep at level 3 and add county→national support plus an external production holdout before any level-4 promotion."
+            if consistency_accuracy_ok
+            else "Keep at level 3; do not tune the adjustment from these outcomes. Review the locked with/without accuracy comparison."
             if consistency_vintage_ok
             else "Complete frozen-vintage structural validation before model integration."
             if consistency_mass_ok
