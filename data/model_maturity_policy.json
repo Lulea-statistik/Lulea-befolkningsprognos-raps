@@ -99,7 +99,7 @@
     "household_projection": {
       "label": "Hushållsframskrivning för bostadsefterfrågan",
       "targetLevel": 4,
-      "requiredGate": "Aktivt konstant personer/hushåll-läge ska i förhandslåst historisk rolling-validering inte vara sämre än femårstrend på n+1/n+2 för Luleå och FA samt hålla MAPE högst 2 procent."
+      "requiredGate": "Antingen ska aktivt konstant personer/hushåll-läge klara den förhandslåsta Luleå/FA-grinden, eller ska den redan fördeklarerade femårstrenden klara en separat låst extern kontroll på fem orörda kommuner innan den blir produktionsstandard."
     }
   }
 }
