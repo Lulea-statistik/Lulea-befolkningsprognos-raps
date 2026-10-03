@@ -109,6 +109,13 @@ const report = {
     candidate: manifest.scbRiskFlowCandidate || null,
     summary: {},
     results: {}
+  },
+  profetBirthStatusDiagnostic: {
+    note: 'Development diagnostic only. Adds Swedish-born/foreign-born population state and migration risks to the Profet-like risk engine while keeping fertility and mortality unchanged.',
+    independentHoldout: false,
+    candidate: manifest.profetBirthStatusCandidate || null,
+    summary: {},
+    results: {}
   }
 };
 
@@ -890,6 +897,105 @@ for (const geo of geos) {
   };
 }
 
+for (const geo of geos) {
+  const allRows=[];
+  const byOrigin={};
+  report.profetBirthStatusDiagnostic.results[geo]={};
+
+  for (const entry of origins) {
+    const pred=M.simulate(entry.model,{
+      geo,
+      endYear:entry.endYear,
+      fertMult:1,
+      mortMult:1,
+      migMult:1,
+      window:10,
+      migrationMode:'profet_birth_status',
+      cohortTimingMode:'event_age_aligned',
+      scenarios:{housing:[],workplaces:[],overlapPct:0},
+      includeDetail:false
+    });
+    const baselineRows=report.results[geo][entry.origin][10]||[];
+    const rows=[];
+
+    for(const p of pred){
+      if(+p.year<=+entry.origin) continue;
+      const a=byActual(entry.actual,geo,p.year);
+      if(!a) continue;
+      const base=baselineRows.find(r=>+r.year===+p.year);
+      const row={
+        year:+p.year,
+        horizon:+p.year-+entry.origin,
+        profetPopulationError:p.population-a.population,
+        profetPopulationAbsPctError:ape(p.population,a.population),
+        baselinePopulationError:base?base.populationError:null,
+        profetNetMigrationError:p.netMigration-a.netMigration,
+        baselineNetMigrationError:base?base.netMigrationError:null,
+        predictedGrossInMigration:p.grossInMigration,
+        actualGrossInMigration:geo==='FA_LULEA'?null:a.grossInMigration,
+        predictedGrossOutMigration:p.grossOutMigration,
+        actualGrossOutMigration:geo==='FA_LULEA'?null:a.grossOutMigration,
+        predictedNetMigration:p.netMigration,
+        actualNetMigration:a.netMigration
+      };
+      if(geo!=='FA_LULEA'){
+        row.grossInMigrationError=p.grossInMigration-a.grossInMigration;
+        row.grossOutMigrationError=p.grossOutMigration-a.grossOutMigration;
+      }
+      rows.push(row);
+      allRows.push(row);
+    }
+
+    byOrigin[entry.origin]=rows.map(r=>({
+      year:r.year,
+      horizon:r.horizon,
+      profetPopulationError:round1(r.profetPopulationError),
+      baselinePopulationError:round1(r.baselinePopulationError),
+      predictedGrossInMigration:round1(r.predictedGrossInMigration),
+      actualGrossInMigration:round1(r.actualGrossInMigration),
+      predictedGrossOutMigration:round1(r.predictedGrossOutMigration),
+      actualGrossOutMigration:round1(r.actualGrossOutMigration),
+      predictedNetMigration:round1(r.predictedNetMigration),
+      actualNetMigration:round1(r.actualNetMigration),
+      profetNetMigrationError:round1(r.profetNetMigrationError),
+      baselineNetMigrationError:round1(r.baselineNetMigrationError)
+    }));
+    report.profetBirthStatusDiagnostic.results[geo][entry.origin]=byOrigin[entry.origin];
+  }
+
+  const byHorizon={};
+  for(let horizon=1;horizon<=manifest.horizonYears;horizon++){
+    const h=allRows.filter(r=>r.horizon===horizon);
+    const scb=report.scbRiskFlowDiagnostic.summary[geo]?.byHorizon?.[horizon]?.scbRiskFlow||null;
+    byHorizon[horizon]={
+      observations:h.length,
+      profetBirthStatus:{
+        populationMAE:round1(mean(h.map(r=>Math.abs(r.profetPopulationError)))),
+        populationMAPE:round1(mean(h.map(r=>r.profetPopulationAbsPctError))),
+        populationMeanError:round1(mean(h.map(r=>r.profetPopulationError))),
+        netMigrationMAE:round1(mean(h.map(r=>Math.abs(r.profetNetMigrationError)))),
+        netMigrationMeanError:round1(mean(h.map(r=>r.profetNetMigrationError))),
+        grossInMigrationMAE:geo==='FA_LULEA'?null:round1(mean(h.map(r=>Math.abs(r.grossInMigrationError)))),
+        grossOutMigrationMAE:geo==='FA_LULEA'?null:round1(mean(h.map(r=>Math.abs(r.grossOutMigrationError))))
+      },
+      scbRiskFlow:scb,
+      net10Baseline:{
+        populationMAE:round1(mean(h.map(r=>Math.abs(r.baselinePopulationError)))),
+        netMigrationMAE:round1(mean(h.map(r=>Math.abs(r.baselineNetMigrationError))))
+      }
+    };
+  }
+
+  report.profetBirthStatusDiagnostic.summary[geo]={
+    observations:allRows.length,
+    oneYear:byHorizon[1],
+    twoYear:byHorizon[2],
+    threeYear:byHorizon[3],
+    byHorizon,
+    byOrigin
+  };
+}
+
 const outJson = path.join(
   ROOT, 'data', 'backtests', 'rolling_2018_2024.json'
 );
@@ -986,6 +1092,15 @@ for (const geo of ['2580','FA_LULEA']) {
     `${geo} component_recency: n+1 migration MAE=${s.oneYear.componentRecency.netMigrationMAE} vs component=${s.oneYear.lockedComponent.netMigrationMAE} vs net10=${s.oneYear.net10Baseline.netMigrationMAE} | `+
     `n+1 population MAE=${s.oneYear.componentRecency.populationMAE} vs component=${s.oneYear.lockedComponent.populationMAE} | `+
     `n+2 migration MAE=${s.twoYear.componentRecency.netMigrationMAE} vs component=${s.twoYear.lockedComponent.netMigrationMAE}`
+  );
+}
+
+for (const geo of ['2580','FA_LULEA']) {
+  const s=report.profetBirthStatusDiagnostic.summary[geo];
+  console.log(
+    `${geo} profet_birth_status: n+1 migration MAE=${s.oneYear.profetBirthStatus.netMigrationMAE} vs net10=${s.oneYear.net10Baseline.netMigrationMAE} | `+
+    `n+1 population MAE=${s.oneYear.profetBirthStatus.populationMAE} vs net10=${s.oneYear.net10Baseline.populationMAE} | `+
+    `n+2 migration MAE=${s.twoYear.profetBirthStatus.netMigrationMAE} vs net10=${s.twoYear.net10Baseline.netMigrationMAE}`
   );
 }
 
