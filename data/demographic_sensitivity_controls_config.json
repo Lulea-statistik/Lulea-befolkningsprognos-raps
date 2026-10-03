@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_sensitivity_controls_locked",
+  "component": "demographic_sensitivity_controls",
+  "purpose": "Validate user-facing fertility, mortality and migration multipliers as explicit sensitivities separate from the production baseline.",
+  "neutralValue": 1,
+  "controls": {
+    "fertMult": {
+      "uiRange": [
+        0,
+        3
+      ],
+      "baseline": 1
+    },
+    "mortMult": {
+      "uiRange": [
+        0,
+        3
+      ],
+      "baseline": 1
+    },
+    "migMult": {
+      "uiRange": [
+        -3,
+        3
+      ],
+      "baseline": 1
+    }
+  },
+  "requiredChecks": [
+    "all controls at 1 reproduce the unadjusted production baseline",
+    "fertility multiplier 0 produces zero births while leaving source rates unchanged",
+    "mortality multiplier 0 produces zero deaths while leaving source risks unchanged",
+    "net-migration multiplier 0 produces zero net migration in production net mode",
+    "migration multiplier scales the net-migration contribution deterministically",
+    "sensitivity controls do not mutate model_data or production defaults"
+  ],
+  "governance": [
+    "Multipliers are sensitivity tools, not calibration knobs.",
+    "They must never be tuned to improve historical backtest outcomes.",
+    "Baseline UI values remain exactly 1."
+  ]
+}
