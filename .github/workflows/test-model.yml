@@ -75,6 +75,9 @@ jobs:
       - name: Validate industrial workforce scenario presets
         run: python scripts/validate_industrial_workforce_scenario.py
 
+      - name: Regression-test industrial workforce scenario engine
+        run: node scripts/validate_industrial_workforce_scenario.js
+
       - name: Validate JavaScript syntax
         run: |
           node --check js/model.js
