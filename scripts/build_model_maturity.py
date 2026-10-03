@@ -19,6 +19,7 @@ HOUSING_SCENARIO_VALIDATION = ROOT / "data" / "backtests" / "housing_scenario_va
 HOUSEHOLD_PROJECTION_VALIDATION = ROOT / "data" / "backtests" / "household_projection_validation.json"
 HOUSEHOLD_PROJECTION_EXTERNAL = ROOT / "data" / "backtests" / "household_projection_external_validation.json"
 LABOUR_MARKET_SUPPORT_VALIDATION = ROOT / "data" / "backtests" / "labour_market_support_validation.json"
+FADING_POLICY_VALIDATION = ROOT / "data" / "backtests" / "fading_policy_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -794,6 +795,47 @@ def main():
             else "Keep below production maturity; investigate source/aggregation defects without changing the locked accounting rules."
             if labour_support_has_results
             else "Run the locked labour-market support validation."
+        )
+    ))
+
+    fading_cfg = load(ROOT / "data" / "fading_policy_config.json")
+    fading_validation = (
+        load(FADING_POLICY_VALIDATION)
+        if FADING_POLICY_VALIDATION.exists()
+        else {}
+    )
+    fading_gate = fading_validation.get("allPassed") is True
+    fading_has_results = bool(fading_validation.get("checks"))
+    comps.append(component(
+        policy, "fading_policy",
+        4 if fading_gate else 2 if fading_has_results else 1,
+        (
+            "production_support" if fading_gate
+            else "rejected" if fading_has_results
+            else "diagnostic"
+        ),
+        fading_gate,
+        [
+            gate(
+                "Fading thresholds and policy are explicitly documented",
+                fading_cfg.get("status") == "production_policy_audit_locked",
+                fading_cfg.get("status")
+            ),
+            gate(
+                "Information-based fading audit and downstream rolling evidence pass",
+                fading_gate,
+                (
+                    f"checks={fading_validation.get('checks')}"
+                    if fading_has_results else "Awaiting validation"
+                )
+            )
+        ],
+        (
+            "Freeze thresholds; rerun the audit whenever fertility/mortality calibration or fading mechanics change."
+            if fading_gate
+            else "Keep below production maturity; do not tune fading thresholds from consumed forecast outcomes."
+            if fading_has_results
+            else "Run the production fading-policy audit."
         )
     ))
 
