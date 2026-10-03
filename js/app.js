@@ -152,7 +152,10 @@
         s.personsPerDwelling=Number(d.personsPerDwelling);
         s.personsSource=`${d.geo==="00"?"Riket":s.municipality} · ${d.year} · ${d.source}`;
       }else{
-        s.personsSource="SCB-standard saknas";
+        // Never keep a stale automatic persons-per-dwelling value when the
+        // selected dwelling/tenure combination has no SCB default.
+        s.personsMode="manual";
+        s.personsSource="SCB-standard saknas – manuell nivå krävs";
       }
     });
   }
