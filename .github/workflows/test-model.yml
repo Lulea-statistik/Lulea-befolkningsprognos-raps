@@ -93,6 +93,9 @@ jobs:
       - name: Validate production fading policy
         run: python scripts/validate_fading_policy.py
 
+      - name: Validate neutral qutb production mode
+        run: node scripts/validate_qutb_neutralization.js
+
       - name: Validate JavaScript syntax
         run: |
           node --check js/model.js
