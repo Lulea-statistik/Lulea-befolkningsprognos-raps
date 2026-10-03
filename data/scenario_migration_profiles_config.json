@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_scenario_profile_gate_locked",
+  "component": "scenario_migration_profiles",
+  "purpose": "Validate age/sex allocation profiles used only for scenario-driven external population additions.",
+  "profiles": {
+    "observed_inflow": "Observed municipal in-migration age/sex distribution.",
+    "job_family": "Observed municipal in-migration ages 0-64; legacy sensitivity profile.",
+    "worker_hybrid": "SCB workplace employment age/sex shares (15-24,25-54,55-74) disaggregated to one-year ages using local observed in-migration.",
+    "family_companion": "Observed in-migration ages 0-17 and 25-64; ages 18-24 excluded to reduce university-driven student bias."
+  },
+  "requiredGeographies": [
+    "2580",
+    "2582",
+    "2581",
+    "2560",
+    "2514"
+  ],
+  "windows": [
+    3,
+    6,
+    10
+  ],
+  "requiredChecks": [
+    "every profile sums to 1 by geography/window",
+    "all shares are finite and nonnegative",
+    "worker_hybrid has zero mass outside ages 15-74",
+    "worker_hybrid broad age/sex totals reconcile to SCB TAB3205 target shares",
+    "family_companion has zero mass in ages 18-24",
+    "profiles affect only scenario allocation and never the demographic baseline"
+  ],
+  "governance": [
+    "These profiles are scenario priors, not causal estimates of job-induced migration.",
+    "Worker_hybrid may use SCB labour-market structure, but the total external mover count remains controlled by explicit scenario assumptions.",
+    "Any future causal migration-profile model must be validated separately before replacing these descriptive production priors."
+  ]
+}
