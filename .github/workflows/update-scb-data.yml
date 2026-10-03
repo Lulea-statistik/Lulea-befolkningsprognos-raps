@@ -200,6 +200,12 @@ jobs:
       - name: Validate future national profile coverage
         run: node scripts/validate_national_future_profiles.js
 
+      - name: Validate scenario overlap control
+        run: node scripts/validate_scenario_overlap_control.js
+
+      - name: Validate demographic sensitivity controls
+        run: node scripts/validate_demographic_sensitivity_controls.js
+
       - name: Build model maturity report
         run: python scripts/build_model_maturity.py
 
