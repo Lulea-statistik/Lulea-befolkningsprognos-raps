@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "candidate_pool_locked_before_similarity_results",
+  "target": {
+    "code": "2580",
+    "name": "Luleå kommun"
+  },
+  "purpose": "Rank pre-declared university/higher-education and regional-city municipalities by demographic and migration-profile similarity to Luleå before using any analogue signal in migration smoothing.",
+  "candidates": {
+    "1281": "Lunds kommun",
+    "1490": "Borås kommun",
+    "1780": "Karlstads kommun",
+    "1880": "Örebro kommun",
+    "2180": "Gävle kommun",
+    "2281": "Sundsvalls kommun",
+    "2380": "Östersunds kommun",
+    "2480": "Umeå kommun",
+    "0780": "Växjö kommun",
+    "0580": "Linköpings kommun",
+    "0380": "Uppsala kommun"
+  },
+  "index": {
+    "calibrationYears": [
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024
+    ],
+    "features": [
+      {
+        "key": "log_population",
+        "weight": 0.15,
+        "description": "Difference in total population size on log scale."
+      },
+      {
+        "key": "share_age_18_29",
+        "weight": 0.2,
+        "description": "Share of population aged 18-29."
+      },
+      {
+        "key": "age_structure_15_39",
+        "weight": 0.15,
+        "description": "Distance between normalized single-year age profiles 15-39."
+      },
+      {
+        "key": "in_migration_age_profile_15_39",
+        "weight": 0.2,
+        "description": "Distance between age-specific in-migration rates 15-39."
+      },
+      {
+        "key": "out_migration_age_profile_15_39",
+        "weight": 0.2,
+        "description": "Distance between age-specific out-migration rates 15-39."
+      },
+      {
+        "key": "young_adult_migration_volatility",
+        "weight": 0.1,
+        "description": "Difference in year-to-year volatility of migration rates ages 18-29."
+      }
+    ],
+    "standardization": "robust z-score across candidate pool plus Lulea",
+    "distance": "weighted root mean square feature distance",
+    "score": "100/(1+distance); higher means more similar"
+  },
+  "governance": [
+    "Candidate municipalities are fixed before similarity scores are generated.",
+    "Similarity ranking is descriptive and must not be tuned from Lulea forecast errors.",
+    "Analogue signal remains diagnostic until rolling-origin smoothing tests compare local+analogue+national against local+national.",
+    "No single analogue municipality may replace Lulea observations by default."
+  ]
+}
