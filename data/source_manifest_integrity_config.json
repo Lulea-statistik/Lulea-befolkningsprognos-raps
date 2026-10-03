@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_source_manifest_gate_locked",
+  "component": "source_manifest_integrity",
+  "purpose": "Ensure critical raw SCB/Raps inputs remain traceable to explicit table IDs, non-empty files and documented selections.",
+  "requiredSources": [
+    "population_pre2025",
+    "population_2025",
+    "mean_population_pre2025",
+    "mean_population_event_age_pre2025",
+    "births_pre2025",
+    "deaths_pre2025",
+    "migration_pre2025",
+    "migration_birth_region_pre2025",
+    "population_birth_region_pre2025",
+    "raps_national_detail_2024",
+    "raps_births_2024",
+    "commuting_flows",
+    "employment_age_profile",
+    "household_size_by_tenure",
+    "household_size_by_apartment",
+    "household_totals",
+    "households_by_type",
+    "housing_stock"
+  ],
+  "requiredChecks": [
+    "every required source is present in data/raw/manifest.json",
+    "every source has a non-empty SCB/Raps table identifier",
+    "every source points to an existing non-empty raw file",
+    "manifest row counts contain at least one data row plus header",
+    "every downloaded source records a non-empty selection",
+    "pre-CKM population/calibration sources stop no later than 2024",
+    "the CKM base-population source explicitly contains 2025"
+  ],
+  "governance": [
+    "Source provenance is a hard production requirement.",
+    "A changed SCB table ID or dimension selection must remain visible in the manifest.",
+    "Frozen historical files may be reused only with retained manifest metadata."
+  ]
+}
