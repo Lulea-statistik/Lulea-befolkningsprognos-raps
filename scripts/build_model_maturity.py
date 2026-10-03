@@ -168,6 +168,48 @@ def main():
         "Freeze method; continue annual regression monitoring."
     ))
 
+    loc_methods = age_weight.get("localizationMethodDiagnostic", {})
+    fert_method = loc_methods.get("fertility", {}).get("summary", {})
+    mort_method = loc_methods.get("mortality", {}).get("summary", {})
+
+    fert_evidence = []
+    for geo in GEOS:
+        for w in WINDOWS:
+            s = fert_method.get(geo, {}).get(w, {})
+            if s:
+                fert_evidence.append(
+                    f"{geo} w{w}: current={s.get('currentBirthsMAE')}, cubicSpline10={s.get('cubicSpline10BirthsMAE')}"
+                )
+    comps.append(component(
+        policy, "fertility_spline_candidate", 2, "development_locked", False,
+        [gate(
+            "Vintage-correct development diagnostic generated",
+            bool(fert_evidence),
+            "; ".join(fert_evidence) if fert_evidence else "missing",
+            required=False
+        )],
+        "Keep lambda=10 locked as the representative cubic-spline candidate for future untouched validation; do not retune from consumed 2018-2024 outcomes."
+    ))
+
+    mort_evidence = []
+    for geo in GEOS:
+        for w in WINDOWS:
+            s = mort_method.get(geo, {}).get(w, {})
+            if s:
+                mort_evidence.append(
+                    f"{geo} w{w}: current={s.get('currentDeathsMAE')}, EB={s.get('empiricalBayesDeathsMAE')}"
+                )
+    comps.append(component(
+        policy, "mortality_eb_candidate", 2, "development_locked", False,
+        [gate(
+            "Vintage-correct development diagnostic generated",
+            bool(mort_evidence),
+            "; ".join(mort_evidence) if mort_evidence else "missing",
+            required=False
+        )],
+        "Keep the current method-of-moments empirical-Bayes formulation locked for future untouched validation; do not retune from consumed 2018-2024 outcomes."
+    ))
+
     # Net10 incumbent.
     net10 = rolling["summary"]["2580"]["10"]
     hgate = (holdout.get("productionGate") or {}).get("passedAllGates")
