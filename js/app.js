@@ -461,6 +461,7 @@
     renderAnalysis();
     renderDetailedAgeAnalysis();
     renderMigrationAnalysis();
+    renderMigrationLocalWeightCharts();
     renderYoungAdultMigrationDiagnostic();
     renderMigrationLegDiagnostic();
     renderLabourAnalysis();
@@ -521,7 +522,7 @@
     const f=validation?.forecasts?.[geo];
     if(!f){$("windowComparison").innerHTML="<p class='hint'>Valideringsdata genereras i nästa workflow-körning.</p>";return;}
     $("windowComparison").innerHTML=`<table class="miniTable"><thead><tr><th>Fönster</th><th>2050</th><th>Förändring</th></tr></thead><tbody>
-      ${[6,10,19].map(w=>`<tr><td>${w} år</td><td>${fmt.format(f[w]?.endPopulation||0)}</td><td>${(f[w]?.changePct||0)>=0?"+":""}${pct.format(f[w]?.changePct||0)} %</td></tr>`).join("")}
+      ${[3,6,10].map(w=>`<tr><td>${w} år</td><td>${fmt.format(f[w]?.endPopulation||0)}</td><td>${(f[w]?.changePct||0)>=0?"+":""}${pct.format(f[w]?.changePct||0)} %</td></tr>`).join("")}
       </tbody></table>`;
   }
 
@@ -529,7 +530,7 @@
     const rf=validation?.relativeFactors||data.diagnostics?.relativeFactors;
     const fert=rf?.fertility||[], mort=rf?.mortality||[];
     $("relativeFactors").innerHTML=`<table class="miniTable"><thead><tr><th>Fönster</th><th>Fruktsamhet</th><th>Dödlighet</th></tr></thead><tbody>
-      ${[6,10,19].map(w=>{
+      ${[3,6,10].map(w=>{
         const a=fert.find(x=>x.geo===geo&&+x.window===w);
         const b=mort.find(x=>x.geo===geo&&+x.window===w);
         return `<tr><td>${w} år</td><td>${a?pct.format(a.raw*100)+" %":"–"}</td><td>${b?pct.format(b.raw*100)+" %":"–"}</td></tr>`;
@@ -830,6 +831,91 @@
         </tr>`).join("")}</tbody>
       </table>
       <p class="hint">Status: diagnostik. Ingen utjämnad åldersprofil används ännu av produktionsprognosen.</p>`;
+  }
+
+  function renderMigrationLocalWeightCharts(){
+    const note=$("migrationLocalWeightNote");
+    const windowLabel=$("migrationLocalWeightWindow");
+    const ids=[
+      "migrationWeightCountyIn","migrationWeightCountyOut",
+      "migrationWeightRestIn","migrationWeightRestOut",
+      "migrationWeightInternationalIn","migrationWeightInternationalOut"
+    ];
+    const clear=(msg)=>{
+      ids.forEach(id=>{const el=$(id);if(el)el.innerHTML="";});
+      if(note) note.innerHTML=`<p class="hint">${msg}</p>`;
+    };
+
+    const geo=$("geo").value;
+    if(geo==="FA_LULEA"){
+      if(windowLabel) windowLabel.textContent="Kommunnivå";
+      clear("Lokala flyttvikter visas på kommunnivå. FA:s länsinterna bruttoflöden innehåller interna kommunflyttar och kräver därför separat aggregering.");
+      return;
+    }
+
+    const compact=smoothingDiagnostic||data.diagnostics?.migrationAgeSmoothingCompact;
+    const rows=(compact?.legSexLocalWeightRows||[]).filter(r=>r.geo===geo);
+    if(!rows.length){
+      if(windowLabel) windowLabel.textContent="–";
+      clear("De sex lokala flyttvikterna genereras i nästa Update SCB data-körning.");
+      return;
+    }
+
+    const diagnosticWindow=Number(compact?.window||rows[0]?.window||0);
+    if(windowLabel){
+      windowLabel.textContent=diagnosticWindow
+        ? `Diagnostiskt profilfönster: ${diagnosticWindow} år`
+        : "Diagnostisk profil";
+    }
+
+    const specs=[
+      {id:"migrationWeightCountyIn",leg:"county",direction:"in"},
+      {id:"migrationWeightCountyOut",leg:"county",direction:"out"},
+      {id:"migrationWeightRestIn",leg:"rest_sweden",direction:"in"},
+      {id:"migrationWeightRestOut",leg:"rest_sweden",direction:"out"},
+      {id:"migrationWeightInternationalIn",leg:"international",direction:"in"},
+      {id:"migrationWeightInternationalOut",leg:"international",direction:"out"}
+    ];
+
+    for(const spec of specs){
+      const rr=rows.filter(r=>r.leg===spec.leg&&r.direction===spec.direction);
+      const ages=[...new Set(rr.map(r=>+r.age))].sort((a,b)=>a-b);
+      const women=ages.map(age=>rr.find(r=>+r.age===age&&r.sex==="K"));
+      const men=ages.map(age=>rr.find(r=>+r.age===age&&r.sex==="M"));
+      drawAgeLineChart(spec.id,ages,[
+        {
+          name:"Kvinnor lokal vikt",
+          values:women.map(r=>Number(r?.localRetentionWeight||0)*100),
+          cls:"lineWomen",
+          suffix:" %"
+        },
+        {
+          name:"Män lokal vikt",
+          values:men.map(r=>Number(r?.localRetentionWeight||0)*100),
+          cls:"lineMen",
+          suffix:" %"
+        }
+      ],{yMin:0,yMax:100,xLabel:"Ålder",valueDigits:1});
+    }
+
+    const meanWeight=rows.length
+      ? rows.reduce((sum,r)=>sum+Number(r.localRetentionWeight||0),0)/rows.length
+      : 0;
+    const meanInfo=rows.length
+      ? rows.reduce((sum,r)=>sum+Number(r.informationWeight||0),0)/rows.length
+      : 0;
+    const meanPersistence=rows.length
+      ? rows.reduce((sum,r)=>sum+Number(r.persistenceWeight||0),0)/rows.length
+      : 0;
+    if(note){
+      note.innerHTML=`
+        <div class="policyGrid">
+          <div><span>Genomsnittlig lokal retention</span><strong>${pct.format(meanWeight*100)} %</strong></div>
+          <div><span>Genomsnittlig informationsvikt</span><strong>${pct.format(meanInfo*100)} %</strong></div>
+          <div><span>Genomsnittlig persistensvikt</span><strong>${pct.format(meanPersistence*100)} %</strong></div>
+        </div>
+        <p class="hint">Detta är diagnostik för den framtida flyttmodellen. Produktionsbaslinjen är fortfarande net10 och använder inte dessa sex ålder/kön-vikter ännu.</p>`;
+    }
   }
 
   function renderYoungAdultMigrationDiagnostic(){
