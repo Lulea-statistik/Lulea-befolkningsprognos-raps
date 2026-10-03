@@ -255,14 +255,52 @@ def main():
         "Implement Profet incrementally: direct risk structure, then birth status, then consistency adjustment."
     ))
 
+    birth_diag = rolling.get("profetBirthStatusDiagnostic", {}).get("summary", {})
+    birth_lulea = birth_diag.get("2580", {})
+    birth_n1 = birth_lulea.get("oneYear")
+    birth_n2 = birth_lulea.get("twoYear")
+    birth_gate_checks = []
+    birth_evidence = []
+    if birth_n1 and birth_n2:
+        c1 = birth_n1["profetBirthStatus"]["populationMAE"] < birth_n1["net10Baseline"]["populationMAE"]
+        c2 = birth_n1["profetBirthStatus"]["netMigrationMAE"] < birth_n1["net10Baseline"]["netMigrationMAE"]
+        c3 = birth_n2["profetBirthStatus"]["populationMAE"] <= birth_n2["net10Baseline"]["populationMAE"]
+        c4 = birth_n2["profetBirthStatus"]["netMigrationMAE"] <= birth_n2["net10Baseline"]["netMigrationMAE"]
+        birth_gate_checks = [c1, c2, c3, c4]
+        birth_evidence = [
+            f"n+1 population {birth_n1['profetBirthStatus']['populationMAE']} < {birth_n1['net10Baseline']['populationMAE']}",
+            f"n+1 migration {birth_n1['profetBirthStatus']['netMigrationMAE']} < {birth_n1['net10Baseline']['netMigrationMAE']}",
+            f"n+2 population {birth_n2['profetBirthStatus']['populationMAE']} <= {birth_n2['net10Baseline']['populationMAE']}",
+            f"n+2 migration {birth_n2['profetBirthStatus']['netMigrationMAE']} <= {birth_n2['net10Baseline']['netMigrationMAE']}",
+        ]
+    birth_gate = len(birth_gate_checks) == 4 and all(birth_gate_checks)
+    birth_has_rolling = bool(birth_n1 and birth_n2)
+    birth_level = 3 if birth_gate else 2
     comps.append(component(
-        policy, "birth_status", 1, "diagnostic", False,
-        [gate(
-            "Source data configured",
-            True,
-            "Population and migration by birth status are already extracted; state dimension is not active."
-        )],
-        "Introduce Swedish-/foreign-born state without simultaneously changing other migration assumptions."
+        policy, "birth_status", birth_level,
+        "validated_candidate" if birth_gate else "development", False,
+        [
+            gate(
+                "Source data configured",
+                True,
+                "Population and all six migration flows are available by Swedish-/foreign-born, age and sex."
+            ),
+            gate(
+                "Birth-status state runs in the cohort engine",
+                birth_has_rolling,
+                "Rolling-origin Profet birth-status diagnostic generated" if birth_has_rolling else "Awaiting rolling-origin run"
+            ),
+            gate(
+                "Pre-locked Luleå n+1/n+2 promotion gate",
+                birth_gate,
+                "; ".join(birth_evidence) if birth_evidence else "Awaiting rolling-origin results"
+            )
+        ],
+        (
+            "Lock new external municipalities before any level-4 evaluation."
+            if birth_gate
+            else "Keep at level 2; do not retune birth-status parameters from these outcomes."
+        )
     ))
 
     comps.append(component(
