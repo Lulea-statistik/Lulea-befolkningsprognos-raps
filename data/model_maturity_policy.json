@@ -120,6 +120,16 @@
       "label": "Basbefolkning och CKM-metodbrygga 2024→2025",
       "targetLevel": 4,
       "requiredGate": "2025 års CKM-befolkning ska vara komplett prognosbas, medan historisk kalibrering uttryckligen stannar 2024; FA ska kunna rekonstrueras additivt och metodbrytningen ska vara versionssäkrad."
+    },
+    "sex_ratio_at_birth": {
+      "label": "Könskvot vid födseln",
+      "targetLevel": 4,
+      "requiredGate": "Fast Raps-könskvot 0,515/0,485 ska vara källdokumenterad, summera till 1, användas konsekvent i prognosmotorn och inte påverka totalt antal födda."
+    },
+    "fa_additivity": {
+      "label": "FA-additivitet",
+      "targetLevel": 4,
+      "requiredGate": "Publicerad Luleå FA-prognos ska exakt motsvara summan av de fem kommunprognoserna för befolkning, födda, döda, nettoflyttning, scenarieeffekt och ålder/kön; kommunala bruttoflyttar ska inte presenteras som externa FA-flöden."
     }
   }
 }
