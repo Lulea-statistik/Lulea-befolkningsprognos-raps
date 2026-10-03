@@ -164,6 +164,9 @@ jobs:
       - name: Validate consistency adjustment on frozen SCB vintages
         run: python scripts/build_scb_consistency_vintage_validation.py
 
+      - name: Validate industrial workforce scenario presets
+        run: python scripts/validate_industrial_workforce_scenario.py
+
       - name: Build model maturity report
         run: python scripts/build_model_maturity.py
 
