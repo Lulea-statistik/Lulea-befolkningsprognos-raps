@@ -959,6 +959,11 @@ def build_origin(
             "rows": annual_actuals(
                 pop, births, deaths, inflow, outflow, netmig, origin, end_year
             ),
+            "populationAgeRows": [
+                row
+                for year in range(origin + 1, end_year + 1)
+                for row in base_population(pop, year)
+            ],
             "nationalAssumptionRows": national_assumption_rows_from_counts(
                 origin,
                 end_year,
