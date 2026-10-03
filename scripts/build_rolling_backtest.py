@@ -373,6 +373,312 @@ def national_only_fertility_rows(future_fert, start_year, end_year):
     return result
 
 
+
+def _rms(values):
+    vals = [float(v) for v in values]
+    return math.sqrt(sum(v * v for v in vals) / len(vals)) if vals else 0.0
+
+
+def _robust_scale(values):
+    vals = [float(v) for v in values]
+    if not vals:
+        return 1.0
+    med = statistics.median(vals)
+    mad = statistics.median(abs(v - med) for v in vals)
+    if mad > 0:
+        return 1.4826 * mad
+    if len(vals) > 1:
+        sd = statistics.pstdev(vals)
+        if sd > 0:
+            return sd
+    return 1.0
+
+
+def rolling_analogue_ranking(pop, inflow, outflow, origin, config):
+    """Re-rank the locked analogue pool using only information through origin."""
+    target = config["target"]["code"]
+    candidates = list((config.get("candidates") or {}).keys())
+    geos = [target] + candidates
+    history_len = len(config["index"]["calibrationYears"])
+    min_history = int(
+        config["smoothingCandidate"]["backtestSelection"]["minimumHistoryYears"]
+    )
+    start = max(2006, origin - history_len + 1)
+    years = list(range(start, origin + 1))
+    if len(years) < min_history:
+        raise RuntimeError(
+            f"Need at least {min_history} history years for analogue ranking at {origin}."
+        )
+
+    vectors = {}
+    group_keys = {
+        "log_population": ["log_population"],
+        "share_age_18_29": ["share_age_18_29"],
+        "age_structure_15_39": [f"age_share_{age}" for age in range(15, 40)],
+        "in_migration_age_profile_15_39": [f"in_rate_{age}" for age in range(15, 40)],
+        "out_migration_age_profile_15_39": [f"out_rate_{age}" for age in range(15, 40)],
+        "young_adult_migration_volatility": ["young_migration_volatility"],
+    }
+
+    for geo in geos:
+        annual_population = {}
+        annual_young_share = {}
+        annual_young_migration_rate = {}
+        age_pop_sum = defaultdict(float)
+        age_in_sum = defaultdict(float)
+        age_out_sum = defaultdict(float)
+        age_exposure_sum = defaultdict(float)
+        for year in years:
+            total = sum(
+                pop.get((geo, year, sex, age), 0.0)
+                for sex in ("K", "M") for age in range(101)
+            )
+            young = sum(
+                pop.get((geo, year, sex, age), 0.0)
+                for sex in ("K", "M") for age in range(18, 30)
+            )
+            annual_population[year] = total
+            annual_young_share[year] = 0.0 if total <= 0 else young / total
+            young_in = sum(
+                inflow.get((geo, year, sex, age), 0.0)
+                for sex in ("K", "M") for age in range(18, 30)
+            )
+            young_out = sum(
+                outflow.get((geo, year, sex, age), 0.0)
+                for sex in ("K", "M") for age in range(18, 30)
+            )
+            annual_young_migration_rate[year] = (
+                0.0 if young <= 0 else (young_in + young_out) / young
+            )
+            for age in range(15, 40):
+                exposure = sum(
+                    pop.get((geo, year, sex, age), 0.0)
+                    for sex in ("K", "M")
+                )
+                age_pop_sum[age] += exposure
+                age_in_sum[age] += sum(
+                    inflow.get((geo, year, sex, age), 0.0)
+                    for sex in ("K", "M")
+                )
+                age_out_sum[age] += sum(
+                    outflow.get((geo, year, sex, age), 0.0)
+                    for sex in ("K", "M")
+                )
+                age_exposure_sum[age] += exposure
+
+        if not annual_population or statistics.fmean(annual_population.values()) <= 0:
+            raise RuntimeError(f"Missing analogue population history for {geo} at {origin}.")
+        profile_total = sum(age_pop_sum.values())
+        vec = {
+            "log_population": math.log(
+                max(1.0, statistics.fmean(annual_population.values()))
+            ),
+            "share_age_18_29": statistics.fmean(annual_young_share.values()),
+            "young_migration_volatility": (
+                statistics.pstdev(annual_young_migration_rate.values())
+                if len(annual_young_migration_rate) > 1 else 0.0
+            ),
+        }
+        for age in range(15, 40):
+            exposure = age_exposure_sum[age]
+            vec[f"age_share_{age}"] = (
+                0.0 if profile_total <= 0 else age_pop_sum[age] / profile_total
+            )
+            vec[f"in_rate_{age}"] = (
+                0.0 if exposure <= 0 else age_in_sum[age] / exposure
+            )
+            vec[f"out_rate_{age}"] = (
+                0.0 if exposure <= 0 else age_out_sum[age] / exposure
+            )
+        vectors[geo] = vec
+
+    weights = {
+        row["key"]: float(row["weight"])
+        for row in config["index"]["features"]
+    }
+    rows = []
+    for geo in candidates:
+        components = {}
+        for feature, keys in group_keys.items():
+            diffs = []
+            for key in keys:
+                scale = _robust_scale([vectors[g][key] for g in geos])
+                diffs.append((vectors[geo][key] - vectors[target][key]) / scale)
+            components[feature] = _rms(diffs)
+        distance = math.sqrt(sum(
+            weights[k] * components[k] * components[k]
+            for k in components
+        ))
+        rows.append({
+            "geo": geo,
+            "name": config["candidates"][geo],
+            "distance": distance,
+            "similarityScore": 100.0 / (1.0 + distance),
+        })
+    rows.sort(key=lambda r: (r["distance"], r["geo"]))
+    top_k = int(config["smoothingCandidate"]["backtestSelection"]["topK"])
+    return rows[:top_k]
+
+
+def _all_leg_event(pre2025, geo, year, sex, age, direction):
+    return sum(
+        pre2025.get((geo, year, sex, age, leg, direction), 0.0)
+        for leg in b.MIGRATION_LEG_LABELS
+    )
+
+
+def smoothed_net_rows_from_diagnostic(diag, geo="2580"):
+    """Convert local+national smoothed gross profiles into a net age/sex profile."""
+    selected = [
+        r for r in (diag.get("rows") or [])
+        if r.get("geo") == geo and r.get("leg") == "all"
+    ]
+    by_cell = defaultdict(dict)
+    for row in selected:
+        by_cell[(row["sex"], int(row["age"]))][row["direction"]] = float(
+            row.get("smoothedMeanPersons") or 0.0
+        )
+    result = []
+    for sex in ("K", "M"):
+        for age in range(101):
+            values = by_cell[(sex, age)]
+            result.append({
+                "geo": geo,
+                "window": 10,
+                "year": "BASE",
+                "sex": sex,
+                "age": age,
+                "value": values.get("in", 0.0) - values.get("out", 0.0),
+                "source": "adaptive local+national age smoothing; gross totals preserved",
+            })
+    return result
+
+
+def analogue_smoothed_net_rows(
+    pre2025, base_diag, ranking, analogue_config, geo="2580"
+):
+    """Extend the locked adaptive smoothing target with analogue curvature."""
+    smoothing = analogue_config["smoothingCandidate"]["structuralTarget"]
+    blend = smoothing["curvatureBlend"]
+    national_weight = float(blend["nationalWeight"])
+    analogue_weight = float(blend["analogueWeight"])
+    profile_window = int(base_diag["window"])
+    radius = int(base_diag["neighborRadius"])
+    years = list(b.window_years(profile_window))
+
+    selected = [
+        r for r in (base_diag.get("rows") or [])
+        if r.get("geo") == geo and r.get("leg") == "all"
+    ]
+    base_map = {
+        (r["direction"], r["sex"], int(r["age"])): r
+        for r in selected
+    }
+    score_sum = sum(max(0.0, float(r["similarityScore"])) for r in ranking)
+    analogue_weights = {
+        r["geo"]: (
+            max(0.0, float(r["similarityScore"])) / score_sum
+            if score_sum > 0 else 1.0 / max(1, len(ranking))
+        )
+        for r in ranking
+    }
+
+    persons_by_direction = {}
+    audit = []
+    for direction in ("in", "out"):
+        analogue_share = defaultdict(float)
+        for analogue_geo, weight in analogue_weights.items():
+            total = sum(
+                _all_leg_event(pre2025, analogue_geo, year, sex, age, direction)
+                for year in years for sex in ("K", "M") for age in range(101)
+            )
+            for sex in ("K", "M"):
+                for age in range(101):
+                    events = sum(
+                        _all_leg_event(
+                            pre2025, analogue_geo, year, sex, age, direction
+                        )
+                        for year in years
+                    )
+                    share = 0.0 if total <= 0 else events / total
+                    analogue_share[(sex, age)] += weight * share
+
+        candidates = {}
+        for sex in ("K", "M"):
+            for age in range(101):
+                row = base_map[(direction, sex, age)]
+                analogue_neighbors = []
+                for delta in range(-radius, radius + 1):
+                    if delta == 0:
+                        continue
+                    other = age + delta
+                    if 0 <= other <= 100:
+                        analogue_neighbors.append(analogue_share[(sex, other)])
+                analogue_neighbor = (
+                    statistics.fmean(analogue_neighbors)
+                    if analogue_neighbors else analogue_share[(sex, age)]
+                )
+                analogue_curvature = (
+                    analogue_share[(sex, age)] - analogue_neighbor
+                )
+                target = max(
+                    0.0,
+                    float(row["neighborLocalShare"])
+                    + national_weight * float(row["nationalCurvature"])
+                    + analogue_weight * analogue_curvature,
+                )
+                retention = float(row["localRetentionWeight"])
+                smooth_weight = float(row["smoothingWeight"])
+                candidate = max(
+                    0.0,
+                    retention * float(row["rawShare"])
+                    + smooth_weight * target,
+                )
+                candidates[(sex, age)] = candidate
+                audit.append({
+                    "direction": direction,
+                    "sex": sex,
+                    "age": age,
+                    "analogueShare": analogue_share[(sex, age)],
+                    "analogueCurvature": analogue_curvature,
+                    "structuralTargetShare": target,
+                    "localRetentionWeight": retention,
+                })
+
+        total_candidate = sum(candidates.values())
+        annual_total = sum(
+            _all_leg_event(pre2025, geo, year, sex, age, direction)
+            for year in years for sex in ("K", "M") for age in range(101)
+        ) / float(profile_window)
+        persons_by_direction[direction] = {
+            cell: (
+                annual_total * (
+                    float(base_map[(direction, cell[0], cell[1])]["rawShare"])
+                    if total_candidate <= 0
+                    else value / total_candidate
+                )
+            )
+            for cell, value in candidates.items()
+        }
+
+    result = []
+    for sex in ("K", "M"):
+        for age in range(101):
+            result.append({
+                "geo": geo,
+                "window": 10,
+                "year": "BASE",
+                "sex": sex,
+                "age": age,
+                "value": (
+                    persons_by_direction["in"][(sex, age)]
+                    - persons_by_direction["out"][(sex, age)]
+                ),
+                "source": "adaptive local+national+analogue smoothing; gross totals preserved",
+            })
+    return result, audit
+
+
 def national_only_mortality_rows(future_mort, start_year, end_year):
     """Build a no-localization mortality alternative for diagnostics only.
 
