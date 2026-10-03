@@ -477,7 +477,7 @@
 
   function renderFadingPolicy(){
     const p=data.diagnostics?.relativeFactors?.fallbackFading;
-    if(!p){$("fadingPolicy").innerHTML="<p>Ingen fading-policy hittades.</p>";return;}
+    if(!p){$("fadingPolicy").innerHTML="<p>Ingen policy för informationsvägd utjämning hittades.</p>";return;}
     $("fadingPolicy").innerHTML=`
       <div class="policyGrid">
         <div><span>0 % lokal vikt t.o.m.</span><strong>${p.zeroLocalExposure??"–"}</strong></div>
@@ -620,7 +620,7 @@
         return `<tr><td>${w} år</td><td>${a?pct.format(a.raw*100)+" %":"–"}</td><td>${b?pct.format(b.raw*100)+" %":"–"}</td></tr>`;
       }).join("")}
       </tbody></table>
-      <p class="hint">100 % = rikets åldersstandardiserade nivå. Fading sker därefter per ålderscell.</p>`;
+      <p class="hint">100 % = rikets åldersstandardiserade nivå. Informationsvägd utjämning sker därefter per ålderscell.</p>`;
   }
 
   function renderAgeStructure(geo){
@@ -653,7 +653,7 @@
     const w=String($("window").value);
     const ex=validation?.fadingExamples?.[geo]?.[w];
     if(!ex){
-      $("fadingExamples").innerHTML="<p class='hint'>Fadingdiagnostik genereras i nästa workflow-körning.</p>";
+      $("fadingExamples").innerHTML="<p class='hint'>Diagnostik för informationsvägd utjämning genereras i nästa workflow-körning.</p>";
       return;
     }
     const fertRows=(ex.fertility||[]).map(r=>`<tr><td>${r.age}</td><td>${r.averageAnnualExposure==null?"–":fmt1.format(r.averageAnnualExposure)}</td><td>${r.expectedEvents==null?"–":fmt1.format(r.expectedEvents)}</td><td>${r.localWeight==null?"–":pct.format(r.localWeight)+" %"}</td><td>${r.rawCellFactor==null?"–":pct.format(r.rawCellFactor*100)+" %"}</td></tr>`).join("");
