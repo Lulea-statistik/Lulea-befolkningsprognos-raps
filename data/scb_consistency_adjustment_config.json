@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "development_candidate_locked_before_adjustment_results",
+  "productionDefault": false,
+  "scope": "municipality_to_county",
+  "county": "25",
+  "flows": {
+    "rest_sweden_in": "match_county_domestic_in",
+    "rest_sweden_out": "match_county_domestic_out",
+    "international_in": "match_county_immigration",
+    "international_out": "match_county_emigration",
+    "within_county": "balance_municipal_in_and_out_to_common_total"
+  },
+  "allocation": "proportional_nonnegative_scaling",
+  "zeroBaseFallback": "equal_share_across_positive_eligible_municipalities",
+  "massPreserving": true,
+  "nationalLayer": {
+    "active": false,
+    "reason": "Only Norrbotten municipality-to-county support geography is currently locked; all-county support is required before county-to-national activation."
+  },
+  "governance": "No parameter tuning from Lulea outcome errors. This stage validates accounting and mass preservation only."
+}
