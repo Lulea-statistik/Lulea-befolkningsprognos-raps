@@ -16,6 +16,7 @@ CONSISTENCY_VINTAGE = ROOT / "data" / "backtests" / "scb_consistency_vintage_val
 INDUSTRIAL_SCENARIO_VALIDATION = ROOT / "data" / "backtests" / "industrial_workforce_scenario_validation.json"
 INDUSTRIAL_SCENARIO_ENGINE_VALIDATION = ROOT / "data" / "backtests" / "industrial_workforce_scenario_engine_validation.json"
 HOUSING_SCENARIO_VALIDATION = ROOT / "data" / "backtests" / "housing_scenario_validation.json"
+HOUSEHOLD_PROJECTION_VALIDATION = ROOT / "data" / "backtests" / "household_projection_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -673,6 +674,47 @@ def main():
             else "Complete deterministic engine regression before level 4."
             if housing_level == 3
             else "Complete documented housing scenario presets and ranges."
+        )
+    ))
+
+    household_cfg = load(ROOT / "data" / "household_projection_config.json")
+    household_validation = (
+        load(HOUSEHOLD_PROJECTION_VALIDATION)
+        if HOUSEHOLD_PROJECTION_VALIDATION.exists()
+        else {}
+    )
+    household_has_results = bool(household_validation.get("checks"))
+    household_gate = household_validation.get("allPassed") is True
+    household_level = 4 if household_gate else 2 if household_has_results else 1
+    comps.append(component(
+        policy, "household_projection", household_level,
+        (
+            "production_support" if household_gate
+            else "rejected" if household_has_results
+            else "diagnostic"
+        ),
+        household_gate,
+        [
+            gate(
+                "Validation gate locked before results",
+                household_cfg.get("status") == "validation_gate_locked_before_results",
+                household_cfg.get("status")
+            ),
+            gate(
+                "Rolling household projection gate passes for Luleå and FA",
+                household_gate,
+                (
+                    f"checks={household_validation.get('checks')}"
+                    if household_has_results else "Awaiting rolling validation"
+                )
+            )
+        ],
+        (
+            "Keep constant latest persons-per-household as the production-support default; rerun the same rolling gate when household data refresh."
+            if household_gate
+            else "Keep below production maturity; do not tune the five-year trend window or thresholds from these consumed outcomes."
+            if household_has_results
+            else "Run the locked rolling household projection validation."
         )
     ))
 
