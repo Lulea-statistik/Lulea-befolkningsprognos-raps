@@ -14,6 +14,7 @@ SMOOTHING = ROOT / "data" / "backtests" / "migration_age_smoothing.json"
 CONSISTENCY_ADJUSTMENT = ROOT / "data" / "backtests" / "scb_consistency_adjustment.json"
 CONSISTENCY_VINTAGE = ROOT / "data" / "backtests" / "scb_consistency_vintage_validation.json"
 INDUSTRIAL_SCENARIO_VALIDATION = ROOT / "data" / "backtests" / "industrial_workforce_scenario_validation.json"
+INDUSTRIAL_SCENARIO_ENGINE_VALIDATION = ROOT / "data" / "backtests" / "industrial_workforce_scenario_engine_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -487,10 +488,27 @@ def main():
         and all(k in industrial_presets for k in ("low", "reference", "high"))
         and len(industrial_ranges) >= 5
     )
-    industrial_level = 3 if industrial_structure_ok else 2
+    industrial_engine_validation = (
+        load(INDUSTRIAL_SCENARIO_ENGINE_VALIDATION)
+        if INDUSTRIAL_SCENARIO_ENGINE_VALIDATION.exists()
+        else {}
+    )
+    industrial_engine_ok = (
+        industrial_engine_validation.get("allPassed") is True
+    )
+    industrial_level = (
+        4 if industrial_structure_ok and industrial_engine_ok
+        else 3 if industrial_structure_ok
+        else 2
+    )
+    industrial_lifecycle = (
+        "production_ready_scenario" if industrial_level == 4
+        else "validated_scenario" if industrial_level == 3
+        else "development_scenario"
+    )
     comps.append(component(
         policy, "industrial_workforce_scenario", industrial_level,
-        "validated_scenario" if industrial_structure_ok else "development_scenario", False,
+        industrial_lifecycle, False,
         [
             gate(
                 "Scenario is explicitly excluded from baseline",
@@ -517,11 +535,22 @@ def main():
                     f"checks={industrial_validation.get('checks')}"
                     if industrial_validation else "Awaiting structural validation"
                 )
+            ),
+            gate(
+                "End-to-end scenario engine regression passes",
+                industrial_engine_ok,
+                (
+                    f"checks={industrial_engine_validation.get('checks')}"
+                    if industrial_engine_validation
+                    else "Awaiting engine regression"
+                )
             )
         ],
         (
-            "Expose the validated presets in the UI and add deterministic end-to-end preset regression tests before level 4."
-            if industrial_structure_ok
+            "Keep presets as sensitivity scenarios, never baseline assumptions; rerun structural and engine regression tests whenever scenario mechanics change."
+            if industrial_level == 4
+            else "Run end-to-end preset regression through the scenario engine before level 4."
+            if industrial_level == 3
             else "Complete documented presets/ranges and structural validation."
         )
     ))
