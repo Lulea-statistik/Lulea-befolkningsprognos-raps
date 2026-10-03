@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_rule_locked",
+  "component": "fa_additivity",
+  "purpose": "Guarantee that published Lulea FA results are the exact additive sum of the five municipal simulations rather than a separate independently calibrated sixth forecast.",
+  "members": [
+    "2580",
+    "2582",
+    "2581",
+    "2560",
+    "2514"
+  ],
+  "requiredChecks": [
+    "FA population equals the sum of all five municipality forecasts in every tested year",
+    "FA births, deaths, net migration and scenario effects equal municipal sums",
+    "FA population by age and sex equals municipal sums cell by cell",
+    "internal scenario redistribution remains net zero on FA level",
+    "municipal gross migration is not exposed as FA external gross migration"
+  ],
+  "governance": [
+    "FA-specific calibrated profiles remain diagnostic and must not drive a separate published FA forecast.",
+    "Any change in FA membership requires an explicit config and validation update.",
+    "The additive rule applies to baseline and scenario runs."
+  ]
+}
