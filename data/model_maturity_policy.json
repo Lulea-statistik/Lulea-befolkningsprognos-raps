@@ -155,6 +155,11 @@
       "label": "Scenarieprofiler för jobbdriven inflyttning",
       "targetLevel": 4,
       "requiredGate": "Alla scenarieprofiler ska vara kompletta, summera till 1 och vara icke-negativa; worker_hybrid ska exakt återge SCB:s breda ålder/kön-struktur och family_companion ska exkludera 18–24, samtidigt som profilerna hålls separata från baslinjens migration."
+    },
+    "model_data_integrity": {
+      "label": "Kärndata: fullständighet och unikhet",
+      "targetLevel": 4,
+      "requiredGate": "Basbefolkning samt produktionsprofiler för fruktsamhet, dödlighet och nettoflyttning ska vara kompletta för alla fem kommuner och huvudfönster, sakna dubblettnycklar och endast innehålla numeriskt giltiga värden."
     }
   }
 }
