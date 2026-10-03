@@ -170,6 +170,11 @@
       "label": "Årlig befolkningsbalans",
       "targetLevel": 4,
       "requiredGate": "För varje år, kommun och FA ska förändringen exakt motsvara födda minus döda plus nettoflyttning plus explicit scenarieeffekt, och ny befolkning ska exakt motsvara föregående befolkning plus förändringen."
+    },
+    "housing_occupancy_defaults": {
+      "label": "SCB-standard för personer per bostad",
+      "targetLevel": 4,
+      "requiredGate": "Alla stödda bostadstyp/upplåtelse/storlek-kombinationer ska ha kommunal SCB-standard eller explicit riksfallback för produktionsåret; värden ska vara positiva och källa tydlig, medan kombinationer utan stöd ska kräva manuell nivå."
     }
   }
 }
