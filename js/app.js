@@ -1488,6 +1488,7 @@
 
     renderBacktestTable(geo,bw);
     renderBacktestAgeError(geo,bw);
+    renderBacktestAgeMultiYear(geo,bw);
     renderBacktestCohortTable(geo,bw);
     renderBacktestMigrationLegAgeTable(geo,bw);
     renderScbBenchmarkTable(geo,selected);
@@ -1525,6 +1526,74 @@
         <td>${r.pctError==null?"–":(r.pctError>=0?"+":"")+pct.format(r.pctError)+" %"}</td>
       </tr>`).join("")}
       </tbody></table></div>`;
+  }
+
+  function renderBacktestAgeMultiYear(geo,w){
+    const chart=$("backtestAgeMultiYearChart");
+    const table=$("backtestAgeMultiYearTable");
+    if(!chart || !table) return;
+
+    const rows=w?(backtest?.ageErrors?.[geo]?.[w]||[]):[];
+    if(!rows.length){
+      chart.innerHTML="";
+      table.innerHTML="<p class='hint'>Flerårsdiagnostik per ålder genereras i nästa workflow-körning.</p>";
+      return;
+    }
+
+    const years=[...new Set(rows.map(r=>+r.year).filter(Number.isFinite))].sort((a,b)=>a-b);
+    const ages=[...new Set(rows.map(r=>+r.age).filter(Number.isFinite))].sort((a,b)=>a-b);
+    const classes=["lineVariation","lineSensitivity","lineError","lineInflow","lineOutflow"];
+
+    const byKey=new Map(rows.map(r=>[`${+r.year}|${+r.age}`,r]));
+    const series=years.map((year,i)=>({
+      name:String(year),
+      values:ages.map(age=>{
+        const r=byKey.get(`${year}|${age}`);
+        return r?.pctError==null?null:Number(r.pctError);
+      }),
+      cls:classes[i%classes.length],
+      suffix:" %"
+    }));
+
+    drawAgeLineChart("backtestAgeMultiYearChart",ages,series,{
+      includeZero:true,
+      xLabel:"Ålder",
+      hoverLabel:"Ålder",
+      valueDigits:1
+    });
+
+    const focusAges=[22,25,26];
+    const focusRows=focusAges.flatMap(age=>years.map(year=>{
+      const r=byKey.get(`${year}|${age}`);
+      return {age,year,row:r};
+    }));
+
+    const recurrence=focusAges.map(age=>{
+      const vals=years.map(year=>byKey.get(`${year}|${age}`)).filter(Boolean);
+      const over5=vals.filter(r=>r.pctError!=null && Math.abs(Number(r.pctError))>5);
+      const sameSign=over5.length>=2 && over5.every(r=>Math.sign(Number(r.pctError))===Math.sign(Number(over5[0].pctError)));
+      return {age,available:vals.length,over5:over5.length,sameSign};
+    });
+
+    const recurrent=recurrence.filter(r=>r.over5>=2);
+    const interpretation=recurrent.length
+      ? `Återkommande >5 % i minst två backtestår: ${recurrent.map(r=>r.age+(r.sameSign?" (samma tecken)":" (olika tecken)")).join(", ")}.`
+      : "Ingen av 22, 25 eller 26 år överstiger 5 % i minst två av de tillgängliga backteståren.";
+
+    table.innerHTML=`
+      <p class="hint"><strong>Kontroll 22, 25 och 26 år:</strong> ${interpretation} Ett enstaka år bör inte ensamt användas för att ändra åldersprofilen.</p>
+      <div class="tableWrap analysisTableWrap"><table class="miniTable">
+        <thead><tr><th>Ålder</th><th>År</th><th>Prognos</th><th>Utfall</th><th>Fel antal</th><th>Fel %</th><th>|Fel| &gt; 5 %</th></tr></thead>
+        <tbody>${focusRows.map(({age,year,row})=>`<tr>
+          <td>${age}</td>
+          <td>${year}</td>
+          <td>${row?fmt1.format(row.predictedPopulation||0):"–"}</td>
+          <td>${row?fmt1.format(row.actualPopulation||0):"–"}</td>
+          <td>${row?(Number(row.error)>=0?"+":"")+fmt1.format(Number(row.error||0)):"–"}</td>
+          <td>${row?.pctError==null?"–":(Number(row.pctError)>=0?"+":"")+pct.format(Number(row.pctError))+" %"}</td>
+          <td>${row?.pctError!=null && Math.abs(Number(row.pctError))>5?"Ja":"Nej"}</td>
+        </tr>`).join("")}</tbody>
+      </table></div>`;
   }
 
   function renderBacktestCohortTable(geo,w){
