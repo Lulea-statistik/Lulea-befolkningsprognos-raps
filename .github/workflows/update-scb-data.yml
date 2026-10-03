@@ -68,6 +68,9 @@ jobs:
       - name: Test SCB consistency wide parser
         run: python tests/test_scb_consistency_parser.py
 
+      - name: Test mass-preserving SCB consistency adjustment
+        run: python tests/test_scb_consistency_adjustment.py
+
       - name: Discover current SCB PxWeb tables
         if: ${{ github.event_name == 'schedule' || github.event.inputs.mode == 'full' }}
         run: python scripts/scb_v2_client.py --out data/scb_discovery.json
@@ -148,6 +151,9 @@ jobs:
 
       - name: Build SCB municipality-county consistency diagnostic
         run: python scripts/build_scb_consistency_diagnostic.py
+
+      - name: Build mass-preserving municipality-county adjustment diagnostic
+        run: python scripts/build_scb_consistency_adjustment.py
 
       - name: Build model maturity report
         run: python scripts/build_model_maturity.py
