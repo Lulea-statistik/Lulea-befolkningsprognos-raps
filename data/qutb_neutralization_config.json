@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_neutralization_locked",
+  "component": "qutb_neutralization",
+  "purpose": "Keep education transitions explicitly neutral in model version 1 until an official or separately validated transition model is introduced.",
+  "productionMode": "identity",
+  "requiredChecks": [
+    "model_data parameters qutbMode must equal identity",
+    "identityTransition must return a valid stochastic identity matrix",
+    "adding an explicit identity qutb matrix must not alter any population forecast output",
+    "the neutral qutb setting must remain replaceable without changing unrelated demographic components"
+  ],
+  "governance": [
+    "Level 4 for this component means the intentional no-effect placeholder is production-safe and reproducible; it does not mean an empirical education-transition model has been implemented.",
+    "Any future non-identity qutb implementation is a new candidate and requires its own pre-declared validation before replacing the neutral production mode."
+  ]
+}
