@@ -138,6 +138,9 @@ jobs:
       - name: Validate housing balance indicator
         run: node scripts/validate_housing_balance_indicator.js
 
+      - name: Validate critical source manifest integrity
+        run: python scripts/validate_source_manifest_integrity.py
+
       - name: Validate JavaScript syntax
         run: |
           node --check js/model.js
