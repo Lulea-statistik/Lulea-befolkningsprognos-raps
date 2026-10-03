@@ -535,6 +535,13 @@ def main():
             "independentHoldout": False,
             "note": "Lulea rolling-origin results are development diagnostics. Previously viewed municipalities are not independent confirmation."
         },
+        "profetBirthStatusCandidate": {
+            "config": "data/profet_birth_status_config.json",
+            "methodBasis": "Published SCB regional state dimension: single-year age x sex x Swedish-/foreign-born.",
+            "independentHoldout": False,
+            "promotionGate": profet_birth_cfg["evaluation"]["promotionToLevel3"],
+            "note": "This stage isolates birth-status migration/state effects; fertility and mortality are unchanged."
+        },
         "horizonYears": HORIZON_YEARS,
         "overlapNote": (
             "Forecast windows overlap in calendar time and must not be treated "
