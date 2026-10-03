@@ -110,6 +110,11 @@
       "label": "Fading-policy för små lokala åldersceller",
       "targetLevel": 4,
       "requiredGate": "Informationsbaserad fading ska vara deterministisk, monoton och utfallsoberoende, använda dokumenterade fasta trösklar och samtidigt behålla de redan godkända rolling-origin-resultaten för lokal fruktsamhet och dödlighet."
+    },
+    "qutb_neutralization": {
+      "label": "qutb: neutral utbildningsövergång",
+      "targetLevel": 4,
+      "requiredGate": "V1:s qutb ska vara explicit identitet, regressionsverifierat ha noll effekt på befolkningsprognosen och vara dokumenterat som en neutral, utbytbar produktionsplaceholder."
     }
   }
 }
