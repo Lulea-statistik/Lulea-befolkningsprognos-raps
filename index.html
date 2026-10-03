@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Luleå rAps-liknande befolkningsmodell</title>
+  <title>Luleå rAps-inspirerad befolkningsmodell</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
   <header class="topbar">
     <div>
       <h1>Luleå befolkningsprognos</h1>
-      <p>rAps-liknande demografimodell · Luleå FA + kommuner · SCB/Raps-benchmark</p>
+      <p>rAps-inspirerad demografimodell · Luleå FA + kommuner · jämförelser med SCB och rAps</p>
     </div>
     <span class="badge">V2.3 · hushåll + bostad</span>
   </header>
@@ -104,7 +104,7 @@
           </article>
           <article class="panel">
             <h2>Kommun relativt Riket</h2>
-            <p class="hint">Generell åldersstandardiserad nivå. Åldersceller får därefter fading beroende på lokalt underlag.</p>
+            <p class="hint">Generell åldersstandardiserad nivå. Åldersceller får därefter informationsvägd utjämning beroende på lokalt underlag.</p>
             <div id="relativeFactors"></div>
           </article>
         </div>
@@ -121,7 +121,7 @@
         </div>
 
         <article class="panel">
-          <h2>Fading per ålderscell</h2>
+          <h2>Lokal vikt och utjämning per ålderscell</h2>
           <p class="hint">Visar hur stor direkt lokal vikt som används i utvalda åldrar. 0 % innebär helt nationell åldersprofil (med generell kommunnivå), 100 % innebär fullt lokal ålderscell.</p>
           <div id="fadingExamples"></div>
         </article>
@@ -129,12 +129,12 @@
 
       <section class="page" id="page-age">
         <div class="pageTitle">
-          <div><h2>Åldersanalys i 1-årsklasser</h2><p>Lokal påverkan, riksprofil och fading för varje enskild ålder.</p></div>
+          <div><h2>Åldersanalys i 1-årsklasser</h2><p>Lokal påverkan, riksprofil och informationsvägd utjämning för varje enskild ålder.</p></div>
         </div>
 
         <article class="panel chartPanel">
           <div class="panelHead">
-            <div><h2>Fruktsamhet – lokal nivå jämfört med Riket</h2><p class="hint">Observerad lokal åldersspecifik födelsetakt jämförs med rikets nivå, per 1 000 kvinnor. Diagrammet visar signalen före fading; diagrammet för lokal vikt nedan visar hur mycket av signalen som faktiskt får påverka modellen.</p></div>
+            <div><h2>Fruktsamhet – lokal nivå jämfört med Riket</h2><p class="hint">Observerad lokal åldersspecifik födelsetakt jämförs med rikets nivå, per 1 000 kvinnor. Diagrammet visar den observerade lokala signalen före informationsvägd utjämning; diagrammet för lokal vikt nedan visar hur mycket av signalen som faktiskt får påverka modellen.</p></div>
           </div>
           <svg id="fertilityRateChart" viewBox="0 0 900 320" role="img" aria-label="Fruktsamhet lokalt och i Riket efter ålder"></svg>
         </article>
@@ -551,7 +551,7 @@
 
         <article class="panel">
           <h2>Valideringsprincip</h2>
-          <p>Backtest och benchmark används för att bedöma modellen, inte för att i efterhand ändra antaganden så att historiska utfall passas bättre. Parametrar för fading och metodval ska vara dokumenterade och fastställda före utvärderingen.</p>
+          <p>Backtest och benchmark används för att bedöma modellen, inte för att i efterhand ändra antaganden så att historiska utfall passas bättre. Parametrar för informationsvägd utjämning och metodval ska vara dokumenterade och fastställda före utvärderingen.</p>
         </article>
       </section>
 
@@ -564,7 +564,7 @@
           <article class="panel">
             <h2>Prognosen i korthet</h2>
             <p>Modellen är en kohort-komponentmodell i ettårsåldrar och kön. Startpunkten är faktisk folkmängd den 31 december 2025. För varje prognosår flyttas varje kohort ett år framåt, därefter beräknas födslar, dödsfall och nettoflyttning. Resultatet blir nästa års befolkning efter ålder och kön.</p>
-            <p>Den publicerade produktionsbaslinjen kombinerar <strong>nationella framtidsprofiler från SCB/Raps</strong> med <strong>lokalt observerade relativa nivåer</strong>. Lokala åldersceller med litet statistiskt underlag får mindre direkt påverkan genom en fördefinierad fading-funktion.</p>
+            <p>Den publicerade produktionsbaslinjen kombinerar <strong>nationella framtidsprofiler från SCB/Raps</strong> med <strong>lokalt observerade relativa nivåer</strong>. Lokala åldersceller med litet statistiskt underlag får mindre direkt påverkan genom en fördefinierad informationsvägd utjämning mot riksprofilen.</p>
             <p>För Luleå FA körs ingen separat sjätte prognos. FA-resultatet är varje år exakt summan av prognoserna för Luleå, Boden, Piteå, Älvsbyn och Kalix.</p>
           </article>
           <article class="panel">
@@ -605,7 +605,7 @@
             </ol>
             <p>Förenklat är modellens åldersspecifika nivå:</p>
             <p><code>modellnivå = (1 − w) × riksnivå × kommunfaktor + w × lokal åldersnivå</code></p>
-            <p>där <code>w</code> är den lokala vikten från fading-policyn.</p>
+            <p>där <code>w</code> är den lokala vikten i den informationsvägda utjämningen.</p>
             <p>Baslinjen använder SCB/Raps 2024:s nationella framtidsprofil. SCB 2026 finns som separat <strong>fruktsamhets-only</strong> känslighetsbana och ändrar inte modellens dödlighet eller migration.</p>
           </article>
 
@@ -613,7 +613,7 @@
             <h2>4. Dödlighet</h2>
             <p>Dödlighet modelleras separat för kvinnor och män i varje ettårsålder 0–100+. Rikets observerade/antagna ålders- och könsspecifika dödlighetsmönster utgör grundprofil.</p>
             <p>För varje geografi beräknas först en åldersstandardiserad generell lokal nivå som <strong>observerade dödsfall / förväntade dödsfall vid rikets risker</strong>. Därefter mäts varje lokal ålder/kön-cell mot rikets motsvarande cell.</p>
-            <p>Lokala cellrisker blandas med den nationella profilen enligt samma fadingprincip som för fruktsamheten. En kraftig lokal avvikelse i en liten cell behöver därför inte få stor effekt i prognosen.</p>
+            <p>Lokala cellrisker blandas med den nationella profilen enligt samma princip för informationsvägd utjämning som för fruktsamheten. En kraftig lokal avvikelse i en liten cell behöver därför inte få stor effekt i prognosen.</p>
             <p>Internt hanteras dödligheten som hazard och omvandlas till sannolikhet med:</p>
             <p><code>q = 1 − exp(−hazard)</code></p>
             <p>Det säkerställer en giltig risk mellan 0 och 1 även när flera riskkomponenter skulle summeras.</p>
@@ -621,8 +621,8 @@
         </div>
 
         <article class="panel">
-          <h2>5. Fading – när används lokal information?</h2>
-          <p>Fading används som fallback där motsvarande officiell Raps-parameter inte finns tillgänglig. Syftet är att undvika att små slumpmässiga lokala åldersceller styr prognosen samtidigt som stabil lokal information bevaras.</p>
+          <h2>5. Informationsvägd utjämning – när används lokal information?</h2>
+          <p>Informationsvägd utjämning mot riksprofilen används som reservmetod där motsvarande offentlig rAps-parameter inte finns tillgänglig. Syftet är att undvika att små slumpmässiga lokala åldersceller styr prognosen samtidigt som stabil lokal information bevaras.</p>
           <p>Den lokala vikten bestäms av två informationsmått som är definierade <strong>före validering</strong>:</p>
           <ul>
             <li><strong>Genomsnittlig årlig population i cellen:</strong> 0 % lokal vikt vid högst 20 personer och 100 % vid minst 100 personer, med mjuk övergång däremellan.</li>
@@ -642,7 +642,7 @@
             <li>övriga Sverige,</li>
             <li>utlandet.</li>
           </ul>
-          <p>Dessa har utvecklats och validerats som alternativa kandidater men är <strong>inte aktiva i produktionsbaslinjen</strong>. Det gäller även adaptiv recency, åldersmjukning, SCB-lik riskmotor och Profet-lik arkitektur. De ligger kvar som dokumenterad diagnostik så att underkända idéer inte omedvetet återinförs.</p>
+          <p>Dessa har utvecklats och validerats som alternativa kandidater men är <strong>inte aktiva i produktionsbaslinjen</strong>. Det gäller bland annat adaptiv tidsviktning mot senare år, åldersutjämning, en riskbaserad migrationsmodell med regionala in-/utflyttningsrisker och nationell invandringsnivå enligt principer från SCB:s regionala framskrivningsmetodik samt en födelsestatusuppdelad riskbaserad migrationsmodell för svensk- och utrikes födda. Kandidaterna ligger kvar som dokumenterad diagnostik så att underkända idéer inte omedvetet återinförs.</p>
           <p>På FA-nivå redovisas nettoflyttning genom summering av kommunernas netto. Kommunala bruttoflöden summeras däremot inte som FA-bruttoflöden eftersom flyttar mellan medlemskommunerna då skulle dubbelräknas.</p>
         </article>
 
@@ -690,12 +690,12 @@
           <article class="panel">
             <h2>12. Raps-begrepp i modellen</h2>
             <ul>
-              <li><code>frukty</code> – nationell framtidsprofil för fruktsamhet × lokal relativ nivå och fading.</li>
-              <li><code>drisk</code> – nationell ålder/kön-profil för dödlighet × lokal relativ nivå och fading.</li>
+              <li><code>frukty</code> – nationell framtidsprofil för fruktsamhet × lokal relativ nivå och informationsvägd utjämning.</li>
+              <li><code>drisk</code> – nationell ålder/kön-profil för dödlighet × lokal relativ nivå och informationsvägd utjämning.</li>
               <li><code>urisk</code> – historisk utflyttningsrisk finns lagrad, men produktionsbaslinjen använder fortfarande exogen nettoflyttning.</li>
               <li><code>qutb</code> – neutral identitetsmatris; modellen innehåller ännu ingen empirisk utbildningsövergång.</li>
             </ul>
-            <p>Modellen är därför <strong>rAps-liknande</strong>, inte en fullständig reproduktion av Tillväxtverkets interna rAps-system.</p>
+            <p>Modellen är därför <strong>rAps-inspirerad</strong>: den använder flera dokumenterade rAps-principer men är inte en fullständig reproduktion av Tillväxtverkets rAps-system.</p>
           </article>
 
           <article class="panel">
@@ -712,6 +712,17 @@
         </div>
 
         <article class="panel">
+          <h2>Begrepp och metodkällor</h2>
+          <p>Terminologin följer i första hand SCB:s språkbruk för regionala befolkningsframskrivningar: <strong>kohortkomponentmetod</strong>, <strong>fruktsamhetstal</strong>, <strong>dödsrisk</strong>, <strong>utflyttningsrisk</strong>, <strong>inflyttningsrisk</strong>, <strong>relativ inflyttning</strong> och <strong>utjämnade värden</strong>. SCB beskriver utjämning som ett sätt att dämpa slumpmässig taggighet i små regionala åldersceller samtidigt som regionala särdrag ska kunna finnas kvar.</p>
+          <p>Vår <strong>informationsvägda utjämning mot riksprofilen</strong> har samma övergripande syfte – att minska slumpmässig påverkan från små celler – men är <strong>inte samma metod</strong> som SCB:s smoothing-spline-baserade utjämning. Därför används ett eget beskrivande namn i stället för att kalla den ”SCB-utjämning”.</p>
+          <ul>
+            <li><a href="https://www.scb.se/vara-tjanster/bestall-data-och-statistik/regionala-statistikprodukter/statistikpaket/propak-och-tykopak--underlag-for-befolkningsprognoser/statistikunderlag-for-befolkningsprognoser/" target="_blank" rel="noopener">SCB: Statistikunderlag för befolkningsprognoser</a></li>
+            <li><a href="https://www.scb.se/be0401" target="_blank" rel="noopener">SCB: Befolkningsframskrivningar</a></li>
+            <li><a href="https://tillvaxtverket.se/tillvaxtverket/statistikochanalys/statistikverktyg/regionaltanalysochprognossystemraps/dokumentationomraps.3380.html" target="_blank" rel="noopener">Tillväxtverket: Dokumentation om rAps</a></li>
+          </ul>
+        </article>
+
+        <article class="panel">
           <h2>14. Reproducerbarhet och dataflöde</h2>
           <p>Rådata hämtas från SCB och sparas tillsammans med källmanifest. Byggskript skapar därefter modellindata, validering, backtester, arbetsmarknadsdata, hushålls-/bostadsdata och mognadsrapport. GitHub Actions kör syntax- och modelltester innan genererade filer publiceras.</p>
           <p>En grön GitHub Pages-deploy är därför inte ensam ett kvalitetsbevis: den relevanta modell-/data-workflowen måste också vara grön. Den tekniska produktionsstatusen dokumenteras i <code>docs/PRODUCTION_READINESS.md</code> och <code>data/model_maturity.json</code>.</p>
@@ -724,7 +735,7 @@
         </article>
 
         <article class="panel">
-          <h2>Fading-policy</h2>
+          <h2>Policy för informationsvägd utjämning</h2>
           <div id="fadingPolicy"></div>
         </article>
       </section>
