@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "engine_regression_passed",
+  "allPassed": true,
+  "checks": {
+    "externalEffectMonotonic": true,
+    "totalEffectMonotonic": true,
+    "sourceSplitPreservesExternalTotal": true,
+    "faInternalMovesNetZero": true,
+    "municipalEffectsSumToFA": true,
+    "internationalShareChangesCompositionNotTotal": true
+  },
+  "syntheticCommutingShares": {
+    "2514": 3,
+    "2560": 4,
+    "2580": 55,
+    "2581": 8,
+    "2582": 10,
+    "OUTSIDE_FA": 20
+  },
+  "jobCount": 1500,
+  "presets": {
+    "low": {
+      "fa": {
+        "total": 4.875,
+        "jobExternal": 4.875,
+        "jobExternalDomestic": 4.3875,
+        "jobExternalInternational": 0.48750000000000004,
+        "jobInternalNet": 0
+      }
+    },
+    "reference": {
+      "fa": {
+        "total": 23.90625,
+        "jobExternal": 23.90625,
+        "jobExternalDomestic": 17.9296875,
+        "jobExternalInternational": 5.9765625,
+        "jobInternalNet": 0
+      }
+    },
+    "high": {
+      "fa": {
+        "total": 84,
+        "jobExternal": 84,
+        "jobExternalDomestic": 50.4,
+        "jobExternalInternational": 33.6,
+        "jobInternalNet": 0
+      }
+    }
+  },
+  "note": "Deterministic engine regression for scenario mechanics only; not an empirical forecast validation."
+}

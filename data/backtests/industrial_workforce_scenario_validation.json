@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "validated_scenario_structure",
+  "allPassed": true,
+  "checks": {
+    "baselineExcluded": true,
+    "threePresetsPresent": true,
+    "jobScaleDocumented": true,
+    "allPresetValuesWithinDocumentedRanges": true,
+    "sensitivityOrderingMonotonic": true,
+    "presetsUseObservedCommutingAndWorkerHouseholdMechanics": true,
+    "presetsExplicitlyNotForecasts": true,
+    "jobCountAndYearRemainExplicitInputs": true
+  },
+  "presets": {
+    "low": {
+      "label": "Låg befolkningseffekt",
+      "interpretation": "Lower-bound sensitivity, not a probability statement.",
+      "realizationPct": 50,
+      "moveSharePct": 15,
+      "personsPerJob": 1.3,
+      "internationalRecruitmentSharePct": 10,
+      "phaseYears": 6,
+      "allocationMode": "commuting",
+      "ageProfileMode": "worker_household"
+    },
+    "reference": {
+      "label": "Referenskänslighet",
+      "interpretation": "Middle sensitivity setting for comparison; not the most likely outcome.",
+      "realizationPct": 75,
+      "moveSharePct": 25,
+      "personsPerJob": 1.7,
+      "internationalRecruitmentSharePct": 25,
+      "phaseYears": 4,
+      "allocationMode": "commuting",
+      "ageProfileMode": "worker_household"
+    },
+    "high": {
+      "label": "Hög befolkningseffekt",
+      "interpretation": "Upper sensitivity setting, not a probability statement.",
+      "realizationPct": 100,
+      "moveSharePct": 40,
+      "personsPerJob": 2.1,
+      "internationalRecruitmentSharePct": 40,
+      "phaseYears": 3,
+      "allocationMode": "commuting",
+      "ageProfileMode": "worker_household"
+    }
+  },
+  "parameterRanges": {
+    "realizationPct": {
+      "range": [
+        50,
+        100
+      ],
+      "rationale": "Scenario range for how much of the stated job count is realised within the selected phase; not an empirical forecast."
+    },
+    "moveSharePct": {
+      "range": [
+        15,
+        40
+      ],
+      "rationale": "Sensitivity range for the share of workers currently outside the FA who relocate rather than commute/rotate; not calibrated from Skelleftea."
+    },
+    "personsPerJob": {
+      "range": [
+        1.3,
+        2.1
+      ],
+      "rationale": "Sensitivity range separating worker-only effects from accompanying household members; one worker is always modelled separately from companions in worker_household mode."
+    },
+    "internationalRecruitmentSharePct": {
+      "range": [
+        10,
+        40
+      ],
+      "rationale": "Explicit sensitivity range for source composition of external movers. It is not transferred from Skelleftea or treated as a forecast."
+    },
+    "phaseYears": {
+      "range": [
+        3,
+        6
+      ],
+      "rationale": "Sensitivity range for how quickly the realised employment effect is phased into the population scenario."
+    }
+  },
+  "note": "Structural scenario validation only. Passing means the scenario is transparent, bounded and reproducible; it does not establish a most-likely industrial development outcome."
+}

@@ -29,16 +29,17 @@
     "componentCount": 13,
     "byLevel": {
       "1": 0,
-      "2": 7,
+      "2": 6,
       "3": 1,
-      "4": 5
+      "4": 6
     },
     "productionLevel4": [
       "event_age_timing",
       "fertility_localization",
       "mortality_localization",
       "net_migration_10y",
-      "calibration_windows"
+      "calibration_windows",
+      "industrial_workforce_scenario"
     ],
     "rejected": [
       "component_flow",
@@ -368,12 +369,12 @@
     {
       "key": "industrial_workforce_scenario",
       "label": "Industridrivet arbetskraftsscenario",
-      "maturityLevel": 2,
-      "maturityName": "Utvecklingskandidat",
-      "lifecycle": "development_scenario",
+      "maturityLevel": 4,
+      "maturityName": "Produktionsläge",
+      "lifecycle": "production_ready_scenario",
       "productionActive": false,
       "targetLevel": 4,
-      "productionGatePassed": false,
+      "productionGatePassed": true,
       "requiredGate": "Scenarioeffekter ska vara transparent separerade från baslinjen, källfördelning Sverige/utland explicit och parametrar dokumenterade eller scenariostyrda.",
       "gates": [
         {
@@ -387,9 +388,27 @@
           "passed": true,
           "evidence": "Explicit Sweden/international split is available",
           "required": true
+        },
+        {
+          "label": "Low/reference/high sensitivity presets and parameter ranges documented",
+          "passed": true,
+          "evidence": "presets=['low', 'reference', 'high']; ranges=['realizationPct', 'moveSharePct', 'personsPerJob', 'internationalRecruitmentSharePct', 'phaseYears']",
+          "required": true
+        },
+        {
+          "label": "Scenario structure validation passes",
+          "passed": true,
+          "evidence": "checks={'baselineExcluded': True, 'threePresetsPresent': True, 'jobScaleDocumented': True, 'allPresetValuesWithinDocumentedRanges': True, 'sensitivityOrderingMonotonic': True, 'presetsUseObservedCommutingAndWorkerHouseholdMechanics': True, 'presetsExplicitlyNotForecasts': True, 'jobCountAndYearRemainExplicitInputs': True}",
+          "required": true
+        },
+        {
+          "label": "End-to-end scenario engine regression passes",
+          "passed": true,
+          "evidence": "checks={'externalEffectMonotonic': True, 'totalEffectMonotonic': True, 'sourceSplitPreservesExternalTotal': True, 'faInternalMovesNetZero': True, 'municipalEffectsSumToFA': True, 'internationalShareChangesCompositionNotTotal': True}",
+          "required": true
         }
       ],
-      "nextAction": "Add documented scenario presets/ranges for Boden; do not hard-code a Skellefteå percentage."
+      "nextAction": "Keep presets as sensitivity scenarios, never baseline assumptions; rerun structural and engine regression tests whenever scenario mechanics change."
     }
   ]
 }
