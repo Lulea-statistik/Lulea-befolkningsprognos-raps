@@ -58,6 +58,7 @@
 
   function setup(){
     fillGeo();
+    fillForecastEndYears();
     fillCalibrationWindows();
     fillFertilityScenario();
     fillLabourWorkplace();
@@ -172,6 +173,16 @@
         migOptions.map(v=>`<option value="${v}">${v} år</option>`).join("");
       if(migOptions.includes(Number(migCurrent))) mig.value=migCurrent;
     }
+  }
+
+  function fillForecastEndYears(){
+    const el=$("endYear");
+    if(!el) return;
+    const baseYear=Number(data?.meta?.baseYear);
+    if(!Number.isFinite(baseYear)) return;
+    const years=Array.from({length:10},(_,i)=>baseYear+i+1);
+    el.innerHTML=years.map(year=>`<option value="${year}">${year}</option>`).join("");
+    el.value=String(baseYear+10);
   }
 
   function fillGeo(){
@@ -435,7 +446,7 @@
     try{
       const parsed=JSON.parse(await file.text());
       if(!parsed.meta||!parsed.geographies) throw new Error("Ogiltigt schema.");
-      data=parsed; fillGeo(); fillFertilityScenario(); renderScenarioTables(); renderDataStatus(); run();
+      data=parsed; fillGeo(); fillForecastEndYears(); fillFertilityScenario(); renderScenarioTables(); renderDataStatus(); run();
     }catch(e){renderStatus("Kunde inte läsa datafil: "+e.message);}
   }
 
@@ -777,14 +788,14 @@
     const chart=$("migrationSmoothingChart");
     const el=$("migrationSmoothingDiagnostic");
     if(!chart || !el) return;
-    const geo=$("geo").value;
-    if(geo!=="2580"){
-      chart.innerHTML="";
-      el.innerHTML="<p class='hint'>Den adaptiva utjämningsdiagnostiken visas för Luleå kommun. Övriga kommuner kan läggas till när metoden har validerats.</p>";
-      return;
-    }
+    const geo="2580";
     const diag=data.diagnostics?.migrationAgeSmoothing;
-    const compact=smoothingDiagnostic||data.diagnostics?.migrationAgeSmoothingCompact;
+    const embeddedCompact=data.diagnostics?.migrationAgeSmoothingCompact;
+    const compact=(
+      smoothingDiagnostic?.geo===geo &&
+      Array.isArray(smoothingDiagnostic?.allAgeDirectionRows) &&
+      smoothingDiagnostic.allAgeDirectionRows.length
+    ) ? smoothingDiagnostic : embeddedCompact;
     const compactRows=(
       compact?.geo===geo && Array.isArray(compact?.allAgeDirectionRows)
     ) ? compact.allAgeDirectionRows : [];
