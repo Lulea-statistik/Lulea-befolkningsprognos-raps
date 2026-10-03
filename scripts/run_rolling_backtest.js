@@ -347,6 +347,98 @@ function scoreCandidate(entry, geo, window, component, method, lambda=10) {
   return rows;
 }
 
+function smoothSignedAgeSeries(rows, lambda=10) {
+  const sorted=rows.slice().sort((a,b)=>+a.age-+b.age);
+  const n=sorted.length;
+  if(n<3) return sorted.map(r=>({...r}));
+  const x=sorted.map(r=>+r.age);
+  const h=x.slice(1).map((v,i)=>v-x[i]);
+  if(h.some(v=>!(v>0))) return sorted.map(r=>({...r}));
+  const m=n-2;
+  const Q=Array.from({length:n},()=>Array(m).fill(0));
+  const R=Array.from({length:m},()=>Array(m).fill(0));
+  for(let j=0;j<m;j++){
+    const h0=h[j], h1=h[j+1];
+    Q[j][j]=1/h0;
+    Q[j+1][j]=-(1/h0+1/h1);
+    Q[j+2][j]=1/h1;
+    R[j][j]=(h0+h1)/3;
+    if(j<m-1){
+      R[j][j+1]=h1/6;
+      R[j+1][j]=h1/6;
+    }
+  }
+  const X=Array.from({length:m},()=>Array(n).fill(0));
+  for(let col=0;col<n;col++){
+    const rhs=Array.from({length:m},(_,j)=>Q[col][j]);
+    const sol=solveDense(R,rhs);
+    for(let j=0;j<m;j++) X[j][col]=sol[j];
+  }
+  const K=Array.from({length:n},()=>Array(n).fill(0));
+  for(let i=0;i<n;i++){
+    for(let j=0;j<n;j++){
+      let s=0;
+      for(let k=0;k<m;k++) s+=Q[i][k]*X[k][j];
+      K[i][j]=s;
+    }
+  }
+  const A=Array.from({length:n},()=>Array(n).fill(0));
+  const y=sorted.map(r=>Number(r.value)||0);
+  for(let i=0;i<n;i++){
+    A[i][i]=1;
+    for(let j=0;j<n;j++) A[i][j]+=lambda*K[i][j];
+  }
+  let z=solveDense(A,y);
+  const rawTotal=y.reduce((s,v)=>s+v,0);
+  const smoothTotal=z.reduce((s,v)=>s+v,0);
+  const correction=(rawTotal-smoothTotal)/n;
+  z=z.map(v=>v+correction);
+  return sorted.map((r,i)=>({...r,value:z[i]}));
+}
+function migrationSplineRows(model, lambda=10) {
+  const source=model.netMigration||[];
+  const target=source.filter(r=>+r.window===10 && (r.year==null || r.year==='BASE'));
+  const replacement=new Map();
+  const groups=new Map();
+  for(const r of target){
+    const k=`${r.geo}|${r.sex}`;
+    if(!groups.has(k)) groups.set(k,[]);
+    groups.get(k).push(r);
+  }
+  for(const group of groups.values()){
+    for(const r of smoothSignedAgeSeries(group,lambda)){
+      replacement.set(`${r.geo}|${r.sex}|${+r.age}`,r);
+    }
+  }
+  return source.map(r=>{
+    if(+r.window!==10 || !(r.year==null || r.year==='BASE')) return r;
+    return replacement.get(`${r.geo}|${r.sex}|${+r.age}`)||r;
+  });
+}
+function scoreMigrationSpline(entry, geo, lambda=10) {
+  const variant={...entry.model,netMigration:migrationSplineRows(entry.model,lambda)};
+  const pred=M.simulate(variant,{
+    geo,endYear:entry.endYear,fertMult:1,mortMult:1,migMult:1,
+    window:10,migrationWindow:10,cohortTimingMode:'event_age_aligned',
+    scenarios:{housing:[],workplaces:[],overlapPct:0},includeDetail:false
+  });
+  const rows=[];
+  for(const p of pred){
+    if(+p.year<=+entry.origin) continue;
+    const a=byActual(entry.actual,geo,p.year);
+    if(!a) continue;
+    rows.push({
+      year:+p.year,horizon:+p.year-+entry.origin,
+      populationError:p.population-a.population,
+      populationAbsPctError:ape(p.population,a.population),
+      netMigrationError:p.netMigration-a.netMigration,
+      predictedNetMigration:p.netMigration,
+      actualNetMigration:a.netMigration
+    });
+  }
+  return rows;
+}
+
 function scoreWeightVariant(entry, geo, window, component, weight) {
   const variant = component === 'fertility'
     ? {...entry.model, fertilityRates: fertilityWeightVariant(entry.model, weight)}
@@ -455,6 +547,13 @@ const report = {
     results: {},
     existingSmoothingGate: null,
     analogueSmoothingGate: null
+  },
+  migrationSplineDiagnostic: {
+    note: 'New development candidate, separate from the previously rejected adaptive migration_age_smoothing. Smooths only the one-year-age distribution of the 10-year net-migration profile with a natural cubic spline at locked lambda=10, while preserving the annual net-migration total separately for each municipality and sex. Production baseline is unchanged.',
+    independentHoldout: false,
+    lambda: 10,
+    summary: {},
+    results: {}
   },
   componentFlowDiagnostic: {
     note: 'Development diagnostic only. Compares the locked three-leg component_flow engine with the existing 10-year exogenous net-migration baseline inside the full cohort model. The component windows were selected using Lulea development data, so this is not independent holdout evidence.',
@@ -1142,6 +1241,67 @@ for (const geo of geos) {
       byOrigin
     };
   }
+}
+
+for (const geo of geos) {
+  const allRows=[];
+  const byOrigin={};
+  report.migrationSplineDiagnostic.results[geo]={};
+  for(const entry of origins){
+    const spline=scoreMigrationSpline(entry,geo,10);
+    const raw=report.results[geo][entry.origin][10]||[];
+    const rows=[];
+    for(const s of spline){
+      const r=raw.find(x=>+x.year===+s.year);
+      if(!r) continue;
+      const row={
+        year:s.year,horizon:s.horizon,
+        splinePopulationError:s.populationError,
+        splinePopulationAbsPctError:s.populationAbsPctError,
+        rawPopulationError:r.populationError,
+        splineNetMigrationError:s.netMigrationError,
+        rawNetMigrationError:r.netMigrationError,
+        splinePredictedNetMigration:s.predictedNetMigration,
+        rawPredictedNetMigration:r.predictedNetMigration,
+        actualNetMigration:s.actualNetMigration
+      };
+      rows.push(row); allRows.push(row);
+    }
+    byOrigin[entry.origin]=rows.map(r=>({
+      year:r.year,horizon:r.horizon,
+      splinePopulationError:round1(r.splinePopulationError),
+      rawPopulationError:round1(r.rawPopulationError),
+      splineNetMigrationError:round1(r.splineNetMigrationError),
+      rawNetMigrationError:round1(r.rawNetMigrationError),
+      splinePredictedNetMigration:round1(r.splinePredictedNetMigration),
+      rawPredictedNetMigration:round1(r.rawPredictedNetMigration),
+      actualNetMigration:round1(r.actualNetMigration)
+    }));
+    report.migrationSplineDiagnostic.results[geo][entry.origin]=byOrigin[entry.origin];
+  }
+  const byHorizon={};
+  for(let h=1;h<=manifest.horizonYears;h++){
+    const rows=allRows.filter(r=>r.horizon===h);
+    byHorizon[h]={
+      observations:rows.length,
+      raw:{
+        populationMAE:round1(mean(rows.map(r=>Math.abs(r.rawPopulationError)))),
+        netMigrationMAE:round1(mean(rows.map(r=>Math.abs(r.rawNetMigrationError))))
+      },
+      spline:{
+        populationMAE:round1(mean(rows.map(r=>Math.abs(r.splinePopulationError)))),
+        netMigrationMAE:round1(mean(rows.map(r=>Math.abs(r.splineNetMigrationError))))
+      }
+    };
+  }
+  report.migrationSplineDiagnostic.summary[geo]={
+    observations:allRows.length,
+    oneYear:byHorizon[1],
+    twoYear:byHorizon[2],
+    threeYear:byHorizon[3],
+    byHorizon,
+    byOrigin
+  };
 }
 
 for (const geo of geos) {
@@ -1946,6 +2106,14 @@ for (const geo of ['2580','FA_LULEA']) {
       `n+1 population MAPE=${s.oneYear.populationMAPE}% | n+2 migration MAE=${s.twoYear.netMigrationMAE}`
     );
   }
+}
+
+for(const geo of ['2580','FA_LULEA']){
+  const s=report.migrationSplineDiagnostic.summary[geo];
+  if(!s?.oneYear) continue;
+  console.log(
+    `${geo} migration spline lambda=10: n+1 population MAE spline=${s.oneYear.spline.populationMAE} raw=${s.oneYear.raw.populationMAE} | net migration MAE spline=${s.oneYear.spline.netMigrationMAE} raw=${s.oneYear.raw.netMigrationMAE}`
+  );
 }
 
 for (const geo of ['2580','FA_LULEA']) {
