@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_housing_balance_gate_locked",
+  "component": "housing_balance_indicator",
+  "purpose": "Validate the housing-demand balance indicator that compares projected household growth, reserve-adjusted dwelling need and cumulative planned additions.",
+  "reserve": {
+    "defaultPct": 1,
+    "uiMinPct": 0,
+    "uiMaxPct": 20
+  },
+  "requiredChecks": [
+    "0 percent reserve leaves required new dwellings equal to projected new households",
+    "positive reserve increases required dwellings monotonically",
+    "reserve is clamped to the supported 0-20 percent interval",
+    "planned additions are measured relative to the first projection year rather than double-counting pre-existing scenario effects",
+    "balance equals planned additions minus reserve-adjusted required dwellings",
+    "housing-demand balance is analysis support only and does not alter the demographic population forecast"
+  ],
+  "governance": [
+    "The reserve is a housing-analysis assumption, not a demographic parameter.",
+    "The 1 percent default remains user-editable and should not be interpreted as a probability.",
+    "The balance is an indicative demand/planning comparison, not a direct measure of market shortage, vacancy or price pressure."
+  ]
+}
