@@ -18,6 +18,7 @@ INDUSTRIAL_SCENARIO_ENGINE_VALIDATION = ROOT / "data" / "backtests" / "industria
 HOUSING_SCENARIO_VALIDATION = ROOT / "data" / "backtests" / "housing_scenario_validation.json"
 HOUSEHOLD_PROJECTION_VALIDATION = ROOT / "data" / "backtests" / "household_projection_validation.json"
 HOUSEHOLD_PROJECTION_EXTERNAL = ROOT / "data" / "backtests" / "household_projection_external_validation.json"
+LABOUR_MARKET_SUPPORT_VALIDATION = ROOT / "data" / "backtests" / "labour_market_support_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -752,6 +753,47 @@ def main():
             else "External trend gate failed; keep household projection below production maturity and retain results without retuning."
             if household_external_has_results
             else "Run the locked rolling household projection validation."
+        )
+    ))
+
+    labour_support_cfg = load(ROOT / "data" / "labour_market_support_config.json")
+    labour_support_validation = (
+        load(LABOUR_MARKET_SUPPORT_VALIDATION)
+        if LABOUR_MARKET_SUPPORT_VALIDATION.exists()
+        else {}
+    )
+    labour_support_gate = labour_support_validation.get("allPassed") is True
+    labour_support_has_results = bool(labour_support_validation.get("checks"))
+    comps.append(component(
+        policy, "labour_market_support",
+        4 if labour_support_gate else 2 if labour_support_has_results else 1,
+        (
+            "production_support" if labour_support_gate
+            else "rejected" if labour_support_has_results
+            else "diagnostic"
+        ),
+        labour_support_gate,
+        [
+            gate(
+                "Labour support validation gate locked before results",
+                labour_support_cfg.get("status") == "validation_gate_locked_before_results",
+                labour_support_cfg.get("status")
+            ),
+            gate(
+                "SCB commuting and worker-age support layer passes structural validation",
+                labour_support_gate,
+                (
+                    f"checks={labour_support_validation.get('checks')}"
+                    if labour_support_has_results else "Awaiting validation"
+                )
+            )
+        ],
+        (
+            "Keep as production support; rerun structural validation on every SCB refresh and keep the 2024 method-break note visible."
+            if labour_support_gate
+            else "Keep below production maturity; investigate source/aggregation defects without changing the locked accounting rules."
+            if labour_support_has_results
+            else "Run the locked labour-market support validation."
         )
     ))
 
