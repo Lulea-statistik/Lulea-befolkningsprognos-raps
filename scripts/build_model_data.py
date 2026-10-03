@@ -1090,8 +1090,28 @@ def compact_migration_smoothing_diagnostic(diag, geo="2580"):
         r for r in grouped
         if r["age"] in ages_of_interest
     ]
+    leg_weight_rows = [
+        {
+            "geo": r.get("geo"),
+            "window": r.get("window"),
+            "leg": r.get("leg"),
+            "label": r.get("label"),
+            "direction": r.get("direction"),
+            "sex": r.get("sex"),
+            "age": r.get("age"),
+            "localRetentionWeight": r.get("localRetentionWeight"),
+            "smoothingWeight": r.get("smoothingWeight"),
+            "informationWeight": r.get("informationWeight"),
+            "persistenceWeight": r.get("persistenceWeight"),
+            "meanAnnualEvents": r.get("meanAnnualEvents"),
+            "localEvents": r.get("localEvents"),
+        }
+        for r in (diag.get("rows") or [])
+        if r.get("leg") in MIGRATION_LEG_LABELS
+    ]
+
     return {
-        "schemaVersion": "0.1.0",
+        "schemaVersion": "0.2.0",
         "status": diag.get("status"),
         "geo": geo,
         "window": diag.get("window"),
@@ -1103,6 +1123,13 @@ def compact_migration_smoothing_diagnostic(diag, geo="2580"):
         "largestChanges": largest,
         "agesOfInterest": selected,
         "allAgeDirectionRows": grouped,
+        "legSexLocalWeightRows": leg_weight_rows,
+        "localWeightInterpretation": (
+            "Diagnostic local retention weight from adaptive migration-age "
+            "smoothing. 0 means the cell relies fully on the structural "
+            "neighbor/national target; 1 means the raw local age/sex cell is "
+            "retained. This is not active in the production net10 forecast."
+        ),
         "productionDefaultChanged": False,
     }
 
