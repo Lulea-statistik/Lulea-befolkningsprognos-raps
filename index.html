@@ -562,21 +562,160 @@
 
         <div class="grid2">
           <article class="panel">
-            <h2>Metod</h2>
-            <ul>
-              <li><code>frukty</code>: SCB/Raps nationell framtidsprofil × lokal relativ nivå och fading.</li>
-              <li><code>drisk</code>: SCB/Raps nationell ålder/kön-profil × lokal åldersstandardiserad nivå och fading.</li>
-              <li><code>urisk</code>: produktionsbaslinjen använder lokalt kalibrerad exogen nettoflyttning; endogen IMIG/UMIG är inte aktiverad.</li>
-              <li><code>qutb</code>: identitetsmatris tills officiella/egna övergångstal läggs in.</li>
-              <li>Intern scenarioflyttning är nettonoll på FA-nivå.</li>
-              <li>Fading är fallback där offentlig Raps-parameter saknas.</li>
-            </ul>
+            <h2>Prognosen i korthet</h2>
+            <p>Modellen är en kohort-komponentmodell i ettårsåldrar och kön. Startpunkten är faktisk folkmängd den 31 december 2025. För varje prognosår flyttas varje kohort ett år framåt, därefter beräknas födslar, dödsfall och nettoflyttning. Resultatet blir nästa års befolkning efter ålder och kön.</p>
+            <p>Den publicerade produktionsbaslinjen kombinerar <strong>nationella framtidsprofiler från SCB/Raps</strong> med <strong>lokalt observerade relativa nivåer</strong>. Lokala åldersceller med litet statistiskt underlag får mindre direkt påverkan genom en fördefinierad fading-funktion.</p>
+            <p>För Luleå FA körs ingen separat sjätte prognos. FA-resultatet är varje år exakt summan av prognoserna för Luleå, Boden, Piteå, Älvsbyn och Kalix.</p>
           </article>
           <article class="panel">
             <h2>Datastatus</h2>
             <div id="dataStatus"></div>
           </article>
         </div>
+
+        <article class="panel">
+          <h2>1. Startbefolkning och geografier</h2>
+          <p><strong>Basår:</strong> 2025. Startbeståndet är folkmängden den 31 december uppdelad på kommun, kön och ettårsålder 0–100+, där 100 är en öppen slutklass.</p>
+          <p>SCB:s Cell Key Method, CKM, innebär ett metodbrott från 2025. Därför används 2025 som startbestånd och diagnostik, medan huvudkalibreringen av lokala demografiska mönster avslutas 2024. På så sätt blandas inte pre-CKM-serier mekaniskt med den nya sekretessmetoden.</p>
+          <p>Kommunerna prognostiseras var för sig. Luleå FA byggs därefter additivt från medlemskommunerna. Detta säkerställer att FA-totalen alltid är förenlig med kommunresultaten och att intern flyttning mellan FA-kommuner inte skapar konstgjord tillväxt på FA-nivå.</p>
+        </article>
+
+        <article class="panel">
+          <h2>2. Årscykeln i prognosmotorn</h2>
+          <p>För varje prognosår genomförs beräkningen i följande ordning:</p>
+          <ol>
+            <li><strong>Åldring:</strong> befolkningen vid föregående 31 december flyttas ett år framåt. Exempel: 24-åringar blir prognosårets 25-åringar. Personer i 100+-klassen stannar i den öppna slutklassen.</li>
+            <li><strong>Födslar:</strong> antal kvinnor 15–49 år i prognosårets ålder multipliceras med åldersspecifik fruktsamhet. Födslar summeras över mödrarnas ålder.</li>
+            <li><strong>Könsfördelning vid födsel:</strong> de nyfödda delas på pojkar och flickor med modellens dokumenterade könskvot och läggs till ålder 0.</li>
+            <li><strong>Dödlighet:</strong> ålders- och könsspecifik dödsrisk appliceras på hela prognosårets population, inklusive nyfödda. Det gör att dödsfall i ålder 0 kan inträffa under födelseåret.</li>
+            <li><strong>Migration:</strong> produktionsbaslinjen lägger därefter till eller drar ifrån kalibrerad nettoflyttning per kön och ettårsålder.</li>
+            <li><strong>Scenarioeffekter:</strong> eventuella bostads- och arbetsplatsscenarier läggs ovanpå baslinjen. Jobbrelaterad extern inflyttning kan fördelas med en separat ålder/kön-profil.</li>
+            <li><strong>Nytt årsslut:</strong> summan efter dessa steg blir befolkningen vid slutet av prognosåret och startpunkt för nästa års iteration.</li>
+          </ol>
+          <p class="hint">Detta är den produktionsaktiva event-age-aligned timingen. Äldre V1-timing används endast som historisk valideringsreferens.</p>
+        </article>
+
+        <div class="grid2">
+          <article class="panel">
+            <h2>3. Fruktsamhet</h2>
+            <p>Fruktsamheten beräknas för moderns ålder 15–49 år. Rikets åldersspecifika fruktsamhetsprofil är utgångspunkt. Den lokaliseras sedan till kommunen/FA med två nivåer:</p>
+            <ol>
+              <li><strong>Generell lokal nivå:</strong> observerade födslar divideras med det antal födslar som skulle ha förväntats om kommunen haft rikets åldersspecifika fruktsamhet. Kvoten anger kommunens övergripande relativa nivå.</li>
+              <li><strong>Lokal ålderscell:</strong> för varje modersålder beräknas även lokal födelsetakt relativt rikets motsvarande ålder. Denna åldersspecifika avvikelse får bara fullt genomslag när cellen har tillräckligt statistiskt stöd.</li>
+            </ol>
+            <p>Förenklat är modellens åldersspecifika nivå:</p>
+            <p><code>modellnivå = (1 − w) × riksnivå × kommunfaktor + w × lokal åldersnivå</code></p>
+            <p>där <code>w</code> är den lokala vikten från fading-policyn.</p>
+            <p>Baslinjen använder SCB/Raps 2024:s nationella framtidsprofil. SCB 2026 finns som separat <strong>fruktsamhets-only</strong> känslighetsbana och ändrar inte modellens dödlighet eller migration.</p>
+          </article>
+
+          <article class="panel">
+            <h2>4. Dödlighet</h2>
+            <p>Dödlighet modelleras separat för kvinnor och män i varje ettårsålder 0–100+. Rikets observerade/antagna ålders- och könsspecifika dödlighetsmönster utgör grundprofil.</p>
+            <p>För varje geografi beräknas först en åldersstandardiserad generell lokal nivå som <strong>observerade dödsfall / förväntade dödsfall vid rikets risker</strong>. Därefter mäts varje lokal ålder/kön-cell mot rikets motsvarande cell.</p>
+            <p>Lokala cellrisker blandas med den nationella profilen enligt samma fadingprincip som för fruktsamheten. En kraftig lokal avvikelse i en liten cell behöver därför inte få stor effekt i prognosen.</p>
+            <p>Internt hanteras dödligheten som hazard och omvandlas till sannolikhet med:</p>
+            <p><code>q = 1 − exp(−hazard)</code></p>
+            <p>Det säkerställer en giltig risk mellan 0 och 1 även när flera riskkomponenter skulle summeras.</p>
+          </article>
+        </div>
+
+        <article class="panel">
+          <h2>5. Fading – när används lokal information?</h2>
+          <p>Fading används som fallback där motsvarande officiell Raps-parameter inte finns tillgänglig. Syftet är att undvika att små slumpmässiga lokala åldersceller styr prognosen samtidigt som stabil lokal information bevaras.</p>
+          <p>Den lokala vikten bestäms av två informationsmått som är definierade <strong>före validering</strong>:</p>
+          <ul>
+            <li><strong>Genomsnittlig årlig population i cellen:</strong> 0 % lokal vikt vid högst 20 personer och 100 % vid minst 100 personer, med mjuk övergång däremellan.</li>
+            <li><strong>Förväntat antal händelser:</strong> 0 % vid högst 1 förväntad händelse och 100 % vid minst 20, även här med mjuk övergång.</li>
+          </ul>
+          <p>Den slutliga lokala vikten är produkten av de två signalerna. Den beror alltså på informationsmängden, <strong>inte på om den lokala observationen råkar förbättra ett redan känt prognosutfall</strong>.</p>
+          <p>0 % lokal vikt betyder inte att kommunen behandlas exakt som Riket: rikets åldersprofil skalas fortfarande med kommunens generella relativa nivå. 100 % betyder att den lokala ålderscellen används fullt ut inom modellens skyddade faktorgränser.</p>
+        </article>
+
+        <article class="panel">
+          <h2>6. Migration i produktionsbaslinjen</h2>
+          <p>Den aktiva baslinjen använder <strong>exogen nettoflyttning per kön och ettårsålder</strong>. Nettoflyttningen är historiskt kalibrerad och läggs till efter dödligheten varje prognosår.</p>
+          <p>Produktionsstandard är ett <strong>10-årigt migrationsfönster</strong>. För känslighetsanalys kan 2, 3, 4, 6 och 10 år användas separat från fruktsamhetens och dödlighetens 3/6/10-årsfönster.</p>
+          <p>Modellen innehåller även underlag för bruttoinflyttning, utflyttningsrisk och tre geografiska flyttben:</p>
+          <ul>
+            <li>övriga Norrbotten,</li>
+            <li>övriga Sverige,</li>
+            <li>utlandet.</li>
+          </ul>
+          <p>Dessa har utvecklats och validerats som alternativa kandidater men är <strong>inte aktiva i produktionsbaslinjen</strong>. Det gäller även adaptiv recency, åldersmjukning, SCB-lik riskmotor och Profet-lik arkitektur. De ligger kvar som dokumenterad diagnostik så att underkända idéer inte omedvetet återinförs.</p>
+          <p>På FA-nivå redovisas nettoflyttning genom summering av kommunernas netto. Kommunala bruttoflöden summeras däremot inte som FA-bruttoflöden eftersom flyttar mellan medlemskommunerna då skulle dubbelräknas.</p>
+        </article>
+
+        <div class="grid2">
+          <article class="panel">
+            <h2>7. Kalibreringsfönster</h2>
+            <p>Fruktsamhet och dödlighet använder huvudfönstren <strong>3, 6 och 10 år</strong>. Tio år är standard eftersom längre serier normalt ger stabilare lokal nivå, medan kortare fönster finns för känslighetsanalys.</p>
+            <p>Migration tillåter dessutom <strong>2 och 4 år</strong> eftersom flyttmönster kan förändras snabbare än födelse- och dödsrisker. Fönsterval utvärderas med rolling-origin-test, inte genom att välja det fönster som bäst passar hela den redan observerade perioden.</p>
+          </article>
+
+          <article class="panel">
+            <h2>8. Exponering och åldersdefinitioner</h2>
+            <p>Händelsetal använder SCB:s medelfolkmängd som exponering. Dödlighet och migrationsrisk använder ålder vid årets slut/födelseårslogik, medan fruktsamhet använder moderns ålder vid själva födelsehändelsen.</p>
+            <p>Det är därför kohorterna åldras innan prognosårets fruktsamhet och dödlighet appliceras. Folkmängden den 31 december används däremot som start- och slutbestånd.</p>
+          </article>
+        </div>
+
+        <article class="panel">
+          <h2>9. Bostads- och arbetsplatsscenarier</h2>
+          <p>Scenarier är separata från den demografiska baslinjen. De ska tolkas som <strong>”vad händer om?”</strong>, inte som modellens mest sannolika antaganden.</p>
+          <p><strong>Bostadsscenario:</strong> antal bostäder kombineras med färdigställandegrad, beläggning, personer per bostad, extern inflyttningsandel, intern omflyttning och infasning. Personer per bostad kan hämtas automatiskt från SCB eller anges manuellt.</p>
+          <p><strong>Arbetsplatsscenario:</strong> nya jobb kan fördelas med observerad pendling. Endast den valda andel jobb som leder till extern inflyttning ökar FA:s befolkning. Flytt inom FA omfördelar kommunbefolkningen men är noll på FA-totalen.</p>
+          <p>Standardprofilen för jobbdriven extern inflyttning skiljer på jobbinnehavare och medföljande hushåll. Ett explicit överlappsavdrag kan användas för att minska risken att samma hushåll räknas både via bostads- och jobbscenario.</p>
+        </article>
+
+        <article class="panel">
+          <h2>10. Hushåll och bostadsefterfrågan</h2>
+          <p>Hushållsdelen är analysstöd och påverkar inte den demografiska basprognosen. Prognostiserad befolkning omvandlas till ett indikativt antal hushåll med vald utveckling av personer per hushåll. Detta jämförs med bostadsbestånd och scenario för nya bostäder.</p>
+          <p>Resultatet är ett behovs-/balansmått, inte en direkt skattning av faktisk bostadsbrist. Modellen innehåller ännu inte full marknadsmodellering av exempelvis priser, vakanser, rivningar, fritidsbostäder eller hushållens betalningsförmåga.</p>
+        </article>
+
+        <article class="panel">
+          <h2>11. Validering och skydd mot överanpassning</h2>
+          <p>Metodval och parametrar ska låsas innan ett holdout används. Historiska utfall används sedan för att utvärdera modellen, inte för att efterhandsjustera samma kandidat tills resultatet blir bättre.</p>
+          <ul>
+            <li><strong>Utvecklingsbacktest 2022–2024:</strong> använder bara information som var tillgänglig före prognosperioden.</li>
+            <li><strong>Rolling-origin:</strong> flera historiska startår med då tillgänglig lokal information och motsvarande SCB-vintage.</li>
+            <li><strong>Extern regional kontroll:</strong> samma metod testas på fördefinierade referensregioner utan regionspecifik omtrimning.</li>
+            <li><strong>SCB-benchmark:</strong> modellen jämförs med SCB:s regionala framskrivning, inklusive omankring till faktiskt 2025-bestånd.</li>
+          </ul>
+          <p>En underkänd kandidat behålls i mognadsregistret som evidens men aktiveras inte i basprognosen. Nya försök ska behandlas som nya förhandsdefinierade kandidater med nya, relevanta valideringsgrindar.</p>
+        </article>
+
+        <div class="grid2">
+          <article class="panel">
+            <h2>12. Raps-begrepp i modellen</h2>
+            <ul>
+              <li><code>frukty</code> – nationell framtidsprofil för fruktsamhet × lokal relativ nivå och fading.</li>
+              <li><code>drisk</code> – nationell ålder/kön-profil för dödlighet × lokal relativ nivå och fading.</li>
+              <li><code>urisk</code> – historisk utflyttningsrisk finns lagrad, men produktionsbaslinjen använder fortfarande exogen nettoflyttning.</li>
+              <li><code>qutb</code> – neutral identitetsmatris; modellen innehåller ännu ingen empirisk utbildningsövergång.</li>
+            </ul>
+            <p>Modellen är därför <strong>rAps-liknande</strong>, inte en fullständig reproduktion av Tillväxtverkets interna rAps-system.</p>
+          </article>
+
+          <article class="panel">
+            <h2>13. Viktiga avgränsningar</h2>
+            <ul>
+              <li>Prognosen är inte en sannolikhetsprognos med konfidensintervall.</li>
+              <li>CKM-diagnostiken är känslighetsanalys, inte statistiskt konfidensintervall.</li>
+              <li>Jobb- och bostadsscenarier är antaganden, inte kausala skattningar.</li>
+              <li>Migrationens produktionsbaslinje är nettoflödesbaserad och reagerar därför inte endogent på hela framtida befolkningsstocken.</li>
+              <li>100+ är en öppen åldersklass.</li>
+              <li>Delområdesprognoser ingår ännu inte.</li>
+            </ul>
+          </article>
+        </div>
+
+        <article class="panel">
+          <h2>14. Reproducerbarhet och dataflöde</h2>
+          <p>Rådata hämtas från SCB och sparas tillsammans med källmanifest. Byggskript skapar därefter modellindata, validering, backtester, arbetsmarknadsdata, hushålls-/bostadsdata och mognadsrapport. GitHub Actions kör syntax- och modelltester innan genererade filer publiceras.</p>
+          <p>En grön GitHub Pages-deploy är därför inte ensam ett kvalitetsbevis: den relevanta modell-/data-workflowen måste också vara grön. Den tekniska produktionsstatusen dokumenteras i <code>docs/PRODUCTION_READINESS.md</code> och <code>data/model_maturity.json</code>.</p>
+        </article>
 
         <article class="panel">
           <h2>Modellens mognadsgrad</h2>
