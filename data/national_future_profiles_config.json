@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "production_input_gate_locked",
+  "component": "national_future_profiles",
+  "purpose": "Validate annual national future fertility and mortality profiles that are combined with local calibrated relative shapes in the production forecast.",
+  "productionBaseline": "Raps/SCB 2024 national forecast",
+  "sensitivity": "SCB 2026 fertility-only path",
+  "requiredForecastYears": "baseYear+1 through baseYear+10",
+  "requiredChecks": [
+    "production baseline uses raps2024 as default fertility scenario",
+    "futureNationalProfileMode explicitly identifies SCB 2024 annual national profiles",
+    "all five municipalities have complete annual fertility ages 15-49 for the supported ten-year horizon",
+    "all five municipalities have complete annual mortality ages 0-100 by sex for the supported ten-year horizon",
+    "all production fertility and mortality values are finite and nonnegative",
+    "SCB 2026 fertility sensitivity, when present, covers the same ten-year horizon without replacing mortality or migration assumptions"
+  ],
+  "governance": [
+    "National future profiles are source assumptions; local calibration remains a separate component.",
+    "SCB 2026 is a fertility sensitivity until a separately validated baseline change is approved.",
+    "Missing future years must fail validation rather than silently fall back to historical rates within the supported UI horizon."
+  ]
+}
