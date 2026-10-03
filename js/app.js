@@ -1314,7 +1314,7 @@
   }
 
   function projectedHouseholdSize(year,history){
-    const mode=$("householdProjectionMode")?.value||"constant";
+    const mode=$("householdProjectionMode")?.value||"trend";
     const valid=history.filter(r=>Number.isFinite(Number(r.personsPerHousehold)));
     const last=valid.at(-1);
     const base=Number(last?.personsPerHousehold||2.1);
@@ -1361,7 +1361,7 @@
     $("boverketHousingMethod").innerHTML=`
       <table class="miniTable"><thead><tr><th>Del</th><th>Status i modellen</th><th>Kommentar</th></tr></thead><tbody>
         <tr><td>Befolkningsframskrivning</td><td><strong>Ja</strong></td><td>Kohortmodell per ålder/kön.</td></tr>
-        <tr><td>Hushållsbildning</td><td><strong>Delvis</strong></td><td>Nuvarande version använder personer/hushåll. Boverkets hushållskvoter per ålder/kön är ett bättre nästa steg.</td></tr>
+        <tr><td>Hushållsbildning</td><td><strong>Ja, proxy</strong></td><td>Produktionsstödet använder validerad femårstrend i personer/hushåll. Boverkets hushållskvoter per ålder/kön är fortfarande ett möjligt framtida metodlyft.</td></tr>
         <tr><td>Bostadsbestånd</td><td><strong>Ja</strong></td><td>SCB efter hustyp och upplåtelseform.</td></tr>
         <tr><td>Rivningar/avgångar</td><td>Ej ännu</td><td>Boverket använder historiskt genomsnitt som framtidsantagande.</td></tr>
         <tr><td>Outhyrda bostäder i startläge</td><td>Ej ännu</td><td>Relevant främst för hyresrätter.</td></tr>
