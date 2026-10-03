@@ -1232,7 +1232,20 @@
 
     const workplace=$("labourWorkplace").value;
     const summary=(labour.workplaceSummary||[]).find(r=>r.workplace===workplace);
-    if(!summary) return;
+    if(!summary){
+      $("labourJobsKpi").textContent="–";
+      $("labourLatestYear").textContent="–";
+      $("labourLocalShareKpi").textContent="–";
+      $("labourOtherFaShareKpi").textContent="–";
+      $("labourOutsideShareKpi").textContent="–";
+      $("labourResidenceShares").innerHTML="<p class='hint'>Ingen pendlingssammanfattning finns för vald arbetsplats.</p>";
+      $("labourScenarioAllocation").innerHTML="<p class='hint'>Ingen scenariefördelning kan visas för vald arbetsplats.</p>";
+      $("labourPopulationEffect").innerHTML="";
+      $("labourWorkerAgeGroups").innerHTML="<p class='hint'>Åldersprofil saknas för vald arbetsplats.</p>";
+      $("commutingMatrix").innerHTML="";
+      $("labourJobsChart").innerHTML="";
+      return;
+    }
     const latest=labour.meta.latestYear;
     $("labourJobsKpi").textContent=fmt.format(summary.jobs||0);
     $("labourLatestYear").textContent=`år ${latest}`;
