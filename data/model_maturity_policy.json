@@ -195,6 +195,16 @@
       "label": "Källmanifest och rådataproveniens",
       "targetLevel": 4,
       "requiredGate": "Alla centrala SCB/Raps-råkällor ska ha spårbart tabell-ID, existerande icke-tom fil, dokumenterat urval och korrekt tidsavgränsning kring CKM-brytningen."
+    },
+    "fertility_spline_candidate": {
+      "label": "Fruktsamhet: kubisk smoothing spline för lokal åldersprofil",
+      "targetLevel": 4,
+      "requiredGate": "Kandidaten är låst efter utvecklingsanalys. Den får inte befordras på redan konsumerade 2018–2024-resultat; nivå 3–4 kräver ny oberoende evidens med förhandsdefinierad grind."
+    },
+    "mortality_eb_candidate": {
+      "label": "Dödlighet: Empirical Bayes-shrinkage för lokal åldersrisk",
+      "targetLevel": 4,
+      "requiredGate": "Kandidaten är låst efter utvecklingsanalys. Den får inte befordras på redan konsumerade 2018–2024-resultat; nivå 3–4 kräver ny oberoende evidens med förhandsdefinierad grind."
     }
   }
 }
