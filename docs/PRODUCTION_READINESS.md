@@ -139,6 +139,20 @@ En ny metod som påverkar basprognosen ska behandlas som en **ny kandidat**:
 
 Detta gäller särskilt framtida försök med IMIG/UMIG, födelsestatusuppdelade riskbaserade migrationsmodeller, separata migrationsben eller nya åldersutjämningar.
 
+## Evidens för informationsvägd utjämning
+
+Den informationsvägda utjämningen är reproducerbar, utfallsoberoende och passerar sina tekniska produktionsgrindar. Detta ska dock inte tolkas som att den nuvarande viktfunktionen är prognosmässigt optimal.
+
+Efter **Update SCB data #71** jämför rolling-origin-diagnostiken tre alternativ med samma generella kommunfaktor och samma fasta faktorgränser:
+
+1. **0 % lokal åldersvikt** – riksprofil × generell kommunfaktor,
+2. **nuvarande informationsvägning**,
+3. **100 % lokal åldersvikt** – fullt genomslag för lokal ettårsåldersfaktor.
+
+För Luleå kommun gav 0 % lägst MAE i fem av sex kombinationer av fruktsamhet/dödlighet och 3/6/10-årsfönster; 100 % var marginellt bäst för 3-årig fruktsamhet. För Luleå FA var 100 % bäst för fruktsamhet i samtliga tre fönster, medan 0 % var bäst för dödlighet i samtliga tre. Nuvarande informationsvägning var inte bäst i någon av de tolv huvudjämförelserna.
+
+Slutsatsen är därför att lokal information tydligt kan vara värdefull, men att den nuvarande viktfunktionen ännu inte är visad som den mest träffsäkra kompromissen mellan riksprofil och lokal ettårsåldersprofil. Trösklarna får inte efterjusteras mot dessa redan observerade resultat. En ny viktfunktion eller SCB-inspirerad splineutjämning ska behandlas som en ny, förhandslåst kandidat och utvärderas på ny oberoende evidens.
+
 ## Kända avgränsningar
 
 Modellen är produktionsmogen inom den definierade arkitekturen, men den är inte en full marknads- eller samhällsekonomisk modell. Bland annat:
