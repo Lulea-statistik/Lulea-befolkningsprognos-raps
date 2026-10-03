@@ -26,6 +26,7 @@ REFERENCE_FA_CONFIG = ROOT / "data" / "reference_fa_regions.json"
 COMPONENT_HOLDOUT_CONFIG = ROOT / "data" / "component_flow_holdout_municipalities.json"
 CONSISTENCY_CONFIG = ROOT / "data" / "scb_consistency_geographies.json"
 MIGRATION_ANALOG_CONFIG = ROOT / "data" / "migration_analog_municipalities.json"
+HOUSEHOLD_EXTERNAL_CONFIG = ROOT / "data" / "household_projection_external_config.json"
 OUT = ROOT / "data" / "raw"
 
 MUNICIPALITIES = ["2580", "2582", "2581", "2560", "2514"]
@@ -62,6 +63,14 @@ def migration_analog_geographies():
     return sorted((cfg.get("candidates") or {}).keys())
 
 MIGRATION_ANALOG_GEOGRAPHIES = migration_analog_geographies()
+
+def household_external_geographies():
+    if not HOUSEHOLD_EXTERNAL_CONFIG.exists():
+        return []
+    cfg = json.loads(HOUSEHOLD_EXTERNAL_CONFIG.read_text(encoding="utf-8"))
+    return sorted((cfg.get("holdouts") or {}).keys())
+
+HOUSEHOLD_EXTERNAL_GEOGRAPHIES = household_external_geographies()
 RIKET = "00"
 MODEL_AGES = [str(i) for i in range(100)]
 TOP_AGE_CODES = ["100+", "100+1"]
@@ -219,6 +228,8 @@ def build_selection(md: dict, spec: dict) -> dict[str, list[str]]:
                 wanted.extend(CONSISTENCY_GEOGRAPHIES)
             if spec.get("include_migration_analog_geos"):
                 wanted.extend(MIGRATION_ANALOG_GEOGRAPHIES)
+            if spec.get("include_household_external_geos"):
+                wanted.extend(HOUSEHOLD_EXTERNAL_GEOGRAPHIES)
             if spec.get("include_riket"):
                 wanted.append(RIKET)
             wanted = list(dict.fromkeys(wanted))
@@ -564,7 +575,7 @@ SPECS = {
     "household_size_by_tenure": {"start":2012,"end":2025,"include_riket":True,"content_terms":["Antal personer per hushåll"]},
     "household_size_by_apartment": {"start":2012,"end":2025,"include_riket":True,"content_terms":["antal hushåll","antal personer per hushåll"]},
     "households_by_type": {"start":2011,"end":2024,"include_riket":True,"content_terms":["Antal hushåll","Antal personer"]},
-    "household_totals": {"start":2011,"end":2025,"include_riket":True,"content_terms":["Antal hushåll","Antal personer per hushåll"]},
+    "household_totals": {"start":2011,"end":2025,"include_riket":True,"include_household_external_geos":True,"content_terms":["Antal hushåll","Antal personer per hushåll"]},
     "housing_stock": {"start":2013,"end":2025},
 }
 
