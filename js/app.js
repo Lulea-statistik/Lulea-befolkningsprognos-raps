@@ -484,7 +484,7 @@
         <div><span>100 % populationssignal från</span><strong>${p.fullLocalExposure??"–"}</strong></div>
         <div><span>100 % händelsesignal från</span><strong>${p.fullExpectedEvents??"–"}</strong></div>
         <div><span>Max lokal vikt</span><strong>${pct.format((p.maxLocalWeight||0)*100)} %</strong></div>
-        <div><span>Resultatstyrd?</span><strong>${p.weightDependsOnOutcome===false?"Nej":"–"}</strong></div>
+        <div><span>Utfallsberoende lokal vikt?</span><strong>${p.weightDependsOnOutcome===false?"Nej":"–"}</strong></div>
       </div>
       <p class="hint">${p.governance||""}</p>`;
   }
