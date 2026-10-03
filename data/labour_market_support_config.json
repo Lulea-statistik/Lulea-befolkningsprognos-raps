@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "validation_gate_locked_before_results",
+  "component": "labour_market_support",
+  "purpose": "Validate the SCB commuting and worker-age support layer used by labour analysis and industrial scenarios.",
+  "activeSources": {
+    "commuting": "SCB TAB1830",
+    "employmentAgeProfile": "SCB TAB3205"
+  },
+  "requiredGeographies": [
+    "2580",
+    "2582",
+    "2581",
+    "2560",
+    "2514"
+  ],
+  "requiredYears": [
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "validationGate": [
+    "all five Lulea FA municipalities must be present",
+    "commuting workplace series must cover all required years for every workplace municipality",
+    "residence-share rows must sum to 100 percent per workplace/year within numerical tolerance",
+    "latest commuting matrix must reconcile to workplace totals within numerical tolerance",
+    "worker age-group profile must exist for both sexes and the three mutually exclusive age groups 15-24, 25-54 and 55-74 for each workplace municipality",
+    "worker age-group shares must sum to 100 percent for each workplace municipality within numerical tolerance",
+    "quality/method-break note must remain explicit"
+  ],
+  "tolerancePct": 0.000001,
+  "governance": [
+    "This validates reproducibility and internal accounting of the support data, not a causal migration effect.",
+    "Residence shares are commuting/job-residence patterns and must not be interpreted as residential migration probabilities.",
+    "The 2024 entrepreneur-classification method break must remain visible in metadata and UI."
+  ]
+}
