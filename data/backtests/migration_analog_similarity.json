@@ -1,0 +1,244 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "diagnostic_only_not_active_in_forecast",
+  "config": "data/migration_analog_municipalities.json",
+  "target": {
+    "code": "2580",
+    "name": "Luleå kommun"
+  },
+  "calibrationYears": [
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "method": {
+    "calibrationYears": [
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024
+    ],
+    "features": [
+      {
+        "key": "log_population",
+        "weight": 0.15,
+        "description": "Difference in total population size on log scale."
+      },
+      {
+        "key": "share_age_18_29",
+        "weight": 0.2,
+        "description": "Share of population aged 18-29."
+      },
+      {
+        "key": "age_structure_15_39",
+        "weight": 0.15,
+        "description": "Distance between normalized single-year age profiles 15-39."
+      },
+      {
+        "key": "in_migration_age_profile_15_39",
+        "weight": 0.2,
+        "description": "Distance between age-specific in-migration rates 15-39."
+      },
+      {
+        "key": "out_migration_age_profile_15_39",
+        "weight": 0.2,
+        "description": "Distance between age-specific out-migration rates 15-39."
+      },
+      {
+        "key": "young_adult_migration_volatility",
+        "weight": 0.1,
+        "description": "Difference in year-to-year volatility of migration rates ages 18-29."
+      }
+    ],
+    "standardization": "robust z-score across candidate pool plus Lulea",
+    "distance": "weighted root mean square feature distance",
+    "score": "100/(1+distance); higher means more similar"
+  },
+  "ranking": [
+    {
+      "geo": "0780",
+      "name": "Växjö kommun",
+      "distance": 0.848317,
+      "similarityScore": 54.1,
+      "components": {
+        "log_population": 0.740709,
+        "share_age_18_29": 0.270699,
+        "age_structure_15_39": 0.325533,
+        "in_migration_age_profile_15_39": 1.407324,
+        "out_migration_age_profile_15_39": 0.933078,
+        "young_adult_migration_volatility": 0.604603
+      },
+      "rank": 1
+    },
+    {
+      "geo": "1490",
+      "name": "Borås kommun",
+      "distance": 0.999127,
+      "similarityScore": 50.02,
+      "components": {
+        "log_population": 1.474969,
+        "share_age_18_29": 0.304016,
+        "age_structure_15_39": 1.138408,
+        "in_migration_age_profile_15_39": 1.042086,
+        "out_migration_age_profile_15_39": 1.096154,
+        "young_adult_migration_volatility": 0.124248
+      },
+      "rank": 2
+    },
+    {
+      "geo": "2281",
+      "name": "Sundsvalls kommun",
+      "distance": 1.080561,
+      "similarityScore": 48.06,
+      "components": {
+        "log_population": 0.951259,
+        "share_age_18_29": 0.903228,
+        "age_structure_15_39": 1.441731,
+        "in_migration_age_profile_15_39": 0.951297,
+        "out_migration_age_profile_15_39": 1.287448,
+        "young_adult_migration_volatility": 0.666533
+      },
+      "rank": 3
+    },
+    {
+      "geo": "2380",
+      "name": "Östersunds kommun",
+      "distance": 1.098841,
+      "similarityScore": 47.65,
+      "components": {
+        "log_population": 0.838946,
+        "share_age_18_29": 0.482321,
+        "age_structure_15_39": 1.258439,
+        "in_migration_age_profile_15_39": 1.650582,
+        "out_migration_age_profile_15_39": 1.153035,
+        "young_adult_migration_volatility": 0.264886
+      },
+      "rank": 4
+    },
+    {
+      "geo": "1780",
+      "name": "Karlstads kommun",
+      "distance": 1.09919,
+      "similarityScore": 47.64,
+      "components": {
+        "log_population": 0.739479,
+        "share_age_18_29": 0.349432,
+        "age_structure_15_39": 0.836527,
+        "in_migration_age_profile_15_39": 1.345296,
+        "out_migration_age_profile_15_39": 1.368186,
+        "young_adult_migration_volatility": 1.613868
+      },
+      "rank": 5
+    },
+    {
+      "geo": "1880",
+      "name": "Örebro kommun",
+      "distance": 1.207287,
+      "similarityScore": 45.3,
+      "components": {
+        "log_population": 2.741172,
+        "share_age_18_29": 0.340719,
+        "age_structure_15_39": 0.49619,
+        "in_migration_age_profile_15_39": 0.733347,
+        "out_migration_age_profile_15_39": 0.76615,
+        "young_adult_migration_volatility": 0.673289
+      },
+      "rank": 6
+    },
+    {
+      "geo": "2180",
+      "name": "Gävle kommun",
+      "distance": 1.257698,
+      "similarityScore": 44.29,
+      "components": {
+        "log_population": 1.074038,
+        "share_age_18_29": 0.517203,
+        "age_structure_15_39": 1.108075,
+        "in_migration_age_profile_15_39": 0.853037,
+        "out_migration_age_profile_15_39": 1.032057,
+        "young_adult_migration_volatility": 2.850498
+      },
+      "rank": 7
+    },
+    {
+      "geo": "0580",
+      "name": "Linköpings kommun",
+      "distance": 1.408406,
+      "similarityScore": 41.52,
+      "components": {
+        "log_population": 2.951972,
+        "share_age_18_29": 0.86415,
+        "age_structure_15_39": 0.737399,
+        "in_migration_age_profile_15_39": 0.700655,
+        "out_migration_age_profile_15_39": 0.935741,
+        "young_adult_migration_volatility": 1.312498
+      },
+      "rank": 8
+    },
+    {
+      "geo": "2480",
+      "name": "Umeå kommun",
+      "distance": 1.493285,
+      "similarityScore": 40.11,
+      "components": {
+        "log_population": 2.008719,
+        "share_age_18_29": 1.044966,
+        "age_structure_15_39": 1.099145,
+        "in_migration_age_profile_15_39": 0.69528,
+        "out_migration_age_profile_15_39": 1.254863,
+        "young_adult_migration_volatility": 2.85207
+      },
+      "rank": 9
+    },
+    {
+      "geo": "0380",
+      "name": "Uppsala kommun",
+      "distance": 2.282815,
+      "similarityScore": 30.46,
+      "components": {
+        "log_population": 4.37194,
+        "share_age_18_29": 1.077181,
+        "age_structure_15_39": 1.303982,
+        "in_migration_age_profile_15_39": 1.901473,
+        "out_migration_age_profile_15_39": 2.161041,
+        "young_adult_migration_volatility": 1.41389
+      },
+      "rank": 10
+    },
+    {
+      "geo": "1281",
+      "name": "Lunds kommun",
+      "distance": 3.993147,
+      "similarityScore": 20.03,
+      "components": {
+        "log_population": 1.889269,
+        "share_age_18_29": 1.805828,
+        "age_structure_15_39": 2.371915,
+        "in_migration_age_profile_15_39": 5.044839,
+        "out_migration_age_profile_15_39": 6.54706,
+        "young_adult_migration_volatility": 1.583798
+      },
+      "rank": 11
+    }
+  ],
+  "governance": [
+    "Candidate municipalities are fixed before similarity scores are generated.",
+    "Similarity ranking is descriptive and must not be tuned from Lulea forecast errors.",
+    "Analogue signal remains diagnostic until rolling-origin smoothing tests compare local+analogue+national against local+national.",
+    "No single analogue municipality may replace Lulea observations by default."
+  ],
+  "nextAction": "Use a pre-declared top-k analogue pool only in rolling-origin smoothing diagnostics; do not activate in production from this ranking alone."
+}
