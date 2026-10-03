@@ -232,13 +232,36 @@ def load_forecast_migration_context(filename: str, file_key: str):
     return immigration, exposure
 
 
+def forecast_birth_dimension(file_key: str):
+    """Return the birth-origin dimension used by a national forecast vintage.
+
+    Older SCB vintages use Fodelselandgrupp while newer vintages use
+    Fodelseregion. Both represent the same model state needed here.
+    """
+    dims = (
+        manifest().get("files", {}).get(file_key, {})
+        .get("dimension_value_labels", {})
+    )
+    for dim in ("Fodelseregion", "Fodelselandgrupp"):
+        if dim in dims:
+            return dim
+    return None
+
+
 def forecast_birth_status(file_key: str, raw_code: str):
+    dim = forecast_birth_dimension(file_key)
+    if not dim:
+        return None
     labels = (
         manifest().get("files", {}).get(file_key, {})
-        .get("dimension_value_labels", {}).get("Fodelseregion", {})
+        .get("dimension_value_labels", {}).get(dim, {})
     )
     label = str(labels.get(str(raw_code), "")).strip().lower()
-    if "födda i sverige" in label or "född i sverige" in label:
+    if (
+        "födda i sverige" in label
+        or "född i sverige" in label
+        or label == "sverige"
+    ):
         return "sweden_born"
     if label:
         return "foreign_born"
@@ -260,8 +283,13 @@ def load_forecast_migration_context_by_birth_status(
         raise RuntimeError(
             f"Could not identify Inflyttade/Medelfolkmängd for {file_key}."
         )
+    birth_dim = forecast_birth_dimension(file_key)
+    if not birth_dim:
+        raise RuntimeError(
+            f"Could not identify birth-origin dimension for {file_key}."
+        )
     for r in rows(path):
-        status = forecast_birth_status(file_key, r.get("Fodelseregion", ""))
+        status = forecast_birth_status(file_key, r.get(birth_dim, ""))
         age = age_value(r.get("Alder", ""))
         sex = SEX_MAP.get(r.get("Kon", ""))
         if not status or age is None or not sex:
