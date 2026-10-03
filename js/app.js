@@ -1849,9 +1849,44 @@
 
   function exportCsv(){
     if(!latest.length)return;
-    const lines=["year,population,births,deaths,net_migration,scenario_effect,change",...latest.map(r=>[r.year,r.population,r.births,r.deaths,r.netMigration,r.scenarioEffect||0,r.change].join(","))];
-    const blob=new Blob([lines.join("\n")],{type:"text/csv;charset=utf-8"});
-    const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="lulea_population_forecast.csv";a.click();URL.revokeObjectURL(a.href);
+
+    const geo=$("geo").value;
+    const geoLabel=data.geographies?.find(g=>g.code===geo)?.name||geo;
+    const windowYears=$("window").value;
+    const fertilityScenario=$("fertilityScenario")?.value||"raps2024";
+    const migrationWindow=$("migrationWindow")?.value||windowYears;
+    const delimiter=";";
+    const csvNumber=v=>{
+      const n=Number(v);
+      if(!Number.isFinite(n)) return "";
+      return String(n).replace(".",",");
+    };
+    const csvText=v=>{
+      const s=String(v??"");
+      return /[;"\n\r]/.test(s)?`"${s.replace(/"/g,'""')}"`:s;
+    };
+    const header=[
+      "geografi_kod","geografi","kalibreringsfonster_ar","migrationsfonster_ar","fruktsamhetsscenario",
+      "ar","befolkning","baslinje_befolkning","fodda","doda","nettoflyttning",
+      "scenarioeffekt","scenarioavvikelse_mot_baslinje","forandring"
+    ];
+    const rows=latest.map((r,i)=>{
+      const base=baseline[i];
+      const baselinePopulation=base?.population;
+      const scenarioDelta=baselinePopulation==null?"":Number(r.population||0)-Number(baselinePopulation||0);
+      return [
+        geo,geoLabel,windowYears,migrationWindow,fertilityScenario,
+        r.year,r.population,baselinePopulation,r.births,r.deaths,r.netMigration,
+        r.scenarioEffect||0,scenarioDelta,r.change
+      ].map((v,j)=>j<5?csvText(v):csvNumber(v)).join(delimiter);
+    });
+    const content="\uFEFF"+[header.join(delimiter),...rows].join("\r\n");
+    const blob=new Blob([content],{type:"text/csv;charset=utf-8"});
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download=`befolkningsprognos_${geo}_${latest[0].year}-${latest.at(-1).year}.csv`;
+    a.click();
+    URL.revokeObjectURL(a.href);
   }
 
   setup();
