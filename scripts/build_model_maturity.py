@@ -24,8 +24,13 @@ def load(path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def gate(label, passed, evidence):
-    return {"label": label, "passed": bool(passed), "evidence": evidence}
+def gate(label, passed, evidence, required=True):
+    return {
+        "label": label,
+        "passed": bool(passed),
+        "evidence": evidence,
+        "required": bool(required),
+    }
 
 
 def component(policy, key, level, lifecycle, production_active, gates, next_action):
