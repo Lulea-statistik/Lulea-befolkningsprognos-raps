@@ -30,6 +30,7 @@ DEMOGRAPHIC_SENSITIVITY_VALIDATION = ROOT / "data" / "backtests" / "demographic_
 CKM_UNCERTAINTY_VALIDATION = ROOT / "data" / "backtests" / "ckm_uncertainty_diagnostics_validation.json"
 SCENARIO_MIGRATION_PROFILES_VALIDATION = ROOT / "data" / "backtests" / "scenario_migration_profiles_validation.json"
 MODEL_DATA_INTEGRITY_VALIDATION = ROOT / "data" / "backtests" / "model_data_integrity_validation.json"
+SCENARIO_PHASE_IN_VALIDATION = ROOT / "data" / "backtests" / "scenario_phase_in_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -1262,6 +1263,48 @@ def main():
             else "Block production maturity until missing/duplicate/invalid core cells are corrected without silent imputation."
             if integrity_has_results
             else "Run the locked core model-data integrity validation."
+        )
+    ))
+
+    phase_cfg = load(ROOT / "data" / "scenario_phase_in_config.json")
+    phase_validation = (
+        load(SCENARIO_PHASE_IN_VALIDATION)
+        if SCENARIO_PHASE_IN_VALIDATION.exists()
+        else {}
+    )
+    phase_gate = phase_validation.get("allPassed") is True
+    phase_has_results = bool(phase_validation.get("checks"))
+    comps.append(component(
+        policy, "scenario_phase_in",
+        4 if phase_gate else 2 if phase_has_results else 1,
+        (
+            "production_support" if phase_gate
+            else "rejected" if phase_has_results
+            else "diagnostic"
+        ),
+        phase_gate,
+        [
+            gate(
+                "Scenario phase-in rule is explicitly documented",
+                phase_cfg.get("status") == "production_scenario_phase_gate_locked",
+                phase_cfg.get("status")
+            ),
+            gate(
+                "Timing-window and cumulative-magnitude regressions pass",
+                phase_gate,
+                (
+                    f"checks={phase_validation.get('checks')}; "
+                    f"examples={phase_validation.get('examples')}"
+                    if phase_has_results else "Awaiting validation"
+                )
+            )
+        ],
+        (
+            "Keep uniform phase-in as the production scenario timing rule; validate any future non-uniform ramp separately."
+            if phase_gate
+            else "Keep below production maturity until timing and cumulative-conservation checks pass."
+            if phase_has_results
+            else "Run the locked scenario phase-in validation."
         )
     ))
 
