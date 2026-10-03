@@ -117,6 +117,45 @@
         "n+2 net migration MAE not worse"
       ]
     },
-    "governance": "Do not change topK, selected municipalities, analogue weights, or thresholds after viewing smoothing outcomes."
+    "governance": "Do not change topK, selected municipalities, analogue weights, or thresholds after viewing smoothing outcomes.",
+    "backtestSelection": {
+      "method": "rerank candidate pool at each rolling origin using only years available through that origin",
+      "topK": 5,
+      "minimumHistoryYears": 6,
+      "currentProductionReferenceTop5": [
+        {
+          "code": "0780",
+          "name": "Växjö kommun"
+        },
+        {
+          "code": "1490",
+          "name": "Borås kommun"
+        },
+        {
+          "code": "2281",
+          "name": "Sundsvalls kommun"
+        },
+        {
+          "code": "2380",
+          "name": "Östersunds kommun"
+        },
+        {
+          "code": "1780",
+          "name": "Karlstads kommun"
+        }
+      ],
+      "note": "The current 2015-2024 top five is descriptive for the 2025 model only and is not retroactively imposed on historical origins."
+    },
+    "structuralTarget": {
+      "analogueAggregation": "similarity-score-weighted age/sex shares among the origin-specific top five",
+      "curvatureBlend": {
+        "nationalWeight": 0.5,
+        "analogueWeight": 0.5
+      },
+      "formula": "adjacent Lulea local-age mean + 0.5*Sweden age curvature + 0.5*analogue-pool age curvature",
+      "retentionRule": "same information+persistence local-retention rule as the existing adaptive smoothing candidate",
+      "totalPreservation": "smooth gross in and gross out age/sex shares separately, renormalize each to 1, then multiply by the original Lulea gross in/out annual totals; net profile = smoothed gross in - smoothed gross out",
+      "governance": "Weights and formula are fixed before rolling-origin forecast outcomes are generated."
+    }
   }
 }
