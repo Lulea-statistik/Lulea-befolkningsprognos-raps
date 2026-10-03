@@ -22,6 +22,8 @@ LABOUR_MARKET_SUPPORT_VALIDATION = ROOT / "data" / "backtests" / "labour_market_
 FADING_POLICY_VALIDATION = ROOT / "data" / "backtests" / "fading_policy_validation.json"
 QUTB_VALIDATION = ROOT / "data" / "backtests" / "qutb_neutralization_validation.json"
 BASE_POPULATION_BRIDGE_VALIDATION = ROOT / "data" / "backtests" / "base_population_bridge_validation.json"
+SEX_RATIO_VALIDATION = ROOT / "data" / "backtests" / "sex_ratio_at_birth_validation.json"
+FA_ADDITIVITY_VALIDATION = ROOT / "data" / "backtests" / "fa_additivity_validation.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -921,6 +923,90 @@ def main():
             else "Keep below production maturity until base-stock completeness and method-break separation pass."
             if base_bridge_has_results
             else "Run the locked base-population bridge validation."
+        )
+    ))
+
+    sex_ratio_cfg = load(ROOT / "data" / "sex_ratio_at_birth_config.json")
+    sex_ratio_validation = (
+        load(SEX_RATIO_VALIDATION)
+        if SEX_RATIO_VALIDATION.exists()
+        else {}
+    )
+    sex_ratio_gate = sex_ratio_validation.get("allPassed") is True
+    sex_ratio_has_results = bool(sex_ratio_validation.get("checks"))
+    comps.append(component(
+        policy, "sex_ratio_at_birth",
+        4 if sex_ratio_gate else 2 if sex_ratio_has_results else 1,
+        (
+            "production_support" if sex_ratio_gate
+            else "rejected" if sex_ratio_has_results
+            else "diagnostic"
+        ),
+        sex_ratio_gate,
+        [
+            gate(
+                "Raps newborn sex split is explicitly documented",
+                sex_ratio_cfg.get("status") == "production_parameter_locked"
+                and float(sex_ratio_cfg.get("maleShare", 0)) == 0.515,
+                f"status={sex_ratio_cfg.get('status')}; maleShare={sex_ratio_cfg.get('maleShare')}"
+            ),
+            gate(
+                "Sex-ratio regression and total-birth invariance pass",
+                sex_ratio_gate,
+                (
+                    f"checks={sex_ratio_validation.get('checks')}"
+                    if sex_ratio_has_results else "Awaiting validation"
+                )
+            )
+        ],
+        (
+            "Freeze 0.515/0.485 as the Raps production parameter; keep local observed sex share diagnostic only."
+            if sex_ratio_gate
+            else "Keep below production maturity until source, split and newborn-allocation regression pass."
+            if sex_ratio_has_results
+            else "Run the locked sex-ratio validation."
+        )
+    ))
+
+    fa_add_cfg = load(ROOT / "data" / "fa_additivity_config.json")
+    fa_add_validation = (
+        load(FA_ADDITIVITY_VALIDATION)
+        if FA_ADDITIVITY_VALIDATION.exists()
+        else {}
+    )
+    fa_add_gate = fa_add_validation.get("allPassed") is True
+    fa_add_has_results = bool(fa_add_validation.get("checks"))
+    comps.append(component(
+        policy, "fa_additivity",
+        4 if fa_add_gate else 2 if fa_add_has_results else 1,
+        (
+            "production_support" if fa_add_gate
+            else "rejected" if fa_add_has_results
+            else "diagnostic"
+        ),
+        fa_add_gate,
+        [
+            gate(
+                "FA membership and additive production rule are explicitly locked",
+                fa_add_cfg.get("status") == "production_rule_locked"
+                and len(fa_add_cfg.get("members") or []) == 5,
+                f"status={fa_add_cfg.get('status')}; members={fa_add_cfg.get('members')}"
+            ),
+            gate(
+                "Baseline and scenario FA additivity regression passes",
+                fa_add_gate,
+                (
+                    f"checks={fa_add_validation.get('checks')}"
+                    if fa_add_has_results else "Awaiting validation"
+                )
+            )
+        ],
+        (
+            "Freeze additive FA publication logic; rerun regression whenever simulation aggregation or FA membership changes."
+            if fa_add_gate
+            else "Keep below production maturity until baseline/scenario additivity and FA gross-flow suppression pass."
+            if fa_add_has_results
+            else "Run the locked FA-additivity validation."
         )
     ))
 
