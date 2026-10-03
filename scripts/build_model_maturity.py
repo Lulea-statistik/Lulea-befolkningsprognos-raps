@@ -38,6 +38,7 @@ HOUSING_BALANCE_INDICATOR_VALIDATION = ROOT / "data" / "backtests" / "housing_ba
 SOURCE_MANIFEST_VALIDATION = ROOT / "data" / "backtests" / "source_manifest_integrity_validation.json"
 AGE_CELL_WEIGHT_DIAGNOSTIC = ROOT / "data" / "backtests" / "age_cell_weight_diagnostic.json"
 LOCALIZATION_2025_HOLDOUT = ROOT / "data" / "backtests" / "localization_2025_holdout.json"
+REFERENCE_FA_ROLLING = ROOT / "data" / "backtests" / "reference_fa_rolling.json"
 OUT_JSON = ROOT / "data" / "model_maturity.json"
 OUT_JS = ROOT / "data" / "model_maturity.js"
 
@@ -84,6 +85,7 @@ def main():
     smoothing = load(SMOOTHING)
     age_weight = load(AGE_CELL_WEIGHT_DIAGNOSTIC)
     localization_2025 = load(LOCALIZATION_2025_HOLDOUT)
+    reference_fa = load(REFERENCE_FA_ROLLING)
 
     comps = []
 
@@ -273,15 +275,41 @@ def main():
                     f"{geo} w{w}: current={s.get('currentDeathsMAE')}, "
                     f"WLS={s.get('weightedLeastSquaresDeathsMAE')}"
                 )
+    wls_external = reference_fa.get("mortalityWlsExternalGate") or {}
+    wls_external_passed = bool(wls_external.get("passed"))
+    wls_checks = wls_external.get("checks") or []
+    wls_external_evidence = "; ".join(
+        f"{x.get('region')} {x.get('horizon')}: WLS={x.get('wlsDeathsMAE')} vs current={x.get('currentDeathsMAE')}"
+        for x in wls_checks
+    )
+    if wls_external:
+        wls_external_evidence += (
+            f"; pooled n+1/n+2 WLS={wls_external.get('wlsPooledDeathsMAE')} "
+            f"vs current={wls_external.get('currentPooledDeathsMAE')}"
+        )
+    wls_level = 3 if wls_external_passed else 2
     comps.append(component(
-        policy, "mortality_wls_candidate", 2, "development_locked", False,
-        [gate(
-            "Locked SCB-inspired weighted-least-squares mortality diagnostic generated",
-            bool(wls_evidence) and all("None" not in x for x in wls_evidence),
-            "; ".join(wls_evidence) if wls_evidence else "Awaiting rolling-origin results",
-            required=False
-        )],
-        "Keep the two-parameter log-hazard WLS formulation frozen. Treat 2018-2024 as development evidence only; require new untouched external or future evidence before any level-3 promotion."
+        policy, "mortality_wls_candidate", wls_level,
+        "validated_candidate" if wls_external_passed else "external_gate_failed", False,
+        [
+            gate(
+                "Locked SCB-inspired weighted-least-squares mortality diagnostic generated",
+                bool(wls_evidence) and all("None" not in x for x in wls_evidence),
+                "; ".join(wls_evidence) if wls_evidence else "Awaiting rolling-origin results",
+                required=False
+            ),
+            gate(
+                "External FA15 gate: 10-year WLS non-worse at n+1/n+2 in all three locked regions and pooled MAE strictly better",
+                wls_external_passed,
+                wls_external_evidence if wls_external_evidence else "Awaiting external FA15 WLS result",
+                required=True
+            )
+        ],
+        (
+            "Level 3 validated candidate. Keep the locked two-parameter WLS formulation frozen and require one further untouched future/annual control before any level-4 production replacement."
+            if wls_external_passed
+            else "Keep at level 2. The locked external FA15 gate did not pass; do not retune the WLS formulation on consumed external outcomes."
+        )
     ))
 
     # Net10 incumbent.
