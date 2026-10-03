@@ -167,6 +167,9 @@ jobs:
       - name: Validate industrial workforce scenario presets
         run: python scripts/validate_industrial_workforce_scenario.py
 
+      - name: Regression-test industrial workforce scenario engine
+        run: node scripts/validate_industrial_workforce_scenario.js
+
       - name: Build model maturity report
         run: python scripts/build_model_maturity.py
 
