@@ -715,6 +715,10 @@
       }
       modelRisk=weight>0?weighted/weight:null;
     }
+    let localWeightPct=null;
+    if(sex!=="ALL" && ageVal!=="ALL" && modelRows.length===1){
+      localWeightPct=100*Number(modelRows[0].cellLocalWeight||0);
+    }
     const modelLine=annual.map(()=>modelRisk);
     drawAgeLineChart("historyMortalityDetailChart",years,[
       {name:"Observerad dödssannolikhet",values:annual.map(r=>r.riskPct),cls:"lineOutflow",suffix:" %"},
@@ -735,8 +739,11 @@
         <div><span>Döda per år, kalibreringsperiod</span><strong>${fmt1.format(annualMean)}</strong></div>
         <div><span>Observerad sammanvägd dödssannolikhet</span><strong>${pooledRisk==null?"–":fmt1.format(pooledRisk)+" %"}</strong></div>
         <div><span>Modellens kalibrerade dödssannolikhet</span><strong>${modelRisk==null?"–":fmt1.format(modelRisk)+" %"}</strong></div>
+        ${localWeightPct==null?"":`<div><span>Lokal vikt i modellcellen</span><strong>${fmt1.format(localWeightPct)} %</strong></div>`}
       </div>
-      <p class="hint"><strong>Tolkning:</strong> observerad 0 % betyder att inga dödsfall registrerades i just den valda cellen under perioden. Det betyder inte att prognosen antar 0 % dödssannolikhet. Modellens värde visas som ungefärlig sannolikhet att avlida under ett år; exempelvis motsvarar 374,27 ‰ cirka 37,4 %. Vid små celler dämpas den lokala slumpvariationen i prognosen genom informationsvägning mot rikets ålders- och könsspecifika dödlighetsprofil.</p>`;
+      <p class="hint"><strong>Tolkning:</strong> observerad 0 % betyder att inga dödsfall registrerades i just den valda cellen under perioden. Det betyder inte att prognosen antar 0 % dödssannolikhet. Modellens värde visas direkt som ungefärlig sannolikhet att avlida under ett år. ${localWeightPct==null
+        ?"När flera kön eller åldrar är valda visas ingen enskild lokal vikt, eftersom varje cell har sin egen vikt."
+        :`För detta urval får den lokala ålder/kön-cellen cirka ${fmt1.format(localWeightPct)} % direkt lokal vikt. Resterande del hämtar struktur från rikets dödlighet för samma ålder och kön, justerad med kommunens generella relativa dödlighetsnivå.`} Vid höga åldrar är den underliggande dödssannolikheten naturligt högre. Om den lokala cellen samtidigt är liten får rikets åldersprofil större betydelse, men den röda observerade kurvan är fortfarande enbart lokal historik.</p>`;
   }
 
   function renderHistoricalMigrationDetail(geo,selectedYears){
