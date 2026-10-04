@@ -222,6 +222,14 @@
     return r?Math.max(0,n(r.value)):0;
   }
 
+  function getBirthStatusNetAllocation(rows,geo,sex,age,status){
+    const idx=indexRows(
+      rows,"birthStatusNetAllocation",
+      r=>`${r.geo}|${r.sex}|${+r.age}|${r.status}`
+    );
+    return firstMatch(idx,`${geo}|${sex}|${+age}|${status}`);
+  }
+
   function getProfetBirthLevel(rows,geo,status,leg){
     const idx=indexRows(
       rows,"profetBirthLevel",
@@ -612,6 +620,190 @@
     }
   }
 
+  function simulateBirthStatusNet10Constrained(
+    data,options,fertilityRows,window,cohortTimingMode,
+    fertMult,mortMult,migMult
+  ){
+    if(cohortTimingMode!=="event_age_aligned"){
+      throw new Error("Net10-födelsestatuskandidaten kräver event-age-aligned timing.");
+    }
+    const geo=options.geo;
+    const baseYear=+data.meta.baseYear;
+    const endYear=+options.endYear;
+    const statuses=["sweden_born","foreign_born"];
+    const mode="birth_status_net10_constrained";
+    const baseRows=(data.populationBaseBirthStatus||[])
+      .filter(r=>r.geo===geo && +r.year===baseYear);
+    if(!baseRows.length){
+      throw new Error(`Saknar startbefolkning efter födelsestatus för ${geo}, ${baseYear}.`);
+    }
+    let pop=new Map();
+    for(const status of statuses){
+      for(const sex of ["K","M"]){
+        for(let age=0;age<=MAX_AGE;age++){
+          const r=baseRows.find(
+            x=>x.status===status&&x.sex===sex&&+x.age===age
+          );
+          pop.set(bsKey(status,sex,age),Math.max(0,n(r?.value)));
+        }
+      }
+    }
+    const snapshot=()=>{
+      if(!options.includeDetail) return undefined;
+      const out=[];
+      for(const sex of ["K","M"]){
+        for(let age=0;age<=MAX_AGE;age++){
+          out.push({
+            sex,age,
+            value:statuses.reduce(
+              (sum,status)=>sum+n(pop.get(bsKey(status,sex,age))),0
+            )
+          });
+        }
+      }
+      return out;
+    };
+    const statusSnapshot=()=>Object.fromEntries(
+      statuses.map(status=>[
+        status,
+        [...pop.entries()]
+          .filter(([k])=>k.startsWith(status+"|"))
+          .reduce((sum,[,v])=>sum+n(v),0)
+      ])
+    );
+    const totalPop=()=>[...pop.values()].reduce((sum,v)=>sum+n(v),0);
+    const results=[{
+      year:baseYear,population:totalPop(),births:0,deaths:0,netMigration:0,
+      grossInMigration:null,grossOutMigration:null,
+      migrationMode:mode,migrationWindow:10,cohortTimingMode,
+      fertilityScenario:options.fertilityScenario||data.parameters?.defaultFertilityScenario||"raps2024",
+      scenarioEffect:0,change:0,
+      populationByAgeSex:snapshot(),
+      populationByBirthStatus:statusSnapshot()
+    }];
+
+    for(let year=baseYear+1;year<=endYear;year++){
+      let births=0,deaths=0,netMigration=0;
+      const aged=new Map();
+      for(const status of statuses){
+        for(const sex of ["K","M"]){
+          for(let age=0;age<=MAX_AGE;age++){
+            const target=Math.min(MAX_AGE,age+1);
+            const k=bsKey(status,sex,target);
+            aged.set(k,n(aged.get(k))+n(pop.get(bsKey(status,sex,age))));
+          }
+        }
+      }
+
+      for(let age=15;age<=49;age++){
+        const women=statuses.reduce(
+          (sum,status)=>sum+n(aged.get(bsKey(status,"K",age))),0
+        );
+        births+=women*Math.max(
+          0,getFert(fertilityRows,geo,year,age,window)*fertMult
+        );
+      }
+      const male=births*n(data.parameters.sexRatioMaleAtBirth||0.515);
+      const female=births-male;
+      aged.set(
+        bsKey("sweden_born","M",0),
+        n(aged.get(bsKey("sweden_born","M",0)))+male
+      );
+      aged.set(
+        bsKey("sweden_born","K",0),
+        n(aged.get(bsKey("sweden_born","K",0)))+female
+      );
+
+      const survivors=new Map();
+      for(const status of statuses){
+        for(const sex of ["K","M"]){
+          for(let age=0;age<=MAX_AGE;age++){
+            const p=n(aged.get(bsKey(status,sex,age)));
+            const q=clamp(
+              getRate(data.mortalityRisks,geo,year,sex,age,window)*mortMult,
+              0,1
+            );
+            const d=p*q;
+            deaths+=d;
+            survivors.set(bsKey(status,sex,age),Math.max(0,p-d));
+          }
+        }
+      }
+
+      for(const sex of ["K","M"]){
+        for(let age=0;age<=MAX_AGE;age++){
+          const totalBefore=statuses.reduce(
+            (sum,status)=>sum+n(survivors.get(bsKey(status,sex,age))),0
+          );
+          const requested=getNetMig(
+            data.netMigration,geo,year,sex,age,10
+          )*migMult;
+          const targetTotal=Math.max(0,totalBefore+requested);
+          const realized=targetTotal-totalBefore;
+          netMigration+=realized;
+
+          if(realized>=0){
+            let shares=statuses.map(status=>{
+              const r=getBirthStatusNetAllocation(
+                data.birthStatusNet10Allocation,geo,sex,age,status
+              );
+              return Math.max(0,n(r?.positiveShare));
+            });
+            const ss=shares.reduce((s,v)=>s+v,0);
+            if(ss<=0) shares=[1,0];
+            else shares=shares.map(v=>v/ss);
+            statuses.forEach((status,i)=>{
+              const k=bsKey(status,sex,age);
+              survivors.set(k,n(survivors.get(k))+realized*shares[i]);
+            });
+          }else{
+            const reduction=-realized;
+            let shares=statuses.map(status=>{
+              const r=getBirthStatusNetAllocation(
+                data.birthStatusNet10Allocation,geo,sex,age,status
+              );
+              return Math.max(0,n(r?.negativeShare));
+            });
+            const ss=shares.reduce((s,v)=>s+v,0);
+            if(ss<=0) shares=[1,0];
+            else shares=shares.map(v=>v/ss);
+
+            const stock=statuses.map(
+              status=>n(survivors.get(bsKey(status,sex,age)))
+            );
+            const take=shares.map((share,i)=>Math.min(stock[i],reduction*share));
+            let left=reduction-take.reduce((s,v)=>s+v,0);
+            if(left>1e-12){
+              for(let i=0;i<statuses.length && left>1e-12;i++){
+                const extra=Math.min(stock[i]-take[i],left);
+                take[i]+=extra;
+                left-=extra;
+              }
+            }
+            statuses.forEach((status,i)=>{
+              const k=bsKey(status,sex,age);
+              survivors.set(k,Math.max(0,n(survivors.get(k))-take[i]));
+            });
+          }
+        }
+      }
+
+      const prev=results.at(-1).population;
+      pop=survivors;
+      const total=totalPop();
+      results.push({
+        year,population:total,births,deaths,netMigration,
+        grossInMigration:null,grossOutMigration:null,
+        migrationMode:mode,migrationWindow:10,cohortTimingMode,
+        fertilityScenario:options.fertilityScenario||data.parameters?.defaultFertilityScenario||"raps2024",
+        scenarioEffect:0,change:total-prev,
+        populationByAgeSex:snapshot(),
+        populationByBirthStatus:statusSnapshot()
+      });
+    }
+    return results;
+  }
+
   function simulateProfetBirthStatus(
     data,options,fertilityRows,window,cohortTimingMode,
     fertMult,mortMult,imigMult,umigMult
@@ -913,6 +1105,19 @@
           `Saknar SCB-riskflyttningsunderlag för ${geo}.`
         );
       }
+    }
+    if(migrationMode==="birth_status_net10_constrained"){
+      const hasBase=(data.populationBaseBirthStatus||[])
+        .some(r=>r.geo===geo&&+r.year===baseYear);
+      const hasAllocation=(data.birthStatusNet10Allocation||[])
+        .some(r=>r.geo===geo&&+r.window===10);
+      if(!hasBase||!hasAllocation){
+        throw new Error(`Saknar net10-födelsestatusunderlag för ${geo}.`);
+      }
+      return simulateBirthStatusNet10Constrained(
+        data,options,fertilityRows,window,cohortTimingMode,
+        fertMult,mortMult,migMult
+      );
     }
     if(migrationMode==="profet_birth_status"){
       const hasBase=(data.populationBaseBirthStatus||[])
