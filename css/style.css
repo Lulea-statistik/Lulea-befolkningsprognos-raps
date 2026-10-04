@@ -4,7 +4,10 @@
   --border:#dfe5ec;--muted:#667085;--panel:#fff;--ink:#17202a;
 }
 *{box-sizing:border-box} body{margin:0;background:#f5f7fa}
-.topbar{display:flex;justify-content:space-between;gap:24px;align-items:center;padding:24px 32px;background:#fff;border-bottom:1px solid var(--border)}
+.topbar{display:flex;justify-content:space-between;gap:24px;align-items:center;padding:18px 32px;background:#fff;border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:16px;min-width:0}
+.brandLogo{width:64px;height:64px;flex:0 0 64px;display:block;object-fit:contain}
+.brandText{min-width:0}
 h1{margin:0;font-size:28px}.topbar p{margin:6px 0 0;color:var(--muted)}
 .badge{background:#eef2f6;border:1px solid #d8e0e8;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:700}
 .tabs{display:flex;gap:6px;padding:10px 22px;background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5;overflow:auto}
@@ -33,7 +36,7 @@ td input[type=number],td select{width:105px;padding:6px;border:1px solid #d8e0e8
 .inlineLabel{font-size:13px;font-weight:650}.inlineLabel input{width:120px;margin-left:10px}.validationCards{grid-template-columns:repeat(4,minmax(0,1fr))}
 ul{padding-left:19px;margin:0}li{margin:7px 0}code{background:#eef2f6;padding:2px 5px;border-radius:5px}
 @media(max-width:1150px){main{grid-template-columns:1fr}.controls{position:static}.grid2{grid-template-columns:1fr}.policyGrid{grid-template-columns:1fr 1fr}}
-@media(max-width:760px){.cards,.validationCards{grid-template-columns:1fr 1fr}.formGrid3{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}.ageRow{grid-template-columns:50px 1fr 60px}.ageRow small{display:none}}
+@media(max-width:760px){.cards,.validationCards{grid-template-columns:1fr 1fr}.formGrid3{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column;padding:16px 18px}.brand{gap:12px}.brandLogo{width:52px;height:52px;flex-basis:52px}.topbar h1{font-size:24px}.topbar p{font-size:12px}.ageRow{grid-template-columns:50px 1fr 60px}.ageRow small{display:none}}
 @media(max-width:520px){.cards,.validationCards{grid-template-columns:1fr}.tabs{padding-left:10px;padding-right:10px}}
 
 .analysisTableWrap{max-height:520px;overflow:auto;border:1px solid #edf0f3;border-radius:10px;margin-top:14px}
