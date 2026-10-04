@@ -1378,6 +1378,10 @@
     const internationalEffect=populationEffect*internationalShare;
     const domesticEffect=populationEffect-internationalEffect;
     $("labourPopulationEffect").innerHTML=`
+      <div class="scenarioContext">
+        <strong>Aktuellt scenario: ${fmt.format(added)} nya jobb i ${nameFor(workplace)}</strong>
+        <span>Alla siffror nedan gäller just detta antal nya jobb. Om du anger 100 i fältet ”Scenario: nya jobb” visar sektionen alltså effekten av ett scenario med 100 nya jobb. I denna förenklade scenarioingång behandlas ett nytt jobb som en ny arbetstillgång för en person; modellen utgår från antal jobb, inte från arbetsplatsens totala befintliga personalstyrka.</span>
+      </div>
       <div class="policyGrid labourEffectGrid">
         <div>
           <span>Jobb som fördelas till personer bosatta utanför FA</span>
