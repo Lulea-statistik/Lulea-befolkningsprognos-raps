@@ -225,6 +225,11 @@
       "label": "Profet-arkitektur: net10 + födelsestatusspecifik demografi",
       "targetLevel": 4,
       "requiredGate": "Ny separat arkitektur låst före resultatutvärdering. Net10-total och låst statusallokering ska bevaras; endast same-vintage nationella relativtal för fertilitet efter moderns födelsestatus och dödlighet efter födelsestatus får påverka statusgrupperna. 2018–2024 är utvecklingsevidens och får inte användas för eftertrimning. Nivå 3 kräver ny förhandslåst extern eller framtida kontroll."
+    },
+    "qutb_education_transition_candidate": {
+      "label": "qutb: kohortbaserade utbildningsövergångar",
+      "targetLevel": 4,
+      "requiredGate": "Ny separat qutb-kandidat låst före resultatutvärdering. Fem ordnade utbildningsstatusar, 10-årigt nationellt kohortfönster, endast angränsande uppåtövergångar och identitets-qutb som comparator. 2018–2024 är utvecklingsevidens; nivå 3 kräver ny förhandslåst extern eller framtida kontroll."
     }
   }
 }
