@@ -230,6 +230,11 @@
       "label": "qutb: kohortbaserade utbildningsövergångar",
       "targetLevel": 4,
       "requiredGate": "Forskningsspår. Fem ordnade utbildningsstatusar, 10-årigt nationellt kohortfönster, endast angränsande uppåtövergångar och identitets-qutb som comparator är låsta. 2018–2024 är utvecklingsevidens. Nivå 3 kräver ny extern/future kontroll och nivå 4 ytterligare orörd kontroll. Komponenten får inte påverka produktionsprognosen före nivå 4; även efter nivå 4 kräver eventuell användning för flyttning, fruktsamhet eller dödlighet en separat förhandslåst komponentmodell."
+    },
+    "housing_migration_lead_research": {
+      "label": "Forskningsspår: laggad bostadsbeståndsförändring och nettoflyttning",
+      "targetLevel": 4,
+      "requiredGate": "Research-only. Ettårigt laggad förändring i bostadsbestånd får endast testas som tilläggssignal till 10-årig nettoflyttningsbaslinje. Metod, lagg, estimator, geografi och comparator är låsta före resultat. Ingen koefficient får påverka produktionsprognosen utan en separat framtida komponentkandidat och egen nivå-4-validering."
     }
   }
 }
