@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "development_candidate_locked_before_results",
+  "key": "birth_status_net10_constrained_candidate",
+  "label": "Födelsestatus: net10-begränsad statusfördelning",
+  "purpose": "Test whether Swedish-born/foreign-born population state adds useful compositional structure while preserving the validated production net10 migration total by sex and one-year age.",
+  "migrationWindow": 10,
+  "statuses": [
+    "sweden_born",
+    "foreign_born"
+  ],
+  "rules": {
+    "totalNetMigration": "Exactly the production net10 value for each geography, sex and one-year age cell.",
+    "positiveNetAllocation": "Allocate by each birth-status share of 10-year gross in-migration in the cell.",
+    "negativeNetAllocation": "Allocate by each birth-status share of 10-year gross out-migration in the cell.",
+    "zeroEventFallback": "Use the birth-status population share in the same sex-age cell over the same 10-year calibration window.",
+    "births": "All newborns enter sweden_born.",
+    "mortality": "Same production age-sex mortality risk for both birth statuses.",
+    "stockConstraint": "Negative migration cannot reduce a birth-status stock below zero; any unmet reduction is reassigned to the other status so the aggregate cell follows the production net10 target."
+  },
+  "developmentEvaluation": {
+    "origins": [
+      2018,
+      2019,
+      2020,
+      2021
+    ],
+    "horizons": [
+      1,
+      2,
+      3
+    ],
+    "primaryMetrics": [
+      "sweden_born population MAE",
+      "foreign_born population MAE"
+    ],
+    "structuralGate": "Aggregate population and net migration must match the net10 baseline by year.",
+    "governance": "2018-2024 results are development evidence only. No parameters or allocation rules may be changed after viewing these outcomes. Level 3 requires a newly locked external or future holdout."
+  }
+}
