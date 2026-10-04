@@ -50,7 +50,12 @@ def education_group(label):
     if "forskar" in x:
         return "postgraduate"
     if "eftergymnasial" in x:
-        if "kortare än 3" in x or "kortare an 3" in x:
+        if (
+            "kortare än 3" in x
+            or "kortare an 3" in x
+            or "mindre än 3" in x
+            or "mindre an 3" in x
+        ):
             return "postsecondary_short"
         return "postsecondary_long"
     if "gymnasial" in x and "förgymnasial" not in x and "forgymnasial" not in x:
