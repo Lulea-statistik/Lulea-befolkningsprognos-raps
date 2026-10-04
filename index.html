@@ -25,6 +25,7 @@
     <button class="tab" data-page="analysis">Befolkningsanalys</button>
     <button class="tab" data-page="age">Åldersanalys 1-år</button>
     <button class="tab" data-page="migration">Flyttningar</button>
+    <button class="tab" data-page="history">Historisk data</button>
     <button class="tab" data-page="labour">Arbetsmarknad & pendling</button>
     <button class="tab" data-page="housing">Hushåll & bostad</button>
     <button class="tab" data-page="scenario">Scenario & justering</button>
@@ -285,6 +286,72 @@
         <article class="panel">
           <h2>Nuvarande modellstatus för flyttning</h2>
           <p>I produktionsbaslinjen är nettoflyttningen lokalt historiskt kalibrerad och använder ännu inte rAps fulla IMIG/UMIG-koefficientstruktur. Den här sidan visar därför framför allt vilka åldersströmmar som är stora, stabila eller historiskt varierande, så att nästa utvecklingssteg kan prioritera de flöden som faktiskt betyder mest för prognosen.</p>
+        </article>
+      </section>
+
+      <section class="page" id="page-history">
+        <div class="pageTitle">
+          <div>
+            <h2>Historisk data</h2>
+            <p>Observerade årsserier som ligger bakom den lokala kalibreringen av prognosen.</p>
+          </div>
+        </div>
+
+        <article class="panel">
+          <h2>Så läses sidan</h2>
+          <p>Diagrammen visar observerad historik för vald geografi. Den markerade kalibreringsperioden följer det globala valet <strong>3, 6 eller 10 år</strong> och slutar 2024. År 2025 är ett separat CKM-kontrollår och ingår inte i dessa historiska kalibreringsmedel.</p>
+          <p class="hint">För antal händelser visas årsmedel över kalibreringsperioden. Fruktsamhetsnivån beräknas däremot exponeringsvägt över hela perioden, ålder för ålder, vilket motsvarar modellens kalibreringsprincip bättre än ett enkelt medel av årsvisa TFR-värden.</p>
+        </article>
+
+        <div class="cards historyCards">
+          <article class="card"><span>Kalibreringsperiod</span><strong id="historyWindowKpi">–</strong><small id="historyWindowYears">–</small></article>
+          <article class="card"><span>Fruktsamhetsnivå</span><strong id="historyFertilityKpi">–</strong><small>exponeringsvägd TFR</small></article>
+          <article class="card"><span>Födda per år</span><strong id="historyBirthsKpi">–</strong><small>årsmedel</small></article>
+          <article class="card"><span>Döda per år</span><strong id="historyDeathsKpi">–</strong><small>årsmedel</small></article>
+          <article class="card"><span>Inflyttning per år</span><strong id="historyInKpi">–</strong><small>årsmedel</small></article>
+          <article class="card"><span>Utflyttning per år</span><strong id="historyOutKpi">–</strong><small>årsmedel</small></article>
+          <article class="card"><span>Flyttnetto per år</span><strong id="historyNetKpi">–</strong><small>årsmedel</small></article>
+        </div>
+
+        <div class="grid2">
+          <article class="panel chartPanel">
+            <div class="panelHead">
+              <div><h2>Fruktsamhet</h2><p class="hint">Årsvis summerat åldersspecifikt fruktsamhetstal (TFR) för åldrarna 15–49. Den streckade linjen visar den exponeringsvägda nivån för vald kalibreringsperiod.</p></div>
+            </div>
+            <svg id="historyFertilityChart" viewBox="0 0 900 330" role="img" aria-label="Historisk fruktsamhet"></svg>
+          </article>
+
+          <article class="panel chartPanel">
+            <div class="panelHead">
+              <div><h2>Födda och döda</h2><p class="hint">Observerat antal händelser per år. Kalibreringsmedlen visas i sammanfattningen ovan.</p></div>
+            </div>
+            <svg id="historyVitalChart" viewBox="0 0 900 330" role="img" aria-label="Historiskt antal födda och döda"></svg>
+          </article>
+        </div>
+
+        <div class="grid2">
+          <article class="panel chartPanel">
+            <div class="panelHead">
+              <div><h2>Inflyttning och utflyttning</h2><p class="hint">Observerade bruttoflöden per år. För FA summeras inte kommunala bruttoflöden eftersom flyttar inom FA då skulle dubbelräknas; sidan visar därför bruttoflöden endast där underlaget är metodiskt giltigt.</p></div>
+            </div>
+            <svg id="historyGrossMigrationChart" viewBox="0 0 900 330" role="img" aria-label="Historisk inflyttning och utflyttning"></svg>
+          </article>
+
+          <article class="panel chartPanel">
+            <div class="panelHead">
+              <div><h2>Flyttnetto</h2><p class="hint">Observerad nettoflyttning per år. Den streckade linjen visar årsmedlet för vald kalibreringsperiod.</p></div>
+            </div>
+            <svg id="historyNetMigrationChart" viewBox="0 0 900 330" role="img" aria-label="Historisk nettoflyttning"></svg>
+          </article>
+        </div>
+
+        <article class="panel">
+          <h2>Historiska årsdata</h2>
+          <p class="hint">Rader inom aktuell kalibreringsperiod markeras. TFR är ett summerat åldersspecifikt fruktsamhetstal; dödstalet är ett enkelt observerat dödstal per 1 000 i medelfolkmängden och ska inte tolkas som åldersstandardiserad dödlighet.</p>
+          <div class="tableWrap analysisTableWrap"><table id="historyTable" class="miniTable">
+            <thead><tr><th>År</th><th>TFR</th><th>Födda</th><th>Döda</th><th>Döda per 1 000</th><th>Inflyttning</th><th>Utflyttning</th><th>Flyttnetto</th><th>I kalibrering</th></tr></thead>
+            <tbody></tbody>
+          </table></div>
         </article>
       </section>
 
