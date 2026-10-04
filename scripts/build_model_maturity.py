@@ -1016,7 +1016,7 @@ def main():
             if housing_migration_external
             else "Research-only development signal. Keep method frozen and obtain the already locked external reference-geography test before any level-3 consideration."
             if housing_migration_dev
-            else "Research-only. Keep at level 2 and do not retune on consumed outcomes; any revised lag/window/estimator is a new candidate."
+            else "Research-only, closed at level 2. The locked one-year housing-stock signal failed the Lulea FA development gate and the external FA15 gate. Do not retune lag, window, transformation or estimator on consumed outcomes; any revised formulation is a new candidate."
             if housing_migration_has_results
             else "Research-only. Run a full SCB refresh to populate the locked reference housing geographies and execute the diagnostic."
         )
