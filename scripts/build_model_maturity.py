@@ -22,6 +22,7 @@ LABOUR_MARKET_SUPPORT_VALIDATION = ROOT / "data" / "backtests" / "labour_market_
 FADING_POLICY_VALIDATION = ROOT / "data" / "backtests" / "fading_policy_validation.json"
 QUTB_VALIDATION = ROOT / "data" / "backtests" / "qutb_neutralization_validation.json"
 QUTB_EDUCATION_DIAGNOSTIC = ROOT / "data" / "backtests" / "qutb_education_transition.json"
+HOUSING_MIGRATION_RESEARCH = ROOT / "data" / "backtests" / "housing_migration_lead_research.json"
 BASE_POPULATION_BRIDGE_VALIDATION = ROOT / "data" / "backtests" / "base_population_bridge_validation.json"
 SEX_RATIO_VALIDATION = ROOT / "data" / "backtests" / "sex_ratio_at_birth_validation.json"
 FA_ADDITIVITY_VALIDATION = ROOT / "data" / "backtests" / "fa_additivity_validation.json"
@@ -938,6 +939,86 @@ def main():
             else "Research-only. Keep at level 2. Do not retune state grouping, window or transition estimator on consumed 2018-2024 outcomes."
             if qutb_education_has_results
             else "Research-only. Run a full SCB refresh to execute the locked development diagnostic."
+        )
+    ))
+
+    housing_migration_research = (
+        load(HOUSING_MIGRATION_RESEARCH)
+        if HOUSING_MIGRATION_RESEARCH.exists()
+        else {}
+    )
+    housing_migration_status = housing_migration_research.get("status")
+    housing_migration_dev = (
+        (housing_migration_research.get("developmentGate") or {}).get("passed")
+        is True
+    )
+    housing_migration_external = (
+        (housing_migration_research.get("externalGate") or {}).get("passed")
+        is True
+    )
+    housing_migration_has_results = (
+        housing_migration_status == "development_scored"
+    )
+    housing_migration_evidence = []
+    for geo, vals in (
+        housing_migration_research.get("development") or {}
+    ).items():
+        housing_migration_evidence.append(
+            f"{geo}: candidate MAE={vals.get('candidateMAE')} "
+            f"baseline={vals.get('baselineMAE')}; "
+            f"same-sign beta={vals.get('sameSignCount')}"
+        )
+    if housing_migration_external:
+        ext = housing_migration_research.get("externalGate") or {}
+        housing_migration_evidence.append(
+            f"external pooled candidate={ext.get('pooledCandidateMAE')} "
+            f"baseline={ext.get('pooledBaselineMAE')}"
+        )
+
+    housing_migration_level = (
+        3 if housing_migration_external
+        else 2 if housing_migration_has_results
+        else 1
+    )
+    housing_migration_lifecycle = (
+        "validated_candidate_research_only"
+        if housing_migration_external
+        else "development_promising"
+        if housing_migration_dev
+        else "rejected_development"
+        if housing_migration_has_results
+        else "research_locked"
+    )
+    comps.append(component(
+        policy,
+        "housing_migration_lead_research",
+        housing_migration_level,
+        housing_migration_lifecycle,
+        False,
+        [
+            gate(
+                "Locked one-year lagged housing-stock signal improves Lulea and Lulea FA development MAE with stable beta sign",
+                housing_migration_dev,
+                "; ".join(housing_migration_evidence)
+                if housing_migration_evidence
+                else "Awaiting research diagnostic",
+                required=False
+            ),
+            gate(
+                "Locked external FA15 housing-migration gate",
+                housing_migration_external,
+                str(housing_migration_research.get("externalGate") or "Awaiting full refresh with reference housing geographies"),
+                required=(housing_migration_level >= 3)
+            )
+        ],
+        (
+            "Research-only level 3. Freeze the lagged-housing method and require a further untouched future control before any stronger maturity claim; no coefficient enters production."
+            if housing_migration_external
+            else "Research-only development signal. Keep method frozen and obtain the already locked external reference-geography test before any level-3 consideration."
+            if housing_migration_dev
+            else "Research-only. Keep at level 2 and do not retune on consumed outcomes; any revised lag/window/estimator is a new candidate."
+            if housing_migration_has_results
+            else "Research-only. Run a full SCB refresh to populate the locked reference housing geographies and execute the diagnostic."
         )
     ))
 
