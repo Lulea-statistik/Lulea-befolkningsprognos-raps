@@ -1153,7 +1153,7 @@
       }).filter(Boolean).join(" ");
       return points?`<polyline points="${points}" class="${s.cls}"/>`:"";
     }).join("");
-    const legends=series.map((s,i)=>`<text x="${p+i*155}" y="20" class="chartLegend">${s.name}</text>`).join("");
+    const legends=options.showLegend===false?"":series.map((s,i)=>`<text x="${p+i*155}" y="20" class="chartLegend">${s.name}</text>`).join("");
     const xTicks=numericXAxisMarkup(
       xmin,xmax,x,H-p,6,
       v=>xmax===100&&v===100?"100+":String(Math.round(v))
@@ -1310,25 +1310,25 @@
       );
       const series=[];
       if(workerProfile.length) series.push({
-        name:"Arbetstagare – hybrid",
+        name:"Arbetstagare (hybrid)",
         values:valuesFor(workerProfile),
         cls:"lineInflow",
         suffix:" %"
       });
       if(companionProfile.length) series.push({
-        name:"Medföljande hushåll – approximation",
+        name:"Medföljande hushåll (proxy)",
         values:valuesFor(companionProfile),
         cls:"lineSensitivity",
         suffix:" %"
       });
       if(jobProfile.length) series.push({
-        name:"Inflyttning 0–64",
+        name:"Observerad inflyttning 0–64",
         values:valuesFor(jobProfile),
         cls:"lineMen",
         suffix:" %"
       });
       if(allProfile.length) series.push({
-        name:"Alla observerade inflyttare",
+        name:"Observerad inflyttning, alla åldrar",
         values:valuesFor(allProfile),
         cls:"lineVariation",
         suffix:" %"
@@ -1337,7 +1337,7 @@
         "labourAgeProfileChart",
         ages,
         series,
-        {yMin:0,xLabel:"Ålder",hoverLabel:"Ålder",valueDigits:2}
+        {yMin:0,xLabel:"Ålder",hoverLabel:"Ålder",valueDigits:2,showLegend:false}
       );
     }else{
       $("labourAgeProfileChart").innerHTML=
