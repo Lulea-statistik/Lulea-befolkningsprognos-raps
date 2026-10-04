@@ -4,12 +4,12 @@ Detta dokument sammanfattar produktionsläget för Luleås rAps-inspirerade befo
 
 ## Produktionsstatus
 
-Den genererade mognadsrapporten omfattar **39 komponenter**:
+Den genererade mognadsrapporten omfattar **41 komponenter**:
 
 - **27 komponenter på mognadsgrad 4**
-- **8 komponenter på mognadsgrad 2**
+- **10 komponenter på mognadsgrad 2**
 - **0 komponenter på mognadsgrad 1**
-- **3 komponenter på mognadsgrad 3**
+- **4 komponenter på mognadsgrad 3**
 
 Nivå 4 betyder att komponenten har en definierad produktionsroll, är reproducerbar och har passerat sin fördefinierade produktionsgrind. För scenarier och stödkomponenter betyder nivå 4 inte att antagandet är den mest sannolika framtiden; det betyder att mekaniken är dokumenterad, reproducerbar och kontrollerad.
 
@@ -184,6 +184,23 @@ Fruktsamhets-splinen får inte gå från nivå 3 till nivå 4 på grundval av 20
 3. Kandidaten ska återigen ge **lägre maternal-age-cell MAE** än nuvarande produktionsmetod för både Luleå kommun och Luleå FA.
 4. Kandidaten får samtidigt **inte försämra totalfelet för antal födda** i någon av de två geografierna.
 5. Först om samtliga krav passerar kan kandidaten övervägas för nivå 4 och produktionsbyte.
+
+### Forskningsspår: qutb och utbildningsövergångar
+
+Den kohortbaserade utbildningsmodellen använder SCB:s kommunserie för utbildningsnivå, kön och ettårsålder. Fem ordnade utbildningsstatusar används och övergångarna skattas från nationella kohortförändringar över ett låst 10-årsfönster. Komponenten påverkar **inte** befolkningsprognosen, migrationen, fruktsamheten eller dödligheten.
+
+Utvecklingsgrinden för Luleå och Luleå FA passerade. Den förhandslåsta externa nivå-3-grinden passerade också i samtliga tre FA15-referensregioner samt ankarkommunerna Trollhättan, Gävle och Sundsvall. Pooled n+1/n+2 MAE i utbildningsandelar minskade från **0,01267** med identitets-qutb till **0,00476** med kohortövergångsmodellen.
+
+Komponenten är därför **mognadsgrad 3 – validerad kandidat**, men med lifecycle **research-only**. Den får inte påverka produktionsmodellen.
+
+#### Förhandslåst nivå-4-grind för qutb-forskningen
+
+1. Metoden fryses på fem utbildningsstatusar, 10-årigt nationellt kohortfönster, endast angränsande uppåtövergångar och scoring i åldrarna 20–64.
+2. Identitets-qutb förblir comparator.
+3. Nästa evidens måste komma från en **orörd framtida årsobservation** efter att metoden frysts.
+4. Kandidaten ska slå identitets-qutb på n+1 för både Luleå och Luleå FA och vara minst lika bra på n+2 när det finns ett verkligt orört n+2-utfall.
+5. Strukturkontroller för sannolikheter och andelssummor ska fortsatt passera.
+6. En godkänd nivå-4-grind validerar endast **utbildningsprognosen**. Koppling till migration, fruktsamhet eller dödlighet kräver en ny separat, förhandslåst och självständigt validerad komponentmodell.
 
 ### Förhandslåst nivå-4-grind för net10-begränsad födelsestatus
 
