@@ -855,6 +855,9 @@ def main():
         (qutb_education.get("developmentGate") or {}).get("passed") is True
     )
     qutb_education_summary = qutb_education.get("summary") or {}
+    qutb_external = qutb_education.get("externalLevel3") or {}
+    qutb_external_gate = qutb_external.get("gate") or {}
+    qutb_external_passed = qutb_external_gate.get("passed") is True
     qutb_education_evidence = []
     for geo in ("2580", "FA_LULEA"):
         s = qutb_education_summary.get(geo) or {}
@@ -870,15 +873,40 @@ def main():
     qutb_education_has_results = (
         qutb_education_status == "development_scored"
     )
+    qutb_external_evidence = []
+    for geo, vals in (qutb_external.get("regions") or {}).items():
+        n1 = vals.get("1") or {}
+        n2 = vals.get("2") or {}
+        qutb_external_evidence.append(
+            f"{geo}: n+1 {n1.get('candidateShareMAE')} vs {n1.get('identityShareMAE')}; "
+            f"n+2 {n2.get('candidateShareMAE')} vs {n2.get('identityShareMAE')}"
+        )
+    for geo, vals in (qutb_external.get("anchors") or {}).items():
+        n1 = vals.get("1") or {}
+        qutb_external_evidence.append(
+            f"{geo} anchor n+1 {n1.get('candidateShareMAE')} vs {n1.get('identityShareMAE')}"
+        )
+    pooled = qutb_external.get("pooled") or {}
+    if pooled:
+        qutb_external_evidence.append(
+            f"pooled n+1/n+2 {pooled.get('candidateShareMAE')} vs {pooled.get('identityShareMAE')}"
+        )
+
+    qutb_level = 3 if qutb_external_passed else 2
+    qutb_lifecycle = (
+        "validated_candidate_research_only"
+        if qutb_external_passed
+        else "external_gate_failed"
+        if qutb_external
+        else "development_promising"
+        if qutb_education_has_results and qutb_education_dev
+        else "rejected_development"
+        if qutb_education_has_results
+        else "development_locked"
+    )
     comps.append(component(
-        policy, "qutb_education_transition_candidate", 2,
-        (
-            "development_promising"
-            if qutb_education_has_results and qutb_education_dev
-            else "rejected_development"
-            if qutb_education_has_results
-            else "development_locked"
-        ),
+        policy, "qutb_education_transition_candidate", qutb_level,
+        qutb_lifecycle,
         False,
         [
             gate(
@@ -890,16 +918,26 @@ def main():
             gate(
                 "Locked cohort-transition qutb beats identity on n+1 and is non-worse on n+2 for Lulea and Lulea FA",
                 qutb_education_dev,
-                "; ".join(qutb_education_evidence) if qutb_education_evidence else "Awaiting full SCB refresh and rolling diagnostic",
+                "; ".join(qutb_education_evidence) if qutb_education_evidence else "Awaiting development results",
                 required=False
+            ),
+            gate(
+                "External qutb level-3 gate",
+                qutb_external_passed,
+                "; ".join(qutb_external_evidence) if qutb_external_evidence else "Awaiting external results",
+                required=(qutb_level >= 3)
             )
         ],
         (
-            "Research-only. Promising development signal only. Freeze the five-state grouping, 10-year national transition estimator and scoring ages; lock external municipalities before any level-3 evaluation. Do not connect qutb to migration, fertility or mortality before level 4 and a separately locked component-specific test."
+            "Research-only level 3. Freeze method and require a further untouched future/annual control before level 4. Even at level 4, any use in migration, fertility or mortality requires a new separately locked component-specific candidate."
+            if qutb_external_passed
+            else "Research-only. External level-3 gate failed; keep at level 2 and do not retune on consumed external outcomes."
+            if qutb_external
+            else "Research-only. Promising development signal only; run the already locked external gate before any level-3 consideration."
             if qutb_education_dev
-            else "Research-only. Keep at level 2. Do not retune state grouping, window or transition estimator on consumed 2018-2024 outcomes; any revised qutb must be a separately locked candidate and must not affect the demographic production model."
+            else "Research-only. Keep at level 2. Do not retune state grouping, window or transition estimator on consumed 2018-2024 outcomes."
             if qutb_education_has_results
-            else "Research-only. Run a full SCB refresh to download the education source and execute the locked development diagnostic; the demographic production model remains unchanged."
+            else "Research-only. Run a full SCB refresh to execute the locked development diagnostic."
         )
     ))
 
