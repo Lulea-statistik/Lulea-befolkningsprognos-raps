@@ -683,8 +683,39 @@
       return;
     }
     const years=annual.map(r=>r.year);
+    const windowYears=+$("window")?.value||10;
+    const modelRows=(data?.mortalityRisks||[]).filter(r=>
+      r.geo===geo && +r.window===windowYears && r.year==null &&
+      (sex==="ALL" || r.sex===sex) &&
+      (ageVal==="ALL" || +r.age===+ageVal)
+    );
+    let modelRisk=null;
+    if(modelRows.length===1){
+      modelRisk=1000*Number(modelRows[0].value||0);
+    }else if(modelRows.length>1){
+      const detail=data?.historicalMortalityDetail||[];
+      const calRows=detail.filter(r=>
+        r.geo===geo && selectedYears.has(+r.year) &&
+        (sex==="ALL" || r.sex===sex) &&
+        (ageVal==="ALL" || +r.age===+ageVal)
+      );
+      const exposureByCell=new Map();
+      for(const r of calRows){
+        const k=`${r.sex}|${r.age}`;
+        exposureByCell.set(k,(exposureByCell.get(k)||0)+Number(r.exposure||0));
+      }
+      let weighted=0,weight=0;
+      for(const r of modelRows){
+        const w=exposureByCell.get(`${r.sex}|${r.age}`)||0;
+        weighted+=1000*Number(r.value||0)*w;
+        weight+=w;
+      }
+      modelRisk=weight>0?weighted/weight:null;
+    }
+    const modelLine=annual.map(()=>modelRisk);
     drawAgeLineChart("historyMortalityDetailChart",years,[
-      {name:"Dödsrisk per 1 000",values:annual.map(r=>r.risk),cls:"lineOutflow",suffix:" ‰"}
+      {name:"Observerad dödsrisk",values:annual.map(r=>r.risk),cls:"lineOutflow",suffix:" ‰"},
+      {name:`Modellrisk, ${windowYears}-årskalibrering`,values:modelLine,cls:"lineMean",suffix:" ‰"}
     ],{yMin:0,xLabel:"År",hoverLabel:"År",valueDigits:2});
 
     const selected=annual.filter(r=>selectedYears.has(r.year));
@@ -698,8 +729,10 @@
       <div class="historyDetailSummary">
         <div><span>Urval</span><strong>${sexLabel}, ${ageLabel}</strong></div>
         <div><span>Döda per år, kalibreringsperiod</span><strong>${fmt1.format(annualMean)}</strong></div>
-        <div><span>Sammanvägd dödsrisk</span><strong>${pooledRisk==null?"–":fmt2.format(pooledRisk)+" ‰"}</strong></div>
-      </div>`;
+        <div><span>Observerad sammanvägd dödsrisk</span><strong>${pooledRisk==null?"–":fmt2.format(pooledRisk)+" ‰"}</strong></div>
+        <div><span>Modellens kalibrerade dödsrisk</span><strong>${modelRisk==null?"–":fmt2.format(modelRisk)+" ‰"}</strong></div>
+      </div>
+      <p class="hint"><strong>Tolkning:</strong> observerad 0 ‰ betyder att inga dödsfall registrerades i just den valda cellen under perioden. Det är inte samma sak som modellrisk 0. Vid små celler dämpas den lokala slumpvariationen genom informationsvägning mot rikets ålders- och könsspecifika dödlighetsprofil.</p>`;
   }
 
   function renderHistoricalMigrationDetail(geo,selectedYears){
@@ -738,12 +771,15 @@
     }
     const values=annual.map(r=>r.value);
     const seriesName=direction==="in"?"Inflyttning":direction==="out"?"Utflyttning":"Flyttnetto";
-    drawAgeLineChart("historyMigrationDetailChart",annual.map(r=>r.year),[
-      {name:seriesName,values,cls:direction==="in"?"lineInflow":direction==="out"?"lineOutflow":"lineVariation"}
-    ],{includeZero:direction==="net",yMin:direction==="net"?undefined:0,xLabel:"År",hoverLabel:"År",valueDigits:0});
-
     const selected=annual.filter(r=>selectedYears.has(r.year));
     const mean=selected.length?selected.reduce((sum,r)=>sum+r.value,0)/selected.length:0;
+    const meanLine=annual.map(r=>selectedYears.has(r.year)?mean:null);
+    drawAgeLineChart("historyMigrationDetailChart",annual.map(r=>r.year),[
+      {name:seriesName,values,cls:direction==="in"?"lineInflow":direction==="out"?"lineOutflow":"lineVariation"},
+      {name:"Kalibreringsmedel",values:meanLine,cls:"lineMean"}
+    ],{includeZero:direction==="net",yMin:direction==="net"?undefined:0,xLabel:"År",hoverLabel:"År",valueDigits:0});
+
+
     const legLabel=leg==="county"?"Övriga Norrbotten":leg==="rest_sweden"?"Övriga Sverige":leg==="international"?"Utlandet":"Alla flyttben";
     const sexLabel=sex==="K"?"Kvinnor":sex==="M"?"Män":"Totalt";
     const ageLabel=ageVal==="ALL"?"alla åldrar":(ageVal==="100"?"100+ år":ageVal+" år");
