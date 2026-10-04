@@ -220,6 +220,11 @@
       "label": "Födelsestatus: net10-begränsad statusfördelning",
       "targetLevel": 4,
       "requiredGate": "Nivå 3 kräver den redan låsta externa FA15-grinden. Nivå 4 kräver dessutom en ytterligare helt orörd framtida eller årlig kontroll efter att kandidatens formulering låsts. Produktionsbaslinjens net10 per kön och ettårsålder, 10-årsfönstret, reglerna för positiv/negativ statusallokering, fallback-regeln, födelsestatus för nyfödda och statusoberoende dödlighet ska vara oförändrade. Kandidaten måste återigen vara minst lika bra som stock-share-komparatorn för svenskfödda och utrikesfödda på n+1 och n+2 samt strikt bättre pooled för båda statusgrupperna, samtidigt som totalbefolkning och nettoflyttning exakt bevarar net10."
+    },
+    "profet_net10_status_demography_candidate": {
+      "label": "Profet-arkitektur: net10 + födelsestatusspecifik demografi",
+      "targetLevel": 4,
+      "requiredGate": "Ny separat arkitektur låst före resultatutvärdering. Net10-total och låst statusallokering ska bevaras; endast same-vintage nationella relativtal för fertilitet efter moderns födelsestatus och dödlighet efter födelsestatus får påverka statusgrupperna. 2018–2024 är utvecklingsevidens och får inte användas för eftertrimning. Nivå 3 kräver ny förhandslåst extern eller framtida kontroll."
     }
   }
 }
