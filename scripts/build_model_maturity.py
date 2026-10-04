@@ -753,6 +753,94 @@ def main():
         )
     ))
 
+    profet_net10_diag = rolling.get(
+        "profetNet10StatusDemographyDiagnostic", {}
+    )
+    profet_net10_summary = profet_net10_diag.get("summary") or {}
+    profet_net10_structural = (
+        profet_net10_diag.get("structuralGate") or {}
+    ).get("passed") is True
+    profet_net10_evidence = []
+    profet_net10_has_results = False
+    profet_net10_n1n2_nonworse = True
+    profet_net10_any_strict = False
+    for geo in ("2580", "FA_LULEA"):
+        s = profet_net10_summary.get(geo) or {}
+        if not s:
+            continue
+        profet_net10_has_results = True
+        for horizon_name in ("oneYear", "twoYear"):
+            h = s.get(horizon_name) or {}
+            cand = h.get("candidate") or {}
+            base = h.get("baseline") or {}
+            metrics = (
+                "populationMAE", "birthsMAE", "deathsMAE",
+                "swedishBornMAE", "foreignBornMAE"
+            )
+            checks = []
+            for metric in metrics:
+                cv = cand.get(metric)
+                bv = base.get(metric)
+                ok = (
+                    cv is not None and bv is not None
+                    and float(cv) <= float(bv)
+                )
+                checks.append(ok)
+                if (
+                    cv is not None and bv is not None
+                    and float(cv) < float(bv)
+                ):
+                    profet_net10_any_strict = True
+            profet_net10_n1n2_nonworse = (
+                profet_net10_n1n2_nonworse and all(checks)
+            )
+            profet_net10_evidence.append(
+                f"{geo} {horizon_name}: "
+                f"population {cand.get('populationMAE')} vs {base.get('populationMAE')}; "
+                f"births {cand.get('birthsMAE')} vs {base.get('birthsMAE')}; "
+                f"deaths {cand.get('deathsMAE')} vs {base.get('deathsMAE')}; "
+                f"Sw {cand.get('swedishBornMAE')} vs {base.get('swedishBornMAE')}; "
+                f"Foreign {cand.get('foreignBornMAE')} vs {base.get('foreignBornMAE')}"
+            )
+    profet_net10_dev_passed = (
+        profet_net10_has_results
+        and profet_net10_structural
+        and profet_net10_n1n2_nonworse
+        and profet_net10_any_strict
+    )
+    comps.append(component(
+        policy, "profet_net10_status_demography_candidate", 2,
+        (
+            "development_locked"
+            if not profet_net10_has_results
+            else "development_promising"
+            if profet_net10_dev_passed
+            else "rejected_development"
+        ),
+        False,
+        [
+            gate(
+                "Net10 migration and birth-status accounting preserved",
+                profet_net10_structural,
+                str(profet_net10_diag.get("structuralGate") or "Awaiting rolling-origin run"),
+                required=False
+            ),
+            gate(
+                "Same-vintage status demography is non-worse on all n+1/n+2 development metrics with at least one strict improvement",
+                profet_net10_dev_passed,
+                "; ".join(profet_net10_evidence) if profet_net10_evidence else "Awaiting rolling-origin results",
+                required=False
+            )
+        ],
+        (
+            "Promising development signal only. Freeze the architecture and lock a genuinely external/future holdout before any level-3 consideration."
+            if profet_net10_dev_passed
+            else "Keep at level 2. Do not retune same-vintage status multipliers on consumed 2018-2024 outcomes; any revised architecture must be separately locked."
+            if profet_net10_has_results
+            else "Run the locked rolling-origin development diagnostic before deciding whether an external level-3 gate is justified."
+        )
+    ))
+
     consistency_diag_exists = (
         ROOT / "data" / "backtests" / "scb_consistency_diagnostic.json"
     ).exists()
