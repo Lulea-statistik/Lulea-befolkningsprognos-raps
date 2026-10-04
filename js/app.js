@@ -627,10 +627,8 @@
       ],{yMin:0,xLabel:"År",hoverLabel:"År",valueDigits:0});
     }
 
-    const netMean=rows.map(r=>inSelected(r)?summary.netMigrationAnnualMean:null);
     drawAgeLineChart("historyNetMigrationChart",years,[
-      {name:"Flyttnetto",values:rows.map(r=>r.netMigration),cls:"lineVariation"},
-      {name:`Medel ${summary.startYear}–${summary.endYear}`,values:netMean,cls:"lineMean"}
+      {name:"Flyttnetto",values:rows.map(r=>r.netMigration),cls:"lineVariation"}
     ],{includeZero:true,xLabel:"År",hoverLabel:"År",valueDigits:0});
 
     renderHistoricalMortalityDetail(geo,selectedYears);
