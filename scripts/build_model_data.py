@@ -2261,6 +2261,81 @@ def profet_birth_status_profiles(
     )
 
 
+def constrained_birth_status_net_allocation(
+    migration_status, population_status, geos=None, window=10
+):
+    """Allocate incumbent net10 migration across birth-status states.
+
+    Positive net migration uses each status share of gross in-migration in
+    the sex-age cell; negative net migration uses the corresponding gross
+    out-migration share. If a cell has no migration events, the status share
+    of population exposure over the same window is used as a deterministic
+    fallback. The aggregate net-migration cell total is not estimated here.
+    """
+    statuses = ("sweden_born", "foreign_born")
+    profile_geos = list(geos or MUNICIPALITIES)
+    yrs = list(window_years(window))
+    rows_out = []
+    for geo in profile_geos:
+        for sex in ("K", "M"):
+            for age in range(101):
+                inflow = {}
+                outflow = {}
+                exposure = {}
+                for status in statuses:
+                    inflow[status] = sum(
+                        migration_status.get(
+                            (geo, y, sex, age, status, leg, "in"), 0.0
+                        )
+                        for y in yrs
+                        for leg in ("county", "rest_sweden", "international")
+                    )
+                    outflow[status] = sum(
+                        migration_status.get(
+                            (geo, y, sex, age, status, leg, "out"), 0.0
+                        )
+                        for y in yrs
+                        for leg in ("county", "rest_sweden", "international")
+                    )
+                    exposure[status] = sum(
+                        population_status.get(
+                            (geo, y, sex, age, status), 0.0
+                        )
+                        for y in yrs
+                    )
+                in_total = sum(inflow.values())
+                out_total = sum(outflow.values())
+                pop_total = sum(exposure.values())
+                for status in statuses:
+                    fallback = (
+                        exposure[status] / pop_total
+                        if pop_total > 0 else
+                        (1.0 if status == "sweden_born" else 0.0)
+                    )
+                    positive_share = (
+                        inflow[status] / in_total if in_total > 0 else fallback
+                    )
+                    negative_share = (
+                        outflow[status] / out_total if out_total > 0 else fallback
+                    )
+                    rows_out.append({
+                        "geo": geo,
+                        "window": window,
+                        "sex": sex,
+                        "age": age,
+                        "status": status,
+                        "positiveShare": positive_share,
+                        "negativeShare": negative_share,
+                        "grossInEvents": inflow[status],
+                        "grossOutEvents": outflow[status],
+                        "populationExposure": exposure[status],
+                        "fallbackUsedPositive": in_total <= 0,
+                        "fallbackUsedNegative": out_total <= 0,
+                        "method": "net10-preserving birth-status allocation",
+                    })
+    return rows_out
+
+
 def birth_status_codes(file_key: str):
     info = manifest().get("files", {}).get(file_key, {})
     labels_map = (
