@@ -208,7 +208,7 @@ def build_region_origin(region_code, region, origin, origin_cfg, raw):
         population_status = aggregate_group_birth_status_population(
             {
                 key: value
-                for key, value in raw["population_birth_status"].items()
+                for key, value in raw.get("population_birth_status", {}).items()
                 if key[0] in set(members)
             },
             region_code,
@@ -217,7 +217,7 @@ def build_region_origin(region_code, region, origin, origin_cfg, raw):
         migration_status = aggregate_group_birth_status_migration(
             {
                 key: value
-                for key, value in raw["migration_birth_status"].items()
+                for key, value in raw.get("migration_birth_status", {}).items()
                 if key[0] in set(members)
             },
             region_code,
