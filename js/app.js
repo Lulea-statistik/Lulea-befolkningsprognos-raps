@@ -1536,7 +1536,7 @@
     const basePlanned=projection.length?plannedHousingCumulative(geo,projection[0].year):0;
     const demandRows=projection.map(r=>{
       const newHouseholds=r.households-baseProjected;
-      const required=M.housingRequiredDwellings(newHouseholds,reservePct);
+      const required=RAPSModel.housingRequiredDwellings(newHouseholds,reservePct);
       const planned=plannedHousingCumulative(geo,r.year)-basePlanned;
       return {...r,newHouseholds,requiredNewDwellings:required,plannedAdditions:planned,balance:planned-required};
     });
