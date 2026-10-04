@@ -21,6 +21,7 @@ HOUSEHOLD_PROJECTION_EXTERNAL = ROOT / "data" / "backtests" / "household_project
 LABOUR_MARKET_SUPPORT_VALIDATION = ROOT / "data" / "backtests" / "labour_market_support_validation.json"
 FADING_POLICY_VALIDATION = ROOT / "data" / "backtests" / "fading_policy_validation.json"
 QUTB_VALIDATION = ROOT / "data" / "backtests" / "qutb_neutralization_validation.json"
+QUTB_EDUCATION_DIAGNOSTIC = ROOT / "data" / "backtests" / "qutb_education_transition.json"
 BASE_POPULATION_BRIDGE_VALIDATION = ROOT / "data" / "backtests" / "base_population_bridge_validation.json"
 SEX_RATIO_VALIDATION = ROOT / "data" / "backtests" / "sex_ratio_at_birth_validation.json"
 FA_ADDITIVITY_VALIDATION = ROOT / "data" / "backtests" / "fa_additivity_validation.json"
@@ -838,6 +839,67 @@ def main():
             else "Keep at level 2. Do not retune same-vintage status multipliers on consumed 2018-2024 outcomes; any revised architecture must be separately locked."
             if profet_net10_has_results
             else "Run the locked rolling-origin development diagnostic before deciding whether an external level-3 gate is justified."
+        )
+    ))
+
+    qutb_education = (
+        load(QUTB_EDUCATION_DIAGNOSTIC)
+        if QUTB_EDUCATION_DIAGNOSTIC.exists()
+        else {}
+    )
+    qutb_education_status = qutb_education.get("status")
+    qutb_education_structural = (
+        (qutb_education.get("structural") or {}).get("passed") is True
+    )
+    qutb_education_dev = (
+        (qutb_education.get("developmentGate") or {}).get("passed") is True
+    )
+    qutb_education_summary = qutb_education.get("summary") or {}
+    qutb_education_evidence = []
+    for geo in ("2580", "FA_LULEA"):
+        s = qutb_education_summary.get(geo) or {}
+        if s:
+            n1 = s.get("1") or {}
+            n2 = s.get("2") or {}
+            qutb_education_evidence.append(
+                f"{geo}: n+1 candidate={n1.get('candidateShareMAE')} "
+                f"identity={n1.get('identityShareMAE')}; "
+                f"n+2 candidate={n2.get('candidateShareMAE')} "
+                f"identity={n2.get('identityShareMAE')}"
+            )
+    qutb_education_has_results = (
+        qutb_education_status == "development_scored"
+    )
+    comps.append(component(
+        policy, "qutb_education_transition_candidate", 2,
+        (
+            "development_promising"
+            if qutb_education_has_results and qutb_education_dev
+            else "rejected_development"
+            if qutb_education_has_results
+            else "development_locked"
+        ),
+        False,
+        [
+            gate(
+                "Education transition probabilities and share accounting are structurally valid",
+                qutb_education_structural,
+                str(qutb_education.get("structural") or qutb_education.get("source") or "Awaiting full SCB refresh"),
+                required=False
+            ),
+            gate(
+                "Locked cohort-transition qutb beats identity on n+1 and is non-worse on n+2 for Lulea and Lulea FA",
+                qutb_education_dev,
+                "; ".join(qutb_education_evidence) if qutb_education_evidence else "Awaiting full SCB refresh and rolling diagnostic",
+                required=False
+            )
+        ],
+        (
+            "Promising development signal only. Freeze the five-state grouping, 10-year national transition estimator and scoring ages; lock external municipalities before any level-3 evaluation."
+            if qutb_education_dev
+            else "Keep at level 2. Do not retune state grouping, window or transition estimator on consumed 2018-2024 outcomes; any revised qutb must be a separately locked candidate."
+            if qutb_education_has_results
+            else "Run a full SCB refresh to download the education source and execute the locked development diagnostic."
         )
     ))
 
