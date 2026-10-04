@@ -118,3 +118,21 @@ svg{cursor:crosshair}
 .profileSwatch.lineVariation{border-top-color:#7b4da7}
 .profileNote{margin-top:8px}
 @media(max-width:760px){.profileLegend{grid-template-columns:1fr}}
+
+
+.labourEffectGrid>div{min-height:132px}
+.labourEffectGrid small{
+  display:block;
+  margin-top:7px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.4
+}
+.effectFormula{
+  margin:12px 0 6px;
+  padding:10px 12px;
+  border-left:3px solid #667085;
+  background:#f8fafc;
+  font-size:12px;
+  line-height:1.45
+}
