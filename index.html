@@ -303,6 +303,58 @@
           <p class="hint">För antal händelser visas årsmedel över kalibreringsperioden. Fruktsamhetsnivån beräknas däremot exponeringsvägt över hela perioden, ålder för ålder, vilket motsvarar modellens kalibreringsprincip bättre än ett enkelt medel av årsvisa TFR-värden.</p>
         </article>
 
+        <article class="panel">
+          <h2>Detaljfilter för historik</h2>
+          <p class="hint">Filtren nedan gäller bara sidan Historisk data. Standard är Totalt, vilket innebär att ingen köns- eller åldersfiltrering används. Flyttfiltret gäller endast de detaljerade flyttdiagrammen; dödlighetsfiltret gäller endast dödlighetsdiagrammet.</p>
+          <div class="historyFilterGrid">
+            <fieldset>
+              <legend>Dödlighet</legend>
+              <label>Kön
+                <select id="historyMortSex">
+                  <option value="ALL" selected>Totalt</option>
+                  <option value="K">Kvinnor</option>
+                  <option value="M">Män</option>
+                </select>
+              </label>
+              <label>Ålder
+                <select id="historyMortAge">
+                  <option value="ALL" selected>Alla åldrar</option>
+                </select>
+              </label>
+            </fieldset>
+            <fieldset>
+              <legend>Flyttning</legend>
+              <label>Flyttben
+                <select id="historyMigLeg">
+                  <option value="ALL" selected>Alla flyttben</option>
+                  <option value="county">Övriga Norrbotten</option>
+                  <option value="rest_sweden">Övriga Sverige</option>
+                  <option value="international">Utlandet</option>
+                </select>
+              </label>
+              <label>Riktning
+                <select id="historyMigDirection">
+                  <option value="net" selected>Netto</option>
+                  <option value="in">Inflyttning</option>
+                  <option value="out">Utflyttning</option>
+                </select>
+              </label>
+              <label>Kön
+                <select id="historyMigSex">
+                  <option value="ALL" selected>Totalt</option>
+                  <option value="K">Kvinnor</option>
+                  <option value="M">Män</option>
+                </select>
+              </label>
+              <label>Ålder
+                <select id="historyMigAge">
+                  <option value="ALL" selected>Alla åldrar</option>
+                </select>
+              </label>
+            </fieldset>
+          </div>
+        </article>
+
         <div class="cards historyCards">
           <article class="card"><span>Kalibreringsperiod</span><strong id="historyWindowKpi">–</strong><small id="historyWindowYears">–</small></article>
           <article class="card"><span>Fruktsamhetsnivå</span><strong id="historyFertilityKpi">–</strong><small>exponeringsvägd TFR</small></article>
@@ -329,6 +381,14 @@
 
         <article class="panel chartPanel historyFullChart">
           <div class="panelHead">
+            <div><h2>Dödlighet – filtrerad historik</h2><p class="hint">Visar antal döda och dödsrisk per 1 000 för vald kombination av kön och ålder. Standard Totalt använder alla kön och åldrar sammantaget.</p></div>
+          </div>
+          <svg id="historyMortalityDetailChart" viewBox="0 0 1200 360" role="img" aria-label="Filtrerad historisk dödlighet"></svg>
+          <div id="historyMortalitySummary"></div>
+        </article>
+
+        <article class="panel chartPanel historyFullChart">
+          <div class="panelHead">
             <div><h2>Inflyttning och utflyttning</h2><p class="hint">Observerade bruttoflöden per år. För FA summeras inte kommunala bruttoflöden eftersom flyttar inom FA då skulle dubbelräknas; sidan visar därför bruttoflöden endast där underlaget är metodiskt giltigt.</p></div>
           </div>
           <svg id="historyGrossMigrationChart" viewBox="0 0 1200 360" role="img" aria-label="Historisk inflyttning och utflyttning"></svg>
@@ -339,6 +399,14 @@
             <div><h2>Flyttnetto</h2><p class="hint">Observerad nettoflyttning per år. Den streckade linjen visar årsmedlet för vald kalibreringsperiod.</p></div>
           </div>
           <svg id="historyNetMigrationChart" viewBox="0 0 1200 360" role="img" aria-label="Historisk nettoflyttning"></svg>
+        </article>
+
+        <article class="panel chartPanel historyFullChart">
+          <div class="panelHead">
+            <div><h2>Flyttning – filtrerad historik</h2><p class="hint">Välj flyttben, riktning, kön och ålder. Standardläget visar totalt netto för alla tre geografiska flyttben. Detaljerade flyttben visas endast på kommunnivå eftersom bruttoflöden inte kan summeras metodiskt korrekt till FA.</p></div>
+          </div>
+          <svg id="historyMigrationDetailChart" viewBox="0 0 1200 360" role="img" aria-label="Filtrerad historisk flyttning"></svg>
+          <div id="historyMigrationSummary"></div>
         </article>
 
         <article class="panel">
