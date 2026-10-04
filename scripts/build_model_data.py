@@ -303,6 +303,136 @@ def load_forecast_migration_context_by_birth_status(
     return immigration, exposure
 
 
+def forecast_maternal_birth_dimension(file_key: str):
+    dims = (
+        manifest().get("files", {}).get(file_key, {})
+        .get("dimension_value_labels", {})
+    )
+    for dim in ("ModerFodregion", "ModerFodlandgrupp"):
+        if dim in dims:
+            return dim
+    return None
+
+
+def forecast_maternal_birth_status(file_key: str, raw_code: str):
+    dim = forecast_maternal_birth_dimension(file_key)
+    if not dim:
+        return None
+    labels = (
+        manifest().get("files", {}).get(file_key, {})
+        .get("dimension_value_labels", {}).get(dim, {})
+    )
+    label = str(labels.get(str(raw_code), "")).strip().lower()
+    if (
+        "födda i sverige" in label
+        or "född i sverige" in label
+        or label == "sverige"
+    ):
+        return "sweden_born"
+    if label:
+        return "foreign_born"
+    return None
+
+
+def national_future_status_demography(
+    detail_filename: str,
+    detail_key: str,
+    births_filename: str,
+    births_key: str,
+):
+    """Same-vintage national fertility and mortality by birth status.
+
+    Returns status-specific national rates/hazards and their relative
+    multipliers to the aggregate national profile from the same vintage.
+    """
+    detail_path = RAW / detail_filename
+    births_path = RAW / births_filename
+    fertility_num = defaultdict(float)
+    fertility_den = defaultdict(float)
+    mortality_num = defaultdict(float)
+    mortality_den = defaultdict(float)
+
+    if not detail_path.exists() or not births_path.exists():
+        return [], []
+
+    death_code = content_code_for(detail_key, "döda")
+    mean_code = content_code_for(detail_key, "medelfolkmängd")
+    detail_dim = forecast_birth_dimension(detail_key)
+    maternal_dim = forecast_maternal_birth_dimension(births_key)
+    if not death_code or not mean_code or not detail_dim or not maternal_dim:
+        raise RuntimeError(
+            "Could not identify same-vintage birth-status fertility/mortality dimensions."
+        )
+
+    for r in rows(detail_path):
+        status = forecast_birth_status(detail_key, r.get(detail_dim, ""))
+        age = age_value(r.get("Alder", ""))
+        sex = SEX_MAP.get(r.get("Kon", ""))
+        if not status or age is None or not sex:
+            continue
+        for col, code, year in value_columns(r.keys(), {death_code, mean_code}):
+            value = num(r[col])
+            if code == death_code:
+                mortality_num[(year, status, sex, age)] += value
+            elif code == mean_code:
+                mortality_den[(year, status, sex, age)] += value
+                if sex == "K" and 15 <= age <= 49:
+                    fertility_den[(year, status, age)] += value
+
+    for r in rows(births_path):
+        status = forecast_maternal_birth_status(
+            births_key, r.get(maternal_dim, "")
+        )
+        age = age_value(r.get("Alder", ""))
+        if not status or age is None or not (15 <= age <= 49):
+            continue
+        for col, _, year in value_columns(r.keys()):
+            fertility_num[(year, status, age)] += num(r[col])
+
+    aggregate_fert, aggregate_mort = national_future_profiles(
+        detail_filename, detail_key, births_filename
+    )
+    fertility_rows = []
+    mortality_rows = []
+    for (year, status, age), births_count in sorted(fertility_num.items()):
+        exposure = fertility_den.get((year, status, age), 0.0)
+        rate = 0.0 if exposure <= 0 else births_count / exposure
+        aggregate = aggregate_fert.get((year, age), 0.0)
+        relative = 1.0 if aggregate <= 0 else rate / aggregate
+        fertility_rows.append({
+            "year": year,
+            "status": status,
+            "age": age,
+            "nationalStatusRate": rate,
+            "nationalAggregateRate": aggregate,
+            "relativeFactor": relative,
+            "births": births_count,
+            "exposure": exposure,
+            "source": "same-vintage national fertility by maternal birth status",
+        })
+
+    keys = set(mortality_den) | set(mortality_num)
+    for year, status, sex, age in sorted(keys):
+        exposure = mortality_den.get((year, status, sex, age), 0.0)
+        deaths_count = mortality_num.get((year, status, sex, age), 0.0)
+        hazard = 0.0 if exposure <= 0 else deaths_count / exposure
+        aggregate = aggregate_mort.get((year, sex, age), 0.0)
+        relative = 1.0 if aggregate <= 0 else hazard / aggregate
+        mortality_rows.append({
+            "year": year,
+            "status": status,
+            "sex": sex,
+            "age": age,
+            "nationalStatusHazard": hazard,
+            "nationalAggregateHazard": aggregate,
+            "relativeFactor": relative,
+            "deaths": deaths_count,
+            "exposure": exposure,
+            "source": "same-vintage national mortality by birth status",
+        })
+    return fertility_rows, mortality_rows
+
+
 def national_future_profiles(detail_filename: str, detail_key: str, births_filename: str):
     birth_counts = load_forecast_birth_counts(births_filename)
     deaths, exposure = load_forecast_detail(detail_filename, detail_key)
