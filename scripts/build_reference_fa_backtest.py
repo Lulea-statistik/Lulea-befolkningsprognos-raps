@@ -59,6 +59,62 @@ def restrict_births(source, geos):
     }
 
 
+def aggregate_group_birth_status_population(source, group_code, members):
+    out = dict(source)
+    member_set = set(members)
+    keys = {
+        (year, sex, age, status)
+        for (geo, year, sex, age, status) in source
+        if geo in member_set
+    }
+    for year, sex, age, status in keys:
+        out[(group_code, year, sex, age, status)] = sum(
+            source.get((geo, year, sex, age, status), 0.0)
+            for geo in member_set
+        )
+    return out
+
+
+def aggregate_group_birth_status_migration(source, group_code, members):
+    out = dict(source)
+    member_set = set(members)
+    keys = {
+        (year, sex, age, status, leg, direction)
+        for (geo, year, sex, age, status, leg, direction) in source
+        if geo in member_set
+    }
+    for year, sex, age, status, leg, direction in keys:
+        out[(group_code, year, sex, age, status, leg, direction)] = sum(
+            source.get(
+                (geo, year, sex, age, status, leg, direction), 0.0
+            )
+            for geo in member_set
+        )
+    return out
+
+
+def birth_status_actual_rows(
+    population_status, members, group_code, origin, end_year
+):
+    result = []
+    for geo in list(members) + [group_code]:
+        for year in range(origin + 1, end_year + 1):
+            for status in ("sweden_born", "foreign_born"):
+                result.append({
+                    "geo": geo,
+                    "year": year,
+                    "status": status,
+                    "value": sum(
+                        population_status.get(
+                            (geo, year, sex, age, status), 0.0
+                        )
+                        for sex in ("K", "M")
+                        for age in range(101)
+                    ),
+                })
+    return result
+
+
 def base_population(pop, members, group_code, year):
     result = []
     for geo in list(members) + [group_code]:
@@ -149,6 +205,32 @@ def build_region_origin(region_code, region, origin, origin_cfg, raw):
             region_code,
             members,
         )
+        population_status = aggregate_group_birth_status_population(
+            {
+                key: value
+                for key, value in raw["population_birth_status"].items()
+                if key[0] in set(members)
+            },
+            region_code,
+            members,
+        )
+        migration_status = aggregate_group_birth_status_migration(
+            {
+                key: value
+                for key, value in raw["migration_birth_status"].items()
+                if key[0] in set(members)
+            },
+            region_code,
+            members,
+        )
+        birth_status_net10_allocation = (
+            b.constrained_birth_status_net_allocation(
+                migration_status,
+                population_status,
+                geos=list(members) + [region_code],
+                window=10,
+            )
+        )
 
         fertility_rates, fertility_factors = b.fertility_profiles(
             births, event_age_exposure
@@ -219,6 +301,12 @@ def build_region_origin(region_code, region, origin, origin_cfg, raw):
             "populationBase": base_population(
                 pop, members, region_code, origin
             ),
+            "populationBaseBirthStatus": b.birth_status_population_rows(
+                population_status,
+                origin,
+                geos=list(members) + [region_code],
+            ),
+            "birthStatusNet10Allocation": birth_status_net10_allocation,
             "fertilityRates": fertility_rates,
             "mortalityRisks": mortality_risks,
             "netMigration": b.migration_profiles(netmig),
@@ -237,6 +325,13 @@ def build_region_origin(region_code, region, origin, origin_cfg, raw):
             "rows": annual_actuals(
                 pop, births, deaths, netmig,
                 members, region_code, origin, end_year
+            ),
+            "populationBirthStatusRows": birth_status_actual_rows(
+                population_status,
+                members,
+                region_code,
+                origin,
+                end_year,
             ),
         }
 
@@ -298,6 +393,17 @@ def main():
             b.NET_MIG_CODES,
             allowed_geos=allowed_geos,
         ),
+        "population_birth_status": b.load_population_birth_status(
+            "population_birth_region_pre2025.csv",
+            "population_birth_region_pre2025",
+            allowed_geos=allowed_geos,
+        ),
+        "migration_birth_status": b.load_migration_legs_birth_status(
+            "migration_birth_region_pre2025.csv",
+            "migration_birth_region_pre2025",
+            b.MIGRATION_LEG_CODES_PRE2025,
+            allowed_geos=allowed_geos,
+        ),
     }
 
     region_entries = []
@@ -332,6 +438,13 @@ def main():
         ),
         "windows": list(WINDOWS),
         "migrationWindows": list(MIGRATION_WINDOWS),
+        "birthStatusNet10Candidate": {
+            "config": "data/birth_status_net10_candidate.json",
+            "externalLevel3Gate": json.loads(
+                (ROOT / "data" / "birth_status_net10_candidate.json")
+                .read_text(encoding="utf-8")
+            )["externalLevel3Gate"],
+        },
         "horizonYears": HORIZON_YEARS,
         "regions": region_entries,
         "governance": (
