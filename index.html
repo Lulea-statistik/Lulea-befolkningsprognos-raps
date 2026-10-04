@@ -350,9 +350,19 @@
 
         <article class="panel chartPanel">
           <div class="panelHead">
-            <div><h2>Åldersprofil för jobbrelaterad inflyttning</h2><p class="hint">Diagrammet jämför arbetstagarprofil, hushållsapproximation och observerad inflyttning i 1-årsåldrar. Tabellen under visar SCB:s breda arbetsmarknadsgrupper 15–24, 25–54 och 55–74.</p></div>
+            <div>
+              <h2>Åldersprofiler för arbetsplats- och inflyttningsscenarier</h2>
+              <p class="hint">Jämför fyra alternativa sätt att fördela en möjlig inflyttning på 1-årsåldrar. Y-axeln visar varje ålders andel av respektive profils total, i procent. Profilerna är scenario- och jämförelseunderlag – de visar inte att en observerad flytt faktiskt orsakades av ett jobb.</p>
+            </div>
           </div>
-          <svg id="labourAgeProfileChart" viewBox="0 0 900 330" role="img" aria-label="Åldersprofil för jobbrelaterad inflyttning"></svg>
+          <div class="profileLegend" aria-label="Förklaring av serier">
+            <div><span class="profileSwatch lineInflow"></span><strong>Arbetstagare (hybrid)</strong><small>SCB:s ålders- och könsstruktur bland sysselsatta vid arbetsstället, fördelad till 1-årsåldrar med det lokala observerade inflyttningsmönstret.</small></div>
+            <div><span class="profileSwatch lineSensitivity"></span><strong>Medföljande hushåll (proxy)</strong><small>En förenklad proxy baserad på observerad inflyttning i åldrarna 0–17 och 25–64. Åldrarna 18–24 är uteslutna för att minska påverkan från studentrelaterad inflyttning.</small></div>
+            <div><span class="profileSwatch lineMen"></span><strong>Observerad inflyttning 0–64</strong><small>Den historiskt observerade kommunala inflyttningen, begränsad till åldrarna 0–64. Detta är en jämförelseprofil, inte ett mått på jobbrelaterad flyttning.</small></div>
+            <div><span class="profileSwatch lineVariation"></span><strong>Observerad inflyttning, alla åldrar</strong><small>Hela den observerade kommunala inflyttningens åldersfördelning, inklusive 65 år och äldre.</small></div>
+          </div>
+          <svg id="labourAgeProfileChart" viewBox="0 0 900 330" role="img" aria-label="Åldersprofiler för arbetsplats- och inflyttningsscenarier"></svg>
+          <p class="hint profileNote"><strong>Hybrid</strong> betyder att två datakällor kombineras. <strong>Proxy</strong> betyder att profilen används som en förenklad ersättningsindikator när direkt statistik över medföljande hushåll saknas. Håll muspekaren över diagrammet för exakt andel vid varje ålder.</p>
           <div id="labourWorkerAgeGroups"></div>
         </article>
 
