@@ -35,6 +35,11 @@ function byActual(actual, geo, year) {
     r => r.geo === geo && +r.year === +year
   );
 }
+function byActualBirthStatus(actual, geo, year, status) {
+  return (actual.populationBirthStatusRows||[]).find(
+    r => r.geo===geo && +r.year===+year && r.status===status
+  );
+}
 
 function localRatioBounds(model) {
   const bounds = model.diagnostics?.relativeFactors?.bounds || {};
@@ -666,6 +671,15 @@ const report = {
     candidate: manifest.profetBirthStatusCandidate || null,
     summary: {},
     results: {}
+  },
+  birthStatusNet10ConstrainedDiagnostic: {
+    note: 'Development diagnostic only. Preserves the production net10 migration total by sex and one-year age and allocates it between Swedish-born and foreign-born states using locked 10-year gross-flow shares. Compared with a locked stock-share allocation using the same net10 total.',
+    independentHoldout: false,
+    candidate: manifest.birthStatusNet10Candidate || null,
+    summary: {},
+    results: {},
+    structuralGate: null,
+    developmentGate: null
   },
   profetConsistencyDiagnostic: {
     note: 'Development diagnostic only. Compares the same Profet birth-status engine with and without the locked Norrbotten municipality-to-county consistency layer. Only origins with same-vintage frozen county targets are scored.',
@@ -1809,6 +1823,144 @@ for (const geo of geos) {
     threeYear:byHorizon[3],
     byHorizon,
     byOrigin
+  };
+}
+
+
+for (const geo of ["2580","FA_LULEA"]) {
+  const candidateRows=[];
+  const comparatorRows=[];
+  const structuralChecks=[];
+  const byOrigin={};
+  report.birthStatusNet10ConstrainedDiagnostic.results[geo]={};
+
+  for(const entry of origins){
+    const common={
+      geo,
+      endYear:entry.endYear,
+      fertMult:1,
+      mortMult:1,
+      migMult:1,
+      window:10,
+      migrationMode:'birth_status_net10_constrained',
+      cohortTimingMode:'event_age_aligned',
+      scenarios:{housing:[],workplaces:[],overlapPct:0},
+      includeDetail:false
+    };
+    const candidate=M.simulate(entry.model,common);
+    const comparator=M.simulate(entry.model,{
+      ...common,birthStatusAllocationMode:'stock_share'
+    });
+    const baselineRows=report.results[geo][entry.origin][10]||[];
+    const originRows=[];
+
+    for(const p of candidate){
+      if(+p.year<=+entry.origin) continue;
+      const q=comparator.find(x=>+x.year===+p.year);
+      const base=baselineRows.find(x=>+x.year===+p.year);
+      if(!q||!base) continue;
+      const row={
+        year:+p.year,
+        horizon:+p.year-+entry.origin,
+        candidateSwedishBorn:n(p.populationByBirthStatus?.sweden_born),
+        candidateForeignBorn:n(p.populationByBirthStatus?.foreign_born),
+        comparatorSwedishBorn:n(q.populationByBirthStatus?.sweden_born),
+        comparatorForeignBorn:n(q.populationByBirthStatus?.foreign_born),
+        actualSwedishBorn:n(byActualBirthStatus(entry.actual,geo,p.year,'sweden_born')?.value),
+        actualForeignBorn:n(byActualBirthStatus(entry.actual,geo,p.year,'foreign_born')?.value),
+        candidatePopulation:p.population,
+        baselinePopulation:n(base.predictedPopulation),
+        candidateNetMigration:p.netMigration,
+        baselineNetMigration:n(base.predictedNetMigration)
+      };
+      row.candidateSwedishBornError=row.candidateSwedishBorn-row.actualSwedishBorn;
+      row.candidateForeignBornError=row.candidateForeignBorn-row.actualForeignBorn;
+      row.comparatorSwedishBornError=row.comparatorSwedishBorn-row.actualSwedishBorn;
+      row.comparatorForeignBornError=row.comparatorForeignBorn-row.actualForeignBorn;
+      row.populationDifference=row.candidatePopulation-row.baselinePopulation;
+      row.netMigrationDifference=row.candidateNetMigration-row.baselineNetMigration;
+      candidateRows.push(row);
+      comparatorRows.push(row);
+      originRows.push(row);
+      structuralChecks.push(
+        Math.abs(row.populationDifference)<0.11 &&
+        Math.abs(row.netMigrationDifference)<0.11
+      );
+    }
+
+    byOrigin[entry.origin]=originRows.map(r=>({
+      year:r.year,horizon:r.horizon,
+      candidateSwedishBornError:round1(r.candidateSwedishBornError),
+      candidateForeignBornError:round1(r.candidateForeignBornError),
+      comparatorSwedishBornError:round1(r.comparatorSwedishBornError),
+      comparatorForeignBornError:round1(r.comparatorForeignBornError),
+      populationDifference:round1(r.populationDifference),
+      netMigrationDifference:round1(r.netMigrationDifference)
+    }));
+    report.birthStatusNet10ConstrainedDiagnostic.results[geo][entry.origin]=byOrigin[entry.origin];
+  }
+
+  const byHorizon={};
+  for(let h=1;h<=manifest.horizonYears;h++){
+    const rows=candidateRows.filter(r=>r.horizon===h);
+    byHorizon[h]={
+      observations:rows.length,
+      historicalFlow:{
+        swedishBornMAE:round1(mean(rows.map(r=>Math.abs(r.candidateSwedishBornError)))),
+        foreignBornMAE:round1(mean(rows.map(r=>Math.abs(r.candidateForeignBornError))))
+      },
+      stockShare:{
+        swedishBornMAE:round1(mean(rows.map(r=>Math.abs(r.comparatorSwedishBornError)))),
+        foreignBornMAE:round1(mean(rows.map(r=>Math.abs(r.comparatorForeignBornError))))
+      }
+    };
+  }
+  const summary={
+    observations:candidateRows.length,
+    historicalFlow:{
+      swedishBornMAE:round1(mean(candidateRows.map(r=>Math.abs(r.candidateSwedishBornError)))),
+      foreignBornMAE:round1(mean(candidateRows.map(r=>Math.abs(r.candidateForeignBornError))))
+    },
+    stockShare:{
+      swedishBornMAE:round1(mean(candidateRows.map(r=>Math.abs(r.comparatorSwedishBornError)))),
+      foreignBornMAE:round1(mean(candidateRows.map(r=>Math.abs(r.comparatorForeignBornError))))
+    },
+    oneYear:byHorizon[1],
+    twoYear:byHorizon[2],
+    threeYear:byHorizon[3],
+    byHorizon,
+    byOrigin
+  };
+  report.birthStatusNet10ConstrainedDiagnostic.summary[geo]=summary;
+}
+
+{
+  const d=report.birthStatusNet10ConstrainedDiagnostic;
+  const structuralPassed=["2580","FA_LULEA"].every(geo=>
+    Object.values(d.results[geo]||{}).flat().every(r=>
+      Math.abs(Number(r.populationDifference)||0)<0.11 &&
+      Math.abs(Number(r.netMigrationDifference)||0)<0.11
+    )
+  );
+  const pooled=(method,status)=>mean(["2580","FA_LULEA"].map(
+    geo=>d.summary[geo]?.[method]?.[status+"MAE"]
+  ));
+  const histSw=pooled("historicalFlow","swedishBorn");
+  const stockSw=pooled("stockShare","swedishBorn");
+  const histFo=pooled("historicalFlow","foreignBorn");
+  const stockFo=pooled("stockShare","foreignBorn");
+  d.structuralGate={
+    passed:structuralPassed,
+    rule:"Aggregate population and net migration must match net10 baseline by year."
+  };
+  d.developmentGate={
+    status:"development_only_not_promotion_evidence",
+    passed:structuralPassed && histSw<stockSw && histFo<stockFo,
+    historicalFlowPooledSwedishBornMAE:round1(histSw),
+    stockSharePooledSwedishBornMAE:round1(stockSw),
+    historicalFlowPooledForeignBornMAE:round1(histFo),
+    stockSharePooledForeignBornMAE:round1(stockFo),
+    rule:"Historical-flow allocation must beat stock-share allocation for both pooled birth-status MAEs while preserving net10 totals."
   };
 }
 
