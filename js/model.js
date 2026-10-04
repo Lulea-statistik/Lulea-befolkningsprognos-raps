@@ -1520,7 +1520,17 @@
         scenarioEffect:parts.reduce((s,r)=>s+n(r.scenarioEffect),0),
         scenarioDetail:aggregateScenarioDetails(parts),
         change:i===0?0:population-prev,
-        populationByAgeSex:aggregatePopulationByAgeSex(parts)
+        populationByAgeSex:aggregatePopulationByAgeSex(parts),
+        populationByBirthStatus:parts.some(r=>r.populationByBirthStatus)
+          ? {
+              sweden_born:parts.reduce(
+                (s,r)=>s+n(r.populationByBirthStatus?.sweden_born),0
+              ),
+              foreign_born:parts.reduce(
+                (s,r)=>s+n(r.populationByBirthStatus?.foreign_born),0
+              )
+            }
+          : undefined
       });
     }
     return results;
