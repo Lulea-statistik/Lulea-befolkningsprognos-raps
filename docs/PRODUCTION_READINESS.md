@@ -110,7 +110,7 @@ Före produktionsförvaltning ska den publicerade dashboarden också passera fö
 - byte av geografi eller kalibreringsfönster får inte lämna kvar värden från tidigare val när data saknas,
 - Validering ska fortsätta renderas även om en annan analysvy får ett JavaScriptfel,
 - CSV-export ska vara kompatibel med svensk Excel, bära geografi och modellval samt innehålla både prognos och baslinje för spårbarhet,
-- GitHub Pages-deploy och relevant modelltest ska båda vara gröna för den publicerade committen.
+- GitHub Pages-publicering och relevant modelltest ska båda vara gröna för den publicerade committen.
 
 Senast verifierad UI-/exportrevision omfattar bland annat isolerad sidrendering, jämförelsediagram Luleå/Riket, delad dödlighetsrisk 0–70/71+, robust tomläge för arbetsmarknadsdata och spårbar semikolonseparerad CSV-export.
 
@@ -121,7 +121,7 @@ En ny version ska inte betraktas som produktionsklar om någon av följande kont
 1. kärndata är ofullständiga, duplicerade eller numeriskt ogiltiga,
 2. den årliga befolkningsbalansen inte går exakt ihop,
 3. FA inte är additivt lika med summan av medlemskommunerna,
-4. SCB/Raps-källmanifestet tappar tabell-ID, urval, råfil eller korrekt CKM-tidsgräns,
+4. SCB/rAps-källmanifestet tappar tabell-ID, urval, råfil eller korrekt CKM-tidsgräns,
 5. framtida nationella profiler saknar täckning,
 6. scenarioinfasning eller scenarieöverlappar bryter sina bokföringsregler,
 7. mognadspolicyn och den genererade mognadsrapporten inte innehåller samma komponentregister.
@@ -138,7 +138,7 @@ Vid en full **Update SCB data** ska följande kedja fortsätta gälla:
 6. Mognadsrapporten byggs om.
 7. Endast en grön körning får publicera de genererade filerna.
 
-En grön GitHub Pages-körning är inte ensam ett kvalitetsbevis; den relevanta modell-/SCB-workflowen måste också vara grön.
+En grön GitHub Pages-körning är inte ensam ett kvalitetsbevis; den relevanta modell- och SCB-arbetsflödet måste också vara grön.
 
 ## Regler för nya modellförslag
 
@@ -170,10 +170,10 @@ Slutsatsen är därför att lokal information tydligt kan vara värdefull, men a
 
 Efter utvecklingsdiagnostiken 2018–2024 låstes alternativa lokaliseringsmetoder och testades därefter mot ett separat 2025 års orörda kontrollperiod. Produktionsbaslinjen ändras inte automatiskt av kandidatstatus.
 
-- **Fruktsamhet – kubisk utjämningsspline, λ=10:** klarade den förhandsdefinierade 2025-grinden för både Luleå kommun och Luleå FA. Maternal-age-cell MAE förbättrades från 4,318 till 4,155 i Luleå och från 8,737 till 8,483 i FA. Totalfelet för födda förbättrades samtidigt från 97,226 till 95,189 respektive från 278,550 till 277,175. Kandidaten är därför **mognadsgrad 3 – validerad kandidat**, men är ännu inte produktionsaktiv.
+- **Fruktsamhet – kubisk utjämningsspline, λ=10:** klarade den förhandsdefinierade 2025-grinden för både Luleå kommun och Luleå FA. MAE per ålderscell för modern förbättrades från 4,318 till 4,155 i Luleå och från 8,737 till 8,483 i FA. Totalfelet för födda förbättrades samtidigt från 97,226 till 95,189 respektive från 278,550 till 277,175. Kandidaten är därför **mognadsgrad 3 – validerad kandidat**, men är ännu inte produktionsaktiv.
 - **Dödlighet – Empirical Bayes:** förbättrade ålder×kön-cell MAE i både Luleå och FA, men klarade inte den låsta 2025-grinden eftersom totalfelet för döda i Luleå försämrades från 46,845 till 51,886. Kandidaten är därför **stängd på mognadsgrad 2** och får inte eftertrimmas mot 2018–2025.
-- **Dödlighet – weighted least squares:** den låsta tvåparametersmodellen `log(lokal dödlighetsintensitet)=a+b×log(rikets dödlighetsintensitet)`, separat per geografi/fönster/kön och viktad med observerade lokala dödsfall per ålder, klarade den externa FA15-grinden på 10-årsfönstret. För n+1/n+2 förbättrades Trollhättan–Vänersborg 67,1→50,6 och 93,4→83,1; Gävle 51,7→48,1 och 37,7→36,8; Sundsvall 76,1→75,3 och 66,4→66,3. Pooled n+1/n+2 dödsfalls-MAE förbättrades från 65,4 till 60,0. Kandidaten är därför **mognadsgrad 3 – validerad kandidat**, men är ännu inte produktionsaktiv.
-- **Födelsestatus – net10-begränsad statusfördelning:** kandidaten bevarar produktionens 10-åriga nettoflyttning exakt per kön och ettårsålder och modellerar endast fördelningen mellan svensk- och utrikesfödda. I den låsta externa FA15-grinden slog den beståndsandel-komparatorn på n+1 och n+2 för båda statusgrupperna i Trollhättan–Vänersborg, Gävle och Sundsvall. Pooled n+1/n+2 MAE förbättrades för svenskfödda från **1465,9 till 1029,7** och för utrikesfödda från **494,0 till 221,8**. Strukturgrinden gav **0 avvikelse** i totalbefolkning och nettoflyttning mot net10. Kandidaten är därför **mognadsgrad 3 – validerad kandidat**, men är ännu inte produktionsaktiv.
+- **Dödlighet – viktad minsta kvadratmetod (WLS):** den låsta tvåparametersmodellen `log(lokal dödlighetsintensitet)=a+b×log(rikets dödlighetsintensitet)`, separat per geografi/fönster/kön och viktad med observerade lokala dödsfall per ålder, klarade den externa FA15-grinden på 10-årsfönstret. För n+1/n+2 förbättrades Trollhättan–Vänersborg 67,1→50,6 och 93,4→83,1; Gävle 51,7→48,1 och 37,7→36,8; Sundsvall 76,1→75,3 och 66,4→66,3. Sammanvägt n+1/n+2 dödsfalls-MAE förbättrades från 65,4 till 60,0. Kandidaten är därför **mognadsgrad 3 – validerad kandidat**, men är ännu inte produktionsaktiv.
+- **Födelsestatus – net10-begränsad statusfördelning:** kandidaten bevarar produktionens 10-åriga nettoflyttning exakt per kön och ettårsålder och modellerar endast fördelningen mellan svensk- och utrikesfödda. I den låsta externa FA15-grinden slog den beståndsandel-komparatorn på n+1 och n+2 för båda statusgrupperna i Trollhättan–Vänersborg, Gävle och Sundsvall. Sammanvägt n+1/n+2 MAE förbättrades för svenskfödda från **1465,9 till 1029,7** och för utrikesfödda från **494,0 till 221,8**. Strukturgrinden gav **0 avvikelse** i totalbefolkning och nettoflyttning mot net10. Kandidaten är därför **mognadsgrad 3 – validerad kandidat**, men är ännu inte produktionsaktiv.
 - **Migration – kubisk spline för net10-profil:** stängd på mognadsgrad 2. Total nettoflyttning bevarades, men åldersprofilen försämrades tydligt, särskilt 15–39 år. Rå 10-årig ettårsåldersprofil behålls därför.
 
 2025 års orörda kontrollperiodet använder endast 2025 som lokalt utfall och exponering. Den nationella pre-2025-profilen hålls fixerad för båda jämförda metoderna, så kontrollen isolerar lokaliseringsmetoden och blandar inte in ett nytt nationellt nivåantagande.
@@ -192,7 +192,7 @@ Fruktsamhets-splinen får inte gå från nivå 3 till nivå 4 på grundval av 20
 
 Den kohortbaserade utbildningsmodellen använder SCB:s kommunserie för utbildningsnivå, kön och ettårsålder. Fem ordnade utbildningsstatusar används och övergångarna skattas från nationella kohortförändringar över ett låst 10-årsfönster. Komponenten påverkar **inte** befolkningsprognosen, migrationen, fruktsamheten eller dödligheten.
 
-Utvecklingsgrinden för Luleå och Luleå FA passerade. Den förhandslåsta externa nivå-3-grinden passerade också i samtliga tre FA15-referensregioner samt ankarkommunerna Trollhättan, Gävle och Sundsvall. Pooled n+1/n+2 MAE i utbildningsandelar minskade från **0,01267** med identitets-qutb till **0,00476** med kohortövergångsmodellen.
+Utvecklingsgrinden för Luleå och Luleå FA passerade. Den förhandslåsta externa nivå-3-grinden passerade också i samtliga tre FA15-referensregioner samt ankarkommunerna Trollhättan, Gävle och Sundsvall. Sammanvägt n+1/n+2 MAE i utbildningsandelar minskade från **0,01267** med identitets-qutb till **0,00476** med kohortövergångsmodellen.
 
 Komponenten är därför **mognadsgrad 3 – validerad kandidat**, men med status **endast forskning**. Den får inte påverka produktionsmodellen.
 
@@ -212,7 +212,7 @@ Den net10-begränsade födelsestatuskandidaten får inte gå från nivå 3 till 
 1. Produktionsbaslinjens **net10 per kön och ettårsålder** ska vara oförändrad.
 2. **10-årsfönstret** ska vara oförändrat.
 3. Positiv nettoflyttning ska fortsatt fördelas efter 10-årig bruttoinflyttningsandel per födelsestatus och negativ nettoflyttning efter 10-årig bruttoutflyttningsandel.
-4. Samma låsta fallbackregel ska användas när historiska händelser saknas; nyfödda ska fortsatt tillföras svenskfödda och dödligheten ska vara statusoberoende.
+4. Samma låsta reservregel ska användas när historiska händelser saknas; nyfödda ska fortsatt tillföras svenskfödda och dödligheten ska vara statusoberoende.
 5. Evidensen ska komma från en **helt orörd framtida eller årlig kontroll** som inte använts för att formulera eller välja kandidaten.
 6. Kandidaten ska vara minst lika bra som beståndsandel-komparatorn för både svenskfödda och utrikesfödda på n+1 och n+2 och samtidigt strikt bättre sammanvägt för båda statusgrupperna.
 7. Totalbefolkning och nettoflyttning ska fortsatt exakt bevara net10.
@@ -226,7 +226,7 @@ Dödlighets-WLS får inte gå från nivå 3 till nivå 4 på grundval av de reda
 2. Vikterna ska fortsatt baseras på observerade lokala dödsfall per ålder.
 3. Produktionskandidaten ska fortsatt använda **10-årsfönstret**.
 4. Evidensen ska komma från en **helt orörd framtida eller årlig kontroll** som inte använts för att formulera eller välja WLS-kandidaten.
-5. WLS ska ge lägre eller lika dödsfalls-MAE än nuvarande metod på n+1 och n+2 och samtidigt ge strikt lägre pooled MAE.
+5. WLS ska ge lägre eller lika dödsfalls-MAE än nuvarande metod på n+1 och n+2 och samtidigt ge strikt lägre sammanvägt MAE.
 6. Först om samtliga krav passerar kan kandidaten övervägas för nivå 4 och produktionsbyte.
 
 ## Kända avgränsningar
