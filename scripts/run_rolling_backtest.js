@@ -685,6 +685,14 @@ const report = {
     structuralGate: null,
     developmentGate: null
   },
+  profetNet10StatusDemographyDiagnostic: {
+    note: 'Development diagnostic only. Keeps the validated net10 birth-status migration architecture fixed and adds same-vintage national Swedish-born/foreign-born fertility and mortality relative profiles.',
+    independentHoldout: false,
+    candidate: manifest.profetNet10StatusDemographyCandidate || null,
+    summary: {},
+    results: {},
+    structuralGate: null
+  },
   profetConsistencyDiagnostic: {
     note: 'Development diagnostic only. Compares the same Profet birth-status engine with and without the locked Norrbotten municipality-to-county consistency layer. Only origins with same-vintage frozen county targets are scored.',
     independentHoldout: false,
@@ -1969,6 +1977,126 @@ for (const geo of ["2580","FA_LULEA"]) {
 }
 
 
+for (const geo of ["2580","FA_LULEA"]) {
+  const allRows=[];
+  const byOrigin={};
+  report.profetNet10StatusDemographyDiagnostic.results[geo]={};
+
+  for(const entry of origins){
+    const common={
+      geo,
+      endYear:entry.endYear,
+      fertMult:1,
+      mortMult:1,
+      migMult:1,
+      window:10,
+      cohortTimingMode:'event_age_aligned',
+      scenarios:{housing:[],workplaces:[],overlapPct:0},
+      includeDetail:false
+    };
+    const base=M.simulate(entry.model,{
+      ...common,migrationMode:'birth_status_net10_constrained'
+    });
+    const cand=M.simulate(entry.model,{
+      ...common,migrationMode:'profet_net10_status_demography'
+    });
+    const rows=[];
+
+    for(const p of cand){
+      if(+p.year<=+entry.origin) continue;
+      const q=base.find(x=>+x.year===+p.year);
+      const a=byActual(entry.actual,geo,p.year);
+      const sw=byActualBirthStatus(entry.actual,geo,p.year,'sweden_born');
+      const fo=byActualBirthStatus(entry.actual,geo,p.year,'foreign_born');
+      if(!q||!a||!sw||!fo) continue;
+      const row={
+        year:+p.year,
+        horizon:+p.year-+entry.origin,
+        candidatePopulationError:p.population-a.population,
+        baselinePopulationError:q.population-a.population,
+        candidateBirthsError:p.births-a.births,
+        baselineBirthsError:q.births-a.births,
+        candidateDeathsError:p.deaths-a.deaths,
+        baselineDeathsError:q.deaths-a.deaths,
+        candidateSwedishBornError:n(p.populationByBirthStatus?.sweden_born)-n(sw.value),
+        baselineSwedishBornError:n(q.populationByBirthStatus?.sweden_born)-n(sw.value),
+        candidateForeignBornError:n(p.populationByBirthStatus?.foreign_born)-n(fo.value),
+        baselineForeignBornError:n(q.populationByBirthStatus?.foreign_born)-n(fo.value),
+        netMigrationDifference:p.netMigration-q.netMigration,
+        statusAccountingDifference:
+          (n(p.populationByBirthStatus?.sweden_born)+n(p.populationByBirthStatus?.foreign_born))-p.population
+      };
+      rows.push(row);
+      allRows.push(row);
+    }
+    byOrigin[entry.origin]=rows.map(r=>({
+      year:r.year,horizon:r.horizon,
+      candidatePopulationError:round1(r.candidatePopulationError),
+      baselinePopulationError:round1(r.baselinePopulationError),
+      candidateBirthsError:round1(r.candidateBirthsError),
+      baselineBirthsError:round1(r.baselineBirthsError),
+      candidateDeathsError:round1(r.candidateDeathsError),
+      baselineDeathsError:round1(r.baselineDeathsError),
+      candidateSwedishBornError:round1(r.candidateSwedishBornError),
+      baselineSwedishBornError:round1(r.baselineSwedishBornError),
+      candidateForeignBornError:round1(r.candidateForeignBornError),
+      baselineForeignBornError:round1(r.baselineForeignBornError),
+      netMigrationDifference:round1(r.netMigrationDifference),
+      statusAccountingDifference:round1(r.statusAccountingDifference)
+    }));
+    report.profetNet10StatusDemographyDiagnostic.results[geo][entry.origin]=byOrigin[entry.origin];
+  }
+
+  const byHorizon={};
+  for(let h=1;h<=manifest.horizonYears;h++){
+    const rows=allRows.filter(r=>r.horizon===h);
+    byHorizon[h]={
+      observations:rows.length,
+      candidate:{
+        populationMAE:round1(mean(rows.map(r=>Math.abs(r.candidatePopulationError)))),
+        birthsMAE:round1(mean(rows.map(r=>Math.abs(r.candidateBirthsError)))),
+        deathsMAE:round1(mean(rows.map(r=>Math.abs(r.candidateDeathsError)))),
+        swedishBornMAE:round1(mean(rows.map(r=>Math.abs(r.candidateSwedishBornError)))),
+        foreignBornMAE:round1(mean(rows.map(r=>Math.abs(r.candidateForeignBornError))))
+      },
+      baseline:{
+        populationMAE:round1(mean(rows.map(r=>Math.abs(r.baselinePopulationError)))),
+        birthsMAE:round1(mean(rows.map(r=>Math.abs(r.baselineBirthsError)))),
+        deathsMAE:round1(mean(rows.map(r=>Math.abs(r.baselineDeathsError)))),
+        swedishBornMAE:round1(mean(rows.map(r=>Math.abs(r.baselineSwedishBornError)))),
+        foreignBornMAE:round1(mean(rows.map(r=>Math.abs(r.baselineForeignBornError))))
+      },
+      structural:{
+        maxNetMigrationDifference:round1(Math.max(0,...rows.map(r=>Math.abs(r.netMigrationDifference)))),
+        maxStatusAccountingDifference:round1(Math.max(0,...rows.map(r=>Math.abs(r.statusAccountingDifference))))
+      }
+    };
+  }
+  report.profetNet10StatusDemographyDiagnostic.summary[geo]={
+    observations:allRows.length,
+    oneYear:byHorizon[1],
+    twoYear:byHorizon[2],
+    threeYear:byHorizon[3],
+    byHorizon,
+    byOrigin
+  };
+}
+{
+  const d=report.profetNet10StatusDemographyDiagnostic;
+  d.structuralGate={
+    passed:["2580","FA_LULEA"].every(geo=>
+      [d.summary[geo]?.oneYear,d.summary[geo]?.twoYear,d.summary[geo]?.threeYear]
+        .filter(Boolean)
+        .every(x=>
+          x.structural.maxNetMigrationDifference<=0.1 &&
+          x.structural.maxStatusAccountingDifference<=0.1
+        )
+    ),
+    rule:"Net migration must match the validated birth-status net10 engine and birth-status stocks must sum to total population."
+  };
+}
+
+
 for (const geo of geos) {
   const allRows=[];
   const byOrigin={};
@@ -2397,6 +2525,18 @@ for (const geo of ['2580','FA_LULEA']) {
     `n+2 migration MAE=${s.twoYear.componentRecency.netMigrationMAE} vs component=${s.twoYear.lockedComponent.netMigrationMAE}`
   );
 }
+
+for (const geo of ['2580','FA_LULEA']) {
+  const s=report.profetNet10StatusDemographyDiagnostic.summary[geo];
+  if(s?.oneYear){
+    console.log(
+      `${geo} profet_net10_status_demography: n+1 population MAE=${s.oneYear.candidate.populationMAE} vs ${s.oneYear.baseline.populationMAE} | births=${s.oneYear.candidate.birthsMAE} vs ${s.oneYear.baseline.birthsMAE} | deaths=${s.oneYear.candidate.deathsMAE} vs ${s.oneYear.baseline.deathsMAE} | Swedish-born=${s.oneYear.candidate.swedishBornMAE} vs ${s.oneYear.baseline.swedishBornMAE} | foreign-born=${s.oneYear.candidate.foreignBornMAE} vs ${s.oneYear.baseline.foreignBornMAE}`
+    );
+  }
+}
+console.log(
+  `Profet net10 status-demography structural gate passed=${report.profetNet10StatusDemographyDiagnostic.structuralGate?.passed}`
+);
 
 for (const geo of ['2580','FA_LULEA']) {
   const s=report.profetBirthStatusDiagnostic.summary[geo];
