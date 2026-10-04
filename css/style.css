@@ -136,3 +136,11 @@ svg{cursor:crosshair}
   font-size:12px;
   line-height:1.45
 }
+
+
+.historyCards{grid-template-columns:repeat(4,minmax(0,1fr))}
+.lineMean{fill:none;stroke:#667085;stroke-width:2;stroke-dasharray:7 5}
+.calibrationRow td{background:#f3f6fa}
+.calibrationRow td:first-child{font-weight:700}
+@media(max-width:1150px){.historyCards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.historyCards{grid-template-columns:1fr}}
