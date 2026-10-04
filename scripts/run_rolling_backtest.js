@@ -14,6 +14,10 @@ vm.runInThisContext(
 );
 const M = window.RAPSModel;
 
+function n(x) {
+  const v=Number(x);
+  return Number.isFinite(v)?v:0;
+}
 function round1(x) {
   return Number.isFinite(Number(x))
     ? Math.round(Number(x) * 10) / 10
