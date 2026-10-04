@@ -45,6 +45,7 @@ DEFAULT_QUERIES = {
     "households_by_type": "Antal hushåll personer region hushållstyp antal barn 2011 2024",
     "household_totals": "Antal personer hushåll personer per hushåll region 2011 2025",
     "housing_stock": "Antal lägenheter region hustyp upplåtelseform 2013 2025",
+    "education_population": "Befolkning 16 74 år region utbildningsnivå ålder kön 1985 2025",
 }
 
 def get_json(path: str, params: dict | None = None, max_attempts: int = 5):
