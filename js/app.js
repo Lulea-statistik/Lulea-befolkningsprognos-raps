@@ -92,6 +92,7 @@
     fillFertilityScenario();
     fillLabourWorkplace();
     fillMigrationWeightGeo();
+    fillHistoricalDetailFilters();
     bindTabs();
     renderScenarioTables();
     $("runBtn").addEventListener("click",run);
@@ -112,6 +113,9 @@
       if($(id)) $(id).addEventListener("change",renderLabourAnalysis);
     });
     if($("migrationWeightGeo")) $("migrationWeightGeo").addEventListener("change",renderMigrationLocalWeightCharts);
+    ["historyMortSex","historyMortAge","historyMigLeg","historyMigDirection","historyMigSex","historyMigAge"].forEach(id=>{
+      if($(id)) $(id).addEventListener("change",renderHistoricalData);
+    });
     if($("labourToScenario")) $("labourToScenario").addEventListener("click",addLabourScenarioToForecast);
     ["householdProjectionMode","householdManualSize","housingReservePct"].forEach(id=>{
       if($(id)) $(id).addEventListener("change",renderHousingAnalysis);
@@ -133,6 +137,17 @@
     ).join("");
     if(!scenarios.some(s=>s.id===el.value)) el.value=scenarios[0]?.id||"raps2024";
   }
+
+
+  function fillHistoricalDetailFilters(){
+    const ageOptions='<option value="ALL">Alla åldrar</option>'+
+      Array.from({length:101},(_,age)=>`<option value="${age}">${age===100?"100+":age+" år"}</option>`).join("");
+    ["historyMortAge","historyMigAge"].forEach(id=>{
+      const el=$(id);
+      if(el) el.innerHTML=ageOptions;
+    });
+  }
+
 
   function bindTabs(){
     document.querySelectorAll(".tab").forEach(btn=>{
@@ -618,6 +633,9 @@
       {name:`Medel ${summary.startYear}–${summary.endYear}`,values:netMean,cls:"lineMean"}
     ],{includeZero:true,xLabel:"År",hoverLabel:"År",valueDigits:0});
 
+    renderHistoricalMortalityDetail(geo,selectedYears);
+    renderHistoricalMigrationDetail(geo,selectedYears);
+
     $("historyTable").querySelector("tbody").innerHTML=rows.map(r=>{
       const selected=inSelected(r);
       const sign=v=>Number(v)>=0?"+":"";
@@ -636,6 +654,106 @@
       </tr>`;
     }).join("");
   }
+
+  function renderHistoricalMortalityDetail(geo,selectedYears){
+    const all=data?.historicalMortalityDetail||[];
+    const sex=$("historyMortSex")?.value||"ALL";
+    const ageVal=$("historyMortAge")?.value||"ALL";
+    const rows=all.filter(r=>
+      r.geo===geo &&
+      (sex==="ALL" || r.sex===sex) &&
+      (ageVal==="ALL" || +r.age===+ageVal)
+    );
+    const byYear=new Map();
+    for(const r of rows){
+      const y=+r.year;
+      if(!byYear.has(y)) byYear.set(y,{year:y,deaths:0,exposure:0});
+      const g=byYear.get(y);
+      g.deaths+=Number(r.deaths||0);
+      g.exposure+=Number(r.exposure||0);
+    }
+    const annual=[...byYear.values()].sort((a,b)=>a.year-b.year).map(r=>({
+      ...r,
+      risk:r.exposure>0?1000*r.deaths/r.exposure:null
+    }));
+    if(!annual.length){
+      if($("historyMortalityDetailChart")) $("historyMortalityDetailChart").innerHTML=
+        '<text x="30" y="45" class="axisText">Detaljerad dödlighet genereras i nästa Update SCB data-körning.</text>';
+      if($("historyMortalitySummary")) $("historyMortalitySummary").innerHTML="";
+      return;
+    }
+    const years=annual.map(r=>r.year);
+    drawAgeLineChart("historyMortalityDetailChart",years,[
+      {name:"Dödsrisk per 1 000",values:annual.map(r=>r.risk),cls:"lineOutflow",suffix:" ‰"}
+    ],{yMin:0,xLabel:"År",hoverLabel:"År",valueDigits:2});
+
+    const selected=annual.filter(r=>selectedYears.has(r.year));
+    const deaths=selected.reduce((sum,r)=>sum+r.deaths,0);
+    const exposure=selected.reduce((sum,r)=>sum+r.exposure,0);
+    const annualMean=selected.length?deaths/selected.length:0;
+    const pooledRisk=exposure>0?1000*deaths/exposure:null;
+    const sexLabel=sex==="K"?"Kvinnor":sex==="M"?"Män":"Totalt";
+    const ageLabel=ageVal==="ALL"?"alla åldrar":(ageVal==="100"?"100+ år":ageVal+" år");
+    $("historyMortalitySummary").innerHTML=`
+      <div class="historyDetailSummary">
+        <div><span>Urval</span><strong>${sexLabel}, ${ageLabel}</strong></div>
+        <div><span>Döda per år, kalibreringsperiod</span><strong>${fmt1.format(annualMean)}</strong></div>
+        <div><span>Sammanvägd dödsrisk</span><strong>${pooledRisk==null?"–":fmt2.format(pooledRisk)+" ‰"}</strong></div>
+      </div>`;
+  }
+
+  function renderHistoricalMigrationDetail(geo,selectedYears){
+    const all=data?.historicalMigrationLegDetail||[];
+    const leg=$("historyMigLeg")?.value||"ALL";
+    const direction=$("historyMigDirection")?.value||"net";
+    const sex=$("historyMigSex")?.value||"ALL";
+    const ageVal=$("historyMigAge")?.value||"ALL";
+    const chart=$("historyMigrationDetailChart");
+    const summaryEl=$("historyMigrationSummary");
+
+    if(geo==="FA_LULEA"){
+      if(chart) chart.innerHTML=
+        '<text x="30" y="45" class="axisText">Detaljerade flyttben visas på kommunnivå. Välj en kommun i det globala geografifiltret.</text>';
+      if(summaryEl) summaryEl.innerHTML="<p class='hint'>FA-totalens netto visas i diagrammet ovan. Bruttoflöden och geografiska flyttben summeras inte från kommunerna eftersom interna FA-flyttar annars dubbelräknas.</p>";
+      return;
+    }
+
+    const filtered=all.filter(r=>
+      r.geo===geo &&
+      (leg==="ALL" || r.leg===leg) &&
+      (sex==="ALL" || r.sex===sex) &&
+      (ageVal==="ALL" || +r.age===+ageVal)
+    );
+    const byYear=new Map();
+    for(const r of filtered){
+      const y=+r.year;
+      byYear.set(y,(byYear.get(y)||0)+Number(r[direction]||0));
+    }
+    const annual=[...byYear.entries()].map(([year,value])=>({year,value})).sort((a,b)=>a.year-b.year);
+    if(!annual.length){
+      if(chart) chart.innerHTML=
+        '<text x="30" y="45" class="axisText">Detaljerade flyttdata genereras i nästa Update SCB data-körning.</text>';
+      if(summaryEl) summaryEl.innerHTML="";
+      return;
+    }
+    const values=annual.map(r=>r.value);
+    const seriesName=direction==="in"?"Inflyttning":direction==="out"?"Utflyttning":"Flyttnetto";
+    drawAgeLineChart("historyMigrationDetailChart",annual.map(r=>r.year),[
+      {name:seriesName,values,cls:direction==="in"?"lineInflow":direction==="out"?"lineOutflow":"lineVariation"}
+    ],{includeZero:direction==="net",yMin:direction==="net"?undefined:0,xLabel:"År",hoverLabel:"År",valueDigits:0});
+
+    const selected=annual.filter(r=>selectedYears.has(r.year));
+    const mean=selected.length?selected.reduce((sum,r)=>sum+r.value,0)/selected.length:0;
+    const legLabel=leg==="county"?"Övriga Norrbotten":leg==="rest_sweden"?"Övriga Sverige":leg==="international"?"Utlandet":"Alla flyttben";
+    const sexLabel=sex==="K"?"Kvinnor":sex==="M"?"Män":"Totalt";
+    const ageLabel=ageVal==="ALL"?"alla åldrar":(ageVal==="100"?"100+ år":ageVal+" år");
+    if(summaryEl) summaryEl.innerHTML=`
+      <div class="historyDetailSummary">
+        <div><span>Urval</span><strong>${legLabel} · ${seriesName} · ${sexLabel} · ${ageLabel}</strong></div>
+        <div><span>Årsmedel, kalibreringsperiod</span><strong>${mean>=0&&direction==="net"?"+":""}${fmt1.format(mean)}</strong></div>
+      </div>`;
+  }
+
 
   function renderResults(){
     if(!latest.length)return;
