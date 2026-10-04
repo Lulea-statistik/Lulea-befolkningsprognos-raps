@@ -578,7 +578,7 @@ SPECS = {
     "household_totals": {"start":2011,"end":2025,"include_riket":True,"include_household_external_geos":True,"content_terms":["Antal hushåll","Antal personer per hushåll"]},
     "housing_stock": {"start":2013,"end":2025},
     "education_population": {
-        "start":2009,"end":2025,
+        "start":2008,"end":2025,
         "include_riket":True,
         "include_reference_geos":True,
         "all_ages":True,
