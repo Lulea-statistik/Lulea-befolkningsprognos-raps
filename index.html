@@ -682,7 +682,80 @@
         </div>
 
         <article class="panel">
-          <h2>9. Bostads- och arbetsplatsscenarier</h2>
+          <h2>9. Data i prognosen och SCB:s publiceringar</h2>
+          <p>Basprognosen bygger på årsstatistik från SCB. Tabellen nedan visar de viktigaste aktuella dataunderlagen, vilken version som används och när den statistiken publicerades. Publiceringsdatumen har kontrollerats mot SCB:s Statistikdatabas och publiceringskalender den <strong>4 oktober 2026</strong>.</p>
+          <div class="tableWrap"><table class="miniTable">
+            <thead><tr><th>Underlag</th><th>Användning i modellen</th><th>Aktuell statistik</th><th>Publicerad/uppdaterad</th><th>Publiceringsrytm</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Folkmängd 31 december</td>
+                <td>Startbefolkning efter kommun, kön och ettårsålder</td>
+                <td>2025, bl.a. TAB5557</td>
+                <td>24 februari 2026</td>
+                <td>Årlig slutlig årsstatistik</td>
+              </tr>
+              <tr>
+                <td>Medelfolkmängd</td>
+                <td>Exponering för fruktsamhets-, dödlighets- och flyttrisker</td>
+                <td>2025, TAB6758/TAB6759</td>
+                <td>24 februari 2026</td>
+                <td>Årlig</td>
+              </tr>
+              <tr>
+                <td>Födda</td>
+                <td>Lokal fruktsamhetsprofil efter moderns ålder</td>
+                <td>2025, TAB6401</td>
+                <td>24 februari 2026</td>
+                <td>Årlig</td>
+              </tr>
+              <tr>
+                <td>Döda</td>
+                <td>Lokal dödlighetsprofil efter kön och ettårsålder</td>
+                <td>2025, TAB6756</td>
+                <td>24 februari 2026</td>
+                <td>Årlig</td>
+              </tr>
+              <tr>
+                <td>Flyttningar</td>
+                <td>Netto-, in- och utflyttning efter kön och ettårsålder</td>
+                <td>2025, TAB6640</td>
+                <td>24 februari 2026</td>
+                <td>Årlig</td>
+              </tr>
+              <tr>
+                <td>Flyttben: eget län, övriga Sverige och utlandet</td>
+                <td>Komponentdiagnostik och validering av de sex flyttbenen</td>
+                <td>2025, TAB6657</td>
+                <td>24 mars 2026</td>
+                <td>Årlig, mer detaljerad tabell</td>
+              </tr>
+              <tr>
+                <td>Nationella framtidsantaganden</td>
+                <td>Produktionsbaslinjen använder SCB 2024/rAps-referensen för framtida fruktsamhet och dödlighet</td>
+                <td>Sveriges framtida befolkning 2024–2070</td>
+                <td>25 april 2024</td>
+                <td>Nationell framskrivning publiceras årligen; fördjupad översyn vart tredje år</td>
+              </tr>
+              <tr>
+                <td>SCB 2026-framskrivning</td>
+                <td>Känslighetsbana för fruktsamhet och jämförelse; ersätter inte automatiskt baslinjen</td>
+                <td>Sveriges framtida befolkning 2026–2070</td>
+                <td>16 april 2026</td>
+                <td>Årlig; nästa fördjupade nationella översyn planeras 2027</td>
+              </tr>
+            </tbody>
+          </table></div>
+          <p><strong>När kommer nästa års data?</strong> SCB publicerar ny statistik på helgfria vardagar normalt klockan 08.00. Den slutliga årsstatistiken för befolkning, födda, döda och huvudtabeller för flyttningar kommer normalt under början av året efter referensåret. Exakta publiceringsdatum för motsvarande slutliga 2026-tabeller var ännu inte angivna i den ettåriga SCB-kalendern när denna sida kontrollerades den 4 oktober 2026. Modellen bör därför uppdateras först när de tabeller som krävs för ett komplett nytt basår finns publicerade, inte utifrån preliminär månadsstatistik.</p>
+          <p class="hint">SCB publicerar även preliminär månads-, kvartals- och halvårsstatistik under året. Den kan användas för omvärldsbevakning men ersätter inte automatiskt modellens slutliga årsunderlag. Bostads-, hushålls- och arbetsmarknadsdata används som analys- och scenarioingångar och är separerade från den demografiska baslinjen.</p>
+          <ul>
+            <li><a href="https://www.scb.se/hitta-statistik/publiceringskalendern/" target="_blank" rel="noopener">SCB:s publiceringskalender</a></li>
+            <li><a href="https://www.scb.se/hitta-statistik/statistik-efter-amne/befolkning-och-levnadsforhallanden/befolkningens-sammansattning-och-utveckling/befolkningsstatistik/" target="_blank" rel="noopener">SCB: Befolkningsstatistik</a></li>
+            <li><a href="https://www.scb.se/be0401" target="_blank" rel="noopener">SCB: Befolkningsframskrivningar</a></li>
+          </ul>
+        </article>
+
+        <article class="panel">
+          <h2>10. Bostads- och arbetsplatsscenarier</h2>
           <p>Scenarier är separata från den demografiska baslinjen. De ska tolkas som <strong>”vad händer om?”</strong>, inte som modellens mest sannolika antaganden.</p>
           <p><strong>Bostadsscenario:</strong> antal bostäder kombineras med färdigställandegrad, beläggning, personer per bostad, extern inflyttningsandel, intern omflyttning och infasning. Personer per bostad kan hämtas automatiskt från SCB eller anges manuellt.</p>
           <p><strong>Arbetsplatsscenario:</strong> nya jobb kan fördelas med observerad pendling. Endast den valda andel jobb som leder till extern inflyttning ökar FA:s befolkning. Flytt inom FA omfördelar kommunbefolkningen men är noll på FA-totalen.</p>
@@ -690,13 +763,13 @@
         </article>
 
         <article class="panel">
-          <h2>10. Hushåll och bostadsefterfrågan</h2>
+          <h2>11. Hushåll och bostadsefterfrågan</h2>
           <p>Hushållsdelen är analysstöd och påverkar inte den demografiska basprognosen. Prognostiserad befolkning omvandlas till ett indikativt antal hushåll med vald utveckling av personer per hushåll. Detta jämförs med bostadsbestånd och scenario för nya bostäder.</p>
           <p>Resultatet är ett behovs-/balansmått, inte en direkt skattning av faktisk bostadsbrist. Modellen innehåller ännu inte full marknadsmodellering av exempelvis priser, vakanser, rivningar, fritidsbostäder eller hushållens betalningsförmåga.</p>
         </article>
 
         <article class="panel">
-          <h2>11. Validering och skydd mot överanpassning</h2>
+          <h2>12. Validering och skydd mot överanpassning</h2>
           <p>Metodval och parametrar ska låsas innan en orörd kontrollperiod används. Historiska utfall används sedan för att utvärdera modellen, inte för att efterhandsjustera samma kandidat tills resultatet blir bättre.</p>
           <ul>
             <li><strong>Historiskt utvecklingstest 2022–2024:</strong> använder bara information som var tillgänglig före prognosperioden.</li>
@@ -709,7 +782,7 @@
 
         <div class="grid2">
           <article class="panel">
-            <h2>12. Raps-begrepp i modellen</h2>
+            <h2>13. Raps-begrepp i modellen</h2>
             <ul>
               <li><code>frukty</code> – nationell framtidsprofil för fruktsamhet × lokal relativ nivå och informationsvägd utjämning.</li>
               <li><code>drisk</code> – nationell ålder/kön-profil för dödlighet × lokal relativ nivå och informationsvägd utjämning.</li>
@@ -720,7 +793,7 @@
           </article>
 
           <article class="panel">
-            <h2>13. Viktiga avgränsningar</h2>
+            <h2>14. Viktiga avgränsningar</h2>
             <ul>
               <li>Prognosen är inte en sannolikhetsprognos med konfidensintervall.</li>
               <li>CKM-diagnostiken är känslighetsanalys, inte statistiskt konfidensintervall.</li>
@@ -744,7 +817,7 @@
         </article>
 
         <article class="panel">
-          <h2>14. Reproducerbarhet och dataflöde</h2>
+          <h2>15. Reproducerbarhet och dataflöde</h2>
           <p>Rådata hämtas från SCB och sparas tillsammans med källmanifest. Byggskript skapar därefter modellindata, validering, historiska tester, arbetsmarknadsdata, hushålls-/bostadsdata och mognadsrapport. GitHub Actions kör syntax- och modelltester innan genererade filer publiceras.</p>
           <p>En grön GitHub Pages-publicering är därför inte ensam ett kvalitetsbevis: den relevanta modell- och dataarbetsflödet måste också vara grön. Den tekniska produktionsstatusen dokumenteras i <code>docs/PRODUCTION_READINESS.md</code> och <code>data/model_maturity.json</code>.</p>
         </article>
