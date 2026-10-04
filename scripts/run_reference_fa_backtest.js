@@ -29,6 +29,11 @@ function ape(pred, obs) {
 function actualRow(actual, geo, year) {
   return actual.rows.find(r => r.geo === geo && +r.year === +year);
 }
+function actualBirthStatus(actual,geo,year,status){
+  return (actual.populationBirthStatusRows||[]).find(
+    r=>r.geo===geo && +r.year===+year && r.status===status
+  );
+}
 function scoreRows(rows) {
   const byHorizon = {};
   for (let horizon=1; horizon<=manifest.horizonYears; horizon++) {
@@ -158,6 +163,12 @@ const report = {
   windows:manifest.windows,
   migrationWindows:manifest.migrationWindows||[6,10],
   horizonYears:manifest.horizonYears,
+  birthStatusNet10External:{
+    note:"External level-3 gate for the locked net10-preserving Swedish-/foreign-born allocation candidate.",
+    candidate:manifest.birthStatusNet10Candidate||null,
+    regions:{},
+    gate:null
+  },
   evaluationPriority:{
     primary:"n+1",
     secondary:"n+2",
@@ -187,7 +198,8 @@ for (const region of manifest.regions) {
     byOrigin:{},
     memberSummary:{},
     migrationWindowSummary:{},
-    mortalityWlsExternal:{}
+    mortalityWlsExternal:{},
+    birthStatusNet10External:{}
   };
 
   for (const window of manifest.windows.map(Number)) {
@@ -299,6 +311,101 @@ for (const region of manifest.regions) {
     };
   }
 
+  {
+    const window=10;
+    const candidateRows=[];
+    const comparatorRows=[];
+    const byOrigin={};
+    for(const entry of loaded){
+      const common={
+        geo:region.code,
+        endYear:entry.endYear,
+        fertMult:1,
+        mortMult:1,
+        migMult:1,
+        window,
+        migrationMode:'birth_status_net10_constrained',
+        cohortTimingMode:'event_age_aligned',
+        scenarios:{housing:[],workplaces:[],overlapPct:0},
+        includeDetail:false
+      };
+      const cand=M.simulate(entry.model,common);
+      const comp=M.simulate(entry.model,{
+        ...common,birthStatusAllocationMode:'stock_share'
+      });
+      const base=M.simulate(entry.model,{
+        geo:region.code,
+        endYear:entry.endYear,
+        fertMult:1,mortMult:1,migMult:1,
+        window,
+        migrationWindow:10,
+        cohortTimingMode:'event_age_aligned',
+        scenarios:{housing:[],workplaces:[],overlapPct:0},
+        includeDetail:false
+      });
+      const originRows=[];
+      for(const p of cand){
+        if(+p.year<=+entry.origin) continue;
+        const q=comp.find(x=>+x.year===+p.year);
+        const b=base.find(x=>+x.year===+p.year);
+        if(!q||!b) continue;
+        const sw=actualBirthStatus(entry.actual,region.code,p.year,'sweden_born');
+        const fo=actualBirthStatus(entry.actual,region.code,p.year,'foreign_born');
+        if(!sw||!fo) continue;
+        const row={
+          year:+p.year,
+          horizon:+p.year-+entry.origin,
+          candidateSwedishBornError:(p.populationByBirthStatus?.sweden_born||0)-sw.value,
+          candidateForeignBornError:(p.populationByBirthStatus?.foreign_born||0)-fo.value,
+          comparatorSwedishBornError:(q.populationByBirthStatus?.sweden_born||0)-sw.value,
+          comparatorForeignBornError:(q.populationByBirthStatus?.foreign_born||0)-fo.value,
+          populationDifference:p.population-b.population,
+          netMigrationDifference:p.netMigration-b.netMigration
+        };
+        candidateRows.push(row);
+        comparatorRows.push(row);
+        originRows.push(row);
+      }
+      byOrigin[entry.origin]=originRows.map(r=>({
+        year:r.year,horizon:r.horizon,
+        candidateSwedishBornError:round1(r.candidateSwedishBornError),
+        candidateForeignBornError:round1(r.candidateForeignBornError),
+        comparatorSwedishBornError:round1(r.comparatorSwedishBornError),
+        comparatorForeignBornError:round1(r.comparatorForeignBornError),
+        populationDifference:round1(r.populationDifference),
+        netMigrationDifference:round1(r.netMigrationDifference)
+      }));
+    }
+    const byHorizon={};
+    for(let h=1;h<=manifest.horizonYears;h++){
+      const rows=candidateRows.filter(r=>r.horizon===h);
+      byHorizon[h]={
+        observations:rows.length,
+        historicalFlow:{
+          swedishBornMAE:round1(mean(rows.map(r=>Math.abs(r.candidateSwedishBornError)))),
+          foreignBornMAE:round1(mean(rows.map(r=>Math.abs(r.candidateForeignBornError))))
+        },
+        stockShare:{
+          swedishBornMAE:round1(mean(rows.map(r=>Math.abs(r.comparatorSwedishBornError)))),
+          foreignBornMAE:round1(mean(rows.map(r=>Math.abs(r.comparatorForeignBornError))))
+        },
+        structural:{
+          maxPopulationDifference:round1(Math.max(0,...rows.map(r=>Math.abs(r.populationDifference)))),
+          maxNetMigrationDifference:round1(Math.max(0,...rows.map(r=>Math.abs(r.netMigrationDifference))))
+        }
+      };
+    }
+    regionOut.birthStatusNet10External={
+      observations:candidateRows.length,
+      oneYear:byHorizon[1],
+      twoYear:byHorizon[2],
+      threeYear:byHorizon[3],
+      byHorizon,
+      byOrigin
+    };
+    report.birthStatusNet10External.regions[region.code]=regionOut.birthStatusNet10External;
+  }
+
   for (const migrationWindow of (manifest.migrationWindows||[6,10]).map(Number)) {
     const rows=[];
     const byOrigin={};
@@ -379,6 +486,54 @@ for (const region of manifest.regions) {
   };
 }
 
+{
+  const cfg=manifest.birthStatusNet10Candidate?.externalLevel3Gate||{};
+  const checks=[];
+  const pooled={historicalSw:[],stockSw:[],historicalFo:[],stockFo:[]};
+  let structuralPassed=true;
+  for(const [code,r] of Object.entries(report.birthStatusNet10External.regions)){
+    for(const key of ['oneYear','twoYear']){
+      const x=r[key];
+      const swPassed=x.historicalFlow.swedishBornMAE<=x.stockShare.swedishBornMAE;
+      const foPassed=x.historicalFlow.foreignBornMAE<=x.stockShare.foreignBornMAE;
+      checks.push({
+        region:code,horizon:key,
+        historicalSwedishBornMAE:x.historicalFlow.swedishBornMAE,
+        stockSwedishBornMAE:x.stockShare.swedishBornMAE,
+        swedishBornPassed:swPassed,
+        historicalForeignBornMAE:x.historicalFlow.foreignBornMAE,
+        stockForeignBornMAE:x.stockShare.foreignBornMAE,
+        foreignBornPassed:foPassed
+      });
+      pooled.historicalSw.push(x.historicalFlow.swedishBornMAE);
+      pooled.stockSw.push(x.stockShare.swedishBornMAE);
+      pooled.historicalFo.push(x.historicalFlow.foreignBornMAE);
+      pooled.stockFo.push(x.stockShare.foreignBornMAE);
+      structuralPassed=structuralPassed &&
+        x.structural.maxPopulationDifference<=0.1 &&
+        x.structural.maxNetMigrationDifference<=0.1;
+    }
+  }
+  const histSw=mean(pooled.historicalSw), stockSw=mean(pooled.stockSw);
+  const histFo=mean(pooled.historicalFo), stockFo=mean(pooled.stockFo);
+  report.birthStatusNet10External.gate={
+    status:'predeclared_external_level3_gate',
+    regions:cfg.regions||Object.keys(report.birthStatusNet10External.regions),
+    window:10,
+    primaryHorizons:['n+1','n+2'],
+    n3Role:'robustness_only',
+    checks,
+    structuralPassed,
+    historicalFlowPooledSwedishBornMAE:round1(histSw),
+    stockSharePooledSwedishBornMAE:round1(stockSw),
+    historicalFlowPooledForeignBornMAE:round1(histFo),
+    stockSharePooledForeignBornMAE:round1(stockFo),
+    passed:structuralPassed &&
+      checks.every(x=>x.swedishBornPassed&&x.foreignBornPassed) &&
+      histSw<stockSw && histFo<stockFo
+  };
+}
+
 const outJson=path.join(
   ROOT,'data','backtests','reference_fa_rolling.json'
 );
@@ -393,8 +548,18 @@ fs.writeFileSync(
 );
 
 console.log('Wrote data/backtests/reference_fa_rolling.json/js');
+console.log(
+  'Birth-status net10 external gate:',
+  JSON.stringify(report.birthStatusNet10External.gate)
+);
 console.log('Mortality WLS external gate:',JSON.stringify(report.mortalityWlsExternalGate));
 for (const [code,region] of Object.entries(report.regions)) {
+  if(region.birthStatusNet10External){
+    const x=region.birthStatusNet10External;
+    console.log(
+      `${code} birth-status net10: n+1 Swedish historical=${x.oneYear.historicalFlow.swedishBornMAE} stock=${x.oneYear.stockShare.swedishBornMAE} | foreign historical=${x.oneYear.historicalFlow.foreignBornMAE} stock=${x.oneYear.stockShare.foreignBornMAE} | n+2 Swedish historical=${x.twoYear.historicalFlow.swedishBornMAE} stock=${x.twoYear.stockShare.swedishBornMAE} | foreign historical=${x.twoYear.historicalFlow.foreignBornMAE} stock=${x.twoYear.stockShare.foreignBornMAE}`
+    );
+  }
   if(region.mortalityWlsExternal){
     const x=region.mortalityWlsExternal;
     console.log(
