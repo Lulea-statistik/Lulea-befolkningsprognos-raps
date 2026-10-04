@@ -661,6 +661,53 @@ def main():
         )
     ))
 
+    constrained_birth = rolling.get(
+        "birthStatusNet10ConstrainedDiagnostic", {}
+    )
+    constrained_structural = (
+        constrained_birth.get("structuralGate") or {}
+    ).get("passed") is True
+    constrained_dev = (
+        constrained_birth.get("developmentGate") or {}
+    )
+    constrained_dev_passed = constrained_dev.get("passed") is True
+    constrained_summary = constrained_birth.get("summary") or {}
+    constrained_evidence = []
+    for geo in ("2580", "FA_LULEA"):
+        s = constrained_summary.get(geo) or {}
+        if s:
+            constrained_evidence.append(
+                f"{geo}: historical Swedish-born MAE="
+                f"{(s.get('historicalFlow') or {}).get('swedishBornMAE')} vs stock="
+                f"{(s.get('stockShare') or {}).get('swedishBornMAE')}; "
+                f"foreign-born="
+                f"{(s.get('historicalFlow') or {}).get('foreignBornMAE')} vs stock="
+                f"{(s.get('stockShare') or {}).get('foreignBornMAE')}"
+            )
+    comps.append(component(
+        policy, "birth_status_net10_constrained_candidate", 2,
+        "development_locked", False,
+        [
+            gate(
+                "Net10 aggregate population and migration preserved",
+                constrained_structural,
+                str(constrained_birth.get("structuralGate") or "Awaiting rolling-origin run"),
+                required=False
+            ),
+            gate(
+                "Historical gross-flow status allocation beats stock-share comparator for both pooled status MAEs",
+                constrained_dev_passed,
+                "; ".join(constrained_evidence) if constrained_evidence else "Awaiting rolling-origin results",
+                required=False
+            )
+        ],
+        (
+            "Promising development signal only. Keep all allocation rules frozen and lock a genuinely external/future birth-status holdout before any level-3 consideration."
+            if constrained_dev_passed and constrained_structural
+            else "Keep at level 2. Do not retune allocation rules on 2018-2024 outcomes; any new formulation must be a separately locked candidate."
+        )
+    ))
+
     consistency_diag_exists = (
         ROOT / "data" / "backtests" / "scb_consistency_diagnostic.json"
     ).exists()
