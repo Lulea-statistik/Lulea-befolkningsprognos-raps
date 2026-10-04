@@ -62,5 +62,33 @@
     "productionIntegrationAllowed": false,
     "integrationRule": "Even if this education model reaches level 4, it may only become a candidate explanatory layer for migration, fertility or mortality through separately locked component-specific models. It must never alter those demographic components merely by reaching level 4 itself.",
     "currentUse": "standalone education-structure research and validation only"
+  },
+  "externalLevel3Gate": {
+    "status": "locked_before_external_results",
+    "regions": [
+      "FA16_TRH",
+      "FA36_GAV",
+      "FA42_SUN"
+    ],
+    "municipalChecks": [
+      "1488",
+      "2180",
+      "2281"
+    ],
+    "calibrationWindowYears": 10,
+    "primaryHorizons": [
+      "n+1",
+      "n+2"
+    ],
+    "scoredAges": "20-64",
+    "comparator": "identity_qutb",
+    "rule": [
+      "Candidate education-share MAE must be strictly below identity qutb at n+1 in every locked FA15 region.",
+      "Candidate education-share MAE must be no worse than identity qutb at n+2 in every locked FA15 region.",
+      "Candidate education-share MAE must be strictly below identity qutb at n+1 in each locked anchor municipality.",
+      "Pooled n+1/n+2 candidate MAE across locked FA15 regions must be strictly lower than identity qutb.",
+      "Transition probabilities must remain within [0,1] and predicted education shares must sum to 1 within numerical tolerance."
+    ],
+    "governance": "No region, municipality, age range, education grouping, window, estimator or threshold may be changed after external results are viewed."
   }
 }
