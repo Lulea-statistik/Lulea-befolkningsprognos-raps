@@ -222,6 +222,27 @@
     return r?Math.max(0,n(r.value)):0;
   }
 
+  function getProfetStatusFertilityFactor(rows,year,status,age){
+    const idx=indexRows(
+      rows,"profetStatusFertility",
+      r=>`${yearKey(r.year)}|${r.status}|${+r.age}`
+    );
+    const r=firstMatch(idx,`${yearKey(year)}|${status}|${+age}`);
+    const v=n(r?.relativeFactor);
+    return v>0?v:1;
+  }
+  function getProfetStatusMortalityFactor(rows,year,status,sex,age){
+    const idx=indexRows(
+      rows,"profetStatusMortality",
+      r=>`${yearKey(r.year)}|${r.status}|${r.sex}|${+r.age}`
+    );
+    const r=firstMatch(
+      idx,`${yearKey(year)}|${status}|${sex}|${+age}`
+    );
+    const v=n(r?.relativeFactor);
+    return v>0?v:1;
+  }
+
   function getBirthStatusNetAllocation(rows,geo,sex,age,status){
     const idx=indexRows(
       rows,"birthStatusNetAllocation",
@@ -631,7 +652,10 @@
     const baseYear=+data.meta.baseYear;
     const endYear=+options.endYear;
     const statuses=["sweden_born","foreign_born"];
-    const mode="birth_status_net10_constrained";
+    const useStatusDemography=options.statusDemography===true;
+    const mode=useStatusDemography
+      ?"profet_net10_status_demography"
+      :"birth_status_net10_constrained";
     const useStockShare=options.birthStatusAllocationMode==="stock_share";
     const baseRows=(data.populationBaseBirthStatus||[])
       .filter(r=>r.geo===geo && +r.year===baseYear);
@@ -697,12 +721,23 @@
       }
 
       for(let age=15;age<=49;age++){
-        const women=statuses.reduce(
-          (sum,status)=>sum+n(aged.get(bsKey(status,"K",age))),0
-        );
-        births+=women*Math.max(
+        const baseFert=Math.max(
           0,getFert(fertilityRows,geo,year,age,window)*fertMult
         );
+        if(useStatusDemography){
+          for(const status of statuses){
+            const women=n(aged.get(bsKey(status,"K",age)));
+            const factor=getProfetStatusFertilityFactor(
+              data.profetNet10StatusFertility,year,status,age
+            );
+            births+=women*baseFert*factor;
+          }
+        }else{
+          const women=statuses.reduce(
+            (sum,status)=>sum+n(aged.get(bsKey(status,"K",age))),0
+          );
+          births+=women*baseFert;
+        }
       }
       const male=births*n(data.parameters.sexRatioMaleAtBirth||0.515);
       const female=births-male;
@@ -720,10 +755,18 @@
         for(const sex of ["K","M"]){
           for(let age=0;age<=MAX_AGE;age++){
             const p=n(aged.get(bsKey(status,sex,age)));
-            const q=clamp(
+            const baseQ=clamp(
               getRate(data.mortalityRisks,geo,year,sex,age,window)*mortMult,
               0,1
             );
+            let q=baseQ;
+            if(useStatusDemography){
+              const baseHazard=-Math.log(Math.max(1e-12,1-baseQ));
+              const factor=getProfetStatusMortalityFactor(
+                data.profetNet10StatusMortality,year,status,sex,age
+              );
+              q=clamp(1-Math.exp(-baseHazard*factor),0,1);
+            }
             const d=p*q;
             deaths+=d;
             survivors.set(bsKey(status,sex,age),Math.max(0,p-d));
@@ -1111,16 +1154,26 @@
         );
       }
     }
-    if(migrationMode==="birth_status_net10_constrained"){
+    if(
+      migrationMode==="birth_status_net10_constrained" ||
+      migrationMode==="profet_net10_status_demography"
+    ){
       const hasBase=(data.populationBaseBirthStatus||[])
         .some(r=>r.geo===geo&&+r.year===baseYear);
       const hasAllocation=(data.birthStatusNet10Allocation||[])
         .some(r=>r.geo===geo&&+r.window===10);
-      if(!hasBase||!hasAllocation){
+      const useStatusDemography=migrationMode==="profet_net10_status_demography";
+      const hasStatusFert=(data.profetNet10StatusFertility||[]).length>0;
+      const hasStatusMort=(data.profetNet10StatusMortality||[]).length>0;
+      if(
+        !hasBase||!hasAllocation||
+        (useStatusDemography&&(!hasStatusFert||!hasStatusMort))
+      ){
         throw new Error(`Saknar net10-födelsestatusunderlag för ${geo}.`);
       }
       return simulateBirthStatusNet10Constrained(
-        data,options,fertilityRows,window,cohortTimingMode,
+        data,{...options,statusDemography:useStatusDemography},
+        fertilityRows,window,cohortTimingMode,
         fertMult,mortMult,migMult
       );
     }
