@@ -639,7 +639,8 @@
 
         <article class="panel">
           <h2>5. Informationsvägd utjämning – när används lokal information?</h2>
-          <p>Informationsvägd utjämning mot riksprofilen används som reservmetod där motsvarande offentlig rAps-parameter inte finns tillgänglig. Syftet är att undvika att små slumpmässiga lokala åldersceller styr prognosen samtidigt som stabil lokal information bevaras.</p>
+          <p>Informationsvägd utjämning är den nuvarande produktionsmetoden för att begränsa påverkan från små lokala åldersceller. Med en <strong>cell</strong> menas här en specifik kombination av exempelvis geografi, kön, ålder och år, till exempel kvinnor 32 år i Luleå under ett visst år. När få personer eller få händelser ingår i en sådan cell kan den beräknade lokala nivån variera kraftigt mellan år av slumpmässiga skäl.</p>
+          <p>Metoden kombinerar kommunens generella relativa nivå med rikets åldersprofil och låter den enskilda lokala ålderscellen få större vikt när det statistiska underlaget är starkare.</p>
           <p>Den lokala vikten bestäms av två informationsmått som är definierade <strong>före validering</strong>:</p>
           <ul>
             <li><strong>Genomsnittlig årlig population i cellen:</strong> 0 % lokal vikt vid högst 20 personer och 100 % vid minst 100 personer, med mjuk övergång däremellan.</li>
@@ -647,8 +648,9 @@
           </ul>
           <p>Den slutliga lokala vikten är produkten av de två signalerna. Den beror alltså på informationsmängden, <strong>inte på om den lokala observationen råkar förbättra ett redan känt prognosutfall</strong>.</p>
           <p>0 % lokal vikt betyder inte att kommunen behandlas exakt som Riket: rikets åldersprofil skalas fortfarande med kommunens generella relativa nivå. 100 % betyder att den lokala ålderscellen används fullt ut inom modellens skyddade faktorgränser.</p>
-          <p><strong>Valideringsresultat:</strong> ett separat test med rullande prognosursprung jämför nu 0 % lokal åldersvikt, nuvarande informationsvägning och 100 % lokal åldersvikt. Resultatet är blandat. För Luleå kommun gav 0 % lokal åldersvikt lägst MAE i fem av sex jämförelser för fruktsamhet/dödlighet och 3/6/10-årsfönster; för 3-årig fruktsamhet var 100 % lokal vikt marginellt bäst. För Luleå FA var 100 % lokal vikt bäst för fruktsamhet i samtliga tre fönster, medan 0 % var bäst för dödlighet i samtliga tre. Nuvarande informationsvägning var alltså inte bäst i någon av dessa tolv huvudjämförelser.</p>
-          <p class="hint">Detta betyder inte att informationsvägningen är ogiltig: den är utfallsoberoende, monoton och stabil, och tidigare tester visade tydligt att lokal information generellt tillför värde jämfört med en helt nationell profil. Men trevägstestet visar att just den nuvarande viktfunktionen ännu inte är empiriskt visad som prognosmässigt optimal. Därför ska trösklarna inte efterjusteras mot dessa kända utfall; en eventuell ny utjämningsmetod måste låsas före nästa oberoende utvärdering.</p>
+          <p><strong>Valideringsresultat:</strong> ett separat test med rullande prognosursprung jämför 0 % lokal åldersvikt, nuvarande informationsvägning och 100 % lokal åldersvikt. För Luleå kommun gav 0 % lokal åldersvikt lägst MAE i fem av sex jämförelser för fruktsamhet/dödlighet och 3/6/10-årsfönster; för 3-årig fruktsamhet var 100 % lokal vikt marginellt bäst. För Luleå FA var 100 % lokal vikt bäst för fruktsamhet i samtliga tre fönster, medan 0 % var bäst för dödlighet i samtliga tre. Nuvarande informationsvägning var alltså inte bäst i någon av dessa tolv huvudjämförelser.</p>
+          <p>Separata alternativ har därefter testats. En kubisk utjämningsspline för fruktsamhet och en WLS-modell för dödlighet har nått mognadsgrad 3, men ännu inte den nivå-4-kontroll som krävs för att ersätta produktionsmetoden. Informationsvägningen ligger därför kvar oförändrad tills någon alternativ metod passerar sin förhandslåsta nivå-4-grind.</p>
+          <p class="hint">Resultatet betyder inte att informationsvägningen är ogiltig: den är utfallsoberoende, monoton och stabil. Trevägstestet visar däremot att den nuvarande viktfunktionen inte är empiriskt visad som prognosmässigt optimal. Därför ska trösklarna inte efterjusteras mot redan kända utfall.</p>
         </article>
 
         <article class="panel">
