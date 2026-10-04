@@ -29,8 +29,8 @@
     "componentCount": 41,
     "byLevel": {
       "1": 0,
-      "2": 11,
-      "3": 3,
+      "2": 10,
+      "3": 4,
       "4": 27
     },
     "productionLevel4": [
@@ -527,12 +527,12 @@
     {
       "key": "qutb_education_transition_candidate",
       "label": "qutb: kohortbaserade utbildningsövergångar",
-      "maturityLevel": 2,
-      "maturityName": "Utvecklingskandidat",
-      "lifecycle": "development_promising",
+      "maturityLevel": 3,
+      "maturityName": "Validerad kandidat",
+      "lifecycle": "validated_candidate_research_only",
       "productionActive": false,
       "targetLevel": 4,
-      "productionGatePassed": false,
+      "productionGatePassed": true,
       "requiredGate": "Forskningsspår. Fem ordnade utbildningsstatusar, 10-årigt nationellt kohortfönster, endast angränsande uppåtövergångar och identitets-qutb som comparator är låsta. 2018–2024 är utvecklingsevidens. Nivå 3 kräver ny extern/future kontroll och nivå 4 ytterligare orörd kontroll. Komponenten får inte påverka produktionsprognosen före nivå 4; även efter nivå 4 kräver eventuell användning för flyttning, fruktsamhet eller dödlighet en separat förhandslåst komponentmodell.",
       "gates": [
         {
@@ -546,9 +546,15 @@
           "passed": true,
           "evidence": "2580: n+1 candidate=0.005917366724678295 identity=0.010024954005721363; n+2 candidate=0.009157196879448671 identity=0.024276380167951053; FA_LULEA: n+1 candidate=0.0035816887981271308 identity=0.007169667275357374; n+2 candidate=0.005580932750970355 identity=0.020111933984940572",
           "required": false
+        },
+        {
+          "label": "External qutb level-3 gate",
+          "passed": true,
+          "evidence": "FA16_TRH: n+1 0.0036237920007329864 vs 0.006676803181950371; n+2 0.0057771111194594976 vs 0.01879825517119524; FA36_GAV: n+1 0.0036238374182988365 vs 0.006520216256210201; n+2 0.005671038530845673 vs 0.018331426811205396; FA42_SUN: n+1 0.0038657767331184557 vs 0.006716198068187022; n+2 0.006009036802228249 vs 0.018999409139357368; 1488 anchor n+1 0.0060442668609794435 vs 0.009421181218058305; 2180 anchor n+1 0.004162147939729537 vs 0.00771341070198703; 2281 anchor n+1 0.0043164713135291286 vs 0.007575164174587444; pooled n+1/n+2 0.00476176543411395 vs 0.012673718104684267",
+          "required": true
         }
       ],
-      "nextAction": "Research-only. Promising development signal only. Freeze the five-state grouping, 10-year national transition estimator and scoring ages; lock external municipalities before any level-3 evaluation. Do not connect qutb to migration, fertility or mortality before level 4 and a separately locked component-specific test."
+      "nextAction": "Research-only level 3. Freeze method and require a further untouched future/annual control before level 4. Even at level 4, any use in migration, fertility or mortality requires a new separately locked component-specific candidate."
     },
     {
       "key": "consistency_adjustment",

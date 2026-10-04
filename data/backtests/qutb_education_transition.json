@@ -64,6 +64,34 @@
       "productionIntegrationAllowed": false,
       "integrationRule": "Even if this education model reaches level 4, it may only become a candidate explanatory layer for migration, fertility or mortality through separately locked component-specific models. It must never alter those demographic components merely by reaching level 4 itself.",
       "currentUse": "standalone education-structure research and validation only"
+    },
+    "externalLevel3Gate": {
+      "status": "locked_before_external_results",
+      "regions": [
+        "FA16_TRH",
+        "FA36_GAV",
+        "FA42_SUN"
+      ],
+      "municipalChecks": [
+        "1488",
+        "2180",
+        "2281"
+      ],
+      "calibrationWindowYears": 10,
+      "primaryHorizons": [
+        "n+1",
+        "n+2"
+      ],
+      "scoredAges": "20-64",
+      "comparator": "identity_qutb",
+      "rule": [
+        "Candidate education-share MAE must be strictly below identity qutb at n+1 in every locked FA15 region.",
+        "Candidate education-share MAE must be no worse than identity qutb at n+2 in every locked FA15 region.",
+        "Candidate education-share MAE must be strictly below identity qutb at n+1 in each locked anchor municipality.",
+        "Pooled n+1/n+2 candidate MAE across locked FA15 regions must be strictly lower than identity qutb.",
+        "Transition probabilities must remain within [0,1] and predicted education shares must sum to 1 within numerical tolerance."
+      ],
+      "governance": "No region, municipality, age range, education grouping, window, estimator or threshold may be changed after external results are viewed."
     }
   },
   "source": {
@@ -286,6 +314,154 @@
     "transitionProbabilityMax": 0.7736812315124852,
     "maxShareSumError": 2.220446049250313e-16,
     "passed": true
+  },
+  "externalLevel3": {
+    "regions": {
+      "FA16_TRH": {
+        "1": {
+          "observationsSexAgeCells": 360,
+          "candidateShareMAE": 0.0036237920007329864,
+          "identityShareMAE": 0.006676803181950371
+        },
+        "2": {
+          "observationsSexAgeCells": 360,
+          "candidateShareMAE": 0.0057771111194594976,
+          "identityShareMAE": 0.01879825517119524
+        },
+        "3": {
+          "observationsSexAgeCells": 360,
+          "candidateShareMAE": 0.007645215041703194,
+          "identityShareMAE": 0.030646616086405266
+        }
+      },
+      "FA36_GAV": {
+        "1": {
+          "observationsSexAgeCells": 360,
+          "candidateShareMAE": 0.0036238374182988365,
+          "identityShareMAE": 0.006520216256210201
+        },
+        "2": {
+          "observationsSexAgeCells": 360,
+          "candidateShareMAE": 0.005671038530845673,
+          "identityShareMAE": 0.018331426811205396
+        },
+        "3": {
+          "observationsSexAgeCells": 360,
+          "candidateShareMAE": 0.007507446623030495,
+          "identityShareMAE": 0.029981875883865985
+        }
+      },
+      "FA42_SUN": {
+        "1": {
+          "observationsSexAgeCells": 360,
+          "candidateShareMAE": 0.0038657767331184557,
+          "identityShareMAE": 0.006716198068187022
+        },
+        "2": {
+          "observationsSexAgeCells": 360,
+          "candidateShareMAE": 0.006009036802228249,
+          "identityShareMAE": 0.018999409139357368
+        },
+        "3": {
+          "observationsSexAgeCells": 360,
+          "candidateShareMAE": 0.007864602755429528,
+          "identityShareMAE": 0.03096810567505666
+        }
+      }
+    },
+    "anchors": {
+      "1488": {
+        "1": {
+          "observationsSexAgeCells": 360,
+          "candidateShareMAE": 0.0060442668609794435,
+          "identityShareMAE": 0.009421181218058305
+        },
+        "2": {
+          "observationsSexAgeCells": 360,
+          "candidateShareMAE": 0.008144292049854474,
+          "identityShareMAE": 0.02268897336762639
+        },
+        "3": {
+          "observationsSexAgeCells": 360,
+          "candidateShareMAE": 0.009778709426593328,
+          "identityShareMAE": 0.035107538736574906
+        }
+      },
+      "2180": {
+        "1": {
+          "observationsSexAgeCells": 360,
+          "candidateShareMAE": 0.004162147939729537,
+          "identityShareMAE": 0.00771341070198703
+        },
+        "2": {
+          "observationsSexAgeCells": 360,
+          "candidateShareMAE": 0.006047561809296076,
+          "identityShareMAE": 0.020126797268836878
+        },
+        "3": {
+          "observationsSexAgeCells": 360,
+          "candidateShareMAE": 0.007539393174219651,
+          "identityShareMAE": 0.03200976313104631
+        }
+      },
+      "2281": {
+        "1": {
+          "observationsSexAgeCells": 360,
+          "candidateShareMAE": 0.0043164713135291286,
+          "identityShareMAE": 0.007575164174587444
+        },
+        "2": {
+          "observationsSexAgeCells": 360,
+          "candidateShareMAE": 0.006317197235093957,
+          "identityShareMAE": 0.020227330677755215
+        },
+        "3": {
+          "observationsSexAgeCells": 360,
+          "candidateShareMAE": 0.007966921642500352,
+          "identityShareMAE": 0.03219638798304346
+        }
+      }
+    },
+    "pooled": {
+      "candidateShareMAE": 0.00476176543411395,
+      "identityShareMAE": 0.012673718104684267
+    },
+    "gate": {
+      "status": "predeclared_external_level3_gate",
+      "checks": [
+        {
+          "geo": "FA16_TRH",
+          "n1StrictlyBetter": true,
+          "n2NonWorse": true
+        },
+        {
+          "geo": "FA36_GAV",
+          "n1StrictlyBetter": true,
+          "n2NonWorse": true
+        },
+        {
+          "geo": "FA42_SUN",
+          "n1StrictlyBetter": true,
+          "n2NonWorse": true
+        }
+      ],
+      "anchorChecks": [
+        {
+          "geo": "1488",
+          "n1StrictlyBetter": true
+        },
+        {
+          "geo": "2180",
+          "n1StrictlyBetter": true
+        },
+        {
+          "geo": "2281",
+          "n1StrictlyBetter": true
+        }
+      ],
+      "pooledStrictlyBetter": true,
+      "passed": true
+    }
   },
   "developmentGate": {
     "status": "development_only_not_promotion_evidence",
