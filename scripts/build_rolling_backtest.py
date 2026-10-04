@@ -791,6 +791,15 @@ def build_origin(
             births_file,
         )
         (
+            profet_status_fertility,
+            profet_status_mortality,
+        ) = b.national_future_status_demography(
+            detail_file,
+            detail_key,
+            births_file,
+            births_key,
+        )
+        (
             scb_national_immigration,
             scb_national_migration_exposure,
         ) = b.load_forecast_migration_context(
@@ -920,6 +929,14 @@ def build_origin(
             "profetBirthStatusOutMigration": profet_birth_out,
             "profetBirthStatusInternationalInMigration": profet_birth_international_in,
             "birthStatusNet10Allocation": birth_status_net10_allocation,
+            "profetNet10StatusFertility": [
+                row for row in profet_status_fertility
+                if origin < int(row["year"]) <= end_year
+            ],
+            "profetNet10StatusMortality": [
+                row for row in profet_status_mortality
+                if origin < int(row["year"]) <= end_year
+            ],
             "profetConsistencyFactors": profet_consistency_factors,
             "profetBirthStatusNationalMeanPopulation": [
                 {
@@ -1168,6 +1185,13 @@ def main():
             "migrationWindow": 10,
             "independentHoldout": False,
             "note": "Preserves net10 totals exactly and evaluates only Swedish-/foreign-born composition. 2018-2024 is development evidence only."
+        },
+        "profetNet10StatusDemographyCandidate": {
+            "config": "data/profet_net10_status_demography_candidate.json",
+            "baseEngine": "birth_status_net10_constrained",
+            "migrationWindow": 10,
+            "independentHoldout": False,
+            "note": "Adds same-vintage national birth-status fertility and mortality relative profiles without changing net10 migration."
         },
         "profetBirthStatusCandidate": {
             "config": "data/profet_birth_status_config.json",
