@@ -1,5 +1,5 @@
 {
-  "schema_version": "0.15.0",
+  "schema_version": "0.16.0",
   "note": "Production baseline uses the Raps-reference SCB 2024 demographic scenario. SCB 2026 national detail and births are downloaded as a fertility-only sensitivity path; they do not replace the baseline automatically.",
   "tables": {
     "population_pre2025": {
@@ -226,6 +226,11 @@
       "id": "TAB824",
       "period": "1990-2025",
       "purpose": "dwelling stock by region, building type and tenure"
+    },
+    "education_population": {
+      "id": "TAB3981",
+      "period": "1985-2025",
+      "purpose": "population age 16-74 by municipality, education level, age and sex; source for locked qutb education-transition diagnostics"
     }
   }
 }
