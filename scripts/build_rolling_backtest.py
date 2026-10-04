@@ -978,7 +978,11 @@ def build_origin(
                     "status": status,
                     "value": sum(
                         population_birth_status.get(
-                            (geo, year, sex, age, status), 0.0
+                            (member, year, sex, age, status), 0.0
+                        )
+                        for member in (
+                            list(b.MUNICIPALITIES)
+                            if geo == b.FA_CODE else [geo]
                         )
                         for sex in ("K", "M")
                         for age in range(101)
@@ -1158,6 +1162,12 @@ def main():
             "structuralTarget": analogue_cfg["smoothingCandidate"]["structuralTarget"],
             "independentHoldout": False,
             "note": "Analogue top-five is re-ranked at each origin using only information available through that origin."
+        },
+        "birthStatusNet10Candidate": {
+            "config": "data/birth_status_net10_candidate.json",
+            "migrationWindow": 10,
+            "independentHoldout": False,
+            "note": "Preserves net10 totals exactly and evaluates only Swedish-/foreign-born composition. 2018-2024 is development evidence only."
         },
         "profetBirthStatusCandidate": {
             "config": "data/profet_birth_status_config.json",
