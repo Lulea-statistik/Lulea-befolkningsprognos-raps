@@ -2678,8 +2678,8 @@ def historical_annual_rows(births, fertility_exposure, deaths, mortality_exposur
                 "crudeMortalityPer1000": (
                     None if mort_exp <= 0 else 1000.0 * deaths_total / mort_exp
                 ),
-                "inMigration": inflow_total,
-                "outMigration": outflow_total,
+                "inMigration": None if geo == FA_CODE else inflow_total,
+                "outMigration": None if geo == FA_CODE else outflow_total,
                 "netMigration": net_total,
                 "calibrationEligible": True,
             })
@@ -2742,8 +2742,8 @@ def historical_window_summaries(births, fertility_exposure, deaths, mortality_ex
                 "crudeMortalityPer1000Pooled": (
                     None if mort_exp <= 0 else 1000.0 * deaths_total / mort_exp
                 ),
-                "inMigrationAnnualMean": in_total / float(window),
-                "outMigrationAnnualMean": out_total / float(window),
+                "inMigrationAnnualMean": None if geo == FA_CODE else in_total / float(window),
+                "outMigrationAnnualMean": None if geo == FA_CODE else out_total / float(window),
                 "netMigrationAnnualMean": net_total / float(window),
                 "note": "Pre-2025 calibration window; 2025 CKM is control data and is not included.",
             })
