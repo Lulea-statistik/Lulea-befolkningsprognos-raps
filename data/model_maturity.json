@@ -26,10 +26,10 @@
     "Scenarier bedöms separat från baslinjen; produktionsmoget scenario betyder reproducerbar och transparent scenariomekanik, inte att scenariot ingår i basprognosen."
   ],
   "summary": {
-    "componentCount": 41,
+    "componentCount": 42,
     "byLevel": {
       "1": 0,
-      "2": 10,
+      "2": 11,
       "3": 4,
       "4": 27
     },
@@ -72,6 +72,7 @@
       "profet_flow",
       "birth_status",
       "profet_net10_status_demography_candidate",
+      "housing_migration_lead_research",
       "consistency_adjustment"
     ]
   },
@@ -555,6 +556,32 @@
         }
       ],
       "nextAction": "Research-only level 3. Freeze method and require a further untouched future/annual control before level 4. Even at level 4, any use in migration, fertility or mortality requires a new separately locked component-specific candidate."
+    },
+    {
+      "key": "housing_migration_lead_research",
+      "label": "Forskningsspår: laggad bostadsbeståndsförändring och nettoflyttning",
+      "maturityLevel": 2,
+      "maturityName": "Utvecklingskandidat",
+      "lifecycle": "rejected_development",
+      "productionActive": false,
+      "targetLevel": 4,
+      "productionGatePassed": false,
+      "requiredGate": "Research-only. Ettårigt laggad förändring i bostadsbestånd får endast testas som tilläggssignal till 10-årig nettoflyttningsbaslinje. Metod, lagg, estimator, geografi och comparator är låsta före resultat. Ingen koefficient får påverka produktionsprognosen utan en separat framtida komponentkandidat och egen nivå-4-validering.",
+      "gates": [
+        {
+          "label": "Locked one-year lagged housing-stock signal improves Lulea and Lulea FA development MAE with stable beta sign",
+          "passed": false,
+          "evidence": "2580: candidate MAE=105.12201135299748 baseline=113.94000000000001; same-sign beta=3; FA_LULEA: candidate MAE=246.04890570808402 baseline=232.29999999999998; same-sign beta=5",
+          "required": false
+        },
+        {
+          "label": "Locked external FA15 housing-migration gate",
+          "passed": false,
+          "evidence": "{'status': 'predeclared_external_gate', 'checks': {'FA16_TRH': {'nonWorse': False}, 'FA36_GAV': {'nonWorse': True}, 'FA42_SUN': {'nonWorse': False}}, 'pooledCandidateMAE': 731.4899810761609, 'pooledBaselineMAE': 638.7611111111111, 'pooledStrictlyBetter': False, 'passed': False}",
+          "required": false
+        }
+      ],
+      "nextAction": "Research-only. Keep at level 2 and do not retune on consumed outcomes; any revised lag/window/estimator is a new candidate."
     },
     {
       "key": "consistency_adjustment",

@@ -2,7 +2,7 @@
   "schemaVersion": "0.1.0",
   "candidate": {
     "schemaVersion": "0.1.0",
-    "status": "development_candidate_locked_before_results",
+    "status": "validated_candidate_research_only",
     "key": "qutb_education_transition_candidate",
     "label": "qutb: kohortbaserade utbildningsövergångar",
     "productionDefault": false,
@@ -91,7 +91,26 @@
         "Pooled n+1/n+2 candidate MAE across locked FA15 regions must be strictly lower than identity qutb.",
         "Transition probabilities must remain within [0,1] and predicted education shares must sum to 1 within numerical tolerance."
       ],
-      "governance": "No region, municipality, age range, education grouping, window, estimator or threshold may be changed after external results are viewed."
+      "governance": "No region, municipality, age range, education grouping, window, estimator or threshold may be changed after external results are viewed.",
+      "result": "passed"
+    },
+    "level4Gate": {
+      "status": "locked_before_future_results",
+      "evidence": "one further untouched future annual observation after the method was frozen",
+      "methodFrozen": [
+        "five education states",
+        "10-year national cohort calibration window",
+        "adjacent upward transitions only",
+        "ages 20-64 for scoring",
+        "identity_qutb comparator"
+      ],
+      "rule": [
+        "Candidate education-share MAE must be strictly below identity qutb at n+1 for Lulea and Lulea FA.",
+        "Candidate education-share MAE must be no worse than identity qutb at n+2 where that horizon is available without reusing calibration outcomes.",
+        "Structural probability and share-accounting checks must pass.",
+        "No method, grouping, window, age range or threshold may be changed after the future observation is known."
+      ],
+      "productionRule": "Passing level 4 validates the standalone education projection only. It does not authorize effects on migration, fertility or mortality."
     }
   },
   "source": {

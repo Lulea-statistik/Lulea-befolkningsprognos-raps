@@ -1,0 +1,826 @@
+{
+  "schemaVersion": "0.1.0",
+  "candidate": {
+    "schemaVersion": "0.1.0",
+    "status": "research_method_locked_before_results",
+    "key": "housing_migration_lead_research",
+    "label": "Forskningsspår: laggad bostadsbeståndsförändring och nettoflyttning",
+    "productionDefault": false,
+    "researchOnly": true,
+    "purpose": "Test whether observed housing-stock additions contain stable one-year-ahead information about deviations in total net migration beyond the incumbent historical net-migration baseline.",
+    "causalClaim": false,
+    "scope": {
+      "outcome": "annual total net migration",
+      "predictor": "previous-year change in total dwelling stock",
+      "lagYears": 1,
+      "geographies": {
+        "development": [
+          "2580",
+          "FA_LULEA"
+        ],
+        "externalFA": [
+          "FA16_TRH",
+          "FA36_GAV",
+          "FA42_SUN"
+        ],
+        "externalAnchors": [
+          "1488",
+          "2180",
+          "2281"
+        ]
+      }
+    },
+    "method": {
+      "housingTotal": "sum all mutually exclusive dwelling-stock cells in TAB824",
+      "responseBaseline": "10-year trailing mean annual net migration using only years known at each origin",
+      "response": "actual net migration minus trailing baseline",
+      "predictorTransform": "previous-year dwelling-stock change minus the mean previous-year dwelling-stock change available in the training sample",
+      "estimator": "ordinary least squares with intercept fixed at zero on centered predictor/response residuals",
+      "training": "expanding history from first usable 2014 pair through origin-1, minimum 4 training pairs",
+      "forecast": "baseline net migration plus beta times centered latest lagged dwelling-stock change",
+      "horizon": "n+1 only",
+      "noAgeSexAllocation": true
+    },
+    "evaluation": {
+      "origins": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "comparator": "10-year trailing mean net migration",
+      "primaryMetric": "net migration MAE",
+      "developmentGate": [
+        "Candidate n+1 MAE must be strictly below comparator for Lulea.",
+        "Candidate n+1 MAE must be strictly below comparator for Lulea FA.",
+        "Estimated beta must have the same sign in at least five of six development origins for each development geography."
+      ],
+      "externalGate": [
+        "Candidate n+1 MAE must be no worse than comparator in every locked FA15 reference region.",
+        "Pooled external FA15 n+1 MAE must be strictly below comparator.",
+        "The three locked anchor municipalities are robustness checks and must be reported separately."
+      ]
+    },
+    "governance": "Research-only explanatory/predictive diagnostic. No housing coefficient may enter the demographic production model from this experiment. No lag, transformation, window, geography or estimator may be changed after results are viewed; any revision is a new candidate."
+  },
+  "status": "development_scored",
+  "housingSource": {
+    "status": "loaded",
+    "regions": [
+      "0319",
+      "0780",
+      "1427",
+      "1430",
+      "1439",
+      "1444",
+      "1461",
+      "1484",
+      "1485",
+      "1487",
+      "1488",
+      "1780",
+      "2101",
+      "2104",
+      "2180",
+      "2181",
+      "2260",
+      "2262",
+      "2280",
+      "2281",
+      "2380",
+      "2480",
+      "2482",
+      "2514",
+      "2560",
+      "2580",
+      "2581",
+      "2582"
+    ],
+    "years": [
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ]
+  },
+  "migrationSource": {
+    "status": "loaded",
+    "regions": [
+      "0319",
+      "0380",
+      "0580",
+      "0780",
+      "1281",
+      "1427",
+      "1430",
+      "1439",
+      "1444",
+      "1461",
+      "1484",
+      "1485",
+      "1487",
+      "1488",
+      "1490",
+      "1780",
+      "1880",
+      "2101",
+      "2104",
+      "2180",
+      "2181",
+      "2260",
+      "2262",
+      "2280",
+      "2281",
+      "2380",
+      "2480",
+      "2482",
+      "25",
+      "2505",
+      "2506",
+      "2510",
+      "2513",
+      "2514",
+      "2518",
+      "2521",
+      "2523",
+      "2560",
+      "2580",
+      "2581",
+      "2582",
+      "2583",
+      "2584"
+    ],
+    "years": [
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024
+    ]
+  },
+  "development": {
+    "2580": {
+      "observations": 5,
+      "candidateMAE": 105.12201135299748,
+      "baselineMAE": 113.94000000000001,
+      "dominantBetaSign": "positive",
+      "sameSignCount": 3,
+      "rows": [
+        {
+          "targetYear": 2020,
+          "trainingPairs": 4,
+          "beta": -0.015443738665004142,
+          "latestLaggedHousingDelta": 495.0,
+          "trainingMeanLaggedHousingDelta": 436.75,
+          "actualNetMigration": 437.0,
+          "baselinePrediction": 317.5,
+          "candidatePrediction": 316.60040222276353,
+          "baselineError": -119.5,
+          "candidateError": -120.39959777723647
+        },
+        {
+          "targetYear": 2021,
+          "trainingPairs": 5,
+          "beta": -0.023705535624289058,
+          "latestLaggedHousingDelta": 274.0,
+          "trainingMeanLaggedHousingDelta": 448.4,
+          "actualNetMigration": 198.0,
+          "baselinePrediction": 354.9,
+          "candidatePrediction": 359.034245412876,
+          "baselineError": 156.89999999999998,
+          "candidateError": 161.03424541287598
+        },
+        {
+          "targetYear": 2022,
+          "trainingPairs": 6,
+          "beta": 0.17534483419363778,
+          "latestLaggedHousingDelta": 621.0,
+          "trainingMeanLaggedHousingDelta": 419.3333333333333,
+          "actualNetMigration": 424.0,
+          "baselinePrediction": 363.2,
+          "candidatePrediction": 398.5612082290503,
+          "baselineError": -60.80000000000001,
+          "candidateError": -25.438791770949706
+        },
+        {
+          "targetYear": 2023,
+          "trainingPairs": 7,
+          "beta": 0.12744421602497574,
+          "latestLaggedHousingDelta": 338.0,
+          "trainingMeanLaggedHousingDelta": 448.14285714285717,
+          "actualNetMigration": 234.0,
+          "baselinePrediction": 359.0,
+          "candidatePrediction": 344.96292992067765,
+          "baselineError": 125.0,
+          "candidateError": 110.96292992067765
+        },
+        {
+          "targetYear": 2024,
+          "trainingPairs": 8,
+          "beta": 0.1996304605437246,
+          "latestLaggedHousingDelta": 433.0,
+          "trainingMeanLaggedHousingDelta": 434.375,
+          "actualNetMigration": 455.0,
+          "baselinePrediction": 347.5,
+          "candidatePrediction": 347.2255081167524,
+          "baselineError": -107.5,
+          "candidateError": -107.7744918832476
+        }
+      ]
+    },
+    "FA_LULEA": {
+      "observations": 6,
+      "candidateMAE": 246.04890570808402,
+      "baselineMAE": 232.29999999999998,
+      "dominantBetaSign": "negative",
+      "sameSignCount": 5,
+      "rows": [
+        {
+          "targetYear": 2019,
+          "trainingPairs": 4,
+          "beta": -0.05974918918681897,
+          "latestLaggedHousingDelta": 948.0,
+          "trainingMeanLaggedHousingDelta": 737.75,
+          "actualNetMigration": 254.0,
+          "baselinePrediction": 539.6,
+          "candidatePrediction": 527.0377329734713,
+          "baselineError": 285.6,
+          "candidateError": 273.0377329734713
+        },
+        {
+          "targetYear": 2020,
+          "trainingPairs": 5,
+          "beta": -0.28192863456345196,
+          "latestLaggedHousingDelta": 742.0,
+          "trainingMeanLaggedHousingDelta": 779.8,
+          "actualNetMigration": 535.0,
+          "baselinePrediction": 563.5,
+          "candidatePrediction": 574.1569023864985,
+          "baselineError": 28.5,
+          "candidateError": 39.15690238649847
+        },
+        {
+          "targetYear": 2021,
+          "trainingPairs": 6,
+          "beta": -0.263836595755046,
+          "latestLaggedHousingDelta": 657.0,
+          "trainingMeanLaggedHousingDelta": 773.5,
+          "actualNetMigration": 431.0,
+          "baselinePrediction": 611.9,
+          "candidatePrediction": 642.6369634054628,
+          "baselineError": 180.89999999999998,
+          "candidateError": 211.63696340546278
+        },
+        {
+          "targetYear": 2022,
+          "trainingPairs": 7,
+          "beta": -0.18263951329481812,
+          "latestLaggedHousingDelta": 818.0,
+          "trainingMeanLaggedHousingDelta": 756.8571428571429,
+          "actualNetMigration": 480.0,
+          "baselinePrediction": 620.2,
+          "candidatePrediction": 609.032898329974,
+          "baselineError": 140.20000000000005,
+          "candidateError": 129.03289832997405
+        },
+        {
+          "targetYear": 2023,
+          "trainingPairs": 8,
+          "beta": -0.21144298211048945,
+          "latestLaggedHousingDelta": 494.0,
+          "trainingMeanLaggedHousingDelta": 764.5,
+          "actualNetMigration": 144.0,
+          "baselinePrediction": 605.8,
+          "candidatePrediction": 662.9953266608874,
+          "baselineError": 461.79999999999995,
+          "candidateError": 518.9953266608874
+        },
+        {
+          "targetYear": 2024,
+          "trainingPairs": 9,
+          "beta": 0.052126323543166195,
+          "latestLaggedHousingDelta": 588.0,
+          "trainingMeanLaggedHousingDelta": 734.4444444444445,
+          "actualNetMigration": 838.0,
+          "baselinePrediction": 541.2,
+          "candidatePrediction": 533.5663895077897,
+          "baselineError": -296.79999999999995,
+          "candidateError": -304.4336104922103
+        }
+      ]
+    }
+  },
+  "external": {
+    "regions": {
+      "FA16_TRH": {
+        "observations": 6,
+        "candidateMAE": 1167.388100459122,
+        "baselineMAE": 933.6833333333334,
+        "dominantBetaSign": "negative",
+        "sameSignCount": 6,
+        "rows": [
+          {
+            "targetYear": 2019,
+            "trainingPairs": 4,
+            "beta": -1.6448158488863782,
+            "latestLaggedHousingDelta": 1201.0,
+            "trainingMeanLaggedHousingDelta": 878.75,
+            "actualNetMigration": 905.0,
+            "baselinePrediction": 1132.9,
+            "candidatePrediction": 602.8580926963647,
+            "baselineError": 227.9000000000001,
+            "candidateError": -302.1419073036353
+          },
+          {
+            "targetYear": 2020,
+            "trainingPairs": 5,
+            "beta": -1.8836045858663222,
+            "latestLaggedHousingDelta": 531.0,
+            "trainingMeanLaggedHousingDelta": 943.2,
+            "actualNetMigration": 315.0,
+            "baselinePrediction": 1185.4,
+            "candidatePrediction": 1961.8218102940982,
+            "baselineError": 870.4000000000001,
+            "candidateError": 1646.8218102940982
+          },
+          {
+            "targetYear": 2021,
+            "trainingPairs": 6,
+            "beta": -0.8785745488189438,
+            "latestLaggedHousingDelta": 1236.0,
+            "trainingMeanLaggedHousingDelta": 874.5,
+            "actualNetMigration": 94.0,
+            "baselinePrediction": 1178.6,
+            "candidatePrediction": 860.9953006019517,
+            "baselineError": 1084.6,
+            "candidateError": 766.9953006019517
+          },
+          {
+            "targetYear": 2022,
+            "trainingPairs": 7,
+            "beta": -1.2845984974251334,
+            "latestLaggedHousingDelta": 786.0,
+            "trainingMeanLaggedHousingDelta": 926.1428571428571,
+            "actualNetMigration": 444.0,
+            "baselinePrediction": 1168.6,
+            "candidatePrediction": 1348.6273037105793,
+            "baselineError": 724.5999999999999,
+            "candidateError": 904.6273037105793
+          },
+          {
+            "targetYear": 2023,
+            "trainingPairs": 8,
+            "beta": -1.1371953501908942,
+            "latestLaggedHousingDelta": 611.0,
+            "trainingMeanLaggedHousingDelta": 908.625,
+            "actualNetMigration": -579.0,
+            "baselinePrediction": 1168.8,
+            "candidatePrediction": 1507.2577661005648,
+            "baselineError": 1747.8,
+            "candidateError": 2086.257766100565
+          },
+          {
+            "targetYear": 2024,
+            "trainingPairs": 9,
+            "beta": -0.563298346010194,
+            "latestLaggedHousingDelta": 253.0,
+            "trainingMeanLaggedHousingDelta": 875.5555555555555,
+            "actualNetMigration": 10.0,
+            "baselinePrediction": 956.8,
+            "candidatePrediction": 1307.4845147439019,
+            "baselineError": 946.8,
+            "candidateError": 1297.4845147439019
+          }
+        ]
+      },
+      "FA36_GAV": {
+        "observations": 6,
+        "candidateMAE": 619.1628604730906,
+        "baselineMAE": 620.7666666666667,
+        "dominantBetaSign": "negative",
+        "sameSignCount": 6,
+        "rows": [
+          {
+            "targetYear": 2019,
+            "trainingPairs": 4,
+            "beta": -1.731894351519182,
+            "latestLaggedHousingDelta": 949.0,
+            "trainingMeanLaggedHousingDelta": 485.5,
+            "actualNetMigration": 917.0,
+            "baselinePrediction": 986.4,
+            "candidatePrediction": 183.66696807085907,
+            "baselineError": 69.39999999999998,
+            "candidateError": -733.3330319291409
+          },
+          {
+            "targetYear": 2020,
+            "trainingPairs": 5,
+            "beta": -1.3830773530096314,
+            "latestLaggedHousingDelta": 625.0,
+            "trainingMeanLaggedHousingDelta": 578.2,
+            "actualNetMigration": 601.0,
+            "baselinePrediction": 986.1,
+            "candidatePrediction": 921.3719798791493,
+            "baselineError": 385.1,
+            "candidateError": 320.3719798791493
+          },
+          {
+            "targetYear": 2021,
+            "trainingPairs": 6,
+            "beta": -1.4237099401409017,
+            "latestLaggedHousingDelta": 828.0,
+            "trainingMeanLaggedHousingDelta": 586.0,
+            "actualNetMigration": 246.0,
+            "baselinePrediction": 990.8,
+            "candidatePrediction": 646.2621944859018,
+            "baselineError": 744.8,
+            "candidateError": 400.2621944859018
+          },
+          {
+            "targetYear": 2022,
+            "trainingPairs": 7,
+            "beta": -1.6134504253156543,
+            "latestLaggedHousingDelta": 804.0,
+            "trainingMeanLaggedHousingDelta": 620.5714285714286,
+            "actualNetMigration": 292.0,
+            "baselinePrediction": 982.7,
+            "candidatePrediction": 686.7470934135285,
+            "baselineError": 690.7,
+            "candidateError": 394.74709341352855
+          },
+          {
+            "targetYear": 2023,
+            "trainingPairs": 8,
+            "beta": -1.7176875231344548,
+            "latestLaggedHousingDelta": 677.0,
+            "trainingMeanLaggedHousingDelta": 643.5,
+            "actualNetMigration": -363.0,
+            "baselinePrediction": 936.0,
+            "candidatePrediction": 878.4574679749958,
+            "baselineError": 1299.0,
+            "candidateError": 1241.4574679749958
+          },
+          {
+            "targetYear": 2024,
+            "trainingPairs": 9,
+            "beta": -1.7762136203593997,
+            "latestLaggedHousingDelta": 597.0,
+            "trainingMeanLaggedHousingDelta": 647.2222222222222,
+            "actualNetMigration": 240.0,
+            "baselinePrediction": 775.6,
+            "candidatePrediction": 864.8053951558276,
+            "baselineError": 535.6,
+            "candidateError": 624.8053951558276
+          }
+        ]
+      },
+      "FA42_SUN": {
+        "observations": 6,
+        "candidateMAE": 407.9189822962703,
+        "baselineMAE": 361.8333333333333,
+        "dominantBetaSign": "negative",
+        "sameSignCount": 6,
+        "rows": [
+          {
+            "targetYear": 2019,
+            "trainingPairs": 4,
+            "beta": -0.7063321769447177,
+            "latestLaggedHousingDelta": 612.0,
+            "trainingMeanLaggedHousingDelta": 435.0,
+            "actualNetMigration": 434.0,
+            "baselinePrediction": 471.0,
+            "candidatePrediction": 345.97920468078496,
+            "baselineError": 37.0,
+            "candidateError": -88.02079531921504
+          },
+          {
+            "targetYear": 2020,
+            "trainingPairs": 5,
+            "beta": -0.7135015581024303,
+            "latestLaggedHousingDelta": 354.0,
+            "trainingMeanLaggedHousingDelta": 470.4,
+            "actualNetMigration": 110.0,
+            "baselinePrediction": 467.4,
+            "candidatePrediction": 550.4515813631228,
+            "baselineError": 357.4,
+            "candidateError": 440.45158136312284
+          },
+          {
+            "targetYear": 2021,
+            "trainingPairs": 6,
+            "beta": -0.6303317612514292,
+            "latestLaggedHousingDelta": 415.0,
+            "trainingMeanLaggedHousingDelta": 451.0,
+            "actualNetMigration": -88.0,
+            "baselinePrediction": 454.7,
+            "candidatePrediction": 477.39194340505145,
+            "baselineError": 542.7,
+            "candidateError": 565.3919434050515
+          },
+          {
+            "targetYear": 2022,
+            "trainingPairs": 7,
+            "beta": -0.6013811537976983,
+            "latestLaggedHousingDelta": 649.0,
+            "trainingMeanLaggedHousingDelta": 445.85714285714283,
+            "actualNetMigration": 4.0,
+            "baselinePrediction": 424.0,
+            "candidatePrediction": 301.83371418566753,
+            "baselineError": 420.0,
+            "candidateError": 297.83371418566753
+          },
+          {
+            "targetYear": 2023,
+            "trainingPairs": 8,
+            "beta": -0.6644676922982677,
+            "latestLaggedHousingDelta": 106.0,
+            "trainingMeanLaggedHousingDelta": 471.25,
+            "actualNetMigration": -265.0,
+            "baselinePrediction": 386.3,
+            "candidatePrediction": 628.9968246119423,
+            "baselineError": 651.3,
+            "candidateError": 893.9968246119423
+          },
+          {
+            "targetYear": 2024,
+            "trainingPairs": 9,
+            "beta": -0.33469933173308725,
+            "latestLaggedHousingDelta": 433.0,
+            "trainingMeanLaggedHousingDelta": 430.6666666666667,
+            "actualNetMigration": 143.0,
+            "baselinePrediction": 305.6,
+            "candidatePrediction": 304.8190348926228,
+            "baselineError": 162.60000000000002,
+            "candidateError": 161.81903489262282
+          }
+        ]
+      }
+    },
+    "anchors": {
+      "1488": {
+        "observations": 5,
+        "candidateMAE": 328.63422160621593,
+        "baselineMAE": 305.0,
+        "dominantBetaSign": "negative",
+        "sameSignCount": 5,
+        "rows": [
+          {
+            "targetYear": 2020,
+            "trainingPairs": 4,
+            "beta": -0.10665542566598585,
+            "latestLaggedHousingDelta": 297.0,
+            "trainingMeanLaggedHousingDelta": 214.25,
+            "actualNetMigration": 121.0,
+            "baselinePrediction": 288.3,
+            "candidatePrediction": 279.4742635261397,
+            "baselineError": 167.3,
+            "candidateError": 158.47426352613968
+          },
+          {
+            "targetYear": 2021,
+            "trainingPairs": 5,
+            "beta": -0.20993685062238449,
+            "latestLaggedHousingDelta": 386.0,
+            "trainingMeanLaggedHousingDelta": 230.8,
+            "actualNetMigration": -235.0,
+            "baselinePrediction": 271.8,
+            "candidatePrediction": 239.21780078340595,
+            "baselineError": 506.8,
+            "candidateError": 474.21780078340595
+          },
+          {
+            "targetYear": 2022,
+            "trainingPairs": 6,
+            "beta": -0.5919881206357703,
+            "latestLaggedHousingDelta": 171.0,
+            "trainingMeanLaggedHousingDelta": 256.6666666666667,
+            "actualNetMigration": 18.0,
+            "baselinePrediction": 239.6,
+            "candidatePrediction": 290.313649001131,
+            "baselineError": 221.6,
+            "candidateError": 272.313649001131
+          },
+          {
+            "targetYear": 2023,
+            "trainingPairs": 7,
+            "beta": -0.5043732281082419,
+            "latestLaggedHousingDelta": 117.0,
+            "trainingMeanLaggedHousingDelta": 244.42857142857142,
+            "actualNetMigration": -232.0,
+            "baselinePrediction": 222.6,
+            "candidatePrediction": 286.8715599246502,
+            "baselineError": 454.6,
+            "candidateError": 518.8715599246502
+          },
+          {
+            "targetYear": 2024,
+            "trainingPairs": 8,
+            "beta": -0.24982540501822323,
+            "latestLaggedHousingDelta": 50.0,
+            "trainingMeanLaggedHousingDelta": 228.5,
+            "actualNetMigration": -37.0,
+            "baselinePrediction": 137.7,
+            "candidatePrediction": 182.29383479575284,
+            "baselineError": 174.7,
+            "candidateError": 219.29383479575284
+          }
+        ]
+      },
+      "2180": {
+        "observations": 5,
+        "candidateMAE": 306.14639364157205,
+        "baselineMAE": 312.64,
+        "dominantBetaSign": "negative",
+        "sameSignCount": 5,
+        "rows": [
+          {
+            "targetYear": 2020,
+            "trainingPairs": 4,
+            "beta": -0.17776989882962518,
+            "latestLaggedHousingDelta": 585.0,
+            "trainingMeanLaggedHousingDelta": 505.0,
+            "actualNetMigration": 383.0,
+            "baselinePrediction": 614.7,
+            "candidatePrediction": 600.47840809363,
+            "baselineError": 231.70000000000005,
+            "candidateError": 217.47840809363004
+          },
+          {
+            "targetYear": 2021,
+            "trainingPairs": 5,
+            "beta": -0.23839702606332724,
+            "latestLaggedHousingDelta": 493.0,
+            "trainingMeanLaggedHousingDelta": 521.0,
+            "actualNetMigration": 64.0,
+            "baselinePrediction": 597.9,
+            "candidatePrediction": 604.5751167297732,
+            "baselineError": 533.9,
+            "candidateError": 540.5751167297732
+          },
+          {
+            "targetYear": 2022,
+            "trainingPairs": 6,
+            "beta": -0.19504311185226134,
+            "latestLaggedHousingDelta": 633.0,
+            "trainingMeanLaggedHousingDelta": 516.3333333333334,
+            "actualNetMigration": 335.0,
+            "baselinePrediction": 579.2,
+            "candidatePrediction": 556.4449702839029,
+            "baselineError": 244.20000000000005,
+            "candidateError": 221.44497028390288
+          },
+          {
+            "targetYear": 2023,
+            "trainingPairs": 7,
+            "beta": -0.23870581463814813,
+            "latestLaggedHousingDelta": 516.0,
+            "trainingMeanLaggedHousingDelta": 533.0,
+            "actualNetMigration": 90.0,
+            "baselinePrediction": 551.2,
+            "candidatePrediction": 555.2579988488486,
+            "baselineError": 461.20000000000005,
+            "candidateError": 465.2579988488486
+          },
+          {
+            "targetYear": 2024,
+            "trainingPairs": 8,
+            "beta": -0.2213164710504692,
+            "latestLaggedHousingDelta": 559.0,
+            "trainingMeanLaggedHousingDelta": 530.875,
+            "actualNetMigration": 374.0,
+            "baselinePrediction": 466.2,
+            "candidatePrediction": 459.9754742517055,
+            "baselineError": 92.19999999999999,
+            "candidateError": 85.97547425170552
+          }
+        ]
+      },
+      "2281": {
+        "observations": 5,
+        "candidateMAE": 237.58322614020693,
+        "baselineMAE": 230.34,
+        "dominantBetaSign": "negative",
+        "sameSignCount": 3,
+        "rows": [
+          {
+            "targetYear": 2020,
+            "trainingPairs": 4,
+            "beta": -0.18660248647845612,
+            "latestLaggedHousingDelta": 227.0,
+            "trainingMeanLaggedHousingDelta": 353.25,
+            "actualNetMigration": 135.0,
+            "baselinePrediction": 331.1,
+            "candidatePrediction": 354.6585639179051,
+            "baselineError": 196.10000000000002,
+            "candidateError": 219.6585639179051
+          },
+          {
+            "targetYear": 2021,
+            "trainingPairs": 5,
+            "beta": -0.04704967169183479,
+            "latestLaggedHousingDelta": 294.0,
+            "trainingMeanLaggedHousingDelta": 328.0,
+            "actualNetMigration": -91.0,
+            "baselinePrediction": 326.3,
+            "candidatePrediction": 327.8996888375224,
+            "baselineError": 417.3,
+            "candidateError": 418.8996888375224
+          },
+          {
+            "targetYear": 2022,
+            "trainingPairs": 6,
+            "beta": 0.02055155350590773,
+            "latestLaggedHousingDelta": 607.0,
+            "trainingMeanLaggedHousingDelta": 322.3333333333333,
+            "actualNetMigration": 152.0,
+            "baselinePrediction": 281.8,
+            "candidatePrediction": 287.6503422313484,
+            "baselineError": 129.8,
+            "candidateError": 135.65034223134842
+          },
+          {
+            "targetYear": 2023,
+            "trainingPairs": 7,
+            "beta": -0.013745743672552378,
+            "latestLaggedHousingDelta": 197.0,
+            "trainingMeanLaggedHousingDelta": 363.0,
+            "actualNetMigration": -30.0,
+            "baselinePrediction": 245.0,
+            "candidatePrediction": 247.2817934496437,
+            "baselineError": 275.0,
+            "candidateError": 277.2817934496437
+          },
+          {
+            "targetYear": 2024,
+            "trainingPairs": 8,
+            "beta": 0.08419402200331343,
+            "latestLaggedHousingDelta": 377.0,
+            "trainingMeanLaggedHousingDelta": 342.25,
+            "actualNetMigration": 83.0,
+            "baselinePrediction": 216.5,
+            "candidatePrediction": 219.42574226461514,
+            "baselineError": 133.5,
+            "candidateError": 136.42574226461514
+          }
+        ]
+      }
+    }
+  },
+  "developmentGate": {
+    "status": "development_only",
+    "checks": {
+      "2580": {
+        "maeStrictlyBetter": true,
+        "betaSignStable": false
+      },
+      "FA_LULEA": {
+        "maeStrictlyBetter": false,
+        "betaSignStable": true
+      }
+    },
+    "passed": false
+  },
+  "externalGate": {
+    "status": "predeclared_external_gate",
+    "checks": {
+      "FA16_TRH": {
+        "nonWorse": false
+      },
+      "FA36_GAV": {
+        "nonWorse": true
+      },
+      "FA42_SUN": {
+        "nonWorse": false
+      }
+    },
+    "pooledCandidateMAE": 731.4899810761609,
+    "pooledBaselineMAE": 638.7611111111111,
+    "pooledStrictlyBetter": false,
+    "passed": false
+  }
+}
