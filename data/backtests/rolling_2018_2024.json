@@ -37441,6 +37441,1095 @@
       "rule": "Historical-flow allocation must beat stock-share allocation for both pooled birth-status MAEs while preserving net10 totals."
     }
   },
+  "profetNet10StatusDemographyDiagnostic": {
+    "note": "Development diagnostic only. Keeps the validated net10 birth-status migration architecture fixed and adds same-vintage national Swedish-born/foreign-born fertility and mortality relative profiles.",
+    "independentHoldout": false,
+    "candidate": {
+      "config": "data/profet_net10_status_demography_candidate.json",
+      "baseEngine": "birth_status_net10_constrained",
+      "migrationWindow": 10,
+      "independentHoldout": false,
+      "note": "Adds same-vintage national birth-status fertility and mortality relative profiles without changing net10 migration."
+    },
+    "summary": {
+      "2580": {
+        "observations": 12,
+        "oneYear": {
+          "observations": 4,
+          "candidate": {
+            "populationMAE": 77.7,
+            "birthsMAE": 32.7,
+            "deathsMAE": 28.4,
+            "swedishBornMAE": 267.3,
+            "foreignBornMAE": 245.9
+          },
+          "baseline": {
+            "populationMAE": 81.2,
+            "birthsMAE": 38,
+            "deathsMAE": 28.4,
+            "swedishBornMAE": 280.3,
+            "foreignBornMAE": 246
+          },
+          "structural": {
+            "maxNetMigrationDifference": 0,
+            "maxStatusAccountingDifference": 0
+          }
+        },
+        "twoYear": {
+          "observations": 4,
+          "candidate": {
+            "populationMAE": 93.2,
+            "birthsMAE": 40.9,
+            "deathsMAE": 37.8,
+            "swedishBornMAE": 504.9,
+            "foreignBornMAE": 427.8
+          },
+          "baseline": {
+            "populationMAE": 107.8,
+            "birthsMAE": 55.5,
+            "deathsMAE": 37.9,
+            "swedishBornMAE": 533.3,
+            "foreignBornMAE": 428
+          },
+          "structural": {
+            "maxNetMigrationDifference": 0,
+            "maxStatusAccountingDifference": 0
+          }
+        },
+        "threeYear": {
+          "observations": 4,
+          "candidate": {
+            "populationMAE": 187.7,
+            "birthsMAE": 79.3,
+            "deathsMAE": 26.9,
+            "swedishBornMAE": 802.6,
+            "foreignBornMAE": 638.5
+          },
+          "baseline": {
+            "populationMAE": 211.5,
+            "birthsMAE": 96,
+            "deathsMAE": 27,
+            "swedishBornMAE": 847.9,
+            "foreignBornMAE": 638.8
+          },
+          "structural": {
+            "maxNetMigrationDifference": 0,
+            "maxStatusAccountingDifference": 0
+          }
+        },
+        "byHorizon": {
+          "1": {
+            "observations": 4,
+            "candidate": {
+              "populationMAE": 77.7,
+              "birthsMAE": 32.7,
+              "deathsMAE": 28.4,
+              "swedishBornMAE": 267.3,
+              "foreignBornMAE": 245.9
+            },
+            "baseline": {
+              "populationMAE": 81.2,
+              "birthsMAE": 38,
+              "deathsMAE": 28.4,
+              "swedishBornMAE": 280.3,
+              "foreignBornMAE": 246
+            },
+            "structural": {
+              "maxNetMigrationDifference": 0,
+              "maxStatusAccountingDifference": 0
+            }
+          },
+          "2": {
+            "observations": 4,
+            "candidate": {
+              "populationMAE": 93.2,
+              "birthsMAE": 40.9,
+              "deathsMAE": 37.8,
+              "swedishBornMAE": 504.9,
+              "foreignBornMAE": 427.8
+            },
+            "baseline": {
+              "populationMAE": 107.8,
+              "birthsMAE": 55.5,
+              "deathsMAE": 37.9,
+              "swedishBornMAE": 533.3,
+              "foreignBornMAE": 428
+            },
+            "structural": {
+              "maxNetMigrationDifference": 0,
+              "maxStatusAccountingDifference": 0
+            }
+          },
+          "3": {
+            "observations": 4,
+            "candidate": {
+              "populationMAE": 187.7,
+              "birthsMAE": 79.3,
+              "deathsMAE": 26.9,
+              "swedishBornMAE": 802.6,
+              "foreignBornMAE": 638.5
+            },
+            "baseline": {
+              "populationMAE": 211.5,
+              "birthsMAE": 96,
+              "deathsMAE": 27,
+              "swedishBornMAE": 847.9,
+              "foreignBornMAE": 638.8
+            },
+            "structural": {
+              "maxNetMigrationDifference": 0,
+              "maxStatusAccountingDifference": 0
+            }
+          }
+        },
+        "byOrigin": {
+          "2018": [
+            {
+              "year": 2019,
+              "horizon": 1,
+              "candidatePopulationError": 129.3,
+              "baselinePopulationError": 147.1,
+              "candidateBirthsError": 16.4,
+              "baselineBirthsError": 34.1,
+              "candidateDeathsError": 19.3,
+              "baselineDeathsError": 19.3,
+              "candidateSwedishBornError": 451,
+              "baselineSwedishBornError": 468.9,
+              "candidateForeignBornError": -321.7,
+              "baselineForeignBornError": -321.8,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            },
+            {
+              "year": 2020,
+              "horizon": 2,
+              "candidatePopulationError": 91.2,
+              "baselinePopulationError": 129.1,
+              "candidateBirthsError": 34.8,
+              "baselineBirthsError": 54.7,
+              "candidateDeathsError": -58.8,
+              "baselineDeathsError": -59,
+              "candidateSwedishBornError": 586.2,
+              "baselineSwedishBornError": 624.3,
+              "candidateForeignBornError": -495,
+              "baselineForeignBornError": -495.2,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            },
+            {
+              "year": 2021,
+              "horizon": 3,
+              "candidatePopulationError": 179.9,
+              "baselinePopulationError": 238.9,
+              "candidateBirthsError": 16.1,
+              "baselineBirthsError": 37.2,
+              "candidateDeathsError": -9.2,
+              "baselineDeathsError": -9.3,
+              "candidateSwedishBornError": 917,
+              "baselineSwedishBornError": 976.3,
+              "candidateForeignBornError": -737.2,
+              "baselineForeignBornError": -737.4,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            }
+          ],
+          "2019": [
+            {
+              "year": 2020,
+              "horizon": 1,
+              "candidatePopulationError": -79.7,
+              "baselinePopulationError": -66.8,
+              "candidateBirthsError": 17.9,
+              "baselineBirthsError": 30.7,
+              "candidateDeathsError": -45.9,
+              "baselineDeathsError": -46.1,
+              "candidateSwedishBornError": 85.4,
+              "baselineSwedishBornError": 98.5,
+              "candidateForeignBornError": -165.1,
+              "baselineForeignBornError": -165.3,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            },
+            {
+              "year": 2021,
+              "horizon": 2,
+              "candidatePopulationError": -32.1,
+              "baselinePopulationError": -5,
+              "candidateBirthsError": -1,
+              "baselineBirthsError": 12.9,
+              "candidateDeathsError": 2.8,
+              "baselineDeathsError": 2.6,
+              "candidateSwedishBornError": 367.1,
+              "baselineSwedishBornError": 394.4,
+              "candidateForeignBornError": -399.2,
+              "baselineForeignBornError": -399.4,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            },
+            {
+              "year": 2022,
+              "horizon": 3,
+              "candidatePopulationError": -47.3,
+              "baselinePopulationError": -4.8,
+              "candidateBirthsError": 129.2,
+              "baselineBirthsError": 144.6,
+              "candidateDeathsError": -13.1,
+              "baselineDeathsError": -13.2,
+              "candidateSwedishBornError": 638.4,
+              "baselineSwedishBornError": 681.2,
+              "candidateForeignBornError": -685.7,
+              "baselineForeignBornError": -686,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            }
+          ],
+          "2020": [
+            {
+              "year": 2021,
+              "horizon": 1,
+              "candidatePopulationError": 68.8,
+              "baselinePopulationError": 84,
+              "candidateBirthsError": -43,
+              "baselineBirthsError": -27.8,
+              "candidateDeathsError": -22.9,
+              "baselineDeathsError": -22.9,
+              "candidateSwedishBornError": 293.9,
+              "baselineSwedishBornError": 309.1,
+              "candidateForeignBornError": -225.1,
+              "baselineForeignBornError": -225.1,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            },
+            {
+              "year": 2022,
+              "horizon": 2,
+              "candidatePopulationError": 65.8,
+              "baselinePopulationError": 99.8,
+              "candidateBirthsError": 80.1,
+              "baselineBirthsError": 98.6,
+              "candidateDeathsError": -37,
+              "baselineDeathsError": -37.2,
+              "candidateSwedishBornError": 568.6,
+              "baselineSwedishBornError": 602.7,
+              "candidateForeignBornError": -502.8,
+              "baselineForeignBornError": -502.9,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            },
+            {
+              "year": 2023,
+              "horizon": 3,
+              "candidatePopulationError": 320.9,
+              "baselinePopulationError": 376.4,
+              "candidateBirthsError": 84.7,
+              "baselineBirthsError": 106.1,
+              "candidateDeathsError": -62.6,
+              "baselineDeathsError": -62.6,
+              "candidateSwedishBornError": 872.3,
+              "baselineSwedishBornError": 927.9,
+              "candidateForeignBornError": -551.4,
+              "baselineForeignBornError": -551.5,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            }
+          ],
+          "2021": [
+            {
+              "year": 2022,
+              "horizon": 1,
+              "candidatePopulationError": -32.8,
+              "baselinePopulationError": -27,
+              "candidateBirthsError": 53.6,
+              "baselineBirthsError": 59.5,
+              "candidateDeathsError": -25.4,
+              "baselineDeathsError": -25.3,
+              "candidateSwedishBornError": 238.9,
+              "baselineSwedishBornError": 244.8,
+              "candidateForeignBornError": -271.7,
+              "baselineForeignBornError": -271.8,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            },
+            {
+              "year": 2023,
+              "horizon": 2,
+              "candidatePopulationError": 183.8,
+              "baselinePopulationError": 197.5,
+              "candidateBirthsError": 47.8,
+              "baselineBirthsError": 55.6,
+              "candidateDeathsError": -52.6,
+              "baselineDeathsError": -52.7,
+              "candidateSwedishBornError": 497.8,
+              "baselineSwedishBornError": 511.9,
+              "candidateForeignBornError": -314,
+              "baselineForeignBornError": -314.3,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            },
+            {
+              "year": 2024,
+              "horizon": 3,
+              "candidatePopulationError": 202.8,
+              "baselinePopulationError": 225.8,
+              "candidateBirthsError": 87.1,
+              "baselineBirthsError": 96.3,
+              "candidateDeathsError": -22.6,
+              "baselineDeathsError": -22.8,
+              "candidateSwedishBornError": 782.6,
+              "baselineSwedishBornError": 806.2,
+              "candidateForeignBornError": -579.8,
+              "baselineForeignBornError": -580.4,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            }
+          ]
+        }
+      },
+      "FA_LULEA": {
+        "observations": 12,
+        "oneYear": {
+          "observations": 4,
+          "candidate": {
+            "populationMAE": 100.2,
+            "birthsMAE": 68,
+            "deathsMAE": 46.3,
+            "swedishBornMAE": 380.4,
+            "foreignBornMAE": 300.1
+          },
+          "baseline": {
+            "populationMAE": 113.9,
+            "birthsMAE": 59,
+            "deathsMAE": 46.2,
+            "swedishBornMAE": 413.9,
+            "foreignBornMAE": 300.2
+          },
+          "structural": {
+            "maxNetMigrationDifference": 0,
+            "maxStatusAccountingDifference": 0
+          }
+        },
+        "twoYear": {
+          "observations": 4,
+          "candidate": {
+            "populationMAE": 275.7,
+            "birthsMAE": 51.7,
+            "deathsMAE": 66.9,
+            "swedishBornMAE": 799.9,
+            "foreignBornMAE": 524.2
+          },
+          "baseline": {
+            "populationMAE": 347.2,
+            "birthsMAE": 71.2,
+            "deathsMAE": 67.2,
+            "swedishBornMAE": 871.7,
+            "foreignBornMAE": 524.5
+          },
+          "structural": {
+            "maxNetMigrationDifference": 0,
+            "maxStatusAccountingDifference": 0
+          }
+        },
+        "threeYear": {
+          "observations": 4,
+          "candidate": {
+            "populationMAE": 439.3,
+            "birthsMAE": 113.5,
+            "deathsMAE": 42.1,
+            "swedishBornMAE": 1276.3,
+            "foreignBornMAE": 837
+          },
+          "baseline": {
+            "populationMAE": 552.5,
+            "birthsMAE": 129.9,
+            "deathsMAE": 42.2,
+            "swedishBornMAE": 1390,
+            "foreignBornMAE": 837.4
+          },
+          "structural": {
+            "maxNetMigrationDifference": 0,
+            "maxStatusAccountingDifference": 0
+          }
+        },
+        "byHorizon": {
+          "1": {
+            "observations": 4,
+            "candidate": {
+              "populationMAE": 100.2,
+              "birthsMAE": 68,
+              "deathsMAE": 46.3,
+              "swedishBornMAE": 380.4,
+              "foreignBornMAE": 300.1
+            },
+            "baseline": {
+              "populationMAE": 113.9,
+              "birthsMAE": 59,
+              "deathsMAE": 46.2,
+              "swedishBornMAE": 413.9,
+              "foreignBornMAE": 300.2
+            },
+            "structural": {
+              "maxNetMigrationDifference": 0,
+              "maxStatusAccountingDifference": 0
+            }
+          },
+          "2": {
+            "observations": 4,
+            "candidate": {
+              "populationMAE": 275.7,
+              "birthsMAE": 51.7,
+              "deathsMAE": 66.9,
+              "swedishBornMAE": 799.9,
+              "foreignBornMAE": 524.2
+            },
+            "baseline": {
+              "populationMAE": 347.2,
+              "birthsMAE": 71.2,
+              "deathsMAE": 67.2,
+              "swedishBornMAE": 871.7,
+              "foreignBornMAE": 524.5
+            },
+            "structural": {
+              "maxNetMigrationDifference": 0,
+              "maxStatusAccountingDifference": 0
+            }
+          },
+          "3": {
+            "observations": 4,
+            "candidate": {
+              "populationMAE": 439.3,
+              "birthsMAE": 113.5,
+              "deathsMAE": 42.1,
+              "swedishBornMAE": 1276.3,
+              "foreignBornMAE": 837
+            },
+            "baseline": {
+              "populationMAE": 552.5,
+              "birthsMAE": 129.9,
+              "deathsMAE": 42.2,
+              "swedishBornMAE": 1390,
+              "foreignBornMAE": 837.4
+            },
+            "structural": {
+              "maxNetMigrationDifference": 0,
+              "maxStatusAccountingDifference": 0
+            }
+          }
+        },
+        "byOrigin": {
+          "2018": [
+            {
+              "year": 2019,
+              "horizon": 1,
+              "candidatePopulationError": 153.9,
+              "baselinePopulationError": 199.4,
+              "candidateBirthsError": -88.1,
+              "baselineBirthsError": -42.8,
+              "candidateDeathsError": 2.7,
+              "baselineDeathsError": 2.5,
+              "candidateSwedishBornError": 554.6,
+              "baselineSwedishBornError": 600.2,
+              "candidateForeignBornError": -400.7,
+              "baselineForeignBornError": -400.8,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            },
+            {
+              "year": 2020,
+              "horizon": 2,
+              "candidatePopulationError": 237.7,
+              "baselinePopulationError": 332.7,
+              "candidateBirthsError": 16.1,
+              "baselineBirthsError": 65.1,
+              "candidateDeathsError": -104,
+              "baselineDeathsError": -104.5,
+              "candidateSwedishBornError": 857.5,
+              "baselineSwedishBornError": 953,
+              "candidateForeignBornError": -619.8,
+              "baselineForeignBornError": -620.3,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            },
+            {
+              "year": 2021,
+              "horizon": 3,
+              "candidatePopulationError": 174.5,
+              "baselinePopulationError": 321.1,
+              "candidateBirthsError": -50.2,
+              "baselineBirthsError": 1.2,
+              "candidateDeathsError": -24.4,
+              "baselineDeathsError": -24.5,
+              "candidateSwedishBornError": 1078.1,
+              "baselineSwedishBornError": 1225.1,
+              "candidateForeignBornError": -903.5,
+              "baselineForeignBornError": -904,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            }
+          ],
+          "2019": [
+            {
+              "year": 2020,
+              "horizon": 1,
+              "candidatePopulationError": 86.3,
+              "baselinePopulationError": 120.7,
+              "candidateBirthsError": 13.5,
+              "baselineBirthsError": 47.5,
+              "candidateDeathsError": -85.3,
+              "baselineDeathsError": -85.7,
+              "candidateSwedishBornError": 286.1,
+              "baselineSwedishBornError": 320.7,
+              "candidateForeignBornError": -199.8,
+              "baselineForeignBornError": -200,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            },
+            {
+              "year": 2021,
+              "horizon": 2,
+              "candidatePopulationError": 28.6,
+              "baselinePopulationError": 100,
+              "candidateBirthsError": -51.5,
+              "baselineBirthsError": -14.9,
+              "candidateDeathsError": -7.3,
+              "baselineDeathsError": -7.7,
+              "candidateSwedishBornError": 492.5,
+              "baselineSwedishBornError": 564.3,
+              "candidateForeignBornError": -463.8,
+              "baselineForeignBornError": -464.3,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            },
+            {
+              "year": 2022,
+              "horizon": 3,
+              "candidatePopulationError": 218.1,
+              "baselinePopulationError": 329.2,
+              "candidateBirthsError": 177.3,
+              "baselineBirthsError": 216.7,
+              "candidateDeathsError": -12.7,
+              "baselineDeathsError": -12.9,
+              "candidateSwedishBornError": 1035.7,
+              "baselineSwedishBornError": 1147.3,
+              "candidateForeignBornError": -817.6,
+              "baselineForeignBornError": -818.1,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            }
+          ],
+          "2020": [
+            {
+              "year": 2021,
+              "horizon": 1,
+              "candidatePopulationError": -39.9,
+              "baselinePopulationError": -0.3,
+              "candidateBirthsError": -138.8,
+              "baselineBirthsError": -99.3,
+              "candidateDeathsError": -64,
+              "baselineDeathsError": -64.1,
+              "candidateSwedishBornError": 213.9,
+              "baselineSwedishBornError": 253.5,
+              "candidateForeignBornError": -253.8,
+              "baselineForeignBornError": -253.8,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            },
+            {
+              "year": 2022,
+              "horizon": 2,
+              "candidatePopulationError": 146.5,
+              "baselinePopulationError": 233,
+              "candidateBirthsError": 72.1,
+              "baselineBirthsError": 118.7,
+              "candidateDeathsError": -66.4,
+              "baselineDeathsError": -66.8,
+              "candidateSwedishBornError": 743.6,
+              "baselineSwedishBornError": 830.4,
+              "candidateForeignBornError": -597.2,
+              "baselineForeignBornError": -597.4,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            },
+            {
+              "year": 2023,
+              "horizon": 3,
+              "candidatePopulationError": 799,
+              "baselinePopulationError": 938.9,
+              "candidateBirthsError": 129.7,
+              "baselineBirthsError": 183,
+              "candidateDeathsError": -118.9,
+              "baselineDeathsError": -119,
+              "candidateSwedishBornError": 1463.7,
+              "baselineSwedishBornError": 1604,
+              "candidateForeignBornError": -664.7,
+              "baselineForeignBornError": -665,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            }
+          ],
+          "2021": [
+            {
+              "year": 2022,
+              "horizon": 1,
+              "candidatePopulationError": 120.8,
+              "baselinePopulationError": 135.1,
+              "candidateBirthsError": 31.4,
+              "baselineBirthsError": 46.4,
+              "candidateDeathsError": -33.2,
+              "baselineDeathsError": -32.5,
+              "candidateSwedishBornError": 467.1,
+              "baselineSwedishBornError": 481.3,
+              "candidateForeignBornError": -346.2,
+              "baselineForeignBornError": -346.1,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            },
+            {
+              "year": 2023,
+              "horizon": 2,
+              "candidatePopulationError": 689.9,
+              "baselinePopulationError": 723.2,
+              "candidateBirthsError": 66.9,
+              "baselineBirthsError": 86,
+              "candidateDeathsError": -89.9,
+              "baselineDeathsError": -89.8,
+              "candidateSwedishBornError": 1105.8,
+              "baselineSwedishBornError": 1139.1,
+              "candidateForeignBornError": -415.9,
+              "baselineForeignBornError": -415.9,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            },
+            {
+              "year": 2024,
+              "horizon": 3,
+              "candidatePopulationError": 565.5,
+              "baselinePopulationError": 621,
+              "candidateBirthsError": 96.7,
+              "baselineBirthsError": 118.8,
+              "candidateDeathsError": 12.3,
+              "baselineDeathsError": 12.2,
+              "candidateSwedishBornError": 1527.7,
+              "baselineSwedishBornError": 1583.4,
+              "candidateForeignBornError": -962.2,
+              "baselineForeignBornError": -962.5,
+              "netMigrationDifference": 0,
+              "statusAccountingDifference": 0
+            }
+          ]
+        }
+      }
+    },
+    "results": {
+      "2580": {
+        "2018": [
+          {
+            "year": 2019,
+            "horizon": 1,
+            "candidatePopulationError": 129.3,
+            "baselinePopulationError": 147.1,
+            "candidateBirthsError": 16.4,
+            "baselineBirthsError": 34.1,
+            "candidateDeathsError": 19.3,
+            "baselineDeathsError": 19.3,
+            "candidateSwedishBornError": 451,
+            "baselineSwedishBornError": 468.9,
+            "candidateForeignBornError": -321.7,
+            "baselineForeignBornError": -321.8,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          },
+          {
+            "year": 2020,
+            "horizon": 2,
+            "candidatePopulationError": 91.2,
+            "baselinePopulationError": 129.1,
+            "candidateBirthsError": 34.8,
+            "baselineBirthsError": 54.7,
+            "candidateDeathsError": -58.8,
+            "baselineDeathsError": -59,
+            "candidateSwedishBornError": 586.2,
+            "baselineSwedishBornError": 624.3,
+            "candidateForeignBornError": -495,
+            "baselineForeignBornError": -495.2,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          },
+          {
+            "year": 2021,
+            "horizon": 3,
+            "candidatePopulationError": 179.9,
+            "baselinePopulationError": 238.9,
+            "candidateBirthsError": 16.1,
+            "baselineBirthsError": 37.2,
+            "candidateDeathsError": -9.2,
+            "baselineDeathsError": -9.3,
+            "candidateSwedishBornError": 917,
+            "baselineSwedishBornError": 976.3,
+            "candidateForeignBornError": -737.2,
+            "baselineForeignBornError": -737.4,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          }
+        ],
+        "2019": [
+          {
+            "year": 2020,
+            "horizon": 1,
+            "candidatePopulationError": -79.7,
+            "baselinePopulationError": -66.8,
+            "candidateBirthsError": 17.9,
+            "baselineBirthsError": 30.7,
+            "candidateDeathsError": -45.9,
+            "baselineDeathsError": -46.1,
+            "candidateSwedishBornError": 85.4,
+            "baselineSwedishBornError": 98.5,
+            "candidateForeignBornError": -165.1,
+            "baselineForeignBornError": -165.3,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          },
+          {
+            "year": 2021,
+            "horizon": 2,
+            "candidatePopulationError": -32.1,
+            "baselinePopulationError": -5,
+            "candidateBirthsError": -1,
+            "baselineBirthsError": 12.9,
+            "candidateDeathsError": 2.8,
+            "baselineDeathsError": 2.6,
+            "candidateSwedishBornError": 367.1,
+            "baselineSwedishBornError": 394.4,
+            "candidateForeignBornError": -399.2,
+            "baselineForeignBornError": -399.4,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          },
+          {
+            "year": 2022,
+            "horizon": 3,
+            "candidatePopulationError": -47.3,
+            "baselinePopulationError": -4.8,
+            "candidateBirthsError": 129.2,
+            "baselineBirthsError": 144.6,
+            "candidateDeathsError": -13.1,
+            "baselineDeathsError": -13.2,
+            "candidateSwedishBornError": 638.4,
+            "baselineSwedishBornError": 681.2,
+            "candidateForeignBornError": -685.7,
+            "baselineForeignBornError": -686,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          }
+        ],
+        "2020": [
+          {
+            "year": 2021,
+            "horizon": 1,
+            "candidatePopulationError": 68.8,
+            "baselinePopulationError": 84,
+            "candidateBirthsError": -43,
+            "baselineBirthsError": -27.8,
+            "candidateDeathsError": -22.9,
+            "baselineDeathsError": -22.9,
+            "candidateSwedishBornError": 293.9,
+            "baselineSwedishBornError": 309.1,
+            "candidateForeignBornError": -225.1,
+            "baselineForeignBornError": -225.1,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          },
+          {
+            "year": 2022,
+            "horizon": 2,
+            "candidatePopulationError": 65.8,
+            "baselinePopulationError": 99.8,
+            "candidateBirthsError": 80.1,
+            "baselineBirthsError": 98.6,
+            "candidateDeathsError": -37,
+            "baselineDeathsError": -37.2,
+            "candidateSwedishBornError": 568.6,
+            "baselineSwedishBornError": 602.7,
+            "candidateForeignBornError": -502.8,
+            "baselineForeignBornError": -502.9,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          },
+          {
+            "year": 2023,
+            "horizon": 3,
+            "candidatePopulationError": 320.9,
+            "baselinePopulationError": 376.4,
+            "candidateBirthsError": 84.7,
+            "baselineBirthsError": 106.1,
+            "candidateDeathsError": -62.6,
+            "baselineDeathsError": -62.6,
+            "candidateSwedishBornError": 872.3,
+            "baselineSwedishBornError": 927.9,
+            "candidateForeignBornError": -551.4,
+            "baselineForeignBornError": -551.5,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          }
+        ],
+        "2021": [
+          {
+            "year": 2022,
+            "horizon": 1,
+            "candidatePopulationError": -32.8,
+            "baselinePopulationError": -27,
+            "candidateBirthsError": 53.6,
+            "baselineBirthsError": 59.5,
+            "candidateDeathsError": -25.4,
+            "baselineDeathsError": -25.3,
+            "candidateSwedishBornError": 238.9,
+            "baselineSwedishBornError": 244.8,
+            "candidateForeignBornError": -271.7,
+            "baselineForeignBornError": -271.8,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          },
+          {
+            "year": 2023,
+            "horizon": 2,
+            "candidatePopulationError": 183.8,
+            "baselinePopulationError": 197.5,
+            "candidateBirthsError": 47.8,
+            "baselineBirthsError": 55.6,
+            "candidateDeathsError": -52.6,
+            "baselineDeathsError": -52.7,
+            "candidateSwedishBornError": 497.8,
+            "baselineSwedishBornError": 511.9,
+            "candidateForeignBornError": -314,
+            "baselineForeignBornError": -314.3,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          },
+          {
+            "year": 2024,
+            "horizon": 3,
+            "candidatePopulationError": 202.8,
+            "baselinePopulationError": 225.8,
+            "candidateBirthsError": 87.1,
+            "baselineBirthsError": 96.3,
+            "candidateDeathsError": -22.6,
+            "baselineDeathsError": -22.8,
+            "candidateSwedishBornError": 782.6,
+            "baselineSwedishBornError": 806.2,
+            "candidateForeignBornError": -579.8,
+            "baselineForeignBornError": -580.4,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          }
+        ]
+      },
+      "FA_LULEA": {
+        "2018": [
+          {
+            "year": 2019,
+            "horizon": 1,
+            "candidatePopulationError": 153.9,
+            "baselinePopulationError": 199.4,
+            "candidateBirthsError": -88.1,
+            "baselineBirthsError": -42.8,
+            "candidateDeathsError": 2.7,
+            "baselineDeathsError": 2.5,
+            "candidateSwedishBornError": 554.6,
+            "baselineSwedishBornError": 600.2,
+            "candidateForeignBornError": -400.7,
+            "baselineForeignBornError": -400.8,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          },
+          {
+            "year": 2020,
+            "horizon": 2,
+            "candidatePopulationError": 237.7,
+            "baselinePopulationError": 332.7,
+            "candidateBirthsError": 16.1,
+            "baselineBirthsError": 65.1,
+            "candidateDeathsError": -104,
+            "baselineDeathsError": -104.5,
+            "candidateSwedishBornError": 857.5,
+            "baselineSwedishBornError": 953,
+            "candidateForeignBornError": -619.8,
+            "baselineForeignBornError": -620.3,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          },
+          {
+            "year": 2021,
+            "horizon": 3,
+            "candidatePopulationError": 174.5,
+            "baselinePopulationError": 321.1,
+            "candidateBirthsError": -50.2,
+            "baselineBirthsError": 1.2,
+            "candidateDeathsError": -24.4,
+            "baselineDeathsError": -24.5,
+            "candidateSwedishBornError": 1078.1,
+            "baselineSwedishBornError": 1225.1,
+            "candidateForeignBornError": -903.5,
+            "baselineForeignBornError": -904,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          }
+        ],
+        "2019": [
+          {
+            "year": 2020,
+            "horizon": 1,
+            "candidatePopulationError": 86.3,
+            "baselinePopulationError": 120.7,
+            "candidateBirthsError": 13.5,
+            "baselineBirthsError": 47.5,
+            "candidateDeathsError": -85.3,
+            "baselineDeathsError": -85.7,
+            "candidateSwedishBornError": 286.1,
+            "baselineSwedishBornError": 320.7,
+            "candidateForeignBornError": -199.8,
+            "baselineForeignBornError": -200,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          },
+          {
+            "year": 2021,
+            "horizon": 2,
+            "candidatePopulationError": 28.6,
+            "baselinePopulationError": 100,
+            "candidateBirthsError": -51.5,
+            "baselineBirthsError": -14.9,
+            "candidateDeathsError": -7.3,
+            "baselineDeathsError": -7.7,
+            "candidateSwedishBornError": 492.5,
+            "baselineSwedishBornError": 564.3,
+            "candidateForeignBornError": -463.8,
+            "baselineForeignBornError": -464.3,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          },
+          {
+            "year": 2022,
+            "horizon": 3,
+            "candidatePopulationError": 218.1,
+            "baselinePopulationError": 329.2,
+            "candidateBirthsError": 177.3,
+            "baselineBirthsError": 216.7,
+            "candidateDeathsError": -12.7,
+            "baselineDeathsError": -12.9,
+            "candidateSwedishBornError": 1035.7,
+            "baselineSwedishBornError": 1147.3,
+            "candidateForeignBornError": -817.6,
+            "baselineForeignBornError": -818.1,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          }
+        ],
+        "2020": [
+          {
+            "year": 2021,
+            "horizon": 1,
+            "candidatePopulationError": -39.9,
+            "baselinePopulationError": -0.3,
+            "candidateBirthsError": -138.8,
+            "baselineBirthsError": -99.3,
+            "candidateDeathsError": -64,
+            "baselineDeathsError": -64.1,
+            "candidateSwedishBornError": 213.9,
+            "baselineSwedishBornError": 253.5,
+            "candidateForeignBornError": -253.8,
+            "baselineForeignBornError": -253.8,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          },
+          {
+            "year": 2022,
+            "horizon": 2,
+            "candidatePopulationError": 146.5,
+            "baselinePopulationError": 233,
+            "candidateBirthsError": 72.1,
+            "baselineBirthsError": 118.7,
+            "candidateDeathsError": -66.4,
+            "baselineDeathsError": -66.8,
+            "candidateSwedishBornError": 743.6,
+            "baselineSwedishBornError": 830.4,
+            "candidateForeignBornError": -597.2,
+            "baselineForeignBornError": -597.4,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          },
+          {
+            "year": 2023,
+            "horizon": 3,
+            "candidatePopulationError": 799,
+            "baselinePopulationError": 938.9,
+            "candidateBirthsError": 129.7,
+            "baselineBirthsError": 183,
+            "candidateDeathsError": -118.9,
+            "baselineDeathsError": -119,
+            "candidateSwedishBornError": 1463.7,
+            "baselineSwedishBornError": 1604,
+            "candidateForeignBornError": -664.7,
+            "baselineForeignBornError": -665,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          }
+        ],
+        "2021": [
+          {
+            "year": 2022,
+            "horizon": 1,
+            "candidatePopulationError": 120.8,
+            "baselinePopulationError": 135.1,
+            "candidateBirthsError": 31.4,
+            "baselineBirthsError": 46.4,
+            "candidateDeathsError": -33.2,
+            "baselineDeathsError": -32.5,
+            "candidateSwedishBornError": 467.1,
+            "baselineSwedishBornError": 481.3,
+            "candidateForeignBornError": -346.2,
+            "baselineForeignBornError": -346.1,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          },
+          {
+            "year": 2023,
+            "horizon": 2,
+            "candidatePopulationError": 689.9,
+            "baselinePopulationError": 723.2,
+            "candidateBirthsError": 66.9,
+            "baselineBirthsError": 86,
+            "candidateDeathsError": -89.9,
+            "baselineDeathsError": -89.8,
+            "candidateSwedishBornError": 1105.8,
+            "baselineSwedishBornError": 1139.1,
+            "candidateForeignBornError": -415.9,
+            "baselineForeignBornError": -415.9,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          },
+          {
+            "year": 2024,
+            "horizon": 3,
+            "candidatePopulationError": 565.5,
+            "baselinePopulationError": 621,
+            "candidateBirthsError": 96.7,
+            "baselineBirthsError": 118.8,
+            "candidateDeathsError": 12.3,
+            "baselineDeathsError": 12.2,
+            "candidateSwedishBornError": 1527.7,
+            "baselineSwedishBornError": 1583.4,
+            "candidateForeignBornError": -962.2,
+            "baselineForeignBornError": -962.5,
+            "netMigrationDifference": 0,
+            "statusAccountingDifference": 0
+          }
+        ]
+      }
+    },
+    "structuralGate": {
+      "passed": true,
+      "rule": "Net migration must match the validated birth-status net10 engine and birth-status stocks must sum to total population."
+    }
+  },
   "profetConsistencyDiagnostic": {
     "note": "Development diagnostic only. Compares the same Profet birth-status engine with and without the locked Norrbotten municipality-to-county consistency layer. Only origins with same-vintage frozen county targets are scored.",
     "independentHoldout": false,

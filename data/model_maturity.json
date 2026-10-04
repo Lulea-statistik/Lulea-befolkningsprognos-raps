@@ -26,10 +26,10 @@
     "Scenarier bedöms separat från baslinjen; produktionsmoget scenario betyder reproducerbar och transparent scenariomekanik, inte att scenariot ingår i basprognosen."
   ],
   "summary": {
-    "componentCount": 39,
+    "componentCount": 40,
     "byLevel": {
       "1": 0,
-      "2": 9,
+      "2": 10,
       "3": 3,
       "4": 27
     },
@@ -71,6 +71,7 @@
       "scb_risk_flow",
       "profet_flow",
       "birth_status",
+      "profet_net10_status_demography_candidate",
       "consistency_adjustment"
     ]
   },
@@ -474,7 +475,7 @@
       "productionActive": false,
       "targetLevel": 4,
       "productionGatePassed": true,
-      "requiredGate": "Ny separat kandidat. Produktionsbaslinjens 10-åriga nettoflyttning per kön och ettårsålder ska bevaras exakt; endast fördelningen mellan svensk- och utrikesfödda modelleras. 2018–2024 är utvecklingsevidens och får inte användas för eftertrimning. Nivå 3 kräver ny förhandslåst extern eller framtida kontroll av statusbestånd.",
+      "requiredGate": "Nivå 3 kräver den redan låsta externa FA15-grinden. Nivå 4 kräver dessutom en ytterligare helt orörd framtida eller årlig kontroll efter att kandidatens formulering låsts. Produktionsbaslinjens net10 per kön och ettårsålder, 10-årsfönstret, reglerna för positiv/negativ statusallokering, fallback-regeln, födelsestatus för nyfödda och statusoberoende dödlighet ska vara oförändrade. Kandidaten måste återigen vara minst lika bra som stock-share-komparatorn för svenskfödda och utrikesfödda på n+1 och n+2 samt strikt bättre pooled för båda statusgrupperna, samtidigt som totalbefolkning och nettoflyttning exakt bevarar net10.",
       "gates": [
         {
           "label": "Net10 aggregate population and migration preserved",
@@ -496,6 +497,32 @@
         }
       ],
       "nextAction": "Level 3 validated candidate. Keep net10 totals, status-allocation rules and 10-year window frozen; require one further untouched future/annual control before any level-4 production use."
+    },
+    {
+      "key": "profet_net10_status_demography_candidate",
+      "label": "Profet-arkitektur: net10 + födelsestatusspecifik demografi",
+      "maturityLevel": 2,
+      "maturityName": "Utvecklingskandidat",
+      "lifecycle": "rejected_development",
+      "productionActive": false,
+      "targetLevel": 4,
+      "productionGatePassed": false,
+      "requiredGate": "Ny separat arkitektur låst före resultatutvärdering. Net10-total och låst statusallokering ska bevaras; endast same-vintage nationella relativtal för fertilitet efter moderns födelsestatus och dödlighet efter födelsestatus får påverka statusgrupperna. 2018–2024 är utvecklingsevidens och får inte användas för eftertrimning. Nivå 3 kräver ny förhandslåst extern eller framtida kontroll.",
+      "gates": [
+        {
+          "label": "Net10 migration and birth-status accounting preserved",
+          "passed": true,
+          "evidence": "{'passed': True, 'rule': 'Net migration must match the validated birth-status net10 engine and birth-status stocks must sum to total population.'}",
+          "required": false
+        },
+        {
+          "label": "Same-vintage status demography is non-worse on all n+1/n+2 development metrics with at least one strict improvement",
+          "passed": false,
+          "evidence": "2580 oneYear: population 77.7 vs 81.2; births 32.7 vs 38; deaths 28.4 vs 28.4; Sw 267.3 vs 280.3; Foreign 245.9 vs 246; 2580 twoYear: population 93.2 vs 107.8; births 40.9 vs 55.5; deaths 37.8 vs 37.9; Sw 504.9 vs 533.3; Foreign 427.8 vs 428; FA_LULEA oneYear: population 100.2 vs 113.9; births 68 vs 59; deaths 46.3 vs 46.2; Sw 380.4 vs 413.9; Foreign 300.1 vs 300.2; FA_LULEA twoYear: population 275.7 vs 347.2; births 51.7 vs 71.2; deaths 66.9 vs 67.2; Sw 799.9 vs 871.7; Foreign 524.2 vs 524.5",
+          "required": false
+        }
+      ],
+      "nextAction": "Keep at level 2. Do not retune same-vintage status multipliers on consumed 2018-2024 outcomes; any revised architecture must be separately locked."
     },
     {
       "key": "consistency_adjustment",
