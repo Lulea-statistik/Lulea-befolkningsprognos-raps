@@ -2626,6 +2626,130 @@ def ckm_diagnostics(base, deaths_2025, netmig_2025):
             })
     return diagnostics
 
+
+def historical_annual_rows(births, fertility_exposure, deaths, mortality_exposure, inflow, outflow, netmig):
+    """Annual observed history used to explain the calibration input.
+
+    The common displayed history starts in 2006 because that is the first year
+    with the matched mean-population exposure used for fertility and mortality.
+    2025 is deliberately excluded here: it is a post-calibration CKM control year.
+    """
+    result = []
+    geos = list(MUNICIPALITIES) + [FA_CODE]
+    for geo in geos:
+        for year in range(2006, CALIBRATION_END + 1):
+            births_total = sum(
+                births.get((geo, year, age), 0.0)
+                for age in range(15, 50)
+            )
+            deaths_total = sum(
+                deaths.get((geo, year, sex, age), 0.0)
+                for sex in ("K", "M") for age in range(101)
+            )
+            inflow_total = sum(
+                inflow.get((geo, year, sex, age), 0.0)
+                for sex in ("K", "M") for age in range(101)
+            )
+            outflow_total = sum(
+                outflow.get((geo, year, sex, age), 0.0)
+                for sex in ("K", "M") for age in range(101)
+            )
+            net_total = sum(
+                netmig.get((geo, year, sex, age), 0.0)
+                for sex in ("K", "M") for age in range(101)
+            )
+            tfr = 0.0
+            fertility_ages_with_exposure = 0
+            for age in range(15, 50):
+                exp = fertility_exposure.get((geo, year, "K", age), 0.0)
+                if exp > 0:
+                    tfr += births.get((geo, year, age), 0.0) / exp
+                    fertility_ages_with_exposure += 1
+            mort_exp = sum(
+                mortality_exposure.get((geo, year, sex, age), 0.0)
+                for sex in ("K", "M") for age in range(101)
+            )
+            result.append({
+                "geo": geo,
+                "year": year,
+                "births": births_total,
+                "fertilityTFR": tfr if fertility_ages_with_exposure else None,
+                "deaths": deaths_total,
+                "crudeMortalityPer1000": (
+                    None if mort_exp <= 0 else 1000.0 * deaths_total / mort_exp
+                ),
+                "inMigration": inflow_total,
+                "outMigration": outflow_total,
+                "netMigration": net_total,
+                "calibrationEligible": True,
+            })
+    return result
+
+
+def historical_window_summaries(births, fertility_exposure, deaths, mortality_exposure, inflow, outflow, netmig):
+    """Window summaries matching the model's pre-2025 calibration periods."""
+    result = []
+    geos = list(MUNICIPALITIES) + [FA_CODE]
+    for window in WINDOWS:
+        years = list(window_years(window))
+        for geo in geos:
+            births_total = sum(
+                births.get((geo, year, age), 0.0)
+                for year in years for age in range(15, 50)
+            )
+            deaths_total = sum(
+                deaths.get((geo, year, sex, age), 0.0)
+                for year in years for sex in ("K", "M") for age in range(101)
+            )
+            in_total = sum(
+                inflow.get((geo, year, sex, age), 0.0)
+                for year in years for sex in ("K", "M") for age in range(101)
+            )
+            out_total = sum(
+                outflow.get((geo, year, sex, age), 0.0)
+                for year in years for sex in ("K", "M") for age in range(101)
+            )
+            net_total = sum(
+                netmig.get((geo, year, sex, age), 0.0)
+                for year in years for sex in ("K", "M") for age in range(101)
+            )
+
+            pooled_tfr = 0.0
+            fertility_ages_with_exposure = 0
+            for age in range(15, 50):
+                b = sum(births.get((geo, year, age), 0.0) for year in years)
+                exp = sum(
+                    fertility_exposure.get((geo, year, "K", age), 0.0)
+                    for year in years
+                )
+                if exp > 0:
+                    pooled_tfr += b / exp
+                    fertility_ages_with_exposure += 1
+
+            mort_exp = sum(
+                mortality_exposure.get((geo, year, sex, age), 0.0)
+                for year in years for sex in ("K", "M") for age in range(101)
+            )
+            result.append({
+                "geo": geo,
+                "window": window,
+                "startYear": min(years),
+                "endYear": max(years),
+                "years": years,
+                "birthsAnnualMean": births_total / float(window),
+                "fertilityTFRPooled": pooled_tfr if fertility_ages_with_exposure else None,
+                "deathsAnnualMean": deaths_total / float(window),
+                "crudeMortalityPer1000Pooled": (
+                    None if mort_exp <= 0 else 1000.0 * deaths_total / mort_exp
+                ),
+                "inMigrationAnnualMean": in_total / float(window),
+                "outMigrationAnnualMean": out_total / float(window),
+                "netMigrationAnnualMean": net_total / float(window),
+                "note": "Pre-2025 calibration window; 2025 CKM is control data and is not included.",
+            })
+    return result
+
+
 def main():
     required = [
         "population_2025.csv", HISTORICAL_BIRTH_YEAR_EXPOSURE_FILE,
@@ -2889,6 +3013,14 @@ def main():
                 "proxy excluding the high-flow young-adult ages 18-24. Scenario priors are not causal estimates."
             ),
         },
+        "historicalAnnual": historical_annual_rows(
+            births, fertility_exposure, deaths, birth_year_exposure,
+            inflow, outflow, netmig
+        ),
+        "historicalWindowSummary": historical_window_summaries(
+            births, fertility_exposure, deaths, birth_year_exposure,
+            inflow, outflow, netmig
+        ),
         "populationBase": [
             {"geo": geo, "year": 2025, "sex": sex, "age": age, "value": value}
             for (geo, sex, age), value in sorted(base.items())
