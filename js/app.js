@@ -718,10 +718,24 @@
       localWeightPct=100*Number(modelRows[0].cellLocalWeight||0);
     }
     const modelLine=annual.map(()=>modelRisk);
+    const mortalityMax=Math.max(
+      0,
+      ...annual.map(r=>Number(r.riskPct)||0),
+      Number(modelRisk)||0
+    );
+    const mortalityTickDigits=mortalityMax<5?2:1;
     drawAgeLineChart("historyMortalityDetailChart",years,[
       {name:"Observerad dödssannolikhet",values:annual.map(r=>r.riskPct),cls:"lineOutflow",suffix:" %"},
       {name:`Modellens dödssannolikhet, ${windowYears}-årskalibrering`,values:modelLine,cls:"lineMean",suffix:" %"}
-    ],{yMin:0,yMax:100,xLabel:"År",hoverLabel:"År",valueDigits:1});
+    ],{
+      yMin:0,
+      xLabel:"År",
+      hoverLabel:"År",
+      valueDigits:mortalityMax<5?2:1,
+      yTickDigits:mortalityTickDigits,
+      yTickSuffix:" %",
+      legendGap:285
+    });
 
     const selected=annual.filter(r=>selectedYears.has(r.year));
     const deaths=selected.reduce((sum,r)=>sum+r.deaths,0);
@@ -729,14 +743,19 @@
     const annualMean=selected.length?deaths/selected.length:0;
     const pooledEventRate=exposure>0?deaths/exposure:null;
     const pooledRisk=pooledEventRate==null?null:100*(1-Math.exp(-Math.max(0,pooledEventRate)));
+    const formatRiskPct=value=>{
+      if(value==null||!Number.isFinite(Number(value))) return "–";
+      const n=Number(value);
+      return (n<5?fmt2:fmt1).format(n)+" %";
+    };
     const sexLabel=sex==="K"?"Kvinnor":sex==="M"?"Män":"Totalt";
     const ageLabel=ageVal==="ALL"?"alla åldrar":(ageVal==="100"?"100+ år":ageVal+" år");
     $("historyMortalitySummary").innerHTML=`
       <div class="historyDetailSummary">
         <div><span>Urval</span><strong>${sexLabel}, ${ageLabel}</strong></div>
         <div><span>Döda per år, kalibreringsperiod</span><strong>${fmt1.format(annualMean)}</strong></div>
-        <div><span>Observerad sammanvägd dödssannolikhet</span><strong>${pooledRisk==null?"–":fmt1.format(pooledRisk)+" %"}</strong></div>
-        <div><span>Modellens kalibrerade dödssannolikhet</span><strong>${modelRisk==null?"–":fmt1.format(modelRisk)+" %"}</strong></div>
+        <div><span>Observerad sammanvägd dödssannolikhet</span><strong>${formatRiskPct(pooledRisk)}</strong></div>
+        <div><span>Modellens kalibrerade dödssannolikhet</span><strong>${formatRiskPct(modelRisk)}</strong></div>
         ${localWeightPct==null?"":`<div><span>Lokal vikt i modellcellen</span><strong>${fmt1.format(localWeightPct)} %</strong></div>`}
       </div>
       <p class="hint"><strong>Tolkning:</strong> observerad 0 % betyder att inga dödsfall registrerades i just den valda cellen under perioden. Det betyder inte att prognosen antar 0 % dödssannolikhet. Modellens värde visas direkt som ungefärlig sannolikhet att avlida under ett år. ${localWeightPct==null
@@ -1387,9 +1406,10 @@
     const x=v=>p+(v-xmin)*(W-2*p)/xspan;
     const y=v=>H-p-(v-min)*(H-2*p)/span;
 
+    const yTickFormat=options.yTickDigits===2?fmt2:fmt1;
     const grid=domain.ticks.map(val=>{
       const yy=y(val);
-      return `<line x1="${p}" y1="${yy}" x2="${W-p}" y2="${yy}" class="gridline"/><text x="8" y="${yy+4}" class="axisText">${fmt1.format(val)}</text>`;
+      return `<line x1="${p}" y1="${yy}" x2="${W-p}" y2="${yy}" class="gridline"/><text x="8" y="${yy+4}" class="axisText">${yTickFormat.format(val)}${options.yTickSuffix||""}</text>`;
     }).join("");
     const lines=series.map(s=>{
       const points=xValues.map((age,i)=>{
@@ -1398,7 +1418,8 @@
       }).filter(Boolean).join(" ");
       return points?`<polyline points="${points}" class="${s.cls}"/>`:"";
     }).join("");
-    const legends=options.showLegend===false?"":series.map((s,i)=>`<text x="${p+i*155}" y="20" class="chartLegend">${s.name}</text>`).join("");
+    const legendGap=options.legendGap||155;
+    const legends=options.showLegend===false?"":series.map((s,i)=>`<text x="${p+i*legendGap}" y="20" class="chartLegend">${s.name}</text>`).join("");
     const xTicks=numericXAxisMarkup(
       xmin,xmax,x,H-p,6,
       v=>xmax===100&&v===100?"100+":String(Math.round(v))
