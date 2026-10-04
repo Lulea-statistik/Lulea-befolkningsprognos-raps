@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "research_method_locked_before_results",
+  "key": "housing_migration_lead_research",
+  "label": "Forskningsspår: laggad bostadsbeståndsförändring och nettoflyttning",
+  "productionDefault": false,
+  "researchOnly": true,
+  "purpose": "Test whether observed housing-stock additions contain stable one-year-ahead information about deviations in total net migration beyond the incumbent historical net-migration baseline.",
+  "causalClaim": false,
+  "scope": {
+    "outcome": "annual total net migration",
+    "predictor": "previous-year change in total dwelling stock",
+    "lagYears": 1,
+    "geographies": {
+      "development": [
+        "2580",
+        "FA_LULEA"
+      ],
+      "externalFA": [
+        "FA16_TRH",
+        "FA36_GAV",
+        "FA42_SUN"
+      ],
+      "externalAnchors": [
+        "1488",
+        "2180",
+        "2281"
+      ]
+    }
+  },
+  "method": {
+    "housingTotal": "sum all mutually exclusive dwelling-stock cells in TAB824",
+    "responseBaseline": "10-year trailing mean annual net migration using only years known at each origin",
+    "response": "actual net migration minus trailing baseline",
+    "predictorTransform": "previous-year dwelling-stock change minus the mean previous-year dwelling-stock change available in the training sample",
+    "estimator": "ordinary least squares with intercept fixed at zero on centered predictor/response residuals",
+    "training": "expanding history from first usable 2014 pair through origin-1, minimum 4 training pairs",
+    "forecast": "baseline net migration plus beta times centered latest lagged dwelling-stock change",
+    "horizon": "n+1 only",
+    "noAgeSexAllocation": true
+  },
+  "evaluation": {
+    "origins": [
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024
+    ],
+    "comparator": "10-year trailing mean net migration",
+    "primaryMetric": "net migration MAE",
+    "developmentGate": [
+      "Candidate n+1 MAE must be strictly below comparator for Lulea.",
+      "Candidate n+1 MAE must be strictly below comparator for Lulea FA.",
+      "Estimated beta must have the same sign in at least five of six development origins for each development geography."
+    ],
+    "externalGate": [
+      "Candidate n+1 MAE must be no worse than comparator in every locked FA15 reference region.",
+      "Pooled external FA15 n+1 MAE must be strictly below comparator.",
+      "The three locked anchor municipalities are robustness checks and must be reported separately."
+    ]
+  },
+  "governance": "Research-only explanatory/predictive diagnostic. No housing coefficient may enter the demographic production model from this experiment. No lag, transformation, window, geography or estimator may be changed after results are viewed; any revision is a new candidate."
+}
