@@ -29,6 +29,12 @@ ORIGINS = (2018, 2019, 2020, 2021)
 HORIZONS = (1, 2, 3)
 SCORED_AGES = range(20, 65)
 WINDOW = 10
+EXTERNAL_FA = {
+    "FA16_TRH": ("1427","1430","1439","1444","1461","1484","1485","1487","1488"),
+    "FA36_GAV": ("2101","2104","2180","2181","0319"),
+    "FA42_SUN": ("2260","2262","2280","2281"),
+}
+EXTERNAL_ANCHORS = ("1488","2180","2281")
 
 
 def write(payload):
@@ -148,6 +154,20 @@ def aggregate_fa(stock):
                         stock.get((geo, year, sex, age, level), 0.0)
                         for geo in b.MUNICIPALITIES
                     )
+    return out
+
+
+def aggregate_external_fa(stock):
+    out = defaultdict(float, stock)
+    for code, members in EXTERNAL_FA.items():
+        for year in range(2008, 2026):
+            for sex in ("K", "M"):
+                for age in range(16, 75):
+                    for level in LEVELS:
+                        out[(code, year, sex, age, level)] = sum(
+                            stock.get((geo, year, sex, age, level), 0.0)
+                            for geo in members
+                        )
     return out
 
 
@@ -327,6 +347,103 @@ def main():
                 "identityShareMAE": mae(ident),
             }
 
+    stock = aggregate_external_fa(stock)
+    external = {"regions": {}, "anchors": {}, "pooled": {}}
+    for geo in tuple(EXTERNAL_FA) + EXTERNAL_ANCHORS:
+        geo_out = {}
+        for horizon in HORIZONS:
+            cand = []
+            ident = []
+            cells = 0
+            for origin in ORIGINS:
+                probs = transition_probabilities(stock, origin)
+                for sex in ("K", "M"):
+                    for target_age in SCORED_AGES:
+                        base_age = target_age - horizon
+                        if base_age < 16:
+                            continue
+                        actual = shares(stock, geo, origin + horizon, sex, target_age)
+                        candidate = forecast_distribution(
+                            stock, geo, origin, sex, base_age,
+                            horizon, probs, identity=False
+                        )
+                        identity = forecast_distribution(
+                            stock, geo, origin, sex, base_age,
+                            horizon, probs, identity=True
+                        )
+                        if actual is None or candidate is None or identity is None:
+                            continue
+                        cand.extend(
+                            abs(candidate[i] - actual[i]) for i in range(len(LEVELS))
+                        )
+                        ident.extend(
+                            abs(identity[i] - actual[i]) for i in range(len(LEVELS))
+                        )
+                        cells += 1
+            geo_out[str(horizon)] = {
+                "observationsSexAgeCells": cells,
+                "candidateShareMAE": mae(cand),
+                "identityShareMAE": mae(ident),
+            }
+        target = external["regions"] if geo in EXTERNAL_FA else external["anchors"]
+        target[geo] = geo_out
+
+    pooled_cand = []
+    pooled_ident = []
+    for geo in EXTERNAL_FA:
+        for horizon in (1, 2):
+            x = external["regions"][geo][str(horizon)]
+            if x["candidateShareMAE"] is not None:
+                pooled_cand.append(x["candidateShareMAE"])
+                pooled_ident.append(x["identityShareMAE"])
+    external["pooled"] = {
+        "candidateShareMAE": mae(pooled_cand),
+        "identityShareMAE": mae(pooled_ident),
+    }
+
+    external_checks = []
+    for geo in EXTERNAL_FA:
+        n1 = external["regions"][geo]["1"]
+        n2 = external["regions"][geo]["2"]
+        external_checks.append({
+            "geo": geo,
+            "n1StrictlyBetter": (
+                n1["candidateShareMAE"] is not None
+                and n1["candidateShareMAE"] < n1["identityShareMAE"]
+            ),
+            "n2NonWorse": (
+                n2["candidateShareMAE"] is not None
+                and n2["candidateShareMAE"] <= n2["identityShareMAE"]
+            ),
+        })
+    anchor_checks = []
+    for geo in EXTERNAL_ANCHORS:
+        n1 = external["anchors"][geo]["1"]
+        anchor_checks.append({
+            "geo": geo,
+            "n1StrictlyBetter": (
+                n1["candidateShareMAE"] is not None
+                and n1["candidateShareMAE"] < n1["identityShareMAE"]
+            ),
+        })
+    external_passed = (
+        all(x["n1StrictlyBetter"] and x["n2NonWorse"] for x in external_checks)
+        and all(x["n1StrictlyBetter"] for x in anchor_checks)
+        and external["pooled"]["candidateShareMAE"] is not None
+        and external["pooled"]["candidateShareMAE"] < external["pooled"]["identityShareMAE"]
+    )
+    external["gate"] = {
+        "status": "predeclared_external_level3_gate",
+        "checks": external_checks,
+        "anchorChecks": anchor_checks,
+        "pooledStrictlyBetter": (
+            external["pooled"]["candidateShareMAE"] is not None
+            and external["pooled"]["candidateShareMAE"] < external["pooled"]["identityShareMAE"]
+        ),
+        "passed": external_passed,
+    }
+    result["externalLevel3"] = external
+
     structural_passed = (
         transition_min >= -1e-12
         and transition_max <= 1.0 + 1e-12
@@ -362,7 +479,8 @@ def main():
         "qutb education diagnostic: "
         f"Lulea n+1 {lulea1['candidateShareMAE']} vs {lulea1['identityShareMAE']}; "
         f"FA n+1 {fa1['candidateShareMAE']} vs {fa1['identityShareMAE']}; "
-        f"development gate={development_passed}"
+        f"development gate={development_passed}; "
+        f"external gate={result['externalLevel3']['gate']['passed']}"
     )
 
 
