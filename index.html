@@ -78,7 +78,7 @@
             <svg id="chart" viewBox="0 0 900 380" role="img" aria-label="Befolkningsprognos"></svg>
           </article>
           <article class="panel">
-            <h2>Benchmark vid valt slutår</h2>
+            <h2>Jämförelse vid valt slutår</h2>
             <div id="benchmarkCards" class="stackedMetrics"></div>
           </article>
         </div>
@@ -146,7 +146,7 @@
 
         <article class="panel chartPanel">
           <div class="panelHead">
-            <div><h2>Fruktsamhet – lokal vikt per ålder</h2><p class="hint">Moderns ålder 15–49 år. Hover visar lokal vikt, årlig population, förväntade händelser och modellens nivå.</p></div>
+            <div><h2>Fruktsamhet – lokal vikt per ålder</h2><p class="hint">Moderns ålder 15–49 år. Håll muspekaren över diagrammet för att se lokal vikt, årlig population, förväntade händelser och modellens nivå.</p></div>
           </div>
           <svg id="fertilityWeightChart" viewBox="0 0 900 320" role="img" aria-label="Lokal vikt för fruktsamhet efter ålder"></svg>
           <div class="tableWrap analysisTableWrap"><table id="fertilityAgeTable" class="miniTable"><thead><tr>
@@ -170,7 +170,7 @@
 
         <article class="panel chartPanel">
           <div class="panelHead">
-            <div><h2>Dödlighet – lokal vikt per ålder och kön</h2><p class="hint">0–100+ år. Kvinnor och män visas separat; hover visar cellens stöd och lokal påverkan.</p></div>
+            <div><h2>Dödlighet – lokal vikt per ålder och kön</h2><p class="hint">0–100+ år. Kvinnor och män visas separat. Håll muspekaren över diagrammet för att se cellens underlag och lokala påverkan.</p></div>
           </div>
           <svg id="mortalityWeightChart" viewBox="0 0 900 340" role="img" aria-label="Lokal vikt för dödlighet efter ålder och kön"></svg>
           <div class="tableWrap analysisTableWrap"><table id="mortalityAgeTable" class="miniTable"><thead><tr>
@@ -198,7 +198,7 @@
 
         <article class="panel chartPanel">
           <div class="panelHead">
-            <div><h2>Flyttströmmar efter ålder</h2><p class="hint">Historiskt årsmedel för inflyttning, utflyttning och netto. Hover visar värde för varje 1-årsålder.</p></div>
+            <div><h2>Flyttströmmar efter ålder</h2><p class="hint">Historiskt årsmedel för inflyttning, utflyttning och netto. Håll muspekaren över diagrammet för att se värdet för varje ettårsålder.</p></div>
           </div>
           <svg id="migrationAgeChart" viewBox="0 0 900 340" role="img" aria-label="Flyttströmmar efter ålder"></svg>
         </article>
@@ -350,7 +350,7 @@
 
         <article class="panel chartPanel">
           <div class="panelHead">
-            <div><h2>Åldersprofil för jobbrelaterad inflyttning</h2><p class="hint">Diagrammet jämför arbetstagarprofil, hushållsproxy och observerad inflyttning i 1-årsåldrar. Tabellen under visar SCB:s breda arbetsmarknadsgrupper 15–24, 25–54 och 55–74.</p></div>
+            <div><h2>Åldersprofil för jobbrelaterad inflyttning</h2><p class="hint">Diagrammet jämför arbetstagarprofil, hushållsapproximation och observerad inflyttning i 1-årsåldrar. Tabellen under visar SCB:s breda arbetsmarknadsgrupper 15–24, 25–54 och 55–74.</p></div>
           </div>
           <svg id="labourAgeProfileChart" viewBox="0 0 900 330" role="img" aria-label="Åldersprofil för jobbrelaterad inflyttning"></svg>
           <div id="labourWorkerAgeGroups"></div>
@@ -407,7 +407,7 @@
 
         <article class="panel">
           <h2>Boverket-inspirerad byggbehovsöversikt</h2>
-          <p class="hint">Visar vilka delar av Boverkets metod som redan finns i modellen och vilka som ännu är externa benchmark/utvecklingssteg.</p>
+          <p class="hint">Visar vilka delar av Boverkets metod som redan finns i modellen och vilka som ännu är externa jämförelser och utvecklingssteg.</p>
           <div id="boverketHousingMethod"></div>
         </article>
 
@@ -419,7 +419,7 @@
 
         <article class="panel">
           <h2>SCB-standard: personer per bostad</h2>
-          <p class="hint">2024 används som automatisk scenariostandard. Flerbostadshus kan skiljas efter upplåtelseform och antal rum; småhus använder upplåtelseform. Riket används endast som fallback om kommunvärde saknas.</p>
+          <p class="hint">2024 används som automatisk scenariostandard. Flerbostadshus kan skiljas efter upplåtelseform och antal rum; småhus använder upplåtelseform. Riket används endast som reservvärde om kommunvärde saknas.</p>
           <div id="occupancyDefaultsTable"></div>
         </article>
 
@@ -468,7 +468,7 @@
               <input id="migMult" type="number" min="-3" max="3" step="0.01" value="1" />
             </label>
           </div>
-          <p class="hint">Raps/SCB 2024 är bas. SCB 2026 byter endast den nationella fruktsamhetsbanan. Nettoflyttningens fönster kan ändras separat från fruktsamhet/dödlighet för en ren migrationskänslighet. Multiplikatorerna är separata känslighetsjusteringar och ska inte användas för att trimma modellen mot backtestutfall.</p>
+          <p class="hint">Raps/SCB 2024 är bas. SCB 2026 byter endast den nationella fruktsamhetsbanan. Nettoflyttningens fönster kan ändras separat från fruktsamhet/dödlighet för en ren migrationskänslighet. Multiplikatorerna är separata känslighetsjusteringar och ska inte användas för att trimma modellen mot historiska testutfall.</p>
         </article>
 
         <article class="panel">
@@ -490,7 +490,7 @@
             <th>Aktiv</th><th>År</th><th>Kommun</th><th>Planerade jobb</th><th>Fördelning</th><th>Åldersprofil</th><th>Realiseras %</th><th>Utanför FA → flyttar %</th><th>Personer/inflyttat jobb</th><th>Spin-off jobb per direkt jobb</th><th>Internationell rekrytering av externa %</th><th>Värdkommun % (manuell)</th><th>Övriga FA-pendlare → flyttar %</th><th>Infasning</th><th></th>
           </tr></thead><tbody></tbody></table></div>
           <div id="workplaceScenarioPreview" class="scenarioPreviewList"></div>
-          <p class="hint">Med observerad pendling fördelas jobben först efter dagens bostadskommuner. Endast en separat vald andel av jobben som tas av personer utanför FA ger ny inflyttning. Den externa jobbdrivna inflyttningen kan delas mellan övriga Sverige och internationell rekrytering. Detta är ett scenario ovanpå baslinjen, inte en kalibrering av normalflyttningen. Spin-off-faktorn anger ytterligare jobb i övriga samhället per realiserat direkt industrijobb; 1,5 innebär exempelvis 1 500 spin-off-jobb per 1 000 direkta jobb. Dessa jobb behandlas med samma explicita pendlings-, flytt- och hushållsantaganden som den direkta arbetskraftseffekten. Standardprofilen skiljer på själva arbetstagaren och medföljande hushållsmedlemmar. Flytt mellan FA-kommuner påverkar bara kommunfördelningen, inte FA-totalen.</p>
+          <p class="hint">Med observerad pendling fördelas jobben först efter dagens bostadskommuner. Endast en separat vald andel av jobben som tas av personer utanför FA ger ny inflyttning. Den externa jobbdrivna inflyttningen kan delas mellan övriga Sverige och internationell rekrytering. Detta är ett scenario ovanpå baslinjen, inte en kalibrering av normalflyttningen. Spridningseffekten anger ytterligare jobb i övriga samhället per realiserat direkt industrijobb; 1,5 innebär exempelvis 1 500 spin-off-jobb per 1 000 direkta jobb. Dessa jobb behandlas med samma explicita pendlings-, flytt- och hushållsantaganden som den direkta arbetskraftseffekten. Standardprofilen skiljer på själva arbetstagaren och medföljande hushållsmedlemmar. Flytt mellan FA-kommuner påverkar bara kommunfördelningen, inte FA-totalen.</p>
         </article>
 
         <article class="panel">
@@ -504,11 +504,11 @@
 
       <section class="page" id="page-validation">
         <div class="pageTitle">
-          <div><h2>Validering</h2><p>Historisk utvecklingsbacktest och extern jämförelse mot SCB:s regionala framskrivning.</p></div>
+          <div><h2>Validering</h2><p>Historiskt utvecklingstest och extern jämförelse mot SCB:s regionala framskrivning.</p></div>
         </div>
 
         <div class="cards validationCards">
-          <article class="card"><span>Backtest MAPE</span><strong id="backtestMape">–</strong><small>2022–2024</small></article>
+          <article class="card"><span>Historiskt test, MAPE</span><strong id="backtestMape">–</strong><small>2022–2024</small></article>
           <article class="card"><span>Fel 2024</span><strong id="backtest2024">–</strong><small>befolkning</small></article>
           <article class="card"><span>SCB-avvikelse 2050</span><strong id="scbDiff2050">–</strong><small>omankrad bana</small></article>
           <article class="card"><span>FA-konsistens</span><strong id="faConsistency">–</strong><small>basår</small></article>
@@ -516,7 +516,7 @@
 
         <div class="grid2">
           <article class="panel">
-            <h2>Utvecklingsbacktest 2022–2024</h2>
+            <h2>Historiskt utvecklingstest 2022–2024</h2>
             <div id="backtestTable"></div>
           </article>
           <article class="panel">
@@ -527,15 +527,15 @@
 
         <article class="panel chartPanel">
           <div class="panelHead">
-            <div><h2>Utvecklingsbacktest 2024 per 1-årsålder</h2><p class="hint">Skillnad mellan prognos och faktiskt utfall i antal personer. Tabellen visar även procentfelet så absolut och relativ avvikelse kan bedömas tillsammans.</p></div>
+            <div><h2>Historiskt utvecklingstest 2024 per ettårsålder</h2><p class="hint">Skillnad mellan prognos och faktiskt utfall i antal personer. Tabellen visar även procentfelet så absolut och relativ avvikelse kan bedömas tillsammans.</p></div>
           </div>
-          <svg id="backtestAgeErrorChart" viewBox="0 0 900 340" role="img" aria-label="Backtestfel per ålder"></svg>
+          <svg id="backtestAgeErrorChart" viewBox="0 0 900 340" role="img" aria-label="Fel i historiskt test per ålder"></svg>
           <div id="backtestAgeErrorTable"></div>
         </article>
 
         <article class="panel chartPanel">
           <div class="panelHead">
-            <div><h2>Flerårsdiagnostik per 1-årsålder</h2><p class="hint">Procentfel per ålder för samtliga tillgängliga utvecklingsbacktestår. Syftet är att skilja systematiska åldersfel från enstaka årsavvikelser.</p></div>
+            <div><h2>Flerårsdiagnostik per 1-årsålder</h2><p class="hint">Procentfel per ålder för samtliga tillgängliga historiska testår. Syftet är att skilja systematiska åldersfel från enstaka årsavvikelser.</p></div>
           </div>
           <svg id="backtestAgeMultiYearChart" viewBox="0 0 900 340" role="img" aria-label="Procentfel per ålder och backtestår"></svg>
           <div id="backtestAgeMultiYearTable"></div>
@@ -544,7 +544,7 @@
         <div class="grid2">
           <article class="panel">
             <h2>Kohortdiagnostik</h2>
-            <p class="hint">Följer samma födelsekohort genom backteståren. Tabellen prioriterar kohorter där felet växer över tid.</p>
+            <p class="hint">Följer samma födelsekohort genom de historiska teståren. Tabellen prioriterar kohorter där felet växer över tid.</p>
             <div id="backtestCohortTable"></div>
           </article>
           <article class="panel">
@@ -556,19 +556,19 @@
 
         <article class="panel">
           <h2>Informationsvägd utjämning – 0 %, nuvarande och 100 % lokal åldersvikt</h2>
-          <p class="hint">Rolling-origin-diagnostik som isolerar själva ålderscellsvikten. 0 % behåller den generella kommunfaktorn men ingen lokal ettårsåldersavvikelse; 100 % använder den lokala ettårsåldersfaktorn fullt ut inom samma fasta faktorgränser.</p>
+          <p class="hint">Diagnostik med rullande prognosursprung som isolerar själva ålderscellsvikten. 0 % behåller den generella kommunfaktorn men ingen lokal ettårsåldersavvikelse; 100 % använder den lokala ettårsåldersfaktorn fullt ut inom samma fasta faktorgränser.</p>
           <div id="ageCellWeightValidation"></div>
         </article>
 
         <article class="panel">
           <h2>Alternativa utjämningsmetoder</h2>
-          <p class="hint">Diagnostisk rolling-origin-jämförelse. Empirical Bayes testas för fruktsamhet och dödlighet. För fruktsamhet testas även penaliserad åldersutjämning med tre fasta utjämningsstyrkor. Produktionsbaslinjen ändras inte av denna tabell.</p>
+          <p class="hint">Diagnostisk jämförelse med rullande prognosursprung. Empirical Bayes testas för fruktsamhet och dödlighet. För fruktsamhet testas även penaliserad åldersutjämning med tre fasta utjämningsstyrkor. Produktionsbaslinjen ändras inte av denna tabell.</p>
           <div id="localizationMethodValidation"></div>
         </article>
 
         <article class="panel">
           <h2>Valideringsprincip</h2>
-          <p>Backtest och benchmark används för att bedöma modellen, inte för att i efterhand ändra antaganden så att historiska utfall passas bättre. Parametrar för informationsvägd utjämning och metodval ska vara dokumenterade och fastställda före utvärderingen.</p>
+          <p>Historiska tester och externa jämförelser används för att bedöma modellen, inte för att i efterhand ändra antaganden så att historiska utfall passas bättre. Parametrar för informationsvägd utjämning och metodval ska vara dokumenterade och fastställda före utvärderingen.</p>
         </article>
       </section>
 
@@ -623,7 +623,7 @@
             <p>Förenklat är modellens åldersspecifika nivå:</p>
             <p><code>modellnivå = (1 − w) × riksnivå × kommunfaktor + w × lokal åldersnivå</code></p>
             <p>där <code>w</code> är den lokala vikten i den informationsvägda utjämningen.</p>
-            <p>Baslinjen använder SCB/Raps 2024:s nationella framtidsprofil. SCB 2026 finns som separat <strong>fruktsamhets-only</strong> känslighetsbana och ändrar inte modellens dödlighet eller migration.</p>
+            <p>Baslinjen använder SCB/Raps 2024:s nationella framtidsprofil. SCB 2026 finns som separat <strong>känslighetsbana endast för fruktsamhet</strong> och ändrar inte modellens dödlighet eller migration.</p>
           </article>
 
           <article class="panel">
@@ -647,7 +647,7 @@
           </ul>
           <p>Den slutliga lokala vikten är produkten av de två signalerna. Den beror alltså på informationsmängden, <strong>inte på om den lokala observationen råkar förbättra ett redan känt prognosutfall</strong>.</p>
           <p>0 % lokal vikt betyder inte att kommunen behandlas exakt som Riket: rikets åldersprofil skalas fortfarande med kommunens generella relativa nivå. 100 % betyder att den lokala ålderscellen används fullt ut inom modellens skyddade faktorgränser.</p>
-          <p><strong>Valideringsresultat:</strong> ett separat rolling-origin-test jämför nu 0 % lokal åldersvikt, nuvarande informationsvägning och 100 % lokal åldersvikt. Resultatet är blandat. För Luleå kommun gav 0 % lokal åldersvikt lägst MAE i fem av sex jämförelser för fruktsamhet/dödlighet och 3/6/10-årsfönster; för 3-årig fruktsamhet var 100 % lokal vikt marginellt bäst. För Luleå FA var 100 % lokal vikt bäst för fruktsamhet i samtliga tre fönster, medan 0 % var bäst för dödlighet i samtliga tre. Nuvarande informationsvägning var alltså inte bäst i någon av dessa tolv huvudjämförelser.</p>
+          <p><strong>Valideringsresultat:</strong> ett separat test med rullande prognosursprung jämför nu 0 % lokal åldersvikt, nuvarande informationsvägning och 100 % lokal åldersvikt. Resultatet är blandat. För Luleå kommun gav 0 % lokal åldersvikt lägst MAE i fem av sex jämförelser för fruktsamhet/dödlighet och 3/6/10-årsfönster; för 3-årig fruktsamhet var 100 % lokal vikt marginellt bäst. För Luleå FA var 100 % lokal vikt bäst för fruktsamhet i samtliga tre fönster, medan 0 % var bäst för dödlighet i samtliga tre. Nuvarande informationsvägning var alltså inte bäst i någon av dessa tolv huvudjämförelser.</p>
           <p class="hint">Detta betyder inte att informationsvägningen är ogiltig: den är utfallsoberoende, monoton och stabil, och tidigare tester visade tydligt att lokal information generellt tillför värde jämfört med en helt nationell profil. Men trevägstestet visar att just den nuvarande viktfunktionen ännu inte är empiriskt visad som prognosmässigt optimal. Därför ska trösklarna inte efterjusteras mot dessa kända utfall; en eventuell ny utjämningsmetod måste låsas före nästa oberoende utvärdering.</p>
         </article>
 
@@ -669,7 +669,7 @@
           <article class="panel">
             <h2>7. Kalibreringsfönster</h2>
             <p>Fruktsamhet och dödlighet använder huvudfönstren <strong>3, 6 och 10 år</strong>. Tio år är standard eftersom längre serier normalt ger stabilare lokal nivå, medan kortare fönster finns för känslighetsanalys.</p>
-            <p>Migration tillåter dessutom <strong>2 och 4 år</strong> eftersom flyttmönster kan förändras snabbare än födelse- och dödsrisker. Kalibreringsfönsterval utvärderas med rolling-origin-test, inte genom att välja det kalibreringsfönster som bäst passar hela den redan observerade perioden.</p>
+            <p>Migration tillåter dessutom <strong>2 och 4 år</strong> eftersom flyttmönster kan förändras snabbare än födelse- och dödsrisker. Kalibreringsfönsterval utvärderas med test med rullande prognosursprung, inte genom att välja det kalibreringsfönster som bäst passar hela den redan observerade perioden.</p>
           </article>
 
           <article class="panel">
@@ -695,12 +695,12 @@
 
         <article class="panel">
           <h2>11. Validering och skydd mot överanpassning</h2>
-          <p>Metodval och parametrar ska låsas innan ett holdout används. Historiska utfall används sedan för att utvärdera modellen, inte för att efterhandsjustera samma kandidat tills resultatet blir bättre.</p>
+          <p>Metodval och parametrar ska låsas innan en orörd kontrollperiod används. Historiska utfall används sedan för att utvärdera modellen, inte för att efterhandsjustera samma kandidat tills resultatet blir bättre.</p>
           <ul>
-            <li><strong>Utvecklingsbacktest 2022–2024:</strong> använder bara information som var tillgänglig före prognosperioden.</li>
+            <li><strong>Historiskt utvecklingstest 2022–2024:</strong> använder bara information som var tillgänglig före prognosperioden.</li>
             <li><strong>Rolling-origin:</strong> flera historiska startår med då tillgänglig lokal information och motsvarande SCB-vintage.</li>
             <li><strong>Extern regional kontroll:</strong> samma metod testas på fördefinierade referensregioner utan regionspecifik omtrimning.</li>
-            <li><strong>SCB-benchmark:</strong> modellen jämförs med SCB:s regionala framskrivning, inklusive omankring till faktiskt 2025-bestånd.</li>
+            <li><strong>SCB-jämförelse:</strong> modellen jämförs med SCB:s regionala framskrivning, inklusive omankring till faktiskt 2025-bestånd.</li>
           </ul>
           <p>En underkänd kandidat behålls i mognadsregistret som evidens men aktiveras inte i basprognosen. Nya försök ska behandlas som nya förhandsdefinierade kandidater med nya, relevanta valideringsgrindar.</p>
         </article>
@@ -743,8 +743,8 @@
 
         <article class="panel">
           <h2>14. Reproducerbarhet och dataflöde</h2>
-          <p>Rådata hämtas från SCB och sparas tillsammans med källmanifest. Byggskript skapar därefter modellindata, validering, backtester, arbetsmarknadsdata, hushålls-/bostadsdata och mognadsrapport. GitHub Actions kör syntax- och modelltester innan genererade filer publiceras.</p>
-          <p>En grön GitHub Pages-deploy är därför inte ensam ett kvalitetsbevis: den relevanta modell-/data-workflowen måste också vara grön. Den tekniska produktionsstatusen dokumenteras i <code>docs/PRODUCTION_READINESS.md</code> och <code>data/model_maturity.json</code>.</p>
+          <p>Rådata hämtas från SCB och sparas tillsammans med källmanifest. Byggskript skapar därefter modellindata, validering, historiska tester, arbetsmarknadsdata, hushålls-/bostadsdata och mognadsrapport. GitHub Actions kör syntax- och modelltester innan genererade filer publiceras.</p>
+          <p>En grön GitHub Pages-publicering är därför inte ensam ett kvalitetsbevis: den relevanta modell- och dataarbetsflödet måste också vara grön. Den tekniska produktionsstatusen dokumenteras i <code>docs/PRODUCTION_READINESS.md</code> och <code>data/model_maturity.json</code>.</p>
         </article>
 
         <article class="panel">
