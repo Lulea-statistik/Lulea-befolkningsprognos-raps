@@ -1699,14 +1699,16 @@
     const componentByKey=key=>(maturity?.components||[]).find(x=>x.key===key);
     const fertStatus=componentByKey("fertility_spline_candidate");
     const mortStatus=componentByKey("mortality_eb_candidate");
+    const wlsStatus=componentByKey("mortality_wls_candidate");
     const migStatus=componentByKey("migration_spline_candidate");
-    const candidateStatusMarkup=(fertStatus||mortStatus||migStatus)
+    const candidateStatusMarkup=(fertStatus||mortStatus||wlsStatus||migStatus)
       ? "<div class=\"stackedMetrics\" style=\"margin-bottom:12px\">"+
         (fertStatus?"<div class=\"kv\"><span>Fruktsamhet – kubisk spline λ=10</span><strong>Nivå "+fertStatus.maturityLevel+" · "+fertStatus.maturityName+"</strong></div>":"")+
         (mortStatus?"<div class=\"kv\"><span>Dödlighet – Empirical Bayes</span><strong>Nivå "+mortStatus.maturityLevel+" · "+mortStatus.maturityName+"</strong></div>":"")+
+        (wlsStatus?"<div class=\"kv\"><span>Dödlighet – weighted least squares</span><strong>Nivå "+wlsStatus.maturityLevel+" · "+wlsStatus.maturityName+"</strong></div>":"")+
         (migStatus?"<div class=\"kv\"><span>Migration – kubisk spline</span><strong>Nivå "+migStatus.maturityLevel+" · "+migStatus.lifecycle+"</strong></div>":"")+
         "</div>"+
-        "<p class=\"hint\"><strong>Produktionsstatus:</strong> fruktsamhets-splinen är validerad kandidat men ännu inte produktionsaktiv. Dödlighets-EB och migrations-splinen är stängda på nivå 2 efter låsta valideringsgrindar.</p>"
+        "<p class=\"hint\"><strong>Produktionsstatus:</strong> fruktsamhets-splinen och dödlighets-WLS är validerade nivå-3-kandidater men ännu inte produktionsaktiva. Dödlighets-EB och migrations-splinen är stängda på nivå 2 efter låsta valideringsgrindar.</p>"
       : "";
     el.innerHTML=
       candidateStatusMarkup+
