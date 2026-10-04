@@ -126,7 +126,7 @@
     const current=el.value||data?.parameters?.defaultFertilityScenario||"raps2024";
     const scenarios=(data?.fertilityScenarios?.length
       ? data.fertilityScenarios
-      : [{id:"raps2024",label:"Raps/SCB 2024 (bas)",isBaseline:true}]);
+      : [{id:"raps2024",label:"rAps/SCB 2024 (bas)",isBaseline:true}]);
     el.innerHTML=scenarios.map(s=>
       `<option value="${s.id}" ${s.id===current?"selected":""}>${s.label||s.id}</option>`
     ).join("");
@@ -402,7 +402,7 @@
       return `<div class="scenarioPreview">
         <strong>Rad ${i+1}: observerad pendling ${cs.year} för ${names[s.municipality]||s.municipality}.</strong>
         Samma kommun ${pct.format(host)} %, övriga FA ${pct.format(other)} %, utanför FA ${pct.format(outside)} %.
-        Direkta realiserade jobb: ca ${fmt.format(directRealizedJobs)}. Spin-off ${Number(spinOffFactor).toLocaleString("sv-SE")} per direkt jobb ger ca ${fmt.format(spinOffJobs)} ytterligare jobb och ca ${fmt.format(realizedJobs)} jobb totalt i scenariots arbetskraftseffekt.
+        Direkta realiserade jobb: ca ${fmt.format(directRealizedJobs)}. Spridningseffekt ${Number(spinOffFactor).toLocaleString("sv-SE")} per direkt jobb ger ca ${fmt.format(spinOffJobs)} ytterligare jobb och ca ${fmt.format(realizedJobs)} jobb totalt i scenariots arbetskraftseffekt.
         Av jobben utanför FA antas ${pct.format(Number(s.moveSharePct||0))} % flytta till FA.
         Av denna externa jobbdrivna inflyttning anges ${pct.format(internationalShare)} % som internationell rekrytering
         (ca ${fmt.format(internationalPersons)} personer) och ca ${fmt.format(domesticPersons)} personer från övriga Sverige.
@@ -585,7 +585,7 @@
     const targetYear=+$("endYear").value;
     const r=rows.find(x=>+x.year===targetYear)||rows.at(-1);
     if(!r){
-      $("benchmarkCards").innerHTML="<p class='hint'>Benchmarkdata genereras i nästa workflow-körning.</p>";return;
+      $("benchmarkCards").innerHTML="<p class='hint'>Jämförelsedata genereras i nästa arbetsflödeskörning.</p>";return;
     }
     $("benchmarkCards").innerHTML=`
       <div class="kv"><span>Modell ${r.year}</span><strong>${fmt.format(r.modelPopulation)}</strong></div>
@@ -605,7 +605,7 @@
 
   function renderWindowComparison(geo){
     const f=validation?.forecasts?.[geo];
-    if(!f){$("windowComparison").innerHTML="<p class='hint'>Valideringsdata genereras i nästa workflow-körning.</p>";return;}
+    if(!f){$("windowComparison").innerHTML="<p class='hint'>Valideringsdata genereras i nästa arbetsflödeskörning.</p>";return;}
     $("windowComparison").innerHTML=`<table class="miniTable"><thead><tr><th>Fönster</th><th>2050</th><th>Förändring</th></tr></thead><tbody>
       ${[3,6,10].map(w=>`<tr><td>${w} år</td><td>${fmt.format(f[w]?.endPopulation||0)}</td><td>${(f[w]?.changePct||0)>=0?"+":""}${pct.format(f[w]?.changePct||0)} %</td></tr>`).join("")}
       </tbody></table>`;
@@ -654,7 +654,7 @@
     const w=String($("window").value);
     const ex=validation?.fadingExamples?.[geo]?.[w];
     if(!ex){
-      $("fadingExamples").innerHTML="<p class='hint'>Diagnostik för informationsvägd utjämning genereras i nästa workflow-körning.</p>";
+      $("fadingExamples").innerHTML="<p class='hint'>Diagnostik för informationsvägd utjämning genereras i nästa arbetsflödeskörning.</p>";
       return;
     }
     const fertRows=(ex.fertility||[]).map(r=>`<tr><td>${r.age}</td><td>${r.averageAnnualExposure==null?"–":fmt1.format(r.averageAnnualExposure)}</td><td>${r.expectedEvents==null?"–":fmt1.format(r.expectedEvents)}</td><td>${r.localWeight==null?"–":pct.format(r.localWeight)+" %"}</td><td>${r.rawCellFactor==null?"–":pct.format(r.rawCellFactor*100)+" %"}</td></tr>`).join("");
@@ -798,15 +798,15 @@
 
     if(!rows.length){
       ["migrationInflowKpi","migrationOutflowKpi","migrationNetKpi","migrationImpactKpi"].forEach(id=>$(id).textContent="–");
-      $("migrationImpactAge").textContent="genereras i nästa workflow-körning";
+      $("migrationImpactAge").textContent="genereras i nästa arbetsflödeskörning";
       $("migrationAgeTable").querySelector("tbody").innerHTML="";
-      $("migrationPriority").innerHTML="<p class='hint'>Flyttdiagnostik genereras i nästa workflow-körning.</p>";
+      $("migrationPriority").innerHTML="<p class='hint'>Flyttdiagnostik genereras i nästa arbetsflödeskörning.</p>";
       $("migrationAgeChart").innerHTML="";
       $("migrationVariationChart").innerHTML="";
       if($("migrationSmoothingChart")) $("migrationSmoothingChart").innerHTML="";
-      if($("migrationSmoothingDiagnostic")) $("migrationSmoothingDiagnostic").innerHTML="<p class='hint'>Adaptiv åldersmjukning genereras i nästa workflow-körning.</p>";
-      if($("youngAdultMigrationDiagnostic")) $("youngAdultMigrationDiagnostic").innerHTML="<p class='hint'>Ungdoms-/unga-vuxna-diagnostik genereras i nästa workflow-körning.</p>";
-      if($("migrationLegDiagnostic")) $("migrationLegDiagnostic").innerHTML="<p class='hint'>Flyttben genereras i nästa workflow-körning.</p>";
+      if($("migrationSmoothingDiagnostic")) $("migrationSmoothingDiagnostic").innerHTML="<p class='hint'>Adaptiv åldersmjukning genereras i nästa arbetsflödeskörning.</p>";
+      if($("youngAdultMigrationDiagnostic")) $("youngAdultMigrationDiagnostic").innerHTML="<p class='hint'>Ungdoms-/unga-vuxna-diagnostik genereras i nästa arbetsflödeskörning.</p>";
+      if($("migrationLegDiagnostic")) $("migrationLegDiagnostic").innerHTML="<p class='hint'>Flyttben genereras i nästa arbetsflödeskörning.</p>";
       return;
     }
 
@@ -920,7 +920,7 @@
       : (diag?.rows||[]).filter(r=>r.geo===geo && r.leg==="all");
     if(!rows.length){
       chart.innerHTML="";
-      el.innerHTML="<p class='hint'>Adaptiv åldersmjukning genereras i nästa workflow-körning.</p>";
+      el.innerHTML="<p class='hint'>Adaptiv åldersmjukning genereras i nästa arbetsflödeskörning.</p>";
       return;
     }
 
@@ -1064,7 +1064,7 @@
       return;
     }
     if(!diag?.summaries?.length){
-      el.innerHTML="<p class='hint'>19–25-årsdiagnostik genereras i nästa workflow-körning.</p>";
+      el.innerHTML="<p class='hint'>19–25-årsdiagnostik genereras i nästa arbetsflödeskörning.</p>";
       return;
     }
     const globalWindow=+$("window").value;
@@ -1075,7 +1075,7 @@
     el.innerHTML=`
       <p class="hint">Åldersmönster i faktisk flyttstatistik. 19–20 år redovisas som tydlig inflyttningsålder, 24–25 år som tydlig utflyttningsålder och 19–25 år som bred kontrollgrupp.</p>
       <table class="miniTable">
-        <thead><tr><th>Proxygrupp</th><th>Fönster</th><th>Inflyttning/år</th><th>Utflyttning/år</th><th>Netto/år</th><th>SD netto</th><th>Netto 2024</th></tr></thead>
+        <thead><tr><th>Approximation</th><th>Fönster</th><th>Inflyttning/år</th><th>Utflyttning/år</th><th>Netto/år</th><th>SD netto</th><th>Netto 2024</th></tr></thead>
         <tbody>${rows.map(r=>`<tr>
           <td>${r.label}</td>
           <td>${r.window} år</td>
@@ -1099,7 +1099,7 @@
     }
     const d=data.diagnostics?.migrationLegs;
     if(!d?.summaries?.length){
-      el.innerHTML="<p class='hint'>Tre-bensdiagnostik genereras i nästa workflow-körning.</p>";
+      el.innerHTML="<p class='hint'>Tre-bensdiagnostik genereras i nästa arbetsflödeskörning.</p>";
       return;
     }
     const globalWindow=+$("window").value;
@@ -1222,10 +1222,10 @@
       $("labourLocalShareKpi").textContent="–";
       $("labourOtherFaShareKpi").textContent="–";
       $("labourOutsideShareKpi").textContent="–";
-      $("labourResidenceShares").innerHTML="<p class='hint'>Pendlingsdata genereras i nästa workflow-körning.</p>";
-      $("labourScenarioAllocation").innerHTML="<p class='hint'>Pendlingsdata genereras i nästa workflow-körning.</p>";
+      $("labourResidenceShares").innerHTML="<p class='hint'>Pendlingsdata genereras i nästa arbetsflödeskörning.</p>";
+      $("labourScenarioAllocation").innerHTML="<p class='hint'>Pendlingsdata genereras i nästa arbetsflödeskörning.</p>";
       $("labourPopulationEffect").innerHTML="";
-      $("labourWorkerAgeGroups").innerHTML="<p class='hint'>Arbetsmarknadens åldersprofil genereras i nästa workflow-körning.</p>";
+      $("labourWorkerAgeGroups").innerHTML="<p class='hint'>Arbetsmarknadens åldersprofil genereras i nästa arbetsflödeskörning.</p>";
       $("commutingMatrix").innerHTML="";
       $("labourJobsChart").innerHTML="";
       return;
@@ -1316,7 +1316,7 @@
         suffix:" %"
       });
       if(companionProfile.length) series.push({
-        name:"Medföljande hushåll – proxy",
+        name:"Medföljande hushåll – approximation",
         values:valuesFor(companionProfile),
         cls:"lineSensitivity",
         suffix:" %"
@@ -1341,7 +1341,7 @@
       );
     }else{
       $("labourAgeProfileChart").innerHTML=
-        '<text x="30" y="40" class="axisText">Åldersprofil genereras i nästa workflow-körning.</text>';
+        '<text x="30" y="40" class="axisText">Åldersprofil genereras i nästa arbetsflödeskörning.</text>';
     }
 
     const workerGroups=(labour.workerAgeGroups||[])
@@ -1365,7 +1365,7 @@
         }).join("")}
         </tbody></table>`;
     }else{
-      $("labourWorkerAgeGroups").innerHTML="<p class='hint'>Arbetsmarknadens åldersprofil genereras i nästa workflow-körning.</p>";
+      $("labourWorkerAgeGroups").innerHTML="<p class='hint'>Arbetsmarknadens åldersprofil genereras i nästa arbetsflödeskörning.</p>";
     }
 
     const outside=allocations.find(r=>r.residence===labour.outsideGroup.code);
@@ -1474,7 +1474,7 @@
       $("householdSizeKpi").textContent="–";
       $("housingStockKpi").textContent="–";
       $("housingBalanceKpi").textContent="–";
-      $("occupancyDefaultsTable").innerHTML="<p class='hint'>Hushålls- och bostadsdata genereras i nästa workflow-körning.</p>";
+      $("occupancyDefaultsTable").innerHTML="<p class='hint'>Hushålls- och bostadsdata genereras i nästa arbetsflödeskörning.</p>";
       $("householdComposition").innerHTML="";
       $("housingStockTable").innerHTML="";
       $("householdTrendChart").innerHTML="";
@@ -1485,11 +1485,11 @@
     $("boverketHousingMethod").innerHTML=`
       <table class="miniTable"><thead><tr><th>Del</th><th>Status i modellen</th><th>Kommentar</th></tr></thead><tbody>
         <tr><td>Befolkningsframskrivning</td><td><strong>Ja</strong></td><td>Kohortmodell per ålder/kön.</td></tr>
-        <tr><td>Hushållsbildning</td><td><strong>Ja, proxy</strong></td><td>Produktionsstödet använder validerad femårstrend i personer/hushåll. Boverkets hushållskvoter per ålder/kön är fortfarande ett möjligt framtida metodlyft.</td></tr>
+        <tr><td>Hushållsbildning</td><td><strong>Ja, approximation</strong></td><td>Produktionsstödet använder validerad femårstrend i personer/hushåll. Boverkets hushållskvoter per ålder/kön är fortfarande ett möjligt framtida metodlyft.</td></tr>
         <tr><td>Bostadsbestånd</td><td><strong>Ja</strong></td><td>SCB efter hustyp och upplåtelseform.</td></tr>
         <tr><td>Rivningar/avgångar</td><td>Ej ännu</td><td>Boverket använder historiskt genomsnitt som framtidsantagande.</td></tr>
         <tr><td>Outhyrda bostäder i startläge</td><td>Ej ännu</td><td>Relevant främst för hyresrätter.</td></tr>
-        <tr><td>Ingående över-/underskott</td><td>Ej ännu</td><td>Bör läggas som separat benchmark, inte blandas ihop med prognosens demografiska behov.</td></tr>
+        <tr><td>Ingående över-/underskott</td><td>Ej ännu</td><td>Bör läggas som separat jämförelse, inte blandas ihop med prognosens demografiska behov.</td></tr>
         <tr><td>Bostadsreserv</td><td><strong>Ja</strong></td><td>Justerbar; standard 1 % enligt Boverkets byggbehovsmodell.</td></tr>
         <tr><td>FA-region som bostadsmarknad</td><td><strong>Ja, med versionsnot</strong></td><td>Vår Luleå FA används som funktionell marknad; definitionen behöver versioneras mot Boverkets/FA25.</td></tr>
       </tbody></table>`;
@@ -1506,7 +1506,7 @@
     ];
     $("boverketNeedMeasures").innerHTML=`
       <table class="miniTable"><thead><tr><th>Mått</th><th>Tolkning</th><th>Modellstatus</th></tr></thead><tbody>
-      ${measures.map(m=>`<tr><td>${m[0]}</td><td>${m[1]}</td><td>Extern Boverket-benchmark</td></tr>`).join("")}
+      ${measures.map(m=>`<tr><td>${m[0]}</td><td>${m[1]}</td><td>Extern Boverket-jämförelse</td></tr>`).join("")}
       </tbody></table>
       <p class="hint">Måtten ska analyseras var för sig och i lokal kontext; de är inte åtta vikter som ska summeras till ett byggbehov.</p>`;
 
@@ -1597,7 +1597,7 @@
         <td>${pct.format(compTotal?100*r.households/compTotal:0)} %</td>
         <td>${r.households?fmt1.format(r.persons/r.households):"–"}</td></tr>`).join("")}
       </tbody></table>`
-      :"<p class='hint'>Hushållstyper genereras i nästa workflow-körning.</p>";
+      :"<p class='hint'>Hushållstyper genereras i nästa arbetsflödeskörning.</p>";
 
     $("housingStockTable").innerHTML=stockRows.length?`
       <table class="miniTable"><thead><tr><th>Typ</th><th>Upplåtelse</th><th>Bostäder</th></tr></thead><tbody>
@@ -1785,7 +1785,7 @@
     const rows=w?(backtest?.ageErrors?.[geo]?.[w]||[]):[];
     if(!rows.length){
       chart.innerHTML="";
-      table.innerHTML="<p class='hint'>Flerårsdiagnostik per ålder genereras i nästa workflow-körning.</p>";
+      table.innerHTML="<p class='hint'>Flerårsdiagnostik per ålder genereras i nästa arbetsflödeskörning.</p>";
       return;
     }
 
@@ -1850,7 +1850,7 @@
     const el=$("backtestCohortTable");
     if(!el) return;
     if(!rows.length){
-      el.innerHTML="<p class='hint'>Kohortdiagnostik genereras i nästa workflow-körning.</p>";
+      el.innerHTML="<p class='hint'>Kohortdiagnostik genereras i nästa arbetsflödeskörning.</p>";
       return;
     }
     const grouped=new Map();
@@ -1889,7 +1889,7 @@
     const ageRows=w?(backtest?.ageErrors?.[geo]?.[w]||[]).filter(r=>+r.year===2024):[];
     const legRows=w?(backtest?.migrationLegAgeErrors?.[geo]?.[w]||[]):[];
     if(!ageRows.length || !legRows.length){
-      el.innerHTML="<p class='hint'>Flyttdiagnostik per ben genereras i nästa workflow-körning.</p>";
+      el.innerHTML="<p class='hint'>Flyttdiagnostik per ben genereras i nästa arbetsflödeskörning.</p>";
       return;
     }
     const worst=[...ageRows].sort((a,b)=>Math.abs(Number(b.error||0))-Math.abs(Number(a.error||0)))[0];
