@@ -26,10 +26,10 @@
     "Scenarier bedöms separat från baslinjen; produktionsmoget scenario betyder reproducerbar och transparent scenariomekanik, inte att scenariot ingår i basprognosen."
   ],
   "summary": {
-    "componentCount": 40,
+    "componentCount": 41,
     "byLevel": {
       "1": 0,
-      "2": 10,
+      "2": 11,
       "3": 3,
       "4": 27
     },
@@ -72,6 +72,7 @@
       "profet_flow",
       "birth_status",
       "profet_net10_status_demography_candidate",
+      "qutb_education_transition_candidate",
       "consistency_adjustment"
     ]
   },
@@ -523,6 +524,32 @@
         }
       ],
       "nextAction": "Keep at level 2. Do not retune same-vintage status multipliers on consumed 2018-2024 outcomes; any revised architecture must be separately locked."
+    },
+    {
+      "key": "qutb_education_transition_candidate",
+      "label": "qutb: kohortbaserade utbildningsövergångar",
+      "maturityLevel": 2,
+      "maturityName": "Utvecklingskandidat",
+      "lifecycle": "rejected_development",
+      "productionActive": false,
+      "targetLevel": 4,
+      "productionGatePassed": false,
+      "requiredGate": "Forskningsspår. Fem ordnade utbildningsstatusar, 10-årigt nationellt kohortfönster, endast angränsande uppåtövergångar och identitets-qutb som comparator är låsta. 2018–2024 är utvecklingsevidens. Nivå 3 kräver ny extern/future kontroll och nivå 4 ytterligare orörd kontroll. Komponenten får inte påverka produktionsprognosen före nivå 4; även efter nivå 4 kräver eventuell användning för flyttning, fruktsamhet eller dödlighet en separat förhandslåst komponentmodell.",
+      "gates": [
+        {
+          "label": "Education transition probabilities and share accounting are structurally valid",
+          "passed": true,
+          "evidence": "{'transitionProbabilityMin': 0.0, 'transitionProbabilityMax': 0.7736812315124852, 'maxShareSumError': 2.220446049250313e-16, 'passed': True}",
+          "required": false
+        },
+        {
+          "label": "Locked cohort-transition qutb beats identity on n+1 and is non-worse on n+2 for Lulea and Lulea FA",
+          "passed": false,
+          "evidence": "2580: n+1 candidate=0.008749975679896708 identity=0.007789964265367556; n+2 candidate=0.016053609886947217 identity=0.020603753545040127; FA_LULEA: n+1 candidate=0.0073533991067311535 identity=0.005957115242203335; n+2 candidate=0.013865619002164493 identity=0.018137815055297032",
+          "required": false
+        }
+      ],
+      "nextAction": "Research-only. Keep at level 2. Do not retune state grouping, window or transition estimator on consumed 2018-2024 outcomes; any revised qutb must be a separately locked candidate and must not affect the demographic production model."
     },
     {
       "key": "consistency_adjustment",

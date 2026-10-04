@@ -1,0 +1,299 @@
+{
+  "schemaVersion": "0.1.0",
+  "candidate": {
+    "schemaVersion": "0.1.0",
+    "status": "development_candidate_locked_before_results",
+    "key": "qutb_education_transition_candidate",
+    "label": "qutb: kohortbaserade utbildningsövergångar",
+    "productionDefault": false,
+    "source": {
+      "table": "TAB3981",
+      "series": "Befolkning 16-74 år efter region, utbildningsnivå, ålder och kön",
+      "calibrationStart": 2008,
+      "note": "Only post-2000 modern UREG history is used; the documented 2000 series break is not crossed."
+    },
+    "educationStates": [
+      "pre_secondary",
+      "upper_secondary",
+      "postsecondary_short",
+      "postsecondary_long",
+      "postgraduate"
+    ],
+    "missingEducation": "exclude_from_transition_estimation_and_share_scoring",
+    "method": {
+      "calibrationWindowYears": 10,
+      "transitionBasis": "national cohort changes by sex and one-year age",
+      "transitionDirection": "adjacent_upward_only",
+      "estimation": "For each lower state j, estimate p(j->j+1) from positive year-to-year increase in the national cohort share at or above state j+1 divided by the prior cohort share in state j; event-weighted over the locked 10-year window and clamped to [0,1].",
+      "simulation": "Apply all adjacent promotions simultaneously to the prior cohort distribution, then age the cohort one year.",
+      "localStart": "observed local education distribution by sex and age at each rolling origin",
+      "totalPopulationEffect": "none"
+    },
+    "comparator": {
+      "key": "identity_qutb",
+      "description": "Carry each cohort's education shares forward unchanged as it ages."
+    },
+    "evaluation": {
+      "developmentOrigins": [
+        2018,
+        2019,
+        2020,
+        2021
+      ],
+      "horizons": [
+        1,
+        2,
+        3
+      ],
+      "primaryHorizons": [
+        "n+1",
+        "n+2"
+      ],
+      "scoredAges": "20-64",
+      "metric": "mean absolute error in education shares across five states, sex and one-year age cells",
+      "developmentGate": [
+        "candidate MAE must be strictly below identity qutb at n+1 for both Lulea and Lulea FA",
+        "candidate MAE must be no worse than identity qutb at n+2 for both Lulea and Lulea FA",
+        "all transition probabilities must be in [0,1] and education-state shares must sum to 1 within numerical tolerance"
+      ],
+      "governance": "2018-2024 is development evidence only. No state grouping, window, transition estimator, age range or clipping rule may be changed after results are viewed. Level 3 requires a separately locked external or future holdout."
+    },
+    "governance": {
+      "researchOnly": true,
+      "researchOnlyUntilLevel": 4,
+      "productionIntegrationAllowed": false,
+      "integrationRule": "Even if this education model reaches level 4, it may only become a candidate explanatory layer for migration, fertility or mortality through separately locked component-specific models. It must never alter those demographic components merely by reaching level 4 itself.",
+      "currentUse": "standalone education-structure research and validation only"
+    }
+  },
+  "source": {
+    "status": "loaded",
+    "regionDimension": "Region",
+    "ageDimension": "Alder",
+    "sexDimension": "Kon",
+    "educationDimension": "UtbildningsNiva",
+    "recognizedEducationCodes": {
+      "1": "pre_secondary",
+      "2": "pre_secondary",
+      "3": "upper_secondary",
+      "4": "upper_secondary",
+      "5": "postsecondary_long",
+      "6": "postsecondary_long",
+      "7": "postgraduate"
+    },
+    "educationLabels": {
+      "1": "förgymnasial utbildning kortare än 9 år",
+      "2": "förgymnasial utbildning, 9 (10) år",
+      "3": "gymnasial utbildning, högst 2 år",
+      "4": "gymnasial utbildning, 3 år",
+      "5": "eftergymnasial utbildning, mindre än 3 år",
+      "6": "eftergymnasial utbildning, 3 år eller mer",
+      "7": "forskarutbildning",
+      "US": "uppgift om utbildningsnivå saknas"
+    }
+  },
+  "status": "development_scored",
+  "origins": {
+    "2018": {
+      "2580": {
+        "1": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.007803553043824795,
+          "identityShareMAE": 0.006648622029500146
+        },
+        "2": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.015196124837916295,
+          "identityShareMAE": 0.01939023235416143
+        },
+        "3": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.021675940995082365,
+          "identityShareMAE": 0.029959725351091978
+        }
+      },
+      "FA_LULEA": {
+        "1": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.006893586782400555,
+          "identityShareMAE": 0.004920385545974422
+        },
+        "2": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.013192946037178438,
+          "identityShareMAE": 0.016638979321895356
+        },
+        "3": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.019113990633944828,
+          "identityShareMAE": 0.027559927125799695
+        }
+      }
+    },
+    "2019": {
+      "2580": {
+        "1": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.008603203136699647,
+          "identityShareMAE": 0.007405612980995295
+        },
+        "2": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.015978537803314877,
+          "identityShareMAE": 0.020136091844954518
+        },
+        "3": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.0235684082242123,
+          "identityShareMAE": 0.032614529137417525
+        }
+      },
+      "FA_LULEA": {
+        "1": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.007070029641374692,
+          "identityShareMAE": 0.005457755696619955
+        },
+        "2": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.013456537812607495,
+          "identityShareMAE": 0.017457026745037692
+        },
+        "3": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.020371025510585238,
+          "identityShareMAE": 0.029962016913559143
+        }
+      }
+    },
+    "2020": {
+      "2580": {
+        "1": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.009236192851784158,
+          "identityShareMAE": 0.0083809558057828
+        },
+        "2": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.01696114327740455,
+          "identityShareMAE": 0.021931738891453726
+        },
+        "3": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.023055986710683082,
+          "identityShareMAE": 0.03275469052333391
+        }
+      },
+      "FA_LULEA": {
+        "1": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.007413077548087415,
+          "identityShareMAE": 0.006254092529115423
+        },
+        "2": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.014607739233257713,
+          "identityShareMAE": 0.01954429676558947
+        },
+        "3": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.020315375627161396,
+          "identityShareMAE": 0.030418262658929652
+        }
+      }
+    },
+    "2021": {
+      "2580": {
+        "1": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.009356953687278236,
+          "identityShareMAE": 0.008724666245191984
+        },
+        "2": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.016078633629153148,
+          "identityShareMAE": 0.020956951089590833
+        },
+        "3": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.022175815033659854,
+          "identityShareMAE": 0.03163695827352403
+        }
+      },
+      "FA_LULEA": {
+        "1": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.00803690245506195,
+          "identityShareMAE": 0.007196227197103542
+        },
+        "2": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.014205252925614326,
+          "identityShareMAE": 0.018910957388665613
+        },
+        "3": {
+          "observationsSexAgeCells": 90,
+          "candidateShareMAE": 0.020246521925575398,
+          "identityShareMAE": 0.030337576827936398
+        }
+      }
+    }
+  },
+  "summary": {
+    "2580": {
+      "1": {
+        "originCount": 4,
+        "observationsSexAgeCells": 360,
+        "candidateShareMAE": 0.008749975679896708,
+        "identityShareMAE": 0.007789964265367556
+      },
+      "2": {
+        "originCount": 4,
+        "observationsSexAgeCells": 360,
+        "candidateShareMAE": 0.016053609886947217,
+        "identityShareMAE": 0.020603753545040127
+      },
+      "3": {
+        "originCount": 4,
+        "observationsSexAgeCells": 360,
+        "candidateShareMAE": 0.0226190377409094,
+        "identityShareMAE": 0.03174147582134186
+      }
+    },
+    "FA_LULEA": {
+      "1": {
+        "originCount": 4,
+        "observationsSexAgeCells": 360,
+        "candidateShareMAE": 0.0073533991067311535,
+        "identityShareMAE": 0.005957115242203335
+      },
+      "2": {
+        "originCount": 4,
+        "observationsSexAgeCells": 360,
+        "candidateShareMAE": 0.013865619002164493,
+        "identityShareMAE": 0.018137815055297032
+      },
+      "3": {
+        "originCount": 4,
+        "observationsSexAgeCells": 360,
+        "candidateShareMAE": 0.020011728424316713,
+        "identityShareMAE": 0.029569445881556224
+      }
+    }
+  },
+  "structural": {
+    "transitionProbabilityMin": 0.0,
+    "transitionProbabilityMax": 0.7736812315124852,
+    "maxShareSumError": 2.220446049250313e-16,
+    "passed": true
+  },
+  "developmentGate": {
+    "status": "development_only_not_promotion_evidence",
+    "passed": false,
+    "rule": [
+      "candidate MAE must be strictly below identity qutb at n+1 for both Lulea and Lulea FA",
+      "candidate MAE must be no worse than identity qutb at n+2 for both Lulea and Lulea FA",
+      "all transition probabilities must be in [0,1] and education-state shares must sum to 1 within numerical tolerance"
+    ]
+  }
+}
