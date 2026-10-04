@@ -229,7 +229,7 @@
     "qutb_education_transition_candidate": {
       "label": "qutb: kohortbaserade utbildningsövergångar",
       "targetLevel": 4,
-      "requiredGate": "Ny separat qutb-kandidat låst före resultatutvärdering. Fem ordnade utbildningsstatusar, 10-årigt nationellt kohortfönster, endast angränsande uppåtövergångar och identitets-qutb som comparator. 2018–2024 är utvecklingsevidens; nivå 3 kräver ny förhandslåst extern eller framtida kontroll."
+      "requiredGate": "Forskningsspår. Fem ordnade utbildningsstatusar, 10-årigt nationellt kohortfönster, endast angränsande uppåtövergångar och identitets-qutb som comparator är låsta. 2018–2024 är utvecklingsevidens. Nivå 3 kräver ny extern/future kontroll och nivå 4 ytterligare orörd kontroll. Komponenten får inte påverka produktionsprognosen före nivå 4; även efter nivå 4 kräver eventuell användning för flyttning, fruktsamhet eller dödlighet en separat förhandslåst komponentmodell."
     }
   }
 }
