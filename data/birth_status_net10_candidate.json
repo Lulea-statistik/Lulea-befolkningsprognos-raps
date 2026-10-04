@@ -46,5 +46,28 @@
       "Historical-flow allocation has lower pooled foreign-born population MAE than stock-share comparator.",
       "n+1 and n+2 status MAE are reported separately; no parameter changes are allowed after results."
     ]
+  },
+  "externalLevel3Gate": {
+    "status": "locked_before_external_results",
+    "regions": [
+      "FA16_TRH",
+      "FA36_GAV",
+      "FA42_SUN"
+    ],
+    "window": 10,
+    "primaryHorizons": [
+      "n+1",
+      "n+2"
+    ],
+    "n3Role": "robustness_only",
+    "comparator": "stock_share",
+    "rule": [
+      "Historical-flow allocation must be non-worse than stock-share for Swedish-born MAE at n+1 and n+2 in every locked FA15 reference region.",
+      "Historical-flow allocation must be non-worse than stock-share for foreign-born MAE at n+1 and n+2 in every locked FA15 reference region.",
+      "Pooled n+1/n+2 Swedish-born MAE must be strictly lower than stock-share.",
+      "Pooled n+1/n+2 foreign-born MAE must be strictly lower than stock-share.",
+      "Aggregate population and net migration must still exactly preserve the net10 baseline."
+    ],
+    "governance": "No region, horizon, allocation rule, fallback rule or threshold may be changed after external results are viewed."
   }
 }
