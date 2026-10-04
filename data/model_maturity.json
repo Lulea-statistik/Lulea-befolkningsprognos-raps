@@ -29,8 +29,8 @@
     "componentCount": 39,
     "byLevel": {
       "1": 0,
-      "2": 10,
-      "3": 2,
+      "2": 9,
+      "3": 3,
       "4": 27
     },
     "productionLevel4": [
@@ -468,12 +468,12 @@
     {
       "key": "birth_status_net10_constrained_candidate",
       "label": "Födelsestatus: net10-begränsad statusfördelning",
-      "maturityLevel": 2,
-      "maturityName": "Utvecklingskandidat",
-      "lifecycle": "development_locked",
+      "maturityLevel": 3,
+      "maturityName": "Validerad kandidat",
+      "lifecycle": "validated_candidate",
       "productionActive": false,
       "targetLevel": 4,
-      "productionGatePassed": false,
+      "productionGatePassed": true,
       "requiredGate": "Ny separat kandidat. Produktionsbaslinjens 10-åriga nettoflyttning per kön och ettårsålder ska bevaras exakt; endast fördelningen mellan svensk- och utrikesfödda modelleras. 2018–2024 är utvecklingsevidens och får inte användas för eftertrimning. Nivå 3 kräver ny förhandslåst extern eller framtida kontroll av statusbestånd.",
       "gates": [
         {
@@ -487,9 +487,15 @@
           "passed": true,
           "evidence": "2580: historical Swedish-born MAE=553.8 vs stock=667.5; foreign-born=437.6 vs stock=551.2; FA_LULEA: historical Swedish-born MAE=891.9 vs stock=1265.9; foreign-born=554 vs stock=928.1",
           "required": false
+        },
+        {
+          "label": "External FA15 level-3 gate: non-worse at n+1/n+2 in every locked region and pooled strictly better for both birth statuses",
+          "passed": true,
+          "evidence": "FA16_TRH oneYear: Sw 916.9 vs 1295.9; Foreign 260.2 vs 541.6; FA16_TRH twoYear: Sw 1968 vs 2731.4; Foreign 364.1 vs 754.3; FA36_GAV oneYear: Sw 642 vs 942.5; Foreign 180.8 vs 442.7; FA36_GAV twoYear: Sw 1461.7 vs 2068.1; Foreign 319.6 vs 646.8; FA42_SUN oneYear: Sw 349.7 vs 538.6; Foreign 87.5 vs 235.5; FA42_SUN twoYear: Sw 840.1 vs 1219.1; Foreign 118.7 vs 343.1; pooled Sw 1029.7 vs 1465.9; Foreign 221.8 vs 494",
+          "required": true
         }
       ],
-      "nextAction": "Promising development signal only. Keep all allocation rules frozen and lock a genuinely external/future birth-status holdout before any level-3 consideration."
+      "nextAction": "Level 3 validated candidate. Keep net10 totals, status-allocation rules and 10-year window frozen; require one further untouched future/annual control before any level-4 production use."
     },
     {
       "key": "consistency_adjustment",
