@@ -284,7 +284,7 @@
 
         <article class="panel">
           <h2>Nuvarande modellstatus för flyttning</h2>
-          <p>I produktionsbaslinjen är nettoflyttningen lokalt historiskt kalibrerad och använder ännu inte Raps fulla IMIG/UMIG-koefficientstruktur. Den här sidan visar därför framför allt vilka åldersströmmar som är stora, stabila eller historiskt varierande, så att nästa utvecklingssteg kan prioritera de flöden som faktiskt betyder mest för prognosen.</p>
+          <p>I produktionsbaslinjen är nettoflyttningen lokalt historiskt kalibrerad och använder ännu inte rAps fulla IMIG/UMIG-koefficientstruktur. Den här sidan visar därför framför allt vilka åldersströmmar som är stora, stabila eller historiskt varierande, så att nästa utvecklingssteg kan prioritera de flöden som faktiskt betyder mest för prognosen.</p>
         </article>
       </section>
 
@@ -445,7 +445,7 @@
           <div class="formGrid3">
             <label>Nationell fruktsamhetsbana
               <select id="fertilityScenario">
-                <option value="raps2024">Raps/SCB 2024 (bas)</option>
+                <option value="raps2024">rAps/SCB 2024 (bas)</option>
               </select>
             </label>
             <label>Fruktsamhet, multiplikator
@@ -468,7 +468,7 @@
               <input id="migMult" type="number" min="-3" max="3" step="0.01" value="1" />
             </label>
           </div>
-          <p class="hint">Raps/SCB 2024 är bas. SCB 2026 byter endast den nationella fruktsamhetsbanan. Nettoflyttningens fönster kan ändras separat från fruktsamhet/dödlighet för en ren migrationskänslighet. Multiplikatorerna är separata känslighetsjusteringar och ska inte användas för att trimma modellen mot historiska testutfall.</p>
+          <p class="hint">rAps/SCB 2024 är bas. SCB 2026 byter endast den nationella fruktsamhetsbanan. Nettoflyttningens fönster kan ändras separat från fruktsamhet/dödlighet för en ren migrationskänslighet. Multiplikatorerna är separata känslighetsjusteringar och ska inte användas för att trimma modellen mot historiska testutfall.</p>
         </article>
 
         <article class="panel">
@@ -487,10 +487,10 @@
             <button id="addWorkplace" class="secondary compact">+ Arbetsplatsrad</button>
           </div>
           <div class="tableWrap"><table id="workplaceTable"><thead><tr>
-            <th>Aktiv</th><th>År</th><th>Kommun</th><th>Planerade jobb</th><th>Fördelning</th><th>Åldersprofil</th><th>Realiseras %</th><th>Utanför FA → flyttar %</th><th>Personer/inflyttat jobb</th><th>Spin-off jobb per direkt jobb</th><th>Internationell rekrytering av externa %</th><th>Värdkommun % (manuell)</th><th>Övriga FA-pendlare → flyttar %</th><th>Infasning</th><th></th>
+            <th>Aktiv</th><th>År</th><th>Kommun</th><th>Planerade jobb</th><th>Fördelning</th><th>Åldersprofil</th><th>Realiseras %</th><th>Utanför FA → flyttar %</th><th>Personer/inflyttat jobb</th><th>Ytterligare jobb per direkt jobb</th><th>Internationell rekrytering av externa %</th><th>Värdkommun % (manuell)</th><th>Övriga FA-pendlare → flyttar %</th><th>Infasning</th><th></th>
           </tr></thead><tbody></tbody></table></div>
           <div id="workplaceScenarioPreview" class="scenarioPreviewList"></div>
-          <p class="hint">Med observerad pendling fördelas jobben först efter dagens bostadskommuner. Endast en separat vald andel av jobben som tas av personer utanför FA ger ny inflyttning. Den externa jobbdrivna inflyttningen kan delas mellan övriga Sverige och internationell rekrytering. Detta är ett scenario ovanpå baslinjen, inte en kalibrering av normalflyttningen. Spridningseffekten anger ytterligare jobb i övriga samhället per realiserat direkt industrijobb; 1,5 innebär exempelvis 1 500 spin-off-jobb per 1 000 direkta jobb. Dessa jobb behandlas med samma explicita pendlings-, flytt- och hushållsantaganden som den direkta arbetskraftseffekten. Standardprofilen skiljer på själva arbetstagaren och medföljande hushållsmedlemmar. Flytt mellan FA-kommuner påverkar bara kommunfördelningen, inte FA-totalen.</p>
+          <p class="hint">Med observerad pendling fördelas jobben först efter dagens bostadskommuner. Endast en separat vald andel av jobben som tas av personer utanför FA ger ny inflyttning. Den externa jobbdrivna inflyttningen kan delas mellan övriga Sverige och internationell rekrytering. Detta är ett scenario ovanpå baslinjen, inte en kalibrering av normalflyttningen. Spridningseffekten anger ytterligare jobb i övriga samhället per realiserat direkt industrijobb; 1,5 innebär exempelvis 1 500 ytterligare jobb per 1 000 direkta jobb. Dessa jobb behandlas med samma explicita pendlings-, flytt- och hushållsantaganden som den direkta arbetskraftseffekten. Standardprofilen skiljer på själva arbetstagaren och medföljande hushållsmedlemmar. Flytt mellan FA-kommuner påverkar bara kommunfördelningen, inte FA-totalen.</p>
         </article>
 
         <article class="panel">
@@ -520,7 +520,7 @@
             <div id="backtestTable"></div>
           </article>
           <article class="panel">
-            <h2>SCB-benchmark</h2>
+            <h2>SCB-jämförelse</h2>
             <div id="scbBenchmarkTable"></div>
           </article>
         </div>
@@ -574,7 +574,7 @@
 
       <section class="page" id="page-method">
         <div class="pageTitle">
-          <div><h2>Metod & data</h2><p>Datakällor, Raps-anpassning och modellstatus.</p></div>
+          <div><h2>Metod & data</h2><p>Datakällor, rAps-anpassning och modellstatus.</p></div>
         </div>
 
         <div class="grid2">
@@ -698,7 +698,7 @@
           <p>Metodval och parametrar ska låsas innan en orörd kontrollperiod används. Historiska utfall används sedan för att utvärdera modellen, inte för att efterhandsjustera samma kandidat tills resultatet blir bättre.</p>
           <ul>
             <li><strong>Historiskt utvecklingstest 2022–2024:</strong> använder bara information som var tillgänglig före prognosperioden.</li>
-            <li><strong>Rolling-origin:</strong> flera historiska startår med då tillgänglig lokal information och motsvarande SCB-vintage.</li>
+            <li><strong>Rullande prognosursprung:</strong> flera historiska startår med då tillgänglig lokal information och motsvarande SCB-vintage.</li>
             <li><strong>Extern regional kontroll:</strong> samma metod testas på fördefinierade referensregioner utan regionspecifik omtrimning.</li>
             <li><strong>SCB-jämförelse:</strong> modellen jämförs med SCB:s regionala framskrivning, inklusive omankring till faktiskt 2025-bestånd.</li>
           </ul>
