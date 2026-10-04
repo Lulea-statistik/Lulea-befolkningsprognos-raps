@@ -673,11 +673,10 @@
       g.exposure+=Number(r.exposure||0);
     }
     const annual=[...byYear.values()].sort((a,b)=>a.year-b.year).map(r=>{
-      const hazard=r.exposure>0?r.deaths/r.exposure:null;
+      const eventRate=r.exposure>0?r.deaths/r.exposure:null;
       return {
         ...r,
-        hazard,
-        risk:hazard==null?null:1000*(1-Math.exp(-Math.max(0,hazard)))
+        riskPct:eventRate==null?null:100*(1-Math.exp(-Math.max(0,eventRate)))
       };
     });
     if(!annual.length){
@@ -695,7 +694,7 @@
     );
     let modelRisk=null;
     if(modelRows.length===1){
-      modelRisk=1000*Number(modelRows[0].value||0);
+      modelRisk=100*Number(modelRows[0].value||0);
     }else if(modelRows.length>1){
       const detail=data?.historicalMortalityDetail||[];
       const calRows=detail.filter(r=>
@@ -711,33 +710,33 @@
       let weighted=0,weight=0;
       for(const r of modelRows){
         const w=exposureByCell.get(`${r.sex}|${r.age}`)||0;
-        weighted+=1000*Number(r.value||0)*w;
+        weighted+=100*Number(r.value||0)*w;
         weight+=w;
       }
       modelRisk=weight>0?weighted/weight:null;
     }
     const modelLine=annual.map(()=>modelRisk);
     drawAgeLineChart("historyMortalityDetailChart",years,[
-      {name:"Observerad dödsrisk",values:annual.map(r=>r.risk),cls:"lineOutflow",suffix:" ‰"},
-      {name:`Modellrisk, ${windowYears}-årskalibrering`,values:modelLine,cls:"lineMean",suffix:" ‰"}
-    ],{yMin:0,xLabel:"År",hoverLabel:"År",valueDigits:2});
+      {name:"Observerad dödssannolikhet",values:annual.map(r=>r.riskPct),cls:"lineOutflow",suffix:" %"},
+      {name:`Modellens dödssannolikhet, ${windowYears}-årskalibrering`,values:modelLine,cls:"lineMean",suffix:" %"}
+    ],{yMin:0,yMax:100,xLabel:"År",hoverLabel:"År",valueDigits:1});
 
     const selected=annual.filter(r=>selectedYears.has(r.year));
     const deaths=selected.reduce((sum,r)=>sum+r.deaths,0);
     const exposure=selected.reduce((sum,r)=>sum+r.exposure,0);
     const annualMean=selected.length?deaths/selected.length:0;
-    const pooledHazard=exposure>0?deaths/exposure:null;
-    const pooledRisk=pooledHazard==null?null:1000*(1-Math.exp(-Math.max(0,pooledHazard)));
+    const pooledEventRate=exposure>0?deaths/exposure:null;
+    const pooledRisk=pooledEventRate==null?null:100*(1-Math.exp(-Math.max(0,pooledEventRate)));
     const sexLabel=sex==="K"?"Kvinnor":sex==="M"?"Män":"Totalt";
     const ageLabel=ageVal==="ALL"?"alla åldrar":(ageVal==="100"?"100+ år":ageVal+" år");
     $("historyMortalitySummary").innerHTML=`
       <div class="historyDetailSummary">
         <div><span>Urval</span><strong>${sexLabel}, ${ageLabel}</strong></div>
         <div><span>Döda per år, kalibreringsperiod</span><strong>${fmt1.format(annualMean)}</strong></div>
-        <div><span>Observerad sammanvägd dödsrisk</span><strong>${pooledRisk==null?"–":fmt2.format(pooledRisk)+" ‰"}</strong></div>
-        <div><span>Modellens kalibrerade dödsrisk</span><strong>${modelRisk==null?"–":fmt2.format(modelRisk)+" ‰"}</strong></div>
+        <div><span>Observerad sammanvägd dödssannolikhet</span><strong>${pooledRisk==null?"–":fmt1.format(pooledRisk)+" %"}</strong></div>
+        <div><span>Modellens kalibrerade dödssannolikhet</span><strong>${modelRisk==null?"–":fmt1.format(modelRisk)+" %"}</strong></div>
       </div>
-      <p class="hint"><strong>Tolkning:</strong> observerad 0 ‰ betyder att inga dödsfall registrerades i just den valda cellen under perioden. Den observerade serien omvandlas från händelser/exponering till en ettårig dödssannolikhet med samma hazard→risk-princip som modellen, så skalan kan aldrig överstiga 1 000 ‰ (= 100 %). Vid små celler dämpas den lokala slumpvariationen i prognosen genom informationsvägning mot rikets ålders- och könsspecifika dödlighetsprofil.</p>`;
+      <p class="hint"><strong>Tolkning:</strong> observerad 0 % betyder att inga dödsfall registrerades i just den valda cellen under perioden. Det betyder inte att prognosen antar 0 % dödssannolikhet. Modellens värde visas som ungefärlig sannolikhet att avlida under ett år; exempelvis motsvarar 374,27 ‰ cirka 37,4 %. Vid små celler dämpas den lokala slumpvariationen i prognosen genom informationsvägning mot rikets ålders- och könsspecifika dödlighetsprofil.</p>`;
   }
 
   function renderHistoricalMigrationDetail(geo,selectedYears){
