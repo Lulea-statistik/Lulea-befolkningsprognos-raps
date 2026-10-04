@@ -2686,6 +2686,56 @@ def historical_annual_rows(births, fertility_exposure, deaths, mortality_exposur
     return result
 
 
+
+def historical_mortality_detail(deaths, mortality_exposure):
+    """Annual mortality counts/exposure by geography, sex and one-year age."""
+    result = []
+    geos = list(MUNICIPALITIES) + [FA_CODE]
+    for geo in geos:
+        for year in range(2006, CALIBRATION_END + 1):
+            for sex in ("K", "M"):
+                for age in range(101):
+                    d = deaths.get((geo, year, sex, age), 0.0)
+                    exp = mortality_exposure.get((geo, year, sex, age), 0.0)
+                    result.append({
+                        "geo": geo,
+                        "year": year,
+                        "sex": sex,
+                        "age": age,
+                        "deaths": d,
+                        "exposure": exp,
+                        "riskPer1000": None if exp <= 0 else 1000.0 * d / exp,
+                    })
+    return result
+
+
+def historical_migration_leg_detail(migration_legs):
+    """Annual migration legs by municipality, sex, one-year age and direction.
+
+    Municipal detail is exposed because summing municipal gross flows to FA would
+    double-count moves inside the FA region. FA-level gross leg history is thus
+    intentionally not manufactured here.
+    """
+    result = []
+    for geo in MUNICIPALITIES:
+        for year in range(2006, CALIBRATION_END + 1):
+            for sex in ("K", "M"):
+                for age in range(101):
+                    for leg in ("county", "rest_sweden", "international"):
+                        result.append({
+                            "geo": geo,
+                            "year": year,
+                            "sex": sex,
+                            "age": age,
+                            "leg": leg,
+                            "legLabel": MIGRATION_LEG_LABELS[leg],
+                            "in": migration_legs.get((geo, year, sex, age, leg, "in"), 0.0),
+                            "out": migration_legs.get((geo, year, sex, age, leg, "out"), 0.0),
+                            "net": migration_legs.get((geo, year, sex, age, leg, "net"), 0.0),
+                        })
+    return result
+
+
 def historical_window_summaries(births, fertility_exposure, deaths, mortality_exposure, inflow, outflow, netmig):
     """Window summaries matching the model's pre-2025 calibration periods."""
     result = []
@@ -3016,6 +3066,12 @@ def main():
         "historicalAnnual": historical_annual_rows(
             births, fertility_exposure, deaths, birth_year_exposure,
             inflow, outflow, netmig
+        ),
+        "historicalMortalityDetail": historical_mortality_detail(
+            deaths, birth_year_exposure
+        ),
+        "historicalMigrationLegDetail": historical_migration_leg_detail(
+            migration_legs_pre2025
         ),
         "historicalWindowSummary": historical_window_summaries(
             births, fertility_exposure, deaths, birth_year_exposure,
