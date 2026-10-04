@@ -1,6 +1,6 @@
 {
   "schemaVersion": "0.1.0",
-  "status": "research_method_locked_before_results",
+  "status": "rejected_development_and_external",
   "key": "housing_migration_lead_research",
   "label": "Forskningsspår: laggad bostadsbeståndsförändring och nettoflyttning",
   "productionDefault": false,
@@ -61,5 +61,38 @@
       "The three locked anchor municipalities are robustness checks and must be reported separately."
     ]
   },
-  "governance": "Research-only explanatory/predictive diagnostic. No housing coefficient may enter the demographic production model from this experiment. No lag, transformation, window, geography or estimator may be changed after results are viewed; any revision is a new candidate."
+  "governance": "Research-only explanatory/predictive diagnostic. No housing coefficient may enter the demographic production model from this experiment. No lag, transformation, window, geography or estimator may be changed after results are viewed; any revision is a new candidate.",
+  "resultSummary": {
+    "development": {
+      "lulea": {
+        "candidateMAE": 105.12201135299748,
+        "baselineMAE": 113.94,
+        "betaSignStable": false
+      },
+      "luleaFA": {
+        "candidateMAE": 246.04890570808402,
+        "baselineMAE": 232.3,
+        "betaSignStable": true
+      }
+    },
+    "external": {
+      "FA16_TRH": {
+        "candidateMAE": 1167.388100459122,
+        "baselineMAE": 933.6833333333334
+      },
+      "FA36_GAV": {
+        "candidateMAE": 619.1628604730906,
+        "baselineMAE": 620.7666666666667
+      },
+      "FA42_SUN": {
+        "candidateMAE": 407.9189822962703,
+        "baselineMAE": 361.8333333333333
+      },
+      "pooled": {
+        "candidateMAE": 731.4899810761609,
+        "baselineMAE": 638.7611111111111
+      }
+    },
+    "conclusion": "Locked one-year lagged housing-stock change did not generalize across Lulea FA or external FA15 regions. Keep as rejected research evidence; do not retune lag, window or estimator from consumed outcomes."
+  }
 }
