@@ -219,7 +219,7 @@
     "birth_status_net10_constrained_candidate": {
       "label": "Födelsestatus: net10-begränsad statusfördelning",
       "targetLevel": 4,
-      "requiredGate": "Ny separat kandidat. Produktionsbaslinjens 10-åriga nettoflyttning per kön och ettårsålder ska bevaras exakt; endast fördelningen mellan svensk- och utrikesfödda modelleras. 2018–2024 är utvecklingsevidens och får inte användas för eftertrimning. Nivå 3 kräver ny förhandslåst extern eller framtida kontroll av statusbestånd."
+      "requiredGate": "Nivå 3 kräver den redan låsta externa FA15-grinden. Nivå 4 kräver dessutom en ytterligare helt orörd framtida eller årlig kontroll efter att kandidatens formulering låsts. Produktionsbaslinjens net10 per kön och ettårsålder, 10-årsfönstret, reglerna för positiv/negativ statusallokering, fallback-regeln, födelsestatus för nyfödda och statusoberoende dödlighet ska vara oförändrade. Kandidaten måste återigen vara minst lika bra som stock-share-komparatorn för svenskfödda och utrikesfödda på n+1 och n+2 samt strikt bättre pooled för båda statusgrupperna, samtidigt som totalbefolkning och nettoflyttning exakt bevarar net10."
     }
   }
 }
