@@ -26,10 +26,10 @@
     "Scenarier bedöms separat från baslinjen; produktionsmoget scenario betyder reproducerbar och transparent scenariomekanik, inte att scenariot ingår i basprognosen."
   ],
   "summary": {
-    "componentCount": 38,
+    "componentCount": 39,
     "byLevel": {
       "1": 0,
-      "2": 9,
+      "2": 10,
       "3": 2,
       "4": 27
     },
@@ -202,7 +202,7 @@
       "productionActive": false,
       "targetLevel": 4,
       "productionGatePassed": true,
-      "requiredGate": "Ny SCB-inspirerad kandidat låst före resultatutvärdering: log(lokal hazard)=a+b×log(rikets hazard), separat per geografi/fönster/kön och viktad med observerade lokala dödsfall per ålder. 2018–2024 får endast användas som utvecklingsevidens; nivå 3 kräver ny orörd extern eller framtida kontroll utan omformulering.",
+      "requiredGate": "Nivå 3 kräver den redan låsta externa FA15-grinden. Nivå 4 kräver dessutom en ytterligare helt orörd framtida eller årlig kontroll efter att WLS-formuleringen låsts, där log(lokal hazard)=a+b×log(rikets hazard), dödsfallsbaserade vikter och 10-årsfönstret förblir oförändrade; WLS måste ge lägre eller lika dödsfalls-MAE än nuvarande metod på n+1 och n+2 och strikt lägre pooled MAE.",
       "gates": [
         {
           "label": "Locked SCB-inspired weighted-least-squares mortality diagnostic generated",
@@ -464,6 +464,32 @@
         }
       ],
       "nextAction": "Closed: keep at level 2, do not retune birth-status parameters from these consumed outcomes."
+    },
+    {
+      "key": "birth_status_net10_constrained_candidate",
+      "label": "Födelsestatus: net10-begränsad statusfördelning",
+      "maturityLevel": 2,
+      "maturityName": "Utvecklingskandidat",
+      "lifecycle": "development_locked",
+      "productionActive": false,
+      "targetLevel": 4,
+      "productionGatePassed": false,
+      "requiredGate": "Ny separat kandidat. Produktionsbaslinjens 10-åriga nettoflyttning per kön och ettårsålder ska bevaras exakt; endast fördelningen mellan svensk- och utrikesfödda modelleras. 2018–2024 är utvecklingsevidens och får inte användas för eftertrimning. Nivå 3 kräver ny förhandslåst extern eller framtida kontroll av statusbestånd.",
+      "gates": [
+        {
+          "label": "Net10 aggregate population and migration preserved",
+          "passed": true,
+          "evidence": "{'passed': True, 'rule': 'Aggregate population and net migration must match net10 baseline by year.'}",
+          "required": false
+        },
+        {
+          "label": "Historical gross-flow status allocation beats stock-share comparator for both pooled status MAEs",
+          "passed": true,
+          "evidence": "2580: historical Swedish-born MAE=553.8 vs stock=667.5; foreign-born=437.6 vs stock=551.2; FA_LULEA: historical Swedish-born MAE=891.9 vs stock=1265.9; foreign-born=554 vs stock=928.1",
+          "required": false
+        }
+      ],
+      "nextAction": "Promising development signal only. Keep all allocation rules frozen and lock a genuinely external/future birth-status holdout before any level-3 consideration."
     },
     {
       "key": "consistency_adjustment",
