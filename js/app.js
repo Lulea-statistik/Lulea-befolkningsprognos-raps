@@ -15,6 +15,7 @@
   const $=id=>document.getElementById(id);
   const fmt=new Intl.NumberFormat("sv-SE",{maximumFractionDigits:0});
   const fmt1=new Intl.NumberFormat("sv-SE",{maximumFractionDigits:1});
+  const fmt2=new Intl.NumberFormat("sv-SE",{maximumFractionDigits:2});
   const pct=new Intl.NumberFormat("sv-SE",{maximumFractionDigits:1});
 
   function niceNumericTicks(min,max,target=6){
@@ -539,6 +540,7 @@
       ["Lokala flyttvikter",renderMigrationLocalWeightCharts],
       ["Unga vuxna",renderYoungAdultMigrationDiagnostic],
       ["Flyttben",renderMigrationLegDiagnostic],
+      ["Historisk data",renderHistoricalData],
       ["Arbetsmarknad",renderLabourAnalysis],
       ["Hushåll och bostad",renderHousingAnalysis],
       ["Validering",renderValidation],
@@ -553,6 +555,86 @@
       }
     });
     return errors;
+  }
+
+
+  function renderHistoricalData(){
+    const history=data?.historicalAnnual||[];
+    const summaries=data?.historicalWindowSummary||[];
+    const geo=$("geo")?.value;
+    const windowYears=+$("window")?.value||10;
+    const rows=history.filter(r=>r.geo===geo).sort((a,b)=>+a.year-+b.year);
+    const summary=summaries.find(r=>r.geo===geo && +r.window===windowYears);
+
+    const ids=["historyWindowKpi","historyWindowYears","historyFertilityKpi","historyBirthsKpi",
+      "historyDeathsKpi","historyInKpi","historyOutKpi","historyNetKpi"];
+    if(!rows.length||!summary){
+      ids.forEach(id=>{if($(id))$(id).textContent="–";});
+      if($("historyTable")) $("historyTable").querySelector("tbody").innerHTML=
+        '<tr><td colspan="9">Historikserierna genereras i nästa Update SCB data-körning.</td></tr>';
+      ["historyFertilityChart","historyVitalChart","historyGrossMigrationChart","historyNetMigrationChart"].forEach(id=>{
+        if($(id)) $(id).innerHTML='<text x="30" y="45" class="axisText">Historikserierna genereras i nästa arbetsflödeskörning.</text>';
+      });
+      return;
+    }
+
+    const years=rows.map(r=>+r.year);
+    const selectedYears=new Set((summary.years||[]).map(Number));
+    const inSelected=r=>selectedYears.has(+r.year);
+
+    $("historyWindowKpi").textContent=windowYears+" år";
+    $("historyWindowYears").textContent=`${summary.startYear}–${summary.endYear}`;
+    $("historyFertilityKpi").textContent=summary.fertilityTFRPooled==null?"–":fmt2.format(summary.fertilityTFRPooled);
+    $("historyBirthsKpi").textContent=fmt1.format(summary.birthsAnnualMean||0);
+    $("historyDeathsKpi").textContent=fmt1.format(summary.deathsAnnualMean||0);
+    $("historyInKpi").textContent=summary.inMigrationAnnualMean==null?"Ej giltigt på FA":fmt1.format(summary.inMigrationAnnualMean);
+    $("historyOutKpi").textContent=summary.outMigrationAnnualMean==null?"Ej giltigt på FA":fmt1.format(summary.outMigrationAnnualMean);
+    $("historyNetKpi").textContent=(Number(summary.netMigrationAnnualMean||0)>=0?"+":"")+fmt1.format(summary.netMigrationAnnualMean||0);
+
+    const fertMean=rows.map(r=>inSelected(r)?summary.fertilityTFRPooled:null);
+    drawAgeLineChart("historyFertilityChart",years,[
+      {name:"Observerad TFR",values:rows.map(r=>r.fertilityTFR),cls:"lineWomen"},
+      {name:`Kalibreringsnivå ${summary.startYear}–${summary.endYear}`,values:fertMean,cls:"lineMean"}
+    ],{yMin:0,xLabel:"År",hoverLabel:"År",valueDigits:2});
+
+    drawAgeLineChart("historyVitalChart",years,[
+      {name:"Födda",values:rows.map(r=>r.births),cls:"lineInflow"},
+      {name:"Döda",values:rows.map(r=>r.deaths),cls:"lineOutflow"}
+    ],{yMin:0,xLabel:"År",hoverLabel:"År",valueDigits:0});
+
+    if(geo==="FA_LULEA"){
+      $("historyGrossMigrationChart").innerHTML=
+        '<text x="30" y="45" class="axisText">Bruttoinflyttning och brutto­utflyttning visas inte för FA eftersom kommunala bruttoflöden innehåller interna FA-flyttar.</text>';
+    }else{
+      drawAgeLineChart("historyGrossMigrationChart",years,[
+        {name:"Inflyttning",values:rows.map(r=>r.inMigration),cls:"lineInflow"},
+        {name:"Utflyttning",values:rows.map(r=>r.outMigration),cls:"lineOutflow"}
+      ],{yMin:0,xLabel:"År",hoverLabel:"År",valueDigits:0});
+    }
+
+    const netMean=rows.map(r=>inSelected(r)?summary.netMigrationAnnualMean:null);
+    drawAgeLineChart("historyNetMigrationChart",years,[
+      {name:"Flyttnetto",values:rows.map(r=>r.netMigration),cls:"lineVariation"},
+      {name:`Medel ${summary.startYear}–${summary.endYear}`,values:netMean,cls:"lineMean"}
+    ],{includeZero:true,xLabel:"År",hoverLabel:"År",valueDigits:0});
+
+    $("historyTable").querySelector("tbody").innerHTML=rows.map(r=>{
+      const selected=inSelected(r);
+      const sign=v=>Number(v)>=0?"+":"";
+      const inflow=r.inMigration==null?"–":fmt.format(r.inMigration);
+      const outflow=r.outMigration==null?"–":fmt.format(r.outMigration);
+      return `<tr class="${selected?"calibrationRow":""}">
+        <td>${r.year}</td>
+        <td>${r.fertilityTFR==null?"–":fmt2.format(r.fertilityTFR)}</td>
+        <td>${fmt.format(r.births||0)}</td>
+        <td>${fmt.format(r.deaths||0)}</td>
+        <td>${r.crudeMortalityPer1000==null?"–":fmt1.format(r.crudeMortalityPer1000)}</td>
+        <td>${inflow}</td>
+        <td>${outflow}</td>
+        <td>${sign(r.netMigration||0)}${fmt.format(r.netMigration||0)}</td>
+        <td>${selected?"Ja":"Nej"}</td>
+      </tr>`;
+    }).join("");
   }
 
   function renderResults(){
