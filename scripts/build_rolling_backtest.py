@@ -772,6 +772,12 @@ def build_origin(
             profet_birth_cfg,
             geos=consistency_profile_geos,
         )
+        birth_status_net10_allocation = b.constrained_birth_status_net_allocation(
+            migration_birth_status,
+            population_birth_status,
+            geos=list(b.MUNICIPALITIES) + [b.FA_CODE],
+            window=10,
+        )
 
         detail_key = cfg["detail_key"]
         births_key = cfg["births_key"]
@@ -913,6 +919,7 @@ def build_origin(
             "profetBirthStatusDomesticInDistribution": profet_birth_in_distribution,
             "profetBirthStatusOutMigration": profet_birth_out,
             "profetBirthStatusInternationalInMigration": profet_birth_international_in,
+            "birthStatusNet10Allocation": birth_status_net10_allocation,
             "profetConsistencyFactors": profet_consistency_factors,
             "profetBirthStatusNationalMeanPopulation": [
                 {
@@ -963,6 +970,23 @@ def build_origin(
                 row
                 for year in range(origin + 1, end_year + 1)
                 for row in base_population(pop, year)
+            ],
+            "populationBirthStatusRows": [
+                {
+                    "geo": geo,
+                    "year": year,
+                    "status": status,
+                    "value": sum(
+                        population_birth_status.get(
+                            (geo, year, sex, age, status), 0.0
+                        )
+                        for sex in ("K", "M")
+                        for age in range(101)
+                    ),
+                }
+                for year in range(origin + 1, end_year + 1)
+                for geo in list(b.MUNICIPALITIES) + [b.FA_CODE]
+                for status in ("sweden_born", "foreign_born")
             ],
             "nationalAssumptionRows": national_assumption_rows_from_counts(
                 origin,
