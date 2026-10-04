@@ -895,11 +895,11 @@ def main():
             )
         ],
         (
-            "Promising development signal only. Freeze the five-state grouping, 10-year national transition estimator and scoring ages; lock external municipalities before any level-3 evaluation."
+            "Research-only. Promising development signal only. Freeze the five-state grouping, 10-year national transition estimator and scoring ages; lock external municipalities before any level-3 evaluation. Do not connect qutb to migration, fertility or mortality before level 4 and a separately locked component-specific test."
             if qutb_education_dev
-            else "Keep at level 2. Do not retune state grouping, window or transition estimator on consumed 2018-2024 outcomes; any revised qutb must be a separately locked candidate."
+            else "Research-only. Keep at level 2. Do not retune state grouping, window or transition estimator on consumed 2018-2024 outcomes; any revised qutb must be a separately locked candidate and must not affect the demographic production model."
             if qutb_education_has_results
-            else "Run a full SCB refresh to download the education source and execute the locked development diagnostic."
+            else "Research-only. Run a full SCB refresh to download the education source and execute the locked development diagnostic; the demographic production model remains unchanged."
         )
     ))
 
