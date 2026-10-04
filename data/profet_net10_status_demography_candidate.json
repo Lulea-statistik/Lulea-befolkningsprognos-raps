@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "development_candidate_locked_before_results",
+  "key": "profet_net10_status_demography_candidate",
+  "label": "Profet-arkitektur: net10 + födelsestatusspecifik demografi",
+  "productionDefault": false,
+  "purpose": "Test a genuinely new Profet-inspired architecture that preserves the validated net10 migration baseline and validated birth-status allocation while adding national Swedish-born/foreign-born fertility and mortality differentials from the same SCB forecast vintage.",
+  "state": {
+    "categories": [
+      "sweden_born",
+      "foreign_born"
+    ],
+    "newbornStatus": "sweden_born"
+  },
+  "migration": {
+    "mode": "birth_status_net10_constrained",
+    "window": 10,
+    "totalConstraint": "exact production net10 by sex and one-year age",
+    "allocation": "locked historical gross-flow shares from birth_status_net10_candidate"
+  },
+  "fertility": {
+    "localBase": "existing localized production fertility rate by maternal age",
+    "statusAdjustment": "multiply local aggregate fertility by same-vintage national birth-status fertility relative to same-vintage aggregate national fertility",
+    "maternalStatusDimension": true,
+    "normalization": "no outcome-based local tuning"
+  },
+  "mortality": {
+    "localBase": "existing localized production mortality risk by sex and age",
+    "statusAdjustment": "convert local risk to hazard, multiply by same-vintage national birth-status hazard relative to same-vintage aggregate national hazard, then convert back to probability",
+    "normalization": "no outcome-based local tuning"
+  },
+  "evaluation": {
+    "origins": [
+      2018,
+      2019,
+      2020,
+      2021
+    ],
+    "horizons": [
+      1,
+      2,
+      3
+    ],
+    "comparator": "birth_status_net10_constrained",
+    "primaryHorizons": [
+      "n+1",
+      "n+2"
+    ],
+    "metrics": [
+      "total population MAE",
+      "births MAE",
+      "deaths MAE",
+      "Swedish-born population MAE",
+      "foreign-born population MAE"
+    ],
+    "structuralRequirements": [
+      "net migration must remain identical to birth_status_net10_constrained",
+      "status population accounting must sum to total population"
+    ],
+    "governance": "2018-2024 is development evidence only. No status multiplier, normalization or window may be changed after results. Level 3 requires a separately locked external or future holdout."
+  }
+}
