@@ -55,5 +55,12 @@
       "all transition probabilities must be in [0,1] and education-state shares must sum to 1 within numerical tolerance"
     ],
     "governance": "2018-2024 is development evidence only. No state grouping, window, transition estimator, age range or clipping rule may be changed after results are viewed. Level 3 requires a separately locked external or future holdout."
+  },
+  "governance": {
+    "researchOnly": true,
+    "researchOnlyUntilLevel": 4,
+    "productionIntegrationAllowed": false,
+    "integrationRule": "Even if this education model reaches level 4, it may only become a candidate explanatory layer for migration, fertility or mortality through separately locked component-specific models. It must never alter those demographic components merely by reaching level 4 itself.",
+    "currentUse": "standalone education-structure research and validation only"
   }
 }
