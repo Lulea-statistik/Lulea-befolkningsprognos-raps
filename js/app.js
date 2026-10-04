@@ -1707,12 +1707,12 @@
       ? "<div class=\"stackedMetrics\" style=\"margin-bottom:12px\">"+
         (fertStatus?"<div class=\"kv\"><span>Fruktsamhet – kubisk spline λ=10</span><strong>Nivå "+fertStatus.maturityLevel+" · "+fertStatus.maturityName+"</strong></div>":"")+
         (mortStatus?"<div class=\"kv\"><span>Dödlighet – Empirical Bayes</span><strong>Nivå "+mortStatus.maturityLevel+" · "+mortStatus.maturityName+"</strong></div>":"")+
-        (wlsStatus?"<div class=\"kv\"><span>Dödlighet – weighted least squares</span><strong>Nivå "+wlsStatus.maturityLevel+" · "+wlsStatus.maturityName+"</strong></div>":"")+
+        (wlsStatus?"<div class=\"kv\"><span>Dödlighet – viktad minsta kvadratmetod (WLS)</span><strong>Nivå "+wlsStatus.maturityLevel+" · "+wlsStatus.maturityName+"</strong></div>":"")+
         (birthNet10Status?"<div class=\"kv\"><span>Födelsestatus – net10-begränsad statusfördelning</span><strong>Nivå "+birthNet10Status.maturityLevel+" · "+birthNet10Status.maturityName+"</strong></div>":"")+
-        (qutbResearchStatus?"<div class=\"kv\"><span>Forskningsspår – kohortbaserade utbildningsövergångar (qutb)</span><strong>Nivå "+qutbResearchStatus.maturityLevel+" · "+qutbResearchStatus.maturityName+" · research-only</strong></div>":"")+
+        (qutbResearchStatus?"<div class=\"kv\"><span>Forskningsspår – kohortbaserade utbildningsövergångar (qutb)</span><strong>Nivå "+qutbResearchStatus.maturityLevel+" · "+qutbResearchStatus.maturityName+" · endast forskning</strong></div>":"")+
         (migStatus?"<div class=\"kv\"><span>Migration – kubisk spline</span><strong>Nivå "+migStatus.maturityLevel+" · "+migStatus.lifecycle+"</strong></div>":"")+
         "</div>"+
-        "<p class=\"hint\"><strong>Produktionsstatus:</strong> fruktsamhets-splinen, dödlighets-WLS och den net10-begränsade födelsestatusmodellen är validerade nivå-3-kandidater men ännu inte produktionsaktiva. qutb-utbildningsmodellen är också nivå 3 men är uttryckligen research-only och påverkar inte den demografiska prognosen. Dödlighets-EB och migrations-splinen är stängda på nivå 2 efter låsta valideringsgrindar.</p>"
+        "<p class=\"hint\"><strong>Produktionsstatus:</strong> fruktsamhets-splinen, dödlighets-WLS och den net10-begränsade födelsestatusmodellen är validerade nivå-3-kandidater men ännu inte produktionsaktiva. qutb-utbildningsmodellen är också nivå 3 men är uttryckligen endast för forskning och påverkar inte den demografiska prognosen. Dödlighets-EB och migrations-splinen är stängda på nivå 2 efter låsta valideringsgrindar.</p>"
       : "";
     el.innerHTML=
       candidateStatusMarkup+
@@ -1745,7 +1745,7 @@
 
   function renderBacktestTable(geo,w){
     const rows=w?backtest?.results?.[geo]?.[w]:null;
-    if(!rows){$("backtestTable").innerHTML="<p class='hint'>Backtestdata saknas för valt fönster.</p>";return;}
+    if(!rows){$("backtestTable").innerHTML="<p class='hint'>Historiska testdata saknas för valt fönster.</p>";return;}
     $("backtestTable").innerHTML=`<table class="miniTable"><thead><tr><th>År</th><th>Prognos</th><th>Utfall</th><th>Fel</th><th>Födda fel</th><th>Döda fel</th><th>Flytt fel</th></tr></thead><tbody>
       ${rows.map(r=>`<tr><td>${r.year}</td><td>${fmt.format(r.predictedPopulation)}</td><td>${fmt.format(r.actualPopulation)}</td><td>${r.populationError>=0?"+":""}${fmt.format(r.populationError)}</td><td>${r.birthsError>=0?"+":""}${fmt.format(r.birthsError)}</td><td>${r.deathsError>=0?"+":""}${fmt.format(r.deathsError)}</td><td>${r.netMigrationError>=0?"+":""}${fmt.format(r.netMigrationError)}</td></tr>`).join("")}
       </tbody></table>`;
@@ -1755,7 +1755,7 @@
     const rows=w?(backtest?.ageErrors?.[geo]?.[w]||[]).filter(r=>+r.year===2024):[];
     if(!rows.length){
       $("backtestAgeErrorChart").innerHTML="";
-      $("backtestAgeErrorTable").innerHTML="<p class='hint'>Åldersspecifikt backtest genereras i nästa workflow-körning.</p>";
+      $("backtestAgeErrorTable").innerHTML="<p class='hint'>Åldersspecifikt historiskt test genereras i nästa arbetsflödeskörning.</p>";
       return;
     }
     const sorted=[...rows].sort((a,b)=>+a.age-+b.age);
@@ -1826,8 +1826,8 @@
 
     const recurrent=recurrence.filter(r=>r.over5>=2);
     const interpretation=recurrent.length
-      ? `Återkommande >5 % i minst två backtestår: ${recurrent.map(r=>r.age+(r.sameSign?" (samma tecken)":" (olika tecken)")).join(", ")}.`
-      : "Ingen av 22, 25 eller 26 år överstiger 5 % i minst två av de tillgängliga backteståren.";
+      ? `Återkommande >5 % i minst två historiska testår: ${recurrent.map(r=>r.age+(r.sameSign?" (samma tecken)":" (olika tecken)")).join(", ")}.`
+      : "Ingen av 22, 25 eller 26 år överstiger 5 % i minst två av de tillgängliga historiska teståren.";
 
     table.innerHTML=`
       <p class="hint"><strong>Kontroll 22, 25 och 26 år:</strong> ${interpretation} Ett enstaka år bör inte ensamt användas för att ändra åldersprofilen.</p>
@@ -1913,7 +1913,7 @@
 
   function renderScbBenchmarkTable(geo,w){
     const rows=scbComparison?.results?.[geo]?.[w];
-    if(!rows){$("scbBenchmarkTable").innerHTML="<p class='hint'>SCB-benchmark saknas ännu.</p>";return;}
+    if(!rows){$("scbBenchmarkTable").innerHTML="<p class='hint'>SCB-jämförelse saknas ännu.</p>";return;}
     $("scbBenchmarkTable").innerHTML=`<table class="miniTable"><thead><tr><th>År</th><th>Modell</th><th>SCB</th><th>SCB omankrad</th><th>Skillnad %</th></tr></thead><tbody>
       ${rows.map(r=>`<tr><td>${r.year}</td><td>${fmt.format(r.modelPopulation)}</td><td>${fmt.format(r.scbPopulation)}</td><td>${fmt.format(r.scbRebasedToActual2025)}</td><td>${r.differenceVsRebasedScbPct>=0?"+":""}${pct.format(r.differenceVsRebasedScbPct)} %</td></tr>`).join("")}
       </tbody></table>`;
