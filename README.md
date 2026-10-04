@@ -4,17 +4,18 @@ HTML-baserad demografisk prognosmodell för Luleå FA och kommunerna Luleå, Bod
 
 ## Dashboard
 
-Gränssnittet är uppdelat i nio rapportsidor:
+Gränssnittet är uppdelat i tio rapportsidor:
 
 1. **Resultat** – KPI:er, befolkningskurva, demografiska komponenter, årsresultat och SCB-jämförelse.
 2. **Befolkningsanalys** – kalibreringskänslighet 3/6/10 år, kommun/Riket-faktorer, åldersstruktur och demografisk balans.
 3. **Åldersanalys 1-år** – informationsvägd utjämning för fruktsamhet och dödlighet för varje enskild ålder, inklusive kvinnor/män för dödlighet.
 4. **Flyttanalys** – inflyttning, utflyttning, netto, historisk variation och praktisk 5 %-känslighet i 1-årsåldrar.
-5. **Arbetsmarknad & pendling** – jobbutveckling, bostads-/arbetsställekommun, pendlingsmatris och scenariofördelning av nya jobb.
-6. **Hushåll & bostad** – hushållsbildning, personer per hushåll, SCB-standardvärden per bostadstyp, bostadsbestånd och indikativ ny bostadsefterfrågan.
-7. **Scenario & justering** – val mellan rAps/SCB 2024 och SCB 2026 fruktsamhetsbana, separat 2/4/6/10-årigt nettoflyttningsfönster, generella demografiska multiplikatorer, bostadsbyggande och arbetsplatsetableringar.
-8. **Validering** – historisk 2022–2024-backtest, fel per 1-årsålder och jämförelse mot SCB:s regionala framskrivning.
-9. **Metod & data** – källor, CKM-status, rAps-inspiration, metodavvikelser och utjämningspolicy.
+5. **Historisk data** – observerade årsserier 2006–2024 för fruktsamhet, födda, döda och flyttningar samt kalibreringsmedel för valt 3/6/10-årsfönster.
+6. **Arbetsmarknad & pendling** – jobbutveckling, bostads-/arbetsställekommun, pendlingsmatris och scenariofördelning av nya jobb.
+7. **Hushåll & bostad** – hushållsbildning, personer per hushåll, SCB-standardvärden per bostadstyp, bostadsbestånd och indikativ ny bostadsefterfrågan.
+8. **Scenario & justering** – val mellan rAps/SCB 2024 och SCB 2026 fruktsamhetsbana, separat 2/4/6/10-årigt nettoflyttningsfönster, generella demografiska multiplikatorer, bostadsbyggande och arbetsplatsetableringar.
+9. **Validering** – historisk 2022–2024-backtest, fel per 1-årsålder och jämförelse mot SCB:s regionala framskrivning.
+10. **Metod & data** – källor, CKM-status, rAps-inspiration, metodavvikelser och utjämningspolicy.
 
 Linjediagrammen har värden när muspekaren hålls över diagrammet för närmaste år eller ålder. Flyttanalysens historiska standardavvikelse är en variationsindikator, inte ett statistiskt konfidensintervall.
 
