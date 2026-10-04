@@ -156,3 +156,20 @@ svg{cursor:crosshair}
 .historyDetailSummary span{display:block;color:var(--muted);font-size:11px}
 .historyDetailSummary strong{display:block;margin-top:3px;font-size:13px;color:#17202a}
 @media(max-width:760px){.historyFilterGrid{grid-template-columns:1fr}}
+
+
+.historySection{margin-top:18px}
+.historySectionHead{margin:0 0 10px;padding:0 2px}
+.historySectionHead h2{margin:0 0 4px}
+.historySectionHead p{margin:0;color:var(--muted);font-size:13px}
+.historyFilterPanel{display:grid;grid-template-columns:1fr;gap:16px}
+.historyFilterPanel fieldset{border:1px solid #dfe5ec;border-radius:10px;padding:14px;margin:0;background:#f8fafc}
+.historyFilterPanel legend{font-weight:700;font-size:13px;padding:0 6px}
+.historyFilterControls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px;margin-bottom:12px}
+.migrationFilterControls{grid-template-columns:repeat(4,minmax(0,1fr))}
+.historyFilterControls label{font-size:12px;color:var(--muted)}
+.historyFilterControls select{width:100%;margin-top:4px}
+.historyFilterChart{background:#fff;border:1px solid #e7ebf0;border-radius:10px;padding:12px}
+.historyFilterChart .panelHead{margin-bottom:4px}
+@media(max-width:1000px){.migrationFilterControls{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.historyFilterControls,.migrationFilterControls{grid-template-columns:1fr}}
