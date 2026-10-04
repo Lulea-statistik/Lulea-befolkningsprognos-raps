@@ -672,10 +672,14 @@
       g.deaths+=Number(r.deaths||0);
       g.exposure+=Number(r.exposure||0);
     }
-    const annual=[...byYear.values()].sort((a,b)=>a.year-b.year).map(r=>({
-      ...r,
-      risk:r.exposure>0?1000*r.deaths/r.exposure:null
-    }));
+    const annual=[...byYear.values()].sort((a,b)=>a.year-b.year).map(r=>{
+      const hazard=r.exposure>0?r.deaths/r.exposure:null;
+      return {
+        ...r,
+        hazard,
+        risk:hazard==null?null:1000*(1-Math.exp(-Math.max(0,hazard)))
+      };
+    });
     if(!annual.length){
       if($("historyMortalityDetailChart")) $("historyMortalityDetailChart").innerHTML=
         '<text x="30" y="45" class="axisText">Detaljerad dödlighet genereras i nästa Update SCB data-körning.</text>';
@@ -722,7 +726,8 @@
     const deaths=selected.reduce((sum,r)=>sum+r.deaths,0);
     const exposure=selected.reduce((sum,r)=>sum+r.exposure,0);
     const annualMean=selected.length?deaths/selected.length:0;
-    const pooledRisk=exposure>0?1000*deaths/exposure:null;
+    const pooledHazard=exposure>0?deaths/exposure:null;
+    const pooledRisk=pooledHazard==null?null:1000*(1-Math.exp(-Math.max(0,pooledHazard)));
     const sexLabel=sex==="K"?"Kvinnor":sex==="M"?"Män":"Totalt";
     const ageLabel=ageVal==="ALL"?"alla åldrar":(ageVal==="100"?"100+ år":ageVal+" år");
     $("historyMortalitySummary").innerHTML=`
@@ -732,7 +737,7 @@
         <div><span>Observerad sammanvägd dödsrisk</span><strong>${pooledRisk==null?"–":fmt2.format(pooledRisk)+" ‰"}</strong></div>
         <div><span>Modellens kalibrerade dödsrisk</span><strong>${modelRisk==null?"–":fmt2.format(modelRisk)+" ‰"}</strong></div>
       </div>
-      <p class="hint"><strong>Tolkning:</strong> observerad 0 ‰ betyder att inga dödsfall registrerades i just den valda cellen under perioden. Det är inte samma sak som modellrisk 0. Vid små celler dämpas den lokala slumpvariationen genom informationsvägning mot rikets ålders- och könsspecifika dödlighetsprofil.</p>`;
+      <p class="hint"><strong>Tolkning:</strong> observerad 0 ‰ betyder att inga dödsfall registrerades i just den valda cellen under perioden. Den observerade serien omvandlas från händelser/exponering till en ettårig dödssannolikhet med samma hazard→risk-princip som modellen, så skalan kan aldrig överstiga 1 000 ‰ (= 100 %). Vid små celler dämpas den lokala slumpvariationen i prognosen genom informationsvägning mot rikets ålders- och könsspecifika dödlighetsprofil.</p>`;
   }
 
   function renderHistoricalMigrationDetail(geo,selectedYears){
