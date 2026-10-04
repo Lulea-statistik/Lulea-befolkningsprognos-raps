@@ -632,6 +632,7 @@
     const endYear=+options.endYear;
     const statuses=["sweden_born","foreign_born"];
     const mode="birth_status_net10_constrained";
+    const useStockShare=options.birthStatusAllocationMode==="stock_share";
     const baseRows=(data.populationBaseBirthStatus||[])
       .filter(r=>r.geo===geo && +r.year===baseYear);
     if(!baseRows.length){
@@ -743,12 +744,14 @@
           netMigration+=realized;
 
           if(realized>=0){
-            let shares=statuses.map(status=>{
-              const r=getBirthStatusNetAllocation(
-                data.birthStatusNet10Allocation,geo,sex,age,status
-              );
-              return Math.max(0,n(r?.positiveShare));
-            });
+            let shares=useStockShare
+              ? statuses.map(status=>Math.max(0,n(survivors.get(bsKey(status,sex,age)))))
+              : statuses.map(status=>{
+                  const r=getBirthStatusNetAllocation(
+                    data.birthStatusNet10Allocation,geo,sex,age,status
+                  );
+                  return Math.max(0,n(r?.positiveShare));
+                });
             const ss=shares.reduce((s,v)=>s+v,0);
             if(ss<=0) shares=[1,0];
             else shares=shares.map(v=>v/ss);
@@ -758,12 +761,14 @@
             });
           }else{
             const reduction=-realized;
-            let shares=statuses.map(status=>{
-              const r=getBirthStatusNetAllocation(
-                data.birthStatusNet10Allocation,geo,sex,age,status
-              );
-              return Math.max(0,n(r?.negativeShare));
-            });
+            let shares=useStockShare
+              ? statuses.map(status=>Math.max(0,n(survivors.get(bsKey(status,sex,age)))))
+              : statuses.map(status=>{
+                  const r=getBirthStatusNetAllocation(
+                    data.birthStatusNet10Allocation,geo,sex,age,status
+                  );
+                  return Math.max(0,n(r?.negativeShare));
+                });
             const ss=shares.reduce((s,v)=>s+v,0);
             if(ss<=0) shares=[1,0];
             else shares=shares.map(v=>v/ss);
