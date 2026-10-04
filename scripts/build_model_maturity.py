@@ -684,9 +684,46 @@ def main():
                 f"{(s.get('historicalFlow') or {}).get('foreignBornMAE')} vs stock="
                 f"{(s.get('stockShare') or {}).get('foreignBornMAE')}"
             )
+
+    birth_status_external = (
+        reference_fa.get("birthStatusNet10External") or {}
+    )
+    birth_status_external_gate = (
+        birth_status_external.get("gate") or {}
+    )
+    birth_status_external_passed = (
+        birth_status_external_gate.get("passed") is True
+    )
+    external_checks = birth_status_external_gate.get("checks") or []
+    external_evidence = "; ".join(
+        f"{x.get('region')} {x.get('horizon')}: "
+        f"Sw {x.get('historicalSwedishBornMAE')} vs {x.get('stockSwedishBornMAE')}; "
+        f"Foreign {x.get('historicalForeignBornMAE')} vs {x.get('stockForeignBornMAE')}"
+        for x in external_checks
+    )
+    if birth_status_external_gate:
+        external_evidence += (
+            f"; pooled Sw "
+            f"{birth_status_external_gate.get('historicalFlowPooledSwedishBornMAE')} "
+            f"vs {birth_status_external_gate.get('stockSharePooledSwedishBornMAE')}; "
+            f"Foreign "
+            f"{birth_status_external_gate.get('historicalFlowPooledForeignBornMAE')} "
+            f"vs {birth_status_external_gate.get('stockSharePooledForeignBornMAE')}"
+        )
+
+    constrained_level = 3 if birth_status_external_passed else 2
+    constrained_lifecycle = (
+        "validated_candidate"
+        if birth_status_external_passed
+        else "external_gate_failed"
+        if birth_status_external_gate
+        else "development_locked"
+    )
     comps.append(component(
-        policy, "birth_status_net10_constrained_candidate", 2,
-        "development_locked", False,
+        policy, "birth_status_net10_constrained_candidate",
+        constrained_level,
+        constrained_lifecycle,
+        False,
         [
             gate(
                 "Net10 aggregate population and migration preserved",
@@ -699,12 +736,20 @@ def main():
                 constrained_dev_passed,
                 "; ".join(constrained_evidence) if constrained_evidence else "Awaiting rolling-origin results",
                 required=False
+            ),
+            gate(
+                "External FA15 level-3 gate: non-worse at n+1/n+2 in every locked region and pooled strictly better for both birth statuses",
+                birth_status_external_passed,
+                external_evidence if external_evidence else "Awaiting external FA15 birth-status results",
+                required=True
             )
         ],
         (
-            "Promising development signal only. Keep all allocation rules frozen and lock a genuinely external/future birth-status holdout before any level-3 consideration."
-            if constrained_dev_passed and constrained_structural
-            else "Keep at level 2. Do not retune allocation rules on 2018-2024 outcomes; any new formulation must be a separately locked candidate."
+            "Level 3 validated candidate. Keep net10 totals, status-allocation rules and 10-year window frozen; require one further untouched future/annual control before any level-4 production use."
+            if birth_status_external_passed
+            else "Keep at level 2. Do not retune allocation rules on consumed 2018-2024 or external FA outcomes; a failed external gate closes this formulation."
+            if birth_status_external_gate
+            else "Promising development signal only. Keep all allocation rules frozen and await the pre-locked external FA15 gate before any level-3 consideration."
         )
     ))
 
