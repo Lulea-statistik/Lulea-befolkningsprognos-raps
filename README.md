@@ -12,7 +12,7 @@ Gränssnittet är uppdelat i nio rapportsidor:
 4. **Flyttanalys** – inflyttning, utflyttning, netto, historisk variation och praktisk 5 %-känslighet i 1-årsåldrar.
 5. **Arbetsmarknad & pendling** – jobbutveckling, bostads-/arbetsställekommun, pendlingsmatris och scenariofördelning av nya jobb.
 6. **Hushåll & bostad** – hushållsbildning, personer per hushåll, SCB-standardvärden per bostadstyp, bostadsbestånd och indikativ ny bostadsefterfrågan.
-7. **Scenario & justering** – val mellan Raps/SCB 2024 och SCB 2026 fruktsamhetsbana, separat 2/4/6/10-årigt nettoflyttningsfönster, generella demografiska multiplikatorer, bostadsbyggande och arbetsplatsetableringar.
+7. **Scenario & justering** – val mellan rAps/SCB 2024 och SCB 2026 fruktsamhetsbana, separat 2/4/6/10-årigt nettoflyttningsfönster, generella demografiska multiplikatorer, bostadsbyggande och arbetsplatsetableringar.
 8. **Validering** – historisk 2022–2024-backtest, fel per 1-årsålder och jämförelse mot SCB:s regionala framskrivning.
 9. **Metod & data** – källor, CKM-status, rAps-inspiration, metodavvikelser och utjämningspolicy.
 
@@ -54,7 +54,7 @@ Geografi, kalibreringsfönster och slutår är globala filter och gäller på al
 - Utjämningen använder två utfallsoberoende informationssignaler: genomsnittlig årlig cellpopulation och förväntat antal händelser. Populationssignalen går från 0 % vid <=20 till 100 % vid >=100; händelsesignalen går från 0 % vid <=1 förväntad händelse till 100 % vid >=20. Den slutliga lokala vikten är produkten av de två.
 - Gränserna för informationsvägd utjämning är fastställda före utvärderingen mot jämförelsekällan och får inte trimmas mot känt utfall.
 - `urisk`: historisk kommunal utflyttningsrisk lagras per kön/ettårsålder och 2/4/6/10-årsfönster. Historisk bruttoinflyttning lagras parallellt. Basscenariot använder fortfarande exogen nettoflyttning tills IMIG/UMIG/`ifl` aktiveras.
-- Nettoflyttningens 2/3/4/6/10-årsfönster kan varieras separat från fruktsamhet/dödlighet för en ren känslighetsanalys. Rolling-origin-testet jämför samma fönster på n+1 och n+2. 19 år har tagits bort som aktivt migrationsfönster eftersom #36 inte gav något prognosstöd för det; fruktsamhet och dödlighet behåller däremot 19 år som lång stabilitetskontroll. Observerat 2025-netto sparas som post-2024 diagnostik men används inte för efterhandskalibrering.
+- Nettoflyttningens 2/3/4/6/10-årsfönster kan varieras separat från fruktsamhet/dödlighet för en ren känslighetsanalys. Testet med rullande prognosursprung jämför samma fönster på n+1 och n+2. 19 år har tagits bort som aktivt migrationsfönster eftersom #36 inte gav något prognosstöd för det; fruktsamhet och dödlighet behåller däremot 19 år som lång stabilitetskontroll. Observerat 2025-netto sparas som post-2024 diagnostik men används inte för efterhandskalibrering.
 - `qutb`: identitetsmatris tills övergångstal läggs in.
 - Huvudkalibreringsfönster 3, 6 och 10 år, där 10 år är produktionsstandard.
 - CKM-metodbrottet 2025 flaggas separat.
@@ -108,7 +108,7 @@ SCB TAB6008 används som en separat alternativ metodjämförelse och visas även
 
 ## GitHub Actions
 
-Workflow **Update SCB data** kan köras manuellt och månadsvis. Det:
+Arbetsflödet **Update SCB data** kan köras manuellt och månadsvis. Det:
 
 1. upptäcker SCB-tabeller,
 2. hämtar rådata,
