@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "development_candidate_locked_before_results",
+  "key": "qutb_education_transition_candidate",
+  "label": "qutb: kohortbaserade utbildningsövergångar",
+  "productionDefault": false,
+  "source": {
+    "table": "TAB3981",
+    "series": "Befolkning 16-74 år efter region, utbildningsnivå, ålder och kön",
+    "calibrationStart": 2008,
+    "note": "Only post-2000 modern UREG history is used; the documented 2000 series break is not crossed."
+  },
+  "educationStates": [
+    "pre_secondary",
+    "upper_secondary",
+    "postsecondary_short",
+    "postsecondary_long",
+    "postgraduate"
+  ],
+  "missingEducation": "exclude_from_transition_estimation_and_share_scoring",
+  "method": {
+    "calibrationWindowYears": 10,
+    "transitionBasis": "national cohort changes by sex and one-year age",
+    "transitionDirection": "adjacent_upward_only",
+    "estimation": "For each lower state j, estimate p(j->j+1) from positive year-to-year increase in the national cohort share at or above state j+1 divided by the prior cohort share in state j; event-weighted over the locked 10-year window and clamped to [0,1].",
+    "simulation": "Apply all adjacent promotions simultaneously to the prior cohort distribution, then age the cohort one year.",
+    "localStart": "observed local education distribution by sex and age at each rolling origin",
+    "totalPopulationEffect": "none"
+  },
+  "comparator": {
+    "key": "identity_qutb",
+    "description": "Carry each cohort's education shares forward unchanged as it ages."
+  },
+  "evaluation": {
+    "developmentOrigins": [
+      2018,
+      2019,
+      2020,
+      2021
+    ],
+    "horizons": [
+      1,
+      2,
+      3
+    ],
+    "primaryHorizons": [
+      "n+1",
+      "n+2"
+    ],
+    "scoredAges": "20-64",
+    "metric": "mean absolute error in education shares across five states, sex and one-year age cells",
+    "developmentGate": [
+      "candidate MAE must be strictly below identity qutb at n+1 for both Lulea and Lulea FA",
+      "candidate MAE must be no worse than identity qutb at n+2 for both Lulea and Lulea FA",
+      "all transition probabilities must be in [0,1] and education-state shares must sum to 1 within numerical tolerance"
+    ],
+    "governance": "2018-2024 is development evidence only. No state grouping, window, transition estimator, age range or clipping rule may be changed after results are viewed. Level 3 requires a separately locked external or future holdout."
+  }
+}
