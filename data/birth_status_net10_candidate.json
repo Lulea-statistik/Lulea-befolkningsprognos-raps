@@ -35,6 +35,16 @@
       "foreign_born population MAE"
     ],
     "structuralGate": "Aggregate population and net migration must match the net10 baseline by year.",
-    "governance": "2018-2024 results are development evidence only. No parameters or allocation rules may be changed after viewing these outcomes. Level 3 requires a newly locked external or future holdout."
+    "governance": "2018-2024 results are development evidence only. No parameters or allocation rules may be changed after viewing these outcomes. Level 3 requires a newly locked external or future holdout.",
+    "comparator": {
+      "key": "stock_share",
+      "description": "Allocate the same net10 migration in each sex-age cell by the current surviving Swedish-born/foreign-born stock share in that cell; no historical birth-status migration information is used."
+    },
+    "developmentGate": [
+      "Aggregate population and net migration exactly match the production net10 baseline by year.",
+      "Historical-flow allocation has lower pooled Swedish-born population MAE than stock-share comparator.",
+      "Historical-flow allocation has lower pooled foreign-born population MAE than stock-share comparator.",
+      "n+1 and n+2 status MAE are reported separately; no parameter changes are allowed after results."
+    ]
   }
 }
