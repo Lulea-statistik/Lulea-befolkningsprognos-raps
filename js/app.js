@@ -1378,15 +1378,40 @@
     const internationalEffect=populationEffect*internationalShare;
     const domesticEffect=populationEffect-internationalEffect;
     $("labourPopulationEffect").innerHTML=`
-      <div class="policyGrid">
-        <div><span>Nya jobb till boende utanför FA</span><strong>${fmt1.format(outsideJobs)}</strong></div>
-        <div><span>Antas flytta till FA</span><strong>${fmt1.format(movingJobs)}</strong></div>
-        <div><span>Personer per inflyttat jobb</span><strong>${fmt1.format(personsPerJob)}</strong></div>
-        <div><span>Potentiell extra befolkning</span><strong>+${fmt1.format(populationEffect)}</strong></div>
-        <div><span>Varav från övriga Sverige</span><strong>+${fmt1.format(domesticEffect)}</strong></div>
-        <div><span>Varav internationell rekrytering</span><strong>+${fmt1.format(internationalEffect)}</strong></div>
+      <div class="policyGrid labourEffectGrid">
+        <div>
+          <span>Jobb som fördelas till personer bosatta utanför FA</span>
+          <strong>${fmt1.format(outsideJobs)}</strong>
+          <small>Antal av scenariots nya jobb som, med dagens pendlingsandelar, skulle innehas av personer som i dag bor utanför Luleå FA.</small>
+        </div>
+        <div>
+          <span>Arbetstagare som antas flytta in</span>
+          <strong>${fmt1.format(movingJobs)}</strong>
+          <small>Föregående antal × vald andel som antas byta bostadsort till FA. Detta är ett scenarioantagande.</small>
+        </div>
+        <div>
+          <span>Personer per inflyttat jobb</span>
+          <strong>${fmt1.format(personsPerJob)}</strong>
+          <small>Antaget antal nya invånare per jobb som leder till inflyttning, inklusive eventuell medföljande partner eller familj.</small>
+        </div>
+        <div>
+          <span>Potentiell extra befolkning</span>
+          <strong>+${fmt1.format(populationEffect)}</strong>
+          <small>Antagna inflyttande arbetstagare × personer per inflyttat jobb. Detta är scenariots beräknade bruttoeffekt på befolkningen.</small>
+        </div>
+        <div>
+          <span>Varav från övriga Sverige</span>
+          <strong>+${fmt1.format(domesticEffect)}</strong>
+          <small>Den del av den potentiella befolkningseffekten som enligt vald fördelning antas komma från Sverige utanför FA.</small>
+        </div>
+        <div>
+          <span>Varav internationell rekrytering</span>
+          <strong>+${fmt1.format(internationalEffect)}</strong>
+          <small>Den del av den potentiella befolkningseffekten som enligt vald internationell andel antas komma från utlandet.</small>
+        </div>
       </div>
-      <p class="hint">${labour.meta.qualityNote||""}</p>`;
+      <p class="effectFormula"><strong>Beräkningskedja:</strong> jobb till personer utanför FA × antagen flyttandel × personer per inflyttat jobb = potentiell extra befolkning.</p>
+      <p class="hint">Beräkningen tar inte i sig hänsyn till undanträngning, arbetslöshet, framtida förändrat pendlingsmönster eller att vissa personer skulle ha flyttat till regionen även utan de nya jobben. ${labour.meta.qualityNote||""}</p>`;
   }
 
   function housingMembers(geo){
