@@ -191,6 +191,9 @@ jobs:
       - name: Build locked qutb education-transition diagnostic
         run: python scripts/build_qutb_education_diagnostic.py
 
+      - name: Build housing-migration lead research diagnostic
+        run: python scripts/build_housing_migration_lead_research.py
+
       - name: Validate 2025 CKM base-population bridge
         run: python scripts/validate_base_population_bridge.py
 
