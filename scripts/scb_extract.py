@@ -576,7 +576,7 @@ SPECS = {
     "household_size_by_apartment": {"start":2012,"end":2025,"include_riket":True,"content_terms":["antal hushåll","antal personer per hushåll"]},
     "households_by_type": {"start":2011,"end":2024,"include_riket":True,"content_terms":["Antal hushåll","Antal personer"]},
     "household_totals": {"start":2011,"end":2025,"include_riket":True,"include_household_external_geos":True,"content_terms":["Antal hushåll","Antal personer per hushåll"]},
-    "housing_stock": {"start":2013,"end":2025},
+    "housing_stock": {"start":2013,"end":2025,"include_reference_geos":True},
     "education_population": {
         "start":2008,"end":2025,
         "include_riket":True,
