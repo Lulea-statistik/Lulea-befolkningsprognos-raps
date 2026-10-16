@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Gemensam webbtypografi: Protipo nar licensierad webbfont laddas, Inter annars. */
+:root{--font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;--font-heading:'protipo','Inter',system-ui,sans-serif}
+body{font-family:var(--font-body)}
+h1,h2,h3,h4,h5,h6,a,nav a{font-family:var(--font-heading)}
+button,input,select,textarea,table{font-family:var(--font-body)}
 :root{
   font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
   color:#17202a;background:#f5f7fa;
