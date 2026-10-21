@@ -17,8 +17,8 @@
 <section class="panel" style="margin-top:18px"><h2>År för år – prognosens träffsäkerhet</h2><div class="hb-responsive"><table class="hb-table"><thead><tr><th>År</th><th>Prognos</th><th>Utfall</th><th>Fel antal</th><th>Fel %</th><th>Födda fel</th><th>Döda fel</th><th>Flyttnetto fel</th></tr></thead><tbody id="hb-rows"></tbody></table></div><button id="hb-export" type="button" class="secondary">Exportera tabell CSV</button></section>
 <section class="panel" style="margin-top:18px"><h2>Rullande prognosstarter 2018–2021</h2>
 <p>En separat historisk prognos beräknas vid varje startår med endast information fram till det året och SCB:s dåvarande nationella prognosårgång. Varje start har upp till tre års prognoshorisont.</p>
-<div class="hb-filters"><label>Prognosstart (31 december)<select id="hb-origin"></select></label><label>Prognoshorisont<select id="hb-horizon"><option value="all">Alla tillgängliga år</option><option value="1">1 år</option><option value="2">2 år</option><option value="3">3 år</option></select></label></div>
-<div id="hb-roll-status" aria-live="polite"></div><div class="hb-cards"><div class="hb-card">Antal testår<strong id="hb-roll-n">–</strong></div><div class="hb-card">Medel absolut fel (MAE)<strong id="hb-roll-mae">–</strong></div><div class="hb-card">Medel absolut procentfel<strong id="hb-roll-mape">–</strong></div></div>
+<div class="hb-filters"><label>Prognosstart (31 december)<select id="hb-origin"></select></label><label>Antagande<select id="hb-assumption"><option value="same">Dödsrisk + fertilitet: samma år som prognosstart</option><option value="latest-other">Dödsrisk + fertilitet: senaste andra tillgängliga årgång</option></select></label><label>Prognoshorisont<select id="hb-horizon"><option value="all">Alla tillgängliga år</option><option value="1">1 år</option><option value="2">2 år</option><option value="3">3 år</option></select></label></div>
+<div id="hb-assumption-status" class="hb-notice" aria-live="polite"></div><div id="hb-roll-status" aria-live="polite"></div><div class="hb-cards"><div class="hb-card">Antal testår<strong id="hb-roll-n">–</strong></div><div class="hb-card">Medel absolut fel (MAE)<strong id="hb-roll-mae">–</strong></div><div class="hb-card">Medel absolut procentfel<strong id="hb-roll-mape">–</strong></div></div>
 <svg id="hb-roll-chart" class="hb-chart" viewBox="0 0 920 370" role="img" aria-label="Rullande historisk prognos och utfall"></svg>
 <div class="hb-responsive"><table class="hb-table"><thead><tr><th>Prognosstart</th><th>Prognosår</th><th>Horisont</th><th>Prognos</th><th>Utfall</th><th>Fel antal</th><th>Fel %</th></tr></thead><tbody id="hb-roll-rows"></tbody></table></div>
 <p class="hint">Observera: Prognoshorisonterna överlappar mellan startåren och är inte oberoende observationer. Detta är historiska modelltester, inte dokumentation av faktiskt publicerade prognoser vid respektive datum.</p></section><section class="panel" style="margin-top:18px"><h2>Jämför alla prognosstarter</h2><p>Matrisen visar samma prognoshorisont från varje historiskt startår. Därmed jämförs exempelvis alla ettårsprognoser på lika villkor. Fel = prognos minus utfall.</p><div class="hb-filters"><label>Jämför horisont<select id="hb-compare-h"><option value="1">1 år</option><option value="2">2 år</option><option value="3">3 år</option></select></label></div><div class="hb-responsive"><table class="hb-table"><thead><tr><th>Startår</th><th>Prognosår</th><th>Prognos</th><th>Utfall</th><th>Fel antal</th><th>Fel %</th></tr></thead><tbody id="hb-compare-rows"></tbody></table></div><div class="hb-cards"><div class="hb-card">Antal prognosstarter<strong id="hb-compare-n">–</strong></div><div class="hb-card">MAE, personer<strong id="hb-compare-mae">–</strong></div><div class="hb-card">MAPE<strong id="hb-compare-mape">–</strong></div></div></section>
@@ -74,6 +74,7 @@ render();
 <script>
 (function(){"use strict";
 const $=x=>document.getElementById(x),r=window.MODEL_ROLLING_BACKTEST;
+const assumptionRows=(geo,origin,win)=>$("hb-assumption").value==="same"?(r?.results?.[geo]?.[origin]?.[win]||[]):(r?.alternativeAssumptionResults?.[geo]?.[origin]?.[win]||[]);
 const f=n=>Number.isFinite(+n)?new Intl.NumberFormat("sv-SE",{maximumFractionDigits:0}).format(+n):"–";
 const fp=n=>Number.isFinite(n)?new Intl.NumberFormat("sv-SE",{maximumFractionDigits:2}).format(n)+" %":"–";
 const sn=n=>Number.isFinite(n)?(n>=0?"+":"")+f(n):"–";
@@ -81,12 +82,15 @@ function setup(){
  const el=$("hb-origin"),origins=(r?.origins||[]).map(x=>+x.origin).filter(Number.isFinite).sort((a,b)=>b-a);
  el.innerHTML=origins.map(x=>'<option value="'+x+'">'+x+'</option>').join("");
  if(!origins.length)$("hb-roll-status").innerHTML='<p class="hb-notice">Rullande prognosdata saknas. Kör arbetsflödet Update SCB data (fast/full) så att rolling_2018_2024.js genereras.</p>';
- ["hb-origin","hb-horizon","hb-geo","hb-win"].forEach(id=>$(id).addEventListener("change",draw));
+ ["hb-origin","hb-horizon","hb-geo","hb-win","hb-assumption"].forEach(id=>$(id).addEventListener("change",draw));
  draw();
 }
 function draw(){
  const geo=$("hb-geo").value,win=$("hb-win").value,origin=$("hb-origin").value,h=$("hb-horizon").value;
- let rows=r?.results?.[geo]?.[origin]?.[win]||[];
+ let rows=assumptionRows(geo,origin,win);
+ const alternate=$("hb-assumption").value==="latest-other";
+ $("hb-assumption-status").textContent=alternate?(rows.length?"Senaste andra tillgängliga nationella årgång: kontrollera årgång och publiceringsdatum i datametadata.":"Alternativet är ännu inte beräknat för denna prognosstart. Inga resultat visas förrän en separat, publiceringsdatumkontrollerad modellkörning finns."):"Dödsrisk och fertilitet från den nationella SCB-årgång som hör till historiskt startår. Detta är befintliga rullande modelltester.";
+ $("hb-assumption-status").style.display=alternate||rows.length?"block":"none";
  if(h!=="all")rows=rows.filter(x=>+x.horizon===+h);
  const valid=rows.filter(x=>Number.isFinite(+x.predictedPopulation)&&Number.isFinite(+x.actualPopulation));
  const n=valid.length,err=valid.map(x=>+x.predictedPopulation-(+x.actualPopulation));
@@ -112,17 +116,18 @@ const $=id=>document.getElementById(id);
 const fmt=n=>Number.isFinite(n)?new Intl.NumberFormat("sv-SE",{maximumFractionDigits:0}).format(n):"–";
 const pct=n=>Number.isFinite(n)?new Intl.NumberFormat("sv-SE",{maximumFractionDigits:2}).format(n)+" %":"–";
 const report=window.MODEL_ROLLING_BACKTEST;
+const eligibleRows=(geo,origin,win)=>$("hb-assumption").value==="same"?(report?.results?.[geo]?.[origin]?.[win]||[]):(report?.alternativeAssumptionResults?.[geo]?.[origin]?.[win]||[]);
 function update(){
  const geo=$("hb-geo").value, win=$("hb-win").value,h=+$("hb-compare-h").value;
  const origins=(report?.origins||[]).map(x=>+x.origin).filter(Number.isFinite).sort((a,b)=>a-b);
- const rows=origins.flatMap(origin=>(report?.results?.[geo]?.[origin]?.[win]||[]).filter(x=>+x.horizon===h).map(x=>({...x,origin}))).filter(x=>Number.isFinite(+x.predictedPopulation)&&Number.isFinite(+x.actualPopulation)&& +x.actualPopulation!==0);
+ const rows=origins.flatMap(origin=>eligibleRows(geo,origin,win).filter(x=>+x.horizon===h).map(x=>({...x,origin}))).filter(x=>Number.isFinite(+x.predictedPopulation)&&Number.isFinite(+x.actualPopulation)&& +x.actualPopulation!==0);
  $("hb-compare-rows").innerHTML=rows.length?rows.map(x=>{const e=(+x.predictedPopulation)-(+x.actualPopulation);return '<tr><td>'+x.origin+'</td><td>'+x.year+'</td><td>'+fmt(+x.predictedPopulation)+'</td><td>'+fmt(+x.actualPopulation)+'</td><td>'+(e>=0?"+":"")+fmt(e)+'</td><td>'+(e>=0?"+":"")+pct(e/(+x.actualPopulation)*100)+'</td></tr>'}).join(""):'<tr><td colspan="6">Inga validerade data för valt urval.</td></tr>';
  $("hb-compare-n").textContent=rows.length?String(rows.length):"–";
  $("hb-compare-mae").textContent=rows.length?fmt(rows.reduce((a,x)=>a+Math.abs(+x.predictedPopulation- +x.actualPopulation),0)/rows.length):"–";
  $("hb-compare-mape").textContent=rows.length?pct(rows.reduce((a,x)=>a+100*Math.abs((+x.predictedPopulation)-(+x.actualPopulation))/(+x.actualPopulation),0)/rows.length):"–";
- const cov=origins.map(origin=>{const years=(report?.results?.[geo]?.[origin]?.[win]||[]).map(x=>+x.year).filter(Number.isFinite).sort((a,b)=>a-b);return '<tr><td>'+origin+'</td><td>'+(years.length?years.join(", "):"Saknas")+'</td><td>'+(years.length?Math.max(...years)-origin+" år":"–")+'</td><td>'+(years.length?"Tillgängligt rullande test":"Ej tillgängligt")+'</td></tr>'}).join("");
+ const cov=origins.map(origin=>{const years=eligibleRows(geo,origin,win).map(x=>+x.year).filter(Number.isFinite).sort((a,b)=>a-b);return '<tr><td>'+origin+'</td><td>'+(years.length?years.join(", "):"Saknas")+'</td><td>'+(years.length?Math.max(...years)-origin+" år":"–")+'</td><td>'+(years.length?"Tillgängligt rullande test":"Ej tillgängligt")+'</td></tr>'}).join("");
  $("hb-coverage").innerHTML='<div class="hb-responsive"><table class="hb-table"><thead><tr><th>Prognosstart</th><th>Prognosår med utfall</th><th>Maxhorisont</th><th>Status</th></tr></thead><tbody>'+cov+'<tr><td>2022–2025</td><td>Ej återskapat som separata startår</td><td>–</td><td>Historiska prognosårgångar måste kompletteras</td></tr></tbody></table></div>';
 }
-["hb-geo","hb-win","hb-compare-h"].forEach(id=>$(id).addEventListener("change",update));update();
+["hb-geo","hb-win","hb-compare-h","hb-assumption"].forEach(id=>$(id).addEventListener("change",update));update();
 })();
 </script></body></html>
