@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="sv"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Historiska prognoser | Luleå befolkningsprognos</title>
+<link rel="icon" href="assets/lulea-befolkningsprognos-logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css">
+<style>
+.hb-main{max-width:1300px;margin:28px auto;padding:0 22px}.hb-filters{display:flex;gap:16px;flex-wrap:wrap;align-items:end}.hb-filters label{display:grid;gap:5px;min-width:145px}.hb-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:14px;margin:22px 0}.hb-card{background:var(--card,#fff);border:1px solid #dce2e8;border-radius:10px;padding:18px}.hb-card strong{display:block;font-size:1.7rem;margin:8px 0}.hb-chart{width:100%;height:auto;max-height:390px}.hb-chart text{font-family:Arial,sans-serif;font-size:12px;fill:#536270}.hb-notice{border-left:4px solid #b56a19;padding:12px 16px;background:#fff8eb;margin:15px 0}.hb-table{width:100%;border-collapse:collapse}.hb-table th,.hb-table td{padding:10px;border-bottom:1px solid #ddd;text-align:right}.hb-table th:first-child,.hb-table td:first-child{text-align:left}.hb-key{display:flex;gap:20px;flex-wrap:wrap;margin:10px 0}.hb-key span:before{content:"";display:inline-block;width:18px;height:3px;vertical-align:middle;margin-right:7px;background:#b52c32}.hb-key span:last-child:before{background:#234a75}.hb-responsive{overflow-x:auto}
+</style></head><body>
+<header class="topbar"><div class="brand"><img class="brandLogo" src="assets/lulea-befolkningsprognos-logo.svg" alt=""><div class="brandText"><h1>Historiska prognoser</h1><p>Vad skulle modellen ha prognostiserat vid tidigare prognosstarter?</p></div></div></header>
+<nav class="tabs" aria-label="Navigering"><a href="./" style="padding:13px 18px">← Till prognosmodellen</a><a href="./historiska-prognoser.html" aria-current="page" style="padding:13px 18px">Historiska prognoser</a></nav>
+<main class="hb-main">
+<section class="panel"><h2>Historisk prognos jämfört med utfall</h2><p>Välj prognosår och jämför den historiska, arkiverade prognosen med SCB:s observerade folkmängd. För det ursprungliga testet 2022–2024 är prognosstarten <strong>31 december 2021</strong>; senare prognosår är alltså horisonter från samma start, inte nya omkalibrerade prognoser.</p>
+<div class="hb-filters"><label>Geografi<select id="hb-geo"><option value="2580">Luleå</option><option value="2581">Piteå</option><option value="2582">Boden</option><option value="2560">Älvsbyn</option><option value="2514">Kalix</option><option value="FA_LULEA">Luleå FA</option></select></label><label>Kalibreringsfönster<select id="hb-win"><option value="10">10 år</option><option value="6">6 år</option></select></label><label>Prognosår<select id="hb-year"></select></label></div>
+<div id="hb-status" aria-live="polite"></div></section>
+<div class="hb-cards"><div class="hb-card">Prognostiserad folkmängd<strong id="hb-pred">–</strong></div><div class="hb-card">Faktisk folkmängd<strong id="hb-real">–</strong></div><div class="hb-card">Prognosfel, personer<strong id="hb-error">–</strong></div><div class="hb-card">Prognosfel, procent<strong id="hb-pct">–</strong></div></div>
+<section class="panel"><h2>Historiskt prognosförlopp</h2><div class="hb-key"><span>Prognos</span><span>Faktiskt utfall</span></div><svg id="hb-chart" class="hb-chart" viewBox="0 0 920 370" role="img" aria-label="Historisk prognos och faktiskt utfall"></svg><p class="hint">Värden avser folkmängd vid årets slut. Visade punkter kommer från samma historiska testkörning.</p></section>
+<section class="panel" style="margin-top:18px"><h2>År för år – prognosens träffsäkerhet</h2><div class="hb-responsive"><table class="hb-table"><thead><tr><th>År</th><th>Prognos</th><th>Utfall</th><th>Fel antal</th><th>Fel %</th><th>Födda fel</th><th>Döda fel</th><th>Flyttnetto fel</th></tr></thead><tbody id="hb-rows"></tbody></table></div><button id="hb-export" type="button" class="secondary">Exportera tabell CSV</button></section>
+<section class="panel" style="margin-top:18px"><h2>Metod & datakvalitet</h2><p>Testet använder historiskt avskurna modellindata till och med 2021 samt då relevant nationell prognosvintage. Det är inte en bakåträkning med 2025 års modellparametrar. Befolkningsfel definieras som prognos minus utfall; positiva tal betyder överskattning. Felprocent = 100 × (prognos − utfall) / utfall.</p><p>2022–2024 är ett <strong>utvecklingsbacktest</strong>, inte ett helt oberoende test för senare modellversioner. År 2025 behandlas separat eftersom CKM-metodbrottet gör direkta jämförelser känsliga. Äldre år visas bara om det finns faktiska historiska prognosresultat; observerade historiska data är inte samma sak som historiska prognoser.</p><p>Källa: <a href="https://github.com/Lulea-statistik/Lulea-befolkningsprognos-raps/tree/main/data/backtests">Projektets historiska backtester</a> och SCB-underlag arkiverade i projektet.</p></section>
+</main><script src="data/backtests/backtest_2022_2024.js"></script>
+<script>
+(function(){"use strict";
+const d=window.MODEL_BACKTEST;
+const $=id=>document.getElementById(id);
+const fmt=n=>Number.isFinite(+n)?new Intl.NumberFormat("sv-SE",{maximumFractionDigits:0}).format(+n):"–";
+const signed=n=>Number.isFinite(+n)?(+n>=0?"+":"")+fmt(n):"–";
+const pc=n=>Number.isFinite(n)?(n>=0?"+":"")+new Intl.NumberFormat("sv-SE",{maximumFractionDigits:2}).format(n)+" %":"–";
+const available=d?.results||{};
+function records(){return available[$("hb-geo").value]?.[$("hb-win").value]||[]}
+function render(){
+ const rows=records(),years=rows.map(r=>+r.year).filter(Number.isFinite).sort((a,b)=>b-a);
+ const sel=$("hb-year"),prior=+sel.value;
+ sel.innerHTML=years.map(y=>'<option value="'+y+'">'+y+'</option>').join("");
+ if(years.includes(prior))sel.value=String(prior);
+ const y=+sel.value,r=rows.find(x=>+x.year===y);
+ $("hb-status").innerHTML=rows.length?'':'<p class="hb-notice">Det finns inga historiska prognosresultat för detta geografiska urval och fönster.</p>';
+ if(!r){["hb-pred","hb-real","hb-error","hb-pct"].forEach(x=>$(x).textContent="–");$("hb-chart").innerHTML="";$("hb-rows").innerHTML="";return}
+ $("hb-pred").textContent=fmt(r.predictedPopulation);$("hb-real").textContent=fmt(r.actualPopulation);
+ $("hb-error").textContent=signed(Number(r.predictedPopulation)-Number(r.actualPopulation));
+ $("hb-pct").textContent=pc(100*(Number(r.predictedPopulation)-Number(r.actualPopulation))/Number(r.actualPopulation));
+ $("hb-rows").innerHTML=rows.map(x=>{let e=+x.predictedPopulation-(+x.actualPopulation),p=+x.actualPopulation?100*e/(+x.actualPopulation):NaN;return '<tr'+(+x.year===y?' style="font-weight:700"':'')+'><td>'+x.year+'</td><td>'+fmt(x.predictedPopulation)+'</td><td>'+fmt(x.actualPopulation)+'</td><td>'+signed(e)+'</td><td>'+pc(p)+'</td><td>'+signed(x.birthsError)+'</td><td>'+signed(x.deathsError)+'</td><td>'+signed(x.netMigrationError)+'</td></tr>'}).join("");
+ draw(rows);
+}
+function draw(rows){
+ const arr=[...rows].sort((a,b)=>+a.year-+b.year), svg=$("hb-chart");
+ const vals=arr.flatMap(r=>[+r.predictedPopulation,+r.actualPopulation]).filter(Number.isFinite);
+ if(!vals.length){svg.innerHTML="";return}
+ let lo=Math.min(...vals),hi=Math.max(...vals),pad=Math.max(15,(hi-lo)*.16);lo-=pad;hi+=pad;
+ const x=i=>75+i*780/Math.max(1,arr.length-1),yy=v=>315-(v-lo)/(hi-lo)*255;
+ let out="";
+ for(let k=0;k<=5;k++){let v=lo+(hi-lo)*k/5,Y=yy(v);out+='<line x1="70" x2="870" y1="'+Y+'" y2="'+Y+'" stroke="#d9e0e7"/><text x="62" y="'+(Y+4)+'" text-anchor="end">'+fmt(v)+'</text>'}
+ for(let i=0;i<arr.length;i++)out+='<text x="'+x(i)+'" y="340" text-anchor="middle">'+arr[i].year+'</text>';
+ for(const [key,color] of [["predictedPopulation","#b52c32"],["actualPopulation","#234a75"]]){
+  out+='<polyline fill="none" stroke="'+color+'" stroke-width="3" points="'+arr.map((r,i)=>x(i)+","+yy(+r[key])).join(" ")+'"/>';
+  arr.forEach((r,i)=>{out+='<circle cx="'+x(i)+'" cy="'+yy(+r[key])+'" r="5" fill="'+color+'"><title>'+r.year+': '+(key==="predictedPopulation"?"prognos":"utfall")+' '+fmt(r[key])+'</title></circle>'});
+ }
+ svg.innerHTML=out;
+}
+$("hb-geo").addEventListener("change",render);$("hb-win").addEventListener("change",render);
+$("hb-year").addEventListener("change",()=>{const y=$("hb-year").value;render();$("hb-year").value=y;render()});
+$("hb-export").addEventListener("click",()=>{
+const rows=records();const csv=[["År","Prognos","Utfall","Fel antal","Fel procent","Födda fel","Döda fel","Flyttnetto fel"].join(";"),...rows.map(r=>[r.year,r.predictedPopulation,r.actualPopulation,(+r.predictedPopulation)-(+r.actualPopulation),(100*((+r.predictedPopulation)-(+r.actualPopulation))/(+r.actualPopulation)).toFixed(3).replace(".",","),r.birthsError,r.deathsError,r.netMigrationError].join(";"))].join("\r\n");
+const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="historiska-prognoser.csv";a.click();URL.revokeObjectURL(a.href);
+});
+render();
+})();
+</script></body></html>
