@@ -1,35 +1,24 @@
-# PDF-granskning av SCB:s historiska prognosantaganden (2026-10-21)
+# Reviderad PDF-granskning 2026-10-21 – uppladdade original
 
-Inventering av de **11 unika** rapporter som användaren lämnat (2016-rapporten förekommer två gånger).
+Detta ersätter tidigare uppgift att äldre PDF-filer var otillgängliga. Samtliga tio nedanstående original-PDF har kunnat öppnas och sökas; tabellinventeringen baseras på PDF:ernas egna innehållsförteckningar och relevanta sidor. Ingen import av fullständiga numeriska tabeller eller modellberäkning är ännu utförd.
 
-## Resultat
+| Årgång | Publikationsdatum i dokumentet | Fertilitet | Dödlighet | Bedömning |
+|---|---|---|---|---|
+| 2003 | Ej tillämpligt | Ej komplett | Ej komplett | Uppladdad be51st0305_05.pdf är ett 36-sidigt *utdrag* ur större rapport (startsida 36), i huvudsak migration; kan inte belägga hela 2003-vintagen |
+| 2004 | 2004-05-10 | Tabell 7, tryckt sida 23 | Tabell 8–9, s. 24–25 | Både komponenterna finns |
+| 2005 | 2005-05-18 | Tabell 7, s. 26 | Tabell 8–9, s. 27–28 | Både komponenterna finns |
+| 2006 | 2006-05, exakt dag ej verifierad | Tabell 5.2 s. 107 (PDF-s. 109) | Tabell 5.3–5.4 s. 108–110 (PDF-s. 110–112) | Båda komponenterna finns |
+| 2007 | 2007-06-15 | Tabell 7 s. 25 | Tabell 8–9 s. 26–27 | Både komponenterna finns |
+| 2008 | 2008-05-29 | Fruktsamhetsantaganden beskrivna i text/grafer, ingen komplett ålderstabell identifierad | Tabell 7–8 s. 34–35 | Partiell, exakt åldersprofil fertilitet bör begäras/återfinnas |
+| 2009 | 2009-05, exakt dag ej verifierad | Tabell T.2 s. 169 (PDF-s. 171) | Tabell T.3–T.4 s. 170–171 (PDF-s. 172–173) | Båda komponenterna finns |
+| 2010 | 2010-04-15 | Tabell 2 s. 23 | Tabell 3–4 s. 24–25 | Båda komponenterna finns |
+| 2011 | 2011-04-15 | Tabell 2 s. 23 | Tabell 3–4 s. 24–25 | Båda komponenterna finns |
+| 2013 | 2013-04-17 | Tabell 2 s. 25 | Tabell 3, 4a, 4b s. 26–28 | Båda komponenterna finns |
 
-| Rapportår | Publiceringsdatum | Granskningsstatus | Relevans |
-|---|---|---|---|
-| 2003 | Ej verifierat | PDF kunde inte öppnas | Behöver kontroll av åldersvisa fertilitets- och dödsriskantaganden |
-| 2004 | Ej verifierat | PDF kunde inte öppnas | Samma |
-| 2007 | Ej verifierat | PDF kunde inte öppnas | Samma |
-| 2008 | Ej verifierat | PDF kunde inte öppnas | Samma |
-| 2010 | Ej verifierat | PDF kunde inte öppnas | Samma |
-| 2011 | Ej verifierat | PDF kunde inte öppnas | Samma |
-| 2013 | Ej verifierat | Original-PDF kunde inte öppnas; separat SCB-dokumentation beskriver ettårsåldrar | Antaganden sannolikt användbara efter verifiering |
-| 2014 | 2014-04-15 | Tidigare granskning; PDF-tabeller 2–4b | Fertilitet samt dödstal och reduktion, avrundat |
-| 2015 | **2015-05-19** | PDF-text läst, SCB:s publikationssida bekräftar datum | Grundlig antagande- och metodrapport, maskinläsbara åldersdata föredras |
-| 2016 | **2016-04-13** | PDF-text läst, utgivningsdatum på första sidan | Reviderad prognos med fertilitets-/dödlighetsantaganden |
-| 2017 | **2017-04-12** | PDF-text läst, utgivningsdatum på första sidan | Reviderad prognos med fertilitets-/dödlighetsantaganden |
+**OBS**: PDF-sida och tryckt sidnummer skiljer sig för de längre böckerna. Ovan anges tryckt sida om inte annat anges. I 2008 saknas explicit tabell med ettårsåldersfertilitet i tabellförteckningen; aggregat och diagram kan inte ersätta den utan separat rekonstruktionsregel.
 
-**Ingen ny årgång klassas som komplett maskininläst** utifrån denna PDF-kontroll. För 2003/2004/2007/2008/2010/2011/2013 är antagandenas existens, tabellnummer och exakt datum inte belagda av original-PDF i denna körning.
+**Prognosmodellens krav:** Den publicerade tabellen kan vara avrundad eller ha endast utvalda prognosår. Bevara sådan information i exportmetadata. Kontrollera utfallet och eventuella ändrade ålders-/riskdefinitioner före integration, särskilt skillnaden mellan dödstal och dödsrisk.
 
-## Data som krävs för modellmotorn
-- Fruktsamhet: ettårsåldrar efter moderns ålder och prognosår; ange enhet och födelseregionsgrupper.
-- Dödlighet: ettårsåldrar efter kön och prognosår; om endast basdödstal och årlig reduktion finns behövs dokumenterad rekonstruktion.
-- Basår, prognosperiod, huvudalternativ, metodbrott och ursprungligt publiceringsdatum.
-- PDF-tabeller kan vara avrundade och täcka urvalsår; använd SCB:s ursprungliga årsserier om möjligt.
-- Före varje historiskt backtest ska utgivningsdatum kontrolleras mot prognosstarten; senare revisioner får inte användas utan flagga.
+**Publiceringsdatum:** 2006 och 2009 dokumenterar maj men inte specifik dag i de delar som hittills verifierats. Publiceringsår är inte ett alternativ till datum vid strikt prognosstart.
 
-## Verifierade källor
-- SCB 2015, publikation: https://www.scb.se/hitta-statistik/statistik-efter-amne/befolkning-och-levnadsforhallanden/befolkningens-sammansattning-och-utveckling/befolkningsframskrivningar/pong/publikationer/sveriges-framtida-befolkning-20152060/ 
-- SCB 2016, PDF: https://www.scb.se/contentassets/776c88485b1d4d34bf33c36a1bde4565/be0401_2016i60_sm_be18sm1601.pdf
-- SCB 2017, PDF: https://www.scb.se/contentassets/fee6de8eb7dc43bd9b3f36da925b5458/be0401_2017i60_sm_be18sm1701.pdf
-
-Detaljer per fil och länk finns i `data/backtests/scb_pdf_report_audit.csv`. Vidare kontroll av äldre original kräver fungerande PDF-filer eller SCB:s återpublicerade adresser.
+Nästa steg: extrahera tabellerna med radkontroll, säkerställ fullständig fruktsamhetsprofil 2008, kontrollera 2003 års *fullständiga* original samt eventuellt 2012 års separata antaganden.
