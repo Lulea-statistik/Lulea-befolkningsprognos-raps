@@ -56,6 +56,9 @@ jobs:
       - name: Test rolling-origin configuration
         run: python tests/test_rolling_backtest_config.py
 
+      - name: Test historical national vintage cutoff
+        run: python tests/test_historical_vintage_gate.py
+
       - name: Test external FA reference configuration
         run: python tests/test_reference_fa_config.py
 
