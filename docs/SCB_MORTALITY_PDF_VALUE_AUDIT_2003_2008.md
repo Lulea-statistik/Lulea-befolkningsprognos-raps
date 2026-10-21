@@ -48,3 +48,24 @@ Identiteten gäller efter tvådecimalig avrundning och den årliga reduktionsfak
 **Primärkällor:** tabell 7, tryckt s. 34, publicerade bastal 2008; tabell 8, tryckt s. 35, reduktionstakter; definitioner, tryckt s. 36. Bastabellens engelska benämning är "Assumed risks of mortality" trots den svenska benämningen "dödstal". Nollåringarnas bastal 4,31/4,78 promille står uttryckligen i tabell 7 och ska bevaras som de är.
 
 **Korrigering av tidigare hypotes:** relationen `2007 års ålder-0-värde × 2 × 0,98 ≈ 2008 års ålder-0-värde` är **en aritmetisk observation**, inte belägg för ny skalning eller 2008-metodbyte. Den tidigare spekulationen om en möjlig ändrad ålder-0-definition får **inte** presenteras som sannolik förklaring eller användas som omräkningsregel. Fortsatt spår: undersök källornas ålder-0-definition och jämför fler åldersrader i samtidens rapporter; behåll båda originalårgångarna och förklara avvikelsen som ännu **orsak okänd**.
+
+
+## Full åldersjämförelse 2007–2008 (2026-10-21)
+Direkt jämförelse av 2007 tabell 8, tryckt s. 26, och 2008 tabell 7, tryckt s. 34, alla 107 åldersetiketter × 2 kön. Export i konversation: `scb_2007_2008_mortality_age_comparison.csv` (2007-tal, 2008-tal, kvot och kvot relativt 0,98).
+
+| Ålder | Kvinnor 2007→2008 | Förändring | Män 2007→2008 | Förändring |
+|---|---|---:|---|---:|
+| 0 | 2,20→4,31 | +95,9 % | 2,44→4,78 | +95,9 % |
+| 1 | 0,44→0,43 | −2,3 % | 0,54→0,53 | −1,9 % |
+| 50 | 1,86→1,83 | −1,6 % | 2,82→2,76 | −2,1 % |
+| 70 | 12,78→12,68 | −0,8 % | 20,05→19,85 | −1,0 % |
+| 80 | 37,41→37,58 | +0,5 % | 59,74→60,40 | +1,1 % |
+| 90 | 141,28→151,20 | +7,0 % | 184,93→202,79 | +9,7 % |
+| 100 | 333,97→400,05 | +19,8 % | 395,34→492,12 | +24,5 % |
+| 106+ | 497,50→661,36 | +32,9 % | 556,21→769,42 | +38,3 % |
+
+**Diagnos:** Nollåringens avvikelse är nästan exakt faktor `2*0,98`, men en sådan faktor gäller inte för andra unga åldrar. För åldrar 80+ ökar i stället kvoten gradvis; den är inte en enhetlig global omskalning. Skillnaderna i mycket höga åldrar behöver särskild källförklaring och får inte döljas av aggregerad medelkvot. Små grundvärden i barndomen är avrundade till två decimaler och därför kan även små absoluta skillnader ge osäkra procentkvoter.
+
+**SCB:s samtida uttalande (2008 tryckt s. 9):** mortalitetsmodellen "är i grunden oförändrad" och mortalitetsantaganden uppdateras utifrån nya befolkningsdata. SCB beskriver inte uttryckligen en ny metod för ålder 0 eller de allra högsta åldrarna i den granskade metodtexten (s. 9, 20, 36). Ett antagande om generellt byte av dödlighetsmått saknar därmed belägg.
+
+**Fortsatt QA:** sök den samtida tekniska rapporten `SCB:s modell för befolkningsprognoser` (namngiven i 2007 års rapport, s. 10) efter beräkningssteg för ålder 0 och öppen åldersklass. Gör eventuellt livslängds-/dödsantalstest mot rapportens publicerade summeringar *utan* att ändra originaltabellen. Markera 2008 `age0_exception_unexplained` och `very_old_age_shift_unexplained` tills källgrundad förklaring finns.
