@@ -27,3 +27,16 @@ Komplett original `be0401_2006i50_br_be51st0602.pdf`. Tabell 5.3 (PDF-sida 110, 
 2008 tabell 7 (tryckt s. 34) heter på svenska \"Antagna dödstal\" men engelskan anger \"Assumed risks of mortality\". Samma rapport (tryckt s. 36) definierar dödsrisk som antal avlidna dividerat med folkmängden vid tidsperiodens början, justerat för migration. **2007 års rapport** (tryckt s. 32) har samma definition. Tolkning: 2008-tabellen ska inte automatiskt behandlas som ett ordinärt dödstal och omvandlas till dödsrisk enligt 2009 års formel utan fler belägg. Nollårsvärden 2007: **2,20/2,44** promille (kvinnor/män); 2008: **4,31/4,78** promille. Nästan fördubbling för just ålder 0 är ett tydligt QA-fall och ska **inte** tyst korrigeras, halveras eller jämnas ut. Förklara endast med en samtida källstyrkt metodregel, inte med en 2026-baserad efterhandsanpassning.
 
 **Aktuell status:** 2006 grundvärden PDF-textjämförda, reduktion extraherad; 2008 måttdefinition delvis klargjord men nollårsskillnaden ej förklarad. Produktionsmodellen är orörd.
+
+
+## Fortsatt undersökning: 2007 kontra 2008 nollåringar (2026-10-21)
+Källor: original-PDF BE18SM0701 tabell 8 (tryckt s. 26) och BE18SM0801 tabell 7 (tryckt s. 34) samt tabell 8 (s. 35), metodtext dödlighet (s. 20) och definitioner (s. 36).
+
+| Kön | Publicerad 2007, promille | Beräkning hypotetisk | Publicerad 2008, promille |
+|---|---:|---|---:|
+| Kvinnor | 2,20 | 2,20 × 2 × 0,98 = 4,312 | 4,31 |
+| Män | 2,44 | 2,44 × 2 × 0,98 = 4,7824 | 4,78 |
+
+Identiteten gäller efter tvådecimalig avrundning och den årliga reduktionsfaktorn −2,00 % är publicerad för ålder 0–45 år. **Hypotes, inte belagd metodregel:** exakt faktor 2 talar för en särskild exponerings- eller nollåringsomräkning, men genomgången av 2007/2008 års metod- och definitionsavsnitt gav inte någon explicit förklaring till faktor 2. Det går därför ännu inte att ange att SCB verkligen bytte definition; likheten ensam bevisar inte det. För 2008 anges 2008-bastal trots att reduktionsintervallet också börjar 2008; ingen extra reduktion får göras på det ursprungliga basvärdet.
+
+**Produktion:** behåll originalvärdena 2,20/2,44 och 4,31/4,78 och flagga `infant_age0_definition_under_investigation`. Beräkningen med faktor 2 är ett diagnostiskt spår och **ska inte användas som konverteringsregel** i produktion utan originalbelägg. Säkerställ också att SCB:s förklarande text om dödsrisk och ålder 0 kan verifieras i samtida kompletterande rapport eller metodmetadata.
