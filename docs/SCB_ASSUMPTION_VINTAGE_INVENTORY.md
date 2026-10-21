@@ -25,3 +25,6 @@ För dropdownen **Antagande** måste båda ingående komponenterna komma från v
 2. Testa transformationskompatibilitet per ålders- och födelseregionsindelning.
 3. Arkivera båda tabellernas förstapublicering och revisioner; rätta release-gate där gammal årgång antagits tillgänglig innan båda komponenterna publicerats.
 4. Kör separata backtester för samma respektive närmast föregående tillgängliga vintage utan framtidsläckage.
+
+## Tillägg: 2014 rapport verifierad
+SCB:s Sveriges framtida befolkning 2014–2060 (BE 18 SM 1401), utgiven 2014-04-15, innehåller fruktsamhet efter ettårsålder för valda prognosår (tabell 2, s. 24), dödstal 2014 per kön och ålder (tabell 3, s. 25), samt årlig reduktion av dödstal för kvinnor och män (tabell 4a/4b s. 26–27). Denna årgång är identifierad i PDF-form men inte än fullständigt importerad till modellen. Källa: https://www.scb.se/contentassets/897026b9ec674e55845e1a8f23e9bc1e/be0401_2014i60_sm_be18sm1401.pdf
