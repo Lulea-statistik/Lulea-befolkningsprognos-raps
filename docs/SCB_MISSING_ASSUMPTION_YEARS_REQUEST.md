@@ -9,11 +9,11 @@
 - **2010**
 - **2011**
 - **2013**
-- **2014**
+- **2014** – verifierad i SCB BE18 SM 1401 (tabell 2–4b), inte längre saknad
 - **2016**
 - **2017**
 
-**Nio årgångar att kontrollera**, varav åtta saknar identifierade separata tabeller och en (2006) kräver kompletterande verifiering. Ej identifierad betyder inte att SCB saknar dem. Det kan ha saknats en ny nationell framskrivning vissa år.
+**Åtta årgångar kvar att kontrollera**, varav åtta saknar identifierade separata tabeller och en (2006) kräver kompletterande verifiering. Ej identifierad betyder inte att SCB saknar dem. Det kan ha saknats en ny nationell framskrivning vissa år.
 
 ## Redan identifierade årgångar
 **2009, 2012, 2015 samt 2018–2026** (12 årgångar). Deras tekniska användbarhet och faktiska tillgänglighetsdatum ska fortsatt kontrolleras; befintliga modellkörningar använder 2018–2021.
