@@ -15,7 +15,13 @@
 <div class="hb-cards"><div class="hb-card">Prognostiserad folkmängd<strong id="hb-pred">–</strong></div><div class="hb-card">Faktisk folkmängd<strong id="hb-real">–</strong></div><div class="hb-card">Prognosfel, personer<strong id="hb-error">–</strong></div><div class="hb-card">Prognosfel, procent<strong id="hb-pct">–</strong></div></div>
 <section class="panel"><h2>Historiskt prognosförlopp</h2><div class="hb-key"><span>Prognos</span><span>Faktiskt utfall</span></div><svg id="hb-chart" class="hb-chart" viewBox="0 0 920 370" role="img" aria-label="Historisk prognos och faktiskt utfall"></svg><p class="hint">Värden avser folkmängd vid årets slut. Visade punkter kommer från samma historiska testkörning.</p></section>
 <section class="panel" style="margin-top:18px"><h2>År för år – prognosens träffsäkerhet</h2><div class="hb-responsive"><table class="hb-table"><thead><tr><th>År</th><th>Prognos</th><th>Utfall</th><th>Fel antal</th><th>Fel %</th><th>Födda fel</th><th>Döda fel</th><th>Flyttnetto fel</th></tr></thead><tbody id="hb-rows"></tbody></table></div><button id="hb-export" type="button" class="secondary">Exportera tabell CSV</button></section>
-<section class="panel" style="margin-top:18px"><h2>Metod & datakvalitet</h2><p>Testet använder historiskt avskurna modellindata till och med 2021 samt då relevant nationell prognosvintage. Det är inte en bakåträkning med 2025 års modellparametrar. Befolkningsfel definieras som prognos minus utfall; positiva tal betyder överskattning. Felprocent = 100 × (prognos − utfall) / utfall.</p><p>2022–2024 är ett <strong>utvecklingsbacktest</strong>, inte ett helt oberoende test för senare modellversioner. År 2025 behandlas separat eftersom CKM-metodbrottet gör direkta jämförelser känsliga. Äldre år visas bara om det finns faktiska historiska prognosresultat; observerade historiska data är inte samma sak som historiska prognoser.</p><p>Källa: <a href="https://github.com/Lulea-statistik/Lulea-befolkningsprognos-raps/tree/main/data/backtests">Projektets historiska backtester</a> och SCB-underlag arkiverade i projektet.</p></section>
+<section class="panel" style="margin-top:18px"><h2>Rullande prognosstarter 2018–2021</h2>
+<p>En separat historisk prognos beräknas vid varje startår med endast information fram till det året och SCB:s dåvarande nationella prognosårgång. Varje start har upp till tre års prognoshorisont.</p>
+<div class="hb-filters"><label>Prognosstart (31 december)<select id="hb-origin"></select></label><label>Prognoshorisont<select id="hb-horizon"><option value="all">Alla tillgängliga år</option><option value="1">1 år</option><option value="2">2 år</option><option value="3">3 år</option></select></label></div>
+<div id="hb-roll-status" aria-live="polite"></div><div class="hb-cards"><div class="hb-card">Antal testår<strong id="hb-roll-n">–</strong></div><div class="hb-card">Medel absolut fel (MAE)<strong id="hb-roll-mae">–</strong></div><div class="hb-card">Medel absolut procentfel<strong id="hb-roll-mape">–</strong></div></div>
+<svg id="hb-roll-chart" class="hb-chart" viewBox="0 0 920 370" role="img" aria-label="Rullande historisk prognos och utfall"></svg>
+<div class="hb-responsive"><table class="hb-table"><thead><tr><th>Prognosstart</th><th>Prognosår</th><th>Horisont</th><th>Prognos</th><th>Utfall</th><th>Fel antal</th><th>Fel %</th></tr></thead><tbody id="hb-roll-rows"></tbody></table></div>
+<p class="hint">Observera: Prognoshorisonterna överlappar mellan startåren och är inte oberoende observationer. Detta är historiska modelltester, inte dokumentation av faktiskt publicerade prognoser vid respektive datum.</p></section><section class="panel" style="margin-top:18px"><h2>Metod & datakvalitet</h2><p>Testet använder historiskt avskurna modellindata till och med 2021 samt då relevant nationell prognosvintage. Det är inte en bakåträkning med 2025 års modellparametrar. Befolkningsfel definieras som prognos minus utfall; positiva tal betyder överskattning. Felprocent = 100 × (prognos − utfall) / utfall.</p><p>2022–2024 är ett <strong>utvecklingsbacktest</strong>, inte ett helt oberoende test för senare modellversioner. År 2025 behandlas separat eftersom CKM-metodbrottet gör direkta jämförelser känsliga. Äldre år visas bara om det finns faktiska historiska prognosresultat; observerade historiska data är inte samma sak som historiska prognoser.</p><p>Källa: <a href="https://github.com/Lulea-statistik/Lulea-befolkningsprognos-raps/tree/main/data/backtests">Projektets historiska backtester</a> och SCB-underlag arkiverade i projektet.</p></section>
 </main><script src="data/backtests/backtest_2022_2024.js"></script>
 <script>
 (function(){"use strict";
@@ -62,5 +68,41 @@ const rows=records();const csv=[["År","Prognos","Utfall","Fel antal","Fel proce
 const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="historiska-prognoser.csv";a.click();URL.revokeObjectURL(a.href);
 });
 render();
+})();
+</script><script src="data/backtests/rolling_2018_2024.js"></script>
+<script>
+(function(){"use strict";
+const $=x=>document.getElementById(x),r=window.MODEL_ROLLING_BACKTEST;
+const f=n=>Number.isFinite(+n)?new Intl.NumberFormat("sv-SE",{maximumFractionDigits:0}).format(+n):"–";
+const fp=n=>Number.isFinite(n)?new Intl.NumberFormat("sv-SE",{maximumFractionDigits:2}).format(n)+" %":"–";
+const sn=n=>Number.isFinite(n)?(n>=0?"+":"")+f(n):"–";
+function setup(){
+ const el=$("hb-origin"),origins=(r?.origins||[]).map(x=>+x.origin).filter(Number.isFinite).sort((a,b)=>b-a);
+ el.innerHTML=origins.map(x=>'<option value="'+x+'">'+x+'</option>').join("");
+ if(!origins.length)$("hb-roll-status").innerHTML='<p class="hb-notice">Rullande prognosdata saknas. Kör arbetsflödet Update SCB data (fast/full) så att rolling_2018_2024.js genereras.</p>';
+ ["hb-origin","hb-horizon","hb-geo","hb-win"].forEach(id=>$(id).addEventListener("change",draw));
+ draw();
+}
+function draw(){
+ const geo=$("hb-geo").value,win=$("hb-win").value,origin=$("hb-origin").value,h=$("hb-horizon").value;
+ let rows=r?.results?.[geo]?.[origin]?.[win]||[];
+ if(h!=="all")rows=rows.filter(x=>+x.horizon===+h);
+ const valid=rows.filter(x=>Number.isFinite(+x.predictedPopulation)&&Number.isFinite(+x.actualPopulation));
+ const n=valid.length,err=valid.map(x=>+x.predictedPopulation-(+x.actualPopulation));
+ $("hb-roll-n").textContent=n||"–";
+ $("hb-roll-mae").textContent=n?f(err.reduce((a,b)=>a+Math.abs(b),0)/n):"–";
+ $("hb-roll-mape").textContent=n?fp(valid.reduce((a,x)=>a+(+x.actualPopulation?Math.abs((+x.predictedPopulation)-(+x.actualPopulation))/(+x.actualPopulation)*100:0),0)/n):"–";
+ $("hb-roll-rows").innerHTML=valid.map(x=>{const e=+x.predictedPopulation-(+x.actualPopulation);return '<tr><td>'+origin+'</td><td>'+x.year+'</td><td>'+x.horizon+'</td><td>'+f(x.predictedPopulation)+'</td><td>'+f(x.actualPopulation)+'</td><td>'+sn(e)+'</td><td>'+fp(+x.actualPopulation?100*e/(+x.actualPopulation):NaN)+'</td></tr>'}).join("");
+ const svg=$("hb-roll-chart");if(!valid.length){svg.innerHTML="";return}
+ let vals=valid.flatMap(x=>[+x.predictedPopulation,+x.actualPopulation]);let lo=Math.min(...vals),hi=Math.max(...vals),pad=Math.max((hi-lo)*.15,10);lo-=pad;hi+=pad;
+ const xx=i=>75+780*i/Math.max(valid.length-1,1),yy=v=>312-250*(v-lo)/(hi-lo);
+ let parts="";for(let k=0;k<=5;k++){const v=lo+(hi-lo)*k/5,Y=yy(v);parts+='<line x1="70" x2="870" y1="'+Y+'" y2="'+Y+'" stroke="#d9e0e7"/><text x="62" y="'+(Y+4)+'" text-anchor="end">'+f(v)+'</text>'}
+ valid.forEach((x,i)=>parts+='<text x="'+xx(i)+'" y="340" text-anchor="middle">'+x.year+'</text>');
+ for(const [key,color] of [["predictedPopulation","#b52c32"],["actualPopulation","#234a75"]]){
+ parts+='<polyline fill="none" stroke="'+color+'" stroke-width="3" points="'+valid.map((x,i)=>xx(i)+","+yy(+x[key])).join(" ")+'"/>';
+ valid.forEach((x,i)=>parts+='<circle cx="'+xx(i)+'" cy="'+yy(+x[key])+'" r="5" fill="'+color+'"><title>'+x.year+' '+key+': '+f(x[key])+'</title></circle>')}
+ svg.innerHTML=parts;
+}
+setup();
 })();
 </script></body></html>
