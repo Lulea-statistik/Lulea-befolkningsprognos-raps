@@ -19,3 +19,18 @@ CSV-exporter och källnära läsrapport finns i konversationsarkivet `scb_assump
 
 ### Spädbarn 2008 – öppet metodspår
 Användarens observation om att 2008 kan ha varit en uppjustering för att bättre motsvara verklig dödlighet sparas som **hypotes**. År 2008 är inte ett isolerat högt publicerat värde, men det finns ännu inte samtida belägg för orsaken eller att 2007 värden var systematiskt för låga. Inget automatisk undantag eller efterhandskorrigering görs.
+
+
+## Oberoende PDF-layoutjämförelse 2026-10-21
+En andra parser (`pdftotext -layout`, separat från ursprunglig `PyMuPDF`) har läst tabell 2 (tryckt s. 25), tabell 3 (s. 26) och tabellerna 4a–4b (s. 27–28) i original-PDF 2013. Värdena matchades per källa/ålder/kön/år eller reduktionsperiod mot exporterade CSV-filer:
+
+| Källa | Kontrollerade celler | Avvikelser |
+|---|---:|---:|
+| Fruktsamhet, tabell 2 | 333 | 0 |
+| Grunddödstal, tabell 3 | 214 | 0 |
+| Reduktioner, tabell 4a/4b | 1 284 | 0 |
+| **Totalt** | **1 831** | **0** |
+
+QA-status: `pdf_layout_text_compared`; inte `visual_cell_verified`. Utfallet finns som `QA_LAYOUT_COMPARISON.json` i uppdaterat konversationsarkiv `scb_assumptions_2013_verified.zip`.
+
+**Inventering saknade årgångar:** SCB:s 2014 års rapport har verifierad original-URL `https://www.scb.se/contentassets/897026b9ec674e55845e1a8f23e9bc1e/be0401_2014i60_sm_be18sm1401.pdf` (publicerad 2014-04-15). Den gick inte att hämta till arbetsmiljön vid detta tillfälle; status `source_identified_not_ingested`. SCB:s samtida tekniska dokumentation `https://www.scb.se/contentassets/77d1f12a07214b528b2141df9bb818cf/be0401_do_2014-2060.pdf` identifierad, men inte ersättning för bastabell i originalrapporten. 2012 rapport identifierad via SCB:s publikationsregister men ingen lokal fullständig PDF. Ingen påstådd extraktion för 2012 eller 2014.
