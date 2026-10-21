@@ -41,3 +41,7 @@ En ny genomgång av original-PDF:erna korrigerar tidigare generalisering om `106
 
 ### Konsekvens för implementation
 Inför fälten `measure_type` (dodsrisk/dodstal), `reduction_sign_convention` (negativ_forandring/positiv_reduktionsstorlek), `base_year`, `first_reduction_label_year`, `age_group_source` och `age_group_model`. Bevara båda åldersetiketterna och validera matchning per årgång. Om `base_year == first_reduction_label_year` som 2008: lås basåret och flagga en tolkning av *första applicerade övergång* för metodkontroll. Aldrig tyst normalisering eller dubbelt tillämpad reduktion.
+
+
+## Extraktion av bastabeller 2006, 2009, 2010, 2011 – 2026-10-21
+De fyra original-PDF:ernas bastabeller för dödlighet har extraherats: 107 åldrar (0–106) × 2 kön per årgång = **214 värden vardera, 856 totalt**. Kontroller: komplett ålderssekvens och inga dubbla åldrar. För 2006 gäller **dödsrisk**, för 2009–2011 **dödstal**, vilka inte utan historiskt dokumenterad konvertering kan betraktas som samma storhet. Ursprungliga decimalrepresentationer och sista åldersbeteckning bevaras. PDF-sidor: 2006 s. 110, 2009 s. 172, 2010 s. 24, 2011 s. 24. Extraktionsfiler finns i konversationsbilagan `scb_mortality_2006_2009_2010_2011.zip`. Status: **strukturellt granskade, visuell radvis QA återstår**. Ingen årlig reduktionsserie konstruerad eller produktionsmodell ändrad.
