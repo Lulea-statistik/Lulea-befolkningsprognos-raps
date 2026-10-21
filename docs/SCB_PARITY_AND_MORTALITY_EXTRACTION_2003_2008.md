@@ -18,3 +18,12 @@ Datum: 2026-10-21.
 Samtliga 214 respektive 372 rader per årgång är unika i (kön, ålder, period) och saknar tomma numeriska fält. Detta är en **strukturell kontroll**, inte en fullständig visuell tabellvalidering. Dödsriskvärden anges per 1 000, årliga reduktionstal i procent med tecken. Tryckta källperioder skiljer sig och mellanliggande övergångsår måste beräknas efter SCB:s text; etiketten tidig/mellan/sen är inte tillräcklig för en färdig år-för-år-modell.
 
 Filer finns i konversationens ZIP-export `scb_2003_2007_2008_extraction_updated.zip`; de är ännu **inte införda som modellerade historiska antaganden** i produktionsrepon. Godkänn först radvis/visuellt QA av källtabeller och periodinterpolering.
+
+
+## Låst princip för historiska prognoser (beslut 2026-10-21)
+- Originalversion: spara SCB:s ursprungliga antagandeårgång, publiceringsdatum, tabell, källa, enhet, ålder, kön och värde utan efterhandsjustering med statistik eller modeller från 2026.
+- Separat teknisk representation: om motorn kräver annan åldersindelning redovisas transformeringen separat med metod, ingående ursprungsvärden, antagandeårgång och QA-status. Originalfilen förblir oförändrad.
+- Ålder 106 och 106+: behåll dem som skilda beteckningar tills SCB:s ursprungliga metodbeskrivning verifierar relationen. Ingen automatisk likställning av en öppen åldersklass och en exakt ålder. Dokumentera eventuell harmonisering som modellberäkning, inte som publicerat SCB-värde.
+- 2008: basrisk avser prognosåret 2008; reduktionsperiodens etikett 2008 accepteras som ursprunglig tabelluppgift. Om basrisk och reduktion båda är märkta 2008 måste ordningsföljden preciseras mot 2008 års metodtext. Tillämpa inte reduktionen dubbelt på basrisken.
+- Historiespärr: inga utfall eller antaganden som först blev tillgängliga efter historiskt prognosdatum får användas i en körning som betecknas vintage-korrekt.
+- Källstatus: skilj SCB original, samtida dokumenterad rekonstruktion, vår tekniska omkodning, approximation och ej verifierat.
