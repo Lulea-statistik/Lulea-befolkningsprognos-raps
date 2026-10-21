@@ -1,0 +1,10 @@
+vintage,base_year,base_measure,base_table,base_page,reduction_start_label,reduction_end_year,reduction_table,reduction_page,reduction_sign,base_age_top,reduction_age_top,qa_status,notes
+2003,2003,dodsrisk,9.3,122,2004,2050,9.4,123,negative_change,106+,106,age_mapping_required,Preserve exact age labels
+2004,2004,dodsrisk,8,24,2005,2050,9,25,negative_change,106+,106,age_mapping_required,Preserve exact age labels
+2005,2005,dodsrisk,8,27,2006,2050,9,28,negative_change,106+,106,age_mapping_required,Preserve exact age labels
+2006,2006,dodsrisk,5.3,108,2007,2050,5.4,109,negative_change,,,source_review,Source has distinct base and reduction year
+2007,2007,dodsrisk,8,26,2008,2050,9,27,negative_change,106+,106+,source_verified,Top age labels consistent
+2008,2008,dodsrisk,7,34,2008,2050,8,35,negative_change,106+,106+,base_overlap_review,Published base 2008 immutable and reduction period starts 2008
+2009,2009,dodstal,T.3,170,2010,2060,T.4,171,positive_reduction,,,source_verified,Positive percent reduction must decrease risk
+2010,2010,dodstal,3,24,2011,2060,4,25,positive_reduction,,,source_review,Check sign in table before applying
+2011,2011,dodstal,3,24,2012,2060,4,25,positive_reduction,,,source_review,Check sign in table before applying
