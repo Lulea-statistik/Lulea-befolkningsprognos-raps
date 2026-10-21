@@ -2,6 +2,7 @@ vintage,release_date,release_date_status,mortality_age_sex,fertility_maternal_ag
 2006,,unverified,unverified,unverified,older_forecasts,investigate,"Aggregate published; paired age-specific assumptions not confirmed"
 2009,2009-05-13,catalogue,yes,yes,BE0401F,metadata_check,"Separate age-specific fertility and mortality tables"
 2012,2012-05-22,catalogue,yes,yes,BE0401F,metadata_check,"Separate age-specific fertility and mortality tables"
+2014,2014-04-15,pdf_original,yes_selected_years,yes_selected_years,BE18SM1401,pdf_verified,"Tables 2-4b; rounded PDF values; full machine-readable assumptions not imported"
 2015,2015-05-19,catalogue,yes,yes,BE0401F,metadata_check,"Age-specific rates; detailed forecast revised in 2016"
 2018,2018-04-26,catalogue,yes,yes,BE0401F,existing_model,"Existing archived backtest inputs"
 2019,2019-04-12,catalogue,yes,yes,BE0401F,existing_model,"Existing archived backtest inputs"
