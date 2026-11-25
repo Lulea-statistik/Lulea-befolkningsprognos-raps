@@ -83,7 +83,25 @@ $('corrSearch').oninput=corrMenu;
 $('corrAddBtn').onclick=()=>{if($('corrAdd').value)corrExtra.add($('corrAdd').value);drawCorrelation()};
 
 
-let scatterMemo=null;
+let scatterMemo=null,benchmarkMemo=null;
+function correlationSummary(values){
+ const a=values.filter(Number.isFinite).sort((x,y)=>x-y),n=a.length;
+ return {count:n,mean:n?a.reduce((x,y)=>x+y,0)/n:null,median:n?(a[Math.floor((n-1)/2)]+a[Math.floor(n/2)])/2:null};
+}
+function areaCorrelation(a,years,n,cat,smooth){
+ const get=(map,y,c)=>{const v=a.members.map(k=>map.get([k,y,c].join('|')));return v.length&&v.every(Number.isFinite)?v.reduce((s,x)=>s+x,0):null};
+ const hx=new Map(),py=new Map();
+ for(const y of years){const vals=cat==='all'?categories.map(c=>get(housing.values,y,c)):[get(housing.values,y,cat)];hx.set(y,vals.every(Number.isFinite)?vals.reduce((s,x)=>s+x,0):null);py.set(y,get(pop.values,y,'population'))}
+ return years.map(y=>({code:a.code,name:a.name,y,r:correlationAt(y,n,t=>hx.get(t),t=>py.get(t),smooth)}));
+}
+function municipalBenchmarks(years,n,cat,smooth){
+ const key=[n,cat,smooth].join('|');if(benchmarkMemo?.key===key)return benchmarkMemo.rows;
+ const members=[...areas.keys()],byYear=new Map(years.map(y=>[y,[]]));
+ for(const code of members)for(const p of areaCorrelation({code,name:areas.get(code),members:[code]},years,n,cat,smooth))if(Number.isFinite(p.r))byYear.get(p.y).push(p.r);
+ const national=areaCorrelation({code:'SE',name:'Riket',members},years,n,cat,smooth);
+ const rows=national.map(p=>({y:p.y,national:p.r,...correlationSummary(byYear.get(p.y))}));
+ benchmarkMemo={key,rows};return rows;
+}
 function drawScatter(){
  const root=$('scatterChart'),status=$('scatterStatus');
  if(!cacheLoaded){root.replaceChildren();status.textContent='Punktdiagrammet kräver den förladdade kommunstatistiken.';return}
@@ -91,18 +109,16 @@ function drawScatter(){
  const key=[type,n,cat,smooth].join('|');
  if(scatterMemo?.key!==key){
   const years=housing.years.map(Number).filter(y=>pop.years.includes(String(y))).sort((a,b)=>a-b);
-  const get=(map,a,y,c)=>{const v=a.members.map(k=>map.get([k,y,c].join('|')));return v.length&&v.every(Number.isFinite)?v.reduce((s,x)=>s+x,0):null};
-  const points=[];
-  for(const a of current){
-   const hx=new Map(),py=new Map();
-   for(const y of years){const vals=cat==='all'?categories.map(c=>get(housing.values,a,y,c)):[get(housing.values,a,y,cat)];hx.set(y,vals.every(Number.isFinite)?vals.reduce((s,x)=>s+x,0):null);py.set(y,get(pop.values,a,y,'population'))}
-   for(const y of years){const v=correlationAt(y,n,t=>hx.get(t),t=>py.get(t),smooth);if(Number.isFinite(v))points.push({code:a.code,name:a.name,y,r:v})}
-  }
+  const points=current.flatMap(a=>areaCorrelation(a,years,n,cat,smooth)).filter(p=>Number.isFinite(p.r));
   scatterMemo={key,points};
  }
  const points=scatterMemo.points;root.replaceChildren();
- if(!points.length){status.textContent='Inga fullständiga fönster med varierande värden.';return}
- const first=Math.min(...points.map(p=>p.y)),last=Math.max(...points.map(p=>p.y)),W=1100,H=390,L=70,R=28,T=25,B=50;
+ const years=housing.years.map(Number).filter(y=>pop.years.includes(String(y))).sort((a,b)=>a-b);
+ const benchmarks=municipalBenchmarks(years,n,cat,smooth);
+ const lines=[{key:'mean',name:'Kommunmedel',color:'#b45309',dash:''},{key:'median',name:'Kommunmedian',color:'#16803c',dash:'7 4'},{key:'national',name:'Riket som ett område',color:'#b42318',dash:''}].filter(l=>$( 'scatterBench'+l.key).checked);
+ const validYears=[...points.map(p=>p.y),...benchmarks.filter(p=>lines.some(l=>Number.isFinite(p[l.key]))).map(p=>p.y)];
+ if(!validYears.length){status.textContent='Inga fullständiga fönster med varierande värden.';return}
+ const first=Math.min(...validYears),last=Math.max(...validYears),W=1100,H=390,L=70,R=28,T=25,B=50;
  const X=y=>L+(y-first)*(W-L-R)/Math.max(1,last-first),Y=r=>T+(1-r)/2*(H-T-B),ns='http://www.w3.org/2000/svg';
  const svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox','0 0 '+W+' '+H);svg.setAttribute('role','img');svg.setAttribute('aria-label','Rullande korrelation för samtliga områden');
  const node=(tag,attrs,txt)=>{const e=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,v);if(txt!=null)e.textContent=txt;svg.append(e);return e};
@@ -113,12 +129,17 @@ function drawScatter(){
   const selected=p.code===main,point=node('circle',{cx:X(p.y),cy:Y(p.r),r:selected?4.5:radius,fill:selected?'#005aa7':'#667085','fill-opacity':selected?1:.32,stroke:selected?'#fff':'none','stroke-width':selected?.7:0});
   const title=document.createElementNS(ns,'title');title.textContent=p.name+' · '+p.y+' · r = '+p.r.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})+' · '+(p.y-n+1)+'–'+p.y+(smooth?' (medelvärdespar)':'');point.append(title);
  }
+ for(const l of lines){
+  let seg=[];const flush=()=>{if(seg.length>1)node('polyline',{points:seg.join(' '),fill:'none',stroke:l.color,'stroke-width':2.8,'stroke-dasharray':l.dash,'pointer-events':'none'});seg=[]};let previous=null;
+  for(const p of benchmarks){if(!Number.isFinite(p[l.key])){flush();previous=null;continue}if(previous!==null&&p.y!==previous+1)flush();seg.push(X(p.y)+','+Y(p[l.key]));previous=p.y}flush();
+  for(const p of benchmarks){if(!Number.isFinite(p[l.key]))continue;const point=node('circle',{cx:X(p.y),cy:Y(p[l.key]),r:3.5,fill:l.color,stroke:'#fff','stroke-width':.7,tabindex:0});const title=document.createElementNS(ns,'title');title.textContent=l.name+' · '+p.y+' · r = '+p[l.key].toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})+(l.key==='national'?' · '+areas.size+' kommuner summerade':' · '+p.count+' av '+areas.size+' kommuner');point.append(title)}
+ }
  root.append(svg);
- const legend=document.createElement('p');legend.textContent='● '+(current.find(a=>a.code===main)?.name||'Huvudområde')+' (blå) · Övriga områden (grå)';root.append(legend);
+ const legend=document.createElement('div');legend.style.display='flex';legend.style.flexWrap='wrap';legend.style.gap='16px';const mainLabel=document.createElement('span');mainLabel.textContent='● '+(current.find(a=>a.code===main)?.name||'Huvudområde')+' (blå) · Övriga områden (grå)';legend.append(mainLabel);for(const l of lines){const label=document.createElement('span');label.style.color=l.color;label.textContent=(l.dash?'╌ ':'━ ')+l.name;legend.append(label)}root.append(legend);
  status.textContent=n+' år · '+(smooth?'korrelation mellan släpande medelvärden':'korrelation mellan årsvärden')+' · '+first+'–'+last+' · '+new Set(points.map(p=>p.code)).size+' av '+current.length+' områden med giltiga värden · '+points.length.toLocaleString('sv-SE')+' punkter';
 }
 $('scatterCategory').replaceChildren(new Option('Samtliga sex kategorier','all'),...categories.map(c=>new Option(c.replace('|',' – '),c)));
-for(const id of ['scatterWindow','scatterCategory','scatterMethod'])$(id).onchange=drawScatter;
+for(const id of ['scatterWindow','scatterCategory','scatterMethod','scatterBenchmean','scatterBenchmedian','scatterBenchnational'])$(id).onchange=drawScatter;
 const housingNav=document.querySelector('.tabs');
 function syncHousingNav(){document.documentElement.style.setProperty('--housing-nav-height',housingNav.getBoundingClientRect().height+'px')}
 syncHousingNav();if(typeof ResizeObserver!=='undefined')new ResizeObserver(syncHousingNav).observe(housingNav);else window.addEventListener('resize',syncHousingNav);
