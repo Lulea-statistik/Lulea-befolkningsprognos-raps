@@ -34,7 +34,7 @@ function draw(){const a=current.find(a=>a.code===$('area').value);if(!a){$('char
  for(const [k,color,label] of [['h','#005aa7','Färdigställda bostäder'],['p','#b52c32','Folkökning']]){let seg=[];const flush=()=>{if(seg.length>1)node('polyline',{points:seg.join(' '),fill:'none',stroke:color,'stroke-width':2.5});seg=[]};rows.forEach((r,i)=>{if(!Number.isFinite(r[k])){flush();return}seg.push(X(i)+','+Y(r[k]))});flush();rows.forEach((r,i)=>{if(!Number.isFinite(r[k]))return;const pt=node('circle',{cx:X(i),cy:Y(r[k]),r:4,fill:color,tabindex:0});const tip=document.createElementNS(ns,'title');tip.textContent=(r.y-4)+'–'+r.y+' · '+label+': '+fmt(r[k]);pt.append(tip)})}
  panel.append(svg);const legend=document.createElement('p');legend.innerHTML='<span style="color:#005aa7">● Färdigställda bostäder</span> &nbsp; <span style="color:#b52c32">● Folkökning</span>';panel.append(legend);$('charts').append(panel)}
 }
-async function init(){try{try{const c=await json('data/bostadsbyggande.json');if(c.version!==1||c.areas.length!==290||c.fa.length!==71||!c.housing.values.length||!c.population.values.length)throw Error('Ogiltig cache');areas=new Map(c.areas);fa=c.fa;housing={years:c.housing.years,values:new Map(c.housing.values)};pop={years:c.population.years,values:new Map(c.population.values)};cacheUpdated=c.updated||'';analysisStock=c.stock?new Map(c.stock.values):null;cacheLoaded=true;$('faOption').disabled=false;$('faNote').textContent='FA25: fast kommunindelning. Statistik för alla områden är förladdad.';current=options();draw();drawCorrelation();drawScatter();drawRelationship();return}catch(e){console.warn('Förladdad statistik saknas; använder SCB direkt',e)}const meta=dims(await json(BASE+'TAB4193/metadata?lang=sv')),reg=find(meta,/region/i);if(!reg)throw Error('Region saknas i bostadstabellen');const mapping=await json('data/fa25-housing.json').catch(()=>[]);const members=mapping.flatMap(a=>a.members);if(mapping.length===71&&members.length===290&&new Set(members).size===290)fa=mapping;const valid=fa.length?new Set(members):null;areas=new Map(reg.keys.map((k,i)=>[k,reg.labels[i]]).filter(([k])=>/^\d{4}$/.test(k)&&(!valid||valid.has(k))));if(!areas.size)throw Error('Inga kommunkoder i metadata');$('faOption').disabled=!fa.length;$('faNote').textContent=fa.length?'FA25: fast kommunindelning.':'FA25-underlag saknas eller är ofullständigt.';current=options();drawCorrelation();drawScatter();loadArea()}catch(e){$('status').textContent='Områdesmetadata kunde inte hämtas: '+e.message}}
+async function init(){try{try{const c=await json('data/bostadsbyggande.json');if(c.version!==1||c.areas.length!==290||c.fa.length!==71||!c.housing.values.length||!c.population.values.length)throw Error('Ogiltig cache');areas=new Map(c.areas);fa=c.fa;housing={years:c.housing.years,values:new Map(c.housing.values)};pop={years:c.population.years,values:new Map(c.population.values)};cacheUpdated=c.updated||'';analysisStock=c.stock?new Map(c.stock.values):null;analysisMigration=c.migration?{domestic:new Map(c.migration.domestic.values),total:new Map(c.migration.total.values)}:null;cacheLoaded=true;$('faOption').disabled=false;$('faNote').textContent='FA25: fast kommunindelning. Statistik för alla områden är förladdad.';current=options();draw();drawCorrelation();drawScatter();drawRelationship();return}catch(e){console.warn('Förladdad statistik saknas; använder SCB direkt',e)}const meta=dims(await json(BASE+'TAB4193/metadata?lang=sv')),reg=find(meta,/region/i);if(!reg)throw Error('Region saknas i bostadstabellen');const mapping=await json('data/fa25-housing.json').catch(()=>[]);const members=mapping.flatMap(a=>a.members);if(mapping.length===71&&members.length===290&&new Set(members).size===290)fa=mapping;const valid=fa.length?new Set(members):null;areas=new Map(reg.keys.map((k,i)=>[k,reg.labels[i]]).filter(([k])=>/^\d{4}$/.test(k)&&(!valid||valid.has(k))));if(!areas.size)throw Error('Inga kommunkoder i metadata');$('faOption').disabled=!fa.length;$('faNote').textContent=fa.length?'FA25: fast kommunindelning.':'FA25-underlag saknas eller är ofullständigt.';current=options();drawCorrelation();drawScatter();loadArea()}catch(e){$('status').textContent='Områdesmetadata kunde inte hämtas: '+e.message}}
 
 function pearson(xs,ys){
  if(xs.length!==ys.length||xs.length<3||!xs.every(Number.isFinite)||!ys.every(Number.isFinite))return null;
@@ -145,29 +145,33 @@ function syncHousingNav(){document.documentElement.style.setProperty('--housing-
 syncHousingNav();if(typeof ResizeObserver!=='undefined')new ResizeObserver(syncHousingNav).observe(housingNav);else window.addEventListener('resize',syncHousingNav);
 
 
-let analysisStock=null;
+let analysisStock=null,analysisMigration=null;
+const symLog=(v,k)=>Math.sign(v)*Math.log10(1+Math.abs(v)/k);
+const invSymLog=(v,k)=>Math.sign(v)*k*(10**Math.abs(v)-1);
+function symlogTicks(lo,hi,k){const v=[0];for(let power=0;power<=Math.ceil(Math.log10(1+Math.max(Math.abs(lo),Math.abs(hi))/k));power++)for(const sign of [-1,1]){const x=sign*k*10**power;if(x>=lo&&x<=hi)v.push(x)}return v.filter(x=>x>=lo&&x<=hi).sort((a,b)=>a-b)}
 function fitOLS(rows){
  if(rows.length<3)return null;const n=rows.length,mx=rows.reduce((s,p)=>s+p.x,0)/n,my=rows.reduce((s,p)=>s+p.y,0)/n;
  let xx=0,xy=0,yy=0;for(const p of rows){xx+=(p.x-mx)**2;xy+=(p.x-mx)*(p.y-my);yy+=(p.y-my)**2}
  if(!xx||!yy)return null;const slope=xy/xx;return {slope,intercept:my-slope*mx,r2:Math.min(1,xy*xy/(xx*yy))};
 }
-function analysisSeries(a,years,cat,relative){
+function analysisSeries(a,years,cat,relative,metric='population'){
  const get=(map,y,c)=>{const v=a.members.map(k=>map.get([k,y,c].join('|')));return v.length&&v.every(Number.isFinite)?v.reduce((s,x)=>s+x,0):null};
- return new Map(years.map(y=>{const vals=cat==='all'?categories.map(c=>get(housing.values,y,c)):[get(housing.values,y,cat)];let h=vals.every(Number.isFinite)?vals.reduce((s,x)=>s+x,0):null,p=get(pop.values,y,'population');
+ return new Map(years.map(y=>{const vals=cat==='all'?categories.map(c=>get(housing.values,y,c)):[get(housing.values,y,cat)];let h=vals.every(Number.isFinite)?vals.reduce((s,x)=>s+x,0):null,p=get(metric==='population'?pop.values:analysisMigration[metric],y,'population');
  if(relative){const stock=analysisStock?get(analysisStock,y,'population'):null;if(!(stock>0)){h=p=null}else{h=h==null?null:1000*h/stock;p=p==null?null:1000*p/stock}}
  return [y,{h,p}]}));
 }
 function analysisMean(series,end,n,k){const v=Array.from({length:n},(_,i)=>series.get(end-n+1+i)?.[k]);return v.every(Number.isFinite)?v.reduce((s,x)=>s+x,0)/n:null}
 function lagR(series,end,n,lag){const ys=Array.from({length:n},(_,i)=>end-n+1+i);return pearson(ys.map(y=>series.get(y+lag)?.h),ys.map(y=>series.get(y)?.p))}
-function analysisSvg(id,xmin,xmax,ymin,ymax,xlabel,ylabel){
+function analysisSvg(id,xmin,xmax,ymin,ymax,xlabel,ylabel,scale=null){
  const root=$(id);root.replaceChildren();const ns='http://www.w3.org/2000/svg',W=900,H=350,L=80,R=24,T=22,B=62;
  if(xmin===xmax){xmin-=1;xmax+=1}if(ymin===ymax){ymin-=1;ymax+=1}
- const X=x=>L+(x-xmin)/(xmax-xmin)*(W-L-R),Y=y=>T+(ymax-y)/(ymax-ymin)*(H-T-B),svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox','0 0 '+W+' '+H);svg.setAttribute('role','img');svg.setAttribute('aria-label',xlabel+' mot '+ylabel);root.append(svg);
+ const tx=x=>scale?symLog(x,scale):x,ty=y=>scale?symLog(y,scale):y;
+ const X=x=>L+(tx(x)-tx(xmin))/(tx(xmax)-tx(xmin))*(W-L-R),Y=y=>T+(ty(ymax)-ty(y))/(ty(ymax)-ty(ymin))*(H-T-B),svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox','0 0 '+W+' '+H);svg.setAttribute('role','img');svg.setAttribute('aria-label',xlabel+' mot '+ylabel);root.append(svg);
  const node=(tag,attrs,txt,parent=svg)=>{const e=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,v);if(txt!=null)e.textContent=txt;parent.append(e);return e};
  const tip=(e,t)=>node('title',{},t,e);
  const line=(x1,y1,x2,y2,stroke='#dfe5ec',width=1,dash='')=>node('line',{x1:X(x1),y1:Y(y1),x2:X(x2),y2:Y(y2),stroke,'stroke-width':width,'stroke-dasharray':dash});
- for(let i=0;i<=5;i++){const v=ymin+(ymax-ymin)*i/5;line(xmin,v,xmax,v);node('text',{x:L-8,y:Y(v)+4,'text-anchor':'end','font-size':12},fmt(v))}
- for(let i=0;i<=5;i++){const v=xmin+(xmax-xmin)*i/5;node('text',{x:X(v),y:H-B+20,'text-anchor':'middle','font-size':12},/År$/.test(xlabel)?String(Math.round(v)):fmt(v))}
+ for(const v of scale?symlogTicks(ymin,ymax,scale):Array.from({length:6},(_,i)=>ymin+(ymax-ymin)*i/5)){line(xmin,v,xmax,v);node('text',{x:L-8,y:Y(v)+4,'text-anchor':'end','font-size':12},fmt(v))}
+ for(const v of scale?symlogTicks(xmin,xmax,scale):Array.from({length:6},(_,i)=>xmin+(xmax-xmin)*i/5)){node('text',{x:X(v),y:H-B+20,'text-anchor':'middle','font-size':12},/År$/.test(xlabel)?String(Math.round(v)):fmt(v))}
  if(ymin<=0&&ymax>=0)line(xmin,0,xmax,0,'#667085',1.4);
  if(xmin<=0&&xmax>=0)line(0,ymin,0,ymax,'#667085',1.4);
  node('text',{x:(L+W-R)/2,y:H-12,'text-anchor':'middle','font-size':13},xlabel);node('text',{transform:'translate(16 '+(T+H-B)/2+') rotate(-90)','text-anchor':'middle','font-size':13},ylabel);
@@ -175,12 +179,12 @@ function analysisSvg(id,xmin,xmax,ymin,ymax,xlabel,ylabel){
 }
 function analysisBounds(v){return [Math.min(0,...v),Math.max(1,...v)]}
 function analysisNote(id,t){$(id).textContent=t}
-function analysisPoints(id,rows,relative,quadrant=false){
+function analysisPoints(id,rows,relative,quadrant=false,metricLabel='Folkökning'){
  const unit=relative?' per 1 000 inv.':' per år',valid=rows.filter(p=>Number.isFinite(p.x)&&Number.isFinite(p.y));if(!valid.length){$(id).textContent='Inga fullständiga värden.';return}
- const [xmin,xmax]=analysisBounds(valid.map(p=>p.x)),[ymin,ymax]=analysisBounds(valid.map(p=>p.y)),g=analysisSvg(id,xmin,xmax,ymin,ymax,'Folkökning'+unit,'Färdigställda bostäder'+unit);
- if(quadrant){const m=correlationSummary(valid.map(p=>p.y)).median;g.line(xmin,m,xmax,m,'#b45309',2,'6 4');analysisNote('analysisQuadNote','Gränser: noll i folkökning och medianen för bostadsbyggande ('+fmt(m)+unit+'). Relativa obalanser är inte ett mått på bostadsbrist.')}
- else{const fit=fitOLS(valid);if(fit){const ends=[xmin,xmax].map(x=>[x,fit.intercept+fit.slope*x]);const [a,b]=ends;const candidates=[a,b].filter(p=>p[1]>=ymin&&p[1]<=ymax);if(fit.slope!==0)for(const y of [ymin,ymax]){const x=(y-fit.intercept)/fit.slope;if(x>=xmin&&x<=xmax)candidates.push([x,y])}candidates.sort((a,b)=>a[0]-b[0]);if(candidates.length>=2){const a=candidates[0],b=candidates.at(-1);g.line(a[0],a[1],b[0],b[1],'#b42318',2.4)}analysisNote('analysisRegNote','Oviktad OLS: y = '+fit.slope.toLocaleString('sv-SE',{maximumFractionDigits:3})+' × x '+(fit.intercept<0?'−':'+')+' '+fmt(Math.abs(fit.intercept))+' · R² = '+fit.r2.toLocaleString('sv-SE',{maximumFractionDigits:3})+' · '+valid.length+' områden. Sambandet kan påverkas av områdesstorlek.')}else analysisNote('analysisRegNote','Regression kan inte beräknas: otillräcklig variation.')}
- for(const p of [...valid.filter(p=>!p.selected),...valid.filter(p=>p.selected)])g.tip(g.node('circle',{cx:g.X(p.x),cy:g.Y(p.y),r:p.selected?5:3.3,fill:p.selected?'#005aa7':'#667085','fill-opacity':p.selected?1:.55}),p.name+' · folkökning '+fmt(p.x)+' · bostäder '+fmt(p.y));
+ const [xmin,xmax]=analysisBounds(valid.map(p=>p.x)),[ymin,ymax]=analysisBounds(valid.map(p=>p.y)),scale=$('analysisScale').value==='symlog'?(relative?1:10):null,g=analysisSvg(id,xmin,xmax,ymin,ymax,metricLabel+unit,'Färdigställda bostäder'+unit,scale);
+ if(quadrant){const m=correlationSummary(valid.map(p=>p.y)).median;g.line(xmin,m,xmax,m,'#b45309',2,'6 4');analysisNote('analysisQuadNote','Gränser: noll i '+metricLabel.toLowerCase()+' och medianen för bostadsbyggande ('+fmt(m)+unit+'). Relativa obalanser är inte ett mått på bostadsbrist.')}
+ else{const fit=fitOLS(valid);if(fit){const ends=[xmin,xmax].map(x=>[x,fit.intercept+fit.slope*x]);const [a,b]=ends;const candidates=[a,b].filter(p=>p[1]>=ymin&&p[1]<=ymax);if(fit.slope!==0)for(const y of [ymin,ymax]){const x=(y-fit.intercept)/fit.slope;if(x>=xmin&&x<=xmax)candidates.push([x,y])}candidates.sort((a,b)=>a[0]-b[0]);if(candidates.length>=2){const a=candidates[0],b=candidates.at(-1);if(scale){const lo=symLog(a[0],scale),hi=symLog(b[0],scale);g.node('polyline',{points:Array.from({length:161},(_,i)=>{const x=invSymLog(lo+(hi-lo)*i/160,scale);return g.X(x)+','+g.Y(fit.intercept+fit.slope*x)}).join(' '),fill:'none',stroke:'#b42318','stroke-width':2.4})}else g.line(a[0],a[1],b[0],b[1],'#b42318',2.4)}analysisNote('analysisRegNote','Oviktad OLS: y = '+fit.slope.toLocaleString('sv-SE',{maximumFractionDigits:3})+' × x '+(fit.intercept<0?'−':'+')+' '+fmt(Math.abs(fit.intercept))+' · R² = '+fit.r2.toLocaleString('sv-SE',{maximumFractionDigits:3})+' · '+valid.length+' områden. Regressionen är skattad i originalenheter, inte logaritmerade värden. Sambandet kan påverkas av områdesstorlek.')}else analysisNote('analysisRegNote','Regression kan inte beräknas: otillräcklig variation.')}
+ for(const p of [...valid.filter(p=>!p.selected),...valid.filter(p=>p.selected)])g.tip(g.node('circle',{cx:g.X(p.x),cy:g.Y(p.y),r:p.selected?5:3.3,fill:p.selected?'#005aa7':'#667085','fill-opacity':p.selected?1:.55}),p.name+' · '+metricLabel.toLowerCase()+' '+fmt(p.x)+' · bostäder '+fmt(p.y));
 }
 function drawRelationship(){
  if(!cacheLoaded||!housing||!pop){analysisNote('analysisStatus','Analysen kräver förladdad statistik.');return}
@@ -188,15 +192,17 @@ function drawRelationship(){
  if(!$('analysisYear').options.length){for(const y of years)$('analysisYear').add(new Option(y,y));$('analysisYear').value=last;for(const y of years)$('analysisStart').add(new Option(y,y));$('analysisStart').value=Math.max(years[0],last-10)}
  $('analysisRelative').disabled=!analysisStock;if(!analysisStock)$('analysisRelative').checked=false;
  const end=+$('analysisYear').value,n=+$('analysisWindow').value,cat=$('analysisCategory').value,relative=$('analysisRelative').checked,main=$('area').value,a=current.find(a=>a.code===main);if(!a)return;
- const selected=analysisSeries(a,years,cat,relative);
+ $('analysisMetric').querySelectorAll('option').forEach(o=>{o.disabled=o.value!=='population'&&!analysisMigration});if(!analysisMigration)$('analysisMetric').value='population';
+ const metric=$('analysisMetric').value,metricLabel=$('analysisMetric').selectedOptions[0].text;
+ const selected=analysisSeries(a,years,cat,relative,metric);
  analysisNote('analysisStatus',a.name+' · '+(end-n+1)+'–'+end+(analysisStock?'':' · Folkmängd för relativa mått ännu inte förladdad.'));
- const rows=current.map(a=>{const s=analysisSeries(a,years,cat,relative);return {name:a.name,selected:a.code===main,x:analysisMean(s,end,n,'p'),y:analysisMean(s,end,n,'h')}});
- analysisPoints('analysisRegression',rows,relative);analysisPoints('analysisQuadrant',rows,relative,true);
+ const rows=current.map(a=>{const s=analysisSeries(a,years,cat,relative,metric);return {name:a.name,selected:a.code===main,x:analysisMean(s,end,n,'p'),y:analysisMean(s,end,n,'h')}});
+ analysisPoints('analysisRegression',rows,relative,false,metricLabel);analysisPoints('analysisQuadrant',rows,relative,true,metricLabel);
  // Common support for all lags; end year always means the last population observation.
  const lagEnd=Math.min(end,last-5),lags=Array.from({length:11},(_,i)=>i-5),lagRows=lags.map(l=>({l,r:lagR(selected,lagEnd,n,l)}));
  const g=analysisSvg('analysisLag',-5.5,5.5,-1,1,'Bostädernas tidsförskjutning (år)','Pearsons r');
  for(const p of lagRows){if(!Number.isFinite(p.r))continue;const x=g.X(p.l),y=g.Y(p.r),zero=g.Y(0);g.tip(g.node('rect',{x:x-13,y:Math.min(y,zero),width:26,height:Math.abs(y-zero),fill:p.l===0?'#b42318':'#005aa7'}),p.l+' år · r = '+p.r.toFixed(3).replace('.',','))}
- analysisNote('analysisLagNote','Gemensam folkökningsperiod '+(lagEnd-n+1)+'–'+lagEnd+' för jämförbara förskjutningar. Negativ förskjutning = bostäder före folkökning, positiv = bostäder efter. Saknade år ger luckor.');
+ analysisNote('analysisLagNote','Gemensam period för '+metricLabel.toLowerCase()+' '+(lagEnd-n+1)+'–'+lagEnd+' för jämförbara förskjutningar. Negativ förskjutning = bostäder före valt befolkningsmått, positiv = bostäder efter. Saknade år ger luckor.');
  const absolute=analysisSeries(a,years,cat,false),start=+$('analysisStart').value,hh=+$('analysisHousehold').value;let h=0,p=0,complete=true;const cum=[{y:start-1,h:0,p:0,need:0}];
  for(let y=start;y<=end;y++){const v=absolute.get(y);if(!v||!Number.isFinite(v.h)||!Number.isFinite(v.p))complete=false;if(!complete)break;h+=v.h;p+=v.p;cum.push({y,h,p,need:p/hh})}
  if(start>end){$('analysisCumulative').textContent='Startåret måste vara före eller lika med slutåret.'}else{const [lo,hi]=analysisBounds(cum.flatMap(p=>[p.h,p.p,p.need])),g=analysisSvg('analysisCumulative',start-1,end,lo,hi,'År','Kumulativ förändring');for(const [key,color,name] of [['h','#005aa7','Färdigställda bostäder'],['p','#b42318','Folkökning'],['need','#16803c','Teoretiskt bostadsbehov']]){if(cum.length>1)g.node('polyline',{points:cum.map(p=>g.X(p.y)+','+g.Y(p[key])).join(' '),fill:'none',stroke:color,'stroke-width':2.5});for(const p of cum)g.tip(g.node('circle',{cx:g.X(p.y),cy:g.Y(p[key]),r:3,fill:color}),p.y+' · '+name+' '+fmt(p[key]))}}
@@ -205,10 +211,10 @@ function drawRelationship(){
  function node(tag,attrs,txt,parent=svg){const e=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,v);if(txt!=null)e.textContent=txt;parent.append(e);return e}
  for(const [i,l] of lags.entries()){node('text',{x:48,y:30+i*22,'text-anchor':'end','font-size':12},l);for(const [j,y] of heatYears.entries()){const r=lagR(selected,y,n,l),fill=!Number.isFinite(r)?'#e5e7eb':r>=0?'#16803c':'#b42318';const rect=node('rect',{x:55+j*w,y:15+i*22,width:Math.max(1,w-1),height:21,fill,'fill-opacity':Number.isFinite(r)?Math.max(.08,Math.abs(r)):1});node('title',{},y+' · '+l+' år · '+(Number.isFinite(r)?r.toFixed(3).replace('.',','):'saknas'),rect)}}
  for(const [j,y] of heatYears.entries())if(j===0||j===heatYears.length-1||y%5===0)node('text',{x:55+(j+.5)*w,y:277,'text-anchor':'middle','font-size':11},y);
- node('text',{x:460,y:302,'text-anchor':'middle','font-size':13},'Slutår för folkökningsperioden');
+ node('text',{x:460,y:302,'text-anchor':'middle','font-size':13},'Slutår för '+metricLabel.toLowerCase()+'');
  analysisNote('analysisHeatNote','Grön = positiv, röd = negativ, grå = saknas. Färgstyrkan visar |r|. Förskjutna bostadsår kan ligga efter valt slutår men aldrig efter senaste publicerade data; detta är retrospektiv analys.');
 }
 $('analysisCategory').replaceChildren(new Option('Samtliga sex kategorier','all'),...categories.map(c=>new Option(c.replace('|',' – '),c)));
-for(const id of ['analysisYear','analysisStart','analysisWindow','analysisCategory','analysisRelative','analysisHousehold'])$(id).onchange=drawRelationship;
+for(const id of ['analysisYear','analysisStart','analysisWindow','analysisCategory','analysisRelative','analysisHousehold','analysisScale','analysisMetric'])$(id).onchange=drawRelationship;
 
 $('type').onchange=()=>{current=options();loadArea();if(!cacheLoaded){drawCorrelation();drawScatter()}};$('area').onchange=()=>{loadArea();if(!cacheLoaded)drawCorrelation()};init();
