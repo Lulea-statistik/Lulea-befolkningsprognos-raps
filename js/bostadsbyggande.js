@@ -25,7 +25,8 @@ function draw(){const a=current.find(a=>a.code===$('area').value);if(!a){$('char
  const get=(map,y,c)=>{const v=a.members.map(k=>map.get([k,y,c].join('|')));return v.every(Number.isFinite)?v.reduce((s,x)=>s+x,0):null};
  const years=housing.years.map(Number).filter(y=>y>=1995&&pop.years.includes(String(y))).sort((a,b)=>a-b);
  $('charts').replaceChildren();$('status').textContent=a.name+' · '+years[0]+'–'+years.at(-1)+' · fem års medelvärde'+(cacheLoaded?' · Förladdad statistik '+cacheUpdated.slice(0,10):' · Direkthämtad statistik');
- for(const c of categories){const rows=years.map(y=>({y,h:rolling(y,t=>get(housing.values,t,c)),p:rolling(y,t=>get(pop.values,t,'population'))}));const panel=document.createElement('article');panel.className='panel';const title=document.createElement('h2');title.textContent=c.replace('|',' – ');panel.append(title);const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox','0 0 620 300');svg.setAttribute('role','img');svg.setAttribute('aria-label',title.textContent);const W=620,L=65,R=15,T=15,B=45,H=300,values=rows.flatMap(r=>[r.h,r.p]).filter(Number.isFinite);if(!values.length){panel.append('Inga fullständiga femårsperioder.');$('charts').append(panel);continue}
+ const selectedCategory=$('housingCategory').value;
+ for(const c of (selectedCategory==='all'?categories:[selectedCategory])){const rows=years.map(y=>({y,h:rolling(y,t=>get(housing.values,t,c)),p:rolling(y,t=>get(pop.values,t,'population'))}));const panel=document.createElement('article');panel.className='panel';const title=document.createElement('h2');title.textContent=c.replace('|',' – ');panel.append(title);const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox','0 0 620 300');svg.setAttribute('role','img');svg.setAttribute('aria-label',title.textContent);const W=620,L=65,R=15,T=15,B=45,H=300,values=rows.flatMap(r=>[r.h,r.p]).filter(Number.isFinite);if(!values.length){panel.append('Inga fullständiga femårsperioder.');$('charts').append(panel);continue}
  const lo=Math.min(0,...values),hi=Math.max(1,...values),step=[1,2,5,10].map(n=>n*10**Math.floor(Math.log10(Math.max(1,(hi-lo)/5)))).find(n=>n>=(hi-lo)/5)||1,min=Math.floor(lo/step)*step,max=Math.ceil(hi/step)*step;
  const X=i=>L+i*(W-L-R)/Math.max(1,rows.length-1),Y=v=>T+(max-v)/(max-min)*(H-T-B);
  function node(tag,attrs,text){const e=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,v);if(text!=null)e.textContent=text;svg.append(e);return e}
@@ -61,7 +62,7 @@ function drawCorrelation(){
  const chosen=corrMenu(),root=$('corrChart');root.replaceChildren();
  if(!cacheLoaded){$('corrStatus').textContent='Jämförelsediagrammet kräver den förladdade kommunstatistiken.';return}
  if(!housing||!pop||!chosen.length)return;
- const n=+$('corrWindow').value,cat=$('corrCategory').value,smooth=$('corrMethod').value==='smooth';
+ const n=+$('corrWindow').value,cat=$('housingCategory').value,smooth=$('corrMethod').value==='smooth';
  const years=housing.years.map(Number).filter(y=>pop.years.includes(String(y))).sort((a,b)=>a-b);
  const get=(map,a,y,c)=>{const vals=a.members.map(k=>map.get([k,y,c].join('|')));return vals.every(Number.isFinite)?vals.reduce((s,v)=>s+v,0):null};
  const series=chosen.map((a,i)=>{const fy=y=>get(pop.values,a,y,'population'),fx=y=>{if(cat!=='all')return get(housing.values,a,y,cat);const v=categories.map(c=>get(housing.values,a,y,c));return v.every(Number.isFinite)?v.reduce((s,x)=>s+x,0):null};return {name:a.name,color:corrColors[i%corrColors.length],rows:years.map(y=>({y,r:correlationAt(y,n,fx,fy,smooth)}))}});
@@ -77,8 +78,7 @@ function drawCorrelation(){
  root.append(svg);const legend=document.createElement('div');legend.style.display='flex';legend.style.flexWrap='wrap';legend.style.gap='16px';for(const s of series){const span=document.createElement('span');span.textContent='● '+s.name;span.style.color=s.color;legend.append(span)}root.append(legend);
  $('corrStatus').textContent=n+' år · '+(smooth?'korrelation mellan släpande medelvärden':'korrelation mellan årsvärden')+' · '+first+'–'+last+' · '+chosen.length+' områden';
 }
-$('corrCategory').replaceChildren(new Option('Samtliga sex kategorier','all'),...categories.map(c=>new Option(c.replace('|',' – '),c)));
-for(const id of ['corrWindow','corrCategory','corrMethod'])$(id).onchange=drawCorrelation;
+for(const id of ['corrWindow','corrMethod'])$(id).onchange=drawCorrelation;
 $('corrSearch').oninput=corrMenu;
 $('corrAddBtn').onclick=()=>{if($('corrAdd').value)corrExtra.add($('corrAdd').value);drawCorrelation()};
 
@@ -105,7 +105,7 @@ function municipalBenchmarks(years,n,cat,smooth){
 function drawScatter(){
  const root=$('scatterChart'),status=$('scatterStatus');
  if(!cacheLoaded){root.replaceChildren();status.textContent='Punktdiagrammet kräver den förladdade kommunstatistiken.';return}
- const n=+$('scatterWindow').value,cat=$('scatterCategory').value,smooth=$('scatterMethod').value==='smooth',main=$('area').value,type=$('type').value;
+ const n=+$('scatterWindow').value,cat=$('housingCategory').value,smooth=$('scatterMethod').value==='smooth',main=$('area').value,type=$('type').value;
  const key=[type,n,cat,smooth].join('|');
  if(scatterMemo?.key!==key){
   const years=housing.years.map(Number).filter(y=>pop.years.includes(String(y))).sort((a,b)=>a-b);
@@ -138,8 +138,7 @@ function drawScatter(){
  const legend=document.createElement('div');legend.style.display='flex';legend.style.flexWrap='wrap';legend.style.gap='16px';const mainLabel=document.createElement('span');mainLabel.textContent='● '+(current.find(a=>a.code===main)?.name||'Huvudområde')+' (blå) · Övriga områden (grå)';legend.append(mainLabel);for(const l of lines){const label=document.createElement('span');label.style.color=l.color;label.textContent=(l.dash?'╌ ':'━ ')+l.name;legend.append(label)}root.append(legend);
  status.textContent=n+' år · '+(smooth?'korrelation mellan släpande medelvärden':'korrelation mellan årsvärden')+' · '+first+'–'+last+' · '+new Set(points.map(p=>p.code)).size+' av '+current.length+' områden med giltiga värden · '+points.length.toLocaleString('sv-SE')+' punkter';
 }
-$('scatterCategory').replaceChildren(new Option('Samtliga sex kategorier','all'),...categories.map(c=>new Option(c.replace('|',' – '),c)));
-for(const id of ['scatterWindow','scatterCategory','scatterMethod','scatterBenchmean','scatterBenchmedian','scatterBenchnational'])$(id).onchange=drawScatter;
+for(const id of ['scatterWindow','scatterMethod','scatterBenchmean','scatterBenchmedian','scatterBenchnational'])$(id).onchange=drawScatter;
 const housingNav=document.querySelector('.tabs');
 function syncHousingNav(){document.documentElement.style.setProperty('--housing-nav-height',housingNav.getBoundingClientRect().height+'px')}
 syncHousingNav();if(typeof ResizeObserver!=='undefined')new ResizeObserver(syncHousingNav).observe(housingNav);else window.addEventListener('resize',syncHousingNav);
@@ -191,7 +190,7 @@ function drawRelationship(){
  const years=housing.years.map(Number).filter(y=>pop.years.includes(String(y))).sort((a,b)=>a-b),last=years.at(-1);
  if(!$('analysisYear').options.length){for(const y of years)$('analysisYear').add(new Option(y,y));$('analysisYear').value=last;for(const y of years)$('analysisStart').add(new Option(y,y));$('analysisStart').value=Math.max(years[0],last-10)}
  $('analysisRelative').disabled=!analysisStock;if(!analysisStock)$('analysisRelative').checked=false;
- const end=+$('analysisYear').value,n=+$('analysisWindow').value,cat=$('analysisCategory').value,relative=$('analysisRelative').checked,main=$('area').value,a=current.find(a=>a.code===main);if(!a)return;
+ const end=+$('analysisYear').value,n=+$('analysisWindow').value,cat=$('housingCategory').value,relative=$('analysisRelative').checked,main=$('area').value,a=current.find(a=>a.code===main);if(!a)return;
  $('analysisMetric').querySelectorAll('option').forEach(o=>{o.disabled=o.value!=='population'&&!analysisMigration});if(!analysisMigration)$('analysisMetric').value='population';
  const metric=$('analysisMetric').value,metricLabel=$('analysisMetric').selectedOptions[0].text;
  const selected=analysisSeries(a,years,cat,relative,metric);
@@ -214,7 +213,8 @@ function drawRelationship(){
  node('text',{x:460,y:302,'text-anchor':'middle','font-size':13},'Slutår för '+metricLabel.toLowerCase()+'');
  analysisNote('analysisHeatNote','Grön = positiv, röd = negativ, grå = saknas. Färgstyrkan visar |r|. Förskjutna bostadsår kan ligga efter valt slutår men aldrig efter senaste publicerade data; detta är retrospektiv analys.');
 }
-$('analysisCategory').replaceChildren(new Option('Samtliga sex kategorier','all'),...categories.map(c=>new Option(c.replace('|',' – '),c)));
-for(const id of ['analysisYear','analysisStart','analysisWindow','analysisCategory','analysisRelative','analysisHousehold','analysisScale','analysisMetric'])$(id).onchange=drawRelationship;
+for(const id of ['analysisYear','analysisStart','analysisWindow','analysisRelative','analysisHousehold','analysisScale','analysisMetric'])$(id).onchange=drawRelationship;
 
+$('housingCategory').replaceChildren(new Option('Samtliga kategorier','all'),...categories.map(c=>new Option(c.replace('|',' – '),c)));
+$('housingCategory').onchange=()=>{if(cacheLoaded){draw();drawCorrelation();drawScatter();drawRelationship()}else if(housing&&pop){draw()}};
 $('type').onchange=()=>{current=options();loadArea();if(!cacheLoaded){drawCorrelation();drawScatter()}};$('area').onchange=()=>{loadArea();if(!cacheLoaded)drawCorrelation()};init();
