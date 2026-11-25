@@ -1,0 +1,37 @@
+const BASE='https://statistikdatabasen.scb.se/api/v2/tables/',$=id=>document.getElementById(id),fmt=v=>v==null?'–':v.toLocaleString('sv-SE',{maximumFractionDigits:1}),norm=s=>String(s).trim().toLowerCase();
+const categories=['småhus|äganderätt','småhus|bostadsrätt','småhus|hyresrätt','flerbostadshus|äganderätt','flerbostadshus|bostadsrätt','flerbostadshus|hyresrätt'];
+async function json(url){const r=await fetch(url,{signal:AbortSignal.timeout(60000)});if(!r.ok)throw Error('HTTP '+r.status+' '+url);return r.json()}
+function dims(j){return j.id.map(id=>{const d=j.dimension[id],c=d.category,ix=c.index,keys=Array.isArray(ix)?ix:Object.keys(ix).sort((a,b)=>ix[a]-ix[b]);return {id,name:d.label||id,keys,labels:keys.map(k=>c.label?.[k]||k)}})}
+const find=(ds,re)=>ds.find(d=>re.test(d.id+' '+d.name));
+function total(d){const i=d.labels.findIndex(l=>/^(totalt|total|samtliga)(,|$)|^alla åldrar$|^båda könen$/i.test(l));if(i>=0)return [d.keys[i]];const k=d.keys.find(k=>/^tot(sa)?$/i.test(k));if(k)return [k];return []}
+async function table(id,kind){
+ const url=BASE+id,ds=dims(await json(url+'/metadata?lang=sv')),reg=find(ds,/region/i),time=find(ds,/tid|^år\b|time/i),house=find(ds,/hustyp/i),tenure=find(ds,/upplåtelseform|upplatelseform/i),sex=find(ds,/kön|kon\b/i),measure=find(ds,/contentscode|tabellinnehåll/i);
+ if(!reg||!time||kind==='housing'&&(!house||!tenure)||kind==='pop'&&!measure)throw Error('Okända dimensioner '+id);
+ const regions=reg.keys.filter(k=>/^\d{2}$|^\d{4}$/.test(k)&&k!=='00'),years=time.keys.filter(k=>/^\d{4}$/.test(k)&&+k>=1991&&+k<new Date().getFullYear()),sel=new Map([[reg.id,regions],[time.id,years]]);
+ for(const d of ds){if(sel.has(d.id))continue;let keys;if(d===house||d===tenure)keys=d.keys;else if(d===measure&&kind==='pop')keys=d.keys.filter((k,i)=>norm(d.labels[i])==='folkökning');else if(d===sex)keys=total(d).length?total(d):d.keys.filter((k,i)=>/^(män|kvinnor)$/.test(norm(d.labels[i])));else keys=d.keys.length===1?d.keys:total(d);if(!keys.length)throw Error('Kan inte välja total för '+id+' '+d.id);sel.set(d.id,keys)}
+ const result=new Map(),names=new Map(regions.map(k=>[k,reg.labels[reg.keys.indexOf(k)]]));
+ for(let start=0;start<years.length;start+=8){const p=new URLSearchParams({lang:'sv',outputFormat:'json-stat2'});for(const [k,v] of sel)p.set('valueCodes['+k+']',(k===time.id?v.slice(start,start+8):v).join(','));
+ const j=await json(url+'/data?'+p),out=dims(j);
+ for(let i=0;i<j.value.length;i++){const v=j.value[i];if(v==null||!Number.isFinite(Number(v)))continue;let n=i,rec={};for(let k=out.length-1;k>=0;k--){const d=out[k],ix=n%j.size[k];n=Math.floor(n/j.size[k]);rec[d.id]={key:d.keys[ix],label:d.labels[ix]}}const cat=kind==='housing'?norm(rec[house.id].label)+'|'+norm(rec[tenure.id].label):'population';const key=[rec[reg.id].key,rec[time.id].key,cat].join('|');const a=result.get(key)||[];a.push(Number(v));result.set(key,a)}
+ }
+ const count=sex?sel.get(sex.id).length:1;return {names,values:new Map([...result].filter(([,a])=>a.length===count).map(([k,a])=>[k,a.reduce((s,v)=>s+v,0)])),years};
+}
+function rolling(year,fn){const v=Array.from({length:5},(_,i)=>fn(year-4+i));return v.every(Number.isFinite)?v.reduce((s,x)=>s+x,0)/5:null}
+let housing,pop,areas,fa=[];
+function options(){const type=$('type').value;const list=type==='fa'?fa:[...areas].filter(([k])=>k.length===(type==='county'?2:4)).map(([code,name])=>({code,name,members:[code]}));$('area').replaceChildren(...list.sort((a,b)=>a.name.localeCompare(b.name,'sv')).map(a=>new Option(a.name,a.code)));if(type==='municipality'&&list.some(a=>a.code==='2580'))$('area').value='2580';if(type==='fa'&&list.some(a=>a.code==='07'))$('area').value='07';$('area').disabled=!list.length;return list}
+let current=[];
+function draw(){const a=current.find(a=>a.code===$('area').value);if(!a){$('charts').replaceChildren();$('status').textContent='Områdesunderlag saknas.';return}
+ const get=(map,y,c)=>{const v=a.members.map(k=>map.get([k,y,c].join('|')));return v.every(Number.isFinite)?v.reduce((s,x)=>s+x,0):null};
+ const years=housing.years.map(Number).filter(y=>y>=1995&&pop.years.includes(String(y)));
+ $('charts').replaceChildren();$('status').textContent=a.name+' · '+years[0]+'–'+years.at(-1)+' · fem års medelvärde';
+ for(const c of categories){const rows=years.map(y=>({y,h:rolling(y,t=>get(housing.values,t,c)),p:rolling(y,t=>get(pop.values,t,'population'))}));const panel=document.createElement('article');panel.className='panel';const title=document.createElement('h2');title.textContent=c.replace('|',' – ');panel.append(title);const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox','0 0 620 300');svg.setAttribute('role','img');svg.setAttribute('aria-label',title.textContent);const W=620,L=65,R=15,T=15,B=45,H=300,values=rows.flatMap(r=>[r.h,r.p]).filter(Number.isFinite);if(!values.length){panel.append('Inga fullständiga femårsperioder.');$('charts').append(panel);continue}
+ const lo=Math.min(0,...values),hi=Math.max(1,...values),step=[1,2,5,10].map(n=>n*10**Math.floor(Math.log10(Math.max(1,(hi-lo)/5)))).find(n=>n>=(hi-lo)/5)||1,min=Math.floor(lo/step)*step,max=Math.ceil(hi/step)*step;
+ const X=i=>L+i*(W-L-R)/Math.max(1,rows.length-1),Y=v=>T+(max-v)/(max-min)*(H-T-B);
+ function node(tag,attrs,text){const e=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,v);if(text!=null)e.textContent=text;svg.append(e);return e}
+ for(let v=min;v<=max;v+=step){node('line',{x1:L,x2:W-R,y1:Y(v),y2:Y(v),stroke:v===0?'#667788':'#e3e7eb'});node('text',{x:L-7,y:Y(v)+4,'text-anchor':'end','font-size':11},fmt(v))}
+ rows.forEach((r,i)=>{if(i%5===0||i===rows.length-1)node('text',{x:X(i),y:H-20,'font-size':11,'text-anchor':'middle'},r.y)});
+ for(const [k,color,label] of [['h','#005aa7','Färdigställda bostäder'],['p','#b52c32','Folkökning']]){let seg=[];const flush=()=>{if(seg.length>1)node('polyline',{points:seg.join(' '),fill:'none',stroke:color,'stroke-width':2.5});seg=[]};rows.forEach((r,i)=>{if(!Number.isFinite(r[k])){flush();return}seg.push(X(i)+','+Y(r[k]))});flush();rows.forEach((r,i)=>{if(!Number.isFinite(r[k]))return;const pt=node('circle',{cx:X(i),cy:Y(r[k]),r:4,fill:color,tabindex:0});const tip=document.createElementNS(ns,'title');tip.textContent=(r.y-4)+'–'+r.y+' · '+label+': '+fmt(r[k]);pt.append(tip)})}
+ panel.append(svg);const legend=document.createElement('p');legend.innerHTML='<span style="color:#005aa7">● Färdigställda bostäder</span> &nbsp; <span style="color:#b52c32">● Folkökning</span>';panel.append(legend);$('charts').append(panel)}
+}
+async function init(){try{const [h,p1,p2,mapping]=await Promise.all([table('TAB4193','housing'),table('TAB638','pop'),table('TAB5557','pop'),json('data/fa25-housing.json').catch(()=>[])]);housing=h;pop={years:[...p1.years,...p2.years],values:new Map([...p1.values,...p2.values])};areas=h.names;fa=mapping;current=options();draw();if(!fa.length){$('faOption').disabled=true;$('faNote').textContent='FA25-underlag saknas ännu.'}}catch(e){$('status').textContent='Data kunde inte hämtas: '+e.message}}
+$('type').onchange=()=>{current=options();draw()};$('area').onchange=draw;init();
