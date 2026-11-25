@@ -10,14 +10,19 @@ on:
       - data/fa25-housing.json
 permissions:
   contents: write
+  pages: write
 concurrency:
   group: housing-cache
   cancel-in-progress: false
 jobs:
   update:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -26,7 +31,20 @@ jobs:
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git add data/bostadsbyggande.json
-          git diff --cached --quiet || (git commit -m "Update housing construction cache" && git push)
+          if ! git diff --cached --quiet; then
+            git commit -m "Update housing construction cache"
+            for attempt in 1 2 3; do
+              git fetch origin main
+              if ! git diff --quiet HEAD origin/main -- scripts/update-housing-cache.mjs data/fa25-housing.json; then
+                echo "::error::Source inputs changed; rerun on latest main."
+                exit 1
+              fi
+              git rebase origin/main || { git rebase --abort; exit 1; }
+              if git push origin HEAD:main; then break; fi
+              if [ "$attempt" = 3 ]; then exit 1; fi
+              sleep 5
+            done
+          fi
       - name: Request Pages build
         env:
           GH_TOKEN: ${{ github.token }}
